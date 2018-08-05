@@ -29,7 +29,7 @@ The project is also still in its early stages.
 
 When you register the sfc component it will be available as simple as the code below.
 
-````html
+````vue
 <div id="app">
     <vuefinder url="vuefinder" ></vuefinder>
 </div>
