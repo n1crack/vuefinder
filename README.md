@@ -45,7 +45,7 @@ When you register the sfc component it will be available as simple as the code b
 
 #### and youtube video
 
-[![Vuefinder Demo](https://img.youtube.com/vi/--Mq4nAZWuI/0.jpg)](https://www.youtube.com/watch?v=--Mq4nAZWuI)
+[![Vuefinder Demo](https://img.youtube.com/vi/QV0H3NzmQVQ/0.jpg)](https://www.youtube.com/watch?v=QV0H3NzmQVQ)
 
 #### So..
 Let me hear what do you think of the project?
