@@ -1,0 +1,41 @@
+{
+  "name": "vuefinder",
+  "version": "0.1.1-beta",
+  "description": "vuefinder is an elegant web file manager.",
+  "main": "src/Finder.vue",
+  "scripts": {
+    "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "homepage": "https://github.com/n1crack/vuefinder#readme",
+  "keywords": [
+    "vue",
+    "file manager",
+    "file plugin",
+    "file explorer",
+    "finder"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n1crack/vuefinder.git"
+  },
+  "author": {
+    "name": "Yusuf Özdemir",
+    "mail": "yusuf@ozdemir.be"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "laravel-mix": "^2.1.8"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.0",
+    "@fortawesome/free-solid-svg-icons": "^5.1.0",
+    "@fortawesome/vue-fontawesome": "^0.1.0",
+    "axios": "^0.18.0",
+    "moment": "^2.22.2",
+    "mouse-select": "^1.2.2",
+    "vue": "^2.5.16"
+  }
+}
