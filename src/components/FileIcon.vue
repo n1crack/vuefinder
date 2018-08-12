@@ -41,6 +41,9 @@
             color: #FFF;
             border: 1px solid transparent;
         }
+        &.disabled span {
+            color: #d4e6ec;
+        }
     }
 
     .vuefinder-icon {
@@ -71,6 +74,7 @@
 
         span:first-child {
             flex: 1;
+            //align-self: stretch;
         }
 
         span {

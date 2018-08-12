@@ -1,9 +1,9 @@
 <template>
     <div class="vuefinder-container">
-        <transition-group v-bind:class="{ 'list': listview }" class="vuefinder-explorer" name="vuefinder-items"
+        <transition-group :class="{ 'list': listview }" class="vuefinder-explorer" name="vuefinder-items"
                           tag="div">
 
-            <file-icon icon="angle-left" v-show="! isRoot" key="keyBackButton" @click.native="$emit('back')">
+            <file-icon :class="{ 'disabled': selectMode }" icon="angle-left" v-show="! isRoot" key="keyBackButton" @click.native="$emit('back')">
                 <span>Go back</span>
             </file-icon>
 
@@ -20,7 +20,7 @@
     import FileIcon from "./FileIcon.vue";
 
     export default {
-        props: ['listview', 'isRoot'],
+        props: ['listview', 'selectMode', 'isRoot'],
         components: {FileIcon},
         name: "Explorer"
     }

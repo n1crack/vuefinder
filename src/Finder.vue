@@ -2,19 +2,24 @@
     <div class="vuefinder" @contextmenu.prevent>
 
         <tool-bar :selectedItems="selectedItems" @showMenu="showMenu"
-                  :listview.sync="listview" :selectMode.sync="selectMode"></tool-bar>
+                  :listview.sync="listview" :selectMode.sync="selectMode" @update:selectMode="changeSelectMode"></tool-bar>
 
         <breadcrumb-header :root="data.root" :dirname="data.dirname" :loading="loading"
                            @openFolder="openFolder"></breadcrumb-header>
 
         <listview-sortbar v-show="listview" :sort="sort" @select="sortItems"></listview-sortbar>
 
-        <explorer :listview="listview" :is-root="data.dirname == data.root" @back="openFolder(data.parent)">
-            <explorer-item v-for="(item, index) in sortedFiles" :key="item.path" :item="item"
+        <explorer :listview="listview" 
+            :is-root="data.dirname == data.root" 
+            :selectMode="selectMode" 
+            @contextmenu.native="showContextMenu($event)"
+            @back="openFolder(data.parent)"
+        >
+            <explorer-item v-for="(item, index) in sortedFiles" :key="item.path" :item="item" ref="files"
                            :selectMode="selectMode" :listview="listview"
                            :class="{ 'node-selected': selected(index) }"
-                           @click.native="select(item, index)"
-                           @contextmenu.native="!selectMode && showContext(item, index, $event)"
+                           @click.native.stop.prevent="open(item)"
+                           @contextmenu.native="!selectMode && addContextItems(item, index, $event)"
                            @mouseover.native="hoverText = item.basename"
                            @mouseleave.native="hoverText = ''">
             </explorer-item>
@@ -36,7 +41,7 @@
 
         <context-menu v-show="context.active"
                       :context="context"
-                      @close="context.active = false"></context-menu>
+                      @close="hideContextMenu()"></context-menu>
 
         <component v-if="modal.active"
                    :is="'modal-'+ modal.type"
@@ -51,7 +56,7 @@
 
 <script>
     import axios from 'axios';
-    import mselect from 'mouse-select';
+    import DragSelect from 'dragselect';
 
     import ModalNewFolder from './components/Modals/ModalNewFolder.vue';
     import ModalRename from './components/Modals/ModalRename.vue';
@@ -90,24 +95,29 @@
             }
         },
         mounted() {
-
-            this.selectable = (new mselect({
-                el: '.vuefinder-explorer',
-                nodes: '[data-selectable]',
-                mousedown: () => {
-                    this.selectedItems = []
+            this.selectable = new DragSelect({
+                area: document.querySelector('.vuefinder-explorer'),
+                onDragStart: element => {
+                    if(!this.selectMode) {
+                        this.selectable.break();
+                    } 
                 },
-                mousemove: (item, index) => {
-                    this.changeSelection(index)
+                callback: elements => {
+                    this.selectedItems = [];                    
+                    elements.forEach( (element)=> {
+                        this.changeSelection(this.getElementIndex(element));
+                    })
+                    this.$root.$emit('vuefinder-items-selected', elements)
                 }
-            }));
+            });
+
 
             if (this.path) {
-                this.path = this.path.replace(/^\/+/i, ''); // remove / at start
-                this.path = this.path.replace(/\/+$/i, ''); // remove / at the end
+                this.path = this.path.replace(/^\/+|\/+$/i, '');
             }
 
             this.getIndex(this.url, this.path);
+
             this.$root.$on("vuefinder-item-uploaded", () => {
                 this.openFolder(this.data.dirname);
             });
@@ -135,9 +145,9 @@
                 return this.selectedItems.map((a) => {
                     return this.data.files[a];
                 })
-            },
-
+            }
         },
+
         methods: {
             getIndex(url, path = null) {
                 if (!url) {
@@ -153,9 +163,24 @@
                 }).then(response => {
                     this.data = response.data;
                     this.loading = false;
+          
+                    let removeList = document.querySelectorAll('[data-selectable]');
+                    this.selectable.removeSelectables (removeList);
+
+                    this.$nextTick().then(() => {
+                        this.selectable.addSelectables(this.getElements()); 
+                    });
                 }).catch(error => {
                     this.msgBox(error.message, 'error')
                 });
+            },
+
+            getElements() {
+                return this.$refs.files.map((a)=>{return a.$el});
+            },
+
+            getElementIndex(element) {
+                return this.getElements().indexOf(element)
             },
 
             sortItems(sortParam) {
@@ -181,54 +206,59 @@
                 this.showMenu('message', {message: message, type: 'error'});
             },
 
-            select(item, index) {
-                if (this.selectMode) {
-                    this.changeSelection(index);
-                } else {
-                    this.open(item);
-                }
-            },
-
-            showContext(item, index, event) {
+            showContextMenu(event) {
                 this.context.active = true;
-                this.context.items = [
-                    // {
-                    //     'title': 'select',
-                    //     'icon': 'mouse-pointer',
-                    //     'action': () => {
-                    //         this.selectMode = true;
-                    //         this.changeSelection(index);
-                    //         this.context.active = false;
-                    //     }
-                    // },
-                    {
-                        'title': 'rename',
-                        'icon': 'edit',
+                this.context.items.push({
+                        'title': 'new folder',
+                        'icon': 'folder',
                         'action': () => {
-                            this.showMenu('rename', item);
+                            this.showMenu('new-folder');
                         }
-                    },
-                    {
-                        'title': 'preview',
-                        'icon': 'eye',
+                });
+                this.context.items.push({
+                        'title': (this.selectMode ? 'exit' : 'enter') + ' select mode',
+                        'icon': this.selectMode ? 'toggle-on' : 'toggle-off',
                         'action': () => {
-                            this.showMenu('preview', item);
+                            this.selectMode = ! this.selectMode;
+                            this.selectedItems = [];
+                            this.hideContextMenu();
                         }
-                    },
-                    {
-                        'title': 'delete',
-                        'icon': 'times-circle',
-                        'action': () => {
-                            this.showMenu('delete', item);
-                        }
-                    }
-                ];
+                });
 
                 let rect = this.$el.getBoundingClientRect();
                 this.context.positions = {
                     left: event.pageX - rect.left - window.scrollX + "px",
                     top: event.pageY - rect.top - window.scrollY + "px"
                 };
+            },
+
+            hideContextMenu() {
+                this.context.items = [];
+                this.context.active = false;
+            },
+
+            addContextItems(item, index, event){
+                this.context.items.push({
+                        'title': 'rename',
+                        'icon': 'edit',
+                        'action': () => {
+                            this.showMenu('rename', item);
+                        }
+                });
+                this.context.items.push({
+                        'title': 'preview',
+                        'icon': 'eye',
+                        'action': () => {
+                            this.showMenu('preview', item);
+                        }
+                });
+                this.context.items.push({
+                        'title': 'delete',
+                        'icon': 'times-circle',
+                        'action': () => {
+                            this.showMenu('delete', item);
+                        }
+                });
             },
 
             selected(index) {
@@ -244,8 +274,17 @@
                 }
             },
 
+            changeSelectMode(val){
+                if(val == false) {
+                    this.selectedItems = [];
+                }
+            },
+
             open(item) {
-                this.selectMode = false;
+                if(this.selectMode) {
+                    return false;
+                }
+
                 if (item.type == 'folder') {
                     this.$root.$emit('vuefinder-folder-clicked');
                     this.getIndex(this.url, item.path);
@@ -254,7 +293,7 @@
                     this.$root.$emit('vuefinder-item-clicked');
                     this.showMenu('preview', item);
                 }
-            },
+             },
 
             openFolder(folder) {
                 this.open({'path': folder, 'type': 'folder'})
@@ -264,21 +303,6 @@
                 this.modal.item = (item && !this.selectMode) ? [item] : this.selectedItemsWithProps;
                 this.modal.type = type;
                 this.modal.active = true;
-            },
-        },
-        watch: {
-            selectedItemsWithProps: function (val, oldVal) {
-                if (val.length != oldVal.length) {
-                    this.$root.$emit('vuefinder-items-selected', val)
-                }
-            },
-            selectMode: function (val) {
-                if (val == false) {
-                    this.selectedItems = [];
-                    this.selectable.disable();
-                } else {
-                    this.selectable.enable();
-                }
             },
         }
     }

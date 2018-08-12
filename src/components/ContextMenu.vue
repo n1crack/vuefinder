@@ -76,8 +76,7 @@
     }
 
     .vuefinder-icon {
-        width: 20px;
-        height: 20px;
+  
         display: inline-block;
         text-align: center;
     }

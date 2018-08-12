@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
     var preview = {
         'default': {
             template: `
