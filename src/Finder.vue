@@ -2,7 +2,7 @@
     <div class="vuefinder" @contextmenu.prevent>
 
         <tool-bar :selectedItems="selectedItems" @showMenu="showMenu"
-                  :listview.sync="listview" :selectMode.sync="selectMode" @update:selectMode="changeSelectMode"></tool-bar>
+                  :listview.sync="listview" :selectMode.sync="selectMode" @update:selectMode="selectedItems = []"></tool-bar>
 
         <breadcrumb-header :root="data.root" :dirname="data.dirname" :loading="loading"
                            @openFolder="openFolder"></breadcrumb-header>
@@ -17,9 +17,9 @@
         >
             <explorer-item v-for="(item, index) in sortedFiles" :key="item.path" :item="item" ref="files"
                            :selectMode="selectMode" :listview="listview"
-                           :class="{ 'node-selected': selected(index) }"
+                           :class="{ 'node-selected': isSelected(index) }"
                            @click.native.stop.prevent="open(item)"
-                           @contextmenu.native="!selectMode && addContextItems(item, index, $event)"
+                           @contextmenu.native="addContextItems(item, index, $event)"
                            @mouseover.native="hoverText = item.basename"
                            @mouseleave.native="hoverText = ''">
             </explorer-item>
@@ -98,19 +98,17 @@
             this.selectable = new DragSelect({
                 area: document.querySelector('.vuefinder-explorer'),
                 onDragStart: element => {
-                    if(!this.selectMode) {
+                    if( !this.selectMode ) {
                         this.selectable.break();
+                        this.selectable.clearSelection();
                     } 
                 },
                 callback: elements => {
-                    this.selectedItems = [];                    
-                    elements.forEach( (element)=> {
-                        this.changeSelection(this.getElementIndex(element));
-                    })
+                    this.selectedItems = [];
+                    elements.forEach( element => this.toggleSelection(this.getElementIndex(element)))
                     this.$root.$emit('vuefinder-items-selected', elements)
                 }
             });
-
 
             if (this.path) {
                 this.path = this.path.replace(/^\/+|\/+$/i, '');
@@ -163,12 +161,8 @@
                 }).then(response => {
                     this.data = response.data;
                     this.loading = false;
-          
-                    let removeList = document.querySelectorAll('[data-selectable]');
-                    this.selectable.removeSelectables (removeList);
-
                     this.$nextTick().then(() => {
-                        this.selectable.addSelectables(this.getElements()); 
+                        this.selectable.selectables = this.getElements(); 
                     });
                 }).catch(error => {
                     this.msgBox(error.message, 'error')
@@ -202,8 +196,8 @@
                 }
             },
 
-            msgBox(message, type = 'info') {
-                this.showMenu('message', {message: message, type: 'error'});
+            msgBox(message, type = 'error') {
+                this.showMenu('message', {message: message, type: type});
             },
 
             showContextMenu(event) {
@@ -238,45 +232,50 @@
             },
 
             addContextItems(item, index, event){
+                if (this.isSelected(index)) {
+                    this.context.items.push({
+                            'title': 'delete (' + this.selectedItemsWithProps.length + ' items)',
+                            'icon': 'times-circle',
+                            'action': () => {
+                                this.showMenu('delete', this.selectedItemsWithProps);
+                            }
+                    });
+                    return;
+                }
+
                 this.context.items.push({
                         'title': 'rename',
                         'icon': 'edit',
                         'action': () => {
-                            this.showMenu('rename', item);
+                            this.showMenu('rename', [item]);
                         }
                 });
                 this.context.items.push({
                         'title': 'preview',
                         'icon': 'eye',
                         'action': () => {
-                            this.showMenu('preview', item);
+                            this.showMenu('preview', [item]);
                         }
                 });
                 this.context.items.push({
                         'title': 'delete',
                         'icon': 'times-circle',
                         'action': () => {
-                            this.showMenu('delete', item);
+                            this.showMenu('delete', [item]);
                         }
                 });
             },
 
-            selected(index) {
+            isSelected(index) {
                 return this.selectedItems.indexOf(index) > -1;
             },
 
-            changeSelection(index) {
-                if (this.selected(index)) {
+            toggleSelection(index) {
+                if (this.isSelected(index)) {
                     this.selectedItems.splice(this.selectedItems.indexOf(index), 1);
                 }
                 else {
                     this.selectedItems.push(index);
-                }
-            },
-
-            changeSelectMode(val){
-                if(val == false) {
-                    this.selectedItems = [];
                 }
             },
 
@@ -291,7 +290,7 @@
                 }
                 else {
                     this.$root.$emit('vuefinder-item-clicked');
-                    this.showMenu('preview', item);
+                    this.showMenu('preview', [item]);
                 }
              },
 
@@ -300,7 +299,7 @@
             },
 
             showMenu(type, item = false) {
-                this.modal.item = (item && !this.selectMode) ? [item] : this.selectedItemsWithProps;
+                this.modal.item = item || this.selectedItemsWithProps;
                 this.modal.type = type;
                 this.modal.active = true;
             },
