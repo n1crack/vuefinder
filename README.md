@@ -11,7 +11,7 @@ The project is also still in its early stages.
    - @fortawesome/vue-fontawesome,
    - axios,
    - moment,
-   - mouse-select,
+   - dragselect,
    - vue
 
 #### Usage
