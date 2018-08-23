@@ -67,6 +67,11 @@ export default {
                     this.$emit('error', 'Error occured!!', 'error');
                 }
 
+            }).catch(error => {
+                if (error.response.data.status == false) {
+                    this.$emit('close');
+                    this.$emit('error', error.response.data.message, 'error');
+                }
             });
         }
     }
