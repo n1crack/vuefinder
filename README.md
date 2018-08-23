@@ -14,6 +14,11 @@ The project is also still in its early stages.
    - dragselect,
    - vue
 
+#### Installation
+```
+npm install vuefinder
+```
+
 #### Usage
 
 ````javascript
@@ -37,13 +42,13 @@ When you register the sfc component it will be available as simple as the code b
 
 #### Server-Side php library 
 
-[vuefinder-php](https://github.com/n1crack/vuefinder-php) //  it will be available asap.
+[vuefinder-php](https://github.com/n1crack/vuefinder-php) //  still in progress..
 
 #### Meanwhile the project screenshot:
 
 ![vuefinder ss](ss/1.jpg)
 
-#### and youtube video
+#### and youtube video of first version
 
 [![Vuefinder Demo](https://img.youtube.com/vi/QV0H3NzmQVQ/0.jpg)](https://www.youtube.com/watch?v=QV0H3NzmQVQ)
 
