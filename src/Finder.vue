@@ -4,11 +4,11 @@
     @contextmenu.prevent>
 
     <tool-bar
-      :selected-items="selectedItems"
+      :selected-items="getSelectedItems()"
       :listview.sync="listview"
       :select-mode.sync="selectMode"
       @showMenu="showMenu"
-      @update:selectMode="selectedItems = []"/>
+      @update:selectMode="selectable.clearSelection()"/>
 
     <breadcrumb-header
       :root="data.root"
@@ -28,15 +28,14 @@
       @contextmenu.native="showContextMenu($event)"
       @back="openFolder(data.parent)">
       <explorer-item
-        v-for="(item, index) in sortedFiles"
+        v-for="item in sortedFiles"
         ref="files"
         :key="item.path"
         :item="item"
         :select-mode="selectMode"
         :listview="listview"
-        :class="{ 'node-selected': isSelected(index) }"
         @click.native.stop.prevent="open(item)"
-        @contextmenu.native="addContextItems(item, index)"
+        @contextmenu.native="addContextItems(item)"
         @mouseover.native="hoverText = item.basename"
         @mouseleave.native="hoverText = ''"/>
     </explorer>
@@ -142,17 +141,13 @@ export default {
                 });
             }
             return this.data.files;
-        },
-
-        selectedItemsWithProps: function () {
-            return this.selectedItems.map(a => {
-                return this.data.files[a];
-            });
         }
+        
     },
     mounted() {
         this.selectable = new DragSelect({
             area: document.querySelector('.vuefinder-explorer'),
+            selectedClass: 'node-selected',
             onDragStart: () => {
                 if (!this.selectMode) {
                     this.selectable.break();
@@ -160,10 +155,7 @@ export default {
                 }
             },
             callback: elements => {
-                this.selectedItems = [];
-                elements.forEach(element =>
-                    this.toggleSelection(this.getElementIndex(element))
-                );
+                this.selectedItems = elements;
                 this.$root.$emit('vuefinder-items-selected', elements);
             }
         });
@@ -177,6 +169,22 @@ export default {
     },
 
     methods: {
+        getComponentbyNode(element) {
+            return this.$refs.files.find(a => a.$el == element);
+        },
+
+        getSelectedComponents(){
+            return this.selectedItems.map(element => this.getComponentbyNode(element));
+        },
+
+        getSelectedItems () {
+            return this.getSelectedComponents().map(a => a.item);
+        },
+
+        getNodeElements() {
+            return this.$refs.files.map(a => a.$el);
+        },
+
         getIndex(url, path = null) {
             if (!url) {
                 this.msgBox('There is no url defined.', 'error');
@@ -193,22 +201,12 @@ export default {
                     this.data = response.data;
                     this.loading = false;
                     this.$nextTick(() => {
-                        this.selectable.selectables = this.getElements();
+                        this.selectable.selectables = this.getNodeElements();
                     });
                 })
                 .catch(error => {
                     this.msgBox(error.message, 'error');
                 });
-        },
-
-        getElements() {
-            return this.$refs.files.map(a => {
-                return a.$el;
-            });
-        },
-
-        getElementIndex(element) {
-            return this.getElements().indexOf(element);
         },
 
         sortItems(args) {
@@ -247,7 +245,7 @@ export default {
                 icon: this.selectMode ? 'toggle-on' : 'toggle-off',
                 action: () => {
                     this.selectMode = !this.selectMode;
-                    this.selectedItems = [];
+                    this.selectable.clearSelection();
                     this.hideContextMenu();
                 }
             });
@@ -264,13 +262,13 @@ export default {
             this.context.active = false;
         },
 
-        addContextItems(item, index) {
-            if (this.isSelected(index)) {
+        addContextItems(item) {
+            if (this.isSelected(item)) {
                 this.context.items.push({
-                    title: 'delete (' + this.selectedItemsWithProps.length + ' items)',
+                    title: 'delete (' + this.getSelectedItems().length + ' items)',
                     icon: 'times-circle',
                     action: () => {
-                        this.showMenu('delete', this.selectedItemsWithProps);
+                        this.showMenu('delete', this.getSelectedItems());
                     }
                 });
                 return;
@@ -299,16 +297,8 @@ export default {
             });
         },
 
-        isSelected(index) {
-            return this.selectedItems.indexOf(index) > -1;
-        },
-
-        toggleSelection(index) {
-            if (this.isSelected(index)) {
-                this.selectedItems.splice(this.selectedItems.indexOf(index), 1);
-            } else {
-                this.selectedItems.push(index);
-            }
+        isSelected(item) {
+            return this.getSelectedItems().indexOf(item) > -1;
         },
 
         open(item) {
@@ -330,7 +320,7 @@ export default {
         },
 
         showMenu(type, item = false) {
-            this.modal.item = item || this.selectedItemsWithProps;
+            this.modal.item = item || this.getSelectedItems();
             this.modal.type = type;
             this.modal.active = true;
         }
