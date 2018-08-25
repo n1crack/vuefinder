@@ -8,6 +8,7 @@
         <span style="color: darkgray">{{ item.dirname }}/</span>{{ item.basename }}
       </div>
       <input 
+        ref="nameInput"
         v-model="tempName" 
         :placeholder="item.basename" 
         class="vuefinder-input" 
@@ -43,6 +44,9 @@ export default {
             tempName: this.data[0].basename,
             item: this.data[0]
         };
+    },
+    mounted(){
+        this.$refs.nameInput.focus();
     },
     methods: {
         rename (from, to) {

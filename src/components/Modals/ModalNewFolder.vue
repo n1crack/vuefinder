@@ -6,6 +6,7 @@
 
     <div class="vuefinder-modal-body">
       <input 
+        ref="nameInput"
         v-model="tempName" 
         class="vuefinder-input" 
         type="text" 
@@ -41,6 +42,9 @@ export default {
         return {
             tempName: '',
         };
+    },
+    mounted(){
+        this.$refs.nameInput.focus();
     },
     methods: {
         makeFolder (dir, name) {
