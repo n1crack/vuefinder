@@ -104,7 +104,7 @@ export default {
   #{"/deep/"} img {
     max-width: 100%;
     max-height: 100%;
-    width: auto;
+    width: 100%;
     height: auto;
     object-fit: contain;
   }
