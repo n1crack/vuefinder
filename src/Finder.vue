@@ -134,7 +134,7 @@ export default {
             let sort_order = this.sort.order;
 
             if (this.data.files && this.sort.active) {
-                return this.data.files.slice(0).sort((a, b) => {
+                return this.data.files.slice().sort((a, b) => {
                     if (a[sort_by] < b[sort_by]) return sort_order == 'asc' ? -1 : 1;
                     if (a[sort_by] > b[sort_by]) return sort_order == 'asc' ? 1 : -1;
                     return 0;
@@ -142,7 +142,6 @@ export default {
             }
             return this.data.files;
         }
-        
     },
     mounted() {
         this.selectable = new DragSelect({
@@ -209,21 +208,15 @@ export default {
                 });
         },
 
-        sortItems(args) {
-            let sort = (a, b, c) => {
-                this.sort.active = a;
-                this.sort.by = b;
-                this.sort.order = c;
+        sortItems(column) {
+            let sort = (active, by, order) => {
+                return {active, by, order};
             };
-            if (!this.sort.active || (this.sort.active && this.sort.by != args)) {
-                sort(true, args, 'asc');
-            } else if (this.sort.active == true && this.sort.by == args) {
-                if (this.sort.order == 'asc') {
-                    sort(true, args, 'desc');
-                } else if (this.sort.order == 'desc') {
-                    this.sort.active = false;
-                    this.openFolder(this.data.dirname);
-                }
+             
+            if (this.sort.active && this.sort.by == column) {
+                this.sort = sort(this.sort.order == 'asc', column, 'desc');
+            } else {
+                this.sort = sort(true, column, 'asc');
             }
         },
 
@@ -330,10 +323,12 @@ export default {
 <style lang="scss" scoped>
     .vuefinder {
         font-family: Helvetica, sans-serif;
+        color: rgb(74, 74, 74);
         letter-spacing: 1px;
         position: relative;
         border: 1px solid #cbd0d3;
         border-radius: 4px 4px 0 0;
+        -webkit-font-smoothing: antialiased;
         user-select: none;
         -moz-user-select: none;
         -webkit-user-select: none;
