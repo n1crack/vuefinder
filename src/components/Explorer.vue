@@ -1,34 +1,34 @@
 <template>
-  <div class="vuefinder-container">
-    <transition-group 
-      :class="{ 'list': listview }" 
-      class="vuefinder-explorer" 
-      name="vuefinder-items" 
-      tag="div"
+
+  <transition-group 
+    :class="{ 'list': listview }" 
+    class="vuefinder-explorer" 
+    name="vuefinder-items"
+    tag="div"
+  >
+
+    <file-icon 
+      v-show="! isRoot" 
+      key="keyBackButton" 
+      :class="{ 'disabled': selectMode }" 
+      icon="angle-left" 
+      @click.native="$emit('back')"
     >
+      <span>Go back</span>
+    </file-icon>
 
-      <file-icon 
-        v-show="! isRoot" 
-        key="keyBackButton" 
-        :class="{ 'disabled': selectMode }" 
-        icon="angle-left" 
-        @click.native="$emit('back')"
-      >
-        <span>Go back</span>
-      </file-icon>
+    <slot />
 
-      <slot />
+    <div 
+      v-if="! $slots.default" 
+      key="empty-list" 
+      class="vuefinder-empty-list"
+    >
+      <span>There is no file.</span>
+    </div>
 
-      <div 
-        v-if="! $slots.default" 
-        key="empty-list" 
-        class="vuefinder-empty-list"
-      >
-        <span>There is no file.</span>
-      </div>
+  </transition-group>
 
-    </transition-group>
-  </div>
 </template>
 
 <script>
@@ -44,6 +44,7 @@ export default {
 <style lang="scss" scoped>
 .vuefinder-explorer {
   display: flex;
+  box-sizing: content-box;
   padding: 10px;
   margin: 0;
   flex-wrap: wrap;
