@@ -5,7 +5,7 @@
       @click="$emit('select', 'basename')"
     >Name
       <font-awesome-icon 
-        v-show="sort.active && sort.by=='basename'" 
+        v-show="sort.active && sort.column=='basename'" 
         :icon="sort.order=='asc'? 'sort-down': 'sort-up'"
       />
     </span>
@@ -14,7 +14,7 @@
       @click="$emit('select', 'size')"
     >Size
       <font-awesome-icon 
-        v-show="sort.active && sort.by=='size'" 
+        v-show="sort.active && sort.column=='size'" 
         :icon="sort.order=='asc'? 'sort-down': 'sort-up'"
       />
     </span>
@@ -23,7 +23,7 @@
       @click="$emit('select', 'timestamp')"
     >Date
       <font-awesome-icon 
-        v-show="sort.active && sort.by=='timestamp'" 
+        v-show="sort.active && sort.column=='timestamp'" 
         :icon="sort.order=='asc'? 'sort-down': 'sort-up'"
       />
     </span>
@@ -40,7 +40,12 @@ library.add(fas);
 export default {
     name: 'ListviewSortbar',
     components: { FontAwesomeIcon },
-    props: ['sort'],
+    props: {
+        sort: {
+            type: Object,
+            required: true
+        }
+    },
 };
 </script>
 

@@ -33,8 +33,20 @@ export default {
     name: 'Item',
     components: { FileIcon },
     mixins: [filesize],
-    props: ['item', 'listview', 'selectMode'],
-
+    props:{
+        item: {
+            type: Object,
+            required: true
+        },
+        listview: {
+            type: Boolean,
+            required: true
+        },
+        selectMode: {
+            type: Boolean,
+            required: true
+        }
+    },
     methods: {
         title_shorten (title) {
             return title.replace(/((?=([\w\W]{0,15}))([\w\W]{9,})([\w\W]{9,}))/, '$2..$4');

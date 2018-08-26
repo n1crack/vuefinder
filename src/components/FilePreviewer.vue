@@ -63,7 +63,20 @@ var preview = {
 
 export default {
     name: 'FilePreviewer',
-    props: ['url', 'path', 'type'],
+    props:{
+        url: {
+            type: String,
+            required: true
+        },
+        path: {
+            type: String,
+            required: true
+        },
+        type: {
+            type: String,
+            required: true
+        }
+    },
     data () {
         return {
             preview: preview

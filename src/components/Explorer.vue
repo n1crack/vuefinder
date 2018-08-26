@@ -6,14 +6,12 @@
     name="vuefinder-items"
     tag="div"
   >
-
     <file-icon 
       v-show="! isRoot" 
       key="keyBackButton" 
       :class="{ 'disabled': selectMode }" 
       icon="angle-left" 
-      @click.native="$emit('back')"
-    >
+      @click.native="$emit('back')">
       <span>Go back</span>
     </file-icon>
 
@@ -22,8 +20,7 @@
     <div 
       v-if="! $slots.default" 
       key="empty-list" 
-      class="vuefinder-empty-list"
-    >
+      class="vuefinder-empty-list">
       <span>There is no file.</span>
     </div>
 
@@ -37,7 +34,20 @@ import FileIcon from './FileIcon.vue';
 export default {
     name: 'Explorer',
     components: { FileIcon },
-    props: ['listview', 'selectMode', 'isRoot'],
+    props:{
+        isRoot: {
+            type: Boolean,
+            required: true
+        },
+        listview: {
+            type: Boolean,
+            required: true
+        },
+        selectMode: {
+            type: Boolean,
+            required: true
+        }
+    },
 };
 </script>
 

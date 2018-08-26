@@ -22,7 +22,12 @@ library.add(fas);
 export default {
     name: 'FileIcon',
     components: { FontAwesomeIcon },
-    props: ['icon'],
+    props:{
+        icon: {
+            type: String,
+            required: true
+        }
+    },
 };
 </script>
 

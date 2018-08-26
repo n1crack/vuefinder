@@ -82,7 +82,16 @@ export default {
     name: 'ModalPreview',
     components: { Modal, FilePreviewer, FontAwesomeIcon },
     mixins: [filesize],
-    props: ['data', 'url'],
+    props: {
+        data: {
+            type: Array,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        }
+    },
     data () {
         return {
             item: this.data[0]

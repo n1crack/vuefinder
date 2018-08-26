@@ -36,7 +36,12 @@ library.add(fas);
 export default {
     name: 'ModalMessage',
     components: { Modal, FontAwesomeIcon },
-    props: ['data'],
+    props: {
+        data: {
+            type: Object,
+            required: true
+        }
+    },
     data () {
         return {
             message: '',
@@ -48,12 +53,8 @@ export default {
         };
     },
     mounted () {
-        if (typeof this.data === 'string') {
-            this.message = this.data;
-        } else if (typeof this.data === 'object') {
-            this.message = this.data.message;
-            this.type = this.data.type;
-        }
+        this.message = this.data.message;
+        this.type = this.data.type;
     }
 };
 </script>

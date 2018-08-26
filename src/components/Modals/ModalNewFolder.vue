@@ -37,7 +37,16 @@ import axios from 'axios';
 export default {
     name: 'ModalNewFolder',
     components: { 'modal': Modal },
-    props: ['url', 'directory'],
+    props: {
+        data: {
+            type: Array,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        }
+    },
     data () {
         return {
             tempName: '',

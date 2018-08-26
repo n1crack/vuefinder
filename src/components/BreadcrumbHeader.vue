@@ -48,7 +48,20 @@ library.add(fas);
 export default {
     name: 'BreadcrumbHeader',
     components: { FontAwesomeIcon },
-    props: ['root', 'dirname', 'loading'],
+    props:{
+        root: {
+            type: String,
+            required: true
+        },
+        dirname: {
+            type: String,
+            required: true
+        },
+        loading: {
+            type: Boolean,
+            required: true
+        }
+    },
     computed: {
         breadcrumb: function () {
             let items = [], links = [],

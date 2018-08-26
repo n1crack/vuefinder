@@ -76,7 +76,16 @@ export default {
     name: 'ModalUpload',
     components: { modal: Modal },
     mixins: [filesize],
-    props: ['url', 'directory'],
+    props: {
+        url: {
+            type: String,
+            required: true
+        },
+        directory: {
+            type: String,
+            required: true
+        }
+    },
     data () {
         return {
             files: [],
@@ -162,7 +171,7 @@ export default {
             });
 
             axios.all(promises)
-                .then(axios.spread((...args) => {
+                .then(axios.spread(() => {
                     this.$root.$emit('vuefinder-item-uploaded');
                 }));
         },

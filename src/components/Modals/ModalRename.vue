@@ -38,7 +38,20 @@ import axios from 'axios';
 export default {
     name: 'ModalRename',
     components: { 'modal': Modal },
-    props: ['data', 'directory', 'url'],
+    props: {
+        data: {
+            type: Array,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        },
+        directory: {
+            type: String,
+            required: true
+        }
+    },
     data () {
         return {
             tempName: this.data[0].basename,
