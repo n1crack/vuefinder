@@ -88,6 +88,11 @@ import ExplorerItem from './components/ExplorerItem.vue';
 import BreadcrumbHeader from './components/BreadcrumbHeader.vue';
 import ListviewSortbar from './components/ListviewSortbar.vue';
 
+// FontAwesome icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+import * as myCustomIconPack from './utilities/icons';
+library.add(...Object.values(myCustomIconPack));
+
 export default {
     name: 'Vuefinder',
     components: {

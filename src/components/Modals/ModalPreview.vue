@@ -71,12 +71,7 @@ import FilePreviewer from '../FilePreviewer.vue';
 import format from 'date-fns/format';
 import axios from 'axios';
 import filesize from '../../mixins/filesize';
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-library.add(fas);
 
 export default {
     name: 'ModalPreview',
