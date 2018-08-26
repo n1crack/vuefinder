@@ -10,7 +10,7 @@ The project is also still in its early stages.
    - @fortawesome/free-solid-svg-icons,
    - @fortawesome/vue-fontawesome,
    - axios,
-   - moment,
+   - date-fns/format,
    - dragselect,
    - vue
 

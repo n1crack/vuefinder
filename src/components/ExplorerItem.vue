@@ -26,7 +26,7 @@
 
 <script>
 import FileIcon from './FileIcon.vue';
-import moment from 'moment';
+import format from 'date-fns/format';
 import filesize from '../mixins/filesize';
 
 export default {
@@ -52,7 +52,7 @@ export default {
             return title.replace(/((?=([\w\W]{0,15}))([\w\W]{9,})([\w\W]{9,}))/, '$2..$4');
         },
         time (time) {
-            return moment.unix(time).format('DD MMMgg HH:mm');
+            return format(new Date(time*1000), 'dd MMMyy HH:mm');
         },
     }
 };

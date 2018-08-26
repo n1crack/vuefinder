@@ -68,7 +68,7 @@
 import Modal from './Modal.vue';
 import FilePreviewer from '../FilePreviewer.vue';
 
-import moment from 'moment';
+import format from 'date-fns/format';
 import axios from 'axios';
 import filesize from '../../mixins/filesize';
 
@@ -100,7 +100,7 @@ export default {
 
     methods: {
         time () {
-            return moment.unix(this.item.timestamp).format('LLL');
+            return format(new Date(this.item.timestamp*1000), 'PPpp');
         },
 
         title_shorten (title) {
