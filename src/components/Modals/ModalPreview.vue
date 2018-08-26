@@ -1,7 +1,7 @@
 <template>
   <modal @close="$emit('close')">
     <div class="vuefinder-modal-header">
-      <h4>{{ title_shorten(item.basename) }}</h4>
+      {{ title_shorten(item.basename) }}
     </div>
     <div class="vuefinder-modal-body">
       <transition-group 

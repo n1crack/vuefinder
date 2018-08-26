@@ -1,7 +1,7 @@
 <template>
   <modal @close="$emit('close')">
     <div class="vuefinder-modal-header">
-      <h4>Create a new folder</h4>
+      Create a new folder
     </div>
 
     <div class="vuefinder-modal-body">

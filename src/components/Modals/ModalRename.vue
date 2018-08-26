@@ -1,7 +1,7 @@
 <template>
   <modal @close="$emit('close')">
     <div class="vuefinder-modal-header">
-      <h4>Rename</h4>
+      Rename
     </div>
     <div class="vuefinder-modal-body">
       <div>

@@ -1,7 +1,7 @@
 <template>
   <modal @close="$emit('close')">
     <div class="vuefinder-modal-header">
-      <h4>Upload? Select the files</h4>
+      Upload? Select the files
     </div>
     <div class="vuefinder-modal-body">
       <div 

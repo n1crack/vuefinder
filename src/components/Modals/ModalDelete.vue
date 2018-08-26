@@ -1,7 +1,7 @@
 <template>
   <modal @close="$emit('close')">
     <div class="vuefinder-modal-header">
-      <h4>Are you sure you want to delete these items?</h4>
+      Are you sure you want to delete these items?
     </div>
     <div>{{ data.length }} item{{ data.length > 1 ? 's':'' }} selected.</div>
     <div class="vuefinder-modal-body">
