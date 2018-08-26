@@ -128,24 +128,31 @@ export default {
             loading: false,
             hoverText: '',
             modal: {active: false, type: ''},
-            sort: {active: false, by: '', order: ''},
+            sort: {active: false, column: '', order: ''},
             context: {active: false, positions: {}, items: []}
         };
     },
-
     computed: {
         sortedFiles: function () {
-            let sort_by = this.sort.by;
-            let sort_order = this.sort.order;
+            let files = [],
+                column = this.sort.column,
+                order = this.sort.order == 'asc' ? 1 : -1;
 
-            if (this.data.files && this.sort.active) {
-                return this.data.files.slice().sort((a, b) => {
-                    if (a[sort_by] < b[sort_by]) return sort_order == 'asc' ? -1 : 1;
-                    if (a[sort_by] > b[sort_by]) return sort_order == 'asc' ? 1 : -1;
-                    return 0;
+            const compare = (a,b) => {
+                if (a < b) return -1;
+                if (a > b) return 1;
+                return 0;
+            };
+
+            if (!this.sort.active) {
+                files = this.data.files;
+            } else {
+                files = this.data.files.slice().sort((a, b) => {
+                    return compare(a[column], b[column]) * order;
                 });
             }
-            return this.data.files;
+
+            return files;
         }
     },
     mounted() {
@@ -214,11 +221,11 @@ export default {
         },
 
         sortItems(column) {
-            let sort = (active, by, order) => {
-                return {active, by, order};
+            let sort = (active, column, order) => {
+                return {active, column, order};
             };
              
-            if (this.sort.active && this.sort.by == column) {
+            if (this.sort.active && this.sort.column == column) {
                 this.sort = sort(this.sort.order == 'asc', column, 'desc');
             } else {
                 this.sort = sort(true, column, 'asc');
@@ -346,6 +353,7 @@ export default {
         font-size: 12px;
         min-height: 28px;
         line-height: 18px;
+        align-items: center;
         display: flex;
         .vuefinder-status-message {
             text-align: right;
