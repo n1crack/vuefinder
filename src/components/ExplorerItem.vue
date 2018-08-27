@@ -4,7 +4,7 @@
     :title="item.basename" 
     data-selectable
   >
-    <span :class="{'selectable' : selectMode}">
+    <span>
       {{ listview ? item.basename : title_shorten(item.basename) }}
     </span>
 
@@ -39,10 +39,6 @@ export default {
             required: true
         },
         listview: {
-            type: Boolean,
-            required: true
-        },
-        selectMode: {
             type: Boolean,
             required: true
         }

@@ -85,9 +85,6 @@ export default {
     text-align: center;
     word-break: break-all;
     border: 1px dashed transparent;
-    &.selectable {
-      border: 1px dashed #c5bebe;
-    }
   }
 }
 

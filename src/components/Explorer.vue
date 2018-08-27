@@ -9,7 +9,6 @@
     <file-icon 
       v-show="! isRoot" 
       key="keyBackButton" 
-      :class="{ 'disabled': selectMode }" 
       icon="angle-left" 
       @click.native="$emit('back')">
       <span>Go back</span>
@@ -40,10 +39,6 @@ export default {
             required: true
         },
         listview: {
-            type: Boolean,
-            required: true
-        },
-        selectMode: {
             type: Boolean,
             required: true
         }

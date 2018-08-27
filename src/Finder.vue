@@ -6,9 +6,7 @@
     <tool-bar
       :selected-items="getSelectedItems()"
       :listview.sync="listview"
-      :select-mode.sync="selectMode"
-      @showMenu="showMenu"
-      @update:selectMode="selectable.clearSelection()"/>
+      @showMenu="showMenu"/>
 
     <breadcrumb-header
       :root="data.root"
@@ -22,9 +20,9 @@
       @select="sortItems"/>
 
     <explorer
+      ref="explorer"
       :listview="listview"
       :is-root="data.dirname == data.root"
-      :select-mode="selectMode"
       @contextmenu.native="showContextMenu($event)"
       @back="openFolder(data.parent)">
       <explorer-item
@@ -32,9 +30,8 @@
         ref="files"
         :key="item.path"
         :item="item"
-        :select-mode="selectMode"
         :listview="listview"
-        @click.native.stop.prevent="open(item)"
+        @dblclick.native.stop.prevent="open(item)"
         @contextmenu.native="addContextItems(item)"
         @mouseover.native="hoverText = item.basename"
         @mouseleave.native="hoverText = ''"/>
@@ -42,15 +39,12 @@
 
     <div class="vuefinder-footer">
       <span>
-        <span v-show="selectedItems.length">
-          {{ selectedItems.length }} item{{ selectedItems.length>1?'s':'' }} selected
-        </span>
-        <span v-show="! selectMode">
+        <span>
           {{ hoverText }}
         </span>
       </span>
       <span class="vuefinder-status-message">
-        vuefinder v0.1beta
+        vuefinder v0.1
       </span>
     </div>
 
@@ -121,7 +115,6 @@ export default {
     },
     data() {
         return {
-            selectMode: false,
             listview: false,
             selectedItems: [],
             data: {dirname: '.', root: '.'},
@@ -157,13 +150,9 @@ export default {
     },
     mounted() {
         this.selectable = new DragSelect({
-            area: document.querySelector('.vuefinder-explorer'),
+            area: this.$refs.explorer.$el,
             selectedClass: 'node-selected',
-            onDragStart: () => {
-                if (!this.selectMode) {
-                    this.selectable.break();
-                    this.selectable.clearSelection();
-                }
+            onDragMove: () => {
             },
             callback: elements => {
                 this.selectedItems = elements;
@@ -197,10 +186,6 @@ export default {
         },
 
         getIndex(url, path = null) {
-            if (!url) {
-                this.msgBox('There is no url defined.', 'error');
-                return;
-            }
             this.loading = true;
             axios(url, {
                 params: {
@@ -245,15 +230,6 @@ export default {
                     this.showMenu('new-folder');
                 }
             });
-            this.context.items.push({
-                title: (this.selectMode ? 'exit' : 'enter') + ' select mode',
-                icon: this.selectMode ? 'toggle-on' : 'toggle-off',
-                action: () => {
-                    this.selectMode = !this.selectMode;
-                    this.selectable.clearSelection();
-                    this.hideContextMenu();
-                }
-            });
 
             let rect = this.$el.getBoundingClientRect();
             this.context.positions = {
@@ -268,7 +244,15 @@ export default {
         },
 
         addContextItems(item) {
-            if (this.isSelected(item)) {
+            this.context.items.push({
+                title: 'open',
+                icon: 'folder-open',
+                action: () => {
+                    this.open(item);
+                }
+            });
+
+            if (this.isSelected(item) && this.getSelectedItems().length > 1) {
                 this.context.items.push({
                     title: 'delete (' + this.getSelectedItems().length + ' items)',
                     icon: 'times-circle',
@@ -307,10 +291,7 @@ export default {
         },
 
         open(item) {
-            if (this.selectMode) {
-                return false;
-            }
-
+            this.selectable.clearSelection();
             if (item.type == 'folder') {
                 this.$root.$emit('vuefinder-folder-clicked');
                 this.getIndex(this.url, item.path);

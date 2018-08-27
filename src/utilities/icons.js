@@ -37,6 +37,4 @@ export { faFileWord } from '@fortawesome/free-solid-svg-icons/faFileWord';
 export { faSortDown } from '@fortawesome/free-solid-svg-icons/faSortDown';
 export { faSortUp } from '@fortawesome/free-solid-svg-icons/faSortUp';
 export { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft';
-export { faToggleOn } from '@fortawesome/free-solid-svg-icons/faToggleOn';
-export { faToggleOff } from '@fortawesome/free-solid-svg-icons/faToggleOff';
 export { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';

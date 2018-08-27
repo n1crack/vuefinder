@@ -4,7 +4,7 @@
       <a 
         :disabled="selectedItems.length != 1" 
         class="vuefinder-button" 
-        @click="(selectedItems.length == 1) ? $emit('showMenu', 'rename') : null"
+        @click="(selectedItems.length == 1) && $emit('showMenu', 'rename')"
       >
         <span class="vuefinder-icon">
           <font-awesome-icon icon="edit" />
@@ -14,10 +14,18 @@
       <a 
         :disabled="selectedItems.length == 0" 
         class="vuefinder-button" 
-        @click="(selectedItems.length != 0) ? $emit('showMenu', 'delete') : null"
+        @click="(selectedItems.length != 0) && $emit('showMenu', 'delete')"
       >
         <span class="vuefinder-icon">
-          <font-awesome-icon icon="trash" />
+          <font-awesome-layers class="fa-layers fa-fw"> 
+            <font-awesome-icon icon="trash" />
+            <font-awesome-layers-text 
+              v-show="selectedItems.length > 1"
+              :value="selectedItems.length" 
+              class="fa-layers-counter" 
+              style="background-color:dodgerblue;right:auto"
+              transform="down-8 shrink-9" />
+          </font-awesome-layers>
         </span>
         <span class="is-hidden-mobile">Delete</span>
       </a>
@@ -33,7 +41,7 @@
       <a 
         :disabled="selectedItems.length != 1" 
         class="vuefinder-button" 
-        @click="(selectedItems.length == 1) ? $emit('showMenu', 'preview') : null"
+        @click="(selectedItems.length == 1) && $emit('showMenu', 'preview')"
       >
         <span class="vuefinder-icon">
           <font-awesome-icon icon="eye" />
@@ -68,37 +76,21 @@
         </span>
         <span class="is-hidden-mobile">View</span>
       </a>
-      <a 
-        class="vuefinder-button" 
-        @click="$emit('update:selectMode', ! selectMode)"
-      >
-        <span class="vuefinder-icon">
-          <font-awesome-icon 
-            v-if="selectMode" 
-            icon="toggle-on" 
-            style="color: dodgerblue" 
-          />
-          <font-awesome-icon 
-            v-else 
-            icon="toggle-off"
-          />
-        </span>
-        <span class="is-hidden-mobile">Select</span>
-      </a>
     </div>
   </div>
 </template>
 
 <script>
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome';
 
 export default {
     name: 'Toolbar',
     components: {
-        'font-awesome-icon': FontAwesomeIcon
+        FontAwesomeIcon, 
+        FontAwesomeLayers,
+        FontAwesomeLayersText
     },
-    
     props:{
         selectedItems: {
             type: Array,
@@ -108,11 +100,6 @@ export default {
             type: Boolean,
             required: true
         },
-        selectMode: {
-            type: Boolean,
-            required: true
-        },
-
     }
 };
 </script>
@@ -147,7 +134,7 @@ export default {
 
   @media screen and (max-width: 768px) {
     .vuefinder-icon {
-      font-size: 16px;
+      font-size: 20px;
       height: 20px;
     }
   }
