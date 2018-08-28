@@ -50,6 +50,7 @@
 
     <context-menu
       v-show="context.active"
+      ref="context"
       :context="context"
       @close="hideContextMenu()"/>
 
@@ -84,8 +85,8 @@ import ListviewSortbar from './components/ListviewSortbar.vue';
 
 // FontAwesome icons
 import { library } from '@fortawesome/fontawesome-svg-core';
-import * as myCustomIconPack from './utilities/icons';
-library.add(...Object.values(myCustomIconPack));
+import * as IconPack from './utilities/icons';
+library.add(...Object.values(IconPack));
 
 export default {
     name: 'Vuefinder',
@@ -115,11 +116,11 @@ export default {
     },
     data() {
         return {
+            loading: false,
             listview: false,
+            hoverText: '',
             selectedItems: [],
             data: {dirname: '.', root: '.'},
-            loading: false,
-            hoverText: '',
             modal: {active: false, type: ''},
             sort: {active: false, column: '', order: ''},
             context: {active: false, positions: {}, items: []}
@@ -127,7 +128,7 @@ export default {
     },
     computed: {
         sortedFiles: function () {
-            let files = [],
+            let files = this.data.files,
                 column = this.sort.column,
                 order = this.sort.order == 'asc' ? 1 : -1;
 
@@ -137,10 +138,8 @@ export default {
                 return 0;
             };
 
-            if (!this.sort.active) {
-                files = this.data.files;
-            } else {
-                files = this.data.files.slice().sort((a, b) => {
+            if (this.sort.active) {
+                files = files.slice().sort((a, b) => {
                     return compare(a[column], b[column]) * order;
                 });
             }
@@ -161,7 +160,7 @@ export default {
         });
 
         this.path = this.path.replace(/^\/+|\/+$/i, '');
-        this.getIndex(this.url, this.path);
+        this.fetchIndex(this.url, this.path);
 
         this.$root.$on('vuefinder-item-uploaded', () => {
             this.openFolder(this.data.dirname);
@@ -185,7 +184,7 @@ export default {
             return this.$refs.files.map(a => a.$el);
         },
 
-        getIndex(url, path = null) {
+        fetchIndex(url, path = null) {
             this.loading = true;
             axios(url, {
                 params: {
@@ -221,21 +220,31 @@ export default {
             this.showMenu('message', {message: message, type: type});
         },
 
-        showContextMenu(event) {
+        showContextMenu(e) {
             this.context.active = true;
             this.context.items.push({
                 title: 'new folder',
                 icon: 'folder',
-                action: () => {
-                    this.showMenu('new-folder');
-                }
+                action: () => this.showMenu('new-folder')
             });
 
-            let rect = this.$el.getBoundingClientRect();
-            this.context.positions = {
-                left: event.pageX - rect.left - window.scrollX + 'px',
-                top: event.pageY - rect.top - window.scrollY + 'px'
-            };
+            let area = this.$el.getBoundingClientRect(),
+                left = e.pageX - area.left - window.scrollX,
+                top = e.pageY - area.top - window.scrollY;
+
+            this.$nextTick(()=>{
+                let menuHeight = this.$refs.context.$el.offsetHeight,
+                    menuWidth = this.$refs.context.$el.offsetWidth;
+
+                left = area.right - e.pageX + window.scrollX  < menuWidth ? left-menuWidth : left;
+                top = area.bottom - e.pageY +  window.scrollY < menuHeight ? top-menuHeight : top;
+
+                this.context.positions = {
+                    left: left + 'px',
+                    top: top + 'px'
+                };
+            });
+
         },
 
         hideContextMenu() {
@@ -247,18 +256,14 @@ export default {
             this.context.items.push({
                 title: 'open',
                 icon: 'folder-open',
-                action: () => {
-                    this.open(item);
-                }
+                action: () => this.open(item)
             });
 
             if (this.isSelected(item) && this.getSelectedItems().length > 1) {
                 this.context.items.push({
                     title: 'delete (' + this.getSelectedItems().length + ' items)',
                     icon: 'times-circle',
-                    action: () => {
-                        this.showMenu('delete', this.getSelectedItems());
-                    }
+                    action: () => this.showMenu('delete', this.getSelectedItems())
                 });
                 return;
             }
@@ -266,23 +271,17 @@ export default {
             this.context.items.push({
                 title: 'rename',
                 icon: 'edit',
-                action: () => {
-                    this.showMenu('rename', [item]);
-                }
+                action: () => this.showMenu('rename', [item])
             });
             this.context.items.push({
                 title: 'preview',
                 icon: 'eye',
-                action: () => {
-                    this.showMenu('preview', [item]);
-                }
+                action: () => this.showMenu('preview', [item])
             });
             this.context.items.push({
                 title: 'delete',
                 icon: 'times-circle',
-                action: () => {
-                    this.showMenu('delete', [item]);
-                }
+                action: () => this.showMenu('delete', [item])
             });
         },
 
@@ -294,7 +293,7 @@ export default {
             this.selectable.clearSelection();
             if (item.type == 'folder') {
                 this.$root.$emit('vuefinder-folder-clicked');
-                this.getIndex(this.url, item.path);
+                this.fetchIndex(this.url, item.path);
             } else {
                 this.$root.$emit('vuefinder-item-clicked');
                 this.showMenu('preview', [item]);
