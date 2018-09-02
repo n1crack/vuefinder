@@ -69,7 +69,6 @@ export default {
   margin: auto;
   padding: 10px;
   position: absolute;
-  color: darkgray;
   text-align: center;
   left: 0;
   right: 0;

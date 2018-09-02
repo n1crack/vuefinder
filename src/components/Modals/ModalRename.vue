@@ -5,7 +5,7 @@
     </div>
     <div class="vuefinder-modal-body">
       <div>
-        <span style="color: darkgray">{{ item.dirname }}/</span>{{ item.basename }}
+        <span>{{ item.dirname }}/</span>{{ item.basename }}
       </div>
       <input 
         ref="nameInput"

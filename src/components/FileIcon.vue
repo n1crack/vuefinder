@@ -1,7 +1,9 @@
 <template>
   <div class="vuefinder-file-content">
     <div class="vuefinder-file-icon">
-      <span class="vuefinder-icon">
+      <span 
+        :class="{ 'light': icon != 'folder' }" 
+        class="vuefinder-icon" >
         <font-awesome-icon :icon="icon" />
       </span>
     </div>
@@ -32,19 +34,7 @@ export default {
   width: 100px;
   margin: 4px;
   display: flex;
-  cursor: pointer;
   flex-direction: column;
-  &:hover .vuefinder-file-name span:first-child {
-    background-color: #e9ecf2;
-  }
-  &.node-selected .vuefinder-file-name span:first-child {
-    background-color: #397fd5;
-    color: #fff;
-    border: 1px solid transparent;
-  }
-  &.disabled span {
-    color: #d4e6ec;
-  }
 }
 
 .vuefinder-icon {
@@ -54,7 +44,6 @@ export default {
   height: 3rem;
   width: 3rem;
   font-size: 3em;
-  color: #66909e;
 }
 
 .vuefinder-file-icon {

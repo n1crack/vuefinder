@@ -49,12 +49,10 @@ export default {
 .vuefinder-list-view-sort-bar {
   font-size: smaller;
   display: flex;
-  color: #3a525a;
 }
 
 .vuefinder-sort-bar {
   padding: 5px 14px;
-  border: 1px whitesmoke solid;
 }
 
 .vuefinder-list-basename {

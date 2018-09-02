@@ -57,7 +57,6 @@ export default {
   width: 60%;
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
@@ -65,7 +64,6 @@ export default {
 
 #{"/deep/"} .vuefinder-modal-header {
   margin-top: 0;
-  color: #8db3c1;
 }
 
 #{"/deep/"} .vuefinder-modal-body {

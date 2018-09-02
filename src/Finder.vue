@@ -1,5 +1,6 @@
 <template>
   <div
+    :class="theme"
     class="vuefinder"
     @contextmenu.prevent>
 
@@ -39,12 +40,10 @@
 
     <div class="vuefinder-footer">
       <span>
-        <span>
-          {{ hoverText }}
-        </span>
+        {{ hoverText }}
       </span>
       <span class="vuefinder-status-message">
-        vuefinder v0.1
+        vuefinder v0.2
       </span>
     </div>
 
@@ -113,6 +112,10 @@ export default {
             type: String,
             default: '.'
         },
+        theme: {
+            type: String,
+            default: 'light'
+        },
     },
     data() {
         return {
@@ -150,6 +153,8 @@ export default {
     mounted() {
         this.selectable = new DragSelect({
             area: this.$refs.explorer.$el,
+            customStyles: true,
+            selectorClass: 'node-selector',
             selectedClass: 'node-selected',
             onDragMove: () => {
             },
@@ -233,7 +238,7 @@ export default {
                 top = e.pageY - area.top - window.scrollY;
 
             this.$nextTick(()=>{
-                let menuHeight = this.$refs.context.$el.offsetHeight,
+                let menuHeight = this.$refs.context.$el.offsetHeight+18,
                     menuWidth = this.$refs.context.$el.offsetWidth;
 
                 left = area.right - e.pageX + window.scrollX  < menuWidth ? left-menuWidth : left;
@@ -318,7 +323,6 @@ export default {
         color: rgb(74, 74, 74);
         letter-spacing: 1px;
         position: relative;
-        border: 1px solid #cbd0d3;
         border-radius: 4px 4px 0 0;
         -webkit-font-smoothing: antialiased;
         user-select: none;
@@ -328,7 +332,6 @@ export default {
     }
 
     .vuefinder-footer {
-        background-color: whitesmoke;
         padding: 5px;
         font-size: 12px;
         min-height: 28px;
@@ -339,6 +342,12 @@ export default {
             text-align: right;
             flex: 1;
         }
+    }
+
+    #{"/deep/"} .node-selector {
+        pointer-events: none;
+        display: none;
+        opacity: 0.3;
     }
 
     @media screen and (max-width: 768px) {
@@ -374,10 +383,8 @@ export default {
         }
         &:hover {
             opacity: 0.9;
-            background-color: #f9f9f9;
         }
         &[disabled] {
-            background-color: transparent;
             opacity: 0.4;
             cursor: not-allowed;
         }
@@ -386,4 +393,12 @@ export default {
             top: 0px;
         }
     }
+
+    @import "./styles/theme.scss";
+    @include vuefinder-theme(light, #2e5e8b, #fbfcfd, darken(#fbfcfd, 5));
+    @include vuefinder-theme(mithril, #374d63, #c3d7eb, darken(#c3d7eb, 5));
+    @include vuefinder-theme(night, #dee9f8, #2e3463, lighten(#2e3463, 5));
+    @include vuefinder-theme(ember, #e8d8be, #31323a, lighten(#31323a, 5));
+    @include vuefinder-theme(earthsong, #95cc5e, #fafafa, darken(#fafafa, 5));
+
 </style>

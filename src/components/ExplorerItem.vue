@@ -1,7 +1,6 @@
 <template>
   <file-icon 
     :icon="item.type" 
-    :title="item.basename" 
     data-selectable
   >
     <span>

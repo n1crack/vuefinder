@@ -22,8 +22,7 @@
             <font-awesome-layers-text 
               v-show="selectedItems.length > 1"
               :value="selectedItems.length" 
-              class="fa-layers-counter" 
-              style="background-color:dodgerblue;right:auto"
+              class="fa-layers-counter vuefinder-badge" 
               transform="down-8 shrink-9" />
           </font-awesome-layers>
         </span>
@@ -106,7 +105,6 @@ export default {
 
 <style lang="scss" scoped>
 .vuefinder-toolbar {
-  border-bottom: 1px solid whitesmoke;
   display: flex;
 
   .vuefinder-toolbar-left {

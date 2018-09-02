@@ -61,12 +61,9 @@ export default {
   z-index: 1000;
   position: absolute;
   overflow: hidden;
-  border: 1px solid #ccc;
   white-space: nowrap;
   font-family: sans-serif;
   font-size: 0.9rem;
-  background: #fff;
-  color: #333;
   border-radius: 5px;
   padding: 0;
 }
@@ -80,12 +77,10 @@ export default {
   user-select: none;
 }
 
-.vuefinder-context-menu li:hover {
-  background-color: #9eb1c6;
-}
 
 .vuefinder-icon {
-  display: inline-block;
+  display: inline-flex;
   text-align: center;
+  pointer-events: none;
 }
 </style>

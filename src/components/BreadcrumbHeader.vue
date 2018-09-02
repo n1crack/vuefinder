@@ -88,9 +88,6 @@ export default {
 <style lang="scss" scoped>
 .vuefinder-header {
   display: flex;
-  background-color: #fbfcfd;
-  border-bottom: 1px solid lightgray;
-  border-top: 1px solid lightgray;
   font-size: 14px;
   font-weight: bold;
   flex-wrap: wrap;
@@ -116,14 +113,10 @@ export default {
       padding-left: 5px;
       padding-right: 5px;
       cursor: pointer;
-      color: #3a525a;
       transition: 0.2s;
       .icon {
         font-size: 1.5rem;
       }
-    }
-    .vuefinder-breadcrumb-item:hover {
-      color: #87a6af;
     }
   }
   .vuefinder-breadcrumb + .vuefinder-breadcrumb::before {
