@@ -396,6 +396,7 @@ export default {
 
     @import "./styles/theme.scss";
     @include vuefinder-theme(light, #2e5e8b, #fbfcfd, darken(#fbfcfd, 5));
+    @include vuefinder-theme(dark, #ababab, #313131, lighten(#313131, 10));
     @include vuefinder-theme(mithril, #374d63, #c3d7eb, darken(#c3d7eb, 5));
     @include vuefinder-theme(night, #dee9f8, #2e3463, lighten(#2e3463, 5));
     @include vuefinder-theme(ember, #e8d8be, #31323a, lighten(#31323a, 5));
