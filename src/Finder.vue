@@ -25,13 +25,19 @@
       :listview="listview"
       :is-root="data.dirname == data.root"
       @contextmenu.native="showContextMenu($event)"
-      @back="openFolder(data.parent)">
+      @back="openFolder(data.parent)"
+      @mousedown.native.alt="selectable.stop()"
+      @mousedown.native="selectable.start()"
+    >
       <explorer-item
+        v-draggable
+        v-dropzone
         v-for="item in sortedFiles"
         ref="files"
         :key="item.path"
         :item="item"
         :listview="listview"
+        :draggable="isSelected(item) ? true : false"
         @dblclick.native.stop.prevent="open(item)"
         @contextmenu.native="addContextItems(item)"
         @mouseover.native="hoverText = item.basename"
@@ -62,6 +68,11 @@
       @close="modal.active = false"
       @error="msgBox"
       @refresh="openFolder"/>
+
+    <drag-image 
+      ref="dragImage" 
+      :count="getSelectedItems().length"/>
+
   </div>
 </template>
 
@@ -81,6 +92,7 @@ import Explorer from './components/Explorer.vue';
 import ExplorerItem from './components/ExplorerItem.vue';
 import BreadcrumbHeader from './components/BreadcrumbHeader.vue';
 import ListviewSortbar from './components/ListviewSortbar.vue';
+import DragImage from './components/DragImage.vue';
 
 // FontAwesome icons
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -101,7 +113,59 @@ export default {
         ModalDelete,
         ModalUpload,
         ModalMessage,
-        ModalPreview
+        ModalPreview,
+        DragImage
+    },
+    directives: {
+        draggable: {
+            bind: function(el, binding, vnode, oldVnode ) {
+                el.addEventListener('dragstart', function(e)   {
+                    if (! e.altKey) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    let img = vnode.context.$refs.dragImage.$el;
+                    e.dataTransfer.setDragImage(img,0,15);
+                    e.dataTransfer.effectAllowed = 'all';
+                    e.dataTransfer.dropEffect = 'copy';
+                    e.dataTransfer.setData('data', JSON.stringify(vnode.context.getSelectedItems()));
+                });
+                el.addEventListener('dragover', function(e)   {
+                    if (vnode.context.isSelected(vnode.componentInstance.item) || vnode.componentInstance.item.type !== 'folder') {
+                        e.dataTransfer.dropEffect = 'none';
+                        e.dataTransfer.effectAllowed = 'none';
+                    }
+                });
+                el.addEventListener('dragend', function(e)   {
+
+                });
+            },
+            unbind:function(el) {
+                //return el.removeEventListener('dragstart');
+            }
+        },
+        dropzone: {
+            bind: function(el, binding, vnode, oldVnode){
+                el.addEventListener('dragenter', function(e){
+                    e.preventDefault();                    
+                });
+                el.addEventListener('dragover', function(e){
+                    e.preventDefault(); 
+          
+                });
+                el.addEventListener('drop', function(e){
+                    e.preventDefault(); 
+
+                    vnode.context.selectable.start();
+                    console.log(e.dataTransfer.getData('data') );
+                    console.log(vnode.context.getSelectedItems() );
+
+                });
+            },
+            unbind:function(el) {
+                //return  el.removeEventListener('drop');
+            }
+        }
     },
     props: {
         url: {
@@ -156,8 +220,6 @@ export default {
             customStyles: true,
             selectorClass: 'node-selector',
             selectedClass: 'node-selected',
-            onDragMove: () => {
-            },
             callback: elements => {
                 this.selectedItems = elements;
                 this.$root.$emit('vuefinder-items-selected', elements);
@@ -170,9 +232,11 @@ export default {
         this.$root.$on('vuefinder-item-uploaded', () => {
             this.openFolder(this.data.dirname);
         });
+
     },
 
     methods: {
+  
         getComponentbyNode(element) {
             return this.$refs.files.find(a => a.$el == element);
         },
@@ -229,7 +293,7 @@ export default {
             this.context.active = true;
             this.context.items.push({
                 title: 'new folder',
-                icon: 'folder',
+                icon: 'folder-plus',
                 action: () => this.showMenu('new-folder')
             });
 

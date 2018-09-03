@@ -5,14 +5,17 @@
     class="vuefinder-context-menu"
   >
     <li 
-      v-for="(item) in context.items" 
+      v-for="(item) in context.items"
       :key="item.title" 
+      class="vuefinder-context-item" 
       @click="run(item)"
     >
       <span class="vuefinder-icon">
         <font-awesome-icon :icon="item.icon" />
       </span>
-      {{ item.title }}
+      <span class="vuefinder-context-title">
+        {{ item.title }}
+      </span>
     </li>
   </ul>
 </template>
@@ -68,19 +71,21 @@ export default {
   padding: 0;
 }
 
-/* Each of the items in the list */
-.vuefinder-context-menu li {
+.vuefinder-context-item {
   padding: 5px 8px;
   cursor: pointer;
   list-style-type: none;
   transition: all 0.3s ease;
   user-select: none;
 }
-
-
 .vuefinder-icon {
-  display: inline-flex;
+  display: inline;
   text-align: center;
   pointer-events: none;
+}
+.vuefinder-context-title{
+    display: inline;
+    text-align: center;
+    pointer-events: none;
 }
 </style>

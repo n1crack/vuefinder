@@ -33,7 +33,7 @@
         @click="$emit('showMenu', 'new-folder')"
       >
         <span class="vuefinder-icon">
-          <font-awesome-icon icon="plus-square" />
+          <font-awesome-icon icon="folder-plus" />
         </span>
         <span class="is-hidden-mobile">NewFolder</span>
       </a>
