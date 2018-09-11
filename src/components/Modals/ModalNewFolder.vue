@@ -45,7 +45,12 @@ export default {
         url: {
             type: String,
             required: true
+        },
+        directory: {
+            type: String,
+            required: true
         }
+
     },
     data () {
         return {

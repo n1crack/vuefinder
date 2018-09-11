@@ -80,12 +80,11 @@
 import axios from 'axios';
 import DragSelect from 'dragselect';
 
-import ModalNewFolder from './components/Modals/ModalNewFolder.vue';
-import ModalRename from './components/Modals/ModalRename.vue';
-import ModalDelete from './components/Modals/ModalDelete.vue';
-import ModalUpload from './components/Modals/ModalUpload.vue';
-import ModalMessage from './components/Modals/ModalMessage.vue';
-import ModalPreview from './components/Modals/ModalPreview.vue';
+// FontAwesome icons
+import { library } from '@fortawesome/fontawesome-svg-core'; 
+import * as IconPack from './utilities/icons';
+library.add(...Object.values(IconPack));
+
 import ContextMenu from './components/ContextMenu.vue';
 import ToolBar from './components/ToolBar.vue';
 import Explorer from './components/Explorer.vue';
@@ -93,11 +92,7 @@ import ExplorerItem from './components/ExplorerItem.vue';
 import BreadcrumbHeader from './components/BreadcrumbHeader.vue';
 import ListviewSortbar from './components/ListviewSortbar.vue';
 import DragImage from './components/DragImage.vue';
-
-// FontAwesome icons
-import { library } from '@fortawesome/fontawesome-svg-core';
-import * as IconPack from './utilities/icons';
-library.add(...Object.values(IconPack));
+import * as Modals from './utilities/modals';// Modal Components
 
 export default {
     name: 'Vuefinder',
@@ -108,13 +103,8 @@ export default {
         BreadcrumbHeader,
         Explorer,
         ExplorerItem,
-        ModalNewFolder,
-        ModalRename,
-        ModalDelete,
-        ModalUpload,
-        ModalMessage,
-        ModalPreview,
-        DragImage
+        DragImage,
+        ...Modals
     },
     directives: {
         draggable: {
@@ -355,7 +345,7 @@ export default {
         },
 
         isSelected(item) {
-            return this.getSelectedItems().indexOf(item) > -1;
+            return this.getSelectedItems().includes(item);
         },
 
         open(item) {
@@ -464,6 +454,6 @@ export default {
     @include vuefinder-theme(mithril, #374d63, #c3d7eb, darken(#c3d7eb, 5));
     @include vuefinder-theme(night, #dee9f8, #2e3463, lighten(#2e3463, 5));
     @include vuefinder-theme(ember, #e8d8be, #31323a, lighten(#31323a, 5));
-    @include vuefinder-theme(earthsong, #95cc5e, #fafafa, darken(#fafafa, 5));
+    @include vuefinder-theme(earthsong, #8faf6f, #fafafa, darken(#fafafa, 5));
 
 </style>

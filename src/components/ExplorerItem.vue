@@ -44,7 +44,7 @@ export default {
     },
     methods: {
         title_shorten (title) {
-            return title.replace(/((?=([\w\W]{0,15}))([\w\W]{9,})([\w\W]{9,}))/, '$2..$4');
+            return title.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, '$2..$4');
         },
         time (time) {
             return format(new Date(time*1000), 'dd MMMyy HH:mm');

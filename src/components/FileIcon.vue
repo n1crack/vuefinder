@@ -31,7 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 .vuefinder-file-content {
-  width: 100px;
+  width: 110px;
   margin: 4px;
   display: flex;
   flex-direction: column;
