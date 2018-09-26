@@ -34,8 +34,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.3.1",
     "@fortawesome/vue-fontawesome": "^0.1.0",
     "axios": "^0.18.0",
-    "date-fns": "^2.0.0-alpha.16",
-    "dragselect": "^1.8.0",
+    "date-fns": "^2.0.0-alpha.18",
+    "dragselect": "^1.8.1",
     "vue": "^2.5.16"
   }
 }
