@@ -127,7 +127,6 @@ export default {
                     }
                 });
                 el.addEventListener('dragend', function(e)   {
-
                 });
             },
             unbind:function(el) {
@@ -190,6 +189,9 @@ export default {
                 order = this.sort.order == 'asc' ? 1 : -1;
 
             const compare = (a,b) => {
+                if (typeof a === 'string' && typeof b === 'string') {
+                    return a.toLowerCase().localeCompare(b.toLowerCase());
+                }
                 if (a < b) return -1;
                 if (a > b) return 1;
                 return 0;
@@ -225,8 +227,7 @@ export default {
 
     },
 
-    methods: {
-  
+    methods: {  
         getComponentbyNode(element) {
             return this.$refs.files.find(a => a.$el == element);
         },
@@ -255,7 +256,7 @@ export default {
                     this.data = response.data;
                     this.loading = false;
                     this.$nextTick(() => {
-                        this.selectable.selectables = this.getNodeElements();
+                        this.selectable.setSelectables(this.getNodeElements());
                     });
                 })
                 .catch(error => {
