@@ -2,7 +2,11 @@
   "name": "vuefinder",
   "version": "0.2.0",
   "description": "vuefinder is an elegant web file manager.",
-  "main": "src/Finder.vue",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "browser": {
+    "./sfc": "src/Finder.vue"
+  },
   "scripts": {
     "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
@@ -27,15 +31,21 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "laravel-mix": "^2.1.14"
+    "laravel-mix": "^4.0.12",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "ts-loader": "^5.3.2",
+    "typescript": "^3.2.2",
+    "vue-template-compiler": "^2.5.21"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.4",
-    "@fortawesome/free-solid-svg-icons": "^5.3.1",
-    "@fortawesome/vue-fontawesome": "^0.1.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.12",
+    "@fortawesome/free-solid-svg-icons": "^5.6.3",
+    "@fortawesome/vue-fontawesome": "^0.1.4",
     "axios": "^0.18.0",
-    "date-fns": "^2.0.0-alpha.18",
-    "dragselect": "^1.8.1",
-    "vue": "^2.5.16"
+    "date-fns": "^2.0.0-alpha.26",
+    "dragselect": "^1.10.0",
+    "video.js": "^7.4.1",
+    "vue": "^2.5.21"
   }
 }
