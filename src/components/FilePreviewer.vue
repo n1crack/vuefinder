@@ -15,7 +15,7 @@ import axios from 'axios';
 var preview = {
     'default': {
         template: `
-                    <div>no preview</div>
+                <div>no preview</div>
             `
     },
     'file-image': {

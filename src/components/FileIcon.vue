@@ -3,7 +3,8 @@
     <div class="vuefinder-file-icon">
       <span 
         :class="{ 'light': icon != 'folder' }" 
-        class="vuefinder-icon" >
+        class="vuefinder-icon"
+      >
         <font-awesome-icon :icon="icon" />
       </span>
     </div>

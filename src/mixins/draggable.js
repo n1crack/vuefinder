@@ -50,6 +50,7 @@ export default {
                     e.preventDefault();
 
                     vnode.context.selectable.start();
+                    console.log(vnode);
                     console.log(e.dataTransfer.getData('data'));
                     console.log(vnode.context.getSelectedItems());
 

@@ -14,7 +14,9 @@
             <span class="file_path">{{ item.dirname?'/':'' }}{{ item.dirname }}/</span>
             <span class="file_name">{{ item.basename }}</span>
           </div>
-          <div class="delete-list-type">{{ item.type }}</div>
+          <div class="delete-list-type">
+            {{ item.type }}
+          </div>
         </li>
       </ul>
     </div>
@@ -22,11 +24,15 @@
       <button 
         class="vuefinder-button" 
         @click="remove"
-      >Yes, delete!</button>
+      >
+        Yes, delete!
+      </button>
       <button 
         class="vuefinder-button" 
         @click="$emit('close')"
-      >Cancel</button>
+      >
+        Cancel
+      </button>
       <div style="color:crimson">
         <span style="font-weight:bold">Caution:</span>
         You

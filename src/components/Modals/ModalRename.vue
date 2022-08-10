@@ -21,12 +21,15 @@
         :disabled="tempName.length ==0 " 
         class="vuefinder-button" 
         @click="rename(item.path,directory + '/' + tempName)"
-      >Rename
+      >
+        Rename
       </button>
       <button 
         class="vuefinder-button" 
         @click="$emit('close')"
-      >Cancel</button>
+      >
+        Cancel
+      </button>
     </div>
   </modal>
 </template>

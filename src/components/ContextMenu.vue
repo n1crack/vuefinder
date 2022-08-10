@@ -26,7 +26,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 export default {
     name: 'ContextMenu',
     components: {
-        'font-awesome-icon': FontAwesomeIcon
+        FontAwesomeIcon
     },
     props: {
         context: {

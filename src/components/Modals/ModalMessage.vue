@@ -19,7 +19,9 @@
       <button 
         class="vuefinder-button" 
         @click="$emit('close')"
-      >Close</button>
+      >
+        Close
+      </button>
     </div>
   </modal>
 </template>

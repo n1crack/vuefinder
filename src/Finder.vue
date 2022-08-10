@@ -2,23 +2,27 @@
   <div
     :class="theme"
     class="vuefinder"
-    @contextmenu.prevent>
+    @contextmenu.prevent
+  >
 
     <tool-bar
       :selected-items="getSelectedItems()"
       :listview.sync="listview"
-      @showMenu="showMenu"/>
+      @showMenu="showMenu"
+    />
 
     <breadcrumb-header
       :root="data.root"
       :dirname="data.dirname"
       :loading="loading"
-      @openFolder="openFolder"/>
+      @openFolder="openFolder"
+    />
 
     <listview-sortbar
       v-show="listview"
       :sort="sort"
-      @select="sortItems"/>
+      @select="sortItems"
+    />
 
     <explorer
       v-dragarea
@@ -40,7 +44,8 @@
         @dblclick.native.stop.prevent="open(item)"
         @contextmenu.native="addContextItems(item)"
         @mouseover.native="hoverText = item.basename"
-        @mouseleave.native="hoverText = ''"/>
+        @mouseleave.native="hoverText = ''"
+      />
     </explorer>
 
     <div class="vuefinder-footer">
@@ -56,7 +61,8 @@
       v-show="context.active"
       ref="context"
       :context="context"
-      @close="hideContextMenu()"/>
+      @close="hideContextMenu()"
+    />
 
     <component
       v-if="modal.active"
@@ -66,11 +72,13 @@
       :data="modal.item"
       @close="modal.active = false"
       @error="msgBox"
-      @refresh="openFolder"/>
+      @refresh="openFolder"
+    />
 
-    <drag-image 
-      ref="dragImage" 
-      :count="getSelectedItems().length"/>
+    <drag-image
+      ref="dragImage"
+      :count="getSelectedItems().length"
+    />
 
   </div>
 </template>
@@ -80,7 +88,7 @@ import axios from 'axios';
 import DragSelect from 'dragselect';
 
 // FontAwesome icons
-import { library } from '@fortawesome/fontawesome-svg-core'; 
+import { library } from '@fortawesome/fontawesome-svg-core';
 import * as IconPack from './utilities/icons';
 library.add(...Object.values(IconPack));
 
@@ -89,7 +97,7 @@ import * as Components from './utilities/components';// Modal Components
 
 import draggable from './mixins/draggable';
 
-export default{
+export default {
     name: 'Vuefinder',
     components: {
         ...Components,
@@ -110,16 +118,16 @@ export default{
             default: 'light'
         },
     },
-    data() {
+    data () {
         return {
             loading: false,
             listview: false,
             hoverText: '',
             selectedItems: [],
-            data: {dirname: '.', root: '.'},
-            modal: {active: false, type: ''},
-            sort: {active: false, column: '', order: ''},
-            context: {active: false, positions: {}, items: []}
+            data: { dirname: '.', root: '.' },
+            modal: { active: false, type: '' },
+            sort: { active: false, column: '', order: '' },
+            context: { active: false, positions: {}, items: [] }
         };
     },
     computed: {
@@ -128,7 +136,7 @@ export default{
                 column = this.sort.column,
                 order = this.sort.order == 'asc' ? 1 : -1;
 
-            const compare = (a,b) => {
+            const compare = (a, b) => {
                 if (typeof a === 'string' && typeof b === 'string') {
                     return a.toLowerCase().localeCompare(b.toLowerCase());
                 }
@@ -146,7 +154,7 @@ export default{
             return files;
         }
     },
-    mounted() {
+    mounted () {
         this.selectable = new DragSelect({
             area: this.$refs.explorer.$el,
             customStyles: true,
@@ -167,12 +175,12 @@ export default{
 
     },
 
-    methods: {  
-        getComponentbyNode(element) {
+    methods: {
+        getComponentbyNode (element) {
             return this.$refs.files.find(a => a.$el == element);
         },
 
-        getSelectedComponents(){
+        getSelectedComponents () {
             return this.selectedItems.map(element => this.getComponentbyNode(element));
         },
 
@@ -180,11 +188,11 @@ export default{
             return this.getSelectedComponents().map(a => a.item);
         },
 
-        getNodeElements() {
+        getNodeElements () {
             return this.$refs.files.map(a => a.$el);
         },
 
-        fetchIndex(url, path = null) {
+        fetchIndex (url, path = null) {
             this.loading = true;
             axios(url, {
                 params: {
@@ -204,11 +212,9 @@ export default{
                 });
         },
 
-        sortItems(column) {
-            let sort = (active, column, order) => {
-                return {active, column, order};
-            };
-             
+        sortItems (column) {
+            let sort = (active, column, order) => ({ active, column, order });
+
             if (this.sort.active && this.sort.column == column) {
                 this.sort = sort(this.sort.order == 'asc', column, 'desc');
             } else {
@@ -216,11 +222,11 @@ export default{
             }
         },
 
-        msgBox(message, type = 'error') {
-            this.showMenu('message', {message: message, type: type});
+        msgBox (message, type = 'error') {
+            this.showMenu('message', { message: message, type: type });
         },
 
-        showContextMenu(e) {
+        showContextMenu (e) {
             this.context.active = true;
             this.context.items.push({
                 title: 'new folder',
@@ -232,12 +238,12 @@ export default{
                 left = e.pageX - area.left - window.scrollX,
                 top = e.pageY - area.top - window.scrollY;
 
-            this.$nextTick(()=>{
-                let menuHeight = this.$refs.context.$el.offsetHeight+18,
+            this.$nextTick(() => {
+                let menuHeight = this.$refs.context.$el.offsetHeight + 18,
                     menuWidth = this.$refs.context.$el.offsetWidth;
 
-                left = area.right - e.pageX + window.scrollX  < menuWidth ? left-menuWidth : left;
-                top = area.bottom - e.pageY +  window.scrollY < menuHeight ? top-menuHeight : top;
+                left = area.right - e.pageX + window.scrollX < menuWidth ? left - menuWidth : left;
+                top = area.bottom - e.pageY + window.scrollY < menuHeight ? top - menuHeight : top;
 
                 this.context.positions = {
                     left: left + 'px',
@@ -247,12 +253,12 @@ export default{
 
         },
 
-        hideContextMenu() {
+        hideContextMenu () {
             this.context.items = [];
             this.context.active = false;
         },
 
-        addContextItems(item) {
+        addContextItems (item) {
             this.context.items.push({
                 title: 'open',
                 icon: 'folder-open',
@@ -285,11 +291,11 @@ export default{
             });
         },
 
-        isSelected(item) {
+        isSelected (item) {
             return this.getSelectedItems().includes(item);
         },
 
-        open(item) {
+        open (item) {
             this.selectable.clearSelection();
             if (item.type == 'folder') {
                 this.$root.$emit('vuefinder-folder-clicked');
@@ -300,11 +306,11 @@ export default{
             }
         },
 
-        openFolder(folder) {
-            this.open({path: folder, type: 'folder'});
+        openFolder (folder) {
+            this.open({ path: folder, type: 'folder' });
         },
 
-        showMenu(type, item = false) {
+        showMenu (type, item = false) {
             this.modal.item = item || this.getSelectedItems();
             this.modal.type = type;
             this.modal.active = true;
@@ -313,88 +319,87 @@ export default{
 };
 </script>
 <style lang="scss" scoped>
-    .vuefinder {
-        font-family: Helvetica, sans-serif;
-        color: rgb(74, 74, 74);
-        letter-spacing: 1px;
-        position: relative;
-        border-radius: 4px 4px 0 0;
-        -webkit-font-smoothing: antialiased;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-    }
+.vuefinder {
+  font-family: Helvetica, sans-serif;
+  color: rgb(74, 74, 74);
+  letter-spacing: 1px;
+  position: relative;
+  border-radius: 4px 4px 0 0;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
 
-    .vuefinder-footer {
-        padding: 5px;
-        font-size: 12px;
-        min-height: 28px;
-        line-height: 18px;
-        align-items: center;
-        display: flex;
-        .vuefinder-status-message {
-            text-align: right;
-            flex: 1;
-        }
-    }
+.vuefinder-footer {
+  padding: 5px;
+  font-size: 12px;
+  min-height: 28px;
+  line-height: 18px;
+  align-items: center;
+  display: flex;
+  .vuefinder-status-message {
+    text-align: right;
+    flex: 1;
+  }
+}
 
-    #{"/deep/"} .node-selector {
-        pointer-events: none;
-        display: none;
-        opacity: 0.3;
-    }
+#{"/deep/"} .node-selector {
+  pointer-events: none;
+  display: none;
+  opacity: 0.3;
+}
 
-    @media screen and (max-width: 768px) {
-        #{"/deep/"} .is-hidden-mobile {
-            display: none !important;
-        }
-    }
+@media screen and (max-width: 768px) {
+  #{"/deep/"} .is-hidden-mobile {
+    display: none !important;
+  }
+}
 
-    #{"/deep/"} .vuefinder-input {
-        padding: 8px;
-        font-size: 14px;
-        font-weight: 200;
-        &:focus {
-            outline: 0;
-        }
-    }
+#{"/deep/"} .vuefinder-input {
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 200;
+  &:focus {
+    outline: 0;
+  }
+}
 
-    #{"/deep/"} .vuefinder-button {
-        letter-spacing: 1.1px;
-        font-size: 13px;
-        font-weight: 200;
-        padding: 0.4rem 0.8em;
-        cursor: pointer;
-        color: #2d4e5c;
-        border: 1px solid #8db3c1;
-        background-color: transparent;
-        &:active {
-            position: relative;
-            top: 1px;
-        }
-        &:focus {
-            outline: 0;
-        }
-        &:hover {
-            opacity: 0.9;
-        }
-        &[disabled] {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-        &[disabled]:active {
-            position: relative;
-            top: 0px;
-        }
-    }
+#{"/deep/"} .vuefinder-button {
+  letter-spacing: 1.1px;
+  font-size: 13px;
+  font-weight: 200;
+  padding: 0.4rem 0.8em;
+  cursor: pointer;
+  color: #2d4e5c;
+  border: 1px solid #8db3c1;
+  background-color: transparent;
+  &:active {
+    position: relative;
+    top: 1px;
+  }
+  &:focus {
+    outline: 0;
+  }
+  &:hover {
+    opacity: 0.9;
+  }
+  &[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  &[disabled]:active {
+    position: relative;
+    top: 0px;
+  }
+}
 
-    @import "./styles/theme.scss";
-    @include vuefinder-theme(light, #2e5e8b, #fbfcfd, darken(#fbfcfd, 5));
-    @include vuefinder-theme(dark, #ababab, #313131, lighten(#313131, 10));
-    @include vuefinder-theme(mithril, #374d63, #c3d7eb, darken(#c3d7eb, 5));
-    @include vuefinder-theme(night, #dee9f8, #2e3463, lighten(#2e3463, 5));
-    @include vuefinder-theme(ember, #e8d8be, #31323a, lighten(#31323a, 5));
-    @include vuefinder-theme(earthsong, #8faf6f, #fafafa, darken(#fafafa, 5));
-
+@import "./styles/theme.scss";
+@include vuefinder-theme(light, #2e5e8b, #fbfcfd, darken(#fbfcfd, 5));
+@include vuefinder-theme(dark, #ababab, #313131, lighten(#313131, 10));
+@include vuefinder-theme(mithril, #374d63, #c3d7eb, darken(#c3d7eb, 5));
+@include vuefinder-theme(night, #dee9f8, #2e3463, lighten(#2e3463, 5));
+@include vuefinder-theme(ember, #e8d8be, #31323a, lighten(#31323a, 5));
+@include vuefinder-theme(earthsong, #8faf6f, #fafafa, darken(#fafafa, 5));
 </style>

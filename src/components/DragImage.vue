@@ -6,7 +6,8 @@
         v-show="count > 1"
         :value="count" 
         class="fa-layers-counter vuefinder-badge" 
-        transform="down-20 shrink-11" />
+        transform="down-20 shrink-11"
+      />
     </font-awesome-layers>
   </span>
 </template>

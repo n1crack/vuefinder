@@ -10,14 +10,21 @@
         :class="{ 'vuefinder-upload-succeed': done, 'vuefinder-upload-failed' : failed }" 
         class="vuefinder-file-listing"
       >
-        <div class="vuefinder-uploaded-name">{{ file.name }}</div>
-        <div class="vuefinder-uploaded-size">{{ fileSizeIEC(file.size) }}</div>
+        <div class="vuefinder-uploaded-name">
+          {{ file.name }}
+        </div>
+        <div class="vuefinder-uploaded-size">
+          {{ fileSizeIEC(file.size) }}
+        </div>
         <div class="vuefinder-uploaded-extra">
           <span v-if="percentage != 0">{{ percentage }}%</span>
           <button 
             v-else 
             class="remove-file" 
-            @click="removeFile( key )">Remove</button>
+            @click="removeFile( key )"
+          >
+            Remove
+          </button>
         </div>
       </div>
 
@@ -27,7 +34,8 @@
           ref="files" 
           type="file" 
           multiple 
-          @change="handleFilesUpload"> 
+          @change="handleFilesUpload"
+        > 
       </div>
     </div>
     <div 
@@ -37,7 +45,9 @@
       <div 
         class="vuefinder-upload-clear-errors" 
         @click="errors = []"
-      >X</div>
+      >
+        X
+      </div>
       <div 
         v-for="(error, key) in errors" 
         :key="key"
@@ -50,17 +60,22 @@
       <button 
         class="vuefinder-button" 
         @click="addFiles"
-      >Add Files</button>
+      >
+        Add Files
+      </button>
       <button 
         :disabled="uploadableFiles.length==0" 
         class="vuefinder-button" 
         @click="submitFiles"
-      >Upload! ({{ uploadableFiles.length }} items in queue)
+      >
+        Upload! ({{ uploadableFiles.length }} items in queue)
       </button>
       <button 
         class="vuefinder-button" 
         @click="$emit('close')"
-      >Cancel</button>
+      >
+        Cancel
+      </button>
     </div>
   </modal>
 </template>

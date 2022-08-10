@@ -31,21 +31,21 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "laravel-mix": "^4.0.12",
+    "laravel-mix": "^4.0.14",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
-    "ts-loader": "^5.3.2",
-    "typescript": "^3.2.2",
-    "vue-template-compiler": "^2.5.21"
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.2.4",
+    "vue-template-compiler": "^2.5.22"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.12",
     "@fortawesome/free-solid-svg-icons": "^5.6.3",
-    "@fortawesome/vue-fontawesome": "^0.1.4",
+    "@fortawesome/vue-fontawesome": "^0.1.5",
     "axios": "^0.18.0",
-    "date-fns": "^2.0.0-alpha.26",
+    "date-fns": "^2.0.0-alpha.27",
     "dragselect": "^1.10.0",
     "video.js": "^7.4.1",
-    "vue": "^2.5.21"
+    "vue": "^2.5.22"
   }
 }

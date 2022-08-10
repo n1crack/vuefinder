@@ -50,7 +50,9 @@
       <button 
         class="vuefinder-button" 
         @click="$emit('close')"
-      >Close</button>
+      >
+        Close
+      </button>
 
       <button 
         v-if="item.type != 'folder'" 

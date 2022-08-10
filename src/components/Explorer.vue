@@ -1,5 +1,4 @@
 <template>
-
   <transition-group 
     :class="{ 'list': listview }" 
     class="vuefinder-explorer" 
@@ -10,7 +9,8 @@
       v-show="! isRoot" 
       key="keyBackButton" 
       icon="angle-left" 
-      @click.native="$emit('back')">
+      @click.native="$emit('back')"
+    >
       <span>Go back</span>
     </file-icon>
 
@@ -19,12 +19,11 @@
     <div 
       v-if="! $slots.default" 
       key="empty-list" 
-      class="vuefinder-empty-list">
+      class="vuefinder-empty-list"
+    >
       <span>There is no file.</span>
     </div>
-
   </transition-group>
-
 </template>
 
 <script>
