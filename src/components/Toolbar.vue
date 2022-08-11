@@ -1,11 +1,11 @@
 <script>
 export default {
-  name: 'Explorer'
+  name: 'Toolbar'
 };
 </script>
 
 
-
 <template>
-<div>Explorer</div>
+<div>Toolbar</div>
 </template>
+

@@ -1,17 +1,17 @@
 {
   "name": "vuefinder",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "vuefinder is an elegant web file manager.",
-  "main": "src/index.js",
-  "module": "src/index.js",
-  "browser": {
-    "./sfc": "src/Finder.vue"
-  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vuefinder.cjs",
+  "module": "./dist/vuefinder.js",
   "scripts": {
-    "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "homepage": "https://github.com/n1crack/vuefinder#readme",
   "keywords": [
@@ -31,21 +31,17 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "laravel-mix": "^4.0.14",
-    "node-sass": "^4.11.0",
-    "sass-loader": "^7.1.0",
-    "ts-loader": "^5.3.3",
-    "typescript": "^3.2.4",
-    "vue-template-compiler": "^2.5.22"
+    "@types/node": "^18.7.1",
+    "@vitejs/plugin-vue": "^3.0.1",
+    "autoprefixer": "^10.4.8",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8",
+    "vite": "^3.0.4"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.12",
-    "@fortawesome/free-solid-svg-icons": "^5.6.3",
-    "@fortawesome/vue-fontawesome": "^0.1.5",
-    "axios": "^0.18.0",
-    "date-fns": "^2.0.0-alpha.27",
-    "dragselect": "^1.10.0",
-    "video.js": "^7.4.1",
-    "vue": "^2.5.22"
+    "vite-plugin-css-injected-by-js": "^2.0.3"
   }
 }

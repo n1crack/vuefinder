@@ -1,28 +1,15 @@
-// Import vue component
-import VueFinder from './Finder.vue';
+import components from './components';
+import styles from './css/index.css';
 
-// Declare install function executed by Vue.use()
-export function install (Vue) {
-    if (install.installed) return;
-    install.installed = true;
-    Vue.component('VueFinder', VueFinder);
-}
-
-// Create module definition for Vue.use()
-const plugin = {
-    install,
+const VueFinder = {
+    install(Vue) {
+        for (const prop in components) {
+            if (components.hasOwnProperty(prop)) {
+                const component = components[prop];
+                Vue.component(component.name, component);
+            }
+        }
+    }
 };
 
-// Auto-install when vue is found (eg. in browser via <script> tag)
-let GlobalVue = null;
-if (typeof window !== 'undefined') {
-    GlobalVue = window.Vue;
-} else if (typeof global !== 'undefined') {
-    GlobalVue = global.Vue;
-}
-if (GlobalVue) {
-    GlobalVue.use(plugin);
-}
-
-// To allow use as module (npm/webpack/etc.) export component
 export default VueFinder;

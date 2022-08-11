@@ -1,11 +1,9 @@
 <script>
 export default {
-  name: 'Explorer'
+  name: 'Statusbar'
 };
 </script>
 
-
-
 <template>
-<div>Explorer</div>
+<div>Statusbar</div>
 </template>
