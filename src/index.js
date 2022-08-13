@@ -1,7 +1,10 @@
 import components from './components';
-import styles from './css/index.css';
+import './assets/css/index.css';
+import mitt from 'mitt';
 
-const VueFinder = {
+const emitter = mitt();                   // Initialize mitt
+
+export default {
     install(Vue) {
         for (const prop in components) {
             if (components.hasOwnProperty(prop)) {
@@ -9,7 +12,9 @@ const VueFinder = {
                 Vue.component(component.name, component);
             }
         }
+
+        Vue.provide('emitter', emitter);
     }
 };
 
-export default VueFinder;
+
