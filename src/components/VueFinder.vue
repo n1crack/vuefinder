@@ -1,8 +1,8 @@
 <template>
   <div class="relative border rounded-md bg-white text-gray-800 border-neutral-300 min-w-min">
       <v-f-toolbar/>
-      <v-f-breadcrumb/>
-      <v-f-explorer :view="view"/>
+      <v-f-breadcrumb :items="items"/>
+      <v-f-explorer :view="view" :items="items"/>
       <v-f-statusbar/>
   </div>
 
@@ -16,10 +16,12 @@ export default {
 </script>
 
 <script setup>
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
+import ajax from '../utils/ajax.js'
 
 const emitter = inject('emitter')
 
+const items = ref({root: '.', parent: '.', dirname: '.', files: []});
 
 // View Management
 const view = ref('grid');
@@ -44,6 +46,24 @@ emitter.on('vf-modal-show', (item) => {
   modal.type = item.type;
   modal.data = item;
   modal.active = true;
+});
+
+const updateItems = (data) => {
+  items.value = data;
+  emitter.emit('vf-explorer-update')
+}
+
+emitter.on('vf-fetch-index', (item = null) => {
+  ajax('http://vuefinder-php.test', 'get', {
+    q: 'index',
+    path: item?.path ?? ''
+  })
+      .then(response => response.json())
+      .then(data => updateItems(data));
+});
+
+onMounted(() => {
+  emitter.emit('vf-fetch-index')
 });
 
 </script>

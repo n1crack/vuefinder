@@ -3,3 +3,10 @@
 @tailwind components;
 
 @tailwind utilities;
+
+
+@layer components {
+  .vf-explorer-selected {
+    @apply bg-neutral-100 border border-neutral-300 !important;
+  }
+}

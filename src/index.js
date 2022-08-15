@@ -2,7 +2,8 @@ import components from './components';
 import './assets/css/index.css';
 import mitt from 'mitt';
 
-const emitter = mitt();                   // Initialize mitt
+const emitter = mitt();
+
 
 export default {
     install(Vue) {
