@@ -11,6 +11,7 @@ import ModalPreview from './modals/ModalPreview.vue';
 import ModalRename from './modals/ModalRename.vue';
 import ModalUpload from './modals/ModalUpload.vue';
 import SortIcon from './components/SortIcon.vue';
+import ContextMenu from './components/ContextMenu.vue';
 
 export default {
     VueFinder,
@@ -25,5 +26,6 @@ export default {
     ModalPreview,
     ModalRename,
     ModalUpload,
-    SortIcon
+    SortIcon,
+    ContextMenu
 };

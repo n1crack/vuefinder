@@ -1,5 +1,5 @@
 <template>
-  <div class="relative border rounded-md bg-white text-gray-800 border-neutral-300 min-w-min">
+  <div class="relative border rounded-md bg-white text-gray-800 border-neutral-300 min-w-min select-none" @mousedown="emitter.emit('vf-contextmenu-hide')">
       <v-f-toolbar/>
       <v-f-breadcrumb :items="items"/>
       <v-f-explorer :view="view" :items="items"/>
@@ -7,6 +7,7 @@
   </div>
 
   <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :item="modal.data" />
+  <v-f-context-menu/>
 </template>
 
 <script>
@@ -21,10 +22,11 @@ import ajax from '../utils/ajax.js'
 
 const emitter = inject('emitter')
 
-const items = ref({root: '.', parent: '.', dirname: '.', files: []});
+const items = ref({dirname: '.', files: []});
 
 // View Management
 const view = ref('grid');
+
 emitter.on('vf-view-toggle', (newView) => {
   view.value = newView;
 })

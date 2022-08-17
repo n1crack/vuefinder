@@ -32,6 +32,6 @@ export default {
 
 
 <script setup>
-
+const emitter = inject('emitter')
 
 </script>

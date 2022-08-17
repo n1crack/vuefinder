@@ -1,5 +1,7 @@
 import components from './components';
 import './assets/css/index.css';
+import 'microtip/microtip.css'
+
 import mitt from 'mitt';
 
 const emitter = mitt();

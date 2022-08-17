@@ -14,14 +14,15 @@
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='timestamp'" />
         </div>
       </div>
-    <div class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1" :ref="el => selectorArea = el" >
+    <div class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1" :ref="el => selectorArea = el"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
+
       <div draggable="true"
            v-if="view=='list'"
-           @dblclick="openItem(item)"
+           @dblclick="openItem(item)" @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
-           class="vf-item grid grid-cols-1 border border-transparent my-0.5 w-full select-none"
+           class="vf-item grid grid-cols-1 border hover:bg-neutral-50 border-transparent my-0.5 w-full select-none"
            v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
           <div class="grid grid-cols-12 items-center">
             <div class="flex col-span-7 items-center">
@@ -40,12 +41,12 @@
 
       <div draggable="true"
            v-if="view=='grid'"
-           @dblclick="openItem(item)"
+           @dblclick="openItem(item)" @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
-           class="vf-item border border-transparent m-0.5 inline-flex w-[5.5rem] h-20 md:w-32 md:h-24 text-center justify-center select-none"
-           v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+           class="vf-item border border-transparent hover:bg-neutral-50 m-0.5 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none"
+           v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
           <div>
             <div class="relative">
               <svg v-if="item.type == 'folder'" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto text-sky-500 fill-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
@@ -79,7 +80,7 @@ export default {
 </script>
 
 <script setup>
-import {nextTick, onMounted, reactive, ref, watch, watchEffect} from 'vue';
+import {nextTick, onMounted, reactive, ref, watch} from 'vue';
 import DragSelect from 'dragselect';
 import filesize from './../utils/filesize.js'
 import datetimestring from '../utils/datetimestring.js';
@@ -98,20 +99,25 @@ const dragImage = ref(null);
 const selectedCount = ref(0)
 const ds = ref(null);
 
+
 const openItem = (item) => {
   if (item.type == 'folder') {
     emitter.emit('vf-fetch-index', item);
-  }else {
-    emitter.emit('vf-modal-show', {type:'preview'})
+  } else {
+    emitter.emit('vf-modal-show', {type: 'preview'});
   }
-}
+};
 
 const sort = reactive( { active: false, column: '', order: '' });
 
-const getItems = () => {
-  let files = props.items.files,
+const getItems = ( sorted = true) => {
+  let files = [...props.items.files],
       column = sort.column,
       order = sort.order == 'asc' ? 1 : -1;
+
+  if (!sorted) {
+    return files;
+  }
 
   const compare = (a, b) => {
     if (typeof a === 'string' && typeof b === 'string') {
@@ -123,9 +129,7 @@ const getItems = () => {
   };
 
   if (sort.active) {
-    files = files.slice().sort((a, b) => {
-      return compare(a[column], b[column]) * order;
-    });
+    files = files.slice().sort((a, b) => compare(a[column], b[column]) * order);
   }
 
   return files;
@@ -201,7 +205,7 @@ const setDragSelect = () => {
     }
   });
 
-  ds.value.subscribe("callback", (callbackObject) => {
+  ds.value.subscribe("callback", (	{ items, event, isDragging}) => {
     selectedCount.value = ds.value.getSelection().length
   })
 };
