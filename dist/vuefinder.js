@@ -30,7 +30,7 @@ const Zt = (b, g = "get", v = {}) => g == "get" ? fetch(b + "?" + new URLSearchP
     }), pe(() => {
       g.emit("vf-fetch-index");
     }), (P, x) => {
-      const D = B("v-f-toolbar"), C = B("v-f-breadcrumb"), y = B("v-f-explorer"), j = B("v-f-statusbar"), V = B("v-f-context-menu");
+      const D = B("v-f-toolbar"), C = B("v-f-breadcrumb"), S = B("v-f-explorer"), V = B("v-f-statusbar"), j = B("v-f-context-menu");
       return k(), E(re, null, [
         i("div", {
           class: "relative border rounded-md bg-white text-gray-800 border-neutral-300 min-w-min select-none",
@@ -38,17 +38,17 @@ const Zt = (b, g = "get", v = {}) => g == "get" ? fetch(b + "?" + new URLSearchP
         }, [
           X(D),
           X(C, { items: v.value }, null, 8, ["items"]),
-          X(y, {
+          X(S, {
             view: m.value,
             items: v.value
           }, null, 8, ["view", "items"]),
-          X(j)
+          X(V)
         ], 32),
         h.active ? (k(), J(Ht("v-f-modal-" + h.type), {
           key: 0,
           item: h.data
         }, null, 8, ["item"])) : U("", !0),
-        X(V)
+        X(j)
       ], 64);
     };
   }
@@ -310,19 +310,19 @@ var xr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           writable: !0,
           configurable: !0
         }
-      }), t && y(n, t);
+      }), t && S(n, t);
     }
     function C(n) {
       return C = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
         return e.__proto__ || Object.getPrototypeOf(e);
       }, C(n);
     }
-    function y(n, t) {
-      return y = Object.setPrototypeOf || function(o, r) {
+    function S(n, t) {
+      return S = Object.setPrototypeOf || function(o, r) {
         return o.__proto__ = r, o;
-      }, y(n, t);
+      }, S(n, t);
     }
-    function j() {
+    function V() {
       if (typeof Reflect > "u" || !Reflect.construct || Reflect.construct.sham)
         return !1;
       if (typeof Proxy == "function")
@@ -334,13 +334,13 @@ var xr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return !1;
       }
     }
-    function V(n, t, e) {
-      return j() ? V = Reflect.construct : V = function(r, a, l) {
+    function j(n, t, e) {
+      return V() ? j = Reflect.construct : j = function(r, a, l) {
         var c = [null];
         c.push.apply(c, a);
         var u = Function.bind.apply(r, c), f = new u();
-        return l && y(f, l.prototype), f;
-      }, V.apply(null, arguments);
+        return l && S(f, l.prototype), f;
+      }, j.apply(null, arguments);
     }
     function H(n) {
       return Function.toString.call(n).indexOf("[native code]") !== -1;
@@ -358,7 +358,7 @@ var xr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           t.set(o, r);
         }
         function r() {
-          return V(o, arguments, C(this).constructor);
+          return j(o, arguments, C(this).constructor);
         }
         return r.prototype = Object.create(o.prototype, {
           constructor: {
@@ -367,7 +367,7 @@ var xr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
             writable: !0,
             configurable: !0
           }
-        }), y(r, o);
+        }), S(r, o);
       }, G(n);
     }
     function L(n) {
@@ -379,7 +379,7 @@ var xr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       return t && (typeof t == "object" || typeof t == "function") ? t : L(n);
     }
     function oe(n) {
-      var t = j();
+      var t = V();
       return function() {
         var o = C(n), r;
         if (t) {
@@ -404,7 +404,7 @@ var xr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }
       }, $(n, t, e || n);
     }
-    function S(n, t) {
+    function y(n, t) {
       return W(n) || We(n, t) || Se(n, t) || Ze();
     }
     function O(n) {
@@ -718,7 +718,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           name: "callback"
         }]
       }, l = function() {
-        var d = S(u[c], 2), p = d[0], _ = d[1];
+        var d = y(u[c], 2), p = d[0], _ = d[1];
         ["pre", !1].forEach(function(T) {
           return t(T ? "".concat(p, ":").concat(T) : p, function(K) {
             return _.forEach(function(M) {
@@ -1784,23 +1784,23 @@ const Dr = Ue.exports, kr = (b, g, v, m, h) => (g = Math, v = g.log, m = 1024, h
   setup(b) {
     const g = b, v = inject("emitter"), m = (w) => w == null ? void 0 : w.substring(0, 3), h = (w) => w.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), s = R(null), P = R(null), x = R(0), D = R(null), C = (w) => {
       w.type == "folder" ? v.emit("vf-fetch-index", w) : v.emit("vf-modal-show", { type: "preview" });
-    }, y = He({ active: !1, column: "", order: "" }), j = (w = !0) => {
-      let $ = [...g.items.files], S = y.column, O = y.order == "asc" ? 1 : -1;
+    }, S = He({ active: !1, column: "", order: "" }), V = (w = !0) => {
+      let $ = [...g.items.files], y = S.column, O = S.order == "asc" ? 1 : -1;
       if (!w)
         return $;
       const I = (W, Y) => typeof W == "string" && typeof Y == "string" ? W.toLowerCase().localeCompare(Y.toLowerCase()) : W < Y ? -1 : W > Y ? 1 : 0;
-      return y.active && ($ = $.slice().sort((W, Y) => I(W[S], Y[S]) * O)), $;
-    }, V = (w) => {
-      y.active && y.column == w ? (y.active = y.order == "asc", y.column = w, y.order = "desc") : (y.active = !0, y.column = w, y.order = "asc");
+      return S.active && ($ = $.slice().sort((W, Y) => I(W[y], Y[y]) * O)), $;
+    }, j = (w) => {
+      S.active && S.column == w ? (S.active = S.order == "asc", S.column = w, S.order = "desc") : (S.active = !0, S.column = w, S.order = "asc");
     }, H = () => D.value.getSelection().map((w) => JSON.parse(w.dataset.item)), G = (w, $) => {
       if (w.altKey || w.ctrlKey || w.metaKey)
         return w.preventDefault(), !1;
-      let S = P.value;
-      w.dataTransfer.setDragImage(S, 0, 15), w.dataTransfer.effectAllowed = "all", w.dataTransfer.dropEffect = "copy", console.log(D.value.getSelection()), console.log($);
+      let y = P.value;
+      w.dataTransfer.setDragImage(y, 0, 15), w.dataTransfer.effectAllowed = "all", w.dataTransfer.dropEffect = "copy", console.log(D.value.getSelection()), console.log($);
     }, L = (w, $) => {
       w.preventDefault(), console.log($), console.log(H());
     }, ne = (w, $) => {
-      w.preventDefault(), (!$ || $.type !== "folder" || D.value.getSelection().find((S) => S == w.currentTarget)) && (w.dataTransfer.dropEffect = "none", w.dataTransfer.effectAllowed = "none");
+      w.preventDefault(), (!$ || $.type !== "folder" || D.value.getSelection().find((y) => y == w.currentTarget)) && (w.dataTransfer.dropEffect = "none", w.dataTransfer.effectAllowed = "none");
     }, oe = () => {
       D.value = new Dr({
         area: s.value,
@@ -1812,7 +1812,7 @@ const Dr = Ue.exports, kr = (b, g, v, m, h) => (g = Math, v = g.log, m = 1024, h
         w && (x.value = D.value.getSelection().length, D.value.break());
       }), D.value.subscribe("predragmove", ({ isDragging: w }) => {
         w && D.value.break();
-      }), D.value.subscribe("callback", ({ items: w, event: $, isDragging: S }) => {
+      }), D.value.subscribe("callback", ({ items: w, event: $, isDragging: y }) => {
         x.value = D.value.getSelection().length;
       });
     };
@@ -1821,88 +1821,88 @@ const Dr = Ue.exports, kr = (b, g, v, m, h) => (g = Math, v = g.log, m = 1024, h
     }), pe(oe), (w, $) => (k(), E("div", Lr, [
       b.view == "list" ? (k(), E("div", Vr, [
         i("div", {
-          onClick: $[0] || ($[0] = (S) => V("basename")),
+          onClick: $[0] || ($[0] = (y) => j("basename")),
           class: "col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 flex items-center pl-1"
         }, [
           jr,
           fe(X(le, {
-            direction: y.order == "asc" ? "down" : "up"
+            direction: S.order == "asc" ? "down" : "up"
           }, null, 8, ["direction"]), [
-            [ve, y.active && y.column == "basename"]
+            [ve, S.active && S.column == "basename"]
           ])
         ]),
         i("div", {
-          onClick: $[1] || ($[1] = (S) => V("size")),
+          onClick: $[1] || ($[1] = (y) => j("size")),
           class: "col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 flex items-center justify-center border-l border-r"
         }, [
           zr,
           fe(X(le, {
-            direction: y.order == "asc" ? "down" : "up"
+            direction: S.order == "asc" ? "down" : "up"
           }, null, 8, ["direction"]), [
-            [ve, y.active && y.column == "size"]
+            [ve, S.active && S.column == "size"]
           ])
         ]),
         i("div", {
-          onClick: $[2] || ($[2] = (S) => V("timestamp")),
+          onClick: $[2] || ($[2] = (y) => j("timestamp")),
           class: "col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 flex items-center justify-center"
         }, [
           Kr,
           fe(X(le, {
-            direction: y.order == "asc" ? "down" : "up"
+            direction: S.order == "asc" ? "down" : "up"
           }, null, 8, ["direction"]), [
-            [ve, y.active && y.column == "timestamp"]
+            [ve, S.active && S.column == "timestamp"]
           ])
         ])
       ])) : U("", !0),
       i("div", {
         class: "h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1",
-        ref: (S) => s.value = S,
-        onContextmenu: $[3] || ($[3] = ae((S) => A(v).emit("vf-contextmenu-show", { event: S, area: s.value, items: H() }), ["self", "prevent"]))
+        ref: (y) => s.value = y,
+        onContextmenu: $[3] || ($[3] = ae((y) => A(v).emit("vf-contextmenu-show", { event: y, area: s.value, items: H() }), ["self", "prevent"]))
       }, [
-        b.view == "list" ? (k(!0), E(re, { key: 0 }, ce(j(), (S, O) => (k(), E("div", {
+        b.view == "list" ? (k(!0), E(re, { key: 0 }, ce(V(), (y, O) => (k(), E("div", {
           draggable: "true",
-          onDblclick: (I) => C(S),
-          onContextmenu: ae((I) => A(v).emit("vf-contextmenu-show", { event: I, area: s.value, items: H(), target: S }), ["prevent"]),
-          onDragstart: (I) => G(I, S),
-          onDragover: (I) => ne(I, S),
-          onDrop: (I) => L(I, S),
+          onDblclick: (I) => C(y),
+          onContextmenu: ae((I) => A(v).emit("vf-contextmenu-show", { event: I, area: s.value, items: H(), target: y }), ["prevent"]),
+          onDragstart: (I) => G(I, y),
+          onDragover: (I) => ne(I, y),
+          onDrop: (I) => L(I, y),
           class: "vf-item grid grid-cols-1 border hover:bg-neutral-50 border-transparent my-0.5 w-full select-none",
-          "data-type": S.type,
-          "data-item": JSON.stringify(S),
+          "data-type": y.type,
+          "data-item": JSON.stringify(y),
           "data-index": O
         }, [
           i("div", Or, [
             i("div", Br, [
-              S.type == "folder" ? (k(), E("svg", Rr, Fr)) : (k(), E("svg", Ur, Yr)),
-              i("span", Zr, F(S.basename), 1)
+              y.type == "folder" ? (k(), E("svg", Rr, Fr)) : (k(), E("svg", Ur, Yr)),
+              i("span", Zr, F(y.basename), 1)
             ]),
-            i("div", Xr, F(S.size ? A(kr)(S.size) : ""), 1),
-            i("div", Gr, F(A(Cr)(S.timestamp)), 1)
+            i("div", Xr, F(y.size ? A(kr)(y.size) : ""), 1),
+            i("div", Gr, F(A(Cr)(y.timestamp)), 1)
           ])
         ], 40, Nr))), 256)) : U("", !0),
-        b.view == "grid" ? (k(!0), E(re, { key: 1 }, ce(j(!1), (S, O) => (k(), E("div", {
+        b.view == "grid" ? (k(!0), E(re, { key: 1 }, ce(V(!1), (y, O) => (k(), E("div", {
           draggable: "true",
-          onDblclick: (I) => C(S),
-          onContextmenu: ae((I) => A(v).emit("vf-contextmenu-show", { event: I, area: s.value, items: H(), target: S }), ["prevent"]),
-          onDragstart: (I) => G(I, S),
-          onDragover: (I) => ne(I, S),
-          onDrop: (I) => L(I, S),
+          onDblclick: (I) => C(y),
+          onContextmenu: ae((I) => A(v).emit("vf-contextmenu-show", { event: I, area: s.value, items: H(), target: y }), ["prevent"]),
+          onDragstart: (I) => G(I, y),
+          onDragover: (I) => ne(I, y),
+          onDrop: (I) => L(I, y),
           class: "vf-item border border-transparent hover:bg-neutral-50 m-0.5 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none",
-          "data-type": S.type,
-          "data-item": JSON.stringify(S),
+          "data-type": y.type,
+          "data-item": JSON.stringify(y),
           "data-index": O
         }, [
           i("div", null, [
             i("div", qr, [
-              S.type == "folder" ? (k(), E("svg", Qr, tn)) : (k(), E("svg", rn, on)),
-              i("div", sn, F(m(S.extension)), 1)
+              y.type == "folder" ? (k(), E("svg", Qr, tn)) : (k(), E("svg", rn, on)),
+              i("div", sn, F(m(y.extension)), 1)
             ]),
-            i("span", an, F(h(S.basename)), 1)
+            i("span", an, F(h(y.basename)), 1)
           ])
         ], 40, Jr))), 256)) : U("", !0),
         i("div", ln, [
           i("div", {
-            ref: (S) => P.value = S,
+            ref: (y) => P.value = y,
             class: "absolute z-50"
           }, [
             cn,
@@ -1926,13 +1926,13 @@ const Dr = Ue.exports, kr = (b, g, v, m, h) => (g = Math, v = g.log, m = 1024, h
   setup(b) {
     const g = Re("emitter"), v = R(null), m = R(null), h = R([]);
     return g.on("vf-fetch-index", (s = null) => {
-      var j;
-      m.value = ".", v.value = (j = s == null ? void 0 : s.path) != null ? j : "";
-      let P = [], x = [], D = "^" + m.value.replace(/([^\w ])/, "\\$1") + "/?", C = new RegExp(D, "i"), y = v.value.replace(C, "");
-      y.length == 0 && (h.value = []), y.split("/").forEach(function(V) {
-        P.push(V), P.join("/") != "" && x.push({
-          basename: V,
-          name: V,
+      var V;
+      m.value = ".", v.value = (V = s == null ? void 0 : s.path) != null ? V : "";
+      let P = [], x = [], D = "^" + m.value.replace(/([^\w ])/, "\\$1") + "/?", C = new RegExp(D, "i"), S = v.value.replace(C, "");
+      S.length == 0 && (h.value = []), S.split("/").forEach(function(j) {
+        P.push(j), P.join("/") != "" && x.push({
+          basename: j,
+          name: j,
           path: P.join("/"),
           type: "folder"
         });
@@ -2362,17 +2362,17 @@ const Dr = Ue.exports, kr = (b, g, v, m, h) => (g = Math, v = g.log, m = 1024, h
     }, s = (x) => {
       g.emit("vf-contextmenu-hide"), console.log(x);
     };
-    g.on("vf-contextmenu-show", ({ event: x, area: D, items: C, target: y = null }) => {
-      m.items = [], y ? C.length ? (m.items.push(h.zip), m.items.push(h.delete), console.log(C.length + " olarak toplu se\xE7im.")) : (m.items.push(h.newfolder), m.items.push(h.preview), m.items.push(h.rename), m.items.push(h.zip), m.items.push(h.delete), console.log(y.type + " olarak se\xE7im..")) : (m.items.push(h.newfolder), console.log("bo\u015F klas\xF6r olarak se\xE7im")), P(x, D);
+    g.on("vf-contextmenu-show", ({ event: x, area: D, items: C, target: S = null }) => {
+      m.items = [], S ? C.length && C.some((V) => V.path === S.path) ? (m.items.push(h.zip), m.items.push(h.delete), console.log(C.length + " olarak toplu se\xE7im.")) : (m.items.push(h.newfolder), m.items.push(h.preview), m.items.push(h.rename), m.items.push(h.zip), m.items.push(h.delete), console.log(S.type + " olarak se\xE7im..")) : (m.items.push(h.newfolder), console.log("bo\u015F klas\xF6r olarak se\xE7im")), P(x, D);
     }), g.on("vf-contextmenu-hide", () => {
       m.active = !1;
     });
     const P = (x, D) => {
       m.active = !0, Fe(() => {
-        let C = D.getBoundingClientRect(), y = x.pageX - window.scrollX, j = x.pageY - window.scrollY, V = v.value.offsetHeight, H = v.value.offsetWidth;
-        y = C.right - x.pageX + window.scrollX < H ? y - H : y, j = C.bottom - x.pageY + window.scrollY < V ? j - V : j, m.positions = {
-          left: y + "px",
-          top: j + "px"
+        let C = D.getBoundingClientRect(), S = x.pageX - window.scrollX, V = x.pageY - window.scrollY, j = v.value.offsetHeight, H = v.value.offsetWidth;
+        S = C.right - x.pageX + window.scrollX < H ? S - H : S, V = C.bottom - x.pageY + window.scrollY < j ? V - j : V, m.positions = {
+          left: S + "px",
+          top: V + "px"
         };
       });
     };
@@ -2385,7 +2385,7 @@ const Dr = Ue.exports, kr = (b, g, v, m, h) => (g = Math, v = g.log, m = 1024, h
       (k(!0), E(re, null, ce(m.items, (C) => (k(), E("li", {
         class: "px-2 py-1.5 cursor-pointer hover:bg-neutral-200",
         key: C.title,
-        onClick: (y) => s(C)
+        onClick: (S) => s(C)
       }, [
         io,
         i("span", null, F(C.title), 1)

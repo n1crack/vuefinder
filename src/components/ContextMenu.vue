@@ -16,7 +16,8 @@ export default {
 
 <script setup>
 import {nextTick, reactive, ref} from 'vue';
-const emitter = inject('emitter')
+
+const emitter = inject('emitter');
 const contextmenu = ref(null);
 
 const context = reactive({
@@ -68,20 +69,20 @@ const run = (item) =>{
 
 emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
   context.items = [];
-  if (!target){
-    context.items.push(menuItems.newfolder)
-    console.log('boş klasör olarak seçim')
-  }else if (!items.length) {
-    context.items.push(menuItems.newfolder)
-    context.items.push(menuItems.preview)
-    context.items.push(menuItems.rename)
-    context.items.push(menuItems.zip)
-    context.items.push(menuItems.delete)
-    console.log(target.type + ' olarak seçim..')
+  if (!target) {
+    context.items.push(menuItems.newfolder);
+    console.log('boş klasör olarak seçim');
+  } else if (items.length && items.some(el => el.path === target.path)) {
+    context.items.push(menuItems.zip);
+    context.items.push(menuItems.delete);
+    console.log(items.length + ' olarak toplu seçim.');
   } else {
-    context.items.push(menuItems.zip)
-    context.items.push(menuItems.delete)
-    console.log(items.length + ' olarak toplu seçim.')
+    context.items.push(menuItems.newfolder);
+    context.items.push(menuItems.preview);
+    context.items.push(menuItems.rename);
+    context.items.push(menuItems.zip);
+    context.items.push(menuItems.delete);
+    console.log(target.type + ' olarak seçim..');
   }
   showContextMenu(event, area)
 })
@@ -89,7 +90,6 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
 emitter.on('vf-contextmenu-hide', () => {
   context.active = false;
 })
-
 
 const showContextMenu = (event, area) => {
   context.active = true;
@@ -100,8 +100,6 @@ const showContextMenu = (event, area) => {
     let top = event.pageY - window.scrollY;
     let menuHeight = contextmenu.value.offsetHeight;
     let menuWidth = contextmenu.value.offsetWidth;
-    // let menuHeight = contextmenu.value.offsetHeight + 18,
-    //      menuWidth = contextmenu.value.offsetWidth;
 
     left = container.right - event.pageX + window.scrollX < menuWidth ? left - menuWidth : left;
     top = container.bottom - event.pageY + window.scrollY < menuHeight ? top - menuHeight : top;
