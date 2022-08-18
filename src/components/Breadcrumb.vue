@@ -56,7 +56,7 @@ emitter.on('vf-fetch-index', (item = null) => {
             'basename': item,
             'name': item,
             'path': items.join('/'),
-            'type': 'folder'
+            'type': 'dir'
           });
         }
       });

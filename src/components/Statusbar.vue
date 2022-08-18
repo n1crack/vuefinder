@@ -6,10 +6,10 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
         </svg>
       </div>
-      <select class="text-cyan-700 font-bold inline-block rounded px-2" name="" id="">
-        <option value="">local</option>
-        <option value="">aws</option>
-        <option value="">digitalocean</option>
+      <select v-model="adapter" @change="handleStorageSelect" class="text-cyan-700 font-bold inline-block rounded px-2" name="" id="">
+        <option v-for="storage in data.storages" :value="storage">
+          {{ storage }}
+        </option>
       </select>
 
      <span class="ml-3"> 2 items selected.</span>
@@ -31,8 +31,25 @@ export default {
 </script>
 
 <script setup>
-import {inject} from 'vue';
+import {ref} from 'vue';
 
-const emitter = inject('emitter')
+const props = defineProps({
+  data: Object
+});
+
+const emitter = inject('emitter');
+const {store, setStore} = inject('storage');
+
+const adapter = ref(store.storage ?? props.data.adapter);
+
+console.log(store)
+
+
+
+
+const handleStorageSelect = () => {
+  emitter.emit('vf-adapter-changed', adapter.value);
+  setStore('storage', adapter.value)
+};
 </script>
 
