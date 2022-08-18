@@ -18,7 +18,8 @@
 
       <div draggable="true"
            v-if="view=='list'"
-           @dblclick="openItem(item)" @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+           @dblclick="openItem(item)"
+           @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
@@ -41,7 +42,8 @@
 
       <div draggable="true"
            v-if="view=='grid'"
-           @dblclick="openItem(item)" @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+           @dblclick="openItem(item)"
+           @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"

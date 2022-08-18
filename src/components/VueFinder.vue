@@ -17,10 +17,12 @@ export default {
 </script>
 
 <script setup>
-import {onMounted, ref} from 'vue';
-import ajax from '../utils/ajax.js'
+import {onMounted, provide, ref} from 'vue';
+import ajax from '../utils/ajax.js';
+import mitt from 'mitt';
 
-const emitter = inject('emitter')
+const emitter = mitt();
+provide('emitter', emitter);
 
 const items = ref({dirname: '.', files: []});
 
@@ -32,7 +34,6 @@ emitter.on('vf-view-toggle', (newView) => {
 })
 
 // Modal Management
-
 
 const modal = reactive({
   active: false,
