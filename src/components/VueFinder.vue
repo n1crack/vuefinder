@@ -1,8 +1,7 @@
 <template>
   <div :class="darkMode ? 'dark': ''">
-    <button @click="darkMode = !darkMode">Dark Toggle</button>
     <div
-        class="relative border rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-neutral-400 border-neutral-300 min-w-min select-none"
+        class="relative border rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
         @mousedown="emitter.emit('vf-contextmenu-hide')">
       <v-f-toolbar/>
       <v-f-breadcrumb :data="fetchData"/>
@@ -43,15 +42,20 @@ const props = defineProps({
     default: false
   }
 })
-const {getStore} = useStorage(props.id);
+const {setStore, getStore} = useStorage(props.id);
 provide('storage', useStorage(props.id));
 
 const fetchData = reactive({adapter:'local', storages: [], dirname: '.', files: []});
 
 // View Management
 const view = ref(getStore('viewport', 'grid'));
+const darkMode = ref(getStore('darkMode', props.dark));
 
-const darkMode = ref(props.dark)
+emitter.on('vf-darkMode-toggle', () => {
+  darkMode.value = !darkMode.value;
+  setStore('darkMode', darkMode.value)
+})
+
 
 emitter.on('vf-view-toggle', (newView) => {
   view.value = newView;
