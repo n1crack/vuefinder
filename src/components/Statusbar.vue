@@ -43,13 +43,12 @@ const selectedItemCount = ref(0);
 const adapter = ref(getStore('adapter') ?? props.data.adapter);
 
 const handleStorageSelect = () => {
-  emitter.emit('vf-adapter-changed', adapter.value);
+  emitter.emit('vf-fetch-index', {adapter: adapter.value});
   setStore('adapter', adapter.value)
 };
 
 emitter.on('vf-nodes-selected', (items) => {
   selectedItemCount.value = items.length;
-
 })
 </script>
 

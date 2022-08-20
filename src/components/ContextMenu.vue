@@ -33,7 +33,7 @@ const menuItems = {
   newfolder: {
     title: 'New Folder',
     action: () => {
-      console.log('test');
+      emitter.emit('vf-modal-show', {type:'new-folder'});
     },
   },
   delete: {
@@ -65,6 +65,7 @@ const menuItems = {
 const run = (item) =>{
   emitter.emit('vf-contextmenu-hide');
   console.log(item)
+  item.action();
 };
 
 emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
@@ -77,7 +78,6 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     context.items.push(menuItems.delete);
     console.log(items.length + ' selected (more than 1 item.)');
   } else {
-    context.items.push(menuItems.newfolder);
     context.items.push(menuItems.preview);
     context.items.push(menuItems.rename);
     context.items.push(menuItems.zip);

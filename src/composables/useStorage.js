@@ -26,7 +26,7 @@ export function useStorage(key) {
 
     const getStore = (key, defaultValue= null )  => {
         if (storage.value === null || storage.value === '') {
-            return null;
+            return defaultValue;
         }
         if (storage.value.hasOwnProperty(key)) {
             return storage.value[key]

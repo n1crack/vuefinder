@@ -77,6 +77,7 @@ emitter.on('vf-modal-show', (item) => {
 
 const updateItems = (data) => {
   Object.assign(fetchData, data)
+  emitter.emit('vf-nodes-selected', {});
   emitter.emit('vf-explorer-update', data)
 }
 
@@ -92,23 +93,8 @@ emitter.on('vf-fetch-index', ({adapter, item = null}) => {
       });
 });
 
-
-emitter.on('vf-adapter-changed', (adapter) => {
-  ajax(props.url, 'get', {
-    q: 'index',
-    adapter,
-    path: ''
-  })
-      .then(response => response.json())
-      .then(data => {
-        // console.log('adapter-changed', adapter)
-        updateItems(data);
-      });
-});
-
-
 onMounted(() => {
-  emitter.emit('vf-fetch-index', {adapter: getStore('adapter') ?? fetchData.adapter })
+  emitter.emit('vf-fetch-index', {adapter: (getStore('adapter', fetchData.adapter)) })
 });
 
 </script>
