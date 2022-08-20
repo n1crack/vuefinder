@@ -24,14 +24,14 @@ export function useStorage(key) {
        storage.value = null
     }
 
-    const getStore = (key) => {
+    const getStore = (key, defaultValue= null )  => {
         if (storage.value === null || storage.value === '') {
             return null;
         }
         if (storage.value.hasOwnProperty(key)) {
             return storage.value[key]
         }
-        return null;
+        return defaultValue;
     }
 
     return {getStore, setStore, clearStore};

@@ -62,9 +62,13 @@ import {ref} from 'vue';
 
 const emitter = inject('emitter')
 
-const view = ref('grid')
+const {getStore, setStore} = inject('storage')
+
+const view = ref(getStore('viewport', 'grid'));
+
 
 emitter.on('vf-view-toggle', (newView) => {
+  setStore('viewport', newView)
   view.value = newView;
 })
 </script>

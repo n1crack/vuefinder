@@ -49,7 +49,7 @@ provide('storage', useStorage(props.id));
 const fetchData = reactive({adapter:'local', storages: [], dirname: '.', files: []});
 
 // View Management
-const view = ref('grid');
+const view = ref(getStore('viewport', 'grid'));
 
 const darkMode = ref(props.dark)
 

@@ -1,36 +1,36 @@
-(function(){"use strict";try{var t=document.createElement("style");t.appendChild(document.createTextNode('*,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji"}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit]{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.vf-explorer-selected{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(212 212 212 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(245 245 245 / var(--tw-bg-opacity))!important}.dark .vf-explorer-selected{border-color:rgb(17 24 39 / var(--tw-border-opacity))!important;--tw-border-opacity: 1 !important;border-color:rgb(30 41 59 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(55 65 81 / var(--tw-bg-opacity))!important}.vf-explorer-selector{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(100 116 139 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(203 213 225 / var(--tw-bg-opacity))!important;opacity:.5!important}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{top:0px;right:0px;bottom:0px;left:0px}.top-1\\/2{top:50%}.top-\\[-200px\\]{top:-200px}.left-\\[-200px\\]{left:-200px}.top-4{top:1rem}.right-\\[-2rem\\]{right:-2rem}.z-50{z-index:50}.z-10{z-index:10}.z-20{z-index:20}.col-span-7{grid-column:span 7 / span 7}.col-span-2{grid-column:span 2 / span 2}.col-span-3{grid-column:span 3 / span 3}.m-0\\.5{margin:.125rem}.m-0{margin:0}.m-auto{margin:auto}.mx-0\\.5{margin-left:.125rem;margin-right:.125rem}.mx-0{margin-left:0;margin-right:0}.my-0\\.5{margin-top:.125rem;margin-bottom:.125rem}.my-0{margin-top:0;margin-bottom:0}.mx-2{margin-left:.5rem;margin-right:.5rem}.mx-1\\.5{margin-left:.375rem;margin-right:.375rem}.mx-1{margin-left:.25rem;margin-right:.25rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-2{margin-left:.5rem}.ml-3{margin-left:.75rem}.mt-3{margin-top:.75rem}.mt-2{margin-top:.5rem}.inline-block{display:inline-block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-6{height:1.5rem}.h-full{height:100%}.h-5{height:1.25rem}.h-20{height:5rem}.h-10{height:2.5rem}.h-12{height:3rem}.min-h-\\[150px\\]{min-height:150px}.min-h-full{min-height:100%}.w-6{width:1.5rem}.w-full{width:100%}.w-5{width:1.25rem}.w-\\[5\\.5rem\\]{width:5.5rem}.w-10{width:2.5rem}.w-12{width:3rem}.min-w-min{min-width:-webkit-min-content;min-width:-moz-min-content;min-width:min-content}.flex-shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.resize-y{resize:vertical}.grid-cols-12{grid-template-columns:repeat(12,minmax(0,1fr))}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.overflow-ellipsis{text-overflow:ellipsis}.whitespace-nowrap{white-space:nowrap}.break-all{word-break:break-all}.rounded{border-radius:.25rem}.rounded-md{border-radius:.375rem}.rounded-lg{border-radius:.5rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-t{border-top-width:1px}.border-b{border-bottom-width:1px}.border-l{border-left-width:1px}.border-r{border-right-width:1px}.border-neutral-300{--tw-border-opacity: 1;border-color:rgb(212 212 212 / var(--tw-border-opacity))}.border-transparent{border-color:transparent}.border-gray-300{--tw-border-opacity: 1;border-color:rgb(209 213 219 / var(--tw-border-opacity))}.border-b-neutral-300{--tw-border-opacity: 1;border-bottom-color:rgb(212 212 212 / var(--tw-border-opacity))}.bg-neutral-100{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity: 1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-neutral-50{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.bg-gray-500{--tw-bg-opacity: 1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.bg-gray-50{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.bg-red-100{--tw-bg-opacity: 1;background-color:rgb(254 226 226 / var(--tw-bg-opacity))}.bg-red-600{--tw-bg-opacity: 1;background-color:rgb(220 38 38 / var(--tw-bg-opacity))}.bg-blue-50{--tw-bg-opacity: 1;background-color:rgb(239 246 255 / var(--tw-bg-opacity))}.bg-opacity-75{--tw-bg-opacity: .75}.fill-sky-500{fill:#0ea5e9}.stroke-cyan-700{stroke:#0e7490}.stroke-slate-500{stroke:#64748b}.p-1\\.5{padding:.375rem}.p-1{padding:.25rem}.p-0\\.5{padding:.125rem}.p-0{padding:0}.p-4{padding:1rem}.px-1\\.5{padding-left:.375rem;padding-right:.375rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-2{padding-left:.5rem;padding-right:.5rem}.py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}.px-4{padding-left:1rem;padding-right:1rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.pl-1{padding-left:.25rem}.pt-5{padding-top:1.25rem}.pb-4{padding-bottom:1rem}.pr-3{padding-right:.75rem}.pl-2{padding-left:.5rem}.pr-5{padding-right:1.25rem}.pr-8{padding-right:2rem}.pr-10{padding-right:2.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-base{font-size:1rem;line-height:1.5rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.leading-5{line-height:1.25rem}.leading-6{line-height:1.5rem}.text-slate-700{--tw-text-opacity: 1;color:rgb(51 65 85 / var(--tw-text-opacity))}.text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.text-sky-500{--tw-text-opacity: 1;color:rgb(14 165 233 / var(--tw-text-opacity))}.text-neutral-700{--tw-text-opacity: 1;color:rgb(64 64 64 / var(--tw-text-opacity))}.text-cyan-700{--tw-text-opacity: 1;color:rgb(14 116 144 / var(--tw-text-opacity))}.text-gray-800{--tw-text-opacity: 1;color:rgb(31 41 55 / var(--tw-text-opacity))}.text-red-600{--tw-text-opacity: 1;color:rgb(220 38 38 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity: 1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-blue-600{--tw-text-opacity: 1;color:rgb(37 99 235 / var(--tw-text-opacity))}.text-slate-500{--tw-text-opacity: 1;color:rgb(100 116 139 / var(--tw-text-opacity))}.shadow{--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-xl{--tw-shadow: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);--tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-sm{--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.hover\\:bg-neutral-300:hover{--tw-bg-opacity: 1;background-color:rgb(212 212 212 / var(--tw-bg-opacity))}.hover\\:bg-neutral-100:hover{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.hover\\:bg-neutral-200:hover{--tw-bg-opacity: 1;background-color:rgb(229 229 229 / var(--tw-bg-opacity))}.hover\\:bg-neutral-50:hover{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.hover\\:bg-red-700:hover{--tw-bg-opacity: 1;background-color:rgb(185 28 28 / var(--tw-bg-opacity))}.hover\\:bg-gray-50:hover{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.hover\\:text-cyan-700:hover{--tw-text-opacity: 1;color:rgb(14 116 144 / var(--tw-text-opacity))}.focus\\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\\:ring-2:focus{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}.focus\\:ring-red-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity))}.focus\\:ring-indigo-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity))}.focus\\:ring-offset-2:focus{--tw-ring-offset-width: 2px}.dark .dark\\:border-gray-900{--tw-border-opacity: 1;border-color:rgb(17 24 39 / var(--tw-border-opacity))}.dark .dark\\:border-gray-800{--tw-border-opacity: 1;border-color:rgb(31 41 55 / var(--tw-border-opacity))}.dark .dark\\:border-gray-700{--tw-border-opacity: 1;border-color:rgb(55 65 81 / var(--tw-border-opacity))}.dark .dark\\:bg-gray-800{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:bg-gray-700{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:stroke-cyan-100{stroke:#cffafe}.dark .dark\\:text-neutral-200{--tw-text-opacity: 1;color:rgb(229 229 229 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-50{--tw-text-opacity: 1;color:rgb(250 250 250 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-400{--tw-text-opacity: 1;color:rgb(163 163 163 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-800{--tw-text-opacity: 1;color:rgb(38 38 38 / var(--tw-text-opacity))}.dark .dark\\:text-slate-200{--tw-text-opacity: 1;color:rgb(226 232 240 / var(--tw-text-opacity))}.dark .dark\\:text-cyan-200{--tw-text-opacity: 1;color:rgb(165 243 252 / var(--tw-text-opacity))}.dark .dark\\:text-cyan-100{--tw-text-opacity: 1;color:rgb(207 250 254 / var(--tw-text-opacity))}.dark .dark\\:hover\\:bg-gray-800:hover{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:bg-gray-700:hover{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:bg-slate-600:hover{--tw-bg-opacity: 1;background-color:rgb(71 85 105 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:text-neutral-50:hover{--tw-text-opacity: 1;color:rgb(250 250 250 / var(--tw-text-opacity))}@media (min-width: 640px){.sm\\:my-8{margin-top:2rem;margin-bottom:2rem}.sm\\:mx-0{margin-left:0;margin-right:0}.sm\\:mt-0{margin-top:0}.sm\\:ml-4{margin-left:1rem}.sm\\:ml-3{margin-left:.75rem}.sm\\:flex{display:flex}.sm\\:h-10{height:2.5rem}.sm\\:w-full{width:100%}.sm\\:w-10{width:2.5rem}.sm\\:w-auto{width:auto}.sm\\:max-w-lg{max-width:32rem}.sm\\:flex-row-reverse{flex-direction:row-reverse}.sm\\:items-start{align-items:flex-start}.sm\\:items-center{align-items:center}.sm\\:p-0{padding:0}.sm\\:p-6{padding:1.5rem}.sm\\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\\:pb-4{padding-bottom:1rem}.sm\\:text-left{text-align:left}.sm\\:text-sm{font-size:.875rem;line-height:1.25rem}}@media (min-width: 768px){.md\\:top-5{top:1.25rem}.md\\:right-\\[-2\\.4rem\\]{right:-2.4rem}.md\\:block{display:block}.md\\:h-24{height:6rem}.md\\:h-12{height:3rem}.md\\:h-8{height:2rem}.md\\:w-24{width:6rem}.md\\:w-12{width:3rem}.md\\:w-8{width:2rem}}[aria-label][role~=tooltip]{position:relative}[aria-label][role~=tooltip]:before,[aria-label][role~=tooltip]:after{transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;opacity:0;pointer-events:none;transition:all var(--microtip-transition-duration, .18s) var(--microtip-transition-easing, ease-in-out) var(--microtip-transition-delay, 0s);position:absolute;box-sizing:border-box;z-index:10;transform-origin:top}[aria-label][role~=tooltip]:before{background-size:100% auto!important;content:""}[aria-label][role~=tooltip]:after{background:rgba(17,17,17,.9);border-radius:4px;color:#fff;content:attr(aria-label);font-size:var(--microtip-font-size, 13px);font-weight:var(--microtip-font-weight, normal);text-transform:var(--microtip-text-transform, none);padding:.5em 1em;white-space:nowrap;box-sizing:content-box}[aria-label][role~=tooltip]:hover:before,[aria-label][role~=tooltip]:hover:after,[aria-label][role~=tooltip]:focus:before,[aria-label][role~=tooltip]:focus:after{opacity:1;pointer-events:auto}[role~=tooltip][data-microtip-position|=top]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-bottom:5px}[role~=tooltip][data-microtip-position|=top]:after{margin-bottom:11px}[role~=tooltip][data-microtip-position|=top]:before{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position|=top]:hover:before{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position|=top]:after{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position=top]:hover:after{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position=top-left]:after{transform:translate3d(calc(-100% + 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-left]:hover:after{transform:translate3d(calc(-100% + 16px),-5px,0)}[role~=tooltip][data-microtip-position=top-right]:after{transform:translate3d(calc(0% - 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-right]:hover:after{transform:translate3d(calc(0% - 16px),-5px,0)}[role~=tooltip][data-microtip-position|=bottom]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-top:5px;margin-bottom:0}[role~=tooltip][data-microtip-position|=bottom]:after{margin-top:11px}[role~=tooltip][data-microtip-position|=bottom]:before{transform:translate3d(-50%,-10px,0);bottom:auto;left:50%;top:100%}[role~=tooltip][data-microtip-position|=bottom]:hover:before{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position|=bottom]:after{transform:translate3d(-50%,-10px,0);top:100%;left:50%}[role~=tooltip][data-microtip-position=bottom]:hover:after{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position=bottom-left]:after{transform:translate3d(calc(-100% + 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-left]:hover:after{transform:translate3d(calc(-100% + 16px),0,0)}[role~=tooltip][data-microtip-position=bottom-right]:after{transform:translate3d(calc(0% - 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-right]:hover:after{transform:translate3d(calc(0% - 16px),0,0)}[role~=tooltip][data-microtip-position=left]:before,[role~=tooltip][data-microtip-position=left]:after{bottom:auto;left:auto;right:100%;top:50%;transform:translate3d(10px,-50%,0)}[role~=tooltip][data-microtip-position=left]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28-90%2018%2018%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-right:5px;margin-bottom:0}[role~=tooltip][data-microtip-position=left]:after{margin-right:11px}[role~=tooltip][data-microtip-position=left]:hover:before,[role~=tooltip][data-microtip-position=left]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-position=right]:before,[role~=tooltip][data-microtip-position=right]:after{bottom:auto;left:100%;top:50%;transform:translate3d(-10px,-50%,0)}[role~=tooltip][data-microtip-position=right]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%2890%206%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-bottom:0;margin-left:5px}[role~=tooltip][data-microtip-position=right]:after{margin-left:11px}[role~=tooltip][data-microtip-position=right]:hover:before,[role~=tooltip][data-microtip-position=right]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-size=small]:after{white-space:initial;width:80px}[role~=tooltip][data-microtip-size=medium]:after{white-space:initial;width:150px}[role~=tooltip][data-microtip-size=large]:after{white-space:initial;width:260px}')),document.head.appendChild(t)}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
-import { ref as z, watch as We, provide as Re, reactive as ue, onMounted as be, resolveComponent as H, openBlock as k, createElementBlock as $, normalizeClass as Ye, createElementVNode as i, unref as A, createVNode as J, createBlock as G, resolveDynamicComponent as Yt, createCommentVNode as W, withDirectives as ae, Fragment as ne, renderList as oe, toDisplayString as R, vModelSelect as Zt, vShow as ve, withModifiers as le, createTextVNode as Se, nextTick as Ze, withKeys as Xt, renderSlot as He, withCtx as K, normalizeStyle as Jt } from "vue";
-const Fe = (y, v = "get", d = {}) => v == "get" ? fetch(y + "?" + new URLSearchParams(d), { method: v }) : fetch(y, { method: v, body: d });
-function Gt(y) {
-  return { all: y = y || /* @__PURE__ */ new Map(), on: function(v, d) {
-    var m = y.get(v);
-    m ? m.push(d) : y.set(v, [d]);
+(function(){"use strict";try{var t=document.createElement("style");t.appendChild(document.createTextNode('*,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji"}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit]{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.vf-explorer-selected{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(212 212 212 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(245 245 245 / var(--tw-bg-opacity))!important}.dark .vf-explorer-selected{border-color:rgb(17 24 39 / var(--tw-border-opacity))!important;--tw-border-opacity: 1 !important;border-color:rgb(30 41 59 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(55 65 81 / var(--tw-bg-opacity))!important}.vf-explorer-selector{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(100 116 139 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(203 213 225 / var(--tw-bg-opacity))!important;opacity:.5!important}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{top:0px;right:0px;bottom:0px;left:0px}.top-1\\/2{top:50%}.top-\\[-200px\\]{top:-200px}.left-\\[-200px\\]{left:-200px}.top-4{top:1rem}.right-\\[-2rem\\]{right:-2rem}.z-50{z-index:50}.z-10{z-index:10}.z-20{z-index:20}.col-span-7{grid-column:span 7 / span 7}.col-span-2{grid-column:span 2 / span 2}.col-span-3{grid-column:span 3 / span 3}.m-0\\.5{margin:.125rem}.m-0{margin:0}.m-auto{margin:auto}.mx-0\\.5{margin-left:.125rem;margin-right:.125rem}.mx-0{margin-left:0;margin-right:0}.my-0\\.5{margin-top:.125rem;margin-bottom:.125rem}.my-0{margin-top:0;margin-bottom:0}.mx-2{margin-left:.5rem;margin-right:.5rem}.mx-1\\.5{margin-left:.375rem;margin-right:.375rem}.mx-1{margin-left:.25rem;margin-right:.25rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-2{margin-left:.5rem}.ml-3{margin-left:.75rem}.mt-3{margin-top:.75rem}.mt-2{margin-top:.5rem}.inline-block{display:inline-block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-6{height:1.5rem}.h-full{height:100%}.h-5{height:1.25rem}.h-20{height:5rem}.h-10{height:2.5rem}.h-12{height:3rem}.min-h-\\[150px\\]{min-height:150px}.min-h-full{min-height:100%}.w-6{width:1.5rem}.w-full{width:100%}.w-5{width:1.25rem}.w-\\[5\\.5rem\\]{width:5.5rem}.w-10{width:2.5rem}.w-12{width:3rem}.min-w-min{min-width:-webkit-min-content;min-width:-moz-min-content;min-width:min-content}.flex-shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.resize-y{resize:vertical}.grid-cols-12{grid-template-columns:repeat(12,minmax(0,1fr))}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.overflow-ellipsis{text-overflow:ellipsis}.whitespace-nowrap{white-space:nowrap}.break-all{word-break:break-all}.rounded{border-radius:.25rem}.rounded-md{border-radius:.375rem}.rounded-lg{border-radius:.5rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-t{border-top-width:1px}.border-b{border-bottom-width:1px}.border-l{border-left-width:1px}.border-r{border-right-width:1px}.border-neutral-300{--tw-border-opacity: 1;border-color:rgb(212 212 212 / var(--tw-border-opacity))}.border-transparent{border-color:transparent}.border-gray-300{--tw-border-opacity: 1;border-color:rgb(209 213 219 / var(--tw-border-opacity))}.border-b-neutral-300{--tw-border-opacity: 1;border-bottom-color:rgb(212 212 212 / var(--tw-border-opacity))}.bg-neutral-100{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity: 1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-neutral-50{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.bg-gray-500{--tw-bg-opacity: 1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.bg-gray-50{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.bg-red-100{--tw-bg-opacity: 1;background-color:rgb(254 226 226 / var(--tw-bg-opacity))}.bg-red-600{--tw-bg-opacity: 1;background-color:rgb(220 38 38 / var(--tw-bg-opacity))}.bg-blue-50{--tw-bg-opacity: 1;background-color:rgb(239 246 255 / var(--tw-bg-opacity))}.bg-opacity-75{--tw-bg-opacity: .75}.fill-sky-500{fill:#0ea5e9}.fill-slate-500{fill:#64748b}.stroke-cyan-700{stroke:#0e7490}.stroke-slate-500{stroke:#64748b}.stroke-sky-500{stroke:#0ea5e9}.p-1\\.5{padding:.375rem}.p-1{padding:.25rem}.p-0\\.5{padding:.125rem}.p-0{padding:0}.p-4{padding:1rem}.px-1\\.5{padding-left:.375rem;padding-right:.375rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-2{padding-left:.5rem;padding-right:.5rem}.py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}.px-4{padding-left:1rem;padding-right:1rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.pl-1{padding-left:.25rem}.pt-5{padding-top:1.25rem}.pb-4{padding-bottom:1rem}.pr-3{padding-right:.75rem}.pl-2{padding-left:.5rem}.pr-5{padding-right:1.25rem}.pr-8{padding-right:2rem}.pr-10{padding-right:2.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-base{font-size:1rem;line-height:1.5rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.leading-5{line-height:1.25rem}.leading-6{line-height:1.5rem}.text-slate-700{--tw-text-opacity: 1;color:rgb(51 65 85 / var(--tw-text-opacity))}.text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.text-sky-500{--tw-text-opacity: 1;color:rgb(14 165 233 / var(--tw-text-opacity))}.text-neutral-700{--tw-text-opacity: 1;color:rgb(64 64 64 / var(--tw-text-opacity))}.text-cyan-700{--tw-text-opacity: 1;color:rgb(14 116 144 / var(--tw-text-opacity))}.text-gray-800{--tw-text-opacity: 1;color:rgb(31 41 55 / var(--tw-text-opacity))}.text-red-600{--tw-text-opacity: 1;color:rgb(220 38 38 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity: 1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-blue-600{--tw-text-opacity: 1;color:rgb(37 99 235 / var(--tw-text-opacity))}.text-slate-500{--tw-text-opacity: 1;color:rgb(100 116 139 / var(--tw-text-opacity))}.shadow{--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-xl{--tw-shadow: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);--tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-sm{--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.hover\\:bg-neutral-300:hover{--tw-bg-opacity: 1;background-color:rgb(212 212 212 / var(--tw-bg-opacity))}.hover\\:bg-neutral-100:hover{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.hover\\:bg-neutral-200:hover{--tw-bg-opacity: 1;background-color:rgb(229 229 229 / var(--tw-bg-opacity))}.hover\\:bg-neutral-50:hover{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.hover\\:bg-red-700:hover{--tw-bg-opacity: 1;background-color:rgb(185 28 28 / var(--tw-bg-opacity))}.hover\\:bg-gray-50:hover{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.hover\\:text-cyan-700:hover{--tw-text-opacity: 1;color:rgb(14 116 144 / var(--tw-text-opacity))}.focus\\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\\:ring-2:focus{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}.focus\\:ring-red-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity))}.focus\\:ring-indigo-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity))}.focus\\:ring-offset-2:focus{--tw-ring-offset-width: 2px}.dark .dark\\:border-gray-900{--tw-border-opacity: 1;border-color:rgb(17 24 39 / var(--tw-border-opacity))}.dark .dark\\:border-gray-800{--tw-border-opacity: 1;border-color:rgb(31 41 55 / var(--tw-border-opacity))}.dark .dark\\:border-gray-700{--tw-border-opacity: 1;border-color:rgb(55 65 81 / var(--tw-border-opacity))}.dark .dark\\:bg-gray-800{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:bg-gray-700{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:fill-slate-500{fill:#64748b}.dark .dark\\:stroke-cyan-100{stroke:#cffafe}.dark .dark\\:stroke-slate-500{stroke:#64748b}.dark .dark\\:text-neutral-200{--tw-text-opacity: 1;color:rgb(229 229 229 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-50{--tw-text-opacity: 1;color:rgb(250 250 250 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-400{--tw-text-opacity: 1;color:rgb(163 163 163 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-800{--tw-text-opacity: 1;color:rgb(38 38 38 / var(--tw-text-opacity))}.dark .dark\\:text-slate-200{--tw-text-opacity: 1;color:rgb(226 232 240 / var(--tw-text-opacity))}.dark .dark\\:text-cyan-200{--tw-text-opacity: 1;color:rgb(165 243 252 / var(--tw-text-opacity))}.dark .dark\\:text-cyan-100{--tw-text-opacity: 1;color:rgb(207 250 254 / var(--tw-text-opacity))}.dark .dark\\:hover\\:bg-gray-800:hover{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:bg-gray-700:hover{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:bg-slate-600:hover{--tw-bg-opacity: 1;background-color:rgb(71 85 105 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:text-neutral-50:hover{--tw-text-opacity: 1;color:rgb(250 250 250 / var(--tw-text-opacity))}@media (min-width: 640px){.sm\\:my-8{margin-top:2rem;margin-bottom:2rem}.sm\\:mx-0{margin-left:0;margin-right:0}.sm\\:mt-0{margin-top:0}.sm\\:ml-4{margin-left:1rem}.sm\\:ml-3{margin-left:.75rem}.sm\\:flex{display:flex}.sm\\:h-10{height:2.5rem}.sm\\:w-full{width:100%}.sm\\:w-10{width:2.5rem}.sm\\:w-auto{width:auto}.sm\\:max-w-lg{max-width:32rem}.sm\\:flex-row-reverse{flex-direction:row-reverse}.sm\\:items-start{align-items:flex-start}.sm\\:items-center{align-items:center}.sm\\:p-0{padding:0}.sm\\:p-6{padding:1.5rem}.sm\\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\\:pb-4{padding-bottom:1rem}.sm\\:text-left{text-align:left}.sm\\:text-sm{font-size:.875rem;line-height:1.25rem}}@media (min-width: 768px){.md\\:top-5{top:1.25rem}.md\\:right-\\[-2\\.4rem\\]{right:-2.4rem}.md\\:block{display:block}.md\\:h-24{height:6rem}.md\\:h-12{height:3rem}.md\\:h-8{height:2rem}.md\\:w-24{width:6rem}.md\\:w-12{width:3rem}.md\\:w-8{width:2rem}}[aria-label][role~=tooltip]{position:relative}[aria-label][role~=tooltip]:before,[aria-label][role~=tooltip]:after{transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;opacity:0;pointer-events:none;transition:all var(--microtip-transition-duration, .18s) var(--microtip-transition-easing, ease-in-out) var(--microtip-transition-delay, 0s);position:absolute;box-sizing:border-box;z-index:10;transform-origin:top}[aria-label][role~=tooltip]:before{background-size:100% auto!important;content:""}[aria-label][role~=tooltip]:after{background:rgba(17,17,17,.9);border-radius:4px;color:#fff;content:attr(aria-label);font-size:var(--microtip-font-size, 13px);font-weight:var(--microtip-font-weight, normal);text-transform:var(--microtip-text-transform, none);padding:.5em 1em;white-space:nowrap;box-sizing:content-box}[aria-label][role~=tooltip]:hover:before,[aria-label][role~=tooltip]:hover:after,[aria-label][role~=tooltip]:focus:before,[aria-label][role~=tooltip]:focus:after{opacity:1;pointer-events:auto}[role~=tooltip][data-microtip-position|=top]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-bottom:5px}[role~=tooltip][data-microtip-position|=top]:after{margin-bottom:11px}[role~=tooltip][data-microtip-position|=top]:before{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position|=top]:hover:before{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position|=top]:after{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position=top]:hover:after{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position=top-left]:after{transform:translate3d(calc(-100% + 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-left]:hover:after{transform:translate3d(calc(-100% + 16px),-5px,0)}[role~=tooltip][data-microtip-position=top-right]:after{transform:translate3d(calc(0% - 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-right]:hover:after{transform:translate3d(calc(0% - 16px),-5px,0)}[role~=tooltip][data-microtip-position|=bottom]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-top:5px;margin-bottom:0}[role~=tooltip][data-microtip-position|=bottom]:after{margin-top:11px}[role~=tooltip][data-microtip-position|=bottom]:before{transform:translate3d(-50%,-10px,0);bottom:auto;left:50%;top:100%}[role~=tooltip][data-microtip-position|=bottom]:hover:before{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position|=bottom]:after{transform:translate3d(-50%,-10px,0);top:100%;left:50%}[role~=tooltip][data-microtip-position=bottom]:hover:after{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position=bottom-left]:after{transform:translate3d(calc(-100% + 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-left]:hover:after{transform:translate3d(calc(-100% + 16px),0,0)}[role~=tooltip][data-microtip-position=bottom-right]:after{transform:translate3d(calc(0% - 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-right]:hover:after{transform:translate3d(calc(0% - 16px),0,0)}[role~=tooltip][data-microtip-position=left]:before,[role~=tooltip][data-microtip-position=left]:after{bottom:auto;left:auto;right:100%;top:50%;transform:translate3d(10px,-50%,0)}[role~=tooltip][data-microtip-position=left]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28-90%2018%2018%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-right:5px;margin-bottom:0}[role~=tooltip][data-microtip-position=left]:after{margin-right:11px}[role~=tooltip][data-microtip-position=left]:hover:before,[role~=tooltip][data-microtip-position=left]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-position=right]:before,[role~=tooltip][data-microtip-position=right]:after{bottom:auto;left:100%;top:50%;transform:translate3d(-10px,-50%,0)}[role~=tooltip][data-microtip-position=right]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%2890%206%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-bottom:0;margin-left:5px}[role~=tooltip][data-microtip-position=right]:after{margin-left:11px}[role~=tooltip][data-microtip-position=right]:hover:before,[role~=tooltip][data-microtip-position=right]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-size=small]:after{white-space:initial;width:80px}[role~=tooltip][data-microtip-size=medium]:after{white-space:initial;width:150px}[role~=tooltip][data-microtip-size=large]:after{white-space:initial;width:260px}')),document.head.appendChild(t)}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
+import { ref as z, watch as We, provide as Re, reactive as ue, onMounted as be, resolveComponent as F, openBlock as P, createElementBlock as E, normalizeClass as Ye, createElementVNode as i, unref as I, createVNode as J, createBlock as G, resolveDynamicComponent as Yt, createCommentVNode as W, withDirectives as ae, Fragment as ne, renderList as oe, toDisplayString as K, vModelSelect as Zt, vShow as ve, withModifiers as le, createTextVNode as Se, nextTick as Ze, withKeys as Xt, renderSlot as He, withCtx as B, normalizeStyle as Jt } from "vue";
+const Fe = (S, v = "get", d = {}) => v == "get" ? fetch(S + "?" + new URLSearchParams(d), { method: v }) : fetch(S, { method: v, body: d });
+function Gt(S) {
+  return { all: S = S || /* @__PURE__ */ new Map(), on: function(v, d) {
+    var f = S.get(v);
+    f ? f.push(d) : S.set(v, [d]);
   }, off: function(v, d) {
-    var m = y.get(v);
-    m && (d ? m.splice(m.indexOf(d) >>> 0, 1) : y.set(v, []));
+    var f = S.get(v);
+    f && (d ? f.splice(f.indexOf(d) >>> 0, 1) : S.set(v, []));
   }, emit: function(v, d) {
-    var m = y.get(v);
-    m && m.slice().map(function(f) {
-      f(d);
-    }), (m = y.get("*")) && m.slice().map(function(f) {
-      f(v, d);
+    var f = S.get(v);
+    f && f.slice().map(function(g) {
+      g(d);
+    }), (f = S.get("*")) && f.slice().map(function(g) {
+      g(v, d);
     });
   } };
 }
-function Ue(y) {
-  let v = localStorage.getItem(y + "_storage");
+function Ue(S) {
+  let v = localStorage.getItem(S + "_storage");
   const d = z(JSON.parse(v));
-  We(d, m);
-  function m() {
-    d.value === null || d.value === "" ? localStorage.removeItem(y + "_storage") : localStorage.setItem(y + "_storage", JSON.stringify(d.value));
+  We(d, f);
+  function f() {
+    d.value === null || d.value === "" ? localStorage.removeItem(S + "_storage") : localStorage.setItem(S + "_storage", JSON.stringify(d.value));
   }
-  function f(_, C) {
-    d.value = Object.assign({ ...d.value }, { [_]: C });
+  function g(_, k) {
+    d.value = Object.assign({ ...d.value }, { [_]: k });
   }
   function s() {
     d.value = null;
   }
-  return { getStore: (_) => d.value === null || d.value === "" ? null : d.value.hasOwnProperty(_) ? d.value[_] : null, setStore: f, clearStore: s };
+  return { getStore: (_, k = null) => d.value === null || d.value === "" ? null : d.value.hasOwnProperty(_) ? d.value[_] : k, setStore: g, clearStore: s };
 }
 const qt = {
   name: "VueFinder"
@@ -48,14 +48,14 @@ const qt = {
       default: !1
     }
   },
-  setup(y) {
-    const v = y, d = Gt();
+  setup(S) {
+    const v = S, d = Gt();
     Re("emitter", d);
-    const { getStore: m } = Ue(v.id);
+    const { getStore: f } = Ue(v.id);
     Re("storage", Ue(v.id));
-    const f = ue({ adapter: "local", storages: [], dirname: ".", files: [] }), s = z("grid"), E = z(v.dark);
-    d.on("vf-view-toggle", (S) => {
-      s.value = S;
+    const g = ue({ adapter: "local", storages: [], dirname: ".", files: [] }), s = z(f("viewport", "grid")), w = z(v.dark);
+    d.on("vf-view-toggle", (y) => {
+      s.value = y;
     });
     const _ = ue({
       active: !1,
@@ -64,57 +64,57 @@ const qt = {
     });
     d.on("vf-modal-close", () => {
       _.active = !1;
-    }), d.on("vf-modal-show", (S) => {
-      _.type = S.type, _.data = S, _.active = !0;
+    }), d.on("vf-modal-show", (y) => {
+      _.type = y.type, _.data = y, _.active = !0;
     });
-    const C = (S) => {
-      Object.assign(f, S), d.emit("vf-explorer-update", S);
+    const k = (y) => {
+      Object.assign(g, y), d.emit("vf-explorer-update", y);
     };
-    return d.on("vf-fetch-index", ({ adapter: S, item: p = null }) => {
-      var V;
+    return d.on("vf-fetch-index", ({ adapter: y, item: p = null }) => {
+      var A;
       Fe(v.url, "get", {
         q: "index",
-        adapter: S,
-        path: (V = p == null ? void 0 : p.path) != null ? V : ""
+        adapter: y,
+        path: (A = p == null ? void 0 : p.path) != null ? A : ""
       }).then((j) => j.json()).then((j) => {
-        C(j);
+        k(j);
       });
-    }), d.on("vf-adapter-changed", (S) => {
+    }), d.on("vf-adapter-changed", (y) => {
       Fe(v.url, "get", {
         q: "index",
-        adapter: S,
+        adapter: y,
         path: ""
       }).then((p) => p.json()).then((p) => {
-        C(p);
+        k(p);
       });
     }), be(() => {
-      var S;
-      d.emit("vf-fetch-index", { adapter: (S = m("adapter")) != null ? S : f.adapter });
-    }), (S, p) => {
-      const V = H("v-f-toolbar"), j = H("v-f-breadcrumb"), F = H("v-f-explorer"), U = H("v-f-statusbar"), I = H("v-f-context-menu");
-      return k(), $("div", {
-        class: Ye(E.value ? "dark" : "")
+      var y;
+      d.emit("vf-fetch-index", { adapter: (y = f("adapter")) != null ? y : g.adapter });
+    }), (y, p) => {
+      const A = F("v-f-toolbar"), j = F("v-f-breadcrumb"), R = F("v-f-explorer"), U = F("v-f-statusbar"), M = F("v-f-context-menu");
+      return P(), E("div", {
+        class: Ye(w.value ? "dark" : "")
       }, [
         i("button", {
-          onClick: p[0] || (p[0] = (q) => E.value = !E.value)
+          onClick: p[0] || (p[0] = (q) => w.value = !w.value)
         }, "Dark Toggle"),
         i("div", {
           class: "relative border rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-neutral-400 border-neutral-300 min-w-min select-none",
-          onMousedown: p[1] || (p[1] = (q) => A(d).emit("vf-contextmenu-hide"))
+          onMousedown: p[1] || (p[1] = (q) => I(d).emit("vf-contextmenu-hide"))
         }, [
-          J(V),
-          J(j, { data: f }, null, 8, ["data"]),
-          J(F, {
+          J(A),
+          J(j, { data: g }, null, 8, ["data"]),
+          J(R, {
             view: s.value,
-            data: f
+            data: g
           }, null, 8, ["view", "data"]),
-          J(U, { data: f }, null, 8, ["data"])
+          J(U, { data: g }, null, 8, ["data"])
         ], 32),
-        _.active ? (k(), G(Yt("v-f-modal-" + _.type), {
+        _.active ? (P(), G(Yt("v-f-modal-" + _.type), {
           key: 0,
           item: _.data
         }, null, 8, ["item"])) : W("", !0),
-        J(I)
+        J(M)
       ], 2);
     };
   }
@@ -209,32 +209,32 @@ const qt = {
 ], pr = {
   name: "VFToolbar"
 }, br = /* @__PURE__ */ Object.assign(pr, {
-  setup(y) {
-    const v = inject("emitter"), d = z("grid");
-    return v.on("vf-view-toggle", (m) => {
-      d.value = m;
-    }), (m, f) => (k(), $("div", er, [
+  setup(S) {
+    const v = inject("emitter"), { getStore: d, setStore: f } = inject("storage"), g = z(d("viewport", "grid"));
+    return v.on("vf-view-toggle", (s) => {
+      f("viewport", s), g.value = s;
+    }), (s, w) => (P(), E("div", er, [
       i("div", tr, [
         i("div", {
           class: "mx-1.5 hover:text-cyan-700 dark:hover:text-neutral-50 cursor-pointer",
           "aria-label": "Rename",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: f[0] || (f[0] = (s) => A(v).emit("vf-modal-show", { type: "rename" }))
+          onClick: w[0] || (w[0] = (_) => I(v).emit("vf-modal-show", { type: "rename" }))
         }, nr),
         i("div", {
           class: "mx-1.5 hover:text-cyan-700 dark:hover:text-neutral-50 cursor-pointer",
           "aria-label": "Delete",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: f[1] || (f[1] = (s) => A(v).emit("vf-modal-show", { type: "delete" }))
+          onClick: w[1] || (w[1] = (_) => I(v).emit("vf-modal-show", { type: "delete" }))
         }, sr),
         i("div", {
           class: "mx-1.5 hover:text-cyan-700 dark:hover:text-neutral-50 cursor-pointer",
           "aria-label": "New Folder",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: f[2] || (f[2] = (s) => A(v).emit("vf-modal-show", { type: "new-folder" }))
+          onClick: w[2] || (w[2] = (_) => I(v).emit("vf-modal-show", { type: "new-folder" }))
         }, ar)
       ]),
       i("div", lr, [
@@ -243,17 +243,17 @@ const qt = {
           "aria-label": "Change View",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: f[3] || (f[3] = (s) => A(v).emit("vf-view-toggle", d.value == "list" ? "grid" : "list"))
+          onClick: w[3] || (w[3] = (_) => I(v).emit("vf-view-toggle", g.value == "list" ? "grid" : "list"))
         }, [
-          d.value == "grid" ? (k(), $("svg", cr, dr)) : W("", !0),
-          d.value == "list" ? (k(), $("svg", hr, mr)) : W("", !0)
+          g.value == "grid" ? (P(), E("svg", cr, dr)) : W("", !0),
+          g.value == "list" ? (P(), E("svg", hr, mr)) : W("", !0)
         ]),
         i("div", {
           class: "mx-1.5 hover:text-cyan-700 dark:hover:text-neutral-50 cursor-pointer",
           "aria-label": "Upload",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: f[4] || (f[4] = (s) => A(v).emit("vf-modal-show", { type: "message", title: "Custom modal", message: "Custom title" }))
+          onClick: w[4] || (w[4] = (_) => I(v).emit("vf-modal-show", { type: "message", title: "Custom modal", message: "Custom title" }))
         }, vr)
       ])
     ]));
@@ -278,7 +278,7 @@ const qt = {
       d: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
     })
   ])
-], -1), wr = ["value"], xr = /* @__PURE__ */ i("span", { class: "ml-3" }, " 2 items selected.", -1), Dr = { class: "flex leading-5 items-center" }, kr = /* @__PURE__ */ i("svg", {
+], -1), wr = ["value"], xr = { class: "ml-3" }, Dr = { class: "flex leading-5 items-center" }, kr = /* @__PURE__ */ i("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 stroke-slate-500",
   fill: "none",
@@ -299,50 +299,52 @@ const qt = {
   props: {
     data: Object
   },
-  setup(y) {
-    var _;
-    const v = y, d = inject("emitter"), { getStore: m, setStore: f } = inject("storage"), s = z((_ = m("adapter")) != null ? _ : v.data.adapter), E = () => {
-      d.emit("vf-adapter-changed", s.value), f("adapter", s.value);
+  setup(S) {
+    var k;
+    const v = S, d = inject("emitter"), { getStore: f, setStore: g } = inject("storage"), s = z(0), w = z((k = f("adapter")) != null ? k : v.data.adapter), _ = () => {
+      d.emit("vf-adapter-changed", w.value), g("adapter", w.value);
     };
-    return (C, S) => (k(), $("div", Sr, [
+    return d.on("vf-nodes-selected", (y) => {
+      s.value = y.length;
+    }), (y, p) => (P(), E("div", Sr, [
       i("div", yr, [
         _r,
         ae(i("select", {
-          "onUpdate:modelValue": S[0] || (S[0] = (p) => s.value = p),
-          onChange: E,
+          "onUpdate:modelValue": p[0] || (p[0] = (A) => w.value = A),
+          onChange: _,
           class: "text-slate-500 dark:text-neutral-50 dark:bg-gray-700 font-bold rounded pl-2 pr-8"
         }, [
-          (k(!0), $(ne, null, oe(y.data.storages, (p) => (k(), $("option", { value: p }, R(p), 9, wr))), 256))
+          (P(!0), E(ne, null, oe(S.data.storages, (A) => (P(), E("option", { value: A }, K(A), 9, wr))), 256))
         ], 544), [
-          [Zt, s.value]
+          [Zt, w.value]
         ]),
-        xr
+        i("span", xr, K(s.value > 0 ? s.value + " items selected." : ""), 1)
       ]),
       i("div", Dr, [
         i("span", {
-          onClick: S[1] || (S[1] = (p) => A(d).emit("vf-modal-show", { type: "message", title: "Vuefinder 1.0", message: "Vuefinder is a file manager component for vue 3." }))
+          onClick: p[1] || (p[1] = (A) => I(d).emit("vf-modal-show", { type: "message", title: "Vuefinder 1.0", message: "Vuefinder is a file manager component for vue 3." }))
         }, Cr)
       ])
     ]));
   }
 });
 var Er = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, Xe = { exports: {} };
-(function(y, v) {
-  (function(d, m) {
-    y.exports = m();
+(function(S, v) {
+  (function(d, f) {
+    S.exports = f();
   })(Er, function() {
     function d(n, t) {
       if (!(n instanceof t))
         throw new TypeError("Cannot call a class as a function");
     }
-    function m(n, t) {
+    function f(n, t) {
       for (var e = 0; e < t.length; e++) {
         var o = t[e];
         o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(n, o.key, o);
       }
     }
-    function f(n, t, e) {
-      return t && m(n.prototype, t), e && m(n, e), n;
+    function g(n, t, e) {
+      return t && f(n.prototype, t), e && f(n, e), n;
     }
     function s(n, t, e) {
       return t in n ? Object.defineProperty(n, t, {
@@ -352,7 +354,7 @@ var Er = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         writable: !0
       }) : n[t] = e, n;
     }
-    function E(n, t) {
+    function w(n, t) {
       var e = Object.keys(n);
       if (Object.getOwnPropertySymbols) {
         var o = Object.getOwnPropertySymbols(n);
@@ -365,15 +367,15 @@ var Er = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
     function _(n) {
       for (var t = 1; t < arguments.length; t++) {
         var e = arguments[t] != null ? arguments[t] : {};
-        t % 2 ? E(Object(e), !0).forEach(function(o) {
+        t % 2 ? w(Object(e), !0).forEach(function(o) {
           s(n, o, e[o]);
-        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(n, Object.getOwnPropertyDescriptors(e)) : E(Object(e)).forEach(function(o) {
+        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(n, Object.getOwnPropertyDescriptors(e)) : w(Object(e)).forEach(function(o) {
           Object.defineProperty(n, o, Object.getOwnPropertyDescriptor(e, o));
         });
       }
       return n;
     }
-    function C(n, t) {
+    function k(n, t) {
       if (typeof t != "function" && t !== null)
         throw new TypeError("Super expression must either be null or a function");
       n.prototype = Object.create(t && t.prototype, {
@@ -384,17 +386,17 @@ var Er = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }
       }), t && p(n, t);
     }
-    function S(n) {
-      return S = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
+    function y(n) {
+      return y = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
         return e.__proto__ || Object.getPrototypeOf(e);
-      }, S(n);
+      }, y(n);
     }
     function p(n, t) {
       return p = Object.setPrototypeOf || function(o, r) {
         return o.__proto__ = r, o;
       }, p(n, t);
     }
-    function V() {
+    function A() {
       if (typeof Reflect > "u" || !Reflect.construct || Reflect.construct.sham)
         return !1;
       if (typeof Proxy == "function")
@@ -407,20 +409,20 @@ var Er = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
     }
     function j(n, t, e) {
-      return V() ? j = Reflect.construct : j = function(r, a, l) {
+      return A() ? j = Reflect.construct : j = function(r, a, l) {
         var c = [null];
         c.push.apply(c, a);
-        var u = Function.bind.apply(r, c), g = new u();
-        return l && p(g, l.prototype), g;
+        var u = Function.bind.apply(r, c), m = new u();
+        return l && p(m, l.prototype), m;
       }, j.apply(null, arguments);
     }
-    function F(n) {
+    function R(n) {
       return Function.toString.call(n).indexOf("[native code]") !== -1;
     }
     function U(n) {
       var t = typeof Map == "function" ? /* @__PURE__ */ new Map() : void 0;
       return U = function(o) {
-        if (o === null || !F(o))
+        if (o === null || !R(o))
           return o;
         if (typeof o != "function")
           throw new TypeError("Super expression must either be null or a function");
@@ -430,7 +432,7 @@ var Er = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           t.set(o, r);
         }
         function r() {
-          return j(o, arguments, S(this).constructor);
+          return j(o, arguments, y(this).constructor);
         }
         return r.prototype = Object.create(o.prototype, {
           constructor: {
@@ -442,47 +444,47 @@ var Er = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }), p(r, o);
       }, U(n);
     }
-    function I(n) {
+    function M(n) {
       if (n === void 0)
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
       return n;
     }
     function q(n, t) {
-      return t && (typeof t == "object" || typeof t == "function") ? t : I(n);
+      return t && (typeof t == "object" || typeof t == "function") ? t : M(n);
     }
     function de(n) {
-      var t = V();
+      var t = A();
       return function() {
-        var o = S(n), r;
+        var o = y(n), r;
         if (t) {
-          var a = S(this).constructor;
+          var a = y(this).constructor;
           r = Reflect.construct(o, arguments, a);
         } else
           r = o.apply(this, arguments);
         return q(this, r);
       };
     }
-    function x(n, t) {
-      for (; !Object.prototype.hasOwnProperty.call(n, t) && (n = S(n), n !== null); )
+    function D(n, t) {
+      for (; !Object.prototype.hasOwnProperty.call(n, t) && (n = y(n), n !== null); )
         ;
       return n;
     }
-    function P(n, t, e) {
-      return typeof Reflect < "u" && Reflect.get ? P = Reflect.get : P = function(r, a, l) {
-        var c = x(r, a);
+    function $(n, t, e) {
+      return typeof Reflect < "u" && Reflect.get ? $ = Reflect.get : $ = function(r, a, l) {
+        var c = D(r, a);
         if (!!c) {
           var u = Object.getOwnPropertyDescriptor(c, a);
           return u.get ? u.get.call(l) : u.value;
         }
-      }, P(n, t, e || n);
+      }, $(n, t, e || n);
     }
-    function D(n, t) {
+    function C(n, t) {
       return Y(n) || Je(n, t) || ye(n, t) || qe();
     }
-    function B(n) {
-      return M(n) || Z(n) || ye(n) || Ge();
+    function H(n) {
+      return L(n) || Z(n) || ye(n) || Ge();
     }
-    function M(n) {
+    function L(n) {
       if (Array.isArray(n))
         return he(n);
     }
@@ -666,8 +668,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       } else {
         var c = o.transform.trim().match(/matrix\((.*?)\)/);
         if (c && c.length) {
-          var u, g = (u = c[1]) === null || u === void 0 ? void 0 : u.split(",");
-          e.x = parseInt(g[4]) || 0, e.y = parseInt(g[5]) || 0;
+          var u, m = (u = c[1]) === null || u === void 0 ? void 0 : u.split(",");
+          e.x = parseInt(m[4]) || 0, e.y = parseInt(m[5]) || 0;
         }
         return e;
       }
@@ -721,11 +723,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       var t = n.computedStyle, e = n.node, o = t.position, r = o === "absolute" || o === "relative" || o === "fixed";
       !(e instanceof HTMLDocument) && !r && (e.style.position = "relative");
     }, ht = function(n) {
-      var t = n.shiftKey, e = n.keyboardDragSpeed, o = n.zoom, r = n.key, a = n.dragKeys, l = n.scrollDiff, c = n.canScroll, u = n.scrollCallback, g = {
+      var t = n.shiftKey, e = n.keyboardDragSpeed, o = n.zoom, r = n.key, a = n.dragKeys, l = n.scrollDiff, c = n.canScroll, u = n.scrollCallback, m = {
         x: 0,
         y: 0
       }, h = t ? e * 4 * o : e * o;
-      return a.left.includes(r) && (g.x = l.x || -h, !t && !l.x && c && u(["left"], e)), a.right.includes(r) && (g.x = l.x || h, !t && !l.x && c && u(["right"], e)), a.up.includes(r) && (g.y = l.y || -h, !t && !l.y && c && u(["top"], e)), a.down.includes(r) && (g.y = l.y || h, !t && !l.y && c && u(["bottom"], e)), g;
+      return a.left.includes(r) && (m.x = l.x || -h, !t && !l.x && c && u(["left"], e)), a.right.includes(r) && (m.x = l.x || h, !t && !l.x && c && u(["right"], e)), a.up.includes(r) && (m.y = l.y || -h, !t && !l.y && c && u(["top"], e)), a.down.includes(r) && (m.y = l.y || h, !t && !l.y && c && u(["bottom"], e)), m;
     }, ft = function(n) {
       var t = n.element, e = n.force, o = n.multiSelectionToggle, r = n.SelectedSet, a = n.hoverClassName;
       t.classList.contains(a) && !e || (r.has(t) ? o && r.delete(t) : r.add(t), t.classList.add(a));
@@ -790,11 +792,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           name: "callback"
         }]
       }, l = function() {
-        var h = D(u[c], 2), b = h[0], w = h[1];
+        var h = C(u[c], 2), b = h[0], x = h[1];
         ["pre", !1].forEach(function(T) {
           return t(T ? "".concat(b, ":").concat(T) : b, function(N) {
-            return w.forEach(function(L) {
-              return (!L.condition || L.condition(N)) && e(T ? "".concat(T).concat(L.name) : L.name, _({
+            return x.forEach(function(V) {
+              return (!V.condition || V.condition(N)) && e(T ? "".concat(T).concat(V.name) : V.name, _({
                 items: r.elements,
                 isDragging: o.isDragging
               }, N));
@@ -804,7 +806,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       }, c = 0, u = Object.entries(a); c < u.length; c++)
         l();
     }, ee = function(n) {
-      return n ? !Array.isArray(n) && (n instanceof HTMLElement || n instanceof SVGElement) ? [n] : B(n) : [];
+      return n ? !Array.isArray(n) && (n instanceof HTMLElement || n instanceof SVGElement) ? [n] : H(n) : [];
     }, Ce = function(n, t) {
       n.style.left = "".concat(t.left, "px"), n.style.top = "".concat(t.top, "px"), n.style.width = "".concat(t.width, "px"), n.style.height = "".concat(t.height, "px");
     }, bt = /* @__PURE__ */ function() {
@@ -843,7 +845,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           });
         }, 60), this._modificationObserver = new MutationObserver(this._modificationCallback), this.PubSub.subscribe("Interaction:init", this.start), this.PubSub.subscribe("Interaction:end", this.reset);
       }
-      return f(n, [{
+      return g(n, [{
         key: "HTMLNode",
         get: function() {
           return this._node;
@@ -882,10 +884,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       }]), n;
     }(), St = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.DS, r = t.dragKeys, a = t.draggability, l = t.keyboardDrag, c = t.keyboardDragSpeed, u = t.useTransform, g = t.zoom;
+        var e = this, o = t.DS, r = t.dragKeys, a = t.draggability, l = t.keyboardDrag, c = t.keyboardDragSpeed, u = t.useTransform, m = t.zoom;
         d(this, n), s(this, "_useTransform", void 0), s(this, "_prevCursorPos", void 0), s(this, "_prevScrollPos", void 0), s(this, "_elements", []), s(this, "_draggability", void 0), s(this, "_dragKeys", void 0), s(this, "_dragKeysFlat", void 0), s(this, "_keyboardDrag", void 0), s(this, "_keyboardDragSpeed", void 0), s(this, "_zoom", void 0), s(this, "keyboardDrag", function(h) {
-          var b = h.event, w = h.key;
-          if (!(!e._keyboardDrag || !e._dragKeysFlat.includes(w) || !e.DS.SelectedSet.size || !e._draggability || e.DS.continue)) {
+          var b = h.event, x = h.key;
+          if (!(!e._keyboardDrag || !e._dragKeysFlat.includes(x) || !e.DS.SelectedSet.size || !e._draggability || e.DS.continue)) {
             var T = {
               event: b,
               isDragging: !0,
@@ -896,15 +898,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
               shiftKey: e.DS.stores.KeyStore.currentValues.includes("shift"),
               keyboardDragSpeed: e._keyboardDragSpeed,
               zoom: e._zoom,
-              key: w,
+              key: x,
               scrollCallback: e.DS.Area.scroll,
               scrollDiff: e._scrollDiff,
               canScroll: e.DS.stores.ScrollStore.canScroll,
               dragKeys: e._dragKeys
             });
-            e._elements.forEach(function(L) {
+            e._elements.forEach(function(V) {
               return ke({
-                element: L,
+                element: V,
                 posDirection: N,
                 containerRect: e.DS.SelectorArea.rect,
                 useTransform: e._useTransform
@@ -912,8 +914,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             }), e.DS.publish(["Interaction:update:pre", "Interaction:update"], T);
           }
         }), s(this, "keyboardEnd", function(h) {
-          var b = h.event, w = h.key;
-          if (!(!e._keyboardDrag || !e._dragKeysFlat.includes(w) || !e.DS.SelectedSet.size || !e._draggability)) {
+          var b = h.event, x = h.key;
+          if (!(!e._keyboardDrag || !e._dragKeysFlat.includes(x) || !e.DS.SelectedSet.size || !e._draggability)) {
             var T = {
               event: b,
               isDragging: e._draggability,
@@ -922,13 +924,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e.DS.publish(["Interaction:end:pre", "Interaction:end"], T);
           }
         }), s(this, "start", function(h) {
-          var b = h.isDragging, w = h.isDraggingKeyboard;
-          !b || w || (e._prevCursorPos = null, e._prevScrollPos = null, e._elements = e.DS.getSelection(), e.handleZIndex(!0));
+          var b = h.isDragging, x = h.isDraggingKeyboard;
+          !b || x || (e._prevCursorPos = null, e._prevScrollPos = null, e._elements = e.DS.getSelection(), e.handleZIndex(!0));
         }), s(this, "stop", function(h) {
           h != null && h.isKeyboard || (e._prevCursorPos = null, e._prevScrollPos = null, e.handleZIndex(!1), e._elements = []);
         }), s(this, "update", function(h) {
-          var b = h.isDragging, w = h.isDraggingKeyboard;
-          if (!(!b || !e._elements.length || w || e.DS.continue)) {
+          var b = h.isDragging, x = h.isDraggingKeyboard;
+          if (!(!b || !e._elements.length || x || e.DS.continue)) {
             var T = O(e._cursorDiff, "+", e._scrollDiff);
             e._elements.forEach(function(N) {
               return ke({
@@ -943,7 +945,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           e._elements.forEach(function(b) {
             return b.style.zIndex = "".concat((parseInt(b.style.zIndex) || 0) + h ? 9999 : -9998);
           });
-        }), this.DS = o, this._useTransform = u, this._keyboardDragSpeed = c, this._keyboardDrag = l, this._zoom = g, this._draggability = a, this._dragKeys = {
+        }), this.DS = o, this._useTransform = u, this._keyboardDragSpeed = c, this._keyboardDrag = l, this._zoom = m, this._draggability = a, this._dragKeys = {
           up: r.up.map(function(h) {
             return h.toLowerCase();
           }),
@@ -956,9 +958,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           right: r.right.map(function(h) {
             return h.toLowerCase();
           })
-        }, this._dragKeysFlat = [].concat(B(this._dragKeys.up), B(this._dragKeys.down), B(this._dragKeys.left), B(this._dragKeys.right)), this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:end", this.stop), this.DS.subscribe("Interaction:update", this.update), this.DS.subscribe("KeyStore:down", this.keyboardDrag), this.DS.subscribe("KeyStore:up", this.keyboardEnd);
+        }, this._dragKeysFlat = [].concat(H(this._dragKeys.up), H(this._dragKeys.down), H(this._dragKeys.left), H(this._dragKeys.right)), this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:end", this.stop), this.DS.subscribe("Interaction:update", this.update), this.DS.subscribe("KeyStore:down", this.keyboardDrag), this.DS.subscribe("KeyStore:up", this.keyboardEnd);
       }
-      return f(n, [{
+      return g(n, [{
         key: "_cursorDiff",
         get: function() {
           var e = this.DS.stores.PointerStore.currentVal, o = this._prevCursorPos ? O(e, "-", this._prevCursorPos) : {
@@ -997,28 +999,28 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             isDragging: e.isDragging
           }), document.addEventListener("mouseup", e.reset), document.addEventListener("touchend", e.reset));
         }), s(this, "isDragEvent", function(u) {
-          var g = u.target.closest(".".concat(e._selectableClass));
-          return !e._draggability || e.DS.stores.KeyStore.isMultiSelectKeyPressed(u) || !g ? !1 : (e._immediateDrag && (e.DS.SelectedSet.size ? e.DS.SelectedSet.has(g) || (e.DS.SelectedSet.clear(), e.DS.SelectedSet.add(
-            g
+          var m = u.target.closest(".".concat(e._selectableClass));
+          return !e._draggability || e.DS.stores.KeyStore.isMultiSelectKeyPressed(u) || !m ? !1 : (e._immediateDrag && (e.DS.SelectedSet.size ? e.DS.SelectedSet.has(m) || (e.DS.SelectedSet.clear(), e.DS.SelectedSet.add(
+            m
           )) : e.DS.SelectedSet.add(
-            g
-          )), !!e.DS.SelectedSet.has(g));
+            m
+          )), !!e.DS.SelectedSet.has(m));
         }), s(this, "onClick", function(u) {
-          var g = u.event;
-          if (!!e._canInteract(g) && !(g.detail > 0)) {
-            var h = e.DS, b = h.stores, w = b.PointerStore, T = b.KeyStore, N = h.SelectableSet, L = h.SelectedSet;
-            w.start(g);
-            var te = g.target;
-            !N.has(te) || (T.isMultiSelectKeyPressed(g) || L.clear(), L.toggle(te), e.reset());
+          var m = u.event;
+          if (!!e._canInteract(m) && !(m.detail > 0)) {
+            var h = e.DS, b = h.stores, x = b.PointerStore, T = b.KeyStore, N = h.SelectableSet, V = h.SelectedSet;
+            x.start(m);
+            var te = m.target;
+            !N.has(te) || (T.isMultiSelectKeyPressed(m) || V.clear(), V.toggle(te), e.reset());
           }
         }), s(this, "stop", function() {
           e.isInteracting = !1, e.isDragging = !1, e._areaElement.removeEventListener("mousedown", e.start), e._areaElement.removeEventListener("touchstart", e.start, {
             passive: !1
           }), document.removeEventListener("mouseup", e.reset), document.removeEventListener("touchend", e.reset);
         }), s(this, "update", function(u) {
-          var g = u.event, h = u.scroll_directions, b = u.scroll_multiplier;
+          var m = u.event, h = u.scroll_directions, b = u.scroll_multiplier;
           e.isInteracting && e.DS.publish(["Interaction:update:pre", "Interaction:update"], {
-            event: g,
+            event: m,
             scroll_directions: h,
             scroll_multiplier: b,
             isDragging: e.isDragging
@@ -1029,23 +1031,23 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             isDragging: e.isDragging
           });
         }), s(this, "_reset", function(u) {
-          var g = e.isDragging;
+          var m = e.isDragging;
           e.stop(), e.init(), e.DS.publish("Interaction:end", {
             event: u,
-            isDragging: g
+            isDragging: m
           });
         }), this._areaElement = r, this._draggability = a, this._immediateDrag = l, this._selectableClass = c, this.DS = o, this.DS.subscribe("PointerStore:updated", this.update), this.DS.subscribe("Selectable:click", this.onClick), this.DS.subscribe("Selectable:pointer", function(u) {
-          var g = u.event;
-          return e.start(g);
+          var m = u.event;
+          return e.start(m);
         }), this.DS.subscribe("Interaction:start:pre", function(u) {
-          var g = u.event;
-          return e._start(g);
+          var m = u.event;
+          return e._start(m);
         }), this.DS.subscribe("Interaction:init:pre", this._init), this.DS.subscribe("Interaction:end:pre", function(u) {
-          var g = u.event;
-          return e._reset(g);
+          var m = u.event;
+          return e._reset(m);
         }), this.DS.subscribe("Area:scroll", this.update);
       }
-      return f(n, [{
+      return g(n, [{
         key: "_canInteract",
         value: function(e) {
           var o = e.clientX === 0 && e.clientY === 0 && e.detail === 0 && e.target;
@@ -1083,37 +1085,37 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
       }), this.DS = o;
     }, wt = /* @__PURE__ */ function(n) {
-      C(e, n);
+      k(e, n);
       var t = de(e);
       function e(o) {
-        var r, a = o.elements, l = o.className, c = o.hoverClassName, u = o.draggability, g = o.useTransform, h = o.DS;
-        return d(this, e), r = t.call(this), s(I(r), "_initElements", void 0), s(I(r), "_className", void 0), s(I(r), "_hoverClassName", void 0), s(I(r), "_useTransform", void 0), s(I(r), "_draggability", void 0), s(I(r), "init", function() {
+        var r, a = o.elements, l = o.className, c = o.hoverClassName, u = o.draggability, m = o.useTransform, h = o.DS;
+        return d(this, e), r = t.call(this), s(M(r), "_initElements", void 0), s(M(r), "_className", void 0), s(M(r), "_hoverClassName", void 0), s(M(r), "_useTransform", void 0), s(M(r), "_draggability", void 0), s(M(r), "init", function() {
           return r._initElements.forEach(function(b) {
             return r.add(b);
           });
-        }), s(I(r), "clear", function() {
+        }), s(M(r), "clear", function() {
           return r.forEach(function(b) {
             return r.delete(b);
           });
-        }), s(I(r), "_onClick", function(b) {
+        }), s(M(r), "_onClick", function(b) {
           return r.DS.publish(["Selectable:click:pre", "Selectable:click"], {
             event: b
           });
-        }), s(I(r), "_onPointer", function(b) {
+        }), s(M(r), "_onPointer", function(b) {
           return r.DS.publish(["Selectable:pointer:pre", "Selectable:pointer"], {
             event: b
           });
-        }), s(I(r), "addAll", function(b) {
-          return b.forEach(function(w) {
-            return r.add(w);
+        }), s(M(r), "addAll", function(b) {
+          return b.forEach(function(x) {
+            return r.add(x);
           });
-        }), s(I(r), "deleteAll", function(b) {
-          return b.forEach(function(w) {
-            return r.delete(w);
+        }), s(M(r), "deleteAll", function(b) {
+          return b.forEach(function(x) {
+            return r.delete(x);
           });
-        }), r.DS = h, r._initElements = ee(a), r._className = l, r._hoverClassName = c, r._useTransform = g, r._draggability = u, r.DS.subscribe("Interaction:init", r.init), r;
+        }), r.DS = h, r._initElements = ee(a), r._className = l, r._hoverClassName = c, r._useTransform = m, r._draggability = u, r.DS.subscribe("Interaction:init", r.init), r;
       }
-      return f(e, [{
+      return g(e, [{
         key: "add",
         value: function(r) {
           return r.classList.add(this._className), r.addEventListener("click", this._onClick), r.addEventListener("mousedown", this._onPointer), r.addEventListener("touchstart", this._onPointer, {
@@ -1121,14 +1123,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           }), this._draggability && !this._useTransform && De({
             computedStyle: window.getComputedStyle(r),
             node: r
-          }), P(S(e.prototype), "add", this).call(this, r);
+          }), $(y(e.prototype), "add", this).call(this, r);
         }
       }, {
         key: "delete",
         value: function(r) {
           return r.classList.remove(this._className), r.classList.remove(this._hoverClassName), r.removeEventListener("click", this._onClick), r.removeEventListener("mousedown", this._onPointer), r.removeEventListener("touchstart", this._onPointer, {
             passive: !1
-          }), P(S(e.prototype), "delete", this).call(this, r);
+          }), $(y(e.prototype), "delete", this).call(this, r);
         }
       }, {
         key: "elements",
@@ -1137,45 +1139,45 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
       }]), e;
     }(/* @__PURE__ */ U(Set)), xt = /* @__PURE__ */ function(n) {
-      C(e, n);
+      k(e, n);
       var t = de(e);
       function e(o) {
         var r, a = o.className, l = o.DS;
-        return d(this, e), r = t.call(this), s(I(r), "_className", void 0), s(I(r), "clear", function() {
+        return d(this, e), r = t.call(this), s(M(r), "_className", void 0), s(M(r), "clear", function() {
           return r.forEach(function(c) {
             return r.delete(c);
           });
-        }), s(I(r), "addAll", function(c) {
+        }), s(M(r), "addAll", function(c) {
           return c.forEach(function(u) {
             return r.add(u);
           });
-        }), s(I(r), "deleteAll", function(c) {
+        }), s(M(r), "deleteAll", function(c) {
           return c.forEach(function(u) {
             return r.delete(u);
           });
         }), r.DS = l, r._className = a, r;
       }
-      return f(e, [{
+      return g(e, [{
         key: "add",
         value: function(r) {
-          if (!P(S(e.prototype), "has", this).call(this, r)) {
+          if (!$(y(e.prototype), "has", this).call(this, r)) {
             var a = {
               items: this.elements,
               item: r
             };
-            return this.DS.publish("Selected:added:pre", a), P(S(e.prototype), "add", this).call(this, r), r.classList.add(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) + 1), this.DS.publish("Selected:added", a), this;
+            return this.DS.publish("Selected:added:pre", a), $(y(e.prototype), "add", this).call(this, r), r.classList.add(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) + 1), this.DS.publish("Selected:added", a), this;
           }
         }
       }, {
         key: "delete",
         value: function(r) {
-          if (!!P(S(e.prototype), "has", this).call(this, r)) {
+          if (!!$(y(e.prototype), "has", this).call(this, r)) {
             var a = {
               items: this.elements,
               item: r
             };
             this.DS.publish("Selected:removed:pre", a);
-            var l = P(S(e.prototype), "delete", this).call(this, r);
+            var l = $(y(e.prototype), "delete", this).call(this, r);
             return r.classList.remove(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) - 1), this.DS.publish("Selected:removed", a), l;
           }
         }
@@ -1200,10 +1202,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           var c = l.isDragging;
           c || e.DS.continue || e._handleInsideSelection();
         }), s(this, "_handleInsideSelection", function(l, c) {
-          for (var u = e.DS, g = u.SelectableSet, h = u.SelectorArea, b = u.Selector, w = g.elements.map(function(X) {
+          for (var u = e.DS, m = u.SelectableSet, h = u.SelectorArea, b = u.Selector, x = m.elements.map(function(X) {
             return [X, X.getBoundingClientRect()];
-          }), T = [], N = [], L = 0, te = w.length; L < te; L++)
-            !h.isInside(w[L][0], w[L][1]) || (me(w[L][1], b.rect) ? T.push(w[L][0]) : N.push(w[L][0]));
+          }), T = [], N = [], V = 0, te = x.length; V < te; V++)
+            !h.isInside(x[V][0], x[V][1]) || (me(x[V][1], b.rect) ? T.push(x[V][0]) : N.push(x[V][0]));
           var ie = e.DS.stores.KeyStore.isMultiSelectKeyPressed(c) && e._multiSelectToggling;
           e.DS.continue || (T.forEach(function(X) {
             return ft({
@@ -1224,7 +1226,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           }));
         }), this._hoverClassName = r, this._multiSelectToggling = a, this.DS = o, this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:update", this.update);
       }
-      return f(n, [{
+      return g(n, [{
         key: "_storePrevious",
         value: function(e) {
           var o = this.DS, r = o.stores.KeyStore, a = o.SelectedSet;
@@ -1237,7 +1239,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         d(this, n), s(this, "_rect", void 0), s(this, "start", function(c) {
           var u = c.isDragging;
           if (!u) {
-            var g = e.DS.stores.PointerStore, h = g.initialValArea;
+            var m = e.DS.stores.PointerStore, h = m.initialValArea;
             Ce(e.HTMLNode, _e(h, 1)), e.HTMLNode.style.display = "block", e._rect = null;
           }
         }), s(this, "stop", function() {
@@ -1245,16 +1247,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }), s(this, "update", function(c) {
           var u = c.isDragging;
           if (!(u || e.DS.continue)) {
-            var g = e.DS.stores, h = g.ScrollStore, b = g.PointerStore, w = at({
+            var m = e.DS.stores, h = m.ScrollStore, b = m.PointerStore, x = at({
               scrollAmount: h.scrollAmount,
               initialPointerPos: b.initialValArea,
               pointerPos: b.currentValArea
             });
-            Ce(e.HTMLNode, w), e._rect = null;
+            Ce(e.HTMLNode, x), e._rect = null;
           }
         }), this.DS = o, this.HTMLNode = r || nt(l), this.HTMLNode.classList.add(a), this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:update", this.update), this.DS.subscribe("Interaction:end", this.stop);
       }
-      return f(n, [{
+      return g(n, [{
         key: "rect",
         get: function() {
           return this._rect ? this._rect : this._rect = this.HTMLNode.getBoundingClientRect();
@@ -1266,12 +1268,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         d(this, n), s(this, "_autoScrollSpeed", void 0), s(this, "_scrollInterval", void 0), s(this, "_rect", void 0), s(this, "currentEdges", []), s(this, "_overflowTolerance", void 0), s(this, "start", function() {
           return e.applyElements("append");
         }), s(this, "applyElements", function() {
-          var c = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "append", u = document.body ? "body" : "documentElement", g = "".concat(c, "Child");
-          e.HTMLNode[g](e.DS.Selector.HTMLNode), document[u][g](e.HTMLNode);
+          var c = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "append", u = document.body ? "body" : "documentElement", m = "".concat(c, "Child");
+          e.HTMLNode[m](e.DS.Selector.HTMLNode), document[u][m](e.HTMLNode);
         }), s(this, "updatePos", function() {
           e._rect = null;
-          var c = e.DS.Area.rect, u = e.DS.Area.computedBorder, g = e.HTMLNode.style, h = "".concat(c.top + u.top, "px"), b = "".concat(c.left + u.left, "px"), w = "".concat(c.width, "px"), T = "".concat(c.height, "px");
-          g.top !== h && (g.top = h), g.left !== b && (g.left = b), g.width !== w && (g.width = w), g.height !== T && (g.height = T);
+          var c = e.DS.Area.rect, u = e.DS.Area.computedBorder, m = e.HTMLNode.style, h = "".concat(c.top + u.top, "px"), b = "".concat(c.left + u.left, "px"), x = "".concat(c.width, "px"), T = "".concat(c.height, "px");
+          m.top !== h && (m.top = h), m.left !== b && (m.left = b), m.width !== x && (m.width = x), m.height !== T && (m.height = T);
         }), s(this, "stop", function(c) {
           e.stopAutoScroll(), c && e.applyElements("remove");
         }), s(this, "startAutoScroll", function() {
@@ -1280,12 +1282,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           }, 16);
         }), s(this, "handleAutoScroll", function() {
           if (!e.DS.continue) {
-            var c = e.DS, u = c.stores.PointerStore, g = c.Area;
+            var c = e.DS, u = c.stores.PointerStore, m = c.Area;
             e.currentEdges = we({
               elementRect: _e(u.currentVal),
               containerRect: e.rect,
               tolerance: e._overflowTolerance
-            }), e.currentEdges.length && g.scroll(e.currentEdges, e._autoScrollSpeed);
+            }), e.currentEdges.length && m.scroll(e.currentEdges, e._autoScrollSpeed);
           }
         }), s(this, "stopAutoScroll", function() {
           e.currentEdges = [], clearInterval(e._scrollInterval);
@@ -1295,7 +1297,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           e.updatePos(), e.stopAutoScroll();
         });
       }
-      return f(n, [{
+      return g(n, [{
         key: "isClicked",
         value: function(e) {
           var o = this.DS.stores.PointerStore, r = e ? o.getPointerPosition(e) : o.initialVal;
@@ -1352,7 +1354,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return u ? (console.warn("[DragSelect] ".concat(l, ' is deprecated. Use "').concat(u, '" instead. Act Now!. See docs for more info')), u.toLowerCase()) : l.toLowerCase();
         }), this.DS.subscribe("Interaction:init", this.init);
       }
-      return f(n, [{
+      return g(n, [{
         key: "isMultiSelectKeyPressed",
         value: function(e) {
           var o = this;
@@ -1401,7 +1403,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return e.reset(a);
         });
       }
-      return f(n, [{
+      return g(n, [{
         key: "start",
         value: function(e) {
           !e || (this._isMouseInteraction = !0, this.currentVal = this.initialVal = this.getPointerPosition(e));
@@ -1491,7 +1493,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return e.reset();
         });
       }
-      return f(n, [{
+      return g(n, [{
         key: "canScroll",
         get: function() {
           return typeof this._canScroll == "boolean" ? this._canScroll : this._canScroll = tt(this._areaElement);
@@ -1521,10 +1523,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       }]), n;
     }(), At = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.area, r = o === void 0 ? document : o, a = t.selectables, l = a === void 0 ? [] : a, c = t.autoScrollSpeed, u = c === void 0 ? 5 : c, g = t.overflowTolerance, h = g === void 0 ? {
+        var e = this, o = t.area, r = o === void 0 ? document : o, a = t.selectables, l = a === void 0 ? [] : a, c = t.autoScrollSpeed, u = c === void 0 ? 5 : c, m = t.overflowTolerance, h = m === void 0 ? {
           x: 25,
           y: 25
-        } : g, b = t.zoom, w = b === void 0 ? 1 : b, T = t.customStyles, N = T === void 0 ? !1 : T, L = t.multiSelectMode, te = L === void 0 ? !1 : L, ie = t.multiSelectToggling, X = ie === void 0 ? !0 : ie, Pe = t.multiSelectKeys, Tt = Pe === void 0 ? ["Control", "Shift", "Meta"] : Pe, $e = t.selector, It = $e === void 0 ? void 0 : $e, Ee = t.draggability, ge = Ee === void 0 ? !0 : Ee, Ae = t.immediateDrag, Mt = Ae === void 0 ? !0 : Ae, Te = t.keyboardDrag, Lt = Te === void 0 ? !0 : Te, Vt = t.dragKeys, Ie = t.keyboardDragSpeed, jt = Ie === void 0 ? 10 : Ie, Me = t.useTransform, Le = Me === void 0 ? !0 : Me, Ve = t.hoverClass, je = Ve === void 0 ? "ds-hover" : Ve, Oe = t.selectableClass, Ne = Oe === void 0 ? "ds-selectable" : Oe, ze = t.selectedClass, Ot = ze === void 0 ? "ds-selected" : ze, Ke = t.selectorClass, Nt = Ke === void 0 ? "ds-selector" : Ke, Be = t.selectorAreaClass, zt = Be === void 0 ? "ds-selector-area" : Be, Kt = t.callback, Bt = t.onDragMove, Rt = t.onDragStartBegin, Ht = t.onDragStart, Ft = t.onElementSelect, Ut = t.onElementUnselect;
+        } : m, b = t.zoom, x = b === void 0 ? 1 : b, T = t.customStyles, N = T === void 0 ? !1 : T, V = t.multiSelectMode, te = V === void 0 ? !1 : V, ie = t.multiSelectToggling, X = ie === void 0 ? !0 : ie, Pe = t.multiSelectKeys, It = Pe === void 0 ? ["Control", "Shift", "Meta"] : Pe, $e = t.selector, Tt = $e === void 0 ? void 0 : $e, Ee = t.draggability, ge = Ee === void 0 ? !0 : Ee, Ae = t.immediateDrag, Mt = Ae === void 0 ? !0 : Ae, Ie = t.keyboardDrag, Lt = Ie === void 0 ? !0 : Ie, Vt = t.dragKeys, Te = t.keyboardDragSpeed, jt = Te === void 0 ? 10 : Te, Me = t.useTransform, Le = Me === void 0 ? !0 : Me, Ve = t.hoverClass, je = Ve === void 0 ? "ds-hover" : Ve, Oe = t.selectableClass, Ne = Oe === void 0 ? "ds-selectable" : Oe, ze = t.selectedClass, Ot = ze === void 0 ? "ds-selected" : ze, Ke = t.selectorClass, Nt = Ke === void 0 ? "ds-selector" : Ke, Be = t.selectorAreaClass, zt = Be === void 0 ? "ds-selector-area" : Be, Kt = t.callback, Bt = t.onDragMove, Rt = t.onDragStartBegin, Ht = t.onDragStart, Ft = t.onElementSelect, Ut = t.onElementUnselect;
         d(this, n), s(this, "continue", !1), s(this, "start", function() {
           e.stopped = !1, e.Interaction.init();
         }), s(this, "break", function() {
@@ -1565,20 +1567,20 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           ScrollStore: new Et({
             DS: this,
             areaElement: r,
-            zoom: w
+            zoom: x
           }),
           KeyStore: new Pt({
             DS: this,
-            multiSelectKeys: Tt,
+            multiSelectKeys: It,
             multiSelectMode: te
           })
         }, this.Area = new bt({
           area: r,
           PS: this.PubSub,
-          zoom: w
+          zoom: x
         }), this.Selector = new kt({
           DS: this,
-          selector: It,
+          selector: Tt,
           selectorClass: Nt,
           customStyles: N
         }), this.SelectorArea = new Ct({
@@ -1611,7 +1613,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             left: ["ArrowLeft"],
             right: ["ArrowRight"]
           }, Vt),
-          zoom: w,
+          zoom: x,
           keyboardDragSpeed: jt
         }), this.Interaction = new yt({
           areaElement: r,
@@ -1628,37 +1630,37 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return e.continue = !1;
         }), this.start();
       }
-      return f(n, [{
+      return g(n, [{
         key: "_callbacksTemp",
         value: function(e) {
-          var o = e.callback, r = e.onDragMove, a = e.onDragStart, l = e.onDragStartBegin, c = e.onElementSelect, u = e.onElementUnselect, g = function(b, w) {
-            return console.warn("[DragSelect] ".concat(b, ' is deprecated. Use DragSelect.subscribe("').concat(w, '", (callbackObject) => {}) instead. Act Now! See docs for more info'));
+          var o = e.callback, r = e.onDragMove, a = e.onDragStart, l = e.onDragStartBegin, c = e.onElementSelect, u = e.onElementUnselect, m = function(b, x) {
+            return console.warn("[DragSelect] ".concat(b, ' is deprecated. Use DragSelect.subscribe("').concat(x, '", (callbackObject) => {}) instead. Act Now! See docs for more info'));
           };
-          o && (g("callback", "callback"), this.subscribe("callback", function(h) {
+          o && (m("callback", "callback"), this.subscribe("callback", function(h) {
             var b = h.items;
             h.item;
-            var w = h.event;
-            return o(b, w);
-          })), r && (g("onDragMove", "dragmove"), this.subscribe("dragmove", function(h) {
+            var x = h.event;
+            return o(b, x);
+          })), r && (m("onDragMove", "dragmove"), this.subscribe("dragmove", function(h) {
             h.items, h.item;
             var b = h.event;
             return r(b);
-          })), a && (g("onDragStart", "dragstart"), this.subscribe("dragstart", function(h) {
+          })), a && (m("onDragStart", "dragstart"), this.subscribe("dragstart", function(h) {
             h.items, h.item;
             var b = h.event;
             return a(b);
-          })), l && (g("onDragStartBegin", "dragstart"), this.subscribe("dragstart", function(h) {
+          })), l && (m("onDragStartBegin", "dragstart"), this.subscribe("dragstart", function(h) {
             h.items, h.item;
             var b = h.event;
             return l(b);
-          })), c && (g("onElementSelect", "elementselect"), this.subscribe("elementselect", function(h) {
+          })), c && (m("onElementSelect", "elementselect"), this.subscribe("elementselect", function(h) {
             h.items;
-            var b = h.item, w = h.event;
-            return c(b, w);
-          })), u && (g("onElementUnselect", "elementunselect"), this.subscribe("elementunselect", function(h) {
+            var b = h.item, x = h.event;
+            return c(b, x);
+          })), u && (m("onElementUnselect", "elementunselect"), this.subscribe("elementunselect", function(h) {
             h.items;
-            var b = h.item, w = h.event;
-            return u(b, w);
+            var b = h.item, x = h.event;
+            return u(b, x);
           }));
         }
       }, {
@@ -1740,7 +1742,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     return At;
   });
 })(Xe);
-const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f = d(y) / d(m) | 0, y / v.pow(m, f)).toFixed(0) + " " + (f ? "KMGTPEZY"[--f] + "iB" : "B"), Ir = (y, v = "en-US") => new Date(y * 1e3).toLocaleString(v), Mr = {
+const Ar = Xe.exports, Ir = (S, v, d, f, g) => (v = Math, d = v.log, f = 1024, g = d(S) / d(f) | 0, S / v.pow(f, g)).toFixed(0) + " " + (g ? "KMGTPEZY"[--g] + "iB" : "B"), Tr = (S, v = "en-US") => new Date(S * 1e3).toLocaleString(v), Mr = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5",
@@ -1768,10 +1770,10 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
   name: "VFSortIcon"
 }, ce = /* @__PURE__ */ Object.assign(zr, {
   props: { direction: String },
-  setup(y) {
-    return (v, d) => (k(), $("div", null, [
-      y.direction == "down" ? (k(), $("svg", Mr, Vr)) : W("", !0),
-      y.direction == "up" ? (k(), $("svg", jr, Nr)) : W("", !0)
+  setup(S) {
+    return (v, d) => (P(), E("div", null, [
+      S.direction == "down" ? (P(), E("svg", Mr, Vr)) : W("", !0),
+      S.direction == "up" ? (P(), E("svg", jr, Nr)) : W("", !0)
     ]));
   }
 }), Kr = { class: "relative h-full" }, Br = {
@@ -1780,7 +1782,7 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
 }, Rr = /* @__PURE__ */ Se(" Name "), Hr = /* @__PURE__ */ Se(" Size "), Fr = /* @__PURE__ */ Se(" Date "), Ur = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], Wr = { class: "grid grid-cols-12 items-center" }, Yr = { class: "flex col-span-7 items-center" }, Zr = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
-  class: "h-5 w-5 text-neutral-500 text-sky-500 fill-sky-500",
+  class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
   fill: "none",
   viewBox: "0 0 24 24",
   stroke: "currentColor",
@@ -1808,7 +1810,7 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
 ], en = { class: "overflow-ellipsis overflow-hidden whitespace-nowrap" }, tn = { class: "col-span-2 text-center" }, rn = { class: "col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap" }, nn = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], on = { class: "relative" }, sn = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
-  class: "h-10 w-10 md:h-12 md:w-12 m-auto text-sky-500 fill-sky-500",
+  class: "h-10 w-10 md:h-12 md:w-12 m-auto fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
   fill: "none",
   viewBox: "0 0 24 24",
   stroke: "currentColor",
@@ -1853,48 +1855,48 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
     view: String,
     data: Object
   },
-  setup(y) {
-    const v = y, d = inject("emitter"), m = (x) => x == null ? void 0 : x.substring(0, 3), f = (x) => x.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), s = z(null), E = z(null), _ = z(0), C = z(null), S = (x) => {
-      x.type == "dir" ? d.emit("vf-fetch-index", { adapter: v.data.adapter, item: x }) : d.emit("vf-modal-show", { type: "preview" });
-    }, p = ue({ active: !1, column: "", order: "" }), V = (x = !0) => {
-      let P = [...v.data.files], D = p.column, B = p.order == "asc" ? 1 : -1;
-      if (!x)
-        return P;
-      const M = (Y, Z) => typeof Y == "string" && typeof Z == "string" ? Y.toLowerCase().localeCompare(Z.toLowerCase()) : Y < Z ? -1 : Y > Z ? 1 : 0;
-      return p.active && (P = P.slice().sort((Y, Z) => M(Y[D], Z[D]) * B)), P;
-    }, j = (x) => {
-      p.active && p.column == x ? (p.active = p.order == "asc", p.column = x, p.order = "desc") : (p.active = !0, p.column = x, p.order = "asc");
-    }, F = () => C.value.getSelection().map((x) => JSON.parse(x.dataset.item)), U = (x, P) => {
-      if (x.altKey || x.ctrlKey || x.metaKey)
-        return x.preventDefault(), !1;
-      let D = E.value;
-      x.dataTransfer.setDragImage(D, 0, 15), x.dataTransfer.effectAllowed = "all", x.dataTransfer.dropEffect = "copy";
-    }, I = (x, P) => {
-      x.preventDefault();
-    }, q = (x, P) => {
-      x.preventDefault(), (!P || P.type !== "dir" || C.value.getSelection().find((D) => D == x.currentTarget)) && (x.dataTransfer.dropEffect = "none", x.dataTransfer.effectAllowed = "none");
+  setup(S) {
+    const v = S, d = inject("emitter"), f = (D) => D == null ? void 0 : D.substring(0, 3), g = (D) => D.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), s = z(null), w = z(null), _ = z(0), k = z(null), y = (D) => {
+      D.type == "dir" ? d.emit("vf-fetch-index", { adapter: v.data.adapter, item: D }) : d.emit("vf-modal-show", { type: "preview" });
+    }, p = ue({ active: !1, column: "", order: "" }), A = (D = !0) => {
+      let $ = [...v.data.files], C = p.column, H = p.order == "asc" ? 1 : -1;
+      if (!D)
+        return $;
+      const L = (Y, Z) => typeof Y == "string" && typeof Z == "string" ? Y.toLowerCase().localeCompare(Z.toLowerCase()) : Y < Z ? -1 : Y > Z ? 1 : 0;
+      return p.active && ($ = $.slice().sort((Y, Z) => L(Y[C], Z[C]) * H)), $;
+    }, j = (D) => {
+      p.active && p.column == D ? (p.active = p.order == "asc", p.column = D, p.order = "desc") : (p.active = !0, p.column = D, p.order = "asc");
+    }, R = () => k.value.getSelection().map((D) => JSON.parse(D.dataset.item)), U = (D, $) => {
+      if (D.altKey || D.ctrlKey || D.metaKey)
+        return D.preventDefault(), !1;
+      let C = w.value;
+      D.dataTransfer.setDragImage(C, 0, 15), D.dataTransfer.effectAllowed = "all", D.dataTransfer.dropEffect = "copy";
+    }, M = (D, $) => {
+      D.preventDefault();
+    }, q = (D, $) => {
+      D.preventDefault(), (!$ || $.type !== "dir" || k.value.getSelection().find((C) => C == D.currentTarget)) && (D.dataTransfer.dropEffect = "none", D.dataTransfer.effectAllowed = "none");
     };
     return be(() => {
-      C.value = new Ar({
+      k.value = new Ar({
         area: s.value,
         keyboardDrag: !1,
         selectedClass: "vf-explorer-selected",
         selectorClass: "vf-explorer-selector"
       }), d.on("vf-explorer-update", () => Ze(() => {
-        C.value.clearSelection(), C.value.setSelectables(document.getElementsByClassName("vf-item"));
-      })), C.value.subscribe("predragstart", ({ isDragging: x }) => {
-        x && (_.value = C.value.getSelection().length, C.value.break());
-      }), C.value.subscribe("predragmove", ({ isDragging: x }) => {
-        x && C.value.break();
-      }), C.value.subscribe("callback", ({ items: x, event: P, isDragging: D }) => {
-        _.value = C.value.getSelection().length;
+        k.value.clearSelection(), k.value.setSelectables(document.getElementsByClassName("vf-item"));
+      })), k.value.subscribe("predragstart", ({ isDragging: D }) => {
+        D && (_.value = k.value.getSelection().length, k.value.break());
+      }), k.value.subscribe("predragmove", ({ isDragging: D }) => {
+        D && k.value.break();
+      }), k.value.subscribe("callback", ({ items: D, event: $, isDragging: C }) => {
+        d.emit("vf-nodes-selected", R()), _.value = k.value.getSelection().length;
       });
     }), be(() => {
       We(() => v.view, () => d.emit("vf-explorer-update"));
-    }), (x, P) => (k(), $("div", Kr, [
-      y.view == "list" ? (k(), $("div", Br, [
+    }), (D, $) => (P(), E("div", Kr, [
+      S.view == "list" ? (P(), E("div", Br, [
         i("div", {
-          onClick: P[0] || (P[0] = (D) => j("basename")),
+          onClick: $[0] || ($[0] = (C) => j("basename")),
           class: "col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center pl-1"
         }, [
           Rr,
@@ -1905,7 +1907,7 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
           ])
         ]),
         i("div", {
-          onClick: P[1] || (P[1] = (D) => j("file_size")),
+          onClick: $[1] || ($[1] = (C) => j("file_size")),
           class: "col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center border-l border-r dark:border-gray-700"
         }, [
           Hr,
@@ -1916,7 +1918,7 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
           ])
         ]),
         i("div", {
-          onClick: P[2] || (P[2] = (D) => j("last_modified")),
+          onClick: $[2] || ($[2] = (C) => j("last_modified")),
           class: "col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center"
         }, [
           Fr,
@@ -1929,57 +1931,57 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
       ])) : W("", !0),
       i("div", {
         class: "h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1",
-        ref: (D) => s.value = D,
-        onContextmenu: P[3] || (P[3] = le((D) => A(d).emit("vf-contextmenu-show", { event: D, area: s.value, items: F() }), ["self", "prevent"]))
+        ref: (C) => s.value = C,
+        onContextmenu: $[3] || ($[3] = le((C) => I(d).emit("vf-contextmenu-show", { event: C, area: s.value, items: R() }), ["self", "prevent"]))
       }, [
-        y.view == "list" ? (k(!0), $(ne, { key: 0 }, oe(V(), (D, B) => (k(), $("div", {
+        S.view == "list" ? (P(!0), E(ne, { key: 0 }, oe(A(), (C, H) => (P(), E("div", {
           draggable: "true",
-          onDblclick: (M) => S(D),
-          onContextmenu: le((M) => A(d).emit("vf-contextmenu-show", { event: M, area: s.value, items: F(), target: D }), ["prevent"]),
-          onDragstart: (M) => U(M),
-          onDragover: (M) => q(M, D),
-          onDrop: (M) => I(M),
+          onDblclick: (L) => y(C),
+          onContextmenu: le((L) => I(d).emit("vf-contextmenu-show", { event: L, area: s.value, items: R(), target: C }), ["prevent"]),
+          onDragstart: (L) => U(L),
+          onDragover: (L) => q(L, C),
+          onDrop: (L) => M(L),
           class: "vf-item grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none",
-          "data-type": D.type,
-          "data-item": JSON.stringify(D),
-          "data-index": B
+          "data-type": C.type,
+          "data-item": JSON.stringify(C),
+          "data-index": H
         }, [
           i("div", Wr, [
             i("div", Yr, [
-              D.type == "dir" ? (k(), $("svg", Zr, Jr)) : (k(), $("svg", Gr, Qr)),
-              i("span", en, R(D.basename), 1)
+              C.type == "dir" ? (P(), E("svg", Zr, Jr)) : (P(), E("svg", Gr, Qr)),
+              i("span", en, K(C.basename), 1)
             ]),
-            i("div", tn, R(D.file_size ? A(Tr)(D.file_size) : ""), 1),
-            i("div", rn, R(A(Ir)(D.last_modified)), 1)
+            i("div", tn, K(C.file_size ? I(Ir)(C.file_size) : ""), 1),
+            i("div", rn, K(I(Tr)(C.last_modified)), 1)
           ])
         ], 40, Ur))), 256)) : W("", !0),
-        y.view == "grid" ? (k(!0), $(ne, { key: 1 }, oe(V(!1), (D, B) => (k(), $("div", {
+        S.view == "grid" ? (P(!0), E(ne, { key: 1 }, oe(A(!1), (C, H) => (P(), E("div", {
           draggable: "true",
-          onDblclick: (M) => S(D),
-          onContextmenu: le((M) => A(d).emit("vf-contextmenu-show", { event: M, area: s.value, items: F(), target: D }), ["prevent"]),
-          onDragstart: (M) => U(M),
-          onDragover: (M) => q(M, D),
-          onDrop: (M) => I(M),
+          onDblclick: (L) => y(C),
+          onContextmenu: le((L) => I(d).emit("vf-contextmenu-show", { event: L, area: s.value, items: R(), target: C }), ["prevent"]),
+          onDragstart: (L) => U(L),
+          onDragover: (L) => q(L, C),
+          onDrop: (L) => M(L),
           class: "vf-item border border-transparent hover:bg-neutral-50 m-0.5 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none",
-          "data-type": D.type,
-          "data-item": JSON.stringify(D),
-          "data-index": B
+          "data-type": C.type,
+          "data-item": JSON.stringify(C),
+          "data-index": H
         }, [
           i("div", null, [
             i("div", on, [
-              D.type == "dir" ? (k(), $("svg", sn, ln)) : (k(), $("svg", cn, dn)),
-              i("div", hn, R(m(D.extension)), 1)
+              C.type == "dir" ? (P(), E("svg", sn, ln)) : (P(), E("svg", cn, dn)),
+              i("div", hn, K(f(C.extension)), 1)
             ]),
-            i("span", fn, R(f(D.basename)), 1)
+            i("span", fn, K(g(C.basename)), 1)
           ])
         ], 40, nn))), 256)) : W("", !0),
         i("div", mn, [
           i("div", {
-            ref: (D) => E.value = D,
+            ref: (C) => w.value = C,
             class: "absolute z-50"
           }, [
             gn,
-            i("div", vn, R(_.value), 1)
+            i("div", vn, K(_.value), 1)
           ], 512)
         ])
       ], 544)
@@ -1999,69 +2001,69 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
   props: {
     data: Object
   },
-  setup(y) {
-    const v = y, d = inject("emitter"), m = z(null), f = z([]);
+  setup(S) {
+    const v = S, d = inject("emitter"), f = z(null), g = z([]);
     return d.on("vf-explorer-update", (s) => {
-      var C;
-      let E = [], _ = [];
-      m.value = (C = v.data.dirname) != null ? C : "", m.value.length == 0 && (f.value = []), m.value.split("/").forEach(function(S) {
-        E.push(S), E.join("/") != "" && _.push({
-          basename: S,
-          name: S,
-          path: E.join("/"),
+      var k;
+      let w = [], _ = [];
+      f.value = (k = v.data.dirname) != null ? k : "", f.value.length == 0 && (g.value = []), f.value.split("/").forEach(function(y) {
+        w.push(y), w.join("/") != "" && _.push({
+          basename: y,
+          name: y,
+          path: w.join("/"),
           type: "dir"
         });
-      }), _.length > 4 && (_ = _.slice(-5), _[0].name = ".."), f.value = _;
-    }), (s, E) => (k(), $("div", Sn, [
-      (k(), $("svg", {
-        onClick: E[0] || (E[0] = (_) => !f.value.length || A(d).emit("vf-fetch-index", { adapter: y.data.adapter, item: f.value[f.value.length - 2] })),
+      }), _.length > 4 && (_ = _.slice(-5), _[0].name = ".."), g.value = _;
+    }), (s, w) => (P(), E("div", Sn, [
+      (P(), E("svg", {
+        onClick: w[0] || (w[0] = (_) => !g.value.length || I(d).emit("vf-fetch-index", { adapter: S.data.adapter, item: g.value[g.value.length - 2] })),
         xmlns: "http://www.w3.org/2000/svg",
-        class: Ye(["h-6 w-6 p-0.5 rounded", f.value.length ? "text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer" : "text-gray-400 dark:text-neutral-500"]),
+        class: Ye(["h-6 w-6 p-0.5 rounded", g.value.length ? "text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer" : "text-gray-400 dark:text-neutral-500"]),
         viewBox: "0 0 20 20",
         fill: "currentColor"
       }, _n, 2)),
       i("div", wn, [
-        (k(), $("svg", {
-          onClick: E[1] || (E[1] = (_) => A(d).emit("vf-fetch-index", { adapter: y.data.adapter })),
+        (P(), E("svg", {
+          onClick: w[1] || (w[1] = (_) => I(d).emit("vf-fetch-index", { adapter: S.data.adapter })),
           class: "h-6 w-6 p-1 rounded text-slate-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-gray-800 cursor-pointer",
           xmlns: "http://www.w3.org/2000/svg",
           viewBox: "0 0 20 20",
           fill: "currentColor"
         }, Dn)),
         i("div", kn, [
-          (k(!0), $(ne, null, oe(f.value, (_, C) => (k(), $("div", { key: C }, [
+          (P(!0), E(ne, null, oe(g.value, (_, k) => (P(), E("div", { key: k }, [
             Cn,
             i("span", {
               class: "px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer",
               title: _.basename,
-              onClick: (S) => A(d).emit("vf-fetch-index", { adapter: y.data.adapter, item: _ })
-            }, R(_.name), 9, Pn)
+              onClick: (y) => I(d).emit("vf-fetch-index", { adapter: S.data.adapter, item: _ })
+            }, K(_.name), 9, Pn)
           ]))), 128))
         ])
       ])
     ]));
   }
-}), An = /* @__PURE__ */ i("div", { class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" }, null, -1), Tn = { class: "fixed z-10 inset-0 overflow-y-auto" }, In = { class: "relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full" }, Mn = { class: "bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, Ln = { class: "bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, Vn = {
+}), An = /* @__PURE__ */ i("div", { class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" }, null, -1), In = { class: "fixed z-10 inset-0 overflow-y-auto" }, Tn = { class: "relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full" }, Mn = { class: "bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, Ln = { class: "bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, Vn = {
   name: "VFModal"
 }, jn = /* @__PURE__ */ Object.assign(Vn, {
-  setup(y) {
+  setup(S) {
     const v = inject("emitter");
-    return (d, m) => (k(), $("div", {
+    return (d, f) => (P(), E("div", {
       id: "v-f-modal",
       class: "relative z-10",
       "aria-labelledby": "modal-title",
       role: "dialog",
       "aria-modal": "true",
-      onKeyup: m[1] || (m[1] = Xt((f) => A(v).emit("vf-modal-close"), ["esc"])),
+      onKeyup: f[1] || (f[1] = Xt((g) => I(v).emit("vf-modal-close"), ["esc"])),
       tabindex: "0"
     }, [
       An,
-      i("div", Tn, [
+      i("div", In, [
         i("div", {
           class: "flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0",
-          onClick: m[0] || (m[0] = le((f) => A(v).emit("vf-modal-close"), ["self"]))
+          onClick: f[0] || (f[0] = le((g) => I(v).emit("vf-modal-close"), ["self"]))
         }, [
-          i("div", In, [
+          i("div", Tn, [
             i("div", Mn, [
               He(d.$slots, "default")
             ]),
@@ -2106,20 +2108,20 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
 }, "Yes, delete!", -1), zn = {
   name: "VFModalDelete"
 }, Kn = /* @__PURE__ */ Object.assign(zn, {
-  setup(y) {
+  setup(S) {
     const v = inject("emitter");
-    return (d, m) => {
-      const f = H("v-f-modal");
-      return k(), G(f, null, {
-        buttons: K(() => [
+    return (d, f) => {
+      const g = F("v-f-modal");
+      return P(), G(g, null, {
+        buttons: B(() => [
           Nn,
           i("button", {
             type: "button",
-            onClick: m[0] || (m[0] = (s) => A(v).emit("vf-modal-close")),
+            onClick: f[0] || (f[0] = (s) => I(v).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: K(() => [
+        default: B(() => [
           On
         ]),
         _: 1
@@ -2150,27 +2152,27 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
   props: {
     item: Object
   },
-  setup(y) {
+  setup(S) {
     const v = inject("emitter");
-    return (d, m) => {
-      const f = H("v-f-modal");
-      return k(), G(f, null, {
-        buttons: K(() => [
+    return (d, f) => {
+      const g = F("v-f-modal");
+      return P(), G(g, null, {
+        buttons: B(() => [
           i("button", {
             type: "button",
-            onClick: m[0] || (m[0] = (s) => A(v).emit("vf-modal-close")),
+            onClick: f[0] || (f[0] = (s) => I(v).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Close")
         ]),
-        default: K(() => {
-          var s, E, _, C;
+        default: B(() => {
+          var s, w, _, k;
           return [
             i("div", Bn, [
               Rn,
               i("div", Hn, [
-                i("h3", Fn, R((E = (s = y.item) == null ? void 0 : s.title) != null ? E : "Title"), 1),
+                i("h3", Fn, K((w = (s = S.item) == null ? void 0 : s.title) != null ? w : "Title"), 1),
                 i("div", Un, [
-                  i("p", Wn, R((C = (_ = y.item) == null ? void 0 : _.message) != null ? C : "Message") + ".", 1)
+                  i("p", Wn, K((k = (_ = S.item) == null ? void 0 : _.message) != null ? k : "Message") + ".", 1)
                 ])
               ])
             ])
@@ -2213,20 +2215,20 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
 }, "Yes, delete!", -1), Gn = {
   name: "VFModalNewFolder"
 }, qn = /* @__PURE__ */ Object.assign(Gn, {
-  setup(y) {
+  setup(S) {
     const v = inject("emitter");
-    return (d, m) => {
-      const f = H("v-f-modal");
-      return k(), G(f, null, {
-        buttons: K(() => [
+    return (d, f) => {
+      const g = F("v-f-modal");
+      return P(), G(g, null, {
+        buttons: B(() => [
           Jn,
           i("button", {
             type: "button",
-            onClick: m[0] || (m[0] = (s) => A(v).emit("vf-modal-close")),
+            onClick: f[0] || (f[0] = (s) => I(v).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: K(() => [
+        default: B(() => [
           Xn
         ]),
         _: 1
@@ -2266,20 +2268,20 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
 }, "Yes, delete!", -1), to = {
   name: "VFModalPreview"
 }, ro = /* @__PURE__ */ Object.assign(to, {
-  setup(y) {
+  setup(S) {
     const v = inject("emitter");
-    return (d, m) => {
-      const f = H("v-f-modal");
-      return k(), G(f, null, {
-        buttons: K(() => [
+    return (d, f) => {
+      const g = F("v-f-modal");
+      return P(), G(g, null, {
+        buttons: B(() => [
           eo,
           i("button", {
             type: "button",
-            onClick: m[0] || (m[0] = (s) => A(v).emit("vf-modal-close")),
+            onClick: f[0] || (f[0] = (s) => I(v).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: K(() => [
+        default: B(() => [
           Qn
         ]),
         _: 1
@@ -2319,20 +2321,20 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
 }, "Yes, delete!", -1), so = {
   name: "VFModalRename"
 }, io = /* @__PURE__ */ Object.assign(so, {
-  setup(y) {
+  setup(S) {
     const v = inject("emitter");
-    return (d, m) => {
-      const f = H("v-f-modal");
-      return k(), G(f, null, {
-        buttons: K(() => [
+    return (d, f) => {
+      const g = F("v-f-modal");
+      return P(), G(g, null, {
+        buttons: B(() => [
           oo,
           i("button", {
             type: "button",
-            onClick: m[0] || (m[0] = (s) => A(v).emit("vf-modal-close")),
+            onClick: f[0] || (f[0] = (s) => I(v).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: K(() => [
+        default: B(() => [
           no
         ]),
         _: 1
@@ -2372,20 +2374,20 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
 }, "Yes, delete!", -1), co = {
   name: "VFModalUpload"
 }, uo = /* @__PURE__ */ Object.assign(co, {
-  setup(y) {
+  setup(S) {
     const v = inject("emitter");
-    return (d, m) => {
-      const f = H("v-f-modal");
-      return k(), G(f, null, {
-        buttons: K(() => [
+    return (d, f) => {
+      const g = F("v-f-modal");
+      return P(), G(g, null, {
+        buttons: B(() => [
           lo,
           i("button", {
             type: "button",
-            onClick: m[0] || (m[0] = (s) => A(v).emit("vf-modal-close")),
+            onClick: f[0] || (f[0] = (s) => I(v).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: K(() => [
+        default: B(() => [
           ao
         ]),
         _: 1
@@ -2395,15 +2397,15 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
 }), ho = ["onClick"], fo = /* @__PURE__ */ i("span", { class: "px-1" }, null, -1), mo = {
   name: "VFContextMenu"
 }, go = /* @__PURE__ */ Object.assign(mo, {
-  setup(y) {
-    const v = inject("emitter"), d = z(null), m = ue({
+  setup(S) {
+    const v = inject("emitter"), d = z(null), f = ue({
       active: !1,
       items: [],
       positions: {
         left: 0,
         top: 0
       }
-    }), f = {
+    }), g = {
       newfolder: {
         title: "New Folder",
         action: () => {
@@ -2437,33 +2439,33 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
     }, s = (_) => {
       v.emit("vf-contextmenu-hide"), console.log(_);
     };
-    v.on("vf-contextmenu-show", ({ event: _, area: C, items: S, target: p = null }) => {
-      m.items = [], p ? S.length > 1 && S.some((V) => V.path === p.path) ? (m.items.push(f.zip), m.items.push(f.delete), console.log(S.length + " selected (more than 1 item.)")) : (m.items.push(f.newfolder), m.items.push(f.preview), m.items.push(f.rename), m.items.push(f.zip), m.items.push(f.delete), console.log(p.type + " is selected")) : (m.items.push(f.newfolder), console.log("no files selected")), E(_, C);
+    v.on("vf-contextmenu-show", ({ event: _, area: k, items: y, target: p = null }) => {
+      f.items = [], p ? y.length > 1 && y.some((A) => A.path === p.path) ? (f.items.push(g.zip), f.items.push(g.delete), console.log(y.length + " selected (more than 1 item.)")) : (f.items.push(g.newfolder), f.items.push(g.preview), f.items.push(g.rename), f.items.push(g.zip), f.items.push(g.delete), console.log(p.type + " is selected")) : (f.items.push(g.newfolder), console.log("no files selected")), w(_, k);
     }), v.on("vf-contextmenu-hide", () => {
-      m.active = !1;
+      f.active = !1;
     });
-    const E = (_, C) => {
-      m.active = !0, Ze(() => {
-        let S = C.getBoundingClientRect(), p = _.pageX - window.scrollX, V = _.pageY - window.scrollY, j = d.value.offsetHeight, F = d.value.offsetWidth;
-        p = S.right - _.pageX + window.scrollX < F ? p - F : p, V = S.bottom - _.pageY + window.scrollY < j ? V - j : V, m.positions = {
+    const w = (_, k) => {
+      f.active = !0, Ze(() => {
+        let y = k.getBoundingClientRect(), p = _.pageX - window.scrollX, A = _.pageY - window.scrollY, j = d.value.offsetHeight, R = d.value.offsetWidth;
+        p = y.right - _.pageX + window.scrollX < R ? p - R : p, A = y.bottom - _.pageY + window.scrollY < j ? A - j : A, f.positions = {
           left: p + "px",
-          top: V + "px"
+          top: A + "px"
         };
       });
     };
-    return (_, C) => m.active ? (k(), $("ul", {
+    return (_, k) => f.active ? (P(), E("ul", {
       key: 0,
       class: "absolute text-xs bg-neutral-50 border border-neutral-300 shadow rounded select-none",
-      ref: (S) => d.value = S,
-      style: Jt(m.positions)
+      ref: (y) => d.value = y,
+      style: Jt(f.positions)
     }, [
-      (k(!0), $(ne, null, oe(m.items, (S) => (k(), $("li", {
+      (P(!0), E(ne, null, oe(f.items, (y) => (P(), E("li", {
         class: "px-2 py-1.5 cursor-pointer hover:bg-neutral-200",
-        key: S.title,
-        onClick: (p) => s(S)
+        key: y.title,
+        onClick: (p) => s(y)
       }, [
         fo,
-        i("span", null, R(S.title), 1)
+        i("span", null, K(y.title), 1)
       ], 8, ho))), 128))
     ], 4)) : W("", !0);
   }
@@ -2484,11 +2486,11 @@ const Ar = Xe.exports, Tr = (y, v, d, m, f) => (v = Math, d = v.log, m = 1024, f
   ContextMenu: go
 };
 const po = {
-  install(y) {
+  install(S) {
     for (const v in pe)
       if (pe.hasOwnProperty(v)) {
         const d = pe[v];
-        y.component(d.name, d);
+        S.component(d.name, d);
       }
   }
 };

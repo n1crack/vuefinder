@@ -12,7 +12,7 @@
         </option>
       </select>
 
-     <span class="ml-3"> 2 items selected.</span>
+     <span class="ml-3"> {{ selectedItemCount > 0 ? selectedItemCount + ' items selected.' : '' }} </span>
     </div>
     <div class="flex leading-5 items-center">
       <span @click="emitter.emit('vf-modal-show', {type:'message', title:'Vuefinder 1.0', message: 'Vuefinder is a file manager component for vue 3.'})">
@@ -39,12 +39,17 @@ const props = defineProps({
 
 const emitter = inject('emitter');
 const {getStore, setStore} = inject('storage');
-
+const selectedItemCount = ref(0);
 const adapter = ref(getStore('adapter') ?? props.data.adapter);
 
 const handleStorageSelect = () => {
   emitter.emit('vf-adapter-changed', adapter.value);
   setStore('adapter', adapter.value)
 };
+
+emitter.on('vf-nodes-selected', (items) => {
+  selectedItemCount.value = items.length;
+
+})
 </script>
 
