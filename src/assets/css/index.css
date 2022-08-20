@@ -13,4 +13,8 @@
   .vf-explorer-selector {
     @apply border border-slate-500 bg-slate-300 opacity-50 !important;
   }
+
+  .dark {
+    color-scheme: dark;
+  }
 }
