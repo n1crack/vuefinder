@@ -6,7 +6,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
         </svg>
       </div>
-      <select v-model="adapter" @change="handleStorageSelect" class="text-cyan-700 font-bold inline-block rounded px-2" name="" id="">
+      <select v-model="adapter" @change="handleStorageSelect" class="text-cyan-700 font-bold inline-block rounded px-2">
         <option v-for="storage in data.storages" :value="storage">
           {{ storage }}
         </option>
@@ -38,18 +38,15 @@ const props = defineProps({
 });
 
 const emitter = inject('emitter');
-const {store, setStore} = inject('storage');
+const {getStore, setStore} = inject('storage');
 
-const adapter = ref(store.storage ?? props.data.adapter);
+const adapter = ref(getStore('adapter') ?? props.data.adapter);
 
-console.log(store)
-
-
-
+console.log(getStore('adapter'))
 
 const handleStorageSelect = () => {
   emitter.emit('vf-adapter-changed', adapter.value);
-  setStore('storage', adapter.value)
+  setStore('adapter', adapter.value)
 };
 </script>
 

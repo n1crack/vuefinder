@@ -90,7 +90,7 @@ import VFSortIcon from './SortIcon.vue';
 
 const props = defineProps({
   view: String,
-  items: Object
+  data: Object
 });
 
 const emitter = inject('emitter');
@@ -103,7 +103,8 @@ const ds = ref(null);
 
 const openItem = (item) => {
   if (item.type == 'dir') {
-    emitter.emit('vf-fetch-index', item);
+    console.log(props.data.adapter);
+    emitter.emit('vf-fetch-index', {adapter: props.data.adapter, item});
   } else {
     emitter.emit('vf-modal-show', {type: 'preview'});
   }
@@ -112,7 +113,7 @@ const openItem = (item) => {
 const sort = reactive( { active: false, column: '', order: '' });
 
 const getItems = ( sorted = true) => {
-  let files = [...props.items.files],
+  let files = [...props.data.files],
       column = sort.column,
       order = sort.order == 'asc' ? 1 : -1;
 

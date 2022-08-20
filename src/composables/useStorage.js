@@ -12,7 +12,6 @@ export function useStorage(key) {
         if (storage.value === null || storage.value === '') {
             localStorage.removeItem(key + '_storage');
         } else {
-
             localStorage.setItem(key + '_storage', JSON.stringify(storage.value));
         }
     }
@@ -25,7 +24,15 @@ export function useStorage(key) {
        storage.value = null
     }
 
-    const store = storage.value;
+    const getStore = (key) => {
+        if (storage.value === null || storage.value === '') {
+            return null;
+        }
+        if (storage.value.hasOwnProperty(key)) {
+            return storage.value[key]
+        }
+        return null;
+    }
 
-    return {store, setStore, clearStore};
+    return {getStore, setStore, clearStore};
 }
