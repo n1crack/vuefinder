@@ -1,5 +1,5 @@
 <template>
-  <ul class="absolute text-xs bg-neutral-50 dark:bg-gray-800 dark:text-gray-200 border border-neutral-300 dark:border-gray-700 shadow rounded select-none" :ref="el => contextmenu = el" v-if="context.active" :style="context.positions">
+  <ul class="absolute text-xs bg-neutral-50 dark:bg-gray-800 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none" :ref="el => contextmenu = el" v-if="context.active" :style="context.positions">
     <li class="px-2 py-1.5 cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700"
         v-for="(item) in context.items" :key="item.title" @click="run(item)">
       <span class="px-1"></span>
@@ -29,6 +29,12 @@ const context = reactive({
   }
 });
 
+const selectedItems = ref([]);
+
+emitter.on('vf-context-selected', (items) => {
+  selectedItems.value = items;
+})
+
 const menuItems = {
   newfolder: {
     title: 'New Folder',
@@ -39,13 +45,13 @@ const menuItems = {
   delete: {
     title: 'Delete',
     action: () => {
-      console.log('del');
+      emitter.emit('vf-modal-show', {type:'delete'});
     },
   },
   preview: {
     title: 'Preview',
     action: () => {
-      console.log('preview');
+      emitter.emit('vf-modal-show', {type:'preview'});
     },
   },
   zip: {
@@ -57,14 +63,13 @@ const menuItems = {
   rename: {
     title: 'Rename',
     action: () => {
-      console.log('rename');
+      emitter.emit('vf-modal-show', {type:'rename', items: selectedItems});
     },
   }
 };
 
 const run = (item) =>{
   emitter.emit('vf-contextmenu-hide');
-  console.log(item)
   item.action();
 };
 
@@ -72,16 +77,19 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
   context.items = [];
   if (!target) {
     context.items.push(menuItems.newfolder);
+    emitter.emit('vf-context-selected', []);
     console.log('no files selected');
   } else if (items.length > 1 && items.some(el => el.path === target.path)) {
     context.items.push(menuItems.zip);
     context.items.push(menuItems.delete);
+    emitter.emit('vf-context-selected', items);
     console.log(items.length + ' selected (more than 1 item.)');
   } else {
     context.items.push(menuItems.preview);
     context.items.push(menuItems.rename);
     context.items.push(menuItems.zip);
     context.items.push(menuItems.delete);
+    emitter.emit('vf-context-selected', [target]);
     console.log(target.type + ' is selected');
   }
   showContextMenu(event, area)

@@ -1,6 +1,6 @@
 <template>
   <!-- This example requires Tailwind CSS v2.0+ -->
-  <div id="v-f-modal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+  <div class="v-f-modal relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"
        @keyup.esc="emitemit.emit('vf-modal-close')" tabindex="0">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
@@ -30,7 +30,15 @@ export default {
 </script>
 
 <script setup>
+import {onMounted} from 'vue';
+
 const emitemit = inject('emitter')
 
+onMounted(() => {
+  const inputElements = document.querySelector('.v-f-modal input')
+  if (inputElements) {
+    inputElements.focus();
+  }
+})
 </script>
 

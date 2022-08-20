@@ -1,7 +1,11 @@
-export default (url, method = 'get', params = {}) => {
-    if(method == 'get'){
-        return fetch(url + '?' + new URLSearchParams(params), {method: method});
+export default (url, {method = 'get', params = {}}) => {
+    const init = {method: method};
+
+    if (method == 'get') {
+        url += '?' + new URLSearchParams(params);
+    } else {
+        init.body = params;
     }
 
-    return fetch(url, {method: method, body: params});
+    return fetch(url, init).then(response => response.json());
 }

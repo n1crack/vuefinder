@@ -10,7 +10,7 @@
       <v-f-statusbar :data="fetchData"/>
     </div>
 
-    <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :item="modal.data"/>
+    <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :selection="modal.data" :current="fetchData"/>
     <v-f-context-menu/>
   </div>
 </template>
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <script setup>
-import {defineProps, inject, nextTick, onMounted, provide, reactive, ref} from 'vue';
+import {defineProps, onMounted, provide, reactive, ref} from 'vue';
 import ajax from '../utils/ajax.js';
 import mitt from 'mitt';
 import {useStorage} from '../composables/useStorage.js';
@@ -70,9 +70,9 @@ emitter.on('vf-modal-close', () => {
 });
 
 emitter.on('vf-modal-show', (item) => {
+  modal.active = true;
   modal.type = item.type;
   modal.data = item;
-  modal.active = true;
 });
 
 const updateItems = (data) => {
@@ -81,20 +81,16 @@ const updateItems = (data) => {
   emitter.emit('vf-explorer-update', data)
 }
 
-emitter.on('vf-fetch-index', ({adapter, item = null}) => {
-  ajax(props.url, 'get', {
-    q: 'index',
-    adapter: adapter,
-    path: item?.path ?? ''
-  })
-      .then(response => response.json())
+emitter.on('vf-fetch', (params) => {
+  ajax(props.url, {params})
       .then(data => {
+        emitter.emit('vf-modal-close');
         updateItems(data);
       });
 });
 
 onMounted(() => {
-  emitter.emit('vf-fetch-index', {adapter: (getStore('adapter', fetchData.adapter)) })
+  emitter.emit('vf-fetch', {q: 'index', adapter: (getStore('adapter', fetchData.adapter)) })
 });
 
 </script>
