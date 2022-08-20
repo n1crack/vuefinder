@@ -14,7 +14,7 @@
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='last_modified'" />
         </div>
       </div>
-    <div class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1" :ref="el => selectorArea = el"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
+    <div class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1 z-0" :ref="el => selectorArea = el"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
 
       <div draggable="true"
            v-if="view=='list'"
