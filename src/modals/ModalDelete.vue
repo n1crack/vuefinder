@@ -11,7 +11,7 @@
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">Delete files</h3>
         <div class="mt-2">
-          <p class="text-sm text-gray-500">Are you sure you want to delete these files? This action cannot be undone.</p>
+          <p class="text-sm text-gray-500">Are you sure you want to delete these files? <span class="font-bold text-red-500 dark:text-red-200">This action cannot be undone.</span></p>
           <p v-for="item in items" class="flex text-sm text-gray-800 dark:text-gray-400">
             <svg v-if="item.type == 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
@@ -26,7 +26,7 @@
     </div>
 
     <template v-slot:buttons>
-      <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Yes, delete!</button>
+      <button type="button" @click="remove" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Yes, delete!</button>
       <button type="button" @click="emitter.emit('vf-modal-close')" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Cancel</button>
     </template>
   </v-f-modal>
@@ -53,13 +53,14 @@ const props = defineProps({
 
 const items = ref(props.selection.items);
 
-const rename = () => {
-  if (items.length) {
+const remove = () => {
+
+  if (items.value.length) {
     emitter.emit('vf-fetch', {
       q: 'delete',
       adapter: getStore('adapter'),
       path: props.current.dirname,
-      items: items.value.map((item) => item.path),
+      items: JSON.stringify(items.value.map(({path, type}) => ({path, type})))
     });
   }
 };

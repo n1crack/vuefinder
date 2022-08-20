@@ -45,7 +45,7 @@ const menuItems = {
   delete: {
     title: 'Delete',
     action: () => {
-      emitter.emit('vf-modal-show', {type:'delete'});
+      emitter.emit('vf-modal-show', {type:'delete', items: selectedItems});
     },
   },
   preview: {
@@ -104,13 +104,13 @@ const showContextMenu = (event, area) => {
 
   nextTick(() => {
     let container = area.getBoundingClientRect();
-    let left = event.pageX - window.scrollX;
-    let top = event.pageY - window.scrollY;
+    let left = event.pageX;
+    let top = event.pageY;
     let menuHeight = contextmenu.value.offsetHeight;
     let menuWidth = contextmenu.value.offsetWidth;
 
-    left = container.right - event.pageX + window.scrollX < menuWidth ? left - menuWidth : left;
-    top = container.bottom - event.pageY + window.scrollY < menuHeight ? top - menuHeight : top;
+    left = (container.right - event.pageX + window.scrollX) < menuWidth ? left - menuWidth : left;
+    top = (container.bottom - event.pageY + window.scrollY) < menuHeight ? top - menuHeight : top;
 
     context.positions = {
       left: left + 'px',
