@@ -1,15 +1,15 @@
 <template>
   <div class="relative h-full">
-    <div v-if="view=='list'" class="grid grid-cols-12 border-b border-b-neutral-300 text-xs select-none">
-        <div @click="sortBy('basename')" class="col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 flex items-center pl-1">
+    <div v-if="view=='list'" class="grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none">
+        <div @click="sortBy('basename')" class="col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center pl-1">
             Name
             <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'" v-show="sort.active && sort.column=='basename'" />
-          </div>
-        <div @click="sortBy('file_size')" class="col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 flex items-center justify-center border-l border-r">
+        </div>
+        <div @click="sortBy('file_size')" class="col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center border-l border-r dark:border-gray-700">
           Size
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='file_size'" />
         </div>
-        <div @click="sortBy('last_modified')" class="col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 flex items-center justify-center">
+        <div @click="sortBy('last_modified')" class="col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center">
           Date
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='last_modified'" />
         </div>
@@ -23,7 +23,7 @@
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
-           class="vf-item grid grid-cols-1 border hover:bg-neutral-50 border-transparent my-0.5 w-full select-none"
+           class="vf-item grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
            v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
           <div class="grid grid-cols-12 items-center">
             <div class="flex col-span-7 items-center">
@@ -47,7 +47,7 @@
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
-           class="vf-item border border-transparent hover:bg-neutral-50 m-0.5 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none"
+           class="vf-item border border-transparent hover:bg-neutral-50 m-0.5 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none"
            v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
           <div>
             <div class="relative">
@@ -185,6 +185,7 @@ const setDragSelect = () => {
     area: selectorArea.value,
     keyboardDrag: false,
     selectedClass: 'vf-explorer-selected',
+    selectorClass: 'vf-explorer-selector',
   });
 
   emitter.on('vf-explorer-update', () => nextTick(() => {

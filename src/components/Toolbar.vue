@@ -1,14 +1,14 @@
 <template>
   <div class="border-neutral-300 flex justify-between py-1 text-sm">
     <div class="flex text-center">
-        <div class="mx-1.5 hover:text-cyan-700 cursor-pointer"
+        <div class="mx-1.5 hover:text-cyan-700 dark:hover:text-neutral-50 cursor-pointer"
              aria-label="Rename" data-microtip-position="bottom" role="tooltip"
              @click="emitter.emit('vf-modal-show', {type:'rename'})">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
         </div>
-        <div class="mx-1.5 hover:text-cyan-700 cursor-pointer"
+        <div class="mx-1.5 hover:text-cyan-700 dark:hover:text-neutral-50 cursor-pointer"
              aria-label="Delete" data-microtip-position="bottom" role="tooltip"
              @click="emitter.emit('vf-modal-show', {type:'delete'})">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -16,7 +16,7 @@
             </svg>
         </div>
 
-        <div class="mx-1.5 hover:text-cyan-700 cursor-pointer"
+        <div class="mx-1.5 hover:text-cyan-700 dark:hover:text-neutral-50  cursor-pointer"
              aria-label="New Folder" data-microtip-position="bottom" role="tooltip"
              @click="emitter.emit('vf-modal-show', {type:'new-folder'})">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -27,7 +27,7 @@
     </div>
 
     <div class="flex text-center justify-end">
-        <div class="mx-1.5 hover:text-cyan-700 cursor-pointer"
+        <div class="mx-1.5 hover:text-cyan-700 dark:hover:text-neutral-50 cursor-pointer"
              aria-label="Change View" data-microtip-position="bottom" role="tooltip"
              @click="emitter.emit('vf-view-toggle', view == 'list' ? 'grid' : 'list')">
 
@@ -40,7 +40,7 @@
           </svg>
         </div>
 
-        <div class="mx-1.5 hover:text-cyan-700 cursor-pointer"
+        <div class="mx-1.5 hover:text-cyan-700 dark:hover:text-neutral-50 cursor-pointer"
              aria-label="Upload" data-microtip-position="bottom" role="tooltip"
              @click="emitter.emit('vf-modal-show', {type:'message', title:'Custom modal', message: 'Custom title'})">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

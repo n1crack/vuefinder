@@ -1,13 +1,18 @@
 <template>
-  <div class="relative border rounded-md bg-white text-gray-800 border-neutral-300 min-w-min select-none" @mousedown="emitter.emit('vf-contextmenu-hide')">
+  <div :class="darkMode ? 'dark': ''">
+    <button @click="darkMode = !darkMode">Dark Toggle</button>
+    <div
+        class="relative border rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-neutral-400 border-neutral-300 min-w-min select-none"
+        @mousedown="emitter.emit('vf-contextmenu-hide')">
       <v-f-toolbar/>
       <v-f-breadcrumb :data="fetchData"/>
       <v-f-explorer :view="view" :data="fetchData"/>
       <v-f-statusbar :data="fetchData"/>
-  </div>
+    </div>
 
-  <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :item="modal.data" />
-  <v-f-context-menu/>
+    <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :item="modal.data"/>
+    <v-f-context-menu/>
+  </div>
 </template>
 
 <script>
@@ -32,6 +37,10 @@ const props = defineProps({
   id: {
     type: String,
     default: 'vf'
+  },
+  dark: {
+    type: Boolean,
+    default: false
   }
 })
 const {getStore} = useStorage(props.id);
@@ -41,6 +50,8 @@ const fetchData = reactive({adapter:'local', storages: [], dirname: '.', files: 
 
 // View Management
 const view = ref('grid');
+
+const darkMode = ref(props.dark)
 
 emitter.on('vf-view-toggle', (newView) => {
   view.value = newView;
