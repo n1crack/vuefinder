@@ -71,18 +71,18 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
   context.items = [];
   if (!target) {
     context.items.push(menuItems.newfolder);
-    console.log('boş klasör olarak seçim');
-  } else if (items.length && items.some(el => el.path === target.path)) {
+    console.log('no files selected');
+  } else if (items.length > 1 && items.some(el => el.path === target.path)) {
     context.items.push(menuItems.zip);
     context.items.push(menuItems.delete);
-    console.log(items.length + ' olarak toplu seçim.');
+    console.log(items.length + ' selected (more than 1 item.)');
   } else {
     context.items.push(menuItems.newfolder);
     context.items.push(menuItems.preview);
     context.items.push(menuItems.rename);
     context.items.push(menuItems.zip);
     context.items.push(menuItems.delete);
-    console.log(target.type + ' olarak seçim..');
+    console.log(target.type + ' is selected');
   }
   showContextMenu(event, area)
 })

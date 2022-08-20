@@ -15,7 +15,7 @@
           <span class="text-neutral-300 mx-0.5">/</span>
           <span class="px-1.5 py-1 text-slate-700 hover:bg-neutral-100 rounded cursor-pointer" :title="item.basename" @click="emitter.emit('vf-fetch-index', {adapter: data.adapter, item})">{{ item.name }}</span>
         </div>
-      </div> 
+      </div>
     </div>
   </div>
 </template>

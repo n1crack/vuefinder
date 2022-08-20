@@ -103,7 +103,6 @@ const ds = ref(null);
 
 const openItem = (item) => {
   if (item.type == 'dir') {
-    console.log(props.data.adapter);
     emitter.emit('vf-fetch-index', {adapter: props.data.adapter, item});
   } else {
     emitter.emit('vf-modal-show', {type: 'preview'});
@@ -161,15 +160,15 @@ const handleDragStart = (e, item) => {
   e.dataTransfer.setDragImage(img, 0, 15);
   e.dataTransfer.effectAllowed = 'all';
   e.dataTransfer.dropEffect = 'copy';
-  console.log(ds.value.getSelection());
-  console.log(item);
+  // console.log(ds.value.getSelection());
+  // console.log(item);
   // e.dataTransfer.setData('data', JSON.stringify(ds.getSelection()));
 };
 
 const handleDropZone = (e, item) => {
   e.preventDefault();
-  console.log(item);
-  console.log(getSelectedItems());
+  // console.log(item);
+  // console.log(getSelectedItems());
   // console.log(item.path);
 };
 

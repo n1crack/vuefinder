@@ -42,8 +42,6 @@ const {getStore, setStore} = inject('storage');
 
 const adapter = ref(getStore('adapter') ?? props.data.adapter);
 
-console.log(getStore('adapter'))
-
 const handleStorageSelect = () => {
   emitter.emit('vf-adapter-changed', adapter.value);
   setStore('adapter', adapter.value)
