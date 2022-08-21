@@ -17,6 +17,7 @@ current progress :
 - [x] add modals
 - [x] drag and mouse select support
 - [x] view mode: list, grid
+- [x] sorting files in list view
 - [x] breadcrumb links
 - [x] go up a folder when click up arrow
 - [x] tooltips
