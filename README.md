@@ -29,6 +29,10 @@ current progress :
 - [x] delete
 - [x] zip
 - [ ] move
+- [ ] touch/ create a file
+- [ ] preview item
+- [ ] download
+- [ ] edit text file
 - [ ] image tools
 - [ ] upload
 - [ ] validation & error messages
