@@ -32,11 +32,19 @@
         <div class="mx-1.5"
              aria-label="Upload" data-microtip-position="bottom" role="tooltip"
              @click="emitter.emit('vf-modal-show', {type:'message', title:'Custom modal', message: 'Custom title'})">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
           </svg>
         </div>
-
+        <div class="mx-1.5"
+             aria-label="Zip" data-microtip-position="bottom" role="tooltip"
+              @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'zip', items: selectedItems})">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100' : 'stroke-gray-200  dark:stroke-gray-600'"
+               class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+          </svg>
+        </div>
     </div>
 
     <div class="flex text-center items-center justify-end">

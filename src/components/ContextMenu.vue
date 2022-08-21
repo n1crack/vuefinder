@@ -57,7 +57,7 @@ const menuItems = {
   zip: {
     title: 'Zip',
     action: () => {
-      console.log('zip');
+      emitter.emit('vf-modal-show', {type:'zip', items: selectedItems});
     },
   },
   rename: {

@@ -1,39 +1,39 @@
-(function(){"use strict";try{var t=document.createElement("style");t.appendChild(document.createTextNode('*,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji"}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit]{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.vf-explorer-selected{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(212 212 212 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(245 245 245 / var(--tw-bg-opacity))!important}.dark .vf-explorer-selected{border-color:rgb(17 24 39 / var(--tw-border-opacity))!important;--tw-border-opacity: 1 !important;border-color:rgb(30 41 59 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(51 65 85 / var(--tw-bg-opacity))!important}.vf-explorer-selector{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(100 116 139 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(203 213 225 / var(--tw-bg-opacity))!important;opacity:.5!important}.dark{color-scheme:dark}.vf-selector-area::-webkit-scrollbar{width:10px}.vf-selector-area::-webkit-scrollbar-track-piece{--tw-bg-opacity: 1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.dark .vf-selector-area::-webkit-scrollbar-track-piece{--tw-bg-opacity: 1;background-color:rgb(15 23 42 / var(--tw-bg-opacity))}.vf-selector-area::-webkit-scrollbar-thumb{--tw-bg-opacity: 1;background-color:rgb(229 231 235 / var(--tw-bg-opacity))}.dark .vf-selector-area::-webkit-scrollbar-thumb{--tw-bg-opacity: 1;background-color:rgb(71 85 105 / var(--tw-bg-opacity))}.vf-selector-area::-webkit-scrollbar-thumb:hover{--tw-bg-opacity: 1;background-color:rgb(209 213 219 / var(--tw-bg-opacity))}.dark .vf-selector-area::-webkit-scrollbar-thumb:hover{--tw-bg-opacity: 1;background-color:rgb(51 65 85 / var(--tw-bg-opacity))}.vf-selector-area::-webkit-scrollbar-corner{background-color:transparent}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{top:0px;right:0px;bottom:0px;left:0px}.top-1\\/2{top:50%}.top-\\[-200px\\]{top:-200px}.left-\\[-200px\\]{left:-200px}.top-4{top:1rem}.right-\\[-2rem\\]{right:-2rem}.z-0{z-index:0}.z-50{z-index:50}.z-10{z-index:10}.z-20{z-index:20}.col-span-7{grid-column:span 7 / span 7}.col-span-2{grid-column:span 2 / span 2}.col-span-3{grid-column:span 3 / span 3}.m-0\\.5{margin:.125rem}.m-0{margin:0}.m-auto{margin:auto}.mx-0\\.5{margin-left:.125rem;margin-right:.125rem}.mx-0{margin-left:0;margin-right:0}.my-0\\.5{margin-top:.125rem;margin-bottom:.125rem}.my-0{margin-top:0;margin-bottom:0}.mx-2{margin-left:.5rem;margin-right:.5rem}.mx-1\\.5{margin-left:.375rem;margin-right:.375rem}.mx-1{margin-left:.25rem;margin-right:.25rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-2{margin-left:.5rem}.ml-3{margin-left:.75rem}.mt-3{margin-top:.75rem}.mt-2{margin-top:.5rem}.ml-1\\.5{margin-left:.375rem}.ml-1{margin-left:.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-6{height:1.5rem}.h-full{height:100%}.h-5{height:1.25rem}.h-20{height:5rem}.h-10{height:2.5rem}.h-12{height:3rem}.min-h-\\[150px\\]{min-height:150px}.min-h-full{min-height:100%}.w-6{width:1.5rem}.w-full{width:100%}.w-5{width:1.25rem}.w-\\[5\\.5rem\\]{width:5.5rem}.w-10{width:2.5rem}.w-12{width:3rem}.min-w-min{min-width:-webkit-min-content;min-width:-moz-min-content;min-width:min-content}.flex-shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.resize-y{resize:vertical}.grid-cols-12{grid-template-columns:repeat(12,minmax(0,1fr))}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.overflow-ellipsis{text-overflow:ellipsis}.whitespace-nowrap{white-space:nowrap}.break-all{word-break:break-all}.rounded{border-radius:.25rem}.rounded-md{border-radius:.375rem}.rounded-lg{border-radius:.5rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-t{border-top-width:1px}.border-b{border-bottom-width:1px}.border-l{border-left-width:1px}.border-r{border-right-width:1px}.border-neutral-300{--tw-border-opacity: 1;border-color:rgb(212 212 212 / var(--tw-border-opacity))}.border-transparent{border-color:transparent}.border-gray-300{--tw-border-opacity: 1;border-color:rgb(209 213 219 / var(--tw-border-opacity))}.bg-neutral-100{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity: 1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-neutral-50{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.bg-gray-500{--tw-bg-opacity: 1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.bg-gray-50{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.bg-red-100{--tw-bg-opacity: 1;background-color:rgb(254 226 226 / var(--tw-bg-opacity))}.bg-red-600{--tw-bg-opacity: 1;background-color:rgb(220 38 38 / var(--tw-bg-opacity))}.bg-blue-50{--tw-bg-opacity: 1;background-color:rgb(239 246 255 / var(--tw-bg-opacity))}.bg-opacity-75{--tw-bg-opacity: .75}.fill-sky-500{fill:#0ea5e9}.fill-white{fill:#fff}.fill-sky-100{fill:#e0f2fe}.stroke-sky-500{stroke:#0ea5e9}.stroke-neutral-500{stroke:#737373}.stroke-slate-500{stroke:#64748b}.stroke-gray-800{stroke:#1f2937}.stroke-gray-200{stroke:#e5e7eb}.stroke-red-600{stroke:#dc2626}.stroke-blue-600{stroke:#2563eb}.p-1\\.5{padding:.375rem}.p-1{padding:.25rem}.p-0\\.5{padding:.125rem}.p-0{padding:0}.p-4{padding:1rem}.px-1\\.5{padding-left:.375rem;padding-right:.375rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-2{padding-left:.5rem;padding-right:.5rem}.py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}.px-4{padding-left:1rem;padding-right:1rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.pl-1{padding-left:.25rem}.pl-2{padding-left:.5rem}.pr-8{padding-right:2rem}.pt-5{padding-top:1.25rem}.pb-4{padding-bottom:1rem}.text-left{text-align:left}.text-center{text-align:center}.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-base{font-size:1rem;line-height:1.5rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.leading-5{line-height:1.25rem}.leading-6{line-height:1.5rem}.text-slate-700{--tw-text-opacity: 1;color:rgb(51 65 85 / var(--tw-text-opacity))}.text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.text-neutral-700{--tw-text-opacity: 1;color:rgb(64 64 64 / var(--tw-text-opacity))}.text-slate-500{--tw-text-opacity: 1;color:rgb(100 116 139 / var(--tw-text-opacity))}.text-gray-800{--tw-text-opacity: 1;color:rgb(31 41 55 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity: 1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-red-500{--tw-text-opacity: 1;color:rgb(239 68 68 / var(--tw-text-opacity))}.opacity-0{opacity:0}.shadow{--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-xl{--tw-shadow: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);--tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-sm{--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.hover\\:bg-neutral-300:hover{--tw-bg-opacity: 1;background-color:rgb(212 212 212 / var(--tw-bg-opacity))}.hover\\:bg-neutral-100:hover{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.hover\\:bg-neutral-200:hover{--tw-bg-opacity: 1;background-color:rgb(229 229 229 / var(--tw-bg-opacity))}.hover\\:bg-neutral-50:hover{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.hover\\:bg-red-700:hover{--tw-bg-opacity: 1;background-color:rgb(185 28 28 / var(--tw-bg-opacity))}.hover\\:bg-gray-50:hover{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.hover\\:stroke-cyan-700:hover{stroke:#0e7490}.hover\\:stroke-sky-600:hover{stroke:#0284c7}.focus\\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\\:ring-2:focus{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}.focus\\:ring-red-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity))}.focus\\:ring-indigo-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity))}.focus\\:ring-offset-2:focus{--tw-ring-offset-width: 2px}.dark .dark\\:border-t{border-top-width:1px}.dark .dark\\:border-gray-900{--tw-border-opacity: 1;border-color:rgb(17 24 39 / var(--tw-border-opacity))}.dark .dark\\:border-gray-600{--tw-border-opacity: 1;border-color:rgb(75 85 99 / var(--tw-border-opacity))}.dark .dark\\:border-gray-700{--tw-border-opacity: 1;border-color:rgb(55 65 81 / var(--tw-border-opacity))}.dark .dark\\:bg-gray-800{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:bg-gray-700{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:bg-gray-500{--tw-bg-opacity: 1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.dark .dark\\:fill-slate-500{fill:#64748b}.dark .dark\\:fill-gray-700{fill:#374151}.dark .dark\\:fill-gray-400\\/20{fill:#9ca3af33}.dark .dark\\:stroke-slate-500{stroke:#64748b}.dark .dark\\:stroke-gray-600{stroke:#4b5563}.dark .dark\\:stroke-gray-300{stroke:#d1d5db}.dark .dark\\:stroke-gray-400{stroke:#9ca3af}.dark .dark\\:stroke-red-200{stroke:#fecaca}.dark .dark\\:stroke-blue-100{stroke:#dbeafe}.dark .dark\\:text-neutral-200{--tw-text-opacity: 1;color:rgb(229 229 229 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.dark .dark\\:text-gray-600{--tw-text-opacity: 1;color:rgb(75 85 99 / var(--tw-text-opacity))}.dark .dark\\:text-slate-200{--tw-text-opacity: 1;color:rgb(226 232 240 / var(--tw-text-opacity))}.dark .dark\\:text-gray-200{--tw-text-opacity: 1;color:rgb(229 231 235 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-50{--tw-text-opacity: 1;color:rgb(250 250 250 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-400{--tw-text-opacity: 1;color:rgb(163 163 163 / var(--tw-text-opacity))}.dark .dark\\:text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark .dark\\:text-gray-100{--tw-text-opacity: 1;color:rgb(243 244 246 / var(--tw-text-opacity))}.dark .dark\\:text-red-200{--tw-text-opacity: 1;color:rgb(254 202 202 / var(--tw-text-opacity))}.dark .dark\\:opacity-0{opacity:0}.dark .dark\\:opacity-100{opacity:1}.dark .dark\\:hover\\:bg-gray-700:hover{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:bg-gray-800:hover{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:stroke-gray-100:hover{stroke:#f3f4f6}.dark .dark\\:hover\\:stroke-gray-300:hover{stroke:#d1d5db}.dark .dark\\:focus\\:border-gray-600:focus{--tw-border-opacity: 1;border-color:rgb(75 85 99 / var(--tw-border-opacity))}.dark .dark\\:focus\\:ring-gray-600:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity))}@media (min-width: 640px){.sm\\:my-8{margin-top:2rem;margin-bottom:2rem}.sm\\:mx-0{margin-left:0;margin-right:0}.sm\\:mt-0{margin-top:0}.sm\\:ml-4{margin-left:1rem}.sm\\:ml-3{margin-left:.75rem}.sm\\:flex{display:flex}.sm\\:h-10{height:2.5rem}.sm\\:w-full{width:100%}.sm\\:w-10{width:2.5rem}.sm\\:w-auto{width:auto}.sm\\:max-w-lg{max-width:32rem}.sm\\:flex-row-reverse{flex-direction:row-reverse}.sm\\:items-start{align-items:flex-start}.sm\\:items-center{align-items:center}.sm\\:p-0{padding:0}.sm\\:p-6{padding:1.5rem}.sm\\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\\:pb-4{padding-bottom:1rem}.sm\\:text-left{text-align:left}.sm\\:text-sm{font-size:.875rem;line-height:1.25rem}}@media (min-width: 768px){.md\\:top-5{top:1.25rem}.md\\:right-\\[-2\\.4rem\\]{right:-2.4rem}.md\\:block{display:block}.md\\:h-24{height:6rem}.md\\:h-12{height:3rem}.md\\:h-8{height:2rem}.md\\:w-24{width:6rem}.md\\:w-12{width:3rem}.md\\:w-8{width:2rem}}[aria-label][role~=tooltip]{position:relative}[aria-label][role~=tooltip]:before,[aria-label][role~=tooltip]:after{transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;opacity:0;pointer-events:none;transition:all var(--microtip-transition-duration, .18s) var(--microtip-transition-easing, ease-in-out) var(--microtip-transition-delay, 0s);position:absolute;box-sizing:border-box;z-index:10;transform-origin:top}[aria-label][role~=tooltip]:before{background-size:100% auto!important;content:""}[aria-label][role~=tooltip]:after{background:rgba(17,17,17,.9);border-radius:4px;color:#fff;content:attr(aria-label);font-size:var(--microtip-font-size, 13px);font-weight:var(--microtip-font-weight, normal);text-transform:var(--microtip-text-transform, none);padding:.5em 1em;white-space:nowrap;box-sizing:content-box}[aria-label][role~=tooltip]:hover:before,[aria-label][role~=tooltip]:hover:after,[aria-label][role~=tooltip]:focus:before,[aria-label][role~=tooltip]:focus:after{opacity:1;pointer-events:auto}[role~=tooltip][data-microtip-position|=top]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-bottom:5px}[role~=tooltip][data-microtip-position|=top]:after{margin-bottom:11px}[role~=tooltip][data-microtip-position|=top]:before{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position|=top]:hover:before{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position|=top]:after{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position=top]:hover:after{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position=top-left]:after{transform:translate3d(calc(-100% + 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-left]:hover:after{transform:translate3d(calc(-100% + 16px),-5px,0)}[role~=tooltip][data-microtip-position=top-right]:after{transform:translate3d(calc(0% - 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-right]:hover:after{transform:translate3d(calc(0% - 16px),-5px,0)}[role~=tooltip][data-microtip-position|=bottom]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-top:5px;margin-bottom:0}[role~=tooltip][data-microtip-position|=bottom]:after{margin-top:11px}[role~=tooltip][data-microtip-position|=bottom]:before{transform:translate3d(-50%,-10px,0);bottom:auto;left:50%;top:100%}[role~=tooltip][data-microtip-position|=bottom]:hover:before{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position|=bottom]:after{transform:translate3d(-50%,-10px,0);top:100%;left:50%}[role~=tooltip][data-microtip-position=bottom]:hover:after{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position=bottom-left]:after{transform:translate3d(calc(-100% + 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-left]:hover:after{transform:translate3d(calc(-100% + 16px),0,0)}[role~=tooltip][data-microtip-position=bottom-right]:after{transform:translate3d(calc(0% - 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-right]:hover:after{transform:translate3d(calc(0% - 16px),0,0)}[role~=tooltip][data-microtip-position=left]:before,[role~=tooltip][data-microtip-position=left]:after{bottom:auto;left:auto;right:100%;top:50%;transform:translate3d(10px,-50%,0)}[role~=tooltip][data-microtip-position=left]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28-90%2018%2018%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-right:5px;margin-bottom:0}[role~=tooltip][data-microtip-position=left]:after{margin-right:11px}[role~=tooltip][data-microtip-position=left]:hover:before,[role~=tooltip][data-microtip-position=left]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-position=right]:before,[role~=tooltip][data-microtip-position=right]:after{bottom:auto;left:100%;top:50%;transform:translate3d(-10px,-50%,0)}[role~=tooltip][data-microtip-position=right]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%2890%206%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-bottom:0;margin-left:5px}[role~=tooltip][data-microtip-position=right]:after{margin-left:11px}[role~=tooltip][data-microtip-position=right]:hover:before,[role~=tooltip][data-microtip-position=right]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-size=small]:after{white-space:initial;width:80px}[role~=tooltip][data-microtip-size=medium]:after{white-space:initial;width:150px}[role~=tooltip][data-microtip-size=large]:after{white-space:initial;width:260px}')),document.head.appendChild(t)}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
-import { ref as L, watch as qe, provide as Fe, reactive as de, onMounted as he, resolveComponent as U, openBlock as w, createElementBlock as $, normalizeClass as me, createElementVNode as i, unref as A, createVNode as J, createBlock as X, resolveDynamicComponent as Yt, createCommentVNode as W, createStaticVNode as Zt, withDirectives as re, Fragment as ne, renderList as oe, toDisplayString as N, vModelSelect as Jt, vShow as ye, withModifiers as ce, createTextVNode as fe, nextTick as Ye, withKeys as _e, renderSlot as Ue, withCtx as R, vModelText as Ze, normalizeStyle as Xt } from "vue";
-const Gt = (S, { method: m = "get", params: u = {} }) => {
-  const f = { method: m };
-  return m == "get" ? S += "?" + new URLSearchParams(u) : f.body = u, fetch(S, f).then((g) => g.json());
+(function(){"use strict";try{var t=document.createElement("style");t.appendChild(document.createTextNode('*,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji"}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit]{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.vf-explorer-selected{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(212 212 212 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(245 245 245 / var(--tw-bg-opacity))!important}.dark .vf-explorer-selected{border-color:rgb(17 24 39 / var(--tw-border-opacity))!important;--tw-border-opacity: 1 !important;border-color:rgb(30 41 59 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(51 65 85 / var(--tw-bg-opacity))!important}.vf-explorer-selector{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(100 116 139 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(203 213 225 / var(--tw-bg-opacity))!important;opacity:.5!important}.dark{color-scheme:dark}.vf-selector-area::-webkit-scrollbar{width:10px}.vf-selector-area::-webkit-scrollbar-track-piece{--tw-bg-opacity: 1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.dark .vf-selector-area::-webkit-scrollbar-track-piece{--tw-bg-opacity: 1;background-color:rgb(15 23 42 / var(--tw-bg-opacity))}.vf-selector-area::-webkit-scrollbar-thumb{--tw-bg-opacity: 1;background-color:rgb(229 231 235 / var(--tw-bg-opacity))}.dark .vf-selector-area::-webkit-scrollbar-thumb{--tw-bg-opacity: 1;background-color:rgb(71 85 105 / var(--tw-bg-opacity))}.vf-selector-area::-webkit-scrollbar-thumb:hover{--tw-bg-opacity: 1;background-color:rgb(209 213 219 / var(--tw-bg-opacity))}.dark .vf-selector-area::-webkit-scrollbar-thumb:hover{--tw-bg-opacity: 1;background-color:rgb(51 65 85 / var(--tw-bg-opacity))}.vf-selector-area::-webkit-scrollbar-corner{background-color:transparent}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{top:0px;right:0px;bottom:0px;left:0px}.top-1\\/2{top:50%}.top-\\[-200px\\]{top:-200px}.left-\\[-200px\\]{left:-200px}.top-4{top:1rem}.right-\\[-2rem\\]{right:-2rem}.z-0{z-index:0}.z-50{z-index:50}.z-10{z-index:10}.z-20{z-index:20}.col-span-7{grid-column:span 7 / span 7}.col-span-2{grid-column:span 2 / span 2}.col-span-3{grid-column:span 3 / span 3}.m-0\\.5{margin:.125rem}.m-0{margin:0}.m-auto{margin:auto}.mx-0\\.5{margin-left:.125rem;margin-right:.125rem}.mx-0{margin-left:0;margin-right:0}.my-0\\.5{margin-top:.125rem;margin-bottom:.125rem}.my-0{margin-top:0;margin-bottom:0}.mx-2{margin-left:.5rem;margin-right:.5rem}.mx-1\\.5{margin-left:.375rem;margin-right:.375rem}.mx-1{margin-left:.25rem;margin-right:.25rem}.mx-auto{margin-left:auto;margin-right:auto}.my-1{margin-top:.25rem;margin-bottom:.25rem}.ml-2{margin-left:.5rem}.ml-3{margin-left:.75rem}.mt-3{margin-top:.75rem}.mt-2{margin-top:.5rem}.ml-1\\.5{margin-left:.375rem}.ml-1{margin-left:.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-6{height:1.5rem}.h-full{height:100%}.h-5{height:1.25rem}.h-20{height:5rem}.h-10{height:2.5rem}.h-12{height:3rem}.min-h-\\[150px\\]{min-height:150px}.min-h-full{min-height:100%}.w-6{width:1.5rem}.w-full{width:100%}.w-5{width:1.25rem}.w-\\[5\\.5rem\\]{width:5.5rem}.w-10{width:2.5rem}.w-12{width:3rem}.min-w-min{min-width:-webkit-min-content;min-width:-moz-min-content;min-width:min-content}.flex-shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.resize-y{resize:vertical}.grid-cols-12{grid-template-columns:repeat(12,minmax(0,1fr))}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.overflow-ellipsis{text-overflow:ellipsis}.whitespace-nowrap{white-space:nowrap}.break-all{word-break:break-all}.rounded{border-radius:.25rem}.rounded-md{border-radius:.375rem}.rounded-lg{border-radius:.5rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-t{border-top-width:1px}.border-b{border-bottom-width:1px}.border-l{border-left-width:1px}.border-r{border-right-width:1px}.border-neutral-300{--tw-border-opacity: 1;border-color:rgb(212 212 212 / var(--tw-border-opacity))}.border-transparent{border-color:transparent}.border-gray-300{--tw-border-opacity: 1;border-color:rgb(209 213 219 / var(--tw-border-opacity))}.bg-neutral-100{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity: 1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-neutral-50{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.bg-gray-500{--tw-bg-opacity: 1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.bg-gray-50{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.bg-red-100{--tw-bg-opacity: 1;background-color:rgb(254 226 226 / var(--tw-bg-opacity))}.bg-red-600{--tw-bg-opacity: 1;background-color:rgb(220 38 38 / var(--tw-bg-opacity))}.bg-blue-50{--tw-bg-opacity: 1;background-color:rgb(239 246 255 / var(--tw-bg-opacity))}.bg-opacity-75{--tw-bg-opacity: .75}.fill-sky-500{fill:#0ea5e9}.fill-white{fill:#fff}.fill-sky-100{fill:#e0f2fe}.stroke-sky-500{stroke:#0ea5e9}.stroke-neutral-500{stroke:#737373}.stroke-slate-500{stroke:#64748b}.stroke-gray-800{stroke:#1f2937}.stroke-gray-200{stroke:#e5e7eb}.stroke-red-600{stroke:#dc2626}.stroke-blue-600{stroke:#2563eb}.p-1\\.5{padding:.375rem}.p-1{padding:.25rem}.p-0\\.5{padding:.125rem}.p-0{padding:0}.p-4{padding:1rem}.px-1\\.5{padding-left:.375rem;padding-right:.375rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-2{padding-left:.5rem;padding-right:.5rem}.py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}.px-4{padding-left:1rem;padding-right:1rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.pl-1{padding-left:.25rem}.pl-2{padding-left:.5rem}.pr-8{padding-right:2rem}.pt-5{padding-top:1.25rem}.pb-4{padding-bottom:1rem}.text-left{text-align:left}.text-center{text-align:center}.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-base{font-size:1rem;line-height:1.5rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.leading-5{line-height:1.25rem}.leading-6{line-height:1.5rem}.text-slate-700{--tw-text-opacity: 1;color:rgb(51 65 85 / var(--tw-text-opacity))}.text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.text-neutral-700{--tw-text-opacity: 1;color:rgb(64 64 64 / var(--tw-text-opacity))}.text-slate-500{--tw-text-opacity: 1;color:rgb(100 116 139 / var(--tw-text-opacity))}.text-gray-800{--tw-text-opacity: 1;color:rgb(31 41 55 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity: 1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-red-500{--tw-text-opacity: 1;color:rgb(239 68 68 / var(--tw-text-opacity))}.opacity-0{opacity:0}.shadow{--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-xl{--tw-shadow: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);--tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-sm{--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.hover\\:bg-neutral-300:hover{--tw-bg-opacity: 1;background-color:rgb(212 212 212 / var(--tw-bg-opacity))}.hover\\:bg-neutral-100:hover{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.hover\\:bg-neutral-200:hover{--tw-bg-opacity: 1;background-color:rgb(229 229 229 / var(--tw-bg-opacity))}.hover\\:bg-neutral-50:hover{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.hover\\:bg-red-700:hover{--tw-bg-opacity: 1;background-color:rgb(185 28 28 / var(--tw-bg-opacity))}.hover\\:bg-gray-50:hover{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.hover\\:stroke-cyan-700:hover{stroke:#0e7490}.hover\\:stroke-sky-600:hover{stroke:#0284c7}.focus\\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\\:ring-2:focus{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}.focus\\:ring-red-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity))}.focus\\:ring-indigo-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity))}.focus\\:ring-offset-2:focus{--tw-ring-offset-width: 2px}.dark .dark\\:border-t{border-top-width:1px}.dark .dark\\:border-gray-900{--tw-border-opacity: 1;border-color:rgb(17 24 39 / var(--tw-border-opacity))}.dark .dark\\:border-gray-600{--tw-border-opacity: 1;border-color:rgb(75 85 99 / var(--tw-border-opacity))}.dark .dark\\:border-gray-700{--tw-border-opacity: 1;border-color:rgb(55 65 81 / var(--tw-border-opacity))}.dark .dark\\:bg-gray-800{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:bg-gray-700{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:bg-gray-500{--tw-bg-opacity: 1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.dark .dark\\:fill-slate-500{fill:#64748b}.dark .dark\\:fill-gray-700{fill:#374151}.dark .dark\\:fill-gray-400\\/20{fill:#9ca3af33}.dark .dark\\:stroke-slate-500{stroke:#64748b}.dark .dark\\:stroke-gray-600{stroke:#4b5563}.dark .dark\\:stroke-gray-300{stroke:#d1d5db}.dark .dark\\:stroke-gray-400{stroke:#9ca3af}.dark .dark\\:stroke-red-200{stroke:#fecaca}.dark .dark\\:stroke-blue-100{stroke:#dbeafe}.dark .dark\\:text-neutral-200{--tw-text-opacity: 1;color:rgb(229 229 229 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.dark .dark\\:text-gray-600{--tw-text-opacity: 1;color:rgb(75 85 99 / var(--tw-text-opacity))}.dark .dark\\:text-slate-200{--tw-text-opacity: 1;color:rgb(226 232 240 / var(--tw-text-opacity))}.dark .dark\\:text-gray-200{--tw-text-opacity: 1;color:rgb(229 231 235 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-50{--tw-text-opacity: 1;color:rgb(250 250 250 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-400{--tw-text-opacity: 1;color:rgb(163 163 163 / var(--tw-text-opacity))}.dark .dark\\:text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark .dark\\:text-gray-100{--tw-text-opacity: 1;color:rgb(243 244 246 / var(--tw-text-opacity))}.dark .dark\\:text-red-200{--tw-text-opacity: 1;color:rgb(254 202 202 / var(--tw-text-opacity))}.dark .dark\\:opacity-0{opacity:0}.dark .dark\\:opacity-100{opacity:1}.dark .dark\\:hover\\:bg-gray-700:hover{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:bg-gray-800:hover{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:stroke-gray-100:hover{stroke:#f3f4f6}.dark .dark\\:hover\\:stroke-gray-300:hover{stroke:#d1d5db}.dark .dark\\:focus\\:border-gray-600:focus{--tw-border-opacity: 1;border-color:rgb(75 85 99 / var(--tw-border-opacity))}.dark .dark\\:focus\\:ring-gray-600:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity))}@media (min-width: 640px){.sm\\:my-8{margin-top:2rem;margin-bottom:2rem}.sm\\:mx-0{margin-left:0;margin-right:0}.sm\\:mt-0{margin-top:0}.sm\\:ml-4{margin-left:1rem}.sm\\:ml-3{margin-left:.75rem}.sm\\:flex{display:flex}.sm\\:h-10{height:2.5rem}.sm\\:w-full{width:100%}.sm\\:w-10{width:2.5rem}.sm\\:w-auto{width:auto}.sm\\:max-w-lg{max-width:32rem}.sm\\:flex-row-reverse{flex-direction:row-reverse}.sm\\:items-start{align-items:flex-start}.sm\\:items-center{align-items:center}.sm\\:p-0{padding:0}.sm\\:p-6{padding:1.5rem}.sm\\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\\:pb-4{padding-bottom:1rem}.sm\\:text-left{text-align:left}.sm\\:text-sm{font-size:.875rem;line-height:1.25rem}}@media (min-width: 768px){.md\\:top-5{top:1.25rem}.md\\:right-\\[-2\\.4rem\\]{right:-2.4rem}.md\\:block{display:block}.md\\:h-24{height:6rem}.md\\:h-12{height:3rem}.md\\:h-8{height:2rem}.md\\:w-24{width:6rem}.md\\:w-12{width:3rem}.md\\:w-8{width:2rem}}[aria-label][role~=tooltip]{position:relative}[aria-label][role~=tooltip]:before,[aria-label][role~=tooltip]:after{transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;opacity:0;pointer-events:none;transition:all var(--microtip-transition-duration, .18s) var(--microtip-transition-easing, ease-in-out) var(--microtip-transition-delay, 0s);position:absolute;box-sizing:border-box;z-index:10;transform-origin:top}[aria-label][role~=tooltip]:before{background-size:100% auto!important;content:""}[aria-label][role~=tooltip]:after{background:rgba(17,17,17,.9);border-radius:4px;color:#fff;content:attr(aria-label);font-size:var(--microtip-font-size, 13px);font-weight:var(--microtip-font-weight, normal);text-transform:var(--microtip-text-transform, none);padding:.5em 1em;white-space:nowrap;box-sizing:content-box}[aria-label][role~=tooltip]:hover:before,[aria-label][role~=tooltip]:hover:after,[aria-label][role~=tooltip]:focus:before,[aria-label][role~=tooltip]:focus:after{opacity:1;pointer-events:auto}[role~=tooltip][data-microtip-position|=top]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-bottom:5px}[role~=tooltip][data-microtip-position|=top]:after{margin-bottom:11px}[role~=tooltip][data-microtip-position|=top]:before{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position|=top]:hover:before{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position|=top]:after{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position=top]:hover:after{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position=top-left]:after{transform:translate3d(calc(-100% + 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-left]:hover:after{transform:translate3d(calc(-100% + 16px),-5px,0)}[role~=tooltip][data-microtip-position=top-right]:after{transform:translate3d(calc(0% - 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-right]:hover:after{transform:translate3d(calc(0% - 16px),-5px,0)}[role~=tooltip][data-microtip-position|=bottom]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-top:5px;margin-bottom:0}[role~=tooltip][data-microtip-position|=bottom]:after{margin-top:11px}[role~=tooltip][data-microtip-position|=bottom]:before{transform:translate3d(-50%,-10px,0);bottom:auto;left:50%;top:100%}[role~=tooltip][data-microtip-position|=bottom]:hover:before{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position|=bottom]:after{transform:translate3d(-50%,-10px,0);top:100%;left:50%}[role~=tooltip][data-microtip-position=bottom]:hover:after{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position=bottom-left]:after{transform:translate3d(calc(-100% + 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-left]:hover:after{transform:translate3d(calc(-100% + 16px),0,0)}[role~=tooltip][data-microtip-position=bottom-right]:after{transform:translate3d(calc(0% - 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-right]:hover:after{transform:translate3d(calc(0% - 16px),0,0)}[role~=tooltip][data-microtip-position=left]:before,[role~=tooltip][data-microtip-position=left]:after{bottom:auto;left:auto;right:100%;top:50%;transform:translate3d(10px,-50%,0)}[role~=tooltip][data-microtip-position=left]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28-90%2018%2018%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-right:5px;margin-bottom:0}[role~=tooltip][data-microtip-position=left]:after{margin-right:11px}[role~=tooltip][data-microtip-position=left]:hover:before,[role~=tooltip][data-microtip-position=left]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-position=right]:before,[role~=tooltip][data-microtip-position=right]:after{bottom:auto;left:100%;top:50%;transform:translate3d(-10px,-50%,0)}[role~=tooltip][data-microtip-position=right]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%2890%206%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-bottom:0;margin-left:5px}[role~=tooltip][data-microtip-position=right]:after{margin-left:11px}[role~=tooltip][data-microtip-position=right]:hover:before,[role~=tooltip][data-microtip-position=right]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-size=small]:after{white-space:initial;width:80px}[role~=tooltip][data-microtip-size=medium]:after{white-space:initial;width:150px}[role~=tooltip][data-microtip-size=large]:after{white-space:initial;width:260px}')),document.head.appendChild(t)}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
+import { ref as L, watch as qe, provide as Ue, reactive as he, onMounted as me, resolveComponent as R, openBlock as w, createElementBlock as D, normalizeClass as ie, createElementVNode as i, unref as E, createVNode as J, createBlock as X, resolveDynamicComponent as qt, createCommentVNode as W, createStaticVNode as Yt, withDirectives as G, Fragment as Q, renderList as ee, toDisplayString as z, vModelSelect as Jt, vShow as Se, withModifiers as ue, createTextVNode as fe, nextTick as Ye, withKeys as ge, renderSlot as We, withCtx as K, vModelText as we, normalizeStyle as Xt } from "vue";
+const Gt = (S, { method: h = "get", params: u = {} }) => {
+  const g = { method: h };
+  return h == "get" ? S += "?" + new URLSearchParams(u) : g.body = u, fetch(S, g).then((f) => f.json());
 };
 function Qt(S) {
-  return { all: S = S || /* @__PURE__ */ new Map(), on: function(m, u) {
-    var f = S.get(m);
-    f ? f.push(u) : S.set(m, [u]);
-  }, off: function(m, u) {
-    var f = S.get(m);
-    f && (u ? f.splice(f.indexOf(u) >>> 0, 1) : S.set(m, []));
-  }, emit: function(m, u) {
-    var f = S.get(m);
-    f && f.slice().map(function(g) {
-      g(u);
-    }), (f = S.get("*")) && f.slice().map(function(g) {
-      g(m, u);
+  return { all: S = S || /* @__PURE__ */ new Map(), on: function(h, u) {
+    var g = S.get(h);
+    g ? g.push(u) : S.set(h, [u]);
+  }, off: function(h, u) {
+    var g = S.get(h);
+    g && (u ? g.splice(g.indexOf(u) >>> 0, 1) : S.set(h, []));
+  }, emit: function(h, u) {
+    var g = S.get(h);
+    g && g.slice().map(function(f) {
+      f(u);
+    }), (g = S.get("*")) && g.slice().map(function(f) {
+      f(h, u);
     });
   } };
 }
-function We(S) {
-  let m = localStorage.getItem(S + "_storage");
-  const u = L(JSON.parse(m));
-  qe(u, f);
-  function f() {
+function Ze(S) {
+  let h = localStorage.getItem(S + "_storage");
+  const u = L(JSON.parse(h));
+  qe(u, g);
+  function g() {
     u.value === null || u.value === "" ? localStorage.removeItem(S + "_storage") : localStorage.setItem(S + "_storage", JSON.stringify(u.value));
   }
-  function g(y, p) {
-    u.value = Object.assign({ ...u.value }, { [y]: p });
+  function f(y, v) {
+    u.value = Object.assign({ ...u.value }, { [y]: v });
   }
-  function s() {
+  function o() {
     u.value = null;
   }
-  return { getStore: (y, p = null) => u.value === null || u.value === "" ? p : u.value.hasOwnProperty(y) ? u.value[y] : p, setStore: g, clearStore: s };
+  return { getStore: (y, v = null) => u.value === null || u.value === "" ? v : u.value.hasOwnProperty(y) ? u.value[y] : v, setStore: f, clearStore: o };
 }
 const er = {
   name: "VueFinder"
@@ -52,58 +52,58 @@ const er = {
     }
   },
   setup(S) {
-    const m = S, u = Qt();
-    Fe("emitter", u);
-    const { setStore: f, getStore: g } = We(m.id);
-    Fe("storage", We(m.id));
-    const s = de({ adapter: "local", storages: [], dirname: ".", files: [] }), x = L(g("viewport", "grid")), y = L(g("darkMode", m.dark));
+    const h = S, u = Qt();
+    Ue("emitter", u);
+    const { setStore: g, getStore: f } = Ze(h.id);
+    Ue("storage", Ze(h.id));
+    const o = he({ adapter: "local", storages: [], dirname: ".", files: [] }), k = L(f("viewport", "grid")), y = L(f("darkMode", h.dark));
     u.on("vf-darkMode-toggle", () => {
-      y.value = !y.value, f("darkMode", y.value);
+      y.value = !y.value, g("darkMode", y.value);
     }), u.on("vf-view-toggle", (b) => {
-      x.value = b;
+      k.value = b;
     });
-    const p = de({
+    const v = he({
       active: !1,
       type: "delete",
       data: {}
     });
     u.on("vf-modal-close", () => {
-      p.active = !1;
+      v.active = !1;
     }), u.on("vf-modal-show", (b) => {
-      p.active = !0, p.type = b.type, p.data = b;
+      v.active = !0, v.type = b.type, v.data = b;
     });
-    const D = (b) => {
-      Object.assign(s, b), u.emit("vf-nodes-selected", {}), u.emit("vf-explorer-update", b);
+    const x = (b) => {
+      Object.assign(o, b), u.emit("vf-nodes-selected", {}), u.emit("vf-explorer-update", b);
     };
     return u.on("vf-fetch", (b) => {
-      Gt(m.url, { params: b }).then((E) => {
-        u.emit("vf-modal-close"), D(E);
+      Gt(h.url, { params: b }).then((A) => {
+        u.emit("vf-modal-close"), x(A);
       });
-    }), he(() => {
-      u.emit("vf-fetch", { q: "index", adapter: g("adapter", s.adapter) });
-    }), (b, E) => {
-      const O = U("v-f-toolbar"), H = U("v-f-breadcrumb"), B = U("v-f-explorer"), T = U("v-f-statusbar"), G = U("v-f-context-menu");
-      return w(), $("div", {
-        class: me(y.value ? "dark" : "")
+    }), me(() => {
+      u.emit("vf-fetch", { q: "index", adapter: f("adapter", o.adapter) });
+    }), (b, A) => {
+      const O = R("v-f-toolbar"), F = R("v-f-breadcrumb"), H = R("v-f-explorer"), T = R("v-f-statusbar"), te = R("v-f-context-menu");
+      return w(), D("div", {
+        class: ie(y.value ? "dark" : "")
       }, [
         i("div", {
           class: "relative border rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none",
-          onMousedown: E[0] || (E[0] = (ie) => A(u).emit("vf-contextmenu-hide"))
+          onMousedown: A[0] || (A[0] = (ae) => E(u).emit("vf-contextmenu-hide"))
         }, [
           J(O),
-          J(H, { data: s }, null, 8, ["data"]),
-          J(B, {
-            view: x.value,
-            data: s
+          J(F, { data: o }, null, 8, ["data"]),
+          J(H, {
+            view: k.value,
+            data: o
           }, null, 8, ["view", "data"]),
-          J(T, { data: s }, null, 8, ["data"])
+          J(T, { data: o }, null, 8, ["data"])
         ], 32),
-        p.active ? (w(), X(Yt("v-f-modal-" + p.type), {
+        v.active ? (w(), X(qt("v-f-modal-" + v.type), {
           key: 0,
-          selection: p.data,
-          current: s
+          selection: v.data,
+          current: o
         }, null, 8, ["selection", "current"])) : W("", !0),
-        J(G)
+        J(te)
       ], 2);
     };
   }
@@ -140,7 +140,7 @@ const er = {
   fill: "none",
   viewBox: "0 0 24 24",
   stroke: "none",
-  "stroke-width": "2"
+  "stroke-width": "1.5"
 }, [
   /* @__PURE__ */ i("path", {
     "stroke-linecap": "round",
@@ -149,14 +149,20 @@ const er = {
   })
 ], -1), dr = [
   ur
-], hr = { class: "flex text-center items-center justify-end" }, mr = {
+], hr = /* @__PURE__ */ i("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  d: "M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+}, null, -1), mr = [
+  hr
+], fr = { class: "flex text-center items-center justify-end" }, gr = {
   class: "mx-1.5",
   "aria-label": "Dark Mode",
   "data-microtip-position": "bottom",
   role: "tooltip"
-}, fr = /* @__PURE__ */ Zt('<g class="dark:opacity-0"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path><path d="M12 4v.01M17.66 6.345l-.007.007M20.005 12.005h-.01M17.66 17.665l-.007-.007M12 20.01V20M6.34 17.665l.007-.007M3.995 12.005h.01M6.34 6.344l.007.007" fill="none"></path></g><g class="opacity-0 dark:opacity-100"><path d="M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"></path><path d="M12 3v1M18.66 5.345l-.828.828M21.005 12.005h-1M18.66 18.665l-.828-.828M12 21.01V20M5.34 18.666l.835-.836M2.995 12.005h1.01M5.34 5.344l.835.836" fill="none"></path></g>', 2), gr = [
-  fr
-], vr = {
+}, vr = /* @__PURE__ */ Yt('<g class="dark:opacity-0"><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path><path d="M12 4v.01M17.66 6.345l-.007.007M20.005 12.005h-.01M17.66 17.665l-.007-.007M12 20.01V20M6.34 17.665l.007-.007M3.995 12.005h.01M6.34 6.344l.007.007" fill="none"></path></g><g class="opacity-0 dark:opacity-100"><path d="M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"></path><path d="M12 3v1M18.66 5.345l-.828.828M21.005 12.005h-1M18.66 18.665l-.828-.828M12 21.01V20M5.34 18.666l.835-.836M2.995 12.005h1.01M5.34 5.344l.835.836" fill="none"></path></g>', 2), pr = [
+  vr
+], yr = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100",
@@ -164,13 +170,13 @@ const er = {
   viewBox: "0 0 24 24",
   stroke: "none",
   "stroke-width": "1.5"
-}, pr = /* @__PURE__ */ i("path", {
+}, br = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-}, null, -1), br = [
-  pr
-], yr = {
+}, null, -1), Sr = [
+  br
+], _r = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100",
@@ -178,33 +184,33 @@ const er = {
   viewBox: "0 0 24 24",
   stroke: "none",
   "stroke-width": "1.5"
-}, Sr = /* @__PURE__ */ i("path", {
+}, wr = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M4 6h16M4 10h16M4 14h16M4 18h16"
-}, null, -1), _r = [
-  Sr
-], wr = {
+}, null, -1), kr = [
+  wr
+], xr = {
   name: "VFToolbar"
-}, xr = /* @__PURE__ */ Object.assign(wr, {
+}, Dr = /* @__PURE__ */ Object.assign(xr, {
   setup(S) {
-    const m = inject("emitter"), { getStore: u, setStore: f } = inject("storage"), g = L(u("viewport", "grid")), s = L([]);
-    return m.on("vf-nodes-selected", (x) => {
-      s.value = x;
-    }), m.on("vf-view-toggle", (x) => {
-      f("viewport", x), g.value = x;
-    }), (x, y) => (w(), $("div", rr, [
+    const h = inject("emitter"), { getStore: u, setStore: g } = inject("storage"), f = L(u("viewport", "grid")), o = L([]);
+    return h.on("vf-nodes-selected", (k) => {
+      o.value = k;
+    }), h.on("vf-view-toggle", (k) => {
+      g("viewport", k), f.value = k;
+    }), (k, y) => (w(), D("div", rr, [
       i("div", nr, [
         i("div", {
           class: "mx-1.5",
           "aria-label": "Rename",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: y[0] || (y[0] = (p) => s.value.length != 1 || A(m).emit("vf-modal-show", { type: "rename", items: s.value }))
+          onClick: y[0] || (y[0] = (v) => o.value.length != 1 || E(h).emit("vf-modal-show", { type: "rename", items: o.value }))
         }, [
-          (w(), $("svg", {
+          (w(), D("svg", {
             xmlns: "http://www.w3.org/2000/svg",
-            class: me([s.value.length == 1 ? "cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" : "stroke-gray-200  dark:stroke-gray-600", "h-6 w-6 md:h-8 md:w-8 m-auto"]),
+            class: ie([o.value.length == 1 ? "cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" : "stroke-gray-200  dark:stroke-gray-600", "h-6 w-6 md:h-8 md:w-8 m-auto"]),
             fill: "none",
             viewBox: "0 0 24 24",
             stroke: "none",
@@ -216,11 +222,11 @@ const er = {
           "aria-label": "Delete",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: y[1] || (y[1] = (p) => !s.value.length || A(m).emit("vf-modal-show", { type: "delete", items: s.value }))
+          onClick: y[1] || (y[1] = (v) => !o.value.length || E(h).emit("vf-modal-show", { type: "delete", items: o.value }))
         }, [
-          (w(), $("svg", {
+          (w(), D("svg", {
             xmlns: "http://www.w3.org/2000/svg",
-            class: me([s.value.length ? "cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" : "stroke-gray-200  dark:stroke-gray-600", "h-6 w-6 md:h-8 md:w-8 m-auto"]),
+            class: ie([o.value.length ? "cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" : "stroke-gray-200  dark:stroke-gray-600", "h-6 w-6 md:h-8 md:w-8 m-auto"]),
             fill: "none",
             viewBox: "0 0 24 24",
             stroke: "none",
@@ -232,41 +238,57 @@ const er = {
           "aria-label": "New Folder",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: y[2] || (y[2] = (p) => A(m).emit("vf-modal-show", { type: "new-folder", items: s.value }))
+          onClick: y[2] || (y[2] = (v) => E(h).emit("vf-modal-show", { type: "new-folder", items: o.value }))
         }, cr),
         i("div", {
           class: "mx-1.5",
           "aria-label": "Upload",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: y[3] || (y[3] = (p) => A(m).emit("vf-modal-show", { type: "message", title: "Custom modal", message: "Custom title" }))
-        }, dr)
+          onClick: y[3] || (y[3] = (v) => E(h).emit("vf-modal-show", { type: "message", title: "Custom modal", message: "Custom title" }))
+        }, dr),
+        i("div", {
+          class: "mx-1.5",
+          "aria-label": "Zip",
+          "data-microtip-position": "bottom",
+          role: "tooltip",
+          onClick: y[4] || (y[4] = (v) => !o.value.length || E(h).emit("vf-modal-show", { type: "zip", items: o.value }))
+        }, [
+          (w(), D("svg", {
+            xmlns: "http://www.w3.org/2000/svg",
+            class: ie([o.value.length ? "cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" : "stroke-gray-200  dark:stroke-gray-600", "h-6 w-6 md:h-8 md:w-8 m-auto"]),
+            fill: "none",
+            viewBox: "0 0 24 24",
+            stroke: "none",
+            "stroke-width": "1.5"
+          }, mr, 2))
+        ])
       ]),
-      i("div", hr, [
-        i("div", mr, [
-          (w(), $("svg", {
-            onClick: y[4] || (y[4] = (p) => A(m).emit("vf-darkMode-toggle")),
+      i("div", fr, [
+        i("div", gr, [
+          (w(), D("svg", {
+            onClick: y[5] || (y[5] = (v) => E(h).emit("vf-darkMode-toggle")),
             viewBox: "0 0 24 24",
             "stroke-width": "2",
             "stroke-linecap": "round",
             "stroke-linejoin": "round",
             class: "h-6 w-6 m-auto cursor-pointer stroke-sky-500 fill-sky-100 hover:stroke-sky-600 dark:stroke-gray-400 dark:fill-gray-400/20 dark:hover:stroke-gray-300"
-          }, gr))
+          }, pr))
         ]),
         i("div", {
           class: "mx-1.5",
           "aria-label": "Change View",
           "data-microtip-position": "bottom",
           role: "tooltip",
-          onClick: y[5] || (y[5] = (p) => A(m).emit("vf-view-toggle", g.value == "list" ? "grid" : "list"))
+          onClick: y[6] || (y[6] = (v) => E(h).emit("vf-view-toggle", f.value == "list" ? "grid" : "list"))
         }, [
-          g.value == "grid" ? (w(), $("svg", vr, br)) : W("", !0),
-          g.value == "list" ? (w(), $("svg", yr, _r)) : W("", !0)
+          f.value == "grid" ? (w(), D("svg", yr, Sr)) : W("", !0),
+          f.value == "list" ? (w(), D("svg", _r, kr)) : W("", !0)
         ])
       ])
     ]));
   }
-}), kr = { class: "p-1 text-xs border-t border-neutral-300 dark:border-gray-700 flex justify-between select-none" }, Dr = { class: "flex leading-5 items-center" }, Cr = /* @__PURE__ */ i("div", {
+}), Cr = { class: "p-1 text-xs border-t border-neutral-300 dark:border-gray-700 flex justify-between select-none" }, $r = { class: "flex leading-5 items-center" }, Pr = /* @__PURE__ */ i("div", {
   class: "mx-2",
   "aria-label": "Storage",
   "data-microtip-position": "top",
@@ -286,7 +308,7 @@ const er = {
       d: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
     })
   ])
-], -1), Pr = ["value"], $r = { class: "ml-3" }, Mr = { class: "flex leading-5 items-center" }, Er = /* @__PURE__ */ i("svg", {
+], -1), Mr = ["value"], Ar = { class: "ml-3" }, Er = { class: "flex leading-5 items-center" }, Ir = /* @__PURE__ */ i("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 stroke-slate-500",
   fill: "none",
@@ -299,62 +321,62 @@ const er = {
     "stroke-linejoin": "round",
     d: "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
   })
-], -1), Ar = [
-  Er
-], Ir = {
+], -1), Tr = [
+  Ir
+], jr = {
   name: "VFStatusbar"
-}, Tr = /* @__PURE__ */ Object.assign(Ir, {
+}, Vr = /* @__PURE__ */ Object.assign(jr, {
   props: {
     data: Object
   },
   setup(S) {
-    var p;
-    const m = S, u = inject("emitter"), { getStore: f, setStore: g } = inject("storage"), s = L(0), x = L((p = f("adapter")) != null ? p : m.data.adapter), y = () => {
-      u.emit("vf-fetch", { q: "index", adapter: x.value }), g("adapter", x.value);
+    var v;
+    const h = S, u = inject("emitter"), { getStore: g, setStore: f } = inject("storage"), o = L(0), k = L((v = g("adapter")) != null ? v : h.data.adapter), y = () => {
+      u.emit("vf-fetch", { q: "index", adapter: k.value }), f("adapter", k.value);
     };
-    return u.on("vf-nodes-selected", (D) => {
-      s.value = D.length;
-    }), (D, b) => (w(), $("div", kr, [
-      i("div", Dr, [
-        Cr,
-        re(i("select", {
-          "onUpdate:modelValue": b[0] || (b[0] = (E) => x.value = E),
+    return u.on("vf-nodes-selected", (x) => {
+      o.value = x.length;
+    }), (x, b) => (w(), D("div", Cr, [
+      i("div", $r, [
+        Pr,
+        G(i("select", {
+          "onUpdate:modelValue": b[0] || (b[0] = (A) => k.value = A),
           onChange: y,
           class: "text-slate-500 dark:text-neutral-50 dark:bg-gray-700 font-bold rounded pl-2 pr-8"
         }, [
-          (w(!0), $(ne, null, oe(S.data.storages, (E) => (w(), $("option", { value: E }, N(E), 9, Pr))), 256))
+          (w(!0), D(Q, null, ee(S.data.storages, (A) => (w(), D("option", { value: A }, z(A), 9, Mr))), 256))
         ], 544), [
-          [Jt, x.value]
+          [Jt, k.value]
         ]),
-        i("span", $r, N(s.value > 0 ? s.value + " items selected." : ""), 1)
+        i("span", Ar, z(o.value > 0 ? o.value + " items selected." : ""), 1)
       ]),
-      i("div", Mr, [
+      i("div", Er, [
         i("span", {
-          onClick: b[1] || (b[1] = (E) => A(u).emit("vf-modal-show", { type: "message", title: "Vuefinder 1.0", message: "Vuefinder is a file manager component for vue 3." }))
-        }, Ar)
+          onClick: b[1] || (b[1] = (A) => E(u).emit("vf-modal-show", { type: "message", title: "Vuefinder 1.0", message: "Vuefinder is a file manager component for vue 3." }))
+        }, Tr)
       ])
     ]));
   }
 });
-var jr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, Je = { exports: {} };
-(function(S, m) {
-  (function(u, f) {
-    S.exports = f();
-  })(jr, function() {
+var Lr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, Je = { exports: {} };
+(function(S, h) {
+  (function(u, g) {
+    S.exports = g();
+  })(Lr, function() {
     function u(n, t) {
       if (!(n instanceof t))
         throw new TypeError("Cannot call a class as a function");
     }
-    function f(n, t) {
+    function g(n, t) {
       for (var e = 0; e < t.length; e++) {
-        var o = t[e];
-        o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(n, o.key, o);
+        var s = t[e];
+        s.enumerable = s.enumerable || !1, s.configurable = !0, "value" in s && (s.writable = !0), Object.defineProperty(n, s.key, s);
       }
     }
-    function g(n, t, e) {
-      return t && f(n.prototype, t), e && f(n, e), n;
+    function f(n, t, e) {
+      return t && g(n.prototype, t), e && g(n, e), n;
     }
-    function s(n, t, e) {
+    function o(n, t, e) {
       return t in n ? Object.defineProperty(n, t, {
         value: e,
         enumerable: !0,
@@ -362,28 +384,28 @@ var jr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         writable: !0
       }) : n[t] = e, n;
     }
-    function x(n, t) {
+    function k(n, t) {
       var e = Object.keys(n);
       if (Object.getOwnPropertySymbols) {
-        var o = Object.getOwnPropertySymbols(n);
-        t && (o = o.filter(function(r) {
+        var s = Object.getOwnPropertySymbols(n);
+        t && (s = s.filter(function(r) {
           return Object.getOwnPropertyDescriptor(n, r).enumerable;
-        })), e.push.apply(e, o);
+        })), e.push.apply(e, s);
       }
       return e;
     }
     function y(n) {
       for (var t = 1; t < arguments.length; t++) {
         var e = arguments[t] != null ? arguments[t] : {};
-        t % 2 ? x(Object(e), !0).forEach(function(o) {
-          s(n, o, e[o]);
-        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(n, Object.getOwnPropertyDescriptors(e)) : x(Object(e)).forEach(function(o) {
-          Object.defineProperty(n, o, Object.getOwnPropertyDescriptor(e, o));
+        t % 2 ? k(Object(e), !0).forEach(function(s) {
+          o(n, s, e[s]);
+        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(n, Object.getOwnPropertyDescriptors(e)) : k(Object(e)).forEach(function(s) {
+          Object.defineProperty(n, s, Object.getOwnPropertyDescriptor(e, s));
         });
       }
       return n;
     }
-    function p(n, t) {
+    function v(n, t) {
       if (typeof t != "function" && t !== null)
         throw new TypeError("Super expression must either be null or a function");
       n.prototype = Object.create(t && t.prototype, {
@@ -394,17 +416,17 @@ var jr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }
       }), t && b(n, t);
     }
-    function D(n) {
-      return D = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
+    function x(n) {
+      return x = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
         return e.__proto__ || Object.getPrototypeOf(e);
-      }, D(n);
+      }, x(n);
     }
     function b(n, t) {
-      return b = Object.setPrototypeOf || function(o, r) {
-        return o.__proto__ = r, o;
+      return b = Object.setPrototypeOf || function(s, r) {
+        return s.__proto__ = r, s;
       }, b(n, t);
     }
-    function E() {
+    function A() {
       if (typeof Reflect > "u" || !Reflect.construct || Reflect.construct.sham)
         return !1;
       if (typeof Proxy == "function")
@@ -417,69 +439,69 @@ var jr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }
     }
     function O(n, t, e) {
-      return E() ? O = Reflect.construct : O = function(r, a, l) {
+      return A() ? O = Reflect.construct : O = function(r, a, l) {
         var c = [null];
         c.push.apply(c, a);
-        var d = Function.bind.apply(r, c), v = new d();
-        return l && b(v, l.prototype), v;
+        var d = Function.bind.apply(r, c), p = new d();
+        return l && b(p, l.prototype), p;
       }, O.apply(null, arguments);
     }
-    function H(n) {
+    function F(n) {
       return Function.toString.call(n).indexOf("[native code]") !== -1;
     }
-    function B(n) {
+    function H(n) {
       var t = typeof Map == "function" ? /* @__PURE__ */ new Map() : void 0;
-      return B = function(o) {
-        if (o === null || !H(o))
-          return o;
-        if (typeof o != "function")
+      return H = function(s) {
+        if (s === null || !F(s))
+          return s;
+        if (typeof s != "function")
           throw new TypeError("Super expression must either be null or a function");
         if (typeof t < "u") {
-          if (t.has(o))
-            return t.get(o);
-          t.set(o, r);
+          if (t.has(s))
+            return t.get(s);
+          t.set(s, r);
         }
         function r() {
-          return O(o, arguments, D(this).constructor);
+          return O(s, arguments, x(this).constructor);
         }
-        return r.prototype = Object.create(o.prototype, {
+        return r.prototype = Object.create(s.prototype, {
           constructor: {
             value: r,
             enumerable: !1,
             writable: !0,
             configurable: !0
           }
-        }), b(r, o);
-      }, B(n);
+        }), b(r, s);
+      }, H(n);
     }
     function T(n) {
       if (n === void 0)
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
       return n;
     }
-    function G(n, t) {
+    function te(n, t) {
       return t && (typeof t == "object" || typeof t == "function") ? t : T(n);
     }
-    function ie(n) {
-      var t = E();
+    function ae(n) {
+      var t = A();
       return function() {
-        var o = D(n), r;
+        var s = x(n), r;
         if (t) {
-          var a = D(this).constructor;
-          r = Reflect.construct(o, arguments, a);
+          var a = x(this).constructor;
+          r = Reflect.construct(s, arguments, a);
         } else
-          r = o.apply(this, arguments);
-        return G(this, r);
+          r = s.apply(this, arguments);
+        return te(this, r);
       };
     }
-    function C(n, t) {
-      for (; !Object.prototype.hasOwnProperty.call(n, t) && (n = D(n), n !== null); )
+    function $(n, t) {
+      for (; !Object.prototype.hasOwnProperty.call(n, t) && (n = x(n), n !== null); )
         ;
       return n;
     }
     function M(n, t, e) {
       return typeof Reflect < "u" && Reflect.get ? M = Reflect.get : M = function(r, a, l) {
-        var c = C(r, a);
+        var c = $(r, a);
         if (!!c) {
           var d = Object.getOwnPropertyDescriptor(c, a);
           return d.get ? d.get.call(l) : d.value;
@@ -487,34 +509,34 @@ var jr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }, M(n, t, e || n);
     }
     function P(n, t) {
-      return q(n) || Xe(n, t) || we(n, t) || Qe();
+      return Z(n) || Xe(n, t) || ke(n, t) || Qe();
     }
-    function F(n) {
-      return j(n) || Y(n) || we(n) || Ge();
+    function U(n) {
+      return j(n) || q(n) || ke(n) || Ge();
     }
     function j(n) {
       if (Array.isArray(n))
-        return ge(n);
+        return ve(n);
     }
-    function q(n) {
+    function Z(n) {
       if (Array.isArray(n))
         return n;
     }
-    function Y(n) {
+    function q(n) {
       if (typeof Symbol < "u" && Symbol.iterator in Object(n))
         return Array.from(n);
     }
     function Xe(n, t) {
       if (!(typeof Symbol > "u" || !(Symbol.iterator in Object(n)))) {
-        var e = [], o = !0, r = !1, a = void 0;
+        var e = [], s = !0, r = !1, a = void 0;
         try {
-          for (var l = n[Symbol.iterator](), c; !(o = (c = l.next()).done) && (e.push(c.value), !(t && e.length === t)); o = !0)
+          for (var l = n[Symbol.iterator](), c; !(s = (c = l.next()).done) && (e.push(c.value), !(t && e.length === t)); s = !0)
             ;
         } catch (d) {
           r = !0, a = d;
         } finally {
           try {
-            !o && l.return != null && l.return();
+            !s && l.return != null && l.return();
           } finally {
             if (r)
               throw a;
@@ -523,22 +545,22 @@ var jr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         return e;
       }
     }
-    function we(n, t) {
+    function ke(n, t) {
       if (!!n) {
         if (typeof n == "string")
-          return ge(n, t);
+          return ve(n, t);
         var e = Object.prototype.toString.call(n).slice(8, -1);
         if (e === "Object" && n.constructor && (e = n.constructor.name), e === "Map" || e === "Set")
           return Array.from(n);
         if (e === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(e))
-          return ge(n, t);
+          return ve(n, t);
       }
     }
-    function ge(n, t) {
+    function ve(n, t) {
       (t == null || t > n.length) && (t = n.length);
-      for (var e = 0, o = new Array(t); e < t; e++)
-        o[e] = n[e];
-      return o;
+      for (var e = 0, s = new Array(t); e < t; e++)
+        s[e] = n[e];
+      return s;
     }
     function Ge() {
       throw new TypeError(`Invalid attempt to spread non-iterable instance.
@@ -548,8 +570,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       throw new TypeError(`Invalid attempt to destructure non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
     }
-    var z = function(t, e, o) {
-      var r = t.x, a = t.y, l = o.x, c = o.y, d = {
+    var N = function(t, e, s) {
+      var r = t.x, a = t.y, l = s.x, c = s.y, d = {
         "+": {
           x: r + l,
           y: a + c
@@ -568,7 +590,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }
       };
       return d[e];
-    }, Q = function(t) {
+    }, re = function(t) {
       return {
         x: t.left,
         y: t.top
@@ -589,14 +611,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         y: t
       };
     }, tt = function(n, t, e) {
-      window.addEventListener("resize", t), window.addEventListener("scroll", t), n.forEach(function(o, r) {
-        e.observe(o, {
+      window.addEventListener("resize", t), window.addEventListener("scroll", t), n.forEach(function(s, r) {
+        e.observe(s, {
           childList: r !== 0,
           attributes: !0
         });
       });
     }, rt = function(n) {
-      var t = ae(n);
+      var t = le(n);
       return t.x || t.y ? !0 : n instanceof HTMLDocument ? n.body ? !!(n.body.scrollTop = 1) : !!(n.documentElement.scrollTop = 1) : !!(n.scrollTop = 1);
     }, nt = function(n) {
       var t = document.createElement("div");
@@ -607,18 +629,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     }, st = function(n, t) {
       var e;
       return function() {
-        for (var o = arguments.length, r = new Array(o), a = 0; a < o; a++)
+        for (var s = arguments.length, r = new Array(s), a = 0; a < s; a++)
           r[a] = arguments[a];
         var l = function() {
           e = null, n.apply(void 0, r);
         };
         clearTimeout(e), e = setTimeout(l, t);
       };
-    }, ve = function() {
-      var n, t, e, o;
+    }, pe = function() {
+      var n, t, e, s;
       return {
         y: ((n = document.body) === null || n === void 0 ? void 0 : n.scrollTop) || ((t = document.documentElement) === null || t === void 0 ? void 0 : t.scrollTop) || 0,
-        x: ((e = document.body) === null || e === void 0 ? void 0 : e.scrollLeft) || ((o = document.documentElement) === null || o === void 0 ? void 0 : o.scrollLeft) || 0
+        x: ((e = document.body) === null || e === void 0 ? void 0 : e.scrollLeft) || ((s = document.documentElement) === null || s === void 0 ? void 0 : s.scrollLeft) || 0
       };
     }, it = function(n, t) {
       if (n instanceof Document)
@@ -639,16 +661,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         width: (n.clientWidth || e.width) * t,
         height: (n.clientHeight || e.height) * t
       };
-    }, ae = function(n) {
-      return !n || n instanceof Document ? ve() : {
-        x: n.scrollLeft >= 0 ? n.scrollLeft : ve().x,
-        y: n.scrollTop >= 0 ? n.scrollTop : ve().y
+    }, le = function(n) {
+      return !n || n instanceof Document ? pe() : {
+        x: n.scrollLeft >= 0 ? n.scrollLeft : pe().x,
+        y: n.scrollTop >= 0 ? n.scrollTop : pe().y
       };
-    }, ke = function(n) {
-      var t = n.elementRect, e = n.containerRect, o = n.tolerance, r = o === void 0 ? {
+    }, De = function(n) {
+      var t = n.elementRect, e = n.containerRect, s = n.tolerance, r = s === void 0 ? {
         x: 0,
         y: 0
-      } : o, a = [];
+      } : s, a = [];
       return t.top - r.y < e.top && a.push("top"), t.left - r.x < e.left && a.push("left"), t.bottom + r.y > e.bottom && a.push("bottom"), t.right + r.y > e.right && a.push("right"), a;
     }, at = function(n) {
       var t = n.event;
@@ -657,35 +679,35 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         y: t.clientY
       };
     }, lt = function(n) {
-      var t = n.scrollAmount, e = n.initialPointerPos, o = n.pointerPos, r = {};
-      return o.x > e.x - t.x ? (r.left = e.x - t.x, r.width = o.x - e.x + t.x) : (r.left = o.x, r.width = e.x - o.x - t.x), o.y > e.y - t.y ? (r.top = e.y - t.y, r.height = o.y - e.y + t.y) : (r.top = o.y, r.height = e.y - o.y - t.y), r;
-    }, De = function(t) {
+      var t = n.scrollAmount, e = n.initialPointerPos, s = n.pointerPos, r = {};
+      return s.x > e.x - t.x ? (r.left = e.x - t.x, r.width = s.x - e.x + t.x) : (r.left = s.x, r.width = e.x - s.x - t.x), s.y > e.y - t.y ? (r.top = e.y - t.y, r.height = s.y - e.y + t.y) : (r.top = s.y, r.height = e.y - s.y - t.y), r;
+    }, Ce = function(t) {
       var e = {
         x: 0,
         y: 0
-      }, o = window.getComputedStyle(t);
-      if (!o.transform || o.transform === "none")
+      }, s = window.getComputedStyle(t);
+      if (!s.transform || s.transform === "none")
         return e;
-      if (o.transform.indexOf("3d") >= 0) {
-        var r = o.transform.trim().match(/matrix3d\((.*?)\)/);
+      if (s.transform.indexOf("3d") >= 0) {
+        var r = s.transform.trim().match(/matrix3d\((.*?)\)/);
         if (r && r.length) {
           var a, l = (a = r[1]) === null || a === void 0 ? void 0 : a.split(",");
           e.x = parseInt(l[12]) || 0, e.y = parseInt(l[13]) || 0;
         }
         return e;
       } else {
-        var c = o.transform.trim().match(/matrix\((.*?)\)/);
+        var c = s.transform.trim().match(/matrix\((.*?)\)/);
         if (c && c.length) {
-          var d, v = (d = c[1]) === null || d === void 0 ? void 0 : d.split(",");
-          e.x = parseInt(v[4]) || 0, e.y = parseInt(v[5]) || 0;
+          var d, p = (d = c[1]) === null || d === void 0 ? void 0 : d.split(",");
+          e.x = parseInt(p[4]) || 0, e.y = parseInt(p[5]) || 0;
         }
         return e;
       }
     }, ct = function(t) {
       var e = t.style.transform;
       if (!e || e.indexOf("translate") < 0)
-        return De(t);
-      var o = {
+        return Ce(t);
+      var s = {
         x: 0,
         y: 0
       }, r = e.trim().match(/translate[3dD]*?\(.*?\)/);
@@ -693,72 +715,72 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         var a, l = (a = r[0]) === null || a === void 0 ? void 0 : a.split("(");
         if (l) {
           var c, d = (c = l[1]) === null || c === void 0 ? void 0 : c.split(",");
-          o.x = parseInt(d[0]) || 0, o.y = parseInt(d[1]) || 0;
+          s.x = parseInt(d[0]) || 0, s.y = parseInt(d[1]) || 0;
         }
       }
-      return !o.x && !o.x ? De(t) : o;
+      return !s.x && !s.x ? Ce(t) : s;
     }, ut = function(t) {
-      var e = t.style, o = {
+      var e = t.style, s = {
         x: parseInt(e.left) || 0,
         y: parseInt(e.top) || 0
       };
-      if (!o.x && !o.x) {
+      if (!s.x && !s.x) {
         var r = window.getComputedStyle(t);
         return {
           x: parseInt(r.left) || 0,
           y: parseInt(r.top) || 0
         };
       }
-      return o;
+      return s;
     }, dt = function(n, t) {
       return t ? ct(n) : ut(n);
     }, ht = function(n) {
-      var t = n.element, e = n.edges, o = n.elementRect, r = n.containerRect, a = n.elementPos, l = n.useTransform;
+      var t = n.element, e = n.edges, s = n.elementRect, r = n.containerRect, a = n.elementPos, l = n.useTransform;
       e.includes("top") && se(t, {
-        y: a.y + r.top - o.top,
+        y: a.y + r.top - s.top,
         x: a.x
       }, l), e.includes("left") && se(t, {
         y: a.y,
-        x: a.x + r.left - o.left
+        x: a.x + r.left - s.left
       }, l), e.includes("bottom") && se(t, {
-        y: a.y + r.bottom - o.bottom,
+        y: a.y + r.bottom - s.bottom,
         x: a.x
       }, l), e.includes("right") && se(t, {
         y: a.y,
-        x: a.x + r.right - o.right
+        x: a.x + r.right - s.right
       }, l);
-    }, Ce = function(n) {
-      var t = n.computedStyle, e = n.node, o = t.position, r = o === "absolute" || o === "relative" || o === "fixed";
+    }, $e = function(n) {
+      var t = n.computedStyle, e = n.node, s = t.position, r = s === "absolute" || s === "relative" || s === "fixed";
       !(e instanceof HTMLDocument) && !r && (e.style.position = "relative");
     }, mt = function(n) {
-      var t = n.shiftKey, e = n.keyboardDragSpeed, o = n.zoom, r = n.key, a = n.dragKeys, l = n.scrollDiff, c = n.canScroll, d = n.scrollCallback, v = {
+      var t = n.shiftKey, e = n.keyboardDragSpeed, s = n.zoom, r = n.key, a = n.dragKeys, l = n.scrollDiff, c = n.canScroll, d = n.scrollCallback, p = {
         x: 0,
         y: 0
-      }, h = t ? e * 4 * o : e * o;
-      return a.left.includes(r) && (v.x = l.x || -h, !t && !l.x && c && d(["left"], e)), a.right.includes(r) && (v.x = l.x || h, !t && !l.x && c && d(["right"], e)), a.up.includes(r) && (v.y = l.y || -h, !t && !l.y && c && d(["top"], e)), a.down.includes(r) && (v.y = l.y || h, !t && !l.y && c && d(["bottom"], e)), v;
+      }, m = t ? e * 4 * s : e * s;
+      return a.left.includes(r) && (p.x = l.x || -m, !t && !l.x && c && d(["left"], e)), a.right.includes(r) && (p.x = l.x || m, !t && !l.x && c && d(["right"], e)), a.up.includes(r) && (p.y = l.y || -m, !t && !l.y && c && d(["top"], e)), a.down.includes(r) && (p.y = l.y || m, !t && !l.y && c && d(["bottom"], e)), p;
     }, ft = function(n) {
-      var t = n.element, e = n.force, o = n.multiSelectionToggle, r = n.SelectedSet, a = n.hoverClassName;
-      t.classList.contains(a) && !e || (r.has(t) ? o && r.delete(t) : r.add(t), t.classList.add(a));
+      var t = n.element, e = n.force, s = n.multiSelectionToggle, r = n.SelectedSet, a = n.hoverClassName;
+      t.classList.contains(a) && !e || (r.has(t) ? s && r.delete(t) : r.add(t), t.classList.add(a));
     }, gt = function(n) {
-      var t = n.element, e = n.force, o = n.SelectedSet, r = n.PrevSelectedSet, a = n.hoverClassName;
+      var t = n.element, e = n.force, s = n.SelectedSet, r = n.PrevSelectedSet, a = n.hoverClassName;
       if (!t.classList.contains(a) && !e)
         return !1;
-      var l = o.has(t), c = r.has(t);
-      l && !c ? o.delete(t) : !l && c && o.add(t), t.classList.remove(a);
-    }, pe = function(n, t) {
+      var l = s.has(t), c = r.has(t);
+      l && !c ? s.delete(t) : !l && c && s.add(t), t.classList.remove(a);
+    }, ye = function(n, t) {
       return n.left < t.right && n.right > t.left && n.top < t.bottom && n.bottom > t.top;
     }, Pe = function(n) {
-      var t = n.element, e = n.posDirection, o = n.containerRect, r = n.useTransform, a = dt(t, r), l = z(a, "+", e);
+      var t = n.element, e = n.posDirection, s = n.containerRect, r = n.useTransform, a = dt(t, r), l = N(a, "+", e);
       se(t, l, r);
-      var c = t.getBoundingClientRect(), d = ke({
+      var c = t.getBoundingClientRect(), d = De({
         elementRect: c,
-        containerRect: o
+        containerRect: s
       });
       ht({
         element: t,
         edges: d,
         elementRect: c,
-        containerRect: o,
+        containerRect: s,
         elementPos: l,
         useTransform: r
       });
@@ -766,18 +788,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       window.removeEventListener("resize", t), window.removeEventListener("scroll", t), n.disconnect();
     }, pt = function(n, t, e) {
       if (!!t.length) {
-        var o = document && document.documentElement && document.documentElement.scrollTop && document.documentElement, r = n instanceof HTMLDocument ? o || document.body : n, a = t.includes("top") && r.scrollTop > 0, l = t.includes("bottom") && r.scrollTop < r.scrollHeight, c = t.includes("left") && r.scrollLeft > 0, d = t.includes("right") && r.scrollLeft < r.scrollWidth;
+        var s = document && document.documentElement && document.documentElement.scrollTop && document.documentElement, r = n instanceof HTMLDocument ? s || document.body : n, a = t.includes("top") && r.scrollTop > 0, l = t.includes("bottom") && r.scrollTop < r.scrollHeight, c = t.includes("left") && r.scrollLeft > 0, d = t.includes("right") && r.scrollLeft < r.scrollWidth;
         a && (r.scrollTop -= 1 * e), l && (r.scrollTop += 1 * e), c && (r.scrollLeft -= 1 * e), d && (r.scrollLeft += 1 * e);
       }
     }, se = function(n, t, e) {
       if (e) {
-        var o = n.style.transform;
-        n.style.transform = "translate3d(".concat(t.x, "px,").concat(t.y, "px,1px) ").concat(o.replace(/translate.*?\)/g, ""));
+        var s = n.style.transform;
+        n.style.transform = "translate3d(".concat(t.x, "px,").concat(t.y, "px,1px) ").concat(s.replace(/translate.*?\)/g, ""));
       } else
         n.style.left = "".concat(t.x, "px"), n.style.top = "".concat(t.y, "px");
       return n;
-    }, bt = function(n) {
-      for (var t = n.subscribe, e = n.publish, o = n.Interaction, r = n.SelectedSet, a = {
+    }, yt = function(n) {
+      for (var t = n.subscribe, e = n.publish, s = n.Interaction, r = n.SelectedSet, a = {
         "Selected:added": [{
           name: "elementselect"
         }],
@@ -792,36 +814,36 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         }],
         "Interaction:update": [{
           name: "dragmove",
-          condition: function(h) {
-            return h.event;
+          condition: function(m) {
+            return m.event;
           }
         }],
         "Interaction:end": [{
           name: "callback"
         }]
       }, l = function() {
-        var h = P(d[c], 2), _ = h[0], k = h[1];
+        var m = P(d[c], 2), _ = m[0], C = m[1];
         ["pre", !1].forEach(function(I) {
-          return t(I ? "".concat(_, ":").concat(I) : _, function(K) {
-            return k.forEach(function(V) {
-              return (!V.condition || V.condition(K)) && e(I ? "".concat(I).concat(V.name) : V.name, y({
+          return t(I ? "".concat(_, ":").concat(I) : _, function(B) {
+            return C.forEach(function(V) {
+              return (!V.condition || V.condition(B)) && e(I ? "".concat(I).concat(V.name) : V.name, y({
                 items: r.elements,
-                isDragging: o.isDragging
-              }, K));
+                isDragging: s.isDragging
+              }, B));
             });
           });
         });
       }, c = 0, d = Object.entries(a); c < d.length; c++)
         l();
-    }, ee = function(n) {
-      return n ? !Array.isArray(n) && (n instanceof HTMLElement || n instanceof SVGElement) ? [n] : F(n) : [];
-    }, $e = function(n, t) {
+    }, ne = function(n) {
+      return n ? !Array.isArray(n) && (n instanceof HTMLElement || n instanceof SVGElement) ? [n] : U(n) : [];
+    }, Me = function(n, t) {
       n.style.left = "".concat(t.left, "px"), n.style.top = "".concat(t.top, "px"), n.style.width = "".concat(t.width, "px"), n.style.height = "".concat(t.height, "px");
-    }, yt = /* @__PURE__ */ function() {
+    }, bt = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.area, r = t.PS, a = t.zoom;
-        u(this, n), s(this, "_modificationCallback", void 0), s(this, "_modificationObserver", void 0), s(this, "_zoom", void 0), s(this, "_node", void 0), s(this, "_parentNodes", void 0), s(this, "_computedStyle", void 0), s(this, "_computedBorder", void 0), s(this, "_rect", void 0), s(this, "setArea", function(l) {
-          e._node = l, Ce({
+        var e = this, s = t.area, r = t.PS, a = t.zoom;
+        u(this, n), o(this, "_modificationCallback", void 0), o(this, "_modificationObserver", void 0), o(this, "_zoom", void 0), o(this, "_node", void 0), o(this, "_parentNodes", void 0), o(this, "_computedStyle", void 0), o(this, "_computedBorder", void 0), o(this, "_rect", void 0), o(this, "setArea", function(l) {
+          e._node = l, $e({
             computedStyle: e.computedStyle,
             node: e._node
           }), setTimeout(function() {
@@ -831,19 +853,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
               item: e
             });
           });
-        }), s(this, "start", function() {
+        }), o(this, "start", function() {
           tt(e.parentNodes, e._modificationCallback, e._modificationObserver);
-        }), s(this, "reset", function() {
+        }), o(this, "reset", function() {
           e._computedStyle = void 0, e._rect = void 0, e._computedBorder = void 0, e._parentNodes = void 0;
-        }), s(this, "stop", function() {
+        }), o(this, "stop", function() {
           vt(e._modificationObserver, e._modificationCallback), e.reset();
-        }), s(this, "scroll", function(l, c) {
+        }), o(this, "scroll", function(l, c) {
           var d = {
             scroll_directions: l,
             scroll_multiplier: c
           };
           e.PubSub.publish("Area:scroll:pre", d), pt(e._node, l, c), e.PubSub.publish("Area:scroll", d);
-        }), this._zoom = a, this.PubSub = r, this.setArea(o), this._modificationCallback = st(function(l) {
+        }), this._zoom = a, this.PubSub = r, this.setArea(s), this._modificationCallback = st(function(l) {
           e.PubSub.publish("Area:modified:pre", {
             event: l,
             item: e
@@ -853,7 +875,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           });
         }, 60), this._modificationObserver = new MutationObserver(this._modificationCallback), this.PubSub.subscribe("Interaction:init", this.start), this.PubSub.subscribe("Interaction:end", this.reset);
       }
-      return g(n, [{
+      return f(n, [{
         key: "HTMLNode",
         get: function() {
           return this._node;
@@ -883,30 +905,30 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         get: function() {
           if (this._parentNodes)
             return this._parentNodes;
-          var e = function o(r) {
+          var e = function s(r) {
             var a, l = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0, c = (a = r[l]) === null || a === void 0 ? void 0 : a.parentNode;
-            return c ? (r.push(c), l++, o(r, l)) : r;
+            return c ? (r.push(c), l++, s(r, l)) : r;
           };
           return this._parentNodes = e([this.HTMLNode]), this._parentNodes;
         }
       }]), n;
     }(), St = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.DS, r = t.dragKeys, a = t.draggability, l = t.keyboardDrag, c = t.keyboardDragSpeed, d = t.useTransform, v = t.zoom;
-        u(this, n), s(this, "_useTransform", void 0), s(this, "_prevCursorPos", void 0), s(this, "_prevScrollPos", void 0), s(this, "_elements", []), s(this, "_draggability", void 0), s(this, "_dragKeys", void 0), s(this, "_dragKeysFlat", void 0), s(this, "_keyboardDrag", void 0), s(this, "_keyboardDragSpeed", void 0), s(this, "_zoom", void 0), s(this, "keyboardDrag", function(h) {
-          var _ = h.event, k = h.key;
-          if (!(!e._keyboardDrag || !e._dragKeysFlat.includes(k) || !e.DS.SelectedSet.size || !e._draggability || e.DS.continue)) {
+        var e = this, s = t.DS, r = t.dragKeys, a = t.draggability, l = t.keyboardDrag, c = t.keyboardDragSpeed, d = t.useTransform, p = t.zoom;
+        u(this, n), o(this, "_useTransform", void 0), o(this, "_prevCursorPos", void 0), o(this, "_prevScrollPos", void 0), o(this, "_elements", []), o(this, "_draggability", void 0), o(this, "_dragKeys", void 0), o(this, "_dragKeysFlat", void 0), o(this, "_keyboardDrag", void 0), o(this, "_keyboardDragSpeed", void 0), o(this, "_zoom", void 0), o(this, "keyboardDrag", function(m) {
+          var _ = m.event, C = m.key;
+          if (!(!e._keyboardDrag || !e._dragKeysFlat.includes(C) || !e.DS.SelectedSet.size || !e._draggability || e.DS.continue)) {
             var I = {
               event: _,
               isDragging: !0,
               isDraggingKeyboard: !0
             };
             e.DS.publish(["Interaction:start:pre", "Interaction:start"], I), e._elements = e.DS.getSelection(), e.handleZIndex(!0);
-            var K = mt({
+            var B = mt({
               shiftKey: e.DS.stores.KeyStore.currentValues.includes("shift"),
               keyboardDragSpeed: e._keyboardDragSpeed,
               zoom: e._zoom,
-              key: k,
+              key: C,
               scrollCallback: e.DS.Area.scroll,
               scrollDiff: e._scrollDiff,
               canScroll: e.DS.stores.ScrollStore.canScroll,
@@ -915,15 +937,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             e._elements.forEach(function(V) {
               return Pe({
                 element: V,
-                posDirection: K,
+                posDirection: B,
                 containerRect: e.DS.SelectorArea.rect,
                 useTransform: e._useTransform
               });
             }), e.DS.publish(["Interaction:update:pre", "Interaction:update"], I);
           }
-        }), s(this, "keyboardEnd", function(h) {
-          var _ = h.event, k = h.key;
-          if (!(!e._keyboardDrag || !e._dragKeysFlat.includes(k) || !e.DS.SelectedSet.size || !e._draggability)) {
+        }), o(this, "keyboardEnd", function(m) {
+          var _ = m.event, C = m.key;
+          if (!(!e._keyboardDrag || !e._dragKeysFlat.includes(C) || !e.DS.SelectedSet.size || !e._draggability)) {
             var I = {
               event: _,
               isDragging: e._draggability,
@@ -931,214 +953,214 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             };
             e.DS.publish(["Interaction:end:pre", "Interaction:end"], I);
           }
-        }), s(this, "start", function(h) {
-          var _ = h.isDragging, k = h.isDraggingKeyboard;
-          !_ || k || (e._prevCursorPos = null, e._prevScrollPos = null, e._elements = e.DS.getSelection(), e.handleZIndex(!0));
-        }), s(this, "stop", function(h) {
-          h != null && h.isKeyboard || (e._prevCursorPos = null, e._prevScrollPos = null, e.handleZIndex(!1), e._elements = []);
-        }), s(this, "update", function(h) {
-          var _ = h.isDragging, k = h.isDraggingKeyboard;
-          if (!(!_ || !e._elements.length || k || e.DS.continue)) {
-            var I = z(e._cursorDiff, "+", e._scrollDiff);
-            e._elements.forEach(function(K) {
+        }), o(this, "start", function(m) {
+          var _ = m.isDragging, C = m.isDraggingKeyboard;
+          !_ || C || (e._prevCursorPos = null, e._prevScrollPos = null, e._elements = e.DS.getSelection(), e.handleZIndex(!0));
+        }), o(this, "stop", function(m) {
+          m != null && m.isKeyboard || (e._prevCursorPos = null, e._prevScrollPos = null, e.handleZIndex(!1), e._elements = []);
+        }), o(this, "update", function(m) {
+          var _ = m.isDragging, C = m.isDraggingKeyboard;
+          if (!(!_ || !e._elements.length || C || e.DS.continue)) {
+            var I = N(e._cursorDiff, "+", e._scrollDiff);
+            e._elements.forEach(function(B) {
               return Pe({
-                element: K,
+                element: B,
                 posDirection: I,
                 containerRect: e.DS.SelectorArea.rect,
                 useTransform: e._useTransform
               });
             });
           }
-        }), s(this, "handleZIndex", function(h) {
+        }), o(this, "handleZIndex", function(m) {
           e._elements.forEach(function(_) {
-            return _.style.zIndex = "".concat((parseInt(_.style.zIndex) || 0) + h ? 9999 : -9998);
+            return _.style.zIndex = "".concat((parseInt(_.style.zIndex) || 0) + m ? 9999 : -9998);
           });
-        }), this.DS = o, this._useTransform = d, this._keyboardDragSpeed = c, this._keyboardDrag = l, this._zoom = v, this._draggability = a, this._dragKeys = {
-          up: r.up.map(function(h) {
-            return h.toLowerCase();
+        }), this.DS = s, this._useTransform = d, this._keyboardDragSpeed = c, this._keyboardDrag = l, this._zoom = p, this._draggability = a, this._dragKeys = {
+          up: r.up.map(function(m) {
+            return m.toLowerCase();
           }),
-          down: r.down.map(function(h) {
-            return h.toLowerCase();
+          down: r.down.map(function(m) {
+            return m.toLowerCase();
           }),
-          left: r.left.map(function(h) {
-            return h.toLowerCase();
+          left: r.left.map(function(m) {
+            return m.toLowerCase();
           }),
-          right: r.right.map(function(h) {
-            return h.toLowerCase();
+          right: r.right.map(function(m) {
+            return m.toLowerCase();
           })
-        }, this._dragKeysFlat = [].concat(F(this._dragKeys.up), F(this._dragKeys.down), F(this._dragKeys.left), F(this._dragKeys.right)), this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:end", this.stop), this.DS.subscribe("Interaction:update", this.update), this.DS.subscribe("KeyStore:down", this.keyboardDrag), this.DS.subscribe("KeyStore:up", this.keyboardEnd);
+        }, this._dragKeysFlat = [].concat(U(this._dragKeys.up), U(this._dragKeys.down), U(this._dragKeys.left), U(this._dragKeys.right)), this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:end", this.stop), this.DS.subscribe("Interaction:update", this.update), this.DS.subscribe("KeyStore:down", this.keyboardDrag), this.DS.subscribe("KeyStore:up", this.keyboardEnd);
       }
-      return g(n, [{
+      return f(n, [{
         key: "_cursorDiff",
         get: function() {
-          var e = this.DS.stores.PointerStore.currentVal, o = this._prevCursorPos ? z(e, "-", this._prevCursorPos) : {
+          var e = this.DS.stores.PointerStore.currentVal, s = this._prevCursorPos ? N(e, "-", this._prevCursorPos) : {
             x: 0,
             y: 0
           };
-          return this._prevCursorPos = e, o;
+          return this._prevCursorPos = e, s;
         }
       }, {
         key: "_scrollDiff",
         get: function() {
-          var e = this.DS.stores.ScrollStore.currentVal, o = this._prevScrollPos ? z(e, "-", this._prevScrollPos) : {
+          var e = this.DS.stores.ScrollStore.currentVal, s = this._prevScrollPos ? N(e, "-", this._prevScrollPos) : {
             x: 0,
             y: 0
           };
-          return this._prevScrollPos = e, o;
+          return this._prevScrollPos = e, s;
         }
       }]), n;
     }(), _t = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.DS, r = t.areaElement, a = t.draggability, l = t.immediateDrag, c = t.selectableClass;
-        u(this, n), s(this, "_areaElement", void 0), s(this, "_draggability", void 0), s(this, "_immediateDrag", void 0), s(this, "_selectableClass", void 0), s(this, "isInteracting", void 0), s(this, "isDragging", void 0), s(this, "init", function() {
+        var e = this, s = t.DS, r = t.areaElement, a = t.draggability, l = t.immediateDrag, c = t.selectableClass;
+        u(this, n), o(this, "_areaElement", void 0), o(this, "_draggability", void 0), o(this, "_immediateDrag", void 0), o(this, "_selectableClass", void 0), o(this, "isInteracting", void 0), o(this, "isDragging", void 0), o(this, "init", function() {
           return e.DS.publish("Interaction:init:pre", {});
-        }), s(this, "_init", function() {
+        }), o(this, "_init", function() {
           e.stop(), e._areaElement.addEventListener("mousedown", e.start), e._areaElement.addEventListener("touchstart", e.start, {
             passive: !1
           }), e.DS.publish("Interaction:init", {});
-        }), s(this, "start", function(d) {
+        }), o(this, "start", function(d) {
           return e.DS.publish("Interaction:start:pre", {
             event: d,
             isDragging: e.isDragging
           });
-        }), s(this, "_start", function(d) {
+        }), o(this, "_start", function(d) {
           d.type === "touchstart" && d.preventDefault(), e._canInteract(d) && (e.isInteracting = !0, e.isDragging = e.isDragEvent(d), e.DS.publish("Interaction:start", {
             event: d,
             isDragging: e.isDragging
           }), document.addEventListener("mouseup", e.reset), document.addEventListener("touchend", e.reset));
-        }), s(this, "isDragEvent", function(d) {
-          var v = d.target.closest(".".concat(e._selectableClass));
-          return !e._draggability || e.DS.stores.KeyStore.isMultiSelectKeyPressed(d) || !v ? !1 : (e._immediateDrag && (e.DS.SelectedSet.size ? e.DS.SelectedSet.has(v) || (e.DS.SelectedSet.clear(), e.DS.SelectedSet.add(
-            v
+        }), o(this, "isDragEvent", function(d) {
+          var p = d.target.closest(".".concat(e._selectableClass));
+          return !e._draggability || e.DS.stores.KeyStore.isMultiSelectKeyPressed(d) || !p ? !1 : (e._immediateDrag && (e.DS.SelectedSet.size ? e.DS.SelectedSet.has(p) || (e.DS.SelectedSet.clear(), e.DS.SelectedSet.add(
+            p
           )) : e.DS.SelectedSet.add(
-            v
-          )), !!e.DS.SelectedSet.has(v));
-        }), s(this, "onClick", function(d) {
-          var v = d.event;
-          if (!!e._canInteract(v) && !(v.detail > 0)) {
-            var h = e.DS, _ = h.stores, k = _.PointerStore, I = _.KeyStore, K = h.SelectableSet, V = h.SelectedSet;
-            k.start(v);
-            var te = v.target;
-            !K.has(te) || (I.isMultiSelectKeyPressed(v) || V.clear(), V.toggle(te), e.reset());
+            p
+          )), !!e.DS.SelectedSet.has(p));
+        }), o(this, "onClick", function(d) {
+          var p = d.event;
+          if (!!e._canInteract(p) && !(p.detail > 0)) {
+            var m = e.DS, _ = m.stores, C = _.PointerStore, I = _.KeyStore, B = m.SelectableSet, V = m.SelectedSet;
+            C.start(p);
+            var oe = p.target;
+            !B.has(oe) || (I.isMultiSelectKeyPressed(p) || V.clear(), V.toggle(oe), e.reset());
           }
-        }), s(this, "stop", function() {
+        }), o(this, "stop", function() {
           e.isInteracting = !1, e.isDragging = !1, e._areaElement.removeEventListener("mousedown", e.start), e._areaElement.removeEventListener("touchstart", e.start, {
             passive: !1
           }), document.removeEventListener("mouseup", e.reset), document.removeEventListener("touchend", e.reset);
-        }), s(this, "update", function(d) {
-          var v = d.event, h = d.scroll_directions, _ = d.scroll_multiplier;
+        }), o(this, "update", function(d) {
+          var p = d.event, m = d.scroll_directions, _ = d.scroll_multiplier;
           e.isInteracting && e.DS.publish(["Interaction:update:pre", "Interaction:update"], {
-            event: v,
-            scroll_directions: h,
+            event: p,
+            scroll_directions: m,
             scroll_multiplier: _,
             isDragging: e.isDragging
           });
-        }), s(this, "reset", function(d) {
+        }), o(this, "reset", function(d) {
           return e.DS.publish("Interaction:end:pre", {
             event: d,
             isDragging: e.isDragging
           });
-        }), s(this, "_reset", function(d) {
-          var v = e.isDragging;
+        }), o(this, "_reset", function(d) {
+          var p = e.isDragging;
           e.stop(), e.init(), e.DS.publish("Interaction:end", {
             event: d,
-            isDragging: v
+            isDragging: p
           });
-        }), this._areaElement = r, this._draggability = a, this._immediateDrag = l, this._selectableClass = c, this.DS = o, this.DS.subscribe("PointerStore:updated", this.update), this.DS.subscribe("Selectable:click", this.onClick), this.DS.subscribe("Selectable:pointer", function(d) {
-          var v = d.event;
-          return e.start(v);
+        }), this._areaElement = r, this._draggability = a, this._immediateDrag = l, this._selectableClass = c, this.DS = s, this.DS.subscribe("PointerStore:updated", this.update), this.DS.subscribe("Selectable:click", this.onClick), this.DS.subscribe("Selectable:pointer", function(d) {
+          var p = d.event;
+          return e.start(p);
         }), this.DS.subscribe("Interaction:start:pre", function(d) {
-          var v = d.event;
-          return e._start(v);
+          var p = d.event;
+          return e._start(p);
         }), this.DS.subscribe("Interaction:init:pre", this._init), this.DS.subscribe("Interaction:end:pre", function(d) {
-          var v = d.event;
-          return e._reset(v);
+          var p = d.event;
+          return e._reset(p);
         }), this.DS.subscribe("Area:scroll", this.update);
       }
-      return g(n, [{
+      return f(n, [{
         key: "_canInteract",
         value: function(e) {
-          var o = e.clientX === 0 && e.clientY === 0 && e.detail === 0 && e.target;
+          var s = e.clientX === 0 && e.clientY === 0 && e.detail === 0 && e.target;
           return !(e.button === 2 || this.isInteracting || e.target && !this.DS.SelectorArea.isInside(
             e.target
-          ) || !o && !this.DS.SelectorArea.isClicked(e));
+          ) || !s && !this.DS.SelectorArea.isClicked(e));
         }
       }]), n;
     }(), wt = function n(t) {
-      var e = this, o = t.DS;
-      u(this, n), s(this, "subscribers", {}), s(this, "subscribe", function(r, a) {
+      var e = this, s = t.DS;
+      u(this, n), o(this, "subscribers", {}), o(this, "subscribe", function(r, a) {
         return Array.isArray(e.subscribers[r]) || (e.subscribers[r] = []), e.subscribers[r].push(a), e.subscribers[r].length - 1;
-      }), s(this, "unsubscribe", function(r, a, l) {
+      }), o(this, "unsubscribe", function(r, a, l) {
         l >= 0 ? e.subscribers[r].splice(l, 1) : a && (e.subscribers[r] = e.subscribers[r].filter(function(c) {
           return c !== a;
         }));
-      }), s(this, "publish", function(r, a) {
+      }), o(this, "publish", function(r, a) {
         Array.isArray(r) ? r.forEach(function(l) {
           return e._publish(l, a);
         }) : e._publish(r, a);
-      }), s(this, "_publish", function(r, a) {
+      }), o(this, "_publish", function(r, a) {
         var l = e.subscribers[r];
         !Array.isArray(l) || (r.includes(":pre") ? e._handlePrePublish(l, a) : e._handlePublish(l, a));
-      }), s(this, "_handlePublish", function(r, a) {
+      }), o(this, "_handlePublish", function(r, a) {
         for (var l = 0, c = r.length; l < c; l++) {
           if (e.DS.stopped)
             return;
           r[l](a);
         }
-      }), s(this, "_handlePrePublish", function(r, a) {
+      }), o(this, "_handlePrePublish", function(r, a) {
         for (var l = r.length; l--; ) {
           if (e.DS.stopped)
             return;
           r[l](a);
         }
-      }), this.DS = o;
-    }, xt = /* @__PURE__ */ function(n) {
-      p(e, n);
-      var t = ie(e);
-      function e(o) {
-        var r, a = o.elements, l = o.className, c = o.hoverClassName, d = o.draggability, v = o.useTransform, h = o.DS;
-        return u(this, e), r = t.call(this), s(T(r), "_initElements", void 0), s(T(r), "_className", void 0), s(T(r), "_hoverClassName", void 0), s(T(r), "_useTransform", void 0), s(T(r), "_draggability", void 0), s(T(r), "init", function() {
+      }), this.DS = s;
+    }, kt = /* @__PURE__ */ function(n) {
+      v(e, n);
+      var t = ae(e);
+      function e(s) {
+        var r, a = s.elements, l = s.className, c = s.hoverClassName, d = s.draggability, p = s.useTransform, m = s.DS;
+        return u(this, e), r = t.call(this), o(T(r), "_initElements", void 0), o(T(r), "_className", void 0), o(T(r), "_hoverClassName", void 0), o(T(r), "_useTransform", void 0), o(T(r), "_draggability", void 0), o(T(r), "init", function() {
           return r._initElements.forEach(function(_) {
             return r.add(_);
           });
-        }), s(T(r), "clear", function() {
+        }), o(T(r), "clear", function() {
           return r.forEach(function(_) {
             return r.delete(_);
           });
-        }), s(T(r), "_onClick", function(_) {
+        }), o(T(r), "_onClick", function(_) {
           return r.DS.publish(["Selectable:click:pre", "Selectable:click"], {
             event: _
           });
-        }), s(T(r), "_onPointer", function(_) {
+        }), o(T(r), "_onPointer", function(_) {
           return r.DS.publish(["Selectable:pointer:pre", "Selectable:pointer"], {
             event: _
           });
-        }), s(T(r), "addAll", function(_) {
-          return _.forEach(function(k) {
-            return r.add(k);
+        }), o(T(r), "addAll", function(_) {
+          return _.forEach(function(C) {
+            return r.add(C);
           });
-        }), s(T(r), "deleteAll", function(_) {
-          return _.forEach(function(k) {
-            return r.delete(k);
+        }), o(T(r), "deleteAll", function(_) {
+          return _.forEach(function(C) {
+            return r.delete(C);
           });
-        }), r.DS = h, r._initElements = ee(a), r._className = l, r._hoverClassName = c, r._useTransform = v, r._draggability = d, r.DS.subscribe("Interaction:init", r.init), r;
+        }), r.DS = m, r._initElements = ne(a), r._className = l, r._hoverClassName = c, r._useTransform = p, r._draggability = d, r.DS.subscribe("Interaction:init", r.init), r;
       }
-      return g(e, [{
+      return f(e, [{
         key: "add",
         value: function(r) {
           return r.classList.add(this._className), r.addEventListener("click", this._onClick), r.addEventListener("mousedown", this._onPointer), r.addEventListener("touchstart", this._onPointer, {
             passive: !1
-          }), this._draggability && !this._useTransform && Ce({
+          }), this._draggability && !this._useTransform && $e({
             computedStyle: window.getComputedStyle(r),
             node: r
-          }), M(D(e.prototype), "add", this).call(this, r);
+          }), M(x(e.prototype), "add", this).call(this, r);
         }
       }, {
         key: "delete",
         value: function(r) {
           return r.classList.remove(this._className), r.classList.remove(this._hoverClassName), r.removeEventListener("click", this._onClick), r.removeEventListener("mousedown", this._onPointer), r.removeEventListener("touchstart", this._onPointer, {
             passive: !1
-          }), M(D(e.prototype), "delete", this).call(this, r);
+          }), M(x(e.prototype), "delete", this).call(this, r);
         }
       }, {
         key: "elements",
@@ -1146,46 +1168,46 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return Array.from(this.values());
         }
       }]), e;
-    }(/* @__PURE__ */ B(Set)), kt = /* @__PURE__ */ function(n) {
-      p(e, n);
-      var t = ie(e);
-      function e(o) {
-        var r, a = o.className, l = o.DS;
-        return u(this, e), r = t.call(this), s(T(r), "_className", void 0), s(T(r), "clear", function() {
+    }(/* @__PURE__ */ H(Set)), xt = /* @__PURE__ */ function(n) {
+      v(e, n);
+      var t = ae(e);
+      function e(s) {
+        var r, a = s.className, l = s.DS;
+        return u(this, e), r = t.call(this), o(T(r), "_className", void 0), o(T(r), "clear", function() {
           return r.forEach(function(c) {
             return r.delete(c);
           });
-        }), s(T(r), "addAll", function(c) {
+        }), o(T(r), "addAll", function(c) {
           return c.forEach(function(d) {
             return r.add(d);
           });
-        }), s(T(r), "deleteAll", function(c) {
+        }), o(T(r), "deleteAll", function(c) {
           return c.forEach(function(d) {
             return r.delete(d);
           });
         }), r.DS = l, r._className = a, r;
       }
-      return g(e, [{
+      return f(e, [{
         key: "add",
         value: function(r) {
-          if (!M(D(e.prototype), "has", this).call(this, r)) {
+          if (!M(x(e.prototype), "has", this).call(this, r)) {
             var a = {
               items: this.elements,
               item: r
             };
-            return this.DS.publish("Selected:added:pre", a), M(D(e.prototype), "add", this).call(this, r), r.classList.add(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) + 1), this.DS.publish("Selected:added", a), this;
+            return this.DS.publish("Selected:added:pre", a), M(x(e.prototype), "add", this).call(this, r), r.classList.add(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) + 1), this.DS.publish("Selected:added", a), this;
           }
         }
       }, {
         key: "delete",
         value: function(r) {
-          if (!!M(D(e.prototype), "has", this).call(this, r)) {
+          if (!!M(x(e.prototype), "has", this).call(this, r)) {
             var a = {
               items: this.elements,
               item: r
             };
             this.DS.publish("Selected:removed:pre", a);
-            var l = M(D(e.prototype), "delete", this).call(this, r);
+            var l = M(x(e.prototype), "delete", this).call(this, r);
             return r.classList.remove(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) - 1), this.DS.publish("Selected:removed", a), l;
           }
         }
@@ -1200,116 +1222,116 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return Array.from(this.values());
         }
       }]), e;
-    }(/* @__PURE__ */ B(Set)), Dt = /* @__PURE__ */ function() {
+    }(/* @__PURE__ */ H(Set)), Dt = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.DS, r = t.hoverClassName, a = t.multiSelectToggling;
-        u(this, n), s(this, "_prevSelectedSet", void 0), s(this, "_hoverClassName", void 0), s(this, "_multiSelectToggling", void 0), s(this, "start", function(l) {
+        var e = this, s = t.DS, r = t.hoverClassName, a = t.multiSelectToggling;
+        u(this, n), o(this, "_prevSelectedSet", void 0), o(this, "_hoverClassName", void 0), o(this, "_multiSelectToggling", void 0), o(this, "start", function(l) {
           var c = l.event, d = l.isDragging;
           d || (e._storePrevious(c), e._handleInsideSelection(!0, c));
-        }), s(this, "update", function(l) {
+        }), o(this, "update", function(l) {
           var c = l.isDragging;
           c || e.DS.continue || e._handleInsideSelection();
-        }), s(this, "_handleInsideSelection", function(l, c) {
-          for (var d = e.DS, v = d.SelectableSet, h = d.SelectorArea, _ = d.Selector, k = v.elements.map(function(Z) {
-            return [Z, Z.getBoundingClientRect()];
-          }), I = [], K = [], V = 0, te = k.length; V < te; V++)
-            !h.isInside(k[V][0], k[V][1]) || (pe(k[V][1], _.rect) ? I.push(k[V][0]) : K.push(k[V][0]));
-          var le = e.DS.stores.KeyStore.isMultiSelectKeyPressed(c) && e._multiSelectToggling;
-          e.DS.continue || (I.forEach(function(Z) {
+        }), o(this, "_handleInsideSelection", function(l, c) {
+          for (var d = e.DS, p = d.SelectableSet, m = d.SelectorArea, _ = d.Selector, C = p.elements.map(function(Y) {
+            return [Y, Y.getBoundingClientRect()];
+          }), I = [], B = [], V = 0, oe = C.length; V < oe; V++)
+            !m.isInside(C[V][0], C[V][1]) || (ye(C[V][1], _.rect) ? I.push(C[V][0]) : B.push(C[V][0]));
+          var ce = e.DS.stores.KeyStore.isMultiSelectKeyPressed(c) && e._multiSelectToggling;
+          e.DS.continue || (I.forEach(function(Y) {
             return ft({
-              element: Z,
+              element: Y,
               force: l,
-              multiSelectionToggle: le,
+              multiSelectionToggle: ce,
               SelectedSet: e.DS.SelectedSet,
               hoverClassName: e._hoverClassName
             });
-          }), K.forEach(function(Z) {
+          }), B.forEach(function(Y) {
             return gt({
-              element: Z,
+              element: Y,
               force: l,
               SelectedSet: e.DS.SelectedSet,
               hoverClassName: e._hoverClassName,
               PrevSelectedSet: e._prevSelectedSet
             });
           }));
-        }), this._hoverClassName = r, this._multiSelectToggling = a, this.DS = o, this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:update", this.update);
+        }), this._hoverClassName = r, this._multiSelectToggling = a, this.DS = s, this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:update", this.update);
       }
-      return g(n, [{
+      return f(n, [{
         key: "_storePrevious",
         value: function(e) {
-          var o = this.DS, r = o.stores.KeyStore, a = o.SelectedSet;
+          var s = this.DS, r = s.stores.KeyStore, a = s.SelectedSet;
           r.isMultiSelectKeyPressed(e) ? this._prevSelectedSet = new Set(a) : this._prevSelectedSet = /* @__PURE__ */ new Set();
         }
       }]), n;
     }(), Ct = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.DS, r = t.selector, a = t.selectorClass, l = t.customStyles;
-        u(this, n), s(this, "_rect", void 0), s(this, "start", function(c) {
+        var e = this, s = t.DS, r = t.selector, a = t.selectorClass, l = t.customStyles;
+        u(this, n), o(this, "_rect", void 0), o(this, "start", function(c) {
           var d = c.isDragging;
           if (!d) {
-            var v = e.DS.stores.PointerStore, h = v.initialValArea;
-            $e(e.HTMLNode, xe(h, 1)), e.HTMLNode.style.display = "block", e._rect = null;
+            var p = e.DS.stores.PointerStore, m = p.initialValArea;
+            Me(e.HTMLNode, xe(m, 1)), e.HTMLNode.style.display = "block", e._rect = null;
           }
-        }), s(this, "stop", function() {
+        }), o(this, "stop", function() {
           e.HTMLNode.style.width = "0", e.HTMLNode.style.height = "0", e.HTMLNode.style.display = "none";
-        }), s(this, "update", function(c) {
+        }), o(this, "update", function(c) {
           var d = c.isDragging;
           if (!(d || e.DS.continue)) {
-            var v = e.DS.stores, h = v.ScrollStore, _ = v.PointerStore, k = lt({
-              scrollAmount: h.scrollAmount,
+            var p = e.DS.stores, m = p.ScrollStore, _ = p.PointerStore, C = lt({
+              scrollAmount: m.scrollAmount,
               initialPointerPos: _.initialValArea,
               pointerPos: _.currentValArea
             });
-            $e(e.HTMLNode, k), e._rect = null;
+            Me(e.HTMLNode, C), e._rect = null;
           }
-        }), this.DS = o, this.HTMLNode = r || ot(l), this.HTMLNode.classList.add(a), this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:update", this.update), this.DS.subscribe("Interaction:end", this.stop);
+        }), this.DS = s, this.HTMLNode = r || ot(l), this.HTMLNode.classList.add(a), this.DS.subscribe("Interaction:start", this.start), this.DS.subscribe("Interaction:update", this.update), this.DS.subscribe("Interaction:end", this.stop);
       }
-      return g(n, [{
+      return f(n, [{
         key: "rect",
         get: function() {
           return this._rect ? this._rect : this._rect = this.HTMLNode.getBoundingClientRect();
         }
       }]), n;
-    }(), Pt = /* @__PURE__ */ function() {
+    }(), $t = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.DS, r = t.selectorAreaClass, a = t.autoScrollSpeed, l = t.overflowTolerance;
-        u(this, n), s(this, "_autoScrollSpeed", void 0), s(this, "_scrollInterval", void 0), s(this, "_rect", void 0), s(this, "currentEdges", []), s(this, "_overflowTolerance", void 0), s(this, "start", function() {
+        var e = this, s = t.DS, r = t.selectorAreaClass, a = t.autoScrollSpeed, l = t.overflowTolerance;
+        u(this, n), o(this, "_autoScrollSpeed", void 0), o(this, "_scrollInterval", void 0), o(this, "_rect", void 0), o(this, "currentEdges", []), o(this, "_overflowTolerance", void 0), o(this, "start", function() {
           return e.applyElements("append");
-        }), s(this, "applyElements", function() {
-          var c = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "append", d = document.body ? "body" : "documentElement", v = "".concat(c, "Child");
-          e.HTMLNode[v](e.DS.Selector.HTMLNode), document[d][v](e.HTMLNode);
-        }), s(this, "updatePos", function() {
+        }), o(this, "applyElements", function() {
+          var c = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "append", d = document.body ? "body" : "documentElement", p = "".concat(c, "Child");
+          e.HTMLNode[p](e.DS.Selector.HTMLNode), document[d][p](e.HTMLNode);
+        }), o(this, "updatePos", function() {
           e._rect = null;
-          var c = e.DS.Area.rect, d = e.DS.Area.computedBorder, v = e.HTMLNode.style, h = "".concat(c.top + d.top, "px"), _ = "".concat(c.left + d.left, "px"), k = "".concat(c.width, "px"), I = "".concat(c.height, "px");
-          v.top !== h && (v.top = h), v.left !== _ && (v.left = _), v.width !== k && (v.width = k), v.height !== I && (v.height = I);
-        }), s(this, "stop", function(c) {
+          var c = e.DS.Area.rect, d = e.DS.Area.computedBorder, p = e.HTMLNode.style, m = "".concat(c.top + d.top, "px"), _ = "".concat(c.left + d.left, "px"), C = "".concat(c.width, "px"), I = "".concat(c.height, "px");
+          p.top !== m && (p.top = m), p.left !== _ && (p.left = _), p.width !== C && (p.width = C), p.height !== I && (p.height = I);
+        }), o(this, "stop", function(c) {
           e.stopAutoScroll(), c && e.applyElements("remove");
-        }), s(this, "startAutoScroll", function() {
+        }), o(this, "startAutoScroll", function() {
           e.currentEdges = [], e._scrollInterval = setInterval(function() {
             return e.handleAutoScroll();
           }, 16);
-        }), s(this, "handleAutoScroll", function() {
+        }), o(this, "handleAutoScroll", function() {
           if (!e.DS.continue) {
-            var c = e.DS, d = c.stores.PointerStore, v = c.Area;
-            e.currentEdges = ke({
+            var c = e.DS, d = c.stores.PointerStore, p = c.Area;
+            e.currentEdges = De({
               elementRect: xe(d.currentVal),
               containerRect: e.rect,
               tolerance: e._overflowTolerance
-            }), e.currentEdges.length && v.scroll(e.currentEdges, e._autoScrollSpeed);
+            }), e.currentEdges.length && p.scroll(e.currentEdges, e._autoScrollSpeed);
           }
-        }), s(this, "stopAutoScroll", function() {
+        }), o(this, "stopAutoScroll", function() {
           e.currentEdges = [], clearInterval(e._scrollInterval);
-        }), s(this, "isInside", function(c, d) {
-          return e.DS.Area.HTMLNode.contains(c) && e.DS.stores.ScrollStore.canScroll ? !0 : pe(e.rect, d || c.getBoundingClientRect());
-        }), this._autoScrollSpeed = a, this._overflowTolerance = l, this.DS = o, this.HTMLNode = nt(r), this.DS.subscribe("Area:modified", this.updatePos), this.DS.subscribe("Interaction:init", this.start), this.DS.subscribe("Interaction:start", this.startAutoScroll), this.DS.subscribe("Interaction:end", function() {
+        }), o(this, "isInside", function(c, d) {
+          return e.DS.Area.HTMLNode.contains(c) && e.DS.stores.ScrollStore.canScroll ? !0 : ye(e.rect, d || c.getBoundingClientRect());
+        }), this._autoScrollSpeed = a, this._overflowTolerance = l, this.DS = s, this.HTMLNode = nt(r), this.DS.subscribe("Area:modified", this.updatePos), this.DS.subscribe("Interaction:init", this.start), this.DS.subscribe("Interaction:start", this.startAutoScroll), this.DS.subscribe("Interaction:end", function() {
           e.updatePos(), e.stopAutoScroll();
         });
       }
-      return g(n, [{
+      return f(n, [{
         key: "isClicked",
         value: function(e) {
-          var o = this.DS.stores.PointerStore, r = e ? o.getPointerPosition(e) : o.initialVal;
-          return pe({
+          var s = this.DS.stores.PointerStore, r = e ? s.getPointerPosition(e) : s.initialVal;
+          return ye({
             left: r.x,
             top: r.y,
             right: r.x,
@@ -1322,16 +1344,16 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return this._rect ? this._rect : this._rect = this.HTMLNode.getBoundingClientRect();
         }
       }]), n;
-    }(), $t = /* @__PURE__ */ function() {
+    }(), Pt = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.DS, r = t.multiSelectKeys, a = t.multiSelectMode;
-        u(this, n), s(this, "_multiSelectMode", void 0), s(this, "_multiSelectKeys", void 0), s(this, "_currentValues", /* @__PURE__ */ new Set()), s(this, "_keyMapping", {
+        var e = this, s = t.DS, r = t.multiSelectKeys, a = t.multiSelectMode;
+        u(this, n), o(this, "_multiSelectMode", void 0), o(this, "_multiSelectKeys", void 0), o(this, "_currentValues", /* @__PURE__ */ new Set()), o(this, "_keyMapping", {
           control: "ctrlKey",
           shift: "shiftKey",
           meta: "metaKey"
-        }), s(this, "init", function() {
+        }), o(this, "init", function() {
           document.addEventListener("keydown", e.keydown), document.addEventListener("keyup", e.keyup), window.addEventListener("blur", e.reset);
-        }), s(this, "keydown", function(l) {
+        }), o(this, "keydown", function(l) {
           var c = l.key.toLowerCase();
           e.DS.publish("KeyStore:down:pre", {
             event: l,
@@ -1340,7 +1362,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             event: l,
             key: c
           });
-        }), s(this, "keyup", function(l) {
+        }), o(this, "keyup", function(l) {
           var c = l.key.toLowerCase();
           e.DS.publish("KeyStore:up:pre", {
             event: l,
@@ -1349,11 +1371,11 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             event: l,
             key: c
           });
-        }), s(this, "stop", function() {
+        }), o(this, "stop", function() {
           document.removeEventListener("keydown", e.keydown), document.removeEventListener("keyup", e.reset), window.removeEventListener("blur", e.reset), e.reset();
-        }), s(this, "reset", function() {
+        }), o(this, "reset", function() {
           return e._currentValues.clear();
-        }), this.DS = o, this._multiSelectMode = a, this._multiSelectKeys = r.map(function(l) {
+        }), this.DS = s, this._multiSelectMode = a, this._multiSelectKeys = r.map(function(l) {
           var c = {
             ctrlKey: "Control",
             shiftKey: "Shift",
@@ -1362,14 +1384,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return d ? (console.warn("[DragSelect] ".concat(l, ' is deprecated. Use "').concat(d, '" instead. Act Now!. See docs for more info')), d.toLowerCase()) : l.toLowerCase();
         }), this.DS.subscribe("Interaction:init", this.init);
       }
-      return g(n, [{
+      return f(n, [{
         key: "isMultiSelectKeyPressed",
         value: function(e) {
-          var o = this;
+          var s = this;
           return !!(this._multiSelectMode || this.currentValues.some(function(r) {
-            return o._multiSelectKeys.includes(r);
+            return s._multiSelectKeys.includes(r);
           }) || e && this._multiSelectKeys.some(function(r) {
-            return e[o._keyMapping[r]];
+            return e[s._keyMapping[r]];
           }));
         }
       }, {
@@ -1380,30 +1402,30 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       }]), n;
     }(), Mt = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.DS;
-        u(this, n), s(this, "_isMouseInteraction", !1), s(this, "_initialValArea", void 0), s(this, "_currentValArea", void 0), s(this, "_lastValArea", void 0), s(this, "_initialVal", void 0), s(this, "_currentVal", void 0), s(this, "_lastVal", void 0), s(this, "_lastTouch", void 0), s(this, "init", function() {
+        var e = this, s = t.DS;
+        u(this, n), o(this, "_isMouseInteraction", !1), o(this, "_initialValArea", void 0), o(this, "_currentValArea", void 0), o(this, "_lastValArea", void 0), o(this, "_initialVal", void 0), o(this, "_currentVal", void 0), o(this, "_lastVal", void 0), o(this, "_lastTouch", void 0), o(this, "init", function() {
           document.addEventListener("mousemove", e.update), document.addEventListener("touchmove", e.update, {
             passive: !1
           });
-        }), s(this, "getPointerPosition", function(r) {
+        }), o(this, "getPointerPosition", function(r) {
           return at({
             event: e._normalizedEvent(r)
           });
-        }), s(this, "update", function(r) {
+        }), o(this, "update", function(r) {
           !r || (e.DS.publish("PointerStore:updated:pre", {
             event: r
           }), e.currentVal = e.getPointerPosition(r), e._isMouseInteraction && e.DS.publish("PointerStore:updated", {
             event: r
           }));
-        }), s(this, "stop", function() {
+        }), o(this, "stop", function() {
           document.removeEventListener("mousemove", e.update), document.removeEventListener("touchmove", e.update, {
             passive: !1
           }), setTimeout(function() {
             return e._isMouseInteraction = !1;
           }, 100);
-        }), s(this, "reset", function(r) {
+        }), o(this, "reset", function(r) {
           !r || (e.currentVal = e.lastVal = e.getPointerPosition(r), e.stop(), e.init());
-        }), this.DS = o, this.DS.subscribe("Interaction:init", this.init), this.DS.subscribe("Interaction:start", function(r) {
+        }), this.DS = s, this.DS.subscribe("Interaction:init", this.init), this.DS.subscribe("Interaction:start", function(r) {
           var a = r.event;
           return e.start(a);
         }), this.DS.subscribe("Interaction:end", function(r) {
@@ -1411,7 +1433,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return e.reset(a);
         });
       }
-      return g(n, [{
+      return f(n, [{
         key: "start",
         value: function(e) {
           !e || (this._isMouseInteraction = !0, this.currentVal = this.initialVal = this.getPointerPosition(e));
@@ -1454,7 +1476,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           };
         },
         set: function(e) {
-          this._initialVal = e, this._initialValArea = e && z(e, "-", z(Q(this.DS.Area.rect), "+", Q(this.DS.Area.computedBorder)));
+          this._initialVal = e, this._initialValArea = e && N(e, "-", N(re(this.DS.Area.rect), "+", re(this.DS.Area.computedBorder)));
         }
       }, {
         key: "currentVal",
@@ -1465,7 +1487,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           };
         },
         set: function(e) {
-          this._currentVal = e, this._currentValArea = e && z(e, "-", z(Q(this.DS.Area.rect), "+", Q(this.DS.Area.computedBorder)));
+          this._currentVal = e, this._currentValArea = e && N(e, "-", N(re(this.DS.Area.rect), "+", re(this.DS.Area.computedBorder)));
         }
       }, {
         key: "lastVal",
@@ -1476,32 +1498,32 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           };
         },
         set: function(e) {
-          this._lastVal = e, this._lastValArea = e && z(e, "-", z(Q(this.DS.Area.rect), "+", Q(this.DS.Area.computedBorder)));
+          this._lastVal = e, this._lastValArea = e && N(e, "-", N(re(this.DS.Area.rect), "+", re(this.DS.Area.computedBorder)));
         }
       }]), n;
-    }(), Et = /* @__PURE__ */ function() {
+    }(), At = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.DS, r = t.areaElement, a = t.zoom;
-        u(this, n), s(this, "_initialVal", void 0), s(this, "_currentVal", void 0), s(this, "_areaElement", void 0), s(this, "_canScroll", void 0), s(this, "init", function() {
+        var e = this, s = t.DS, r = t.areaElement, a = t.zoom;
+        u(this, n), o(this, "_initialVal", void 0), o(this, "_currentVal", void 0), o(this, "_areaElement", void 0), o(this, "_canScroll", void 0), o(this, "init", function() {
           return e._areaElement.addEventListener("scroll", e.update);
-        }), s(this, "start", function() {
-          e._currentVal = e._initialVal = ae(e._areaElement), e._areaElement.addEventListener("scroll", e.update);
-        }), s(this, "update", function() {
-          return e._currentVal = ae(e._areaElement);
-        }), s(this, "stop", function() {
+        }), o(this, "start", function() {
+          e._currentVal = e._initialVal = le(e._areaElement), e._areaElement.addEventListener("scroll", e.update);
+        }), o(this, "update", function() {
+          return e._currentVal = le(e._areaElement);
+        }), o(this, "stop", function() {
           e._areaElement.removeEventListener("scroll", e.update), e._initialVal = {
             x: 0,
             y: 0
           }, e._canScroll = null;
-        }), s(this, "reset", function() {
+        }), o(this, "reset", function() {
           e.stop(), e.start();
-        }), this._areaElement = r, this.DS = o, this.zoom = a, this.DS.subscribe("Interaction:init", this.init), this.DS.subscribe("Interaction:start", function() {
+        }), this._areaElement = r, this.DS = s, this.zoom = a, this.DS.subscribe("Interaction:init", this.init), this.DS.subscribe("Interaction:start", function() {
           return e.start();
         }), this.DS.subscribe("Interaction:end", function() {
           return e.reset();
         });
       }
-      return g(n, [{
+      return f(n, [{
         key: "canScroll",
         get: function() {
           return typeof this._canScroll == "boolean" ? this._canScroll : this._canScroll = rt(this._areaElement);
@@ -1509,7 +1531,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       }, {
         key: "scrollAmount",
         get: function() {
-          var e = z(this.currentVal, "-", this.initialVal), o = et(this.zoom), r = z(z(e, "*", o), "-", e);
+          var e = N(this.currentVal, "-", this.initialVal), s = et(this.zoom), r = N(N(e, "*", s), "-", e);
           return {
             x: e.x + r.x,
             y: e.y + r.y
@@ -1526,94 +1548,94 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       }, {
         key: "currentVal",
         get: function() {
-          return this._currentVal || (this._currentVal = ae(this._areaElement)), this._currentVal;
+          return this._currentVal || (this._currentVal = le(this._areaElement)), this._currentVal;
         }
       }]), n;
-    }(), At = /* @__PURE__ */ function() {
+    }(), Et = /* @__PURE__ */ function() {
       function n(t) {
-        var e = this, o = t.area, r = o === void 0 ? document : o, a = t.selectables, l = a === void 0 ? [] : a, c = t.autoScrollSpeed, d = c === void 0 ? 5 : c, v = t.overflowTolerance, h = v === void 0 ? {
+        var e = this, s = t.area, r = s === void 0 ? document : s, a = t.selectables, l = a === void 0 ? [] : a, c = t.autoScrollSpeed, d = c === void 0 ? 5 : c, p = t.overflowTolerance, m = p === void 0 ? {
           x: 25,
           y: 25
-        } : v, _ = t.zoom, k = _ === void 0 ? 1 : _, I = t.customStyles, K = I === void 0 ? !1 : I, V = t.multiSelectMode, te = V === void 0 ? !1 : V, le = t.multiSelectToggling, Z = le === void 0 ? !0 : le, Me = t.multiSelectKeys, It = Me === void 0 ? ["Control", "Shift", "Meta"] : Me, Ee = t.selector, Tt = Ee === void 0 ? void 0 : Ee, Ae = t.draggability, be = Ae === void 0 ? !0 : Ae, Ie = t.immediateDrag, jt = Ie === void 0 ? !0 : Ie, Te = t.keyboardDrag, Vt = Te === void 0 ? !0 : Te, Lt = t.dragKeys, je = t.keyboardDragSpeed, Ot = je === void 0 ? 10 : je, Ve = t.useTransform, Le = Ve === void 0 ? !0 : Ve, Oe = t.hoverClass, Ne = Oe === void 0 ? "ds-hover" : Oe, ze = t.selectableClass, Ke = ze === void 0 ? "ds-selectable" : ze, Be = t.selectedClass, Nt = Be === void 0 ? "ds-selected" : Be, Re = t.selectorClass, zt = Re === void 0 ? "ds-selector" : Re, He = t.selectorAreaClass, Kt = He === void 0 ? "ds-selector-area" : He, Bt = t.callback, Rt = t.onDragMove, Ht = t.onDragStartBegin, Ft = t.onDragStart, Ut = t.onElementSelect, Wt = t.onElementUnselect;
-        u(this, n), s(this, "continue", !1), s(this, "start", function() {
+        } : p, _ = t.zoom, C = _ === void 0 ? 1 : _, I = t.customStyles, B = I === void 0 ? !1 : I, V = t.multiSelectMode, oe = V === void 0 ? !1 : V, ce = t.multiSelectToggling, Y = ce === void 0 ? !0 : ce, Ae = t.multiSelectKeys, It = Ae === void 0 ? ["Control", "Shift", "Meta"] : Ae, Ee = t.selector, Tt = Ee === void 0 ? void 0 : Ee, Ie = t.draggability, be = Ie === void 0 ? !0 : Ie, Te = t.immediateDrag, jt = Te === void 0 ? !0 : Te, je = t.keyboardDrag, Vt = je === void 0 ? !0 : je, Lt = t.dragKeys, Ve = t.keyboardDragSpeed, Ot = Ve === void 0 ? 10 : Ve, Le = t.useTransform, Oe = Le === void 0 ? !0 : Le, ze = t.hoverClass, Ne = ze === void 0 ? "ds-hover" : ze, Ke = t.selectableClass, Be = Ke === void 0 ? "ds-selectable" : Ke, He = t.selectedClass, zt = He === void 0 ? "ds-selected" : He, Re = t.selectorClass, Nt = Re === void 0 ? "ds-selector" : Re, Fe = t.selectorAreaClass, Kt = Fe === void 0 ? "ds-selector-area" : Fe, Bt = t.callback, Ht = t.onDragMove, Rt = t.onDragStartBegin, Ft = t.onDragStart, Ut = t.onElementSelect, Wt = t.onElementUnselect;
+        u(this, n), o(this, "continue", !1), o(this, "start", function() {
           e.stopped = !1, e.Interaction.init();
-        }), s(this, "break", function() {
+        }), o(this, "break", function() {
           return e.continue = !0;
-        }), s(this, "getSelection", function() {
+        }), o(this, "getSelection", function() {
           return e.SelectedSet.elements;
-        }), s(this, "getSelectables", function() {
+        }), o(this, "getSelectables", function() {
           return e.SelectableSet.elements;
-        }), s(this, "getInitialCursorPosition", function() {
+        }), o(this, "getInitialCursorPosition", function() {
           return e.stores.PointerStore.initialVal;
-        }), s(this, "getCurrentCursorPosition", function() {
+        }), o(this, "getCurrentCursorPosition", function() {
           return e.stores.PointerStore.currentVal;
-        }), s(this, "getPreviousCursorPosition", function() {
+        }), o(this, "getPreviousCursorPosition", function() {
           return e.stores.PointerStore.lastVal;
-        }), s(this, "getInitialCursorPositionArea", function() {
+        }), o(this, "getInitialCursorPositionArea", function() {
           return e.stores.PointerStore.initialValArea;
-        }), s(this, "getCurrentCursorPositionArea", function() {
+        }), o(this, "getCurrentCursorPositionArea", function() {
           return e.stores.PointerStore.currentValArea;
-        }), s(this, "getPreviousCursorPositionArea", function() {
+        }), o(this, "getPreviousCursorPositionArea", function() {
           return e.stores.PointerStore.lastValArea;
-        }), s(this, "isMultiSelect", function(qt) {
-          return e.stores.KeyStore.isMultiSelectKeyPressed(qt);
-        }), s(this, "isDragging", function() {
+        }), o(this, "isMultiSelect", function(Zt) {
+          return e.stores.KeyStore.isMultiSelectKeyPressed(Zt);
+        }), o(this, "isDragging", function() {
           return e.Interaction.isDragging;
         }), this.PubSub = new wt({
           DS: this
         }), this.subscribe = this.PubSub.subscribe, this.unsubscribe = this.PubSub.unsubscribe, this.publish = this.PubSub.publish, this._callbacksTemp({
           callback: Bt,
-          onDragMove: Rt,
+          onDragMove: Ht,
           onDragStart: Ft,
-          onDragStartBegin: Ht,
+          onDragStartBegin: Rt,
           onElementSelect: Ut,
           onElementUnselect: Wt
         }), this.stores = {
           PointerStore: new Mt({
             DS: this
           }),
-          ScrollStore: new Et({
+          ScrollStore: new At({
             DS: this,
             areaElement: r,
-            zoom: k
+            zoom: C
           }),
-          KeyStore: new $t({
+          KeyStore: new Pt({
             DS: this,
             multiSelectKeys: It,
-            multiSelectMode: te
+            multiSelectMode: oe
           })
-        }, this.Area = new yt({
+        }, this.Area = new bt({
           area: r,
           PS: this.PubSub,
-          zoom: k
+          zoom: C
         }), this.Selector = new Ct({
           DS: this,
           selector: Tt,
-          selectorClass: zt,
-          customStyles: K
-        }), this.SelectorArea = new Pt({
+          selectorClass: Nt,
+          customStyles: B
+        }), this.SelectorArea = new $t({
           DS: this,
           selectorAreaClass: Kt,
           autoScrollSpeed: d,
-          overflowTolerance: h
-        }), this.SelectableSet = new xt({
+          overflowTolerance: m
+        }), this.SelectableSet = new kt({
           elements: l,
           DS: this,
-          className: Ke,
+          className: Be,
           hoverClassName: Ne,
-          useTransform: Le,
+          useTransform: Oe,
           draggability: be
-        }), this.SelectedSet = new kt({
+        }), this.SelectedSet = new xt({
           DS: this,
-          className: Nt
+          className: zt
         }), this.Selection = new Dt({
           DS: this,
           hoverClassName: Ne,
-          multiSelectToggling: Z
+          multiSelectToggling: Y
         }), this.Drag = new St({
           DS: this,
           draggability: be,
-          useTransform: Le,
+          useTransform: Oe,
           keyboardDrag: Vt,
           dragKeys: Object.assign({
             up: ["ArrowUp"],
@@ -1621,15 +1643,15 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             left: ["ArrowLeft"],
             right: ["ArrowRight"]
           }, Lt),
-          zoom: k,
+          zoom: C,
           keyboardDragSpeed: Ot
         }), this.Interaction = new _t({
           areaElement: r,
           DS: this,
           draggability: be,
           immediateDrag: jt,
-          selectableClass: Ke
-        }), bt({
+          selectableClass: Be
+        }), yt({
           subscribe: this.subscribe,
           publish: this.publish,
           SelectedSet: this.SelectedSet,
@@ -1638,69 +1660,69 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           return e.continue = !1;
         }), this.start();
       }
-      return g(n, [{
+      return f(n, [{
         key: "_callbacksTemp",
         value: function(e) {
-          var o = e.callback, r = e.onDragMove, a = e.onDragStart, l = e.onDragStartBegin, c = e.onElementSelect, d = e.onElementUnselect, v = function(_, k) {
-            return console.warn("[DragSelect] ".concat(_, ' is deprecated. Use DragSelect.subscribe("').concat(k, '", (callbackObject) => {}) instead. Act Now! See docs for more info'));
+          var s = e.callback, r = e.onDragMove, a = e.onDragStart, l = e.onDragStartBegin, c = e.onElementSelect, d = e.onElementUnselect, p = function(_, C) {
+            return console.warn("[DragSelect] ".concat(_, ' is deprecated. Use DragSelect.subscribe("').concat(C, '", (callbackObject) => {}) instead. Act Now! See docs for more info'));
           };
-          o && (v("callback", "callback"), this.subscribe("callback", function(h) {
-            var _ = h.items;
-            h.item;
-            var k = h.event;
-            return o(_, k);
-          })), r && (v("onDragMove", "dragmove"), this.subscribe("dragmove", function(h) {
-            h.items, h.item;
-            var _ = h.event;
+          s && (p("callback", "callback"), this.subscribe("callback", function(m) {
+            var _ = m.items;
+            m.item;
+            var C = m.event;
+            return s(_, C);
+          })), r && (p("onDragMove", "dragmove"), this.subscribe("dragmove", function(m) {
+            m.items, m.item;
+            var _ = m.event;
             return r(_);
-          })), a && (v("onDragStart", "dragstart"), this.subscribe("dragstart", function(h) {
-            h.items, h.item;
-            var _ = h.event;
+          })), a && (p("onDragStart", "dragstart"), this.subscribe("dragstart", function(m) {
+            m.items, m.item;
+            var _ = m.event;
             return a(_);
-          })), l && (v("onDragStartBegin", "dragstart"), this.subscribe("dragstart", function(h) {
-            h.items, h.item;
-            var _ = h.event;
+          })), l && (p("onDragStartBegin", "dragstart"), this.subscribe("dragstart", function(m) {
+            m.items, m.item;
+            var _ = m.event;
             return l(_);
-          })), c && (v("onElementSelect", "elementselect"), this.subscribe("elementselect", function(h) {
-            h.items;
-            var _ = h.item, k = h.event;
-            return c(_, k);
-          })), d && (v("onElementUnselect", "elementunselect"), this.subscribe("elementunselect", function(h) {
-            h.items;
-            var _ = h.item, k = h.event;
-            return d(_, k);
+          })), c && (p("onElementSelect", "elementselect"), this.subscribe("elementselect", function(m) {
+            m.items;
+            var _ = m.item, C = m.event;
+            return c(_, C);
+          })), d && (p("onElementUnselect", "elementunselect"), this.subscribe("elementunselect", function(m) {
+            m.items;
+            var _ = m.item, C = m.event;
+            return d(_, C);
           }));
         }
       }, {
         key: "stop",
         value: function() {
-          var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : !0, o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !0, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
+          var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : !0, s = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !0, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
           r && this.publish("callback", {
             items: this.getSelection()
-          }), this.Interaction.stop(), this.Area.stop(), this.Drag.stop(), this.Selector.stop(), this.SelectorArea.stop(e), this.stores.KeyStore.stop(), this.stores.PointerStore.stop(), this.stores.ScrollStore.stop(), e && this.SelectableSet.clear(), o && this.SelectedSet.clear(), this.stopped = !0;
+          }), this.Interaction.stop(), this.Area.stop(), this.Drag.stop(), this.Selector.stop(), this.SelectorArea.stop(e), this.stores.KeyStore.stop(), this.stores.PointerStore.stop(), this.stores.ScrollStore.stop(), e && this.SelectableSet.clear(), s && this.SelectedSet.clear(), this.stopped = !0;
         }
       }, {
         key: "addSelection",
         value: function(e) {
-          var o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
-          return this.SelectedSet.addAll(ee(e)), r || this.addSelectables(e), o && this.PubSub.publish("callback", {
+          var s = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
+          return this.SelectedSet.addAll(ne(e)), r || this.addSelectables(e), s && this.PubSub.publish("callback", {
             items: this.getSelection()
           }), this.getSelection();
         }
       }, {
         key: "removeSelection",
         value: function(e) {
-          var o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
-          return this.SelectedSet.deleteAll(ee(e)), r && this.removeSelectables(e), o && this.PubSub.publish("callback", {
+          var s = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
+          return this.SelectedSet.deleteAll(ne(e)), r && this.removeSelectables(e), s && this.PubSub.publish("callback", {
             items: this.getSelection()
           }), this.getSelection();
         }
       }, {
         key: "toggleSelection",
         value: function(e) {
-          var o = this, r = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, a = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
-          return ee(e).forEach(function(l) {
-            return o.SelectedSet.has(l) ? o.removeSelection(e, r, a) : o.addSelection(e, r, a);
+          var s = this, r = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, a = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
+          return ne(e).forEach(function(l) {
+            return s.SelectedSet.has(l) ? s.removeSelection(e, r, a) : s.addSelection(e, r, a);
           }), r && this.PubSub.publish("callback", {
             items: this.getSelection()
           }), this.getSelection();
@@ -1708,8 +1730,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       }, {
         key: "setSelection",
         value: function(e) {
-          var o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
-          return this.clearSelection(), this.addSelection(e, o, r), this.getSelection();
+          var s = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
+          return this.clearSelection(), this.addSelection(e, s, r), this.getSelection();
         }
       }, {
         key: "clearSelection",
@@ -1722,72 +1744,72 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       }, {
         key: "addSelectables",
         value: function(e) {
-          var o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = ee(e);
-          return this.SelectableSet.addAll(r), o && this.SelectedSet.addAll(r), e;
+          var s = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = ne(e);
+          return this.SelectableSet.addAll(r), s && this.SelectedSet.addAll(r), e;
         }
       }, {
         key: "setSelectables",
         value: function(e) {
-          var o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
-          return this.removeSelectables(e, o), this.addSelectables(e, r);
+          var s = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1, r = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : !1;
+          return this.removeSelectables(e, s), this.addSelectables(e, r);
         }
       }, {
         key: "removeSelectables",
         value: function(e) {
-          var o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1;
-          return this.SelectableSet.deleteAll(ee(e)), o && this.removeSelection(e), e;
+          var s = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1;
+          return this.SelectableSet.deleteAll(ne(e)), s && this.removeSelection(e), e;
         }
       }, {
         key: "getCursorPositionDifference",
         value: function() {
-          var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : !1, o = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1;
+          var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : !1, s = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : !1;
           console.warn("[DragSelect] Using .getCursorPositionDifference is deprecated. Calculate yourself instead. i.e. `.getCurrentCursorPosition().x - .getInitialCursorPosition().x`");
-          var r = o ? this.getCurrentCursorPositionArea() : this.getCurrentCursorPosition(), a = e ? o ? this.getPreviousCursorPositionArea() : this.getPreviousCursorPosition() : o ? this.getInitialCursorPositionArea() : this.getInitialCursorPosition();
-          return z(r, "-", a);
+          var r = s ? this.getCurrentCursorPositionArea() : this.getCurrentCursorPosition(), a = e ? s ? this.getPreviousCursorPositionArea() : this.getPreviousCursorPosition() : s ? this.getInitialCursorPositionArea() : this.getInitialCursorPosition();
+          return N(r, "-", a);
         }
       }]), n;
     }();
-    return At;
+    return Et;
   });
 })(Je);
-const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g = u(S) / u(f) | 0, S / m.pow(f, g)).toFixed(0) + " " + (g ? "KMGTPEZY"[--g] + "iB" : "B"), Or = (S, m = "en-US") => new Date(S * 1e3).toLocaleString(m), Nr = {
+const Or = Je.exports, zr = (S, h, u, g, f) => (h = Math, u = h.log, g = 1024, f = u(S) / u(g) | 0, S / h.pow(g, f)).toFixed(0) + " " + (f ? "KMGTPEZY"[--f] + "iB" : "B"), Nr = (S, h = "en-US") => new Date(S * 1e3).toLocaleString(h), Kr = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5",
   viewBox: "0 0 20 20",
   fill: "currentColor"
-}, zr = /* @__PURE__ */ i("path", {
+}, Br = /* @__PURE__ */ i("path", {
   "fill-rule": "evenodd",
   d: "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z",
   "clip-rule": "evenodd"
-}, null, -1), Kr = [
-  zr
-], Br = {
+}, null, -1), Hr = [
+  Br
+], Rr = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5",
   viewBox: "0 0 20 20",
   fill: "currentColor"
-}, Rr = /* @__PURE__ */ i("path", {
+}, Fr = /* @__PURE__ */ i("path", {
   "fill-rule": "evenodd",
   d: "M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z",
   "clip-rule": "evenodd"
-}, null, -1), Hr = [
-  Rr
-], Fr = {
+}, null, -1), Ur = [
+  Fr
+], Wr = {
   name: "VFSortIcon"
-}, ue = /* @__PURE__ */ Object.assign(Fr, {
+}, de = /* @__PURE__ */ Object.assign(Wr, {
   props: { direction: String },
   setup(S) {
-    return (m, u) => (w(), $("div", null, [
-      S.direction == "down" ? (w(), $("svg", Nr, Kr)) : W("", !0),
-      S.direction == "up" ? (w(), $("svg", Br, Hr)) : W("", !0)
+    return (h, u) => (w(), D("div", null, [
+      S.direction == "down" ? (w(), D("svg", Kr, Hr)) : W("", !0),
+      S.direction == "up" ? (w(), D("svg", Rr, Ur)) : W("", !0)
     ]));
   }
-}), Ur = { class: "relative h-full" }, Wr = {
+}), Zr = { class: "relative h-full" }, qr = {
   key: 0,
   class: "grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none"
-}, qr = /* @__PURE__ */ fe(" Name "), Yr = /* @__PURE__ */ fe(" Size "), Zr = /* @__PURE__ */ fe(" Date "), Jr = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], Xr = { class: "grid grid-cols-12 items-center" }, Gr = { class: "flex col-span-7 items-center" }, Qr = {
+}, Yr = /* @__PURE__ */ fe(" Name "), Jr = /* @__PURE__ */ fe(" Size "), Xr = /* @__PURE__ */ fe(" Date "), Gr = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], Qr = { class: "grid grid-cols-12 items-center" }, en = { class: "flex col-span-7 items-center" }, tn = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -1795,13 +1817,13 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, en = /* @__PURE__ */ i("path", {
+}, rn = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), tn = [
-  en
-], rn = {
+}, null, -1), nn = [
+  rn
+], on = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -1809,13 +1831,13 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, nn = /* @__PURE__ */ i("path", {
+}, sn = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), on = [
-  nn
-], sn = { class: "overflow-ellipsis overflow-hidden whitespace-nowrap" }, an = { class: "col-span-2 text-center" }, ln = { class: "col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap" }, cn = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], un = { class: "relative" }, dn = {
+}, null, -1), an = [
+  sn
+], ln = { class: "overflow-ellipsis overflow-hidden whitespace-nowrap" }, cn = { class: "col-span-2 text-center" }, un = { class: "col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap" }, dn = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], hn = { class: "relative" }, mn = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-10 w-10 md:h-12 md:w-12 m-auto fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -1823,13 +1845,13 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, hn = /* @__PURE__ */ i("path", {
+}, fn = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), mn = [
-  hn
-], fn = {
+}, null, -1), gn = [
+  fn
+], vn = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-10 w-10 md:h-12 md:w-12 m-auto text-neutral-500",
@@ -1837,13 +1859,13 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, gn = /* @__PURE__ */ i("path", {
+}, pn = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), vn = [
-  gn
-], pn = { class: "absolute hidden md:block top-1/2 w-full text-center text-neutral-500" }, bn = { class: "break-all" }, yn = { class: "absolute top-[-200px] left-[-200px]" }, Sn = /* @__PURE__ */ i("svg", {
+}, null, -1), yn = [
+  pn
+], bn = { class: "absolute hidden md:block top-1/2 w-full text-center text-neutral-500" }, Sn = { class: "break-all" }, _n = { class: "absolute top-[-200px] left-[-200px]" }, wn = /* @__PURE__ */ i("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "absolute h-6 w-6 md:h-12 md:w-12 m-auto stroke-neutral-500 fill-white dark:fill-gray-700 dark:stroke-gray-600 z-10",
   fill: "none",
@@ -1856,239 +1878,239 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
     "stroke-linejoin": "round",
     d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
   })
-], -1), _n = { class: "text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs" }, wn = {
+], -1), kn = { class: "text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs" }, xn = {
   name: "VFExplorer"
-}, xn = /* @__PURE__ */ Object.assign(wn, {
+}, Dn = /* @__PURE__ */ Object.assign(xn, {
   props: {
     view: String,
     data: Object
   },
   setup(S) {
-    const m = S, u = inject("emitter"), f = (C) => C == null ? void 0 : C.substring(0, 3), g = (C) => C.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), s = L(null), x = L(null), y = L(0), p = L(null), D = (C) => {
-      C.type == "dir" ? u.emit("vf-fetch", { q: "index", adapter: m.data.adapter, path: C.path }) : u.emit("vf-modal-show", { type: "preview" });
-    }, b = de({ active: !1, column: "", order: "" }), E = (C = !0) => {
-      let M = [...m.data.files], P = b.column, F = b.order == "asc" ? 1 : -1;
-      if (!C)
+    const h = S, u = inject("emitter"), g = ($) => $ == null ? void 0 : $.substring(0, 3), f = ($) => $.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), o = L(null), k = L(null), y = L(0), v = L(null), x = ($) => {
+      $.type == "dir" ? u.emit("vf-fetch", { q: "index", adapter: h.data.adapter, path: $.path }) : u.emit("vf-modal-show", { type: "preview" });
+    }, b = he({ active: !1, column: "", order: "" }), A = ($ = !0) => {
+      let M = [...h.data.files], P = b.column, U = b.order == "asc" ? 1 : -1;
+      if (!$)
         return M;
-      const j = (q, Y) => typeof q == "string" && typeof Y == "string" ? q.toLowerCase().localeCompare(Y.toLowerCase()) : q < Y ? -1 : q > Y ? 1 : 0;
-      return b.active && (M = M.slice().sort((q, Y) => j(q[P], Y[P]) * F)), M;
-    }, O = (C) => {
-      b.active && b.column == C ? (b.active = b.order == "asc", b.column = C, b.order = "desc") : (b.active = !0, b.column = C, b.order = "asc");
-    }, H = () => p.value.getSelection().map((C) => JSON.parse(C.dataset.item)), B = (C, M) => {
-      if (C.altKey || C.ctrlKey || C.metaKey)
-        return C.preventDefault(), !1;
-      let P = x.value;
-      C.dataTransfer.setDragImage(P, 0, 15), C.dataTransfer.effectAllowed = "all", C.dataTransfer.dropEffect = "copy";
-    }, T = (C, M) => {
-      C.preventDefault();
-    }, G = (C, M) => {
-      C.preventDefault(), (!M || M.type !== "dir" || p.value.getSelection().find((P) => P == C.currentTarget)) && (C.dataTransfer.dropEffect = "none", C.dataTransfer.effectAllowed = "none");
+      const j = (Z, q) => typeof Z == "string" && typeof q == "string" ? Z.toLowerCase().localeCompare(q.toLowerCase()) : Z < q ? -1 : Z > q ? 1 : 0;
+      return b.active && (M = M.slice().sort((Z, q) => j(Z[P], q[P]) * U)), M;
+    }, O = ($) => {
+      b.active && b.column == $ ? (b.active = b.order == "asc", b.column = $, b.order = "desc") : (b.active = !0, b.column = $, b.order = "asc");
+    }, F = () => v.value.getSelection().map(($) => JSON.parse($.dataset.item)), H = ($, M) => {
+      if ($.altKey || $.ctrlKey || $.metaKey)
+        return $.preventDefault(), !1;
+      let P = k.value;
+      $.dataTransfer.setDragImage(P, 0, 15), $.dataTransfer.effectAllowed = "all", $.dataTransfer.dropEffect = "copy";
+    }, T = ($, M) => {
+      $.preventDefault();
+    }, te = ($, M) => {
+      $.preventDefault(), (!M || M.type !== "dir" || v.value.getSelection().find((P) => P == $.currentTarget)) && ($.dataTransfer.dropEffect = "none", $.dataTransfer.effectAllowed = "none");
     };
-    return he(() => {
-      p.value = new Vr({
-        area: s.value,
+    return me(() => {
+      v.value = new Or({
+        area: o.value,
         keyboardDrag: !1,
         selectedClass: "vf-explorer-selected",
         selectorClass: "vf-explorer-selector"
       }), u.on("vf-explorer-update", () => Ye(() => {
-        p.value.clearSelection(), p.value.setSelectables(document.getElementsByClassName("vf-item"));
-      })), p.value.subscribe("predragstart", ({ isDragging: C }) => {
-        C && (y.value = p.value.getSelection().length, p.value.break());
-      }), p.value.subscribe("predragmove", ({ isDragging: C }) => {
-        C && p.value.break();
-      }), p.value.subscribe("callback", ({ items: C, event: M, isDragging: P }) => {
-        u.emit("vf-nodes-selected", H()), y.value = p.value.getSelection().length;
+        v.value.clearSelection(), v.value.setSelectables(document.getElementsByClassName("vf-item"));
+      })), v.value.subscribe("predragstart", ({ isDragging: $ }) => {
+        $ && (y.value = v.value.getSelection().length, v.value.break());
+      }), v.value.subscribe("predragmove", ({ isDragging: $ }) => {
+        $ && v.value.break();
+      }), v.value.subscribe("callback", ({ items: $, event: M, isDragging: P }) => {
+        u.emit("vf-nodes-selected", F()), y.value = v.value.getSelection().length;
       });
-    }), he(() => {
-      qe(() => m.view, () => u.emit("vf-explorer-update"));
-    }), (C, M) => (w(), $("div", Ur, [
-      S.view == "list" ? (w(), $("div", Wr, [
+    }), me(() => {
+      qe(() => h.view, () => u.emit("vf-explorer-update"));
+    }), ($, M) => (w(), D("div", Zr, [
+      S.view == "list" ? (w(), D("div", qr, [
         i("div", {
           onClick: M[0] || (M[0] = (P) => O("basename")),
           class: "col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center pl-1"
         }, [
-          qr,
-          re(J(ue, {
+          Yr,
+          G(J(de, {
             direction: b.order == "asc" ? "down" : "up"
           }, null, 8, ["direction"]), [
-            [ye, b.active && b.column == "basename"]
+            [Se, b.active && b.column == "basename"]
           ])
         ]),
         i("div", {
           onClick: M[1] || (M[1] = (P) => O("file_size")),
           class: "col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center border-l border-r dark:border-gray-700"
         }, [
-          Yr,
-          re(J(ue, {
+          Jr,
+          G(J(de, {
             direction: b.order == "asc" ? "down" : "up"
           }, null, 8, ["direction"]), [
-            [ye, b.active && b.column == "file_size"]
+            [Se, b.active && b.column == "file_size"]
           ])
         ]),
         i("div", {
           onClick: M[2] || (M[2] = (P) => O("last_modified")),
           class: "col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center"
         }, [
-          Zr,
-          re(J(ue, {
+          Xr,
+          G(J(de, {
             direction: b.order == "asc" ? "down" : "up"
           }, null, 8, ["direction"]), [
-            [ye, b.active && b.column == "last_modified"]
+            [Se, b.active && b.column == "last_modified"]
           ])
         ])
       ])) : W("", !0),
       i("div", {
         class: "h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1 z-0",
-        ref: (P) => s.value = P,
-        onContextmenu: M[3] || (M[3] = ce((P) => A(u).emit("vf-contextmenu-show", { event: P, area: s.value, items: H() }), ["self", "prevent"]))
+        ref: (P) => o.value = P,
+        onContextmenu: M[3] || (M[3] = ue((P) => E(u).emit("vf-contextmenu-show", { event: P, area: o.value, items: F() }), ["self", "prevent"]))
       }, [
-        S.view == "list" ? (w(!0), $(ne, { key: 0 }, oe(E(), (P, F) => (w(), $("div", {
+        S.view == "list" ? (w(!0), D(Q, { key: 0 }, ee(A(), (P, U) => (w(), D("div", {
           draggable: "true",
-          onDblclick: (j) => D(P),
-          onContextmenu: ce((j) => A(u).emit("vf-contextmenu-show", { event: j, area: s.value, items: H(), target: P }), ["prevent"]),
-          onDragstart: (j) => B(j),
-          onDragover: (j) => G(j, P),
+          onDblclick: (j) => x(P),
+          onContextmenu: ue((j) => E(u).emit("vf-contextmenu-show", { event: j, area: o.value, items: F(), target: P }), ["prevent"]),
+          onDragstart: (j) => H(j),
+          onDragover: (j) => te(j, P),
           onDrop: (j) => T(j),
           class: "vf-item grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none",
           "data-type": P.type,
           "data-item": JSON.stringify(P),
-          "data-index": F
+          "data-index": U
         }, [
-          i("div", Xr, [
-            i("div", Gr, [
-              P.type == "dir" ? (w(), $("svg", Qr, tn)) : (w(), $("svg", rn, on)),
-              i("span", sn, N(P.basename), 1)
+          i("div", Qr, [
+            i("div", en, [
+              P.type == "dir" ? (w(), D("svg", tn, nn)) : (w(), D("svg", on, an)),
+              i("span", ln, z(P.basename), 1)
             ]),
-            i("div", an, N(P.file_size ? A(Lr)(P.file_size) : ""), 1),
-            i("div", ln, N(A(Or)(P.last_modified)), 1)
+            i("div", cn, z(P.file_size ? E(zr)(P.file_size) : ""), 1),
+            i("div", un, z(E(Nr)(P.last_modified)), 1)
           ])
-        ], 40, Jr))), 256)) : W("", !0),
-        S.view == "grid" ? (w(!0), $(ne, { key: 1 }, oe(E(!1), (P, F) => (w(), $("div", {
+        ], 40, Gr))), 256)) : W("", !0),
+        S.view == "grid" ? (w(!0), D(Q, { key: 1 }, ee(A(!1), (P, U) => (w(), D("div", {
           draggable: "true",
-          onDblclick: (j) => D(P),
-          onContextmenu: ce((j) => A(u).emit("vf-contextmenu-show", { event: j, area: s.value, items: H(), target: P }), ["prevent"]),
-          onDragstart: (j) => B(j),
-          onDragover: (j) => G(j, P),
+          onDblclick: (j) => x(P),
+          onContextmenu: ue((j) => E(u).emit("vf-contextmenu-show", { event: j, area: o.value, items: F(), target: P }), ["prevent"]),
+          onDragstart: (j) => H(j),
+          onDragover: (j) => te(j, P),
           onDrop: (j) => T(j),
           class: "vf-item border border-transparent hover:bg-neutral-50 m-0.5 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none",
           "data-type": P.type,
           "data-item": JSON.stringify(P),
-          "data-index": F
+          "data-index": U
         }, [
           i("div", null, [
-            i("div", un, [
-              P.type == "dir" ? (w(), $("svg", dn, mn)) : (w(), $("svg", fn, vn)),
-              i("div", pn, N(f(P.extension)), 1)
+            i("div", hn, [
+              P.type == "dir" ? (w(), D("svg", mn, gn)) : (w(), D("svg", vn, yn)),
+              i("div", bn, z(g(P.extension)), 1)
             ]),
-            i("span", bn, N(g(P.basename)), 1)
+            i("span", Sn, z(f(P.basename)), 1)
           ])
-        ], 40, cn))), 256)) : W("", !0),
-        i("div", yn, [
+        ], 40, dn))), 256)) : W("", !0),
+        i("div", _n, [
           i("div", {
-            ref: (P) => x.value = P,
+            ref: (P) => k.value = P,
             class: "absolute z-50"
           }, [
-            Sn,
-            i("div", _n, N(y.value), 1)
+            wn,
+            i("div", kn, z(y.value), 1)
           ], 512)
         ])
       ], 544)
     ]));
   }
-}), kn = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-900 items-center select-none" }, Dn = /* @__PURE__ */ i("path", {
+}), Cn = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-900 items-center select-none" }, $n = /* @__PURE__ */ i("path", {
   "fill-rule": "evenodd",
   d: "M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z",
   "clip-rule": "evenodd"
-}, null, -1), Cn = [
-  Dn
-], Pn = { class: "flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full" }, $n = /* @__PURE__ */ i("path", { d: "M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" }, null, -1), Mn = [
+}, null, -1), Pn = [
   $n
-], En = { class: "flex leading-5" }, An = /* @__PURE__ */ i("span", { class: "text-neutral-300 dark:text-gray-600 mx-0.5" }, "/", -1), In = ["title", "onClick"], Tn = {
+], Mn = { class: "flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full" }, An = /* @__PURE__ */ i("path", { d: "M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" }, null, -1), En = [
+  An
+], In = { class: "flex leading-5" }, Tn = /* @__PURE__ */ i("span", { class: "text-neutral-300 dark:text-gray-600 mx-0.5" }, "/", -1), jn = ["title", "onClick"], Vn = {
   name: "VFBreadcrumb"
-}, jn = /* @__PURE__ */ Object.assign(Tn, {
+}, Ln = /* @__PURE__ */ Object.assign(Vn, {
   props: {
     data: Object
   },
   setup(S) {
-    const m = S, u = inject("emitter"), f = L(null), g = L([]);
-    return u.on("vf-explorer-update", (s) => {
-      var p;
-      let x = [], y = [];
-      f.value = (p = m.data.dirname) != null ? p : "", f.value.length == 0 && (g.value = []), f.value.split("/").forEach(function(D) {
-        x.push(D), x.join("/") != "" && y.push({
-          basename: D,
-          name: D,
-          path: x.join("/"),
+    const h = S, u = inject("emitter"), g = L(null), f = L([]);
+    return u.on("vf-explorer-update", (o) => {
+      var v;
+      let k = [], y = [];
+      g.value = (v = h.data.dirname) != null ? v : "", g.value.length == 0 && (f.value = []), g.value.split("/").forEach(function(x) {
+        k.push(x), k.join("/") != "" && y.push({
+          basename: x,
+          name: x,
+          path: k.join("/"),
           type: "dir"
         });
-      }), y.length > 4 && (y = y.slice(-5), y[0].name = ".."), g.value = y;
-    }), (s, x) => (w(), $("div", kn, [
-      (w(), $("svg", {
-        onClick: x[0] || (x[0] = (y) => {
-          var p;
-          return !g.value.length || A(u).emit("vf-fetch", { q: "index", adapter: S.data.adapter, path: (p = g.value[g.value.length - 2]) == null ? void 0 : p.path });
+      }), y.length > 4 && (y = y.slice(-5), y[0].name = ".."), f.value = y;
+    }), (o, k) => (w(), D("div", Cn, [
+      (w(), D("svg", {
+        onClick: k[0] || (k[0] = (y) => {
+          var v;
+          return !f.value.length || E(u).emit("vf-fetch", { q: "index", adapter: S.data.adapter, path: (v = f.value[f.value.length - 2]) == null ? void 0 : v.path });
         }),
         xmlns: "http://www.w3.org/2000/svg",
-        class: me(["h-6 w-6 p-0.5 rounded", g.value.length ? "text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer" : "text-gray-400 dark:text-neutral-500"]),
+        class: ie(["h-6 w-6 p-0.5 rounded", f.value.length ? "text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer" : "text-gray-400 dark:text-neutral-500"]),
         viewBox: "0 0 20 20",
         fill: "currentColor"
-      }, Cn, 2)),
-      i("div", Pn, [
-        (w(), $("svg", {
-          onClick: x[1] || (x[1] = (y) => A(u).emit("vf-fetch", { q: "index", adapter: S.data.adapter })),
+      }, Pn, 2)),
+      i("div", Mn, [
+        (w(), D("svg", {
+          onClick: k[1] || (k[1] = (y) => E(u).emit("vf-fetch", { q: "index", adapter: S.data.adapter })),
           class: "h-6 w-6 p-1 rounded text-slate-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-gray-800 cursor-pointer",
           xmlns: "http://www.w3.org/2000/svg",
           viewBox: "0 0 20 20",
           fill: "currentColor"
-        }, Mn)),
-        i("div", En, [
-          (w(!0), $(ne, null, oe(g.value, (y, p) => (w(), $("div", { key: p }, [
-            An,
+        }, En)),
+        i("div", In, [
+          (w(!0), D(Q, null, ee(f.value, (y, v) => (w(), D("div", { key: v }, [
+            Tn,
             i("span", {
               class: "px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer",
               title: y.basename,
-              onClick: (D) => A(u).emit("vf-fetch", { q: "index", adapter: S.data.adapter, path: y.path })
-            }, N(y.name), 9, In)
+              onClick: (x) => E(u).emit("vf-fetch", { q: "index", adapter: S.data.adapter, path: y.path })
+            }, z(y.name), 9, jn)
           ]))), 128))
         ])
       ])
     ]));
   }
-}), Vn = /* @__PURE__ */ i("div", { class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" }, null, -1), Ln = { class: "fixed z-10 inset-0 overflow-y-auto" }, On = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full" }, Nn = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, zn = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, Kn = {
+}), On = /* @__PURE__ */ i("div", { class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" }, null, -1), zn = { class: "fixed z-10 inset-0 overflow-y-auto" }, Nn = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full" }, Kn = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, Bn = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, Hn = {
   name: "VFModal"
-}, Bn = /* @__PURE__ */ Object.assign(Kn, {
+}, Rn = /* @__PURE__ */ Object.assign(Hn, {
   setup(S) {
-    const m = inject("emitter");
-    return he(() => {
+    const h = inject("emitter");
+    return me(() => {
       const u = document.querySelector(".v-f-modal input");
       u && u.focus();
-    }), (u, f) => (w(), $("div", {
+    }), (u, g) => (w(), D("div", {
       class: "v-f-modal relative z-20",
       "aria-labelledby": "modal-title",
       role: "dialog",
       "aria-modal": "true",
-      onKeyup: f[1] || (f[1] = _e((g) => A(m).emit("vf-modal-close"), ["esc"])),
+      onKeyup: g[1] || (g[1] = ge((f) => E(h).emit("vf-modal-close"), ["esc"])),
       tabindex: "0"
     }, [
-      Vn,
-      i("div", Ln, [
+      On,
+      i("div", zn, [
         i("div", {
           class: "flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0",
-          onClick: f[0] || (f[0] = ce((g) => A(m).emit("vf-modal-close"), ["self"]))
+          onClick: g[0] || (g[0] = ue((f) => E(h).emit("vf-modal-close"), ["self"]))
         }, [
-          i("div", On, [
-            i("div", Nn, [
-              Ue(u.$slots, "default")
+          i("div", Nn, [
+            i("div", Kn, [
+              We(u.$slots, "default")
             ]),
-            i("div", zn, [
-              Ue(u.$slots, "buttons")
+            i("div", Bn, [
+              We(u.$slots, "buttons")
             ])
           ])
         ])
       ])
     ], 32));
   }
-}), Rn = { class: "sm:flex sm:items-start" }, Hn = /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Fn = { class: "sm:flex sm:items-start" }, Un = /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ i("svg", {
     class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
     xmlns: "http://www.w3.org/2000/svg",
@@ -2104,13 +2126,13 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
     })
   ])
-], -1), Fn = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left" }, Un = /* @__PURE__ */ i("h3", {
+], -1), Wn = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left" }, Zn = /* @__PURE__ */ i("h3", {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, "Delete files", -1), Wn = { class: "mt-2" }, qn = /* @__PURE__ */ i("p", { class: "text-sm text-gray-500" }, [
+}, "Delete files", -1), qn = { class: "mt-2" }, Yn = /* @__PURE__ */ i("p", { class: "text-sm text-gray-500" }, [
   /* @__PURE__ */ fe("Are you sure you want to delete these files? "),
   /* @__PURE__ */ i("span", { class: "font-bold text-red-500 dark:text-red-200" }, "This action cannot be undone.")
-], -1), Yn = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Zn = {
+], -1), Jn = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Xn = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -2118,13 +2140,13 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Jn = /* @__PURE__ */ i("path", {
+}, Gn = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), Xn = [
-  Jn
-], Gn = {
+}, null, -1), Qn = [
+  Gn
+], eo = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -2132,53 +2154,53 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Qn = /* @__PURE__ */ i("path", {
+}, to = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), eo = [
-  Qn
-], to = { class: "ml-1.5" }, ro = {
+}, null, -1), ro = [
+  to
+], no = { class: "ml-1.5" }, oo = {
   name: "VFModalDelete"
-}, no = /* @__PURE__ */ Object.assign(ro, {
+}, so = /* @__PURE__ */ Object.assign(oo, {
   props: {
     selection: Object,
     current: Object
   },
   setup(S) {
-    const m = S, u = inject("emitter"), { getStore: f } = inject("storage"), g = L(m.selection.items), s = () => {
-      g.value.length && u.emit("vf-fetch", {
+    const h = S, u = inject("emitter"), { getStore: g } = inject("storage"), f = L(h.selection.items), o = () => {
+      f.value.length && u.emit("vf-fetch", {
         q: "delete",
-        adapter: f("adapter"),
-        path: m.current.dirname,
-        items: JSON.stringify(g.value.map(({ path: x, type: y }) => ({ path: x, type: y })))
+        adapter: g("adapter"),
+        path: h.current.dirname,
+        items: JSON.stringify(f.value.map(({ path: k, type: y }) => ({ path: k, type: y })))
       });
     };
-    return (x, y) => {
-      const p = U("v-f-modal");
-      return w(), X(p, null, {
-        buttons: R(() => [
+    return (k, y) => {
+      const v = R("v-f-modal");
+      return w(), X(v, null, {
+        buttons: K(() => [
           i("button", {
             type: "button",
-            onClick: s,
+            onClick: o,
             class: "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Yes, delete!"),
           i("button", {
             type: "button",
-            onClick: y[0] || (y[0] = (D) => A(u).emit("vf-modal-close")),
+            onClick: y[0] || (y[0] = (x) => E(u).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: R(() => [
-          i("div", Rn, [
-            Hn,
-            i("div", Fn, [
-              Un,
-              i("div", Wn, [
-                qn,
-                (w(!0), $(ne, null, oe(g.value, (D) => (w(), $("p", Yn, [
-                  D.type == "dir" ? (w(), $("svg", Zn, Xn)) : (w(), $("svg", Gn, eo)),
-                  i("span", to, N(D.basename), 1)
+        default: K(() => [
+          i("div", Fn, [
+            Un,
+            i("div", Wn, [
+              Zn,
+              i("div", qn, [
+                Yn,
+                (w(!0), D(Q, null, ee(f.value, (x) => (w(), D("p", Jn, [
+                  x.type == "dir" ? (w(), D("svg", Xn, Qn)) : (w(), D("svg", eo, ro)),
+                  i("span", no, z(x.basename), 1)
                 ]))), 256))
               ])
             ])
@@ -2188,7 +2210,7 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       });
     };
   }
-}), oo = { class: "sm:flex sm:items-start" }, so = /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), io = { class: "sm:flex sm:items-start" }, ao = /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ i("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -2203,36 +2225,36 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       d: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
     })
   ])
-], -1), io = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left" }, ao = {
+], -1), lo = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left" }, co = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, lo = { class: "mt-2" }, co = { class: "text-sm text-gray-500" }, uo = {
+}, uo = { class: "mt-2" }, ho = { class: "text-sm text-gray-500" }, mo = {
   name: "VFModalMessage"
-}, ho = /* @__PURE__ */ Object.assign(uo, {
+}, fo = /* @__PURE__ */ Object.assign(mo, {
   props: {
     item: Object
   },
   setup(S) {
-    const m = inject("emitter");
-    return (u, f) => {
-      const g = U("v-f-modal");
-      return w(), X(g, null, {
-        buttons: R(() => [
+    const h = inject("emitter");
+    return (u, g) => {
+      const f = R("v-f-modal");
+      return w(), X(f, null, {
+        buttons: K(() => [
           i("button", {
             type: "button",
-            onClick: f[0] || (f[0] = (s) => A(m).emit("vf-modal-close")),
+            onClick: g[0] || (g[0] = (o) => E(h).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Close")
         ]),
-        default: R(() => {
-          var s, x, y, p;
+        default: K(() => {
+          var o, k, y, v;
           return [
-            i("div", oo, [
-              so,
-              i("div", io, [
-                i("h3", ao, N((x = (s = S.item) == null ? void 0 : s.title) != null ? x : "Title"), 1),
-                i("div", lo, [
-                  i("p", co, N((p = (y = S.item) == null ? void 0 : y.message) != null ? p : "Message") + ".", 1)
+            i("div", io, [
+              ao,
+              i("div", lo, [
+                i("h3", co, z((k = (o = S.item) == null ? void 0 : o.title) != null ? k : "Title"), 1),
+                i("div", uo, [
+                  i("p", ho, z((v = (y = S.item) == null ? void 0 : y.message) != null ? v : "Message") + ".", 1)
                 ])
               ])
             ])
@@ -2242,7 +2264,7 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       });
     };
   }
-}), mo = { class: "sm:flex sm:items-start" }, fo = /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), go = { class: "sm:flex sm:items-start" }, vo = /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ i("svg", {
     class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
     xmlns: "http://www.w3.org/2000/svg",
@@ -2258,55 +2280,55 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
     })
   ])
-], -1), go = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, vo = /* @__PURE__ */ i("h3", {
+], -1), po = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, yo = /* @__PURE__ */ i("h3", {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, "New Folder", -1), po = { class: "mt-2" }, bo = /* @__PURE__ */ i("p", { class: "text-sm text-gray-500" }, "Create a new folder", -1), yo = ["onKeyup"], So = {
+}, "New Folder", -1), bo = { class: "mt-2" }, So = /* @__PURE__ */ i("p", { class: "text-sm text-gray-500" }, "Create a new folder", -1), _o = ["onKeyup"], wo = {
   name: "VFModalNewFolder"
-}, _o = /* @__PURE__ */ Object.assign(So, {
+}, ko = /* @__PURE__ */ Object.assign(wo, {
   props: {
     selection: Object,
     current: Object
   },
   setup(S) {
-    const m = S, u = inject("emitter"), { getStore: f } = inject("storage"), g = L(""), s = () => {
-      g.value != "" && u.emit("vf-fetch", {
+    const h = S, u = inject("emitter"), { getStore: g } = inject("storage"), f = L(""), o = () => {
+      f.value != "" && u.emit("vf-fetch", {
         q: "newfolder",
-        adapter: f("adapter"),
-        path: m.current.dirname,
-        name: g.value
+        adapter: g("adapter"),
+        path: h.current.dirname,
+        name: f.value
       });
     };
-    return (x, y) => {
-      const p = U("v-f-modal");
-      return w(), X(p, null, {
-        buttons: R(() => [
+    return (k, y) => {
+      const v = R("v-f-modal");
+      return w(), X(v, null, {
+        buttons: K(() => [
           i("button", {
             type: "button",
-            onClick: s,
+            onClick: o,
             class: "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Create!"),
           i("button", {
             type: "button",
-            onClick: y[1] || (y[1] = (D) => A(u).emit("vf-modal-close")),
+            onClick: y[1] || (y[1] = (x) => E(u).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: R(() => [
-          i("div", mo, [
-            fo,
-            i("div", go, [
-              vo,
-              i("div", po, [
-                bo,
-                re(i("input", {
-                  "onUpdate:modelValue": y[0] || (y[0] = (D) => g.value = D),
-                  onKeyup: _e(s, ["enter"]),
+        default: K(() => [
+          i("div", go, [
+            vo,
+            i("div", po, [
+              yo,
+              i("div", bo, [
+                So,
+                G(i("input", {
+                  "onUpdate:modelValue": y[0] || (y[0] = (x) => f.value = x),
+                  onKeyup: ge(o, ["enter"]),
                   class: "px-2 py-1 border rounded dark:bg-gray-500 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                   placeholder: "Folder Name",
                   type: "text"
-                }, null, 40, yo), [
-                  [Ze, g.value]
+                }, null, 40, _o), [
+                  [we, f.value]
                 ])
               ])
             ])
@@ -2316,7 +2338,7 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       });
     };
   }
-}), wo = /* @__PURE__ */ i("div", { class: "sm:flex sm:items-start" }, [
+}), xo = /* @__PURE__ */ i("div", { class: "sm:flex sm:items-start" }, [
   /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
     /* @__PURE__ */ i("svg", {
       class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
@@ -2343,33 +2365,33 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       /* @__PURE__ */ i("p", { class: "text-sm text-gray-500" }, "Image, text preview etc.")
     ])
   ])
-], -1), xo = /* @__PURE__ */ i("button", {
+], -1), Do = /* @__PURE__ */ i("button", {
   type: "button",
   class: "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-}, "Yes, delete!", -1), ko = {
+}, "Yes, delete!", -1), Co = {
   name: "VFModalPreview"
-}, Do = /* @__PURE__ */ Object.assign(ko, {
+}, $o = /* @__PURE__ */ Object.assign(Co, {
   setup(S) {
-    const m = inject("emitter");
-    return (u, f) => {
-      const g = U("v-f-modal");
-      return w(), X(g, null, {
-        buttons: R(() => [
-          xo,
+    const h = inject("emitter");
+    return (u, g) => {
+      const f = R("v-f-modal");
+      return w(), X(f, null, {
+        buttons: K(() => [
+          Do,
           i("button", {
             type: "button",
-            onClick: f[0] || (f[0] = (s) => A(m).emit("vf-modal-close")),
+            onClick: g[0] || (g[0] = (o) => E(h).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: R(() => [
-          wo
+        default: K(() => [
+          xo
         ]),
         _: 1
       });
     };
   }
-}), Co = { class: "sm:flex sm:items-start" }, Po = /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Po = { class: "sm:flex sm:items-start" }, Mo = /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ i("svg", {
     class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
     xmlns: "http://www.w3.org/2000/svg",
@@ -2385,10 +2407,10 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
     })
   ])
-], -1), $o = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Mo = {
+], -1), Ao = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Eo = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Eo = { class: "mt-2" }, Ao = { class: "flex text-sm text-gray-800 dark:text-gray-400 py-2" }, Io = {
+}, Io = { class: "mt-2" }, To = { class: "flex text-sm text-gray-800 dark:text-gray-400 py-2" }, jo = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -2396,13 +2418,13 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, To = /* @__PURE__ */ i("path", {
+}, Vo = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), jo = [
-  To
-], Vo = {
+}, null, -1), Lo = [
+  Vo
+], Oo = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -2410,62 +2432,62 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Lo = /* @__PURE__ */ i("path", {
+}, zo = /* @__PURE__ */ i("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), Oo = [
-  Lo
-], No = { class: "ml-1.5" }, zo = ["onKeyup"], Ko = {
+}, null, -1), No = [
+  zo
+], Ko = { class: "ml-1.5" }, Bo = ["onKeyup"], Ho = {
   name: "VFModalRename"
-}, Bo = /* @__PURE__ */ Object.assign(Ko, {
+}, Ro = /* @__PURE__ */ Object.assign(Ho, {
   props: {
     selection: Object,
     current: Object
   },
   setup(S) {
-    const m = S, u = inject("emitter"), { getStore: f } = inject("storage"), g = L(m.selection.items[0]), s = L(m.selection.items[0].basename), x = () => {
-      s.value != "" && u.emit("vf-fetch", {
+    const h = S, u = inject("emitter"), { getStore: g } = inject("storage"), f = L(h.selection.items[0]), o = L(h.selection.items[0].basename), k = () => {
+      o.value != "" && u.emit("vf-fetch", {
         q: "rename",
-        adapter: f("adapter"),
-        path: m.current.dirname,
-        item: g.value.path,
-        name: s.value
+        adapter: g("adapter"),
+        path: h.current.dirname,
+        item: f.value.path,
+        name: o.value
       });
     };
-    return (y, p) => {
-      const D = U("v-f-modal");
-      return w(), X(D, null, {
-        buttons: R(() => [
+    return (y, v) => {
+      const x = R("v-f-modal");
+      return w(), X(x, null, {
+        buttons: K(() => [
           i("button", {
             type: "button",
-            onClick: x,
+            onClick: k,
             class: "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Rename!"),
           i("button", {
             type: "button",
-            onClick: p[1] || (p[1] = (b) => A(u).emit("vf-modal-close")),
+            onClick: v[1] || (v[1] = (b) => E(u).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: R(() => [
-          i("div", Co, [
-            Po,
-            i("div", $o, [
-              i("h3", Mo, "Rename your " + N(g.value.type == "dir" ? "folder" : "file"), 1),
-              i("div", Eo, [
-                i("p", Ao, [
-                  g.value.type == "dir" ? (w(), $("svg", Io, jo)) : (w(), $("svg", Vo, Oo)),
-                  i("span", No, N(g.value.basename), 1)
+        default: K(() => [
+          i("div", Po, [
+            Mo,
+            i("div", Ao, [
+              i("h3", Eo, "Rename your " + z(f.value.type == "dir" ? "folder" : "file"), 1),
+              i("div", Io, [
+                i("p", To, [
+                  f.value.type == "dir" ? (w(), D("svg", jo, Lo)) : (w(), D("svg", Oo, No)),
+                  i("span", Ko, z(f.value.basename), 1)
                 ]),
-                re(i("input", {
-                  "onUpdate:modelValue": p[0] || (p[0] = (b) => s.value = b),
-                  onKeyup: _e(x, ["enter"]),
+                G(i("input", {
+                  "onUpdate:modelValue": v[0] || (v[0] = (b) => o.value = b),
+                  onKeyup: ge(k, ["enter"]),
                   class: "px-2 py-1 border rounded dark:bg-gray-500 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                   placeholder: "Name",
                   type: "text"
-                }, null, 40, zo), [
-                  [Ze, s.value]
+                }, null, 40, Bo), [
+                  [we, o.value]
                 ])
               ])
             ])
@@ -2475,7 +2497,7 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       });
     };
   }
-}), Ro = /* @__PURE__ */ i("div", { class: "sm:flex sm:items-start" }, [
+}), Fo = /* @__PURE__ */ i("div", { class: "sm:flex sm:items-start" }, [
   /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
     /* @__PURE__ */ i("svg", {
       class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
@@ -2502,136 +2524,243 @@ const Vr = Je.exports, Lr = (S, m, u, f, g) => (m = Math, u = m.log, f = 1024, g
       /* @__PURE__ */ i("p", { class: "text-sm text-gray-500" }, "Upload files ")
     ])
   ])
-], -1), Ho = /* @__PURE__ */ i("button", {
+], -1), Uo = /* @__PURE__ */ i("button", {
   type: "button",
   class: "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-}, "Yes, delete!", -1), Fo = {
+}, "Yes, delete!", -1), Wo = {
   name: "VFModalUpload"
-}, Uo = /* @__PURE__ */ Object.assign(Fo, {
+}, Zo = /* @__PURE__ */ Object.assign(Wo, {
   setup(S) {
-    const m = inject("emitter");
-    return (u, f) => {
-      const g = U("v-f-modal");
-      return w(), X(g, null, {
-        buttons: R(() => [
-          Ho,
+    const h = inject("emitter");
+    return (u, g) => {
+      const f = R("v-f-modal");
+      return w(), X(f, null, {
+        buttons: K(() => [
+          Uo,
           i("button", {
             type: "button",
-            onClick: f[0] || (f[0] = (s) => A(m).emit("vf-modal-close")),
+            onClick: g[0] || (g[0] = (o) => E(h).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
-        default: R(() => [
-          Ro
+        default: K(() => [
+          Fo
         ]),
         _: 1
       });
     };
   }
-}), Wo = ["onClick"], qo = /* @__PURE__ */ i("span", { class: "px-1" }, null, -1), Yo = {
-  name: "VFContextMenu"
-}, Zo = /* @__PURE__ */ Object.assign(Yo, {
+}), qo = { class: "sm:flex sm:items-start" }, Yo = /* @__PURE__ */ i("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+  /* @__PURE__ */ i("svg", {
+    class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24",
+    "stroke-width": "2",
+    stroke: "currentColor",
+    "aria-hidden": "true"
+  }, [
+    /* @__PURE__ */ i("path", {
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+    })
+  ])
+], -1), Jo = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left" }, Xo = /* @__PURE__ */ i("h3", {
+  class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
+  id: "modal-title"
+}, "Archive files", -1), Go = { class: "mt-2" }, Qo = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, es = {
+  key: 0,
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor",
+  "stroke-width": "1"
+}, ts = /* @__PURE__ */ i("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+}, null, -1), rs = [
+  ts
+], ns = {
+  key: 1,
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "h-5 w-5 text-neutral-500",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor",
+  "stroke-width": "1"
+}, os = /* @__PURE__ */ i("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+}, null, -1), ss = [
+  os
+], is = { class: "ml-1.5" }, as = /* @__PURE__ */ i("p", { class: "my-1 text-sm text-gray-500" }, "Archive name. (.zip file will be created)", -1), ls = ["onKeyup"], cs = {
+  name: "VFModalZip"
+}, us = /* @__PURE__ */ Object.assign(cs, {
+  props: {
+    selection: Object,
+    current: Object
+  },
   setup(S) {
-    const m = inject("emitter"), u = L(null), f = de({
+    const h = S, u = inject("emitter"), { getStore: g } = inject("storage"), f = L(h.selection.items), o = () => {
+      f.value.length && u.emit("vf-fetch", {
+        q: "zip",
+        adapter: g("adapter"),
+        path: h.current.dirname,
+        items: JSON.stringify(f.value.map(({ path: k, type: y }) => ({ path: k, type: y })))
+      });
+    };
+    return (k, y) => {
+      const v = R("v-f-modal");
+      return w(), X(v, null, {
+        buttons: K(() => [
+          i("button", {
+            type: "button",
+            onClick: o,
+            class: "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+          }, "Archive!"),
+          i("button", {
+            type: "button",
+            onClick: y[1] || (y[1] = (x) => E(u).emit("vf-modal-close")),
+            class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+          }, "Cancel")
+        ]),
+        default: K(() => [
+          i("div", qo, [
+            Yo,
+            i("div", Jo, [
+              Xo,
+              i("div", Go, [
+                (w(!0), D(Q, null, ee(f.value, (x) => (w(), D("p", Qo, [
+                  x.type == "dir" ? (w(), D("svg", es, rs)) : (w(), D("svg", ns, ss)),
+                  i("span", is, z(x.basename), 1)
+                ]))), 256)),
+                as,
+                G(i("input", {
+                  "onUpdate:modelValue": y[0] || (y[0] = (x) => k.name = x),
+                  onKeyup: ge(o, ["enter"]),
+                  class: "my-1 px-2 py-1 border rounded dark:bg-gray-500 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
+                  placeholder: "Name",
+                  type: "text"
+                }, null, 40, ls), [
+                  [we, k.name]
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _: 1
+      });
+    };
+  }
+}), ds = ["onClick"], hs = /* @__PURE__ */ i("span", { class: "px-1" }, null, -1), ms = {
+  name: "VFContextMenu"
+}, fs = /* @__PURE__ */ Object.assign(ms, {
+  setup(S) {
+    const h = inject("emitter"), u = L(null), g = he({
       active: !1,
       items: [],
       positions: {
         left: 0,
         top: 0
       }
-    }), g = L([]);
-    m.on("vf-context-selected", (p) => {
-      g.value = p;
+    }), f = L([]);
+    h.on("vf-context-selected", (v) => {
+      f.value = v;
     });
-    const s = {
+    const o = {
       newfolder: {
         title: "New Folder",
         action: () => {
-          m.emit("vf-modal-show", { type: "new-folder" });
+          h.emit("vf-modal-show", { type: "new-folder" });
         }
       },
       delete: {
         title: "Delete",
         action: () => {
-          m.emit("vf-modal-show", { type: "delete", items: g });
+          h.emit("vf-modal-show", { type: "delete", items: f });
         }
       },
       preview: {
         title: "Preview",
         action: () => {
-          m.emit("vf-modal-show", { type: "preview" });
+          h.emit("vf-modal-show", { type: "preview" });
         }
       },
       zip: {
         title: "Zip",
         action: () => {
-          console.log("zip");
+          h.emit("vf-modal-show", { type: "zip", items: f });
         }
       },
       rename: {
         title: "Rename",
         action: () => {
-          m.emit("vf-modal-show", { type: "rename", items: g });
+          h.emit("vf-modal-show", { type: "rename", items: f });
         }
       }
-    }, x = (p) => {
-      m.emit("vf-contextmenu-hide"), p.action();
+    }, k = (v) => {
+      h.emit("vf-contextmenu-hide"), v.action();
     };
-    m.on("vf-contextmenu-show", ({ event: p, area: D, items: b, target: E = null }) => {
-      f.items = [], E ? b.length > 1 && b.some((O) => O.path === E.path) ? (f.items.push(s.zip), f.items.push(s.delete), m.emit("vf-context-selected", b), console.log(b.length + " selected (more than 1 item.)")) : (f.items.push(s.preview), f.items.push(s.rename), f.items.push(s.zip), f.items.push(s.delete), m.emit("vf-context-selected", [E]), console.log(E.type + " is selected")) : (f.items.push(s.newfolder), m.emit("vf-context-selected", []), console.log("no files selected")), y(p, D);
-    }), m.on("vf-contextmenu-hide", () => {
-      f.active = !1;
+    h.on("vf-contextmenu-show", ({ event: v, area: x, items: b, target: A = null }) => {
+      g.items = [], A ? b.length > 1 && b.some((O) => O.path === A.path) ? (g.items.push(o.zip), g.items.push(o.delete), h.emit("vf-context-selected", b), console.log(b.length + " selected (more than 1 item.)")) : (g.items.push(o.preview), g.items.push(o.rename), g.items.push(o.zip), g.items.push(o.delete), h.emit("vf-context-selected", [A]), console.log(A.type + " is selected")) : (g.items.push(o.newfolder), h.emit("vf-context-selected", []), console.log("no files selected")), y(v, x);
+    }), h.on("vf-contextmenu-hide", () => {
+      g.active = !1;
     });
-    const y = (p, D) => {
-      f.active = !0, Ye(() => {
-        let b = D.getBoundingClientRect(), E = p.pageX, O = p.pageY, H = u.value.offsetHeight, B = u.value.offsetWidth;
-        E = b.right - p.pageX + window.scrollX < B ? E - B : E, O = b.bottom - p.pageY + window.scrollY < H ? O - H : O, f.positions = {
-          left: E + "px",
+    const y = (v, x) => {
+      g.active = !0, Ye(() => {
+        let b = x.getBoundingClientRect(), A = v.pageX, O = v.pageY, F = u.value.offsetHeight, H = u.value.offsetWidth;
+        A = b.right - v.pageX + window.scrollX < H ? A - H : A, O = b.bottom - v.pageY + window.scrollY < F ? O - F : O, g.positions = {
+          left: A + "px",
           top: O + "px"
         };
       });
     };
-    return (p, D) => f.active ? (w(), $("ul", {
+    return (v, x) => g.active ? (w(), D("ul", {
       key: 0,
       class: "absolute text-xs bg-neutral-50 dark:bg-gray-800 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none",
       ref: (b) => u.value = b,
-      style: Xt(f.positions)
+      style: Xt(g.positions)
     }, [
-      (w(!0), $(ne, null, oe(f.items, (b) => (w(), $("li", {
+      (w(!0), D(Q, null, ee(g.items, (b) => (w(), D("li", {
         class: "px-2 py-1.5 cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700",
         key: b.title,
-        onClick: (E) => x(b)
+        onClick: (A) => k(b)
       }, [
-        qo,
-        i("span", null, N(b.title), 1)
-      ], 8, Wo))), 128))
+        hs,
+        i("span", null, z(b.title), 1)
+      ], 8, ds))), 128))
     ], 4)) : W("", !0);
   }
-}), Se = {
+}), _e = {
   VueFinder: tr,
-  Toolbar: xr,
-  Breadcrumb: jn,
-  Explorer: xn,
-  Statusbar: Tr,
-  Modal: Bn,
-  ModalDelete: no,
-  ModalMessage: ho,
-  ModalNewFolder: _o,
-  ModalPreview: Do,
-  ModalRename: Bo,
-  ModalUpload: Uo,
-  SortIcon: ue,
-  ContextMenu: Zo
+  Toolbar: Dr,
+  Breadcrumb: Ln,
+  Explorer: Dn,
+  Statusbar: Vr,
+  Modal: Rn,
+  ModalDelete: so,
+  ModalMessage: fo,
+  ModalNewFolder: ko,
+  ModalPreview: $o,
+  ModalRename: Ro,
+  ModalUpload: Zo,
+  ModalZip: us,
+  SortIcon: de,
+  ContextMenu: fs
 };
-const Xo = {
+const vs = {
   install(S) {
-    for (const m in Se)
-      if (Se.hasOwnProperty(m)) {
-        const u = Se[m];
+    for (const h in _e)
+      if (_e.hasOwnProperty(h)) {
+        const u = _e[h];
         S.component(u.name, u);
       }
   }
 };
 export {
-  Xo as default
+  vs as default
 };
