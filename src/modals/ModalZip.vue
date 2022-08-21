@@ -8,7 +8,7 @@
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
         </svg>
       </div>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">Archive files</h3>
         <div class="mt-2">
           <p v-for="item in items" class="flex text-sm text-gray-800 dark:text-gray-400">
@@ -52,18 +52,18 @@ const props = defineProps({
   selection: Object,
   current: Object
 });
-
+const name = ref('');
 
 const items = ref(props.selection.items);
 
 const zip = () => {
-
   if (items.value.length) {
     emitter.emit('vf-fetch', {
       q: 'zip',
       adapter: getStore('adapter'),
       path: props.current.dirname,
-      items: JSON.stringify(items.value.map(({path, type}) => ({path, type})))
+      items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
+      name: name.value
     });
   }
 };
