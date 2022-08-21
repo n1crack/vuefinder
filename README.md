@@ -29,11 +29,13 @@ current progress :
 - [x] rename
 - [x] delete
 - [x] zip
-- [ ] move
-- [ ] touch/ create a file
+- [x] move
+- [ ] touch / create a file
 - [ ] preview item
 - [ ] download
 - [ ] edit text file
 - [ ] image tools
 - [ ] upload
 - [ ] validation & error messages
+- [ ] multi language
+- [ ] thumbnails
