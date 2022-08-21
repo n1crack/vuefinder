@@ -57,7 +57,6 @@ const props = defineProps({
   current: Object
 });
 
-console.log(props.selection.items);
 const items = ref(props.selection.items.from);
 
 const move = () => {

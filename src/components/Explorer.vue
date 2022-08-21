@@ -174,11 +174,6 @@ const handleDropZone = (e, item) => {
   }
 
   emitter.emit('vf-modal-show', {type:'move', items: {from: draggedItems, to: item}});
-  // items
-  // console.log(draggedItems)
-  // item
-  // console.log(item)
-
 };
 
 const handleDragOver = (e, item) => {

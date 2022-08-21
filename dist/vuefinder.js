@@ -2731,9 +2731,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
     current: Object
   },
   setup(y) {
-    const f = y, l = inject("emitter"), { getStore: p } = inject("storage");
-    console.log(f.selection.items);
-    const d = T(f.selection.items.from), s = () => {
+    const f = y, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(f.selection.items.from), s = () => {
       d.value.length && l.emit("vf-fetch", {
         q: "move",
         adapter: p("adapter"),
