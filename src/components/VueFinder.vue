@@ -10,7 +10,7 @@
     </div>
 
     <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :selection="modal.data" :current="fetchData"/>
-    <v-f-context-menu/>
+    <v-f-context-menu :current="fetchData"/>
   </div>
 </template>
 

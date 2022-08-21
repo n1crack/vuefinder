@@ -20,6 +20,10 @@ import {nextTick, reactive, ref} from 'vue';
 const emitter = inject('emitter');
 const contextmenu = ref(null);
 
+const props = defineProps({
+  current: Object
+});
+
 const context = reactive({
   active: false,
   items: [],
@@ -46,6 +50,12 @@ const menuItems = {
     title: 'Delete',
     action: () => {
       emitter.emit('vf-modal-show', {type:'delete', items: selectedItems});
+    },
+  },
+  refresh: {
+    title: 'Refresh',
+    action: () => {
+      emitter.emit('vf-fetch',{q: 'index', adapter: props.current.adapter, path: props.current.dirname} );
     },
   },
   preview: {
@@ -76,15 +86,18 @@ const run = (item) =>{
 emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
   context.items = [];
   if (!target) {
+    context.items.push(menuItems.refresh);
     context.items.push(menuItems.newfolder);
     emitter.emit('vf-context-selected', []);
     console.log('no files selected');
   } else if (items.length > 1 && items.some(el => el.path === target.path)) {
+    context.items.push(menuItems.refresh);
     context.items.push(menuItems.zip);
     context.items.push(menuItems.delete);
     emitter.emit('vf-context-selected', items);
     console.log(items.length + ' selected (more than 1 item.)');
   } else {
+    context.items.push(menuItems.refresh);
     context.items.push(menuItems.preview);
     context.items.push(menuItems.rename);
     context.items.push(menuItems.zip);
