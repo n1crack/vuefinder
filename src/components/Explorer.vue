@@ -94,6 +94,7 @@ const props = defineProps({
 });
 
 const emitter = inject('emitter');
+const { getStore } = inject('storage');
 const ext = (item) => item?.substring(0, 3)
 const title_shorten = (title) => title.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, '$2..$4');
 const selectorArea = ref(null);
@@ -160,20 +161,29 @@ const handleDragStart = (e, item) => {
   e.dataTransfer.setDragImage(img, 0, 15);
   e.dataTransfer.effectAllowed = 'all';
   e.dataTransfer.dropEffect = 'copy';
-  // console.log(ds.value.getSelection());
-  // console.log(item);
-  // e.dataTransfer.setData('data', JSON.stringify(ds.getSelection()));
+  e.dataTransfer.setData('items', JSON.stringify(getSelectedItems()))
 };
 
 const handleDropZone = (e, item) => {
   e.preventDefault();
-  // console.log(item);
-  // console.log(getSelectedItems());
-  // console.log(item.path);
+  let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
+
+  if (draggedItems.find(item => item.storage != getStore('adapter'))) {
+    alert('Moving items between different storages is not supported yet.');
+    return;
+  }
+
+  emitter.emit('vf-modal-show', {type:'move', items: {from: draggedItems, to: item}});
+  // items
+  // console.log(draggedItems)
+  // item
+  // console.log(item)
+
 };
 
 const handleDragOver = (e, item) => {
   e.preventDefault();
+
   if (!item || item.type !== 'dir' || ds.value.getSelection().find(el => el == e.currentTarget)) {
     e.dataTransfer.dropEffect = 'none';
     e.dataTransfer.effectAllowed = 'none';
