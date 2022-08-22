@@ -1,31 +1,31 @@
 (function(){"use strict";try{var t=document.createElement("style");t.appendChild(document.createTextNode('*,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji"}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit]{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.vf-explorer-selected{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(212 212 212 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(245 245 245 / var(--tw-bg-opacity))!important}.dark .vf-explorer-selected{border-color:rgb(17 24 39 / var(--tw-border-opacity))!important;--tw-border-opacity: 1 !important;border-color:rgb(30 41 59 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(51 65 85 / var(--tw-bg-opacity))!important}.vf-explorer-selector{border-width:1px!important;--tw-border-opacity: 1 !important;border-color:rgb(100 116 139 / var(--tw-border-opacity))!important;--tw-bg-opacity: 1 !important;background-color:rgb(203 213 225 / var(--tw-bg-opacity))!important;opacity:.5!important}.dark{color-scheme:dark}.vf-selector-area::-webkit-scrollbar{width:10px}.vf-selector-area::-webkit-scrollbar-track-piece{--tw-bg-opacity: 1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.dark .vf-selector-area::-webkit-scrollbar-track-piece{--tw-bg-opacity: 1;background-color:rgb(15 23 42 / var(--tw-bg-opacity))}.vf-selector-area::-webkit-scrollbar-thumb{--tw-bg-opacity: 1;background-color:rgb(229 231 235 / var(--tw-bg-opacity))}.dark .vf-selector-area::-webkit-scrollbar-thumb{--tw-bg-opacity: 1;background-color:rgb(71 85 105 / var(--tw-bg-opacity))}.vf-selector-area::-webkit-scrollbar-thumb:hover{--tw-bg-opacity: 1;background-color:rgb(209 213 219 / var(--tw-bg-opacity))}.dark .vf-selector-area::-webkit-scrollbar-thumb:hover{--tw-bg-opacity: 1;background-color:rgb(51 65 85 / var(--tw-bg-opacity))}.vf-selector-area::-webkit-scrollbar-corner{background-color:transparent}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{top:0px;right:0px;bottom:0px;left:0px}.top-1\\/2{top:50%}.top-\\[-200px\\]{top:-200px}.left-\\[-200px\\]{left:-200px}.top-4{top:1rem}.right-\\[-2rem\\]{right:-2rem}.z-0{z-index:0}.z-50{z-index:50}.z-10{z-index:10}.z-20{z-index:20}.col-span-7{grid-column:span 7 / span 7}.col-span-2{grid-column:span 2 / span 2}.col-span-3{grid-column:span 3 / span 3}.m-0\\.5{margin:.125rem}.m-0{margin:0}.m-auto{margin:auto}.mx-0\\.5{margin-left:.125rem;margin-right:.125rem}.mx-0{margin-left:0;margin-right:0}.my-0\\.5{margin-top:.125rem;margin-bottom:.125rem}.my-0{margin-top:0;margin-bottom:0}.mx-2{margin-left:.5rem;margin-right:.5rem}.mx-1\\.5{margin-left:.375rem;margin-right:.375rem}.mx-1{margin-left:.25rem;margin-right:.25rem}.mx-auto{margin-left:auto;margin-right:auto}.my-1{margin-top:.25rem;margin-bottom:.25rem}.ml-2{margin-left:.5rem}.ml-3{margin-left:.75rem}.mt-3{margin-top:.75rem}.mt-2{margin-top:.5rem}.ml-1\\.5{margin-left:.375rem}.ml-1{margin-left:.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-6{height:1.5rem}.h-full{height:100%}.h-5{height:1.25rem}.h-20{height:5rem}.h-10{height:2.5rem}.h-12{height:3rem}.min-h-\\[150px\\]{min-height:150px}.min-h-full{min-height:100%}.w-6{width:1.5rem}.w-full{width:100%}.w-5{width:1.25rem}.w-\\[5\\.5rem\\]{width:5.5rem}.w-10{width:2.5rem}.w-12{width:3rem}.min-w-min{min-width:-webkit-min-content;min-width:-moz-min-content;min-width:min-content}.flex-shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.resize-y{resize:vertical}.grid-cols-12{grid-template-columns:repeat(12,minmax(0,1fr))}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.overflow-ellipsis{text-overflow:ellipsis}.whitespace-nowrap{white-space:nowrap}.break-all{word-break:break-all}.rounded{border-radius:.25rem}.rounded-md{border-radius:.375rem}.rounded-lg{border-radius:.5rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-t{border-top-width:1px}.border-b{border-bottom-width:1px}.border-l{border-left-width:1px}.border-r{border-right-width:1px}.border-neutral-300{--tw-border-opacity: 1;border-color:rgb(212 212 212 / var(--tw-border-opacity))}.border-transparent{border-color:transparent}.border-gray-300{--tw-border-opacity: 1;border-color:rgb(209 213 219 / var(--tw-border-opacity))}.bg-neutral-100{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity: 1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-neutral-50{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.bg-gray-500{--tw-bg-opacity: 1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.bg-gray-50{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.bg-red-100{--tw-bg-opacity: 1;background-color:rgb(254 226 226 / var(--tw-bg-opacity))}.bg-red-600{--tw-bg-opacity: 1;background-color:rgb(220 38 38 / var(--tw-bg-opacity))}.bg-blue-50{--tw-bg-opacity: 1;background-color:rgb(239 246 255 / var(--tw-bg-opacity))}.bg-opacity-75{--tw-bg-opacity: .75}.fill-sky-500{fill:#0ea5e9}.fill-white{fill:#fff}.fill-sky-100{fill:#e0f2fe}.stroke-sky-500{stroke:#0ea5e9}.stroke-neutral-500{stroke:#737373}.stroke-slate-500{stroke:#64748b}.stroke-gray-800{stroke:#1f2937}.stroke-gray-200{stroke:#e5e7eb}.stroke-red-600{stroke:#dc2626}.stroke-blue-600{stroke:#2563eb}.p-1\\.5{padding:.375rem}.p-1{padding:.25rem}.p-0\\.5{padding:.125rem}.p-0{padding:0}.p-4{padding:1rem}.px-1\\.5{padding-left:.375rem;padding-right:.375rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-2{padding-left:.5rem;padding-right:.5rem}.py-1\\.5{padding-top:.375rem;padding-bottom:.375rem}.px-4{padding-left:1rem;padding-right:1rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.pl-1{padding-left:.25rem}.pl-2{padding-left:.5rem}.pr-8{padding-right:2rem}.pt-5{padding-top:1.25rem}.pb-4{padding-bottom:1rem}.pb-1{padding-bottom:.25rem}.pt-3{padding-top:.75rem}.text-left{text-align:left}.text-center{text-align:center}.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-base{font-size:1rem;line-height:1.5rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.leading-5{line-height:1.25rem}.leading-6{line-height:1.5rem}.text-slate-700{--tw-text-opacity: 1;color:rgb(51 65 85 / var(--tw-text-opacity))}.text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.text-neutral-700{--tw-text-opacity: 1;color:rgb(64 64 64 / var(--tw-text-opacity))}.text-slate-500{--tw-text-opacity: 1;color:rgb(100 116 139 / var(--tw-text-opacity))}.text-gray-800{--tw-text-opacity: 1;color:rgb(31 41 55 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity: 1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-red-500{--tw-text-opacity: 1;color:rgb(239 68 68 / var(--tw-text-opacity))}.opacity-0{opacity:0}.shadow{--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-xl{--tw-shadow: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);--tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.shadow-sm{--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.hover\\:bg-neutral-300:hover{--tw-bg-opacity: 1;background-color:rgb(212 212 212 / var(--tw-bg-opacity))}.hover\\:bg-neutral-100:hover{--tw-bg-opacity: 1;background-color:rgb(245 245 245 / var(--tw-bg-opacity))}.hover\\:bg-neutral-200:hover{--tw-bg-opacity: 1;background-color:rgb(229 229 229 / var(--tw-bg-opacity))}.hover\\:bg-neutral-50:hover{--tw-bg-opacity: 1;background-color:rgb(250 250 250 / var(--tw-bg-opacity))}.hover\\:bg-red-700:hover{--tw-bg-opacity: 1;background-color:rgb(185 28 28 / var(--tw-bg-opacity))}.hover\\:bg-gray-50:hover{--tw-bg-opacity: 1;background-color:rgb(249 250 251 / var(--tw-bg-opacity))}.hover\\:stroke-cyan-700:hover{stroke:#0e7490}.hover\\:stroke-sky-600:hover{stroke:#0284c7}.focus\\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\\:ring-2:focus{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}.focus\\:ring-red-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity))}.focus\\:ring-indigo-500:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity))}.focus\\:ring-offset-2:focus{--tw-ring-offset-width: 2px}.dark .dark\\:border-t{border-top-width:1px}.dark .dark\\:border-gray-900{--tw-border-opacity: 1;border-color:rgb(17 24 39 / var(--tw-border-opacity))}.dark .dark\\:border-gray-600{--tw-border-opacity: 1;border-color:rgb(75 85 99 / var(--tw-border-opacity))}.dark .dark\\:border-gray-700{--tw-border-opacity: 1;border-color:rgb(55 65 81 / var(--tw-border-opacity))}.dark .dark\\:bg-gray-800{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:bg-gray-700{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:bg-gray-500{--tw-bg-opacity: 1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.dark .dark\\:fill-slate-500{fill:#64748b}.dark .dark\\:fill-gray-700{fill:#374151}.dark .dark\\:fill-gray-400\\/20{fill:#9ca3af33}.dark .dark\\:stroke-slate-500{stroke:#64748b}.dark .dark\\:stroke-gray-600{stroke:#4b5563}.dark .dark\\:stroke-gray-300{stroke:#d1d5db}.dark .dark\\:stroke-gray-400{stroke:#9ca3af}.dark .dark\\:stroke-red-200{stroke:#fecaca}.dark .dark\\:stroke-blue-100{stroke:#dbeafe}.dark .dark\\:text-neutral-200{--tw-text-opacity: 1;color:rgb(229 229 229 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-500{--tw-text-opacity: 1;color:rgb(115 115 115 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-300{--tw-text-opacity: 1;color:rgb(212 212 212 / var(--tw-text-opacity))}.dark .dark\\:text-gray-600{--tw-text-opacity: 1;color:rgb(75 85 99 / var(--tw-text-opacity))}.dark .dark\\:text-slate-200{--tw-text-opacity: 1;color:rgb(226 232 240 / var(--tw-text-opacity))}.dark .dark\\:text-gray-200{--tw-text-opacity: 1;color:rgb(229 231 235 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-50{--tw-text-opacity: 1;color:rgb(250 250 250 / var(--tw-text-opacity))}.dark .dark\\:text-neutral-400{--tw-text-opacity: 1;color:rgb(163 163 163 / var(--tw-text-opacity))}.dark .dark\\:text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark .dark\\:text-gray-100{--tw-text-opacity: 1;color:rgb(243 244 246 / var(--tw-text-opacity))}.dark .dark\\:text-red-200{--tw-text-opacity: 1;color:rgb(254 202 202 / var(--tw-text-opacity))}.dark .dark\\:opacity-0{opacity:0}.dark .dark\\:opacity-100{opacity:1}.dark .dark\\:hover\\:bg-gray-700:hover{--tw-bg-opacity: 1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:bg-gray-800:hover{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark .dark\\:hover\\:stroke-gray-100:hover{stroke:#f3f4f6}.dark .dark\\:hover\\:stroke-gray-300:hover{stroke:#d1d5db}.dark .dark\\:focus\\:border-gray-600:focus{--tw-border-opacity: 1;border-color:rgb(75 85 99 / var(--tw-border-opacity))}.dark .dark\\:focus\\:ring-gray-600:focus{--tw-ring-opacity: 1;--tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity))}@media (min-width: 640px){.sm\\:my-8{margin-top:2rem;margin-bottom:2rem}.sm\\:mx-0{margin-left:0;margin-right:0}.sm\\:mt-0{margin-top:0}.sm\\:ml-4{margin-left:1rem}.sm\\:ml-3{margin-left:.75rem}.sm\\:flex{display:flex}.sm\\:h-10{height:2.5rem}.sm\\:w-full{width:100%}.sm\\:w-10{width:2.5rem}.sm\\:w-auto{width:auto}.sm\\:max-w-lg{max-width:32rem}.sm\\:flex-row-reverse{flex-direction:row-reverse}.sm\\:items-start{align-items:flex-start}.sm\\:items-center{align-items:center}.sm\\:p-0{padding:0}.sm\\:p-6{padding:1.5rem}.sm\\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\\:pb-4{padding-bottom:1rem}.sm\\:text-left{text-align:left}.sm\\:text-sm{font-size:.875rem;line-height:1.25rem}}@media (min-width: 768px){.md\\:top-5{top:1.25rem}.md\\:right-\\[-2\\.4rem\\]{right:-2.4rem}.md\\:block{display:block}.md\\:h-24{height:6rem}.md\\:h-12{height:3rem}.md\\:h-8{height:2rem}.md\\:w-24{width:6rem}.md\\:w-12{width:3rem}.md\\:w-8{width:2rem}}[aria-label][role~=tooltip]{position:relative}[aria-label][role~=tooltip]:before,[aria-label][role~=tooltip]:after{transform:translateZ(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;opacity:0;pointer-events:none;transition:all var(--microtip-transition-duration, .18s) var(--microtip-transition-easing, ease-in-out) var(--microtip-transition-delay, 0s);position:absolute;box-sizing:border-box;z-index:10;transform-origin:top}[aria-label][role~=tooltip]:before{background-size:100% auto!important;content:""}[aria-label][role~=tooltip]:after{background:rgba(17,17,17,.9);border-radius:4px;color:#fff;content:attr(aria-label);font-size:var(--microtip-font-size, 13px);font-weight:var(--microtip-font-weight, normal);text-transform:var(--microtip-text-transform, none);padding:.5em 1em;white-space:nowrap;box-sizing:content-box}[aria-label][role~=tooltip]:hover:before,[aria-label][role~=tooltip]:hover:after,[aria-label][role~=tooltip]:focus:before,[aria-label][role~=tooltip]:focus:after{opacity:1;pointer-events:auto}[role~=tooltip][data-microtip-position|=top]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-bottom:5px}[role~=tooltip][data-microtip-position|=top]:after{margin-bottom:11px}[role~=tooltip][data-microtip-position|=top]:before{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position|=top]:hover:before{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position|=top]:after{transform:translate3d(-50%,0,0);bottom:100%;left:50%}[role~=tooltip][data-microtip-position=top]:hover:after{transform:translate3d(-50%,-5px,0)}[role~=tooltip][data-microtip-position=top-left]:after{transform:translate3d(calc(-100% + 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-left]:hover:after{transform:translate3d(calc(-100% + 16px),-5px,0)}[role~=tooltip][data-microtip-position=top-right]:after{transform:translate3d(calc(0% - 16px),0,0);bottom:100%}[role~=tooltip][data-microtip-position=top-right]:hover:after{transform:translate3d(calc(0% - 16px),-5px,0)}[role~=tooltip][data-microtip-position|=bottom]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:6px;width:18px;margin-top:5px;margin-bottom:0}[role~=tooltip][data-microtip-position|=bottom]:after{margin-top:11px}[role~=tooltip][data-microtip-position|=bottom]:before{transform:translate3d(-50%,-10px,0);bottom:auto;left:50%;top:100%}[role~=tooltip][data-microtip-position|=bottom]:hover:before{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position|=bottom]:after{transform:translate3d(-50%,-10px,0);top:100%;left:50%}[role~=tooltip][data-microtip-position=bottom]:hover:after{transform:translate3d(-50%,0,0)}[role~=tooltip][data-microtip-position=bottom-left]:after{transform:translate3d(calc(-100% + 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-left]:hover:after{transform:translate3d(calc(-100% + 16px),0,0)}[role~=tooltip][data-microtip-position=bottom-right]:after{transform:translate3d(calc(0% - 16px),-10px,0);top:100%}[role~=tooltip][data-microtip-position=bottom-right]:hover:after{transform:translate3d(calc(0% - 16px),0,0)}[role~=tooltip][data-microtip-position=left]:before,[role~=tooltip][data-microtip-position=left]:after{bottom:auto;left:auto;right:100%;top:50%;transform:translate3d(10px,-50%,0)}[role~=tooltip][data-microtip-position=left]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28-90%2018%2018%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-right:5px;margin-bottom:0}[role~=tooltip][data-microtip-position=left]:after{margin-right:11px}[role~=tooltip][data-microtip-position=left]:hover:before,[role~=tooltip][data-microtip-position=left]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-position=right]:before,[role~=tooltip][data-microtip-position=right]:after{bottom:auto;left:100%;top:50%;transform:translate3d(-10px,-50%,0)}[role~=tooltip][data-microtip-position=right]:before{background:url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%2890%206%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E) no-repeat;height:18px;width:6px;margin-bottom:0;margin-left:5px}[role~=tooltip][data-microtip-position=right]:after{margin-left:11px}[role~=tooltip][data-microtip-position=right]:hover:before,[role~=tooltip][data-microtip-position=right]:hover:after{transform:translate3d(0,-50%,0)}[role~=tooltip][data-microtip-size=small]:after{white-space:initial;width:80px}[role~=tooltip][data-microtip-size=medium]:after{white-space:initial;width:150px}[role~=tooltip][data-microtip-size=large]:after{white-space:initial;width:260px}')),document.head.appendChild(t)}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
 import { ref as T, watch as Je, provide as qe, reactive as he, onMounted as me, resolveComponent as F, openBlock as w, createElementBlock as C, normalizeClass as ae, createElementVNode as i, unref as A, createVNode as X, createBlock as W, resolveDynamicComponent as Zt, createCommentVNode as q, createStaticVNode as Jt, withDirectives as ee, Fragment as G, renderList as Q, toDisplayString as z, vModelSelect as Yt, vShow as _e, withModifiers as ue, createTextVNode as fe, nextTick as Ye, withKeys as ge, renderSlot as We, withCtx as N, vModelText as we, normalizeStyle as Xt } from "vue";
-const Gt = (y, { method: f = "get", params: l = {} }) => {
+const Gt = (b, { method: f = "get", params: l = {} }) => {
   const p = { method: f };
-  return f == "get" ? y += "?" + new URLSearchParams(l) : p.body = l, fetch(y, p).then((d) => d.json());
+  return f == "get" ? b += "?" + new URLSearchParams(l) : p.body = l, fetch(b, p).then((d) => d.json());
 };
-function Qt(y) {
-  return { all: y = y || /* @__PURE__ */ new Map(), on: function(f, l) {
-    var p = y.get(f);
-    p ? p.push(l) : y.set(f, [l]);
+function Qt(b) {
+  return { all: b = b || /* @__PURE__ */ new Map(), on: function(f, l) {
+    var p = b.get(f);
+    p ? p.push(l) : b.set(f, [l]);
   }, off: function(f, l) {
-    var p = y.get(f);
-    p && (l ? p.splice(p.indexOf(l) >>> 0, 1) : y.set(f, []));
+    var p = b.get(f);
+    p && (l ? p.splice(p.indexOf(l) >>> 0, 1) : b.set(f, []));
   }, emit: function(f, l) {
-    var p = y.get(f);
+    var p = b.get(f);
     p && p.slice().map(function(d) {
       d(l);
-    }), (p = y.get("*")) && p.slice().map(function(d) {
+    }), (p = b.get("*")) && p.slice().map(function(d) {
       d(f, l);
     });
   } };
 }
-function Ze(y) {
-  let f = localStorage.getItem(y + "_storage");
+function Ze(b) {
+  let f = localStorage.getItem(b + "_storage");
   const l = T(JSON.parse(f));
   Je(l, p);
   function p() {
-    l.value === null || l.value === "" ? localStorage.removeItem(y + "_storage") : localStorage.setItem(y + "_storage", JSON.stringify(l.value));
+    l.value === null || l.value === "" ? localStorage.removeItem(b + "_storage") : localStorage.setItem(b + "_storage", JSON.stringify(l.value));
   }
   function d(v, _) {
     l.value = Object.assign({ ...l.value }, { [v]: _ });
@@ -51,8 +51,8 @@ const er = {
       default: !1
     }
   },
-  setup(y) {
-    const f = y, l = Qt();
+  setup(b) {
+    const f = b, l = Qt();
     qe("emitter", l);
     const { setStore: p, getStore: d } = Ze(f.id);
     qe("storage", Ze(f.id));
@@ -72,12 +72,12 @@ const er = {
     }), l.on("vf-modal-show", (M) => {
       _.active = !0, _.type = M.type, _.data = M;
     });
-    const b = (M) => {
+    const y = (M) => {
       Object.assign(s, M), l.emit("vf-nodes-selected", {}), l.emit("vf-explorer-update", M);
     };
     return l.on("vf-fetch", (M) => {
       Gt(f.url, { params: M }).then((x) => {
-        l.emit("vf-modal-close"), b(x);
+        l.emit("vf-modal-close"), y(x);
       });
     }), me(() => {
       l.emit("vf-fetch", { q: "index", adapter: d("adapter", s.adapter) });
@@ -193,7 +193,7 @@ const er = {
 ], xr = {
   name: "VFToolbar"
 }, Dr = /* @__PURE__ */ Object.assign(xr, {
-  setup(y) {
+  setup(b) {
     const f = inject("emitter"), { getStore: l, setStore: p } = inject("storage"), d = T(l("viewport", "grid")), s = T([]);
     return f.on("vf-nodes-selected", (S) => {
       s.value = S;
@@ -329,14 +329,14 @@ const er = {
   props: {
     data: Object
   },
-  setup(y) {
+  setup(b) {
     var _;
-    const f = y, l = inject("emitter"), { getStore: p, setStore: d } = inject("storage"), s = T(0), S = T((_ = p("adapter")) != null ? _ : f.data.adapter), v = () => {
+    const f = b, l = inject("emitter"), { getStore: p, setStore: d } = inject("storage"), s = T(0), S = T((_ = p("adapter")) != null ? _ : f.data.adapter), v = () => {
       l.emit("vf-fetch", { q: "index", adapter: S.value }), d("adapter", S.value);
     };
-    return l.on("vf-nodes-selected", (b) => {
-      s.value = b.length;
-    }), (b, M) => (w(), C("div", $r, [
+    return l.on("vf-nodes-selected", (y) => {
+      s.value = y.length;
+    }), (y, M) => (w(), C("div", $r, [
       i("div", Cr, [
         Pr,
         ee(i("select", {
@@ -344,7 +344,7 @@ const er = {
           onChange: v,
           class: "text-slate-500 dark:text-neutral-50 dark:bg-gray-700 font-bold rounded pl-2 pr-8"
         }, [
-          (w(!0), C(G, null, Q(y.data.storages, (x) => (w(), C("option", { value: x }, z(x), 9, Mr))), 256))
+          (w(!0), C(G, null, Q(b.data.storages, (x) => (w(), C("option", { value: x }, z(x), 9, Mr))), 256))
         ], 544), [
           [Yt, S.value]
         ]),
@@ -359,9 +359,9 @@ const er = {
   }
 });
 var Lr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {}, Xe = { exports: {} };
-(function(y, f) {
+(function(b, f) {
   (function(l, p) {
-    y.exports = p();
+    b.exports = p();
   })(Lr, function() {
     function l(n, t) {
       if (!(n instanceof t))
@@ -416,10 +416,10 @@ var Lr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         }
       }), t && M(n, t);
     }
-    function b(n) {
-      return b = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
+    function y(n) {
+      return y = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
         return e.__proto__ || Object.getPrototypeOf(e);
-      }, b(n);
+      }, y(n);
     }
     function M(n, t) {
       return M = Object.setPrototypeOf || function(o, r) {
@@ -462,7 +462,7 @@ var Lr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
           t.set(o, r);
         }
         function r() {
-          return L(o, arguments, b(this).constructor);
+          return L(o, arguments, y(this).constructor);
         }
         return r.prototype = Object.create(o.prototype, {
           constructor: {
@@ -485,9 +485,9 @@ var Lr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
     function re(n) {
       var t = x();
       return function() {
-        var o = b(n), r;
+        var o = y(n), r;
         if (t) {
-          var a = b(this).constructor;
+          var a = y(this).constructor;
           r = Reflect.construct(o, arguments, a);
         } else
           r = o.apply(this, arguments);
@@ -495,7 +495,7 @@ var Lr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       };
     }
     function ke(n, t) {
-      for (; !Object.prototype.hasOwnProperty.call(n, t) && (n = b(n), n !== null); )
+      for (; !Object.prototype.hasOwnProperty.call(n, t) && (n = y(n), n !== null); )
         ;
       return n;
     }
@@ -1153,14 +1153,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           }), this._draggability && !this._useTransform && Pe({
             computedStyle: window.getComputedStyle(r),
             node: r
-          }), D(b(e.prototype), "add", this).call(this, r);
+          }), D(y(e.prototype), "add", this).call(this, r);
         }
       }, {
         key: "delete",
         value: function(r) {
           return r.classList.remove(this._className), r.classList.remove(this._hoverClassName), r.removeEventListener("click", this._onClick), r.removeEventListener("mousedown", this._onPointer), r.removeEventListener("touchstart", this._onPointer, {
             passive: !1
-          }), D(b(e.prototype), "delete", this).call(this, r);
+          }), D(y(e.prototype), "delete", this).call(this, r);
         }
       }, {
         key: "elements",
@@ -1190,24 +1190,24 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       return d(e, [{
         key: "add",
         value: function(r) {
-          if (!D(b(e.prototype), "has", this).call(this, r)) {
+          if (!D(y(e.prototype), "has", this).call(this, r)) {
             var a = {
               items: this.elements,
               item: r
             };
-            return this.DS.publish("Selected:added:pre", a), D(b(e.prototype), "add", this).call(this, r), r.classList.add(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) + 1), this.DS.publish("Selected:added", a), this;
+            return this.DS.publish("Selected:added:pre", a), D(y(e.prototype), "add", this).call(this, r), r.classList.add(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) + 1), this.DS.publish("Selected:added", a), this;
           }
         }
       }, {
         key: "delete",
         value: function(r) {
-          if (!!D(b(e.prototype), "has", this).call(this, r)) {
+          if (!!D(y(e.prototype), "has", this).call(this, r)) {
             var a = {
               items: this.elements,
               item: r
             };
             this.DS.publish("Selected:removed:pre", a);
-            var c = D(b(e.prototype), "delete", this).call(this, r);
+            var c = D(y(e.prototype), "delete", this).call(this, r);
             return r.classList.remove(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) - 1), this.DS.publish("Selected:removed", a), c;
           }
         }
@@ -1772,7 +1772,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     return jt;
   });
 })(Xe);
-const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d = l(y) / l(p) | 0, y / f.pow(p, d)).toFixed(0) + " " + (d ? "KMGTPEZY"[--d] + "iB" : "B"), Nr = (y, f = "en-US") => new Date(y * 1e3).toLocaleString(f), Kr = {
+const Or = Xe.exports, zr = (b, f, l, p, d) => (f = Math, l = f.log, p = 1024, d = l(b) / l(p) | 0, b / f.pow(p, d)).toFixed(0) + " " + (d ? "KMGTPEZY"[--d] + "iB" : "B"), Nr = (b, f = "en-US") => new Date(b * 1e3).toLocaleString(f), Kr = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5",
@@ -1800,10 +1800,10 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
   name: "VFSortIcon"
 }, de = /* @__PURE__ */ Object.assign(qr, {
   props: { direction: String },
-  setup(y) {
+  setup(b) {
     return (f, l) => (w(), C("div", null, [
-      y.direction == "down" ? (w(), C("svg", Kr, Hr)) : q("", !0),
-      y.direction == "up" ? (w(), C("svg", Rr, Ur)) : q("", !0)
+      b.direction == "down" ? (w(), C("svg", Kr, Hr)) : q("", !0),
+      b.direction == "up" ? (w(), C("svg", Rr, Ur)) : q("", !0)
     ]));
   }
 }), Wr = { class: "relative h-full" }, Zr = {
@@ -1885,8 +1885,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
     view: String,
     data: Object
   },
-  setup(y) {
-    const f = y, l = inject("emitter"), { getStore: p } = inject("storage"), d = (D) => D == null ? void 0 : D.substring(0, 3), s = (D) => D.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), S = T(null), v = T(null), _ = T(0), b = T(null), M = (D) => {
+  setup(b) {
+    const f = b, l = inject("emitter"), { getStore: p } = inject("storage"), d = (D) => D == null ? void 0 : D.substring(0, 3), s = (D) => D.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), S = T(null), v = T(null), _ = T(0), y = T(null), M = (D) => {
       D.type == "dir" ? l.emit("vf-fetch", { q: "index", adapter: f.data.adapter, path: D.path }) : l.emit("vf-modal-show", { type: "preview" });
     }, x = he({ active: !1, column: "", order: "" }), L = (D = !0) => {
       let E = [...f.data.files], $ = x.column, U = x.order == "asc" ? 1 : -1;
@@ -1896,7 +1896,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
       return x.active && (E = E.slice().sort((Z, J) => V(Z[$], J[$]) * U)), E;
     }, B = (D) => {
       x.active && x.column == D ? (x.active = x.order == "asc", x.column = D, x.order = "desc") : (x.active = !0, x.column = D, x.order = "asc");
-    }, K = () => b.value.getSelection().map((D) => JSON.parse(D.dataset.item)), j = (D, E) => {
+    }, K = () => y.value.getSelection().map((D) => JSON.parse(D.dataset.item)), j = (D, E) => {
       if (D.altKey || D.ctrlKey || D.metaKey)
         return D.preventDefault(), !1;
       let $ = v.value;
@@ -1910,27 +1910,27 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
       }
       l.emit("vf-modal-show", { type: "move", items: { from: $, to: E } });
     }, re = (D, E) => {
-      D.preventDefault(), (!E || E.type !== "dir" || b.value.getSelection().find(($) => $ == D.currentTarget)) && (D.dataTransfer.dropEffect = "none", D.dataTransfer.effectAllowed = "none");
+      D.preventDefault(), (!E || E.type !== "dir" || y.value.getSelection().find(($) => $ == D.currentTarget)) && (D.dataTransfer.dropEffect = "none", D.dataTransfer.effectAllowed = "none");
     };
     return me(() => {
-      b.value = new Or({
+      y.value = new Or({
         area: S.value,
         keyboardDrag: !1,
         selectedClass: "vf-explorer-selected",
         selectorClass: "vf-explorer-selector"
       }), l.on("vf-explorer-update", () => Ye(() => {
-        b.value.clearSelection(), b.value.setSelectables(document.getElementsByClassName("vf-item"));
-      })), b.value.subscribe("predragstart", ({ isDragging: D }) => {
-        D && (_.value = b.value.getSelection().length, b.value.break());
-      }), b.value.subscribe("predragmove", ({ isDragging: D }) => {
-        D && b.value.break();
-      }), b.value.subscribe("callback", ({ items: D, event: E, isDragging: $ }) => {
-        l.emit("vf-nodes-selected", K()), _.value = b.value.getSelection().length;
+        y.value.clearSelection(), y.value.setSelectables(document.getElementsByClassName("vf-item"));
+      })), y.value.subscribe("predragstart", ({ isDragging: D }) => {
+        D && (_.value = y.value.getSelection().length, y.value.break());
+      }), y.value.subscribe("predragmove", ({ isDragging: D }) => {
+        D && y.value.break();
+      }), y.value.subscribe("callback", ({ items: D, event: E, isDragging: $ }) => {
+        l.emit("vf-nodes-selected", K()), _.value = y.value.getSelection().length;
       });
     }), me(() => {
       Je(() => f.view, () => l.emit("vf-explorer-update"));
     }), (D, E) => (w(), C("div", Wr, [
-      y.view == "list" ? (w(), C("div", Zr, [
+      b.view == "list" ? (w(), C("div", Zr, [
         i("div", {
           onClick: E[0] || (E[0] = ($) => B("basename")),
           class: "col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center pl-1"
@@ -1970,7 +1970,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
         ref: ($) => S.value = $,
         onContextmenu: E[3] || (E[3] = ue(($) => A(l).emit("vf-contextmenu-show", { event: $, area: S.value, items: K() }), ["self", "prevent"]))
       }, [
-        y.view == "list" ? (w(!0), C(G, { key: 0 }, Q(L(), ($, U) => (w(), C("div", {
+        b.view == "list" ? (w(!0), C(G, { key: 0 }, Q(L(), ($, U) => (w(), C("div", {
           draggable: "true",
           onDblclick: (V) => M($),
           onContextmenu: ue((V) => A(l).emit("vf-contextmenu-show", { event: V, area: S.value, items: K(), target: $ }), ["prevent"]),
@@ -1991,7 +1991,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
             i("div", un, z(A(Nr)($.last_modified)), 1)
           ])
         ], 40, Gr))), 256)) : q("", !0),
-        y.view == "grid" ? (w(!0), C(G, { key: 1 }, Q(L(!1), ($, U) => (w(), C("div", {
+        b.view == "grid" ? (w(!0), C(G, { key: 1 }, Q(L(!1), ($, U) => (w(), C("div", {
           draggable: "true",
           onDblclick: (V) => M($),
           onContextmenu: ue((V) => A(l).emit("vf-contextmenu-show", { event: V, area: S.value, items: K(), target: $ }), ["prevent"]),
@@ -2037,15 +2037,15 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
   props: {
     data: Object
   },
-  setup(y) {
-    const f = y, l = inject("emitter"), p = T(null), d = T([]);
+  setup(b) {
+    const f = b, l = inject("emitter"), p = T(null), d = T([]);
     return l.on("vf-explorer-update", (s) => {
       var _;
       let S = [], v = [];
-      p.value = (_ = f.data.dirname) != null ? _ : "", p.value.length == 0 && (d.value = []), p.value.split("/").forEach(function(b) {
-        S.push(b), S.join("/") != "" && v.push({
-          basename: b,
-          name: b,
+      p.value = (_ = f.data.dirname) != null ? _ : "", p.value.length == 0 && (d.value = []), p.value.split("/").forEach(function(y) {
+        S.push(y), S.join("/") != "" && v.push({
+          basename: y,
+          name: y,
           path: S.join("/"),
           type: "dir"
         });
@@ -2053,8 +2053,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
     }), (s, S) => (w(), C("div", $n, [
       (w(), C("svg", {
         onClick: S[0] || (S[0] = (v) => {
-          var _;
-          return !d.value.length || A(l).emit("vf-fetch", { q: "index", adapter: y.data.adapter, path: (_ = d.value[d.value.length - 2]) == null ? void 0 : _.path });
+          var _, y;
+          return !d.value.length || A(l).emit("vf-fetch", { q: "index", adapter: b.data.adapter, path: (y = (_ = d.value[d.value.length - 2]) == null ? void 0 : _.path) != null ? y : "" });
         }),
         xmlns: "http://www.w3.org/2000/svg",
         class: ae(["h-6 w-6 p-0.5 rounded", d.value.length ? "text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer" : "text-gray-400 dark:text-neutral-500"]),
@@ -2063,7 +2063,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
       }, Pn, 2)),
       i("div", Mn, [
         (w(), C("svg", {
-          onClick: S[1] || (S[1] = (v) => A(l).emit("vf-fetch", { q: "index", adapter: y.data.adapter })),
+          onClick: S[1] || (S[1] = (v) => A(l).emit("vf-fetch", { q: "index", adapter: b.data.adapter })),
           class: "h-6 w-6 p-1 rounded text-slate-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-gray-800 cursor-pointer",
           xmlns: "http://www.w3.org/2000/svg",
           viewBox: "0 0 20 20",
@@ -2075,7 +2075,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
             i("span", {
               class: "px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer",
               title: v.basename,
-              onClick: (b) => A(l).emit("vf-fetch", { q: "index", adapter: y.data.adapter, path: v.path })
+              onClick: (y) => A(l).emit("vf-fetch", { q: "index", adapter: b.data.adapter, path: v.path })
             }, z(v.name), 9, Tn)
           ]))), 128))
         ])
@@ -2085,7 +2085,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
 }), On = /* @__PURE__ */ i("div", { class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" }, null, -1), zn = { class: "fixed z-10 inset-0 overflow-y-auto" }, Nn = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full" }, Kn = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, Bn = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, Hn = {
   name: "VFModal"
 }, Rn = /* @__PURE__ */ Object.assign(Hn, {
-  setup(y) {
+  setup(b) {
     const f = inject("emitter");
     return me(() => {
       const l = document.querySelector(".v-f-modal input");
@@ -2173,8 +2173,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
     selection: Object,
     current: Object
   },
-  setup(y) {
-    const f = y, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(f.selection.items), s = () => {
+  setup(b) {
+    const f = b, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(f.selection.items), s = () => {
       d.value.length && l.emit("vf-fetch", {
         q: "delete",
         adapter: p("adapter"),
@@ -2193,7 +2193,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
           }, "Yes, delete!"),
           i("button", {
             type: "button",
-            onClick: v[0] || (v[0] = (b) => A(l).emit("vf-modal-close")),
+            onClick: v[0] || (v[0] = (y) => A(l).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
@@ -2204,9 +2204,9 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
               Wn,
               i("div", Zn, [
                 Jn,
-                (w(!0), C(G, null, Q(d.value, (b) => (w(), C("p", Yn, [
-                  b.type == "dir" ? (w(), C("svg", Xn, Qn)) : (w(), C("svg", eo, ro)),
-                  i("span", no, z(b.basename), 1)
+                (w(!0), C(G, null, Q(d.value, (y) => (w(), C("p", Yn, [
+                  y.type == "dir" ? (w(), C("svg", Xn, Qn)) : (w(), C("svg", eo, ro)),
+                  i("span", no, z(y.basename), 1)
                 ]))), 256))
               ])
             ])
@@ -2240,7 +2240,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
   props: {
     item: Object
   },
-  setup(y) {
+  setup(b) {
     const f = inject("emitter");
     return (l, p) => {
       const d = F("v-f-modal");
@@ -2258,9 +2258,9 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
             i("div", io, [
               ao,
               i("div", lo, [
-                i("h3", co, z((S = (s = y.item) == null ? void 0 : s.title) != null ? S : "Title"), 1),
+                i("h3", co, z((S = (s = b.item) == null ? void 0 : s.title) != null ? S : "Title"), 1),
                 i("div", uo, [
-                  i("p", ho, z((_ = (v = y.item) == null ? void 0 : v.message) != null ? _ : "Message") + ".", 1)
+                  i("p", ho, z((_ = (v = b.item) == null ? void 0 : v.message) != null ? _ : "Message") + ".", 1)
                 ])
               ])
             ])
@@ -2296,8 +2296,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
     selection: Object,
     current: Object
   },
-  setup(y) {
-    const f = y, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(""), s = () => {
+  setup(b) {
+    const f = b, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(""), s = () => {
       d.value != "" && l.emit("vf-fetch", {
         q: "newfolder",
         adapter: p("adapter"),
@@ -2316,7 +2316,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
           }, "Create!"),
           i("button", {
             type: "button",
-            onClick: v[1] || (v[1] = (b) => A(l).emit("vf-modal-close")),
+            onClick: v[1] || (v[1] = (y) => A(l).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
@@ -2328,7 +2328,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
               i("div", bo, [
                 _o,
                 ee(i("input", {
-                  "onUpdate:modelValue": v[0] || (v[0] = (b) => d.value = b),
+                  "onUpdate:modelValue": v[0] || (v[0] = (y) => d.value = y),
                   onKeyup: ge(s, ["enter"]),
                   class: "px-2 py-1 border rounded dark:bg-gray-500 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                   placeholder: "Folder Name",
@@ -2377,7 +2377,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
 }, "Yes, delete!", -1), $o = {
   name: "VFModalPreview"
 }, Co = /* @__PURE__ */ Object.assign($o, {
-  setup(y) {
+  setup(b) {
     const f = inject("emitter");
     return (l, p) => {
       const d = F("v-f-modal");
@@ -2451,8 +2451,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
     selection: Object,
     current: Object
   },
-  setup(y) {
-    const f = y, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(f.selection.items[0]), s = T(f.selection.items[0].basename), S = () => {
+  setup(b) {
+    const f = b, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(f.selection.items[0]), s = T(f.selection.items[0].basename), S = () => {
       s.value != "" && l.emit("vf-fetch", {
         q: "rename",
         adapter: p("adapter"),
@@ -2462,8 +2462,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
       });
     };
     return (v, _) => {
-      const b = F("v-f-modal");
-      return w(), W(b, null, {
+      const y = F("v-f-modal");
+      return w(), W(y, null, {
         buttons: N(() => [
           i("button", {
             type: "button",
@@ -2536,7 +2536,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
 }, "Yes, delete!", -1), qo = {
   name: "VFModalUpload"
 }, Wo = /* @__PURE__ */ Object.assign(qo, {
-  setup(y) {
+  setup(b) {
     const f = inject("emitter");
     return (l, p) => {
       const d = F("v-f-modal");
@@ -2610,8 +2610,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
     selection: Object,
     current: Object
   },
-  setup(y) {
-    const f = y, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(""), s = T(f.selection.items), S = () => {
+  setup(b) {
+    const f = b, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(""), s = T(f.selection.items), S = () => {
       s.value.length && l.emit("vf-fetch", {
         q: "zip",
         adapter: p("adapter"),
@@ -2621,8 +2621,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
       });
     };
     return (v, _) => {
-      const b = F("v-f-modal");
-      return w(), W(b, null, {
+      const y = F("v-f-modal");
+      return w(), W(y, null, {
         buttons: N(() => [
           i("button", {
             type: "button",
@@ -2730,8 +2730,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
     selection: Object,
     current: Object
   },
-  setup(y) {
-    const f = y, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(f.selection.items.from), s = () => {
+  setup(b) {
+    const f = b, l = inject("emitter"), { getStore: p } = inject("storage"), d = T(f.selection.items.from), s = () => {
       d.value.length && l.emit("vf-fetch", {
         q: "move",
         adapter: p("adapter"),
@@ -2751,7 +2751,7 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
           }, "Yes, move!"),
           i("button", {
             type: "button",
-            onClick: v[0] || (v[0] = (b) => A(l).emit("vf-modal-close")),
+            onClick: v[0] || (v[0] = (y) => A(l).emit("vf-modal-close")),
             class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           }, "Cancel")
         ]),
@@ -2761,14 +2761,14 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
             i("div", ms, [
               fs,
               i("div", gs, [
-                (w(!0), C(G, null, Q(d.value, (b) => (w(), C("p", vs, [
-                  b.type == "dir" ? (w(), C("svg", ps, bs)) : (w(), C("svg", _s, ws)),
-                  i("span", ks, z(b.path), 1)
+                (w(!0), C(G, null, Q(d.value, (y) => (w(), C("p", vs, [
+                  y.type == "dir" ? (w(), C("svg", ps, bs)) : (w(), C("svg", _s, ws)),
+                  i("span", ks, z(y.path), 1)
                 ]))), 256)),
                 xs,
                 i("p", Ds, [
                   $s,
-                  i("span", Cs, z(y.selection.items.to.path), 1)
+                  i("span", Cs, z(b.selection.items.to.path), 1)
                 ])
               ])
             ])
@@ -2784,8 +2784,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
   props: {
     current: Object
   },
-  setup(y) {
-    const f = y, l = inject("emitter"), p = T(null), d = he({
+  setup(b) {
+    const f = b, l = inject("emitter"), p = T(null), d = he({
       active: !1,
       items: [],
       positions: {
@@ -2793,8 +2793,8 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
         top: 0
       }
     }), s = T([]);
-    l.on("vf-context-selected", (b) => {
-      s.value = b;
+    l.on("vf-context-selected", (y) => {
+      s.value = y;
     });
     const S = {
       newfolder: {
@@ -2833,24 +2833,24 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
           l.emit("vf-modal-show", { type: "rename", items: s });
         }
       }
-    }, v = (b) => {
-      l.emit("vf-contextmenu-hide"), b.action();
+    }, v = (y) => {
+      l.emit("vf-contextmenu-hide"), y.action();
     };
-    l.on("vf-contextmenu-show", ({ event: b, area: M, items: x, target: L = null }) => {
-      d.items = [], L ? x.length > 1 && x.some((B) => B.path === L.path) ? (d.items.push(S.refresh), d.items.push(S.zip), d.items.push(S.delete), l.emit("vf-context-selected", x), console.log(x.length + " selected (more than 1 item.)")) : (d.items.push(S.refresh), d.items.push(S.preview), d.items.push(S.rename), d.items.push(S.zip), d.items.push(S.delete), l.emit("vf-context-selected", [L]), console.log(L.type + " is selected")) : (d.items.push(S.refresh), d.items.push(S.newfolder), l.emit("vf-context-selected", []), console.log("no files selected")), _(b, M);
+    l.on("vf-contextmenu-show", ({ event: y, area: M, items: x, target: L = null }) => {
+      d.items = [], L ? x.length > 1 && x.some((B) => B.path === L.path) ? (d.items.push(S.refresh), d.items.push(S.zip), d.items.push(S.delete), l.emit("vf-context-selected", x), console.log(x.length + " selected (more than 1 item.)")) : (d.items.push(S.refresh), d.items.push(S.preview), d.items.push(S.rename), d.items.push(S.zip), d.items.push(S.delete), l.emit("vf-context-selected", [L]), console.log(L.type + " is selected")) : (d.items.push(S.refresh), d.items.push(S.newfolder), l.emit("vf-context-selected", []), console.log("no files selected")), _(y, M);
     }), l.on("vf-contextmenu-hide", () => {
       d.active = !1;
     });
-    const _ = (b, M) => {
+    const _ = (y, M) => {
       d.active = !0, Ye(() => {
-        let x = M.getBoundingClientRect(), L = b.pageX, B = b.pageY, K = p.value.offsetHeight, j = p.value.offsetWidth;
-        L = x.right - b.pageX + window.scrollX < j ? L - j : L, B = x.bottom - b.pageY + window.scrollY < K ? B - K : B, d.positions = {
+        let x = M.getBoundingClientRect(), L = y.pageX, B = y.pageY, K = p.value.offsetHeight, j = p.value.offsetWidth;
+        L = x.right - y.pageX + window.scrollX < j ? L - j : L, B = x.bottom - y.pageY + window.scrollY < K ? B - K : B, d.positions = {
           left: L + "px",
           top: B + "px"
         };
       });
     };
-    return (b, M) => d.active ? (w(), C("ul", {
+    return (y, M) => d.active ? (w(), C("ul", {
       key: 0,
       class: "absolute text-xs bg-neutral-50 dark:bg-gray-800 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none",
       ref: (x) => p.value = x,
@@ -2885,11 +2885,11 @@ const Or = Xe.exports, zr = (y, f, l, p, d) => (f = Math, l = f.log, p = 1024, d
   ModalMove: Ms
 };
 const Vs = {
-  install(y) {
+  install(b) {
     for (const f in Se)
       if (Se.hasOwnProperty(f)) {
         const l = Se[f];
-        y.component(l.name, l);
+        b.component(l.name, l);
       }
   }
 };

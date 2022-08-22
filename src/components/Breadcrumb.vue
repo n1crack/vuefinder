@@ -1,6 +1,6 @@
 <template>
   <div class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-900 items-center select-none ">
-    <svg @click="!breadcrumb.length || emitter.emit('vf-fetch', {q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path} )" xmlns="http://www.w3.org/2000/svg"
+    <svg @click="!breadcrumb.length || emitter.emit('vf-fetch', {q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? ''} )" xmlns="http://www.w3.org/2000/svg"
         class="h-6 w-6 p-0.5 rounded" :class="breadcrumb.length ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'" viewBox="0 0 20 20" fill="currentColor">
       <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
     </svg>
