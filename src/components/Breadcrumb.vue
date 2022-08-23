@@ -1,5 +1,5 @@
 <template>
-  <div class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-900 items-center select-none ">
+  <div class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none ">
     <svg
         @dragover="handleDragOver($event)"
         @drop="handleDropZone($event)"

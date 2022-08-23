@@ -1,5 +1,5 @@
 <template>
-  <div class="p-1 text-xs border-t border-neutral-300 dark:border-gray-700 flex justify-between select-none">
+  <div class="p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none">
     <div class="flex leading-5 items-center">
       <div class="mx-2" aria-label="Storage" data-microtip-position="top" role="tooltip">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
