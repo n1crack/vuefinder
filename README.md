@@ -30,7 +30,8 @@ current progress :
 - [x] delete
 - [x] zip
 - [x] move
-- [ ] touch / create a file
+- [x] moving items up one folder with drag and drop
+- [x] touch / create a file
 - [ ] preview item
 - [ ] download
 - [ ] edit text file
