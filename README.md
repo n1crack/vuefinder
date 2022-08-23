@@ -28,7 +28,7 @@ current progress :
 - [x] new folder
 - [x] rename
 - [x] delete
-- [x] zip
+- [x] zip/archive
 - [x] move
 - [x] moving items up one folder with drag and drop
 - [x] touch / create a file
@@ -38,5 +38,13 @@ current progress :
 - [ ] image tools
 - [ ] upload
 - [ ] validation & error messages
-- [ ] multi language
+- [ ] multi language (need some localization)
 - [ ] thumbnails
+- [ ] code refactoring
+- [ ] test for different adapters (especially check if zip/archive works)
+- [ ] test for different OS (windows directory seperator is different)
+- [ ] transfer items between adapters
+- [ ] documentation
+- [ ] demo pages
+- [ ] enjoy..
+
