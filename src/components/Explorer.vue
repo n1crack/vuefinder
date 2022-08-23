@@ -198,11 +198,19 @@ const setDragSelect = () => {
     ds.value.setSelectables(document.getElementsByClassName('vf-item'));
   }));
 
-  ds.value.subscribe('predragstart', ({isDragging}) => {
+  ds.value.subscribe('predragstart', ({event, isDragging}) => {
     // apply custom drag event
     if (isDragging) {
       selectedCount.value = ds.value.getSelection().length
       ds.value.break();
+    } else {
+      // if resizing selectable area at the corner dont start selection.
+      const offsetX = event.target.offsetWidth - event.offsetX;
+      const offsetY = event.target.offsetHeight - event.offsetY;
+      if (offsetX < 15 && offsetY < 15) {
+        ds.value.clearSelection();
+        ds.value.break();
+      }
     }
   });
 
