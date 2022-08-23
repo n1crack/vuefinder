@@ -69,7 +69,7 @@ emitter.on('vf-explorer-update', (data) => {
     links = links.slice(-5);
     links[0].name = '..';
   }
-  console.log(links);
+
   breadcrumb.value = links;
 });
 
