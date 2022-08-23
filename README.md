@@ -3,7 +3,7 @@
 #### Readme in progress..
 
 
-<img width="568" alt="image" src="https://user-images.githubusercontent.com/712404/185764648-83d92aa4-1edc-4e9d-86ee-4cf364dc48c0.png">
+![image](https://user-images.githubusercontent.com/712404/186232425-a2828894-d048-4095-8936-6ad5cd1be9fc.png)
 
 
 app rebuilt to use vite, vue 3 and tailwindcss.
