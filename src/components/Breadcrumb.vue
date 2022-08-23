@@ -1,7 +1,12 @@
 <template>
   <div class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-900 items-center select-none ">
-    <svg @click="!breadcrumb.length || emitter.emit('vf-fetch', {q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? ''} )" xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 p-0.5 rounded" :class="breadcrumb.length ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'" viewBox="0 0 20 20" fill="currentColor">
+    <svg
+        @dragover="handleDragOver($event)"
+        @drop="handleDropZone($event)"
+        @click="!breadcrumb.length || emitter.emit('vf-fetch', {q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? ''} )"
+        class="h-6 w-6 p-0.5 rounded"
+        :class="breadcrumb.length ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'"
+        xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
       <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
     </svg>
     <div class="flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full">
@@ -36,6 +41,7 @@ const props = defineProps({
 });
 
 const emitter = inject('emitter');
+const { getStore } = inject('storage');
 const dirname = ref(null);
 const breadcrumb = ref([]);
 
@@ -63,9 +69,33 @@ emitter.on('vf-explorer-update', (data) => {
     links = links.slice(-5);
     links[0].name = '..';
   }
+  console.log(links);
   breadcrumb.value = links;
 });
 
+const handleDropZone = (e) => {
+  e.preventDefault();
+  let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
+
+  if (draggedItems.find(item => item.storage != getStore('adapter'))) {
+    alert('Moving items between different storages is not supported yet.');
+    return;
+  }
+
+  emitter.emit('vf-modal-show', {
+    type: 'move',
+    items: {from: draggedItems, to: breadcrumb.value[breadcrumb.value.length - 2] ?? {path: '/'}}
+  });
+};
+
+const handleDragOver = (e) => {
+  e.preventDefault();
+
+  if (breadcrumb.value.length < 1) {
+    e.dataTransfer.dropEffect = 'none';
+    e.dataTransfer.effectAllowed = 'none';
+  }
+};
 </script>
 
 
