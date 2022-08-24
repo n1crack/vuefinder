@@ -76,6 +76,7 @@ emitter.on('vf-modal-close', () => {
 emitter.on('vf-modal-show', (item) => {
   modal.active = true;
   modal.type = item.type;
+  item.url = props.url;
   modal.data = item;
 });
 
