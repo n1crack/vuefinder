@@ -1,6 +1,25 @@
 <template>
   <div class="border-neutral-300 flex justify-between items-center py-1 text-sm">
     <div class="flex text-center">
+
+        <div class="mx-1.5"
+             aria-label="New Folder" data-microtip-position="bottom" role="tooltip"
+             @click="emitter.emit('vf-modal-show', {type:'new-folder', items: selectedItems})">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+
+        <div class="mx-1.5"
+             aria-label="New File" data-microtip-position="bottom" role="tooltip"
+             @click="emitter.emit('vf-modal-show', {type:'new-file', items: selectedItems})">
+          <svg xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+
         <div class="mx-1.5"
              aria-label="Rename" data-microtip-position="bottom" role="tooltip"
              @click="(selectedItems.length != 1) || emitter.emit('vf-modal-show', {type:'rename', items: selectedItems})">
@@ -19,35 +38,16 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
         </div>
-
-        <div class="mx-1.5"
-             aria-label="New Folder" data-microtip-position="bottom" role="tooltip"
-             @click="emitter.emit('vf-modal-show', {type:'new-folder', items: selectedItems})">
-          <svg xmlns="http://www.w3.org/2000/svg"
-               class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-          </svg>
-        </div>
-
-        <div class="mx-1.5"
-             aria-label="New File" data-microtip-position="bottom" role="tooltip"
-             @click="emitter.emit('vf-modal-show', {type:'new-file', items: selectedItems})">
-         <svg xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-        </div>
-
         <div class="mx-1.5"
              aria-label="Upload" data-microtip-position="bottom" role="tooltip"
-             @click="emitter.emit('vf-modal-show', {type:'message', title:'Custom modal', message: 'Custom title'})">
+             @click="emitter.emit('vf-modal-show', {type:'upload', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
           </svg>
         </div>
         <div class="mx-1.5"
-             aria-label="Zip" data-microtip-position="bottom" role="tooltip"
-              @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'zip', items: selectedItems})">
+             aria-label="Archive" data-microtip-position="bottom" role="tooltip"
+              @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'archive', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100' : 'stroke-gray-200  dark:stroke-gray-600'"
                class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">

@@ -11,7 +11,7 @@ import ModalNewFile from './modals/ModalNewFile.vue';
 import ModalPreview from './modals/ModalPreview.vue';
 import ModalRename from './modals/ModalRename.vue';
 import ModalUpload from './modals/ModalUpload.vue';
-import ModalZip from './modals/ModalZip.vue';
+import ModalArchive from './modals/ModalArchive.vue';
 import ModalMove from './modals/ModalMove.vue';
 import SortIcon from './components/SortIcon.vue';
 import ContextMenu from './components/ContextMenu.vue';
@@ -30,7 +30,7 @@ export default {
     ModalPreview,
     ModalRename,
     ModalUpload,
-    ModalZip,
+    ModalArchive,
     SortIcon,
     ContextMenu,
     ModalMove

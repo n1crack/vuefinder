@@ -61,13 +61,13 @@ const menuItems = {
   preview: {
     title: 'Preview',
     action: () => {
-      emitter.emit('vf-modal-show', {type:'preview'});
+      emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
     },
   },
-  zip: {
-    title: 'Zip',
+  archive: {
+    title: 'Archive',
     action: () => {
-      emitter.emit('vf-modal-show', {type:'zip', items: selectedItems});
+      emitter.emit('vf-modal-show', {type:'archive', items: selectedItems});
     },
   },
   rename: {
@@ -92,7 +92,7 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     console.log('no files selected');
   } else if (items.length > 1 && items.some(el => el.path === target.path)) {
     context.items.push(menuItems.refresh);
-    context.items.push(menuItems.zip);
+    context.items.push(menuItems.archive);
     context.items.push(menuItems.delete);
     emitter.emit('vf-context-selected', items);
     console.log(items.length + ' selected (more than 1 item.)');
@@ -100,7 +100,7 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     context.items.push(menuItems.refresh);
     context.items.push(menuItems.preview);
     context.items.push(menuItems.rename);
-    context.items.push(menuItems.zip);
+    context.items.push(menuItems.archive);
     context.items.push(menuItems.delete);
     emitter.emit('vf-context-selected', [target]);
     console.log(target.type + ' is selected');

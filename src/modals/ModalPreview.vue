@@ -12,6 +12,8 @@
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">Preview Files</h3>
         <div class="mt-2">
           <p class="text-sm text-gray-500">Image, text preview etc.</p>
+          <p>adapter: {{ selection.adapter }}</p>
+          <p>path: {{ selection.item.path }}</p>
         </div>
       </div>
     </div>
@@ -32,5 +34,11 @@ export default {
 
 <script setup>
 const emitter = inject('emitter')
+
+const props = defineProps({
+  selection: Object
+});
+
+console.log(props.selection)
 
 </script>

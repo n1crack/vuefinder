@@ -106,7 +106,7 @@ const openItem = (item) => {
   if (item.type == 'dir') {
     emitter.emit('vf-fetch', {q: 'index', adapter: props.data.adapter, path:item.path});
   } else {
-    emitter.emit('vf-modal-show', {type: 'preview'});
+    emitter.emit('vf-modal-show', {type: 'preview', adapter: props.data.adapter, item});
   }
 };
 

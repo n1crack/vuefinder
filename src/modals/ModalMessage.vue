@@ -7,9 +7,9 @@
         </svg>
       </div>
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{  item?.title ?? 'Title' }}</h3>
+        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{  selection?.title ?? 'Title' }}</h3>
         <div class="mt-2">
-          <p class="text-sm text-gray-500">{{  item?.message ?? 'Message' }}.</p>
+          <p class="text-sm text-gray-500">{{  selection?.message ?? 'Message' }}.</p>
         </div>
       </div>
     </div>
@@ -29,8 +29,8 @@ export default {
 <script setup>
 const emitter = inject('emitter');
 
-defineProps({
-  item: Object
+const props = defineProps({
+  selection: Object
 });
 
 </script>
