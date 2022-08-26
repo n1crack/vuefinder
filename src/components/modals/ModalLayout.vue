@@ -23,12 +23,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'VFModal',
-};
-</script>
-
 <script setup>
 import {onMounted} from 'vue';
 

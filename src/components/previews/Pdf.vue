@@ -1,0 +1,40 @@
+<template>
+  <div>
+    <object :data="getPDFUrl()" type="application/pdf" width="100%" height="100%">
+      <iframe
+          class="border-0"
+          :src="getPDFUrl()"
+          width="100%"
+          height="100%"
+        >
+          <p>
+            Your browser does not support PDFs.
+            <a href="https://example.com/test.pdf">Download the PDF</a>
+            .
+          </p>
+        </iframe>
+    </object>
+  </div>
+</template>
+
+<script setup>
+
+import {onMounted} from 'vue';
+import buildURLQuery from '../../utils/buildURLQuery.js';
+
+const props = defineProps({
+  selection: Object
+});
+
+const emit = defineEmits(['load']);
+
+const getPDFUrl = () => {
+  return props.selection.url + '?' + buildURLQuery({q:'preview', adapter: props.selection.adapter, path: props.selection.item.path})
+}
+
+onMounted(() => {
+  emit('load');
+});
+
+
+</script>

@@ -1,5 +1,5 @@
 <template>
-  <v-f-modal>
+  <v-f-modal-layout>
     <div class="sm:flex sm:items-start">
       <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
          <svg xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +21,7 @@
       <button type="button" @click="createFolder" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Create!</button>
       <button type="button" @click="emitter.emit('vf-modal-close')" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Cancel</button>
     </template>
-  </v-f-modal>
+  </v-f-modal-layout>
 </template>
 
 <script>
@@ -32,6 +32,7 @@ export default {
 
 
 <script setup>
+import VFModalLayout from './ModalLayout.vue';
 import {ref} from 'vue';
 
 const emitter = inject('emitter');

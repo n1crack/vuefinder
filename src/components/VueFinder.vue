@@ -25,6 +25,11 @@ import {defineProps, onMounted, provide, reactive, ref} from 'vue';
 import ajax from '../utils/ajax.js';
 import mitt from 'mitt';
 import {useStorage} from '../composables/useStorage.js';
+import VFToolbar from '../components/Toolbar.vue';
+import VFExplorer from '../components/Explorer.vue';
+import VFStatusbar from '../components/Statusbar.vue';
+import VFBreadcrumb from '../components/Breadcrumb.vue';
+import VFContextMenu from '../components/ContextMenu.vue';
 
 const emitter = mitt();
 provide('emitter', emitter);

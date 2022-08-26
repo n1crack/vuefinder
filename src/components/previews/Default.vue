@@ -4,12 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Default.vue'
-};
-</script>
-
 <script setup>
 
 import {onMounted} from 'vue';
