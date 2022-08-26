@@ -1,4 +1,4 @@
-import { ref as E, watch as Ze, openBlock as _, createElementBlock as D, createElementVNode as i, unref as j, normalizeClass as le, createCommentVNode as q, createStaticVNode as Zt, reactive as fe, onMounted as W, withDirectives as Q, createVNode as G, vShow as Se, withModifiers as me, Fragment as ee, renderList as te, toDisplayString as I, createTextVNode as se, nextTick as Xe, vModelSelect as Xt, normalizeStyle as Gt, provide as We, createBlock as K, resolveDynamicComponent as Qt, withKeys as ce, renderSlot as Ye, withCtx as z, vModelText as ge } from "vue";
+import { ref as E, watch as Ze, openBlock as _, createElementBlock as $, createElementVNode as i, unref as j, normalizeClass as le, createCommentVNode as q, createStaticVNode as Zt, reactive as fe, onMounted as W, withDirectives as Q, createVNode as G, vShow as Se, toDisplayString as I, withModifiers as me, Fragment as ee, renderList as te, createTextVNode as se, nextTick as Xe, vModelSelect as Xt, normalizeStyle as Gt, provide as We, createBlock as K, resolveDynamicComponent as Qt, withKeys as ce, renderSlot as Ye, withCtx as z, vModelText as ge } from "vue";
 const Ge = (f, { method: h = "get", params: a = {}, json: g = !0 }) => {
   const u = { method: h };
   return h == "get" ? f += "?" + new URLSearchParams(a) : u.body = a, g ? fetch(f, u).then((o) => o.json()) : fetch(f, u);
@@ -141,7 +141,7 @@ const tr = { class: "border-neutral-300 flex justify-between items-center py-1 t
       o.value = p;
     }), h.on("vf-view-toggle", (p) => {
       g("viewport", p), u.value = p;
-    }), (p, y) => (_(), D("div", tr, [
+    }), (p, y) => (_(), $("div", tr, [
       i("div", rr, [
         i("div", {
           class: "mx-1.5",
@@ -164,7 +164,7 @@ const tr = { class: "border-neutral-300 flex justify-between items-center py-1 t
           role: "tooltip",
           onClick: y[2] || (y[2] = (w) => o.value.length != 1 || j(h).emit("vf-modal-show", { type: "rename", items: o.value }))
         }, [
-          (_(), D("svg", {
+          (_(), $("svg", {
             xmlns: "http://www.w3.org/2000/svg",
             class: le([o.value.length == 1 ? "cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" : "stroke-gray-200  dark:stroke-gray-600", "h-6 w-6 md:h-8 md:w-8 m-auto"]),
             fill: "none",
@@ -180,7 +180,7 @@ const tr = { class: "border-neutral-300 flex justify-between items-center py-1 t
           role: "tooltip",
           onClick: y[3] || (y[3] = (w) => !o.value.length || j(h).emit("vf-modal-show", { type: "delete", items: o.value }))
         }, [
-          (_(), D("svg", {
+          (_(), $("svg", {
             xmlns: "http://www.w3.org/2000/svg",
             class: le([o.value.length ? "cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" : "stroke-gray-200  dark:stroke-gray-600", "h-6 w-6 md:h-8 md:w-8 m-auto"]),
             fill: "none",
@@ -203,7 +203,7 @@ const tr = { class: "border-neutral-300 flex justify-between items-center py-1 t
           role: "tooltip",
           onClick: y[5] || (y[5] = (w) => !o.value.length || j(h).emit("vf-modal-show", { type: "archive", items: o.value }))
         }, [
-          (_(), D("svg", {
+          (_(), $("svg", {
             xmlns: "http://www.w3.org/2000/svg",
             class: le([o.value.length ? "cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" : "stroke-gray-200  dark:stroke-gray-600", "h-6 w-6 md:h-8 md:w-8 m-auto"]),
             fill: "none",
@@ -215,7 +215,7 @@ const tr = { class: "border-neutral-300 flex justify-between items-center py-1 t
       ]),
       i("div", gr, [
         i("div", vr, [
-          (_(), D("svg", {
+          (_(), $("svg", {
             onClick: y[6] || (y[6] = (w) => j(h).emit("vf-darkMode-toggle")),
             viewBox: "0 0 24 24",
             "stroke-width": "2",
@@ -231,8 +231,8 @@ const tr = { class: "border-neutral-300 flex justify-between items-center py-1 t
           role: "tooltip",
           onClick: y[7] || (y[7] = (w) => j(h).emit("vf-view-toggle", u.value == "list" ? "grid" : "list"))
         }, [
-          u.value == "grid" ? (_(), D("svg", br, Sr)) : q("", !0),
-          u.value == "list" ? (_(), D("svg", wr, xr)) : q("", !0)
+          u.value == "grid" ? (_(), $("svg", br, Sr)) : q("", !0),
+          u.value == "list" ? (_(), $("svg", wr, xr)) : q("", !0)
         ])
       ])
     ]));
@@ -379,14 +379,14 @@ var Cr = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         ;
       return n;
     }
-    function $(n, t, e) {
-      return typeof Reflect < "u" && Reflect.get ? $ = Reflect.get : $ = function(r, l, c) {
+    function D(n, t, e) {
+      return typeof Reflect < "u" && Reflect.get ? D = Reflect.get : D = function(r, l, c) {
         var d = xe(r, l);
         if (!!d) {
           var m = Object.getOwnPropertyDescriptor(d, l);
           return m.get ? m.get.call(c) : m.value;
         }
-      }, $(n, t, e || n);
+      }, D(n, t, e || n);
     }
     function T(n, t) {
       return O(n) || Z(n, t) || De(n, t) || tt();
@@ -1033,14 +1033,14 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           }), this._draggability && !this._useTransform && Me({
             computedStyle: window.getComputedStyle(r),
             node: r
-          }), $(S(e.prototype), "add", this).call(this, r);
+          }), D(S(e.prototype), "add", this).call(this, r);
         }
       }, {
         key: "delete",
         value: function(r) {
           return r.classList.remove(this._className), r.classList.remove(this._hoverClassName), r.removeEventListener("click", this._onClick), r.removeEventListener("mousedown", this._onPointer), r.removeEventListener("touchstart", this._onPointer, {
             passive: !1
-          }), $(S(e.prototype), "delete", this).call(this, r);
+          }), D(S(e.prototype), "delete", this).call(this, r);
         }
       }, {
         key: "elements",
@@ -1070,24 +1070,24 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       return u(e, [{
         key: "add",
         value: function(r) {
-          if (!$(S(e.prototype), "has", this).call(this, r)) {
+          if (!D(S(e.prototype), "has", this).call(this, r)) {
             var l = {
               items: this.elements,
               item: r
             };
-            return this.DS.publish("Selected:added:pre", l), $(S(e.prototype), "add", this).call(this, r), r.classList.add(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) + 1), this.DS.publish("Selected:added", l), this;
+            return this.DS.publish("Selected:added:pre", l), D(S(e.prototype), "add", this).call(this, r), r.classList.add(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) + 1), this.DS.publish("Selected:added", l), this;
           }
         }
       }, {
         key: "delete",
         value: function(r) {
-          if (!!$(S(e.prototype), "has", this).call(this, r)) {
+          if (!!D(S(e.prototype), "has", this).call(this, r)) {
             var l = {
               items: this.elements,
               item: r
             };
             this.DS.publish("Selected:removed:pre", l);
-            var c = $(S(e.prototype), "delete", this).call(this, r);
+            var c = D(S(e.prototype), "delete", this).call(this, r);
             return r.classList.remove(this._className), r.style.zIndex = "".concat((parseInt(r.style.zIndex) || 0) - 1), this.DS.publish("Selected:removed", l), c;
           }
         }
@@ -1681,71 +1681,15 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
 }, we = /* @__PURE__ */ Object.assign(Or, {
   props: { direction: String },
   setup(f) {
-    return (h, a) => (_(), D("div", null, [
-      f.direction == "down" ? (_(), D("svg", Ar, Tr)) : q("", !0),
-      f.direction == "up" ? (_(), D("svg", Ir, Lr)) : q("", !0)
+    return (h, a) => (_(), $("div", null, [
+      f.direction == "down" ? (_(), $("svg", Ar, Tr)) : q("", !0),
+      f.direction == "up" ? (_(), $("svg", Ir, Lr)) : q("", !0)
     ]));
   }
 }), Nr = { class: "relative h-full" }, zr = {
   key: 0,
   class: "grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none"
-}, Kr = /* @__PURE__ */ se(" Name "), Br = /* @__PURE__ */ se(" Size "), Hr = /* @__PURE__ */ se(" Date "), Rr = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], Fr = { class: "grid grid-cols-12 items-center" }, Ur = { class: "flex col-span-7 items-center" }, qr = {
-  key: 0,
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
-  fill: "none",
-  viewBox: "0 0 24 24",
-  stroke: "currentColor",
-  "stroke-width": "1"
-}, Wr = /* @__PURE__ */ i("path", {
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round",
-  d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), Yr = [
-  Wr
-], Jr = {
-  key: 1,
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "h-5 w-5 text-neutral-500",
-  fill: "none",
-  viewBox: "0 0 24 24",
-  stroke: "currentColor",
-  "stroke-width": "1"
-}, Zr = /* @__PURE__ */ i("path", {
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round",
-  d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), Xr = [
-  Zr
-], Gr = { class: "overflow-ellipsis overflow-hidden whitespace-nowrap" }, Qr = { class: "col-span-2 text-center" }, en = { class: "col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap" }, tn = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], rn = { class: "relative" }, nn = {
-  key: 0,
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "h-10 w-10 md:h-12 md:w-12 m-auto fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
-  fill: "none",
-  viewBox: "0 0 24 24",
-  stroke: "currentColor",
-  "stroke-width": "1"
-}, on = /* @__PURE__ */ i("path", {
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round",
-  d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), sn = [
-  on
-], an = {
-  key: 1,
-  xmlns: "http://www.w3.org/2000/svg",
-  class: "h-10 w-10 md:h-12 md:w-12 m-auto text-neutral-500",
-  fill: "none",
-  viewBox: "0 0 24 24",
-  stroke: "currentColor",
-  "stroke-width": "1"
-}, ln = /* @__PURE__ */ i("path", {
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round",
-  d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), cn = [
-  ln
-], un = { class: "absolute hidden md:block top-1/2 w-full text-center text-neutral-500" }, dn = { class: "break-all" }, hn = { class: "absolute top-[-200px] left-[-200px]" }, mn = /* @__PURE__ */ i("svg", {
+}, Kr = /* @__PURE__ */ se(" Name "), Br = /* @__PURE__ */ se(" Size "), Hr = /* @__PURE__ */ se(" Date "), Rr = { class: "absolute" }, Fr = /* @__PURE__ */ i("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "absolute h-6 w-6 md:h-12 md:w-12 m-auto stroke-neutral-500 fill-white dark:fill-gray-700 dark:stroke-gray-600 z-10",
   fill: "none",
@@ -1758,7 +1702,63 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
     "stroke-linejoin": "round",
     d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
   })
-], -1), fn = { class: "text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs" }, gn = {
+], -1), Ur = { class: "text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs" }, qr = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], Wr = { class: "grid grid-cols-12 items-center" }, Yr = { class: "flex col-span-7 items-center" }, Jr = {
+  key: 0,
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor",
+  "stroke-width": "1"
+}, Zr = /* @__PURE__ */ i("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+}, null, -1), Xr = [
+  Zr
+], Gr = {
+  key: 1,
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "h-5 w-5 text-neutral-500",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor",
+  "stroke-width": "1"
+}, Qr = /* @__PURE__ */ i("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+}, null, -1), en = [
+  Qr
+], tn = { class: "overflow-ellipsis overflow-hidden whitespace-nowrap" }, rn = { class: "col-span-2 text-center" }, nn = { class: "col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap" }, on = ["onDblclick", "onContextmenu", "onDragstart", "onDragover", "onDrop", "data-type", "data-item", "data-index"], sn = { class: "relative" }, an = {
+  key: 0,
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "h-10 w-10 md:h-12 md:w-12 m-auto fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor",
+  "stroke-width": "1"
+}, ln = /* @__PURE__ */ i("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+}, null, -1), cn = [
+  ln
+], un = {
+  key: 1,
+  xmlns: "http://www.w3.org/2000/svg",
+  class: "h-10 w-10 md:h-12 md:w-12 m-auto text-neutral-500",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  stroke: "currentColor",
+  "stroke-width": "1"
+}, dn = /* @__PURE__ */ i("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+}, null, -1), hn = [
+  dn
+], mn = { class: "absolute hidden md:block top-1/2 w-full text-center text-neutral-500" }, fn = { class: "break-all" }, gn = {
   name: "VFExplorer"
 }, vn = /* @__PURE__ */ Object.assign(gn, {
   props: {
@@ -1766,31 +1766,30 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
     data: Object
   },
   setup(f) {
-    const h = f, a = inject("emitter"), { getStore: g } = inject("storage"), u = ($) => $ == null ? void 0 : $.substring(0, 3), o = ($) => $.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), p = E(null), y = E(null), w = E(0), S = E(null), C = ($) => {
-      $.type == "dir" ? a.emit("vf-fetch", { q: "index", adapter: h.data.adapter, path: $.path }) : a.emit("vf-modal-show", { type: "preview", adapter: h.data.adapter, item: $ });
-    }, k = fe({ active: !1, column: "", order: "" }), A = ($ = !0) => {
+    const h = f, a = inject("emitter"), { getStore: g } = inject("storage"), u = (D) => D == null ? void 0 : D.substring(0, 3), o = (D) => D.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), p = E(null), y = E(null), w = E(0), S = E(null), C = (D) => {
+      D.type == "dir" ? a.emit("vf-fetch", { q: "index", adapter: h.data.adapter, path: D.path }) : a.emit("vf-modal-show", { type: "preview", adapter: h.data.adapter, item: D });
+    }, k = fe({ active: !1, column: "", order: "" }), A = (D = !0) => {
       let T = [...h.data.files], P = k.column, U = k.order == "asc" ? 1 : -1;
-      if (!$)
+      if (!D)
         return T;
       const O = (J, Z) => typeof J == "string" && typeof Z == "string" ? J.toLowerCase().localeCompare(Z.toLowerCase()) : J < Z ? -1 : J > Z ? 1 : 0;
       return k.active && (T = T.slice().sort((J, Z) => O(J[P], Z[P]) * U)), T;
-    }, F = ($) => {
-      k.active && k.column == $ ? (k.active = k.order == "asc", k.column = $, k.order = "desc") : (k.active = !0, k.column = $, k.order = "asc");
-    }, H = () => S.value.getSelection().map(($) => JSON.parse($.dataset.item)), V = ($, T) => {
-      if ($.altKey || $.ctrlKey || $.metaKey)
-        return $.preventDefault(), !1;
-      let P = y.value;
-      $.dataTransfer.setDragImage(P, 0, 15), $.dataTransfer.effectAllowed = "all", $.dataTransfer.dropEffect = "copy", $.dataTransfer.setData("items", JSON.stringify(H()));
-    }, ue = ($, T) => {
-      $.preventDefault();
-      let P = JSON.parse($.dataTransfer.getData("items"));
-      if (P.find((U) => U.storage != g("adapter"))) {
+    }, F = (D) => {
+      k.active && k.column == D ? (k.active = k.order == "asc", k.column = D, k.order = "desc") : (k.active = !0, k.column = D, k.order = "asc");
+    }, H = () => S.value.getSelection().map((D) => JSON.parse(D.dataset.item)), V = (D, T) => {
+      if (D.altKey || D.ctrlKey || D.metaKey)
+        return D.preventDefault(), !1;
+      D.dataTransfer.setDragImage(y.value, 0, 15), D.dataTransfer.effectAllowed = "all", D.dataTransfer.dropEffect = "copy", D.dataTransfer.setData("items", JSON.stringify(H()));
+    }, ue = (D, T) => {
+      D.preventDefault();
+      let P = JSON.parse(D.dataTransfer.getData("items"));
+      if (P.find((U) => U.storage != g("adapter", "local"))) {
         alert("Moving items between different storages is not supported yet.");
         return;
       }
       a.emit("vf-modal-show", { type: "move", items: { from: P, to: T } });
-    }, ie = ($, T) => {
-      $.preventDefault(), (!T || T.type !== "dir" || S.value.getSelection().find((P) => P == $.currentTarget)) && ($.dataTransfer.dropEffect = "none", $.dataTransfer.effectAllowed = "none");
+    }, ie = (D, T) => {
+      D.preventDefault(), !T || T.type !== "dir" || S.value.getSelection().find((P) => P == D.currentTarget) ? (D.dataTransfer.dropEffect = "none", D.dataTransfer.effectAllowed = "none") : D.dataTransfer.dropEffect = "copy";
     };
     return W(() => {
       S.value = new Pr({
@@ -1800,22 +1799,22 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
         selectorClass: "vf-explorer-selector"
       }), a.on("vf-explorer-update", () => Xe(() => {
         S.value.clearSelection(), S.value.setSelectables(document.getElementsByClassName("vf-item"));
-      })), S.value.subscribe("predragstart", ({ event: $, isDragging: T }) => {
+      })), S.value.subscribe("predragstart", ({ event: D, isDragging: T }) => {
         if (T)
           w.value = S.value.getSelection().length, S.value.break();
         else {
-          const P = $.target.offsetWidth - $.offsetX, U = $.target.offsetHeight - $.offsetY;
+          const P = D.target.offsetWidth - D.offsetX, U = D.target.offsetHeight - D.offsetY;
           P < 15 && U < 15 && (S.value.clearSelection(), S.value.break());
         }
-      }), S.value.subscribe("predragmove", ({ isDragging: $ }) => {
-        $ && S.value.break();
-      }), S.value.subscribe("callback", ({ items: $, event: T, isDragging: P }) => {
+      }), S.value.subscribe("predragmove", ({ isDragging: D }) => {
+        D && S.value.break();
+      }), S.value.subscribe("callback", ({ items: D, event: T, isDragging: P }) => {
         a.emit("vf-nodes-selected", H()), w.value = S.value.getSelection().length;
       });
     }), W(() => {
       Ze(() => h.view, () => a.emit("vf-explorer-update"));
-    }), ($, T) => (_(), D("div", Nr, [
-      f.view == "list" ? (_(), D("div", zr, [
+    }), (D, T) => (_(), $("div", Nr, [
+      f.view == "list" ? (_(), $("div", zr, [
         i("div", {
           onClick: T[0] || (T[0] = (P) => F("basename")),
           class: "col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center pl-1"
@@ -1850,12 +1849,21 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
           ])
         ])
       ])) : q("", !0),
+      i("div", Rr, [
+        i("div", {
+          ref: (P) => y.value = P,
+          class: "absolute -z-50"
+        }, [
+          Fr,
+          i("div", Ur, I(w.value), 1)
+        ], 512)
+      ]),
       i("div", {
         class: "h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1 z-0",
         ref: (P) => p.value = P,
         onContextmenu: T[3] || (T[3] = me((P) => j(a).emit("vf-contextmenu-show", { event: P, area: p.value, items: H() }), ["self", "prevent"]))
       }, [
-        f.view == "list" ? (_(!0), D(ee, { key: 0 }, te(A(), (P, U) => (_(), D("div", {
+        f.view == "list" ? (_(!0), $(ee, { key: 0 }, te(A(), (P, U) => (_(), $("div", {
           draggable: "true",
           onDblclick: (O) => C(P),
           onContextmenu: me((O) => j(a).emit("vf-contextmenu-show", { event: O, area: p.value, items: H(), target: P }), ["prevent"]),
@@ -1867,16 +1875,16 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
           "data-item": JSON.stringify(P),
           "data-index": U
         }, [
-          i("div", Fr, [
-            i("div", Ur, [
-              P.type == "dir" ? (_(), D("svg", qr, Yr)) : (_(), D("svg", Jr, Xr)),
-              i("span", Gr, I(P.basename), 1)
+          i("div", Wr, [
+            i("div", Yr, [
+              P.type == "dir" ? (_(), $("svg", Jr, Xr)) : (_(), $("svg", Gr, en)),
+              i("span", tn, I(P.basename), 1)
             ]),
-            i("div", Qr, I(P.file_size ? j(Mr)(P.file_size) : ""), 1),
-            i("div", en, I(j(jr)(P.last_modified)), 1)
+            i("div", rn, I(P.file_size ? j(Mr)(P.file_size) : ""), 1),
+            i("div", nn, I(j(jr)(P.last_modified)), 1)
           ])
-        ], 40, Rr))), 256)) : q("", !0),
-        f.view == "grid" ? (_(!0), D(ee, { key: 1 }, te(A(!1), (P, U) => (_(), D("div", {
+        ], 40, qr))), 256)) : q("", !0),
+        f.view == "grid" ? (_(!0), $(ee, { key: 1 }, te(A(!1), (P, U) => (_(), $("div", {
           draggable: "true",
           onDblclick: (O) => C(P),
           onContextmenu: me((O) => j(a).emit("vf-contextmenu-show", { event: O, area: p.value, items: H(), target: P }), ["prevent"]),
@@ -1889,22 +1897,13 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
           "data-index": U
         }, [
           i("div", null, [
-            i("div", rn, [
-              P.type == "dir" ? (_(), D("svg", nn, sn)) : (_(), D("svg", an, cn)),
-              i("div", un, I(u(P.extension)), 1)
+            i("div", sn, [
+              P.type == "dir" ? (_(), $("svg", an, cn)) : (_(), $("svg", un, hn)),
+              i("div", mn, I(u(P.extension)), 1)
             ]),
-            i("span", dn, I(o(P.basename)), 1)
+            i("span", fn, I(o(P.basename)), 1)
           ])
-        ], 40, tn))), 256)) : q("", !0),
-        i("div", hn, [
-          i("div", {
-            ref: (P) => y.value = P,
-            class: "absolute z-50"
-          }, [
-            mn,
-            i("div", fn, I(w.value), 1)
-          ], 512)
-        ])
+        ], 40, on))), 256)) : q("", !0)
       ], 544)
     ]));
   }
@@ -1956,7 +1955,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
     };
     return a.on("vf-nodes-selected", (S) => {
       o.value = S.length;
-    }), (S, C) => (_(), D("div", pn, [
+    }), (S, C) => (_(), $("div", pn, [
       i("div", yn, [
         bn,
         Q(i("select", {
@@ -1964,7 +1963,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
           onChange: y,
           class: "py-0.5 text-sm text-slate-500 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8"
         }, [
-          (_(!0), D(ee, null, te(f.data.storages, (k) => (_(), D("option", { value: k }, I(k), 9, _n))), 256))
+          (_(!0), $(ee, null, te(f.data.storages, (k) => (_(), $("option", { value: k }, I(k), 9, _n))), 256))
         ], 544), [
           [Xt, p.value]
         ]),
@@ -2020,8 +2019,8 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
     }, y = (w) => {
       w.preventDefault(), o.value.length < 1 && (w.dataTransfer.dropEffect = "none", w.dataTransfer.effectAllowed = "none");
     };
-    return (w, S) => (_(), D("div", Cn, [
-      (_(), D("svg", {
+    return (w, S) => (_(), $("div", Cn, [
+      (_(), $("svg", {
         onDragover: S[0] || (S[0] = (C) => y(C)),
         onDrop: S[1] || (S[1] = (C) => p(C)),
         onClick: S[2] || (S[2] = (C) => {
@@ -2034,7 +2033,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
         fill: "currentColor"
       }, Mn, 34)),
       i("div", jn, [
-        (_(), D("svg", {
+        (_(), $("svg", {
           onClick: S[3] || (S[3] = (C) => j(a).emit("vf-fetch", { q: "index", adapter: f.data.adapter })),
           class: "h-6 w-6 p-1 rounded text-slate-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-gray-800 cursor-pointer",
           xmlns: "http://www.w3.org/2000/svg",
@@ -2042,7 +2041,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
           fill: "currentColor"
         }, En)),
         i("div", Tn, [
-          (_(!0), D(ee, null, te(o.value, (C, k) => (_(), D("div", { key: k }, [
+          (_(!0), $(ee, null, te(o.value, (C, k) => (_(), $("div", { key: k }, [
             In,
             i("span", {
               class: "px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer",
@@ -2126,13 +2125,13 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
         };
       });
     };
-    return (S, C) => u.active ? (_(), D("ul", {
+    return (S, C) => u.active ? (_(), $("ul", {
       key: 0,
       class: "absolute text-xs bg-neutral-50 dark:bg-gray-800 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none",
       ref: (k) => g.value = k,
       style: Gt(u.positions)
     }, [
-      (_(!0), D(ee, null, te(u.items, (k) => (_(), D("li", {
+      (_(!0), $(ee, null, te(u.items, (k) => (_(), $("li", {
         class: "px-2 py-1.5 cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700",
         key: k.title,
         onClick: (A) => y(k)
@@ -2188,7 +2187,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
       });
     }), W(() => {
       a.emit("vf-fetch", { q: "index", adapter: u("adapter", o.adapter) });
-    }), (C, k) => (_(), D("div", {
+    }), (C, k) => (_(), $("div", {
       class: le(y.value ? "dark" : "")
     }, [
       i("div", {
@@ -2218,7 +2217,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
     return W(() => {
       const a = document.querySelector(".v-f-modal input");
       a && a.focus();
-    }), (a, g) => (_(), D("div", {
+    }), (a, g) => (_(), $("div", {
       class: "v-f-modal relative z-20",
       "aria-labelledby": "modal-title",
       role: "dialog",
@@ -2327,8 +2326,8 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
             Gn,
             i("div", Qn, [
               eo,
-              (_(!0), D(ee, null, te(u.value, (w) => (_(), D("p", to, [
-                w.type == "dir" ? (_(), D("svg", ro, oo)) : (_(), D("svg", so, ao)),
+              (_(!0), $(ee, null, te(u.value, (w) => (_(), $("p", to, [
+                w.type == "dir" ? (_(), $("svg", ro, oo)) : (_(), $("svg", so, ao)),
                 i("span", lo, I(w.basename), 1)
               ]))), 256))
             ])
@@ -2544,7 +2543,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
       }).then((u) => u.text()).then((u) => {
         g.value = u, h("load");
       });
-    }), (u, o) => (_(), D("div", null, [
+    }), (u, o) => (_(), $("div", null, [
       i("pre", zo, I(g.value), 1)
     ]));
   }
@@ -2558,7 +2557,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
     const a = f, g = () => a.selection.url + "?" + ve({ q: "preview", adapter: a.selection.adapter, path: a.selection.item.path });
     return onMounted(() => {
       h("load");
-    }), (u, o) => (_(), D("img", {
+    }), (u, o) => (_(), $("img", {
       class: "max-w-[350px] max-h-[350px]",
       src: g(),
       alt: ""
@@ -2570,7 +2569,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
   setup(f, { emit: h }) {
     return W(() => {
       h("load");
-    }), (a, g) => (_(), D("div", null, " Default view.. "));
+    }), (a, g) => (_(), $("div", null, " Default view.. "));
   }
 }, Fo = {
   class: "w-full",
@@ -2586,7 +2585,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
     const a = f, g = () => a.selection.url + "?" + ve({ q: "preview", adapter: a.selection.adapter, path: a.selection.item.path });
     return W(() => {
       h("load");
-    }), (u, o) => (_(), D("div", null, [
+    }), (u, o) => (_(), $("div", null, [
       i("video", Fo, [
         i("source", {
           src: g(),
@@ -2609,7 +2608,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
     const a = f, g = () => a.selection.url + "?" + ve({ q: "preview", adapter: a.selection.adapter, path: a.selection.item.path });
     return W(() => {
       h("load");
-    }), (u, o) => (_(), D("div", null, [
+    }), (u, o) => (_(), $("div", null, [
       i("audio", Yo, [
         i("source", {
           src: g(),
@@ -2629,7 +2628,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
     const a = f, g = () => a.selection.url + "?" + ve({ q: "preview", adapter: a.selection.adapter, path: a.selection.item.path });
     return W(() => {
       h("load");
-    }), (u, o) => (_(), D("div", null, [
+    }), (u, o) => (_(), $("div", null, [
       i("object", {
         data: g(),
         type: "application/pdf",
@@ -2752,7 +2751,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
                 se(I(f.selection.item.path), 1)
               ]),
               i("p", null, "mime_type: " + I(f.selection.item.mime_type), 1),
-              g.value == !1 ? (_(), D("div", ls, ds)) : q("", !0)
+              g.value == !1 ? (_(), $("div", ls, ds)) : q("", !0)
             ])
           ])
         ])
@@ -2843,7 +2842,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
             i("h3", ps, "Rename your " + I(u.value.type == "dir" ? "folder" : "file"), 1),
             i("div", ys, [
               i("p", bs, [
-                u.value.type == "dir" ? (_(), D("svg", _s, ws)) : (_(), D("svg", ks, Ds)),
+                u.value.type == "dir" ? (_(), $("svg", _s, ws)) : (_(), $("svg", ks, Ds)),
                 i("span", $s, I(u.value.basename), 1)
               ]),
               Q(i("input", {
@@ -2993,8 +2992,8 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
           i("div", Ls, [
             Os,
             i("div", Ns, [
-              (_(!0), D(ee, null, te(o.value, (S) => (_(), D("p", zs, [
-                S.type == "dir" ? (_(), D("svg", Ks, Hs)) : (_(), D("svg", Rs, Us)),
+              (_(!0), $(ee, null, te(o.value, (S) => (_(), $("p", zs, [
+                S.type == "dir" ? (_(), $("svg", Ks, Hs)) : (_(), $("svg", Rs, Us)),
                 i("span", qs, I(S.basename), 1)
               ]))), 256)),
               Ws,
@@ -3110,8 +3109,8 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
           i("div", Qs, [
             ei,
             i("div", ti, [
-              (_(!0), D(ee, null, te(u.value, (w) => (_(), D("p", ri, [
-                w.type == "dir" ? (_(), D("svg", ni, si)) : (_(), D("svg", ii, li)),
+              (_(!0), $(ee, null, te(u.value, (w) => (_(), $("p", ri, [
+                w.type == "dir" ? (_(), $("svg", ni, si)) : (_(), $("svg", ii, li)),
                 i("span", ci, I(w.path), 1)
               ]))), 256)),
               ui,

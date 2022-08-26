@@ -14,6 +14,14 @@
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='last_modified'" />
         </div>
       </div>
+     <div class="absolute">
+        <div :ref="el => dragImage = el"  class="absolute -z-50">
+          <svg xmlns="http://www.w3.org/2000/svg" class="absolute h-6 w-6 md:h-12 md:w-12 m-auto stroke-neutral-500 fill-white dark:fill-gray-700 dark:stroke-gray-600 z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+          <div class="text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs">{{ selectedCount }}</div>
+        </div>
+      </div>
     <div class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1 z-0" :ref="el => selectorArea = el"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
 
       <div draggable="true"
@@ -61,15 +69,6 @@
             </div>
             <span class="break-all">{{ title_shorten(item.basename) }}</span>
           </div>
-      </div>
-
-      <div class="absolute top-[-200px] left-[-200px]">
-        <div :ref="el => dragImage = el"  class="absolute z-50">
-          <svg xmlns="http://www.w3.org/2000/svg" class="absolute h-6 w-6 md:h-12 md:w-12 m-auto stroke-neutral-500 fill-white dark:fill-gray-700 dark:stroke-gray-600 z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-          </svg>
-          <div class="text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs">{{ selectedCount }}</div>
-        </div>
       </div>
     </div>
   </div>
@@ -157,8 +156,7 @@ const handleDragStart = (e, item) => {
     return false;
   }
 
-  let img = dragImage.value;
-  e.dataTransfer.setDragImage(img, 0, 15);
+  e.dataTransfer.setDragImage(dragImage.value, 0, 15);
   e.dataTransfer.effectAllowed = 'all';
   e.dataTransfer.dropEffect = 'copy';
   e.dataTransfer.setData('items', JSON.stringify(getSelectedItems()))
@@ -168,7 +166,7 @@ const handleDropZone = (e, item) => {
   e.preventDefault();
   let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
 
-  if (draggedItems.find(item => item.storage != getStore('adapter'))) {
+  if (draggedItems.find(item => item.storage != getStore('adapter', 'local'))) {
     alert('Moving items between different storages is not supported yet.');
     return;
   }
@@ -178,10 +176,11 @@ const handleDropZone = (e, item) => {
 
 const handleDragOver = (e, item) => {
   e.preventDefault();
-
   if (!item || item.type !== 'dir' || ds.value.getSelection().find(el => el == e.currentTarget)) {
     e.dataTransfer.dropEffect = 'none';
     e.dataTransfer.effectAllowed = 'none';
+  } else {
+    e.dataTransfer.dropEffect = 'copy';
   }
 };
 
