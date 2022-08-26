@@ -2,8 +2,6 @@ import components from './components';
 import './assets/css/index.css';
 import 'microtip/microtip.css'
 
-
-
 export default {
     install(Vue) {
         for (const prop in components) {
@@ -12,7 +10,6 @@ export default {
                 Vue.component(component.name, component);
             }
         }
-
     }
 };
 

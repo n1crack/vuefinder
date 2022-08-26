@@ -1,9 +1,6 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
-
 
 @layer components {
   .vf-explorer-selected {
@@ -41,5 +38,4 @@
   .vf-selector-area::-webkit-scrollbar-corner {
     @apply bg-transparent;
   }
-
 }
