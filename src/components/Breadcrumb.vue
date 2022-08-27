@@ -77,7 +77,7 @@ const handleDropZone = (e) => {
   e.preventDefault();
   let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
 
-  if (draggedItems.find(item => item.storage != getStore('adapter'))) {
+  if (draggedItems.find(item => item.storage != getStore('adapter', 'local'))) {
     alert('Moving items between different storages is not supported yet.');
     return;
   }
@@ -94,6 +94,8 @@ const handleDragOver = (e) => {
   if (breadcrumb.value.length < 1) {
     e.dataTransfer.dropEffect = 'none';
     e.dataTransfer.effectAllowed = 'none';
+  } else {
+    e.dataTransfer.dropEffect = 'copy';
   }
 };
 </script>

@@ -2008,7 +2008,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
       var C;
       w.preventDefault();
       let S = JSON.parse(w.dataTransfer.getData("items"));
-      if (S.find((k) => k.storage != g("adapter"))) {
+      if (S.find((k) => k.storage != g("adapter", "local"))) {
         alert("Moving items between different storages is not supported yet.");
         return;
       }
@@ -2017,7 +2017,7 @@ const Pr = Qe.exports, Mr = (f, h, a, g, u) => (h = Math, a = h.log, g = 1024, u
         items: { from: S, to: (C = o.value[o.value.length - 2]) != null ? C : { path: "/" } }
       });
     }, y = (w) => {
-      w.preventDefault(), o.value.length < 1 && (w.dataTransfer.dropEffect = "none", w.dataTransfer.effectAllowed = "none");
+      w.preventDefault(), o.value.length < 1 ? (w.dataTransfer.dropEffect = "none", w.dataTransfer.effectAllowed = "none") : w.dataTransfer.dropEffect = "copy";
     };
     return (w, S) => (_(), $("div", Cn, [
       (_(), $("svg", {
