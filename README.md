@@ -34,7 +34,7 @@ current progress :
 - [x] touch / create a file
 - [x] unzip/unarchive
 - [x] preview item
-- [ ] download
+- [x] download
 - [ ] edit text file
 - [ ] image tools
 - [ ] upload
