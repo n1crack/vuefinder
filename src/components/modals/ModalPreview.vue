@@ -20,7 +20,7 @@
         </div>
 
         <div class="text-gray-700 dark:text-gray-200 text-sm">
-          <p><span class="text-gray-400">{{ selection.adapter }}://</span>{{ selection.item.path }}</p>
+          <p>{{ selection.item.path }}</p>
           <p>mime_type: {{ selection.item.mime_type }}</p>
           <div class="flex leading-5" v-if="loaded == false">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"

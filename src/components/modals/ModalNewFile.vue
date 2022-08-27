@@ -49,7 +49,7 @@ const createFile = () => {
   if (name.value != '') {
     emitter.emit('vf-fetch', {
       q: 'newfile',
-      adapter: getStore('adapter'),
+      adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       name: name.value
     });

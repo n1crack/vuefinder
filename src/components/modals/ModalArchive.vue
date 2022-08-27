@@ -59,7 +59,7 @@ const archive = () => {
   if (items.value.length) {
     emitter.emit('vf-fetch', {
       q: 'archive',
-      adapter: getStore('adapter'),
+      adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
       name: name.value

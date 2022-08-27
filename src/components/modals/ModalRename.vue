@@ -59,7 +59,7 @@ const rename = () => {
   if (name.value != '') {
     emitter.emit('vf-fetch', {
       q: 'rename',
-      adapter: getStore('adapter'),
+      adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       item: item.value.path,
       name: name.value

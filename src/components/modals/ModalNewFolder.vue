@@ -49,7 +49,7 @@ const createFolder = () => {
   if (name.value != '') {
     emitter.emit('vf-fetch', {
       q: 'newfolder',
-      adapter: getStore('adapter'),
+      adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       name: name.value
     });

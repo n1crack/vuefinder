@@ -65,7 +65,7 @@ const move = () => {
   if (items.value.length) {
     emitter.emit('vf-fetch', {
       q: 'move',
-      adapter: getStore('adapter'),
+      adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
       item: props.selection.items.to.path

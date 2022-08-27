@@ -3,7 +3,7 @@
     <svg
         @dragover="handleDragOver($event)"
         @drop="handleDropZone($event)"
-        @click="!breadcrumb.length || emitter.emit('vf-fetch', {q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? ''} )"
+        @click="!breadcrumb.length || emitter.emit('vf-fetch', {q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? (getStore('adapter', 'local') + '://')} )"
         class="h-6 w-6 p-0.5 rounded"
         :class="breadcrumb.length ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'"
         xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
@@ -47,19 +47,21 @@ const breadcrumb = ref([]);
 
 emitter.on('vf-explorer-update', (data) => {
   let items = [], links = [];
-  dirname.value = props.data.dirname ?? '';
+  dirname.value = props.data.dirname ?? (getStore('adapter', 'local') + '://');
 
   if (dirname.value.length == 0) {
     breadcrumb.value = [];
   }
-  dirname.value.split('/')
+  dirname.value
+      .replace(getStore('adapter', 'local') + '://', '')
+      .split('/')
       .forEach(function (item) {
         items.push(item);
         if (items.join('/') != '') {
           links.push({
             'basename': item,
             'name': item,
-            'path': items.join('/'),
+            'path': getStore('adapter', 'local') + '://' + items.join('/'),
             'type': 'dir'
           });
         }
@@ -84,7 +86,7 @@ const handleDropZone = (e) => {
 
   emitter.emit('vf-modal-show', {
     type: 'move',
-    items: {from: draggedItems, to: breadcrumb.value[breadcrumb.value.length - 2] ?? {path: '/'}}
+    items: {from: draggedItems, to: breadcrumb.value[breadcrumb.value.length - 2] ?? {path: (getStore('adapter', 'local') + '://')}}
   });
 };
 
