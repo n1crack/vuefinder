@@ -45,15 +45,27 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
           </svg>
         </div>
-        <div class="mx-1.5"
+
+        <div class="mx-1.5" v-if="selectedItems.length == 1 && selectedItems[0].mime_type == 'application/zip'"
+             aria-label="Unrchive" data-microtip-position="bottom" role="tooltip"
+              @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems})">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100' : 'stroke-gray-200  dark:stroke-gray-600'"
+               class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </div>
+
+        <div class="mx-1.5" v-else
              aria-label="Archive" data-microtip-position="bottom" role="tooltip"
               @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'archive', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100' : 'stroke-gray-200  dark:stroke-gray-600'"
                class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
           </svg>
         </div>
+
     </div>
 
     <div class="flex text-center items-center justify-end">

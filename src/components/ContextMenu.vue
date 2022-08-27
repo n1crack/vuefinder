@@ -70,6 +70,12 @@ const menuItems = {
       emitter.emit('vf-modal-show', {type:'archive', items: selectedItems});
     },
   },
+  unarchive: {
+    title: 'Unarchive',
+    action: () => {
+      emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems});
+    },
+  },
   rename: {
     title: 'Rename',
     action: () => {
@@ -100,7 +106,12 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     context.items.push(menuItems.refresh);
     context.items.push(menuItems.preview);
     context.items.push(menuItems.rename);
-    context.items.push(menuItems.archive);
+     console.log(target);
+    if (target.mime_type == 'application/zip') {
+      context.items.push(menuItems.unarchive);
+    } else {
+      context.items.push(menuItems.archive);
+    }
     context.items.push(menuItems.delete);
     emitter.emit('vf-context-selected', [target]);
     console.log(target.type + ' is selected');
