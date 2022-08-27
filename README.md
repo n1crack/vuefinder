@@ -32,7 +32,7 @@ current progress :
 - [x] move
 - [x] moving items up one folder with drag and drop
 - [x] touch / create a file
-- [ ] unzip/unarchive
+- [x] unzip/unarchive
 - [x] preview item
 - [ ] download
 - [ ] edit text file
