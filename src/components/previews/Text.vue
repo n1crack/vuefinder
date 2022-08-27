@@ -9,16 +9,17 @@
 
 import {onMounted, ref} from 'vue';
 import ajax from '../../utils/ajax.js';
+import {useApiUrl} from '../../composables/useApiUrl.js';
 
 const emit = defineEmits(['load'])
 const content = ref('');
-
+const {apiUrl} = useApiUrl();
 const props = defineProps({
   selection: Object
 });
 
 onMounted(() => {
-  ajax(props.selection.url, {
+  ajax(apiUrl.value, {
     params: {q: 'preview', adapter: props.selection.adapter, path: props.selection.item.path},
     json: false
   })

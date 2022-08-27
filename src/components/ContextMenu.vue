@@ -16,9 +16,13 @@ export default {
 
 <script setup>
 import {nextTick, reactive, ref} from 'vue';
+import buildURLQuery from '../utils/buildURLQuery.js';
+import {useApiUrl} from '../composables/useApiUrl.js';
 
 const emitter = inject('emitter');
 const contextmenu = ref(null);
+
+const {apiUrl} = useApiUrl();
 
 const props = defineProps({
   current: Object
@@ -64,6 +68,13 @@ const menuItems = {
       emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
     },
   },
+  download: {
+    title: 'Download',
+    action: () => {
+      const url = apiUrl.value + '?' + buildURLQuery({q:'download', adapter: selectedItems.value[0].adapter, path: selectedItems.value[0].path});
+      emitter.emit('vf-download', url);
+    },
+  },
   archive: {
     title: 'Archive',
     action: () => {
@@ -103,10 +114,9 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     emitter.emit('vf-context-selected', items);
     console.log(items.length + ' selected (more than 1 item.)');
   } else {
-    context.items.push(menuItems.refresh);
     context.items.push(menuItems.preview);
     context.items.push(menuItems.rename);
-     console.log(target);
+    context.items.push(menuItems.download);
     if (target.mime_type == 'application/zip') {
       context.items.push(menuItems.unarchive);
     } else {

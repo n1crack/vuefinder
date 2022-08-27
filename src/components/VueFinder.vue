@@ -11,6 +11,7 @@
 
     <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :selection="modal.data" :current="fetchData"/>
     <v-f-context-menu :current="fetchData"/>
+    <iframe id="download_frame" style="display:none;"></iframe>
   </div>
 </template>
 
@@ -25,6 +26,7 @@ import {defineProps, onMounted, provide, reactive, ref} from 'vue';
 import ajax from '../utils/ajax.js';
 import mitt from 'mitt';
 import {useStorage} from '../composables/useStorage.js';
+import {useApiUrl} from '../composables/useApiUrl.js';
 import VFToolbar from '../components/Toolbar.vue';
 import VFExplorer from '../components/Explorer.vue';
 import VFStatusbar from '../components/Statusbar.vue';
@@ -49,6 +51,9 @@ const props = defineProps({
 })
 const {setStore, getStore} = useStorage(props.id);
 provide('storage', useStorage(props.id));
+
+const {apiUrl, setApiUrl} = useApiUrl();
+setApiUrl(props.url)
 
 const fetchData = reactive({adapter:'local', storages: [], dirname: '.', files: []});
 
@@ -81,7 +86,6 @@ emitter.on('vf-modal-close', () => {
 emitter.on('vf-modal-show', (item) => {
   modal.active = true;
   modal.type = item.type;
-  item.url = props.url;
   modal.data = item;
 });
 
@@ -92,11 +96,16 @@ const updateItems = (data) => {
 }
 
 emitter.on('vf-fetch', (params) => {
-  ajax(props.url, {params})
+  ajax(apiUrl.value, {params})
       .then(data => {
         emitter.emit('vf-modal-close');
         updateItems(data);
       });
+});
+
+emitter.on('vf-download', (url) => {
+  document.getElementById('download_frame').src = url;
+  emitter.emit('vf-modal-close')
 });
 
 onMounted(() => {
