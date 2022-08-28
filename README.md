@@ -6,7 +6,14 @@
 ![image](https://user-images.githubusercontent.com/712404/186232425-a2828894-d048-4095-8936-6ad5cd1be9fc.png)
 
 
-app rebuilt to use vite, vue 3 and tailwindcss.
+app rebuilt to use vue 3 and tailwindcss.
+
+dependencies :
+ - Vue 3
+ - Cropper  : Image crop tool
+ - DragSelect : Selection Utility
+ - Plupload : Upload library
+
 
 version 1.0 is on its way..
 
@@ -36,7 +43,7 @@ current progress :
 - [x] preview item
 - [x] download
 - [x] edit text file
-- [ ] image tools
+- [x] image tools
 - [x] upload
 - [ ] validation & error messages
 - [ ] multi language (need some localization)
