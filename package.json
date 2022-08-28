@@ -41,8 +41,11 @@
     "vite": "^3.0.4"
   },
   "peerDependencies": {
-    "dragselect": "^2.3.1",
     "cropperjs": "^1.5.12",
+    "dragselect": "^2.3.1",
+    "plupload": "^2.3.9",
     "vue": "^3.2.0"
+  },
+  "dependencies": {
   }
 }

@@ -9,13 +9,20 @@
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">Upload files</h3>
         <div class="mt-2">
-          <p class="text-sm text-gray-500">Upload files </p>
+          <div class="text-gray-500 mb-1">
+            <div v-for="file in queue"><div :id="file.id"> {{ file.name }} ( {{ file.size }}) <b>{{ file.percent }}</b></div></div>
+          </div>
+          <div class="text-gray-500" :ref="(el) => container = el">
+              <a :ref="(el) => pickFiles = el" href="javascript:;">[Select files]</a>
+          </div>
         </div>
       </div>
     </div>
 
     <template v-slot:buttons>
-      <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Yes, upload!</button>
+      <button :disabled="disableUploadButton" @click.prevent="handleUpload" type="button"
+              :class="disableUploadButton ? 'bg-red-200 hover:bg-red-200' : 'bg-red-600 hover:bg-red-700'"
+              class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Upload!</button>
       <button type="button" @click="emitter.emit('vf-modal-close')" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Cancel</button>
     </template>
   </v-f-modal-layout>
@@ -29,6 +36,75 @@ export default {
 
 
 <script setup>
+import plupload from 'plupload'
 import VFModalLayout from './ModalLayout.vue';
-  const emitter = inject('emitter')
+import {onMounted, ref} from 'vue';
+import {useApiUrl} from '../../composables/useApiUrl.js';
+import buildURLQuery from '../../utils/buildURLQuery.js';
+
+const emitter = inject('emitter');
+const {apiUrl} = useApiUrl();
+
+const props = defineProps({
+  current: Object
+});
+
+const uploader = ref(null);
+const container = ref(null);
+const pickFiles = ref(null);
+const queue = ref([]);
+
+const disableUploadButton = ref(true);
+
+const handleUpload = () => {
+  uploader.value.start();
+};
+
+onMounted(() => {
+  uploader.value = new plupload.Uploader({
+    runtimes: 'html5',
+    browse_button: pickFiles.value,
+    container: container.value,
+    max_file_size: '10mb',
+    multiple_queues: true,
+    file_data_name: 'file',
+    url: apiUrl.value + '?' + buildURLQuery({q: 'upload', adapter: props.current.adapter, path: props.current.dirname}),
+    // filters : [
+    // 	{title : "Image files", extensions : "jpg,gif,png,jpeg"},
+    // 	{title : "Zip files", extensions : "zip"}
+    // ],
+
+    init: {
+      PostInit: function () {
+      },
+
+      FilesAdded: function (up, files) {
+        disableUploadButton.value = false;
+        plupload.each(files, function (file) {
+          queue.value.push({
+            id: file.id,
+            name: file.name,
+            size: plupload.formatSize(file.size),
+            percent: ''
+          });
+        });
+      },
+
+      UploadProgress: function (up, file) {
+        queue.value[queue.value.findIndex((item) => item.id == file.id)].percent = file.percent + '%';
+      },
+
+      UploadComplete: function () {
+        disableUploadButton.value = true;
+        emitter.emit('vf-fetch', {q: 'index', adapter: props.current.adapter, path: props.current.dirname});
+      },
+
+      Error: function (up, err) {
+
+      }
+    }
+  });
+
+  uploader.value.init();
+});
 </script>
