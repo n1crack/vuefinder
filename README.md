@@ -3,8 +3,7 @@
 #### Readme in progress..
 
 
-![image](https://user-images.githubusercontent.com/712404/186232425-a2828894-d048-4095-8936-6ad5cd1be9fc.png)
-
+<img width="690" alt="image" src="https://user-images.githubusercontent.com/712404/187087831-a00b2f01-cd6c-4349-8ab2-7e9d76d22213.png">
 
 app rebuilt to use vue 3 and tailwindcss.
 
