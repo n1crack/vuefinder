@@ -37,7 +37,7 @@ current progress :
 - [x] download
 - [x] edit text file
 - [ ] image tools
-- [ ] upload
+- [x] upload
 - [ ] validation & error messages
 - [ ] multi language (need some localization)
 - [ ] thumbnails
