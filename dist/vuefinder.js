@@ -2289,7 +2289,7 @@ const Er = tt.exports, Tr = (h, m, a, p, u) => (m = Math, a = m.log, p = 1024, u
       s("div", Zo, [
         s("div", {
           class: "flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0",
-          onClick: p[0] || (p[0] = ve((u) => A(m).emit("vf-modal-close"), ["self"]))
+          onMousedown: p[0] || (p[0] = ve((u) => A(m).emit("vf-modal-close"), ["self"]))
         }, [
           s("div", Xo, [
             s("div", Go, [
@@ -2299,7 +2299,7 @@ const Er = tt.exports, Tr = (h, m, a, p, u) => (m = Math, a = m.log, p = 1024, u
               Xe(a.$slots, "buttons")
             ])
           ])
-        ])
+        ], 32)
       ])
     ], 32));
   }
