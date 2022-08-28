@@ -1,18 +1,35 @@
 <template>
+  <div class="flex">
+    <div class="mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">
+      {{ selection.item.basename }}
+    </div>
+    <div class="ml-auto mb-2">
+      <button @click="save" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">Save</button>
+      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()">{{ showEdit ? 'Cancel': 'Edit' }}</button>
+    </div>
+  </div>
   <div>
-    <pre class="border font-normal border-gray-200 dark:border-gray-700/50 p-2 rounded min-h-[100px] text-sm">{{ content }}</pre>
-      <!--              <textarea class="w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500" name="text" id="" cols="30" rows="10">{{ content }}</textarea>-->
+    <pre v-if="!showEdit" class="p-2 border font-normal border-gray-200 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[100px] text-xs ">{{ content }}</pre>
+    <div v-else>
+      <textarea
+          :ref="el => editInput = el"
+          v-model="contentTemp"
+          class="w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 text-xs" name="text" id="" cols="30" rows="10"></textarea>
+    </div>
   </div>
 </template>
 
 <script setup>
 
-import {onMounted, ref} from 'vue';
+import {nextTick, onMounted, ref} from 'vue';
 import ajax from '../../utils/ajax.js';
 import {useApiUrl} from '../../composables/useApiUrl.js';
 
 const emit = defineEmits(['load'])
 const content = ref('');
+const contentTemp = ref('');
+const editInput = ref(null);
+const showEdit = ref(false);
 const {apiUrl} = useApiUrl();
 const props = defineProps({
   selection: Object
@@ -23,12 +40,34 @@ onMounted(() => {
     params: {q: 'preview', adapter: props.selection.adapter, path: props.selection.item.path},
     json: false
   })
-      .then(response => response.text())
       .then(data => {
         content.value = data;
         emit('load');
       });
 });
 
+const editMode = () => {
+  showEdit.value = !showEdit.value;
+  contentTemp.value = content.value;
+  if (showEdit.value == true) {
+    nextTick(() => {
+      editInput.value.focus();
+    });
+  }
+};
+
+const save = () => {
+  ajax(apiUrl.value, {
+    method: 'POST',
+    params: {q: 'save', adapter: props.selection.adapter, path: props.selection.item.path, content: contentTemp.value},
+    json: false
+  })
+      .then(data => {
+        content.value = data;
+        emit('load');
+        showEdit.value = !showEdit.value
+      })
+      .catch((e) => console.log(e.statusText));
+}
 
 </script>

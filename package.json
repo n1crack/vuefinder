@@ -42,6 +42,7 @@
   },
   "peerDependencies": {
     "dragselect": "^2.3.1",
+    "cropperjs": "^1.5.12",
     "vue": "^3.2.0"
   }
 }
