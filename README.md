@@ -35,7 +35,7 @@ current progress :
 - [x] unzip/unarchive
 - [x] preview item
 - [x] download
-- [ ] edit text file
+- [x] edit text file
 - [ ] image tools
 - [ ] upload
 - [ ] validation & error messages
