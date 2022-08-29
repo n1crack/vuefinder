@@ -11,6 +11,10 @@ import {onMounted} from 'vue';
 
 const emit = defineEmits(['load']);
 
+const props = defineProps({
+  selection: Object
+});
+
 onMounted(() => {
   emit('load');
 });

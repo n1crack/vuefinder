@@ -1,7 +1,7 @@
 <template>
   <h3 class="mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{ selection.item.basename }}</h3>
   <div>
-    <object :data="getPDFUrl()" type="application/pdf" width="100%" height="100%">
+    <object class="h-[60vh]" :data="getPDFUrl()" type="application/pdf" width="100%" height="100%">
       <iframe
           class="border-0"
           :src="getPDFUrl()"

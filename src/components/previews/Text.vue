@@ -9,12 +9,12 @@
     </div>
   </div>
   <div>
-    <pre v-if="!showEdit" class="p-2 border font-normal border-gray-200 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[100px] text-xs ">{{ content }}</pre>
+    <pre v-if="!showEdit" class="p-2 border font-normal border-gray-200 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto">{{ content }}</pre>
     <div v-else>
       <textarea
           :ref="el => editInput = el"
           v-model="contentTemp"
-          class="w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 text-xs" name="text" id="" cols="30" rows="10"></textarea>
+          class="w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] text-xs" name="text" id="" cols="30" rows="10"></textarea>
     </div>
   </div>
 </template>

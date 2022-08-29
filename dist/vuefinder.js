@@ -2271,7 +2271,7 @@ const sn = Sr.exports, ln = (o, e, t, n, s) => (e = Math, t = e.log, n = 1024, s
       xo
     ], 2));
   }
-}), ko = /* @__PURE__ */ h("div", { class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" }, null, -1), Do = { class: "fixed z-10 inset-0 overflow-y-auto" }, Co = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full" }, Mo = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, $o = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, ve = {
+}), ko = /* @__PURE__ */ h("div", { class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" }, null, -1), Do = { class: "fixed z-10 inset-0 overflow-y-auto" }, Co = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl sm:w-full" }, Mo = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, $o = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, ve = {
   __name: "ModalLayout",
   setup(o) {
     const e = inject("emitter");
@@ -2594,7 +2594,7 @@ const sn = Sr.exports, ln = (o, e, t, n, s) => (e = Math, t = e.log, n = 1024, s
   id: "modal-title"
 }, wa = { class: "ml-auto mb-2" }, xa = {
   key: 0,
-  class: "p-2 border font-normal border-gray-200 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[100px] text-xs"
+  class: "p-2 border font-normal border-gray-200 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto"
 }, _a = { key: 1 }, Sa = {
   __name: "Text",
   props: {
@@ -2644,7 +2644,7 @@ const sn = Sr.exports, ln = (o, e, t, n, s) => (e = Math, t = e.log, n = 1024, s
           ye(h("textarea", {
             ref: (b) => i.value = b,
             "onUpdate:modelValue": p[1] || (p[1] = (b) => s.value = b),
-            class: "w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 text-xs",
+            class: "w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] text-xs",
             name: "text",
             id: "",
             cols: "30",
@@ -3876,7 +3876,7 @@ const hs = { class: "flex" }, fs = {
       h("div", ps, [
         h("img", {
           ref: (b) => i.value = b,
-          class: "max-w-[350px] max-h-[350px]",
+          class: "max-w-[60vh] max-h-[60vh]",
           src: s(),
           alt: ""
         }, null, 8, gs)
@@ -3888,12 +3888,15 @@ const hs = { class: "flex" }, fs = {
   id: "modal-title"
 }, ys = /* @__PURE__ */ h("div", null, " Default view.. ", -1), ws = {
   __name: "Default",
+  props: {
+    selection: Object
+  },
   emits: ["load"],
   setup(o, { emit: e }) {
     return me(() => {
       e("load");
     }), (t, n) => (k(), $(re, null, [
-      h("h3", bs, B(t.selection.item.basename), 1),
+      h("h3", bs, B(o.selection.item.basename), 1),
       ys
     ], 64));
   }
@@ -3973,6 +3976,7 @@ const hs = { class: "flex" }, fs = {
       h("h3", As, B(o.selection.item.basename), 1),
       h("div", null, [
         h("object", {
+          class: "h-[60vh]",
           data: s(),
           type: "application/pdf",
           width: "100%",
