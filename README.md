@@ -16,6 +16,8 @@ dependencies :
 
 version 1.0 is on its way..
 
+backend (php) : https://github.com/n1crack/vuefinder-php
+
 current progress :
 
 - [x] vue, vite, tailwind setup
