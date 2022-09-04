@@ -6,7 +6,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       </div>
-      <div class="mt-3 text-center sm:mt-0 sm:text-left">
+      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{  selection?.title ?? 'Title' }}</h3>
         <div class="mt-2">
           <p class="text-sm text-gray-500">{{  selection?.message ?? 'Message' }}.</p>

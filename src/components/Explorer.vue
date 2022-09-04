@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-full">
+  <div class="relative flex-auto">
     <div v-if="view=='list'" class="grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none">
         <div @click="sortBy('basename')" class="col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center pl-1">
             Name
@@ -14,6 +14,7 @@
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='last_modified'" />
         </div>
       </div>
+
      <div class="absolute">
         <div :ref="el => dragImage = el"  class="absolute -z-50 -top-96">
           <svg xmlns="http://www.w3.org/2000/svg" class="absolute h-6 w-6 md:h-12 md:w-12 m-auto stroke-neutral-500 fill-white dark:fill-gray-700 dark:stroke-gray-600 z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
@@ -22,7 +23,12 @@
           <div class="text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs">{{ selectedCount }}</div>
         </div>
       </div>
-    <div class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto resize-y p-1 z-0" :ref="el => selectorArea = el"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
+
+    <div
+        :style="fullScreen ? 'height: 100%;' : ''"
+        :class="fullScreen ? '' : 'resize-y'"
+        class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto  p-1 z-0"
+        :ref="el => selectorArea = el"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
 
       <div draggable="true"
            v-if="view=='list'"
@@ -70,6 +76,8 @@
             <span class="break-all">{{ title_shorten(item.basename) }}</span>
           </div>
       </div>
+
+      <v-f-toast />
     </div>
   </div>
 </template>
@@ -86,6 +94,7 @@ import DragSelect from 'dragselect';
 import filesize from './../utils/filesize.js'
 import datetimestring from '../utils/datetimestring.js';
 import VFSortIcon from './SortIcon.vue';
+import VFToast from './Toast.vue';
 
 const props = defineProps({
   view: String,
@@ -93,13 +102,21 @@ const props = defineProps({
 });
 
 const emitter = inject('emitter');
-const { getStore } = inject('storage');
+const { setStore, getStore } = inject('storage');
 const ext = (item) => item?.substring(0, 3)
 const title_shorten = (title) => title.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, '$2..$4');
 const selectorArea = ref(null);
 const dragImage = ref(null);
 const selectedCount = ref(0)
 const ds = ref(null);
+
+const fullScreen = ref(getStore('full-screen', false));
+
+emitter.on('vf-fullscreen-toggle', () => {
+   fullScreen.value = !fullScreen.value;
+   setStore('full-screen', fullScreen.value)
+})
+
 
 const openItem = (item) => {
   if (item.type == 'dir') {

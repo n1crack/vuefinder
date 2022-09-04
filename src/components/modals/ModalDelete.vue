@@ -7,7 +7,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>
       </div>
-      <div class="mt-3 text-center sm:mt-0 sm:text-left">
+      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">Delete files</h3>
         <div class="mt-2">
           <p class="text-sm text-gray-500">Are you sure you want to delete these files?</p>
