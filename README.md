@@ -47,7 +47,7 @@ current progress :
 - [x] image tools
 - [x] upload
 - [x] toggle full screen
-- [x] toast messages
+- [x] toast notifications
 - [ ] validation & error messages
 - [ ] multi language (need some localization)
 - [ ] thumbnails
