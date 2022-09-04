@@ -1,6 +1,6 @@
 <template>
   <!-- This example requires Tailwind CSS v2.0+ -->
-  <div class="v-f-modal relative z-20" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+  <div class="v-f-modal relative z-30" aria-labelledby="modal-title" role="dialog" aria-modal="true"
        @keyup.esc="emitemit.emit('vf-modal-close')" tabindex="0">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 

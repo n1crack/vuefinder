@@ -1,7 +1,7 @@
 <template>
   <v-f-modal-layout>
     <div class="sm:flex sm:items-start">
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div>
           <Text v-if="loadPreview('text')" :selection="selection" @load="loaded = true"/>
           <Image v-else-if="loadPreview('image')" :selection="selection" @load="loaded = true"/>

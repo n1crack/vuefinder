@@ -6,7 +6,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
       </div>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">Archive files</h3>
         <div class="mt-2">
           <p v-for="item in items" class="flex text-sm text-gray-800 dark:text-gray-400">

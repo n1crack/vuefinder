@@ -46,6 +46,7 @@ current progress :
 - [x] edit text file
 - [x] image tools
 - [x] upload
+- [x] toggle full screen
 - [ ] validation & error messages
 - [ ] multi language (need some localization)
 - [ ] thumbnails

@@ -7,7 +7,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
         </svg>
       </div>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">Rename your {{ item.type == 'dir' ? 'folder':'file'}}</h3>
         <div class="mt-2">
           <p class="flex text-sm text-gray-800 dark:text-gray-400 py-2">
