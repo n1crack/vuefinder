@@ -77,8 +77,9 @@
           </div>
       </div>
 
-      <v-f-toast />
+
     </div>
+    <v-f-toast />
   </div>
 </template>
 

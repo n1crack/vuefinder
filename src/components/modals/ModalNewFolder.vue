@@ -53,6 +53,8 @@ const createFolder = () => {
       path: props.current.dirname,
       name: name.value
     });
+
+    emitter.emit('vf-toast-push', {label: 'New Folder is created successfully', type: 'success'})
   }
 };
 
