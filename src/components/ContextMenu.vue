@@ -68,6 +68,12 @@ const menuItems = {
       emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
     },
   },
+  open: {
+    title: 'Open',
+    action: () => {
+      emitter.emit('vf-fetch', {q: 'index', adapter: props.current.adapter, path:selectedItems.value[0].path});
+    },
+  },
   download: {
     title: 'Download',
     action: () => {
@@ -114,7 +120,11 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     emitter.emit('vf-context-selected', items);
     console.log(items.length + ' selected (more than 1 item.)');
   } else {
-    context.items.push(menuItems.preview);
+    if (target.type == 'dir') {
+      context.items.push(menuItems.open);
+    } else {
+      context.items.push(menuItems.preview);
+    }
     context.items.push(menuItems.rename);
     context.items.push(menuItems.download);
     if (target.mime_type == 'application/zip') {

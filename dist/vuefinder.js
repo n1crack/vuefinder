@@ -2201,6 +2201,12 @@ const sn = kr.exports, ln = (o, e, t, n, s) => (e = Math, t = e.log, n = 1024, s
           t.emit("vf-modal-show", { type: "preview", adapter: e.current.adapter, item: c.value[0] });
         }
       },
+      open: {
+        title: "Open",
+        action: () => {
+          t.emit("vf-fetch", { q: "index", adapter: e.current.adapter, path: c.value[0].path });
+        }
+      },
       download: {
         title: "Download",
         action: () => {
@@ -2230,7 +2236,7 @@ const sn = kr.exports, ln = (o, e, t, n, s) => (e = Math, t = e.log, n = 1024, s
       t.emit("vf-contextmenu-hide"), f.action();
     };
     t.on("vf-contextmenu-show", ({ event: f, area: v, items: b, target: D = null }) => {
-      i.items = [], D ? b.length > 1 && b.some((A) => A.path === D.path) ? (i.items.push(h.refresh), i.items.push(h.archive), i.items.push(h.delete), t.emit("vf-context-selected", b), console.log(b.length + " selected (more than 1 item.)")) : (i.items.push(h.preview), i.items.push(h.rename), i.items.push(h.download), D.mime_type == "application/zip" ? i.items.push(h.unarchive) : i.items.push(h.archive), i.items.push(h.delete), t.emit("vf-context-selected", [D]), console.log(D.type + " is selected")) : (i.items.push(h.refresh), i.items.push(h.newfolder), t.emit("vf-context-selected", []), console.log("no files selected")), m(f, v);
+      i.items = [], D ? b.length > 1 && b.some((A) => A.path === D.path) ? (i.items.push(h.refresh), i.items.push(h.archive), i.items.push(h.delete), t.emit("vf-context-selected", b), console.log(b.length + " selected (more than 1 item.)")) : (D.type == "dir" ? i.items.push(h.open) : i.items.push(h.preview), i.items.push(h.rename), i.items.push(h.download), D.mime_type == "application/zip" ? i.items.push(h.unarchive) : i.items.push(h.archive), i.items.push(h.delete), t.emit("vf-context-selected", [D]), console.log(D.type + " is selected")) : (i.items.push(h.refresh), i.items.push(h.newfolder), t.emit("vf-context-selected", []), console.log("no files selected")), m(f, v);
     }), t.on("vf-contextmenu-hide", () => {
       i.active = !1;
     });
@@ -2320,7 +2326,7 @@ const sn = kr.exports, ln = (o, e, t, n, s) => (e = Math, t = e.log, n = 1024, s
       class: de(m.value ? "dark" : "")
     }, [
       d("div", {
-        class: de([f.value ? "fixed top-0 bottom-0 left-0 right-0 z-20" : "relative", "border flex flex-col rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"]),
+        class: de([f.value ? "fixed w-screen inset-0 z-20" : "relative", "border flex flex-col rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"]),
         onMousedown: A[0] || (A[0] = (O) => R(t).emit("vf-contextmenu-hide"))
       }, [
         pe(on),
