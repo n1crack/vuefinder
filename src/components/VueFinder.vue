@@ -98,8 +98,6 @@ emitter.on('vf-modal-show', (item) => {
 });
 
 const updateItems = (data) => {
-
-        console.log('local', data);
   Object.assign(fetchData, data)
   emitter.emit('vf-nodes-selected', {});
   emitter.emit('vf-explorer-update')

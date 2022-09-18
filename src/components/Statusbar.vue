@@ -46,6 +46,7 @@ const selectedItemCount = ref(0);
 const adapter = ref(getStore('adapter') ?? props.data.adapter);
 
 const handleStorageSelect = () => {
+  emitter.emit('vf-search-exit');
   emitter.emit('vf-fetch', {q: 'index', adapter: adapter.value});
   setStore('adapter', adapter.value)
 };
