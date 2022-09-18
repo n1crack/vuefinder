@@ -37,6 +37,8 @@
       <div
            v-if="searchQuery.length"
            @dblclick="openItem(item)"
+           @touchstart="delayedOpenItem(item)"
+           @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            class="vf-item grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
            v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
@@ -57,6 +59,8 @@
       <div draggable="true"
            v-if="view=='list' && !searchQuery.length"
            @dblclick="openItem(item)"
+           @touchstart="delayedOpenItem(item)"
+           @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
@@ -81,6 +85,8 @@
       <div draggable="true"
            v-if="view=='grid' && !searchQuery.length"
            @dblclick="openItem(item)"
+           @touchstart="delayedOpenItem(item)"
+           @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
@@ -154,6 +160,18 @@ emitter.on('vf-search-query', ({newQuery}) => {
     emitter.emit('vf-fetch', {q: 'index', adapter: props.data.adapter, path: props.data.dirname});
   }
 });
+
+let touchTimeOut = null;
+const clearTimeOut = () => {
+  if (touchTimeOut) {
+    clearTimeout(touchTimeOut);
+  }
+}
+const delayedOpenItem = (item) => {
+  touchTimeOut = setTimeout(() =>  {
+    openItem(item);
+  } ,500)
+}
 
 const openItem = (item) => {
   if (item.type == 'dir') {
