@@ -51,7 +51,7 @@ current progress :
 - [ ] validation & error messages
 - [ ] multi language (need some localization)
 - [ ] thumbnails
-- [ ] search
+- [x] search
 - [ ] code refactoring
 - [ ] test for different adapters (especially check if zip/archive works)
 - [ ] test for different OS (windows directory seperator is different)
