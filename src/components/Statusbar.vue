@@ -12,7 +12,10 @@
         </option>
       </select>
 
-     <span class="ml-3"> {{ selectedItemCount > 0 ? selectedItemCount + ' items selected.' : '' }} </span>
+     <div class="ml-3">
+       <span v-if="searchQuery.length">{{ data.files.length }} items found. </span>
+       <span class="ml-1">{{ selectedItemCount > 0 ? selectedItemCount + ' items selected.' : '' }}</span>
+     </div>
     </div>
     <div class="flex leading-5 items-center">
       <span @click="emitter.emit('vf-modal-show', {type:'message', title:'Vuefinder 1.0', message: 'Vuefinder is a file manager component for vue 3.'})">
@@ -50,5 +53,12 @@ const handleStorageSelect = () => {
 emitter.on('vf-nodes-selected', (items) => {
   selectedItemCount.value = items.length;
 })
+
+const searchQuery = ref('');
+
+emitter.on('vf-search-query', ({newQuery}) => {
+  searchQuery.value = newQuery;
+});
+
 </script>
 

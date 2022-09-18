@@ -1,8 +1,8 @@
 <template>
   <div class="border-neutral-300 flex justify-between items-center py-1 text-sm">
-    <div class="flex text-center">
+    <div class="flex text-center" v-if="!searchQuery.length">
         <div class="mx-1.5"
-             aria-label="New Folder" data-microtip-position="bottom" role="tooltip"
+             aria-label="New Folder" data-microtip-position="bottom-right" role="tooltip"
              @click="emitter.emit('vf-modal-show', {type:'new-folder', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -68,6 +68,10 @@
 
     </div>
 
+    <div class="flex text-center" v-else>
+      <div class="pl-2"> Search results for <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ searchQuery }}</span></div>
+    </div>
+
     <div class="flex text-center items-center justify-end">
         <div class="mx-1.5" aria-label="Dark Mode" data-microtip-position="bottom" role="tooltip">
           <svg @click="emitter.emit('vf-darkMode-toggle')" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -85,10 +89,12 @@
           </div>
 
         <div class="mx-1.5"
-             aria-label="Change View" data-microtip-position="bottom" role="tooltip"
-             @click="emitter.emit('vf-view-toggle', view == 'list' ? 'grid' : 'list')">
+             aria-label="Change View" data-microtip-position="bottom-left" role="tooltip"
+             @click="searchQuery.length || emitter.emit('vf-view-toggle', view == 'list' ? 'grid' : 'list')">
 
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               :class="(!searchQuery.length) ? 'cursor-pointer stroke-gray-800 hover:stroke-cyan-700 dark:stroke-gray-300 dark:hover:stroke-gray-100' : 'stroke-gray-200  dark:stroke-gray-600'"
+               class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path v-if="view == 'grid'" stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
               <path v-if="view == 'list'"  stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
           </svg>
@@ -115,6 +121,17 @@ const view = ref(getStore('viewport', 'grid'));
 const selectedItems = ref([]);
 
 const fullScreen = ref(getStore('full-screen', false));
+
+const props = defineProps({
+  data: Object
+});
+
+const searchQuery = ref('');
+
+emitter.on('vf-search-query', ({newQuery}) => {
+  searchQuery.value = newQuery;
+});
+
 
 const setFullScreen = () => {
   fullScreen.value = !fullScreen.value;

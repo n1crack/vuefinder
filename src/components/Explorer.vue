@@ -1,21 +1,25 @@
 <template>
-  <div class="relative flex-auto">
-    <div v-if="view=='list'" class="grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none">
+  <div class="relative flex-auto h-full">
+    <div v-if="view=='list' || searchQuery.length" class="grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none">
         <div @click="sortBy('basename')" class="col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center pl-1">
             Name
             <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'" v-show="sort.active && sort.column=='basename'" />
         </div>
-        <div @click="sortBy('file_size')" class="col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center border-l border-r dark:border-gray-700">
+        <div v-if="!searchQuery.length" @click="sortBy('file_size')" class="col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center border-l border-r dark:border-gray-700">
           Size
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='file_size'" />
         </div>
-        <div @click="sortBy('last_modified')" class="col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center">
+        <div v-if="!searchQuery.length" @click="sortBy('last_modified')" class="col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center">
           Date
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='last_modified'" />
         </div>
+        <div v-if="searchQuery.length" @click="sortBy('path')" class="col-span-5 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 flex items-center justify-center border-l dark:border-gray-700">
+            Path
+            <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='path'" />
+        </div>
       </div>
 
-     <div class="absolute">
+    <div class="absolute">
         <div :ref="el => dragImage = el"  class="absolute -z-50 -top-96">
           <svg xmlns="http://www.w3.org/2000/svg" class="absolute h-6 w-6 md:h-12 md:w-12 m-auto stroke-neutral-500 fill-white dark:fill-gray-700 dark:stroke-gray-600 z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
             <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -30,8 +34,28 @@
         class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto  p-1 z-0"
         :ref="el => selectorArea = el"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
 
+      <div
+           v-if="searchQuery.length"
+           @dblclick="openItem(item)"
+           @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+           class="vf-item grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
+           v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+          <div class="grid grid-cols-12 items-center">
+            <div class="flex col-span-7 items-center">
+              <svg v-if="item.type == 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+              </svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+              <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
+            </div>
+            <div class="col-span-5 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.path }}</div>
+          </div>
+      </div>
+
       <div draggable="true"
-           v-if="view=='list'"
+           v-if="view=='list' && !searchQuery.length"
            @dblclick="openItem(item)"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
@@ -55,7 +79,7 @@
       </div>
 
       <div draggable="true"
-           v-if="view=='grid'"
+           v-if="view=='grid' && !searchQuery.length"
            @dblclick="openItem(item)"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
@@ -99,7 +123,8 @@ import VFToast from './Toast.vue';
 
 const props = defineProps({
   view: String,
-  data: Object
+  data: Object,
+  search: Object
 });
 
 const emitter = inject('emitter');
@@ -118,9 +143,21 @@ emitter.on('vf-fullscreen-toggle', () => {
    setStore('full-screen', fullScreen.value)
 })
 
+const searchQuery = ref('');
+
+emitter.on('vf-search-query', ({newQuery}) => {
+  searchQuery.value = newQuery;
+
+  if (newQuery) {
+    emitter.emit('vf-fetch', {q: 'search', adapter: props.data.adapter, path: props.data.dirname, filter: newQuery});
+  } else {
+    emitter.emit('vf-fetch', {q: 'index', adapter: props.data.adapter, path: props.data.dirname});
+  }
+});
 
 const openItem = (item) => {
   if (item.type == 'dir') {
+    emitter.emit('vf-search-exit');
     emitter.emit('vf-fetch', {q: 'index', adapter: props.data.adapter, path:item.path});
   } else {
     emitter.emit('vf-modal-show', {type: 'preview', adapter: props.data.adapter, item});
@@ -129,7 +166,7 @@ const openItem = (item) => {
 
 const sort = reactive( { active: false, column: '', order: '' });
 
-const getItems = ( sorted = true) => {
+const getItems = (sorted = true) => {
   let files = [...props.data.files],
       column = sort.column,
       order = sort.order == 'asc' ? 1 : -1;

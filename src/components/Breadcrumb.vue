@@ -1,15 +1,17 @@
 <template>
   <div class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none ">
-    <svg
-        @dragover="handleDragOver($event)"
-        @drop="handleDropZone($event)"
-        @click="!breadcrumb.length || emitter.emit('vf-fetch', {q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? (getStore('adapter', 'local') + '://')} )"
-        class="h-6 w-6 p-0.5 rounded"
-        :class="breadcrumb.length ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'"
-        xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
-      <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-    </svg>
-    <div v-if="!searchMode" class="flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full" @click.self="enterSearchMode()">
+    <span aria-label="Go up a directory" data-microtip-position="bottom-right" role="tooltip">
+      <svg
+          @dragover="handleDragOver($event)"
+          @drop="handleDropZone($event)"
+          @click="!isGoUpAvailable() || emitter.emit('vf-fetch', {q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? (getStore('adapter', 'local') + '://')} )"
+          class="h-6 w-6 p-0.5 rounded"
+          :class="isGoUpAvailable() ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'"
+          xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+      </svg>
+    </span>
+    <div v-if="!searchMode" class="flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full" @click.self="enterSearchMode">
       <svg @click="emitter.emit('vf-fetch', {q: 'index', adapter: data.adapter})"
            class="h-6 w-6 p-1 rounded text-slate-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-gray-800 cursor-pointer"
            xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
@@ -31,18 +33,18 @@
       </svg>
       <input
           :ref="el => searchInput = el"
-          @keydown.esc="exitSearchMode()"
+          @keydown.esc="exitSearchMode"
+          v-model="query"
           placeholder="Search anything.."
           class="py-0 px-2 w-full border-0 ring-0 outline-0 text-sm text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
           type="text">
       <svg
           class="w-6 h-6 cursor-pointer"
-          @click="exitSearchMode()"
+          @click="exitSearchMode"
           xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </div>
-
   </div>
 </template>
 
@@ -55,11 +57,8 @@ export default {
 
 <script setup>
 
-import {nextTick, ref} from 'vue';
-
-const props = defineProps({
-  data: Object
-});
+import {nextTick, ref, watch} from 'vue';
+import useDebouncedRef from '../composables/useDebouncedRef.js';
 
 const emitter = inject('emitter');
 const { getStore } = inject('storage');
@@ -68,7 +67,11 @@ const breadcrumb = ref([]);
 const searchMode = ref(false);
 const searchInput = ref(null);
 
-emitter.on('vf-explorer-update', (data) => {
+const props = defineProps({
+  data: Object
+});
+
+emitter.on('vf-explorer-update', () => {
   let items = [], links = [];
   dirname.value = props.data.dirname ?? (getStore('adapter', 'local') + '://');
 
@@ -100,12 +103,27 @@ emitter.on('vf-explorer-update', (data) => {
 
 const exitSearchMode = () => {
   searchMode.value = false;
+  query.value = '';
 }
+
+emitter.on('vf-search-exit', () => {
+  exitSearchMode();
+});
 
 const enterSearchMode = () => {
   searchMode.value = true;
   nextTick(() => searchInput.value.focus())
 }
+
+const query = useDebouncedRef('', 400);
+
+watch(query, newQuery => {
+  emitter.emit('vf-search-query', {newQuery});
+});
+
+const isGoUpAvailable = () => {
+  return breadcrumb.value.length && !searchMode.value;
+};
 
 const handleDropZone = (e) => {
   e.preventDefault();
@@ -125,11 +143,11 @@ const handleDropZone = (e) => {
 const handleDragOver = (e) => {
   e.preventDefault();
 
-  if (breadcrumb.value.length < 1) {
+  if (isGoUpAvailable()) {
+    e.dataTransfer.dropEffect = 'copy';
+  } else {
     e.dataTransfer.dropEffect = 'none';
     e.dataTransfer.effectAllowed = 'none';
-  } else {
-    e.dataTransfer.dropEffect = 'copy';
   }
 };
 </script>

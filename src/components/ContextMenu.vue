@@ -71,6 +71,7 @@ const menuItems = {
   open: {
     title: 'Open',
     action: () => {
+      emitter.emit('vf-search-exit');
       emitter.emit('vf-fetch', {q: 'index', adapter: props.current.adapter, path:selectedItems.value[0].path});
     },
   },

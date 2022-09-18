@@ -4,7 +4,7 @@
         :class="fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative'"
         class="border flex flex-col rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
         @mousedown="emitter.emit('vf-contextmenu-hide')">
-      <v-f-toolbar/>
+      <v-f-toolbar :data="fetchData" />
       <v-f-breadcrumb :data="fetchData"/>
       <v-f-explorer :view="view" :data="fetchData"/>
       <v-f-statusbar :data="fetchData"/>
@@ -98,9 +98,11 @@ emitter.on('vf-modal-show', (item) => {
 });
 
 const updateItems = (data) => {
+
+        console.log('local', data);
   Object.assign(fetchData, data)
   emitter.emit('vf-nodes-selected', {});
-  emitter.emit('vf-explorer-update', data)
+  emitter.emit('vf-explorer-update')
 }
 
 emitter.on('vf-fetch', (params) => {
