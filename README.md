@@ -48,10 +48,10 @@ current progress :
 - [x] upload
 - [x] toggle full screen
 - [x] toast notifications
-- [ ] validation & error messages
+- [x] search
 - [ ] multi language (need some localization)
 - [ ] thumbnails
-- [x] search
+- [ ] validation & error messages
 - [ ] code refactoring
 - [ ] test for different adapters (especially check if zip/archive works)
 - [ ] test for different OS (windows directory seperator is different)
