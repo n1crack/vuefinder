@@ -20,7 +20,7 @@
       </div>
 
     <div class="absolute">
-        <div :ref="el => dragImage = el"  class="absolute -z-50 -top-96">
+        <div ref="dragImage"  class="absolute -z-50 -top-96">
           <svg xmlns="http://www.w3.org/2000/svg" class="absolute h-6 w-6 md:h-12 md:w-12 m-auto stroke-neutral-500 fill-white dark:fill-gray-700 dark:stroke-gray-600 z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
             <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
           </svg>
@@ -32,7 +32,7 @@
         :style="fullScreen ? 'height: 100%;' : ''"
         :class="fullScreen ? '' : 'resize-y'"
         class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto  p-1 z-0"
-        :ref="el => selectorArea = el"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
+        ref="selectorArea"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
 
       <div
            v-if="searchQuery.length"

@@ -3,12 +3,12 @@
     <div class="sm:flex sm:items-start">
       <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div>
-          <Text v-if="loadPreview('text')" :selection="selection" @load="loaded = true"/>
-          <Image v-else-if="loadPreview('image')" :selection="selection" @load="loaded = true"/>
-          <Video v-else-if="loadPreview('video')" :selection="selection" @load="loaded = true"/>
-          <Audio v-else-if="loadPreview('audio')" :selection="selection" @load="loaded = true"/>
-          <Pdf v-else-if="loadPreview('application/pdf')" :selection="selection" @load="loaded = true"/>
-          <Default v-else :selection="selection" @load="loaded = true"/>
+          <Text v-if="loadPreview('text')" :selection="selection" @load="setLoad(true)"/>
+          <Image v-else-if="loadPreview('image')" :selection="selection" @load="setLoad(true)"/>
+          <Video v-else-if="loadPreview('video')" :selection="selection" @load="setLoad(true)"/>
+          <Audio v-else-if="loadPreview('audio')" :selection="selection" @load="setLoad(true)"/>
+          <Pdf v-else-if="loadPreview('application/pdf')" :selection="selection" @load="setLoad(true)"/>
+          <Default v-else :selection="selection" @load="setLoad(true)"/>
         </div>
 
         <div class="text-gray-700 dark:text-gray-200 text-sm">
@@ -53,6 +53,8 @@ import {useApiUrl} from '../../composables/useApiUrl.js';
 const {apiUrl} = useApiUrl();
 const emitter = inject('emitter')
 const loaded = ref(false);
+
+const setLoad = (bool) => loaded.value = bool;
 
 const props = defineProps({
   selection: Object

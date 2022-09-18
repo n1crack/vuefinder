@@ -8,7 +8,7 @@
   </div>
 
   <div class="w-full flex justify-center">
-    <img :ref="el => image = el" class="max-w-[60vh] max-h-[60vh]" :src="getImageUrl()" alt="">
+    <img ref="image" class="max-w-[60vh] max-h-[60vh]" :src="getImageUrl()" alt="">
   </div>
 </template>
 

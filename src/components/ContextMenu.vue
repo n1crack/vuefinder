@@ -1,5 +1,5 @@
 <template>
-  <ul class="z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none" :ref="el => contextmenu = el" v-if="context.active" :style="context.positions">
+  <ul class="z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none" ref="contextmenu" v-if="context.active" :style="context.positions">
     <li class="px-2 py-1.5 cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700"
         v-for="(item) in context.items" :key="item.title" @click="run(item)">
       <span class="px-1"></span>
