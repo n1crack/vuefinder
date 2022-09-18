@@ -1803,7 +1803,7 @@ const hn = kr.exports, fn = (o, e, t, n, s) => (e = Math, t = e.log, n = 1024, s
       })
     ], 2));
   }
-}), Dn = { class: "relative flex-auto h-full" }, Cn = {
+}), Dn = { class: "relative flex-auto flex flex-col overflow-hidden" }, Cn = {
   key: 0,
   class: "grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none"
 }, Mn = /* @__PURE__ */ Me(" Name "), $n = /* @__PURE__ */ Me(" Size "), En = /* @__PURE__ */ Me(" Date "), Tn = /* @__PURE__ */ Me(" Path "), An = { class: "absolute" }, Pn = /* @__PURE__ */ d("svg", {
