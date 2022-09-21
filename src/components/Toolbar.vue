@@ -2,7 +2,7 @@
   <div class="border-neutral-300 flex justify-between items-center py-1 text-sm">
     <div class="flex text-center" v-if="!searchQuery.length">
         <div class="mx-1.5"
-             aria-label="New Folder" data-microtip-position="bottom-right" role="tooltip"
+             :aria-label="t('New Folder')" data-microtip-position="bottom-right" role="tooltip"
              @click="emitter.emit('vf-modal-show', {type:'new-folder', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -11,7 +11,7 @@
         </div>
 
         <div class="mx-1.5"
-             aria-label="New File" data-microtip-position="bottom" role="tooltip"
+             :aria-label="t('New File')" data-microtip-position="bottom" role="tooltip"
              @click="emitter.emit('vf-modal-show', {type:'new-file', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -20,7 +20,7 @@
         </div>
 
         <div class="mx-1.5"
-             aria-label="Rename" data-microtip-position="bottom" role="tooltip"
+             :aria-label="t('Rename')" data-microtip-position="bottom" role="tooltip"
              @click="(selectedItems.length != 1) || emitter.emit('vf-modal-show', {type:'rename', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                 :class="(selectedItems.length == 1) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
@@ -30,7 +30,7 @@
         </div>
 
         <div class="mx-1.5"
-             aria-label="Delete" data-microtip-position="bottom" role="tooltip"
+             :aria-label="t('Delete')" data-microtip-position="bottom" role="tooltip"
              @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'delete', items: selectedItems})">
             <svg xmlns="http://www.w3.org/2000/svg"
                  :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
@@ -40,7 +40,7 @@
         </div>
 
         <div class="mx-1.5"
-             aria-label="Upload" data-microtip-position="bottom" role="tooltip"
+             :aria-label="t('Upload')" data-microtip-position="bottom" role="tooltip"
              @click="emitter.emit('vf-modal-show', {type:'upload', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
@@ -48,7 +48,7 @@
         </div>
 
         <div class="mx-1.5" v-if="selectedItems.length == 1 && selectedItems[0].mime_type == 'application/zip'"
-             aria-label="Unrchive" data-microtip-position="bottom" role="tooltip"
+             :aria-label="t('Unrchive')" data-microtip-position="bottom" role="tooltip"
               @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
@@ -57,7 +57,7 @@
           </svg>
         </div>
         <div class="mx-1.5" v-else
-             aria-label="Archive" data-microtip-position="bottom" role="tooltip"
+             :aria-label="t('Archive')" data-microtip-position="bottom" role="tooltip"
               @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'archive', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
@@ -69,18 +69,18 @@
     </div>
 
     <div class="flex text-center" v-else>
-      <div class="pl-2"> Search results for <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ searchQuery }}</span></div>
+      <div class="pl-2"> {{ t('Search results for') }} <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ searchQuery }}</span></div>
     </div>
 
     <div class="flex text-center items-center justify-end">
-        <div class="mx-1.5" aria-label="Dark Mode" data-microtip-position="bottom" role="tooltip">
+        <div class="mx-1.5" :aria-label="t('Dark Mode')" data-microtip-position="bottom" role="tooltip">
           <svg @click="emitter.emit('vf-darkMode-toggle')" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                class="h-6 w-6 m-auto cursor-pointer stroke-sky-500 fill-sky-100 hover:stroke-sky-600 dark:stroke-gray-400 dark:fill-gray-400/20 dark:hover:stroke-gray-300">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
           </svg>
         </div>
 
-         <div class="mx-1.5" aria-label="Toggle Full Screen" data-microtip-position="bottom" role="tooltip"
+         <div class="mx-1.5" :aria-label="t('Toggle Full Screen')" data-microtip-position="bottom" role="tooltip"
                @click="setFullScreen">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
                 <path v-if="fullScreen" stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
@@ -89,7 +89,7 @@
           </div>
 
         <div class="mx-1.5"
-             aria-label="Change View" data-microtip-position="bottom-left" role="tooltip"
+             :aria-label="t('Change View')" data-microtip-position="bottom-left" role="tooltip"
              @click="searchQuery.length || emitter.emit('vf-view-toggle', view == 'list' ? 'grid' : 'list')">
 
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -115,6 +115,8 @@ import {ref} from 'vue';
 const emitter = inject('emitter')
 
 const {getStore, setStore} = inject('storage')
+
+const {t} = inject('i18n');
 
 const view = ref(getStore('viewport', 'grid'));
 

@@ -33,12 +33,10 @@ import VFExplorer from '../components/Explorer.vue';
 import VFStatusbar from '../components/Statusbar.vue';
 import VFBreadcrumb from '../components/Breadcrumb.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
-
-const emitter = mitt();
-provide('emitter', emitter);
+import {useI18n} from '../composables/useI18n.js';
 
 const props = defineProps({
-  url : {
+  url: {
     type: [String],
   },
   id: {
@@ -48,10 +46,22 @@ const props = defineProps({
   dark: {
     type: Boolean,
     default: false
-  }
-})
+  },
+  locale: {
+    type: String,
+    default: 'en'
+  },
+});
+
+const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
+provide('emitter', emitter);
 provide('storage', useStorage(props.id));
+
+// Lang Management
+const i18n = useI18n(props.id, props.locale);
+const {t, changeLocale} = i18n;
+provide('i18n', i18n);
 
 const {apiUrl, setApiUrl} = useApiUrl();
 setApiUrl(props.url)
@@ -80,7 +90,6 @@ emitter.on('vf-view-toggle', (newView) => {
 })
 
 // Modal Management
-
 const modal = reactive({
   active: false,
   type: 'delete',

@@ -1,6 +1,6 @@
 <template>
   <div class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none  text-xs">
-    <span aria-label="Go up a directory" data-microtip-position="bottom-right" role="tooltip">
+    <span :aria-label="t('Go up a directory')" data-microtip-position="bottom-right" role="tooltip">
       <svg
           @dragover="handleDragOver($event)"
           @drop="handleDropZone($event)"
@@ -35,7 +35,7 @@
           ref="searchInput"
           @keydown.esc="exitSearchMode"
           v-model="query"
-          placeholder="Search anything.."
+          :placeholder="t('Search anything..')"
           class="py-0 px-2 w-full border-0 ring-0 outline-0 text-sm text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
           type="text">
       <svg
@@ -70,6 +70,8 @@ const searchInput = ref(null);
 const props = defineProps({
   data: Object
 });
+
+const {t} = inject('i18n');
 
 emitter.on('vf-explorer-update', () => {
   let items = [], links = [];

@@ -49,7 +49,7 @@ current progress :
 - [x] toggle full screen
 - [x] toast notifications
 - [x] search
-- [ ] multi language (need some localization)
+- [x] multi-language (en/tr atm. will be more. PRs are welcomed.)
 - [ ] thumbnails
 - [ ] validation & error messages
 - [ ] code refactoring

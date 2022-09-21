@@ -2,19 +2,19 @@
   <div class="relative flex-auto flex flex-col overflow-hidden">
     <div v-if="view=='list' || searchQuery.length" class="grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none">
         <div @click="sortBy('basename')" class="col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center pl-1">
-            Name
+          {{ t('Name') }}
             <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'" v-show="sort.active && sort.column=='basename'" />
         </div>
         <div v-if="!searchQuery.length" @click="sortBy('file_size')" class="col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center justify-center border-l border-r dark:border-gray-700">
-          Size
+          {{ t('Size') }}
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='file_size'" />
         </div>
         <div v-if="!searchQuery.length" @click="sortBy('last_modified')" class="col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center justify-center">
-          Date
+          {{ t('Date') }}
           <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='last_modified'" />
         </div>
         <div v-if="searchQuery.length" @click="sortBy('path')" class="col-span-5 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center justify-center border-l dark:border-gray-700">
-            Path
+          {{ t('Filepath') }}
             <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='path'" />
         </div>
       </div>
@@ -141,7 +141,7 @@ const selectorArea = ref(null);
 const dragImage = ref(null);
 const selectedCount = ref(0)
 const ds = ref(null);
-
+const {t} = inject('i18n');
 const fullScreen = ref(getStore('full-screen', false));
 
 emitter.on('vf-fullscreen-toggle', () => {

@@ -3,7 +3,7 @@
     <li class="px-2 py-1.5 cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700"
         v-for="(item) in context.items" :key="item.title" @click="run(item)">
       <span class="px-1"></span>
-      <span>{{ item.title }}</span>
+      <span>{{ item.title() }}</span>
     </li>
   </ul>
 </template>
@@ -42,67 +42,68 @@ const selectedItems = ref([]);
 emitter.on('vf-context-selected', (items) => {
   selectedItems.value = items;
 })
+const {t} = inject('i18n')
 
 const menuItems = {
   newfolder: {
-    title: 'New Folder',
+    title: () => t('New Folder'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'new-folder'});
     },
   },
   delete: {
-    title: 'Delete',
+    title: () => t('Delete'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'delete', items: selectedItems});
     },
   },
   refresh: {
-    title: 'Refresh',
+    title: () =>  t('Refresh'),
     action: () => {
       emitter.emit('vf-fetch',{q: 'index', adapter: props.current.adapter, path: props.current.dirname} );
     },
   },
   preview: {
-    title: 'Preview',
+    title: () =>  t('Preview'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
     },
   },
   open: {
-    title: 'Open',
+    title: () =>  t('Open'),
     action: () => {
       emitter.emit('vf-search-exit');
       emitter.emit('vf-fetch', {q: 'index', adapter: props.current.adapter, path:selectedItems.value[0].path});
     },
   },
   openDir: {
-    title: 'Open containing folder',
+    title: () =>  t('Open containing folder'),
     action: () => {
       emitter.emit('vf-search-exit');
       emitter.emit('vf-fetch', {q: 'index', adapter: props.current.adapter, path: (selectedItems.value[0].dir)});
     },
   },
   download: {
-    title: 'Download',
+    title: () =>  t('Download'),
     action: () => {
       const url = apiUrl.value + '?' + buildURLQuery({q:'download', adapter: selectedItems.value[0].adapter, path: selectedItems.value[0].path});
       emitter.emit('vf-download', url);
     },
   },
   archive: {
-    title: 'Archive',
+    title: () =>  t('Archive'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'archive', items: selectedItems});
     },
   },
   unarchive: {
-    title: 'Unarchive',
+    title: () => t('Unarchive'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems});
     },
   },
   rename: {
-    title: 'Rename',
+    title: () =>  t('Rename'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'rename', items: selectedItems});
     },
