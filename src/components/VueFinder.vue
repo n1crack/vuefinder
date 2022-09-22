@@ -60,8 +60,9 @@ provide('storage', useStorage(props.id));
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale);
-const {t, changeLocale} = i18n;
+const {t} = i18n;
 provide('i18n', i18n);
+
 
 const {apiUrl, setApiUrl} = useApiUrl();
 setApiUrl(props.url)

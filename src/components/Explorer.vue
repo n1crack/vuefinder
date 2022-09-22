@@ -40,7 +40,8 @@
            @touchstart="delayedOpenItem(item)"
            @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
-           class="vf-item grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
+           :class="'vf-item-' + randId"
+           class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
            v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
           <div class="grid grid-cols-12 items-center">
             <div class="flex col-span-7 items-center">
@@ -65,7 +66,8 @@
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
-           class="vf-item grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
+           :class="'vf-item-' + randId"
+           class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
            v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
           <div class="grid grid-cols-12 items-center">
             <div class="flex col-span-7 items-center">
@@ -91,7 +93,8 @@
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
-           class="vf-item border border-transparent hover:bg-neutral-50 m-0.5 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none"
+           :class="'vf-item-' + randId"
+           class="border border-transparent hover:bg-neutral-50 m-0.5 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none"
            v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
           <div>
             <div class="relative">
@@ -142,6 +145,7 @@ const dragImage = ref(null);
 const selectedCount = ref(0)
 const ds = ref(null);
 const {t} = inject('i18n');
+const randId = Math.floor(Math.random() * 2**32);
 const fullScreen = ref(getStore('full-screen', false));
 
 emitter.on('vf-fullscreen-toggle', () => {
@@ -267,7 +271,7 @@ const setDragSelect = () => {
 
   emitter.on('vf-explorer-update', () => nextTick(() => {
     ds.value.clearSelection();
-    ds.value.setSelectables(document.getElementsByClassName('vf-item'));
+    ds.value.setSelectables(document.getElementsByClassName('vf-item-' + randId ));
   }));
 
   ds.value.subscribe('predragstart', ({event, isDragging}) => {
@@ -301,7 +305,7 @@ const setDragSelect = () => {
 onMounted(setDragSelect)
 
 onMounted(() => {
-  watch(() => props.view, () =>emitter.emit('vf-explorer-update'));
+  watch(() => props.view, () => emitter.emit('vf-explorer-update'));
 });
 </script>
 
