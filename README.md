@@ -50,7 +50,7 @@ current progress :
 - [x] toast notifications
 - [x] search
 - [x] multi-language (en/tr atm. will be more. PRs are welcomed.)
-- [ ] thumbnails
+- [x] thumbnails
 - [ ] validation & error messages
 - [ ] code refactoring
 - [ ] test for different adapters (especially check if zip/archive works)

@@ -9,18 +9,17 @@
   </div>
 
   <div class="w-full flex justify-center">
-    <img ref="image" class="max-w-[60vh] max-h-[60vh]" :src="getImageUrl()" alt="">
+    <img ref="image" class="max-w-[60vh] max-h-[60vh]" :src="getImageUrl(props.selection.adapter, props.selection.item.path)" alt="">
   </div>
 </template>
 
 <script setup>
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
-import buildURLQuery from '../../utils/buildURLQuery.js';
-import {useApiUrl} from '../../composables/useApiUrl.js';
 import {ref} from 'vue';
 import ajax from '../../utils/ajax.js';
-const {apiUrl} = useApiUrl();
+import {getImageUrl} from '../../utils/getImageUrl.js';
+
 const props = defineProps({
   selection: Object
 });
@@ -28,10 +27,6 @@ const props = defineProps({
 const {t} = inject('i18n');
 
 const emit = defineEmits(['load']);
-
-const getImageUrl = () => {
-  return apiUrl.value + '?' + buildURLQuery({q:'preview', adapter: props.selection.adapter, path: props.selection.item.path})
-}
 
 const image = ref(null);
 const cropper = ref(null);
@@ -65,7 +60,7 @@ const crop = () => {
               json: false
             })
                 .then(data => {
-                  image.value.src = getImageUrl();
+                  image.value.src = getImageUrl(props.selection.adapter, props.selection.item.path);
                   editMode();
                   emit('load');
                 })

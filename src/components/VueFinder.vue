@@ -2,6 +2,7 @@
   <div :class="darkMode ? 'dark': ''">
     <div
         :class="fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative'"
+        :style="!fullScreen ? 'max-height: ' + maxHeight : ''"
         class="border flex flex-col rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
         @mousedown="emitter.emit('vf-contextmenu-hide')">
       <v-f-toolbar :data="fetchData" />
@@ -34,6 +35,7 @@ import VFStatusbar from '../components/Statusbar.vue';
 import VFBreadcrumb from '../components/Breadcrumb.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
 import {useI18n} from '../composables/useI18n.js';
+import buildURLQuery from '../utils/buildURLQuery.js';
 
 const props = defineProps({
   url: {
@@ -51,6 +53,10 @@ const props = defineProps({
     type: String,
     default: 'en'
   },
+  maxHeight: {
+    type: String,
+    default: '600px'
+  }
 });
 
 const emitter = mitt();
