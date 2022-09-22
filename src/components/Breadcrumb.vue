@@ -34,6 +34,7 @@
       <input
           ref="searchInput"
           @keydown.esc="exitSearchMode"
+          @blur="handleBlur"
           v-model="query"
           :placeholder="t('Search anything..')"
           class="py-0 px-2 w-full border-0 ring-0 outline-0 text-sm text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
@@ -152,6 +153,12 @@ const handleDragOver = (e) => {
     e.dataTransfer.effectAllowed = 'none';
   }
 };
+
+const handleBlur = () => {
+  if (query.value == '') {
+    exitSearchMode();
+  }
+}
 </script>
 
 

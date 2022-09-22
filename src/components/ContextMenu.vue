@@ -124,7 +124,14 @@ emitter.on('vf-search-query', ({newQuery}) => {
 emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
   context.items = [];
 
-  if (!target && !searchQuery.value) {
+  if (searchQuery.value) {
+    if (target) {
+      context.items.push(menuItems.openDir);
+      emitter.emit('vf-context-selected', [target]);
+    } else {
+      return;
+    }
+  } else if (!target && !searchQuery.value) {
     context.items.push(menuItems.refresh);
     context.items.push(menuItems.newfolder);
     emitter.emit('vf-context-selected', []);
@@ -135,9 +142,6 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     context.items.push(menuItems.delete);
     emitter.emit('vf-context-selected', items);
     console.log(items.length + ' selected (more than 1 item.)');
-  } else if (target && searchQuery.value) {
-    context.items.push(menuItems.openDir);
-    emitter.emit('vf-context-selected', [target]);
   } else {
     if (target.type == 'dir') {
       context.items.push(menuItems.open);

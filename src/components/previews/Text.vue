@@ -4,8 +4,9 @@
       {{ selection.item.basename }}
     </div>
     <div class="ml-auto mb-2">
-      <button @click="save" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">Save</button>
-      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()">{{ showEdit ? 'Cancel': 'Edit' }}</button>
+      <button @click="save" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">
+        {{ t('Save') }}</button>
+      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
     </div>
   </div>
   <div>
@@ -21,7 +22,7 @@
 
 <script setup>
 
-import {nextTick, onMounted, ref} from 'vue';
+import {inject, nextTick, onMounted, ref} from 'vue';
 import ajax from '../../utils/ajax.js';
 import {useApiUrl} from '../../composables/useApiUrl.js';
 
@@ -34,6 +35,8 @@ const {apiUrl} = useApiUrl();
 const props = defineProps({
   selection: Object
 });
+
+const {t} = inject('i18n');
 
 onMounted(() => {
   ajax(apiUrl.value, {

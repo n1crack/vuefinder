@@ -2,8 +2,9 @@
   <div class="flex">
     <h3 class="mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{ selection.item.basename }}</h3>
     <div class="ml-auto mb-2">
-      <button @click="crop" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">Crop</button>
-      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()">{{ showEdit ? 'Cancel': 'Edit' }}</button>
+      <button @click="crop" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">
+        {{ t('Crop') }}</button>
+      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
     </div>
   </div>
 
@@ -23,6 +24,9 @@ const {apiUrl} = useApiUrl();
 const props = defineProps({
   selection: Object
 });
+
+const {t} = inject('i18n');
+
 const emit = defineEmits(['load']);
 
 const getImageUrl = () => {
