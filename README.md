@@ -54,6 +54,7 @@ current progress :
 - [x] search
 - [x] multi-language (en/tr atm. will be more. PRs are welcomed.)
 - [x] thumbnails
+- [x] updated npm package
 - [ ] validation & error messages
 - [ ] code refactoring
 - [ ] test for different adapters (especially check if zip/archive works)
