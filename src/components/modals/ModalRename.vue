@@ -67,7 +67,7 @@ const rename = () => {
         item: item.value.path,
         name: name.value
       },
-      callback: (e) => {
+      onError: (e) => {
         error.value = e.message;
         emitter.emit('vf-toast-push', {label: e.message, type: 'error'});
       }

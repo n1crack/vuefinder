@@ -118,15 +118,15 @@ const updateItems = (data) => {
   emitter.emit('vf-explorer-update')
 }
 
-emitter.on('vf-fetch', ({params, callback = null}) => {
+emitter.on('vf-fetch', ({params, onError = null}) => {
   ajax(apiUrl.value, {params})
       .then(data => {
         emitter.emit('vf-modal-close');
         updateItems(data);
       })
       .catch((e) => {
-        if(callback) {
-          callback(e);
+        if(onError) {
+          onError(e);
         }
       });
 });

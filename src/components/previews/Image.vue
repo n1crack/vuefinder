@@ -19,12 +19,14 @@ import Cropper from 'cropperjs';
 import {inject, ref} from 'vue';
 import ajax from '../../utils/ajax.js';
 import {getImageUrl} from '../../utils/getImageUrl.js';
+import {useApiUrl} from '../../composables/useApiUrl.js';
 
 const props = defineProps({
   selection: Object
 });
 
 const {t} = inject('i18n');
+const {apiUrl} = useApiUrl();
 
 const emit = defineEmits(['load']);
 
