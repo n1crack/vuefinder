@@ -124,7 +124,7 @@ export default {
 </script>
 
 <script setup>
-import {nextTick, onMounted, reactive, ref, watch} from 'vue';
+import {inject, nextTick, onMounted, reactive, ref, watch} from 'vue';
 import DragSelect from 'dragselect';
 import filesize from './../utils/filesize.js'
 import datetimestring from '../utils/datetimestring.js';

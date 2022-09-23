@@ -15,7 +15,7 @@ export default {
 </script>
 
 <script setup>
-import {nextTick, reactive, ref} from 'vue';
+import {inject, nextTick, reactive, ref} from 'vue';
 import buildURLQuery from '../utils/buildURLQuery.js';
 import {useApiUrl} from '../composables/useApiUrl.js';
 

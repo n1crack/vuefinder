@@ -23,7 +23,7 @@ export default {
 </script>
 
 <script setup>
-import {ref} from 'vue';
+import {inject, ref} from 'vue';
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
 

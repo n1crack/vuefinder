@@ -40,7 +40,7 @@ export default {
 </script>
 
 <script setup>
-import {ref} from 'vue';
+import {inject, ref} from 'vue';
 import VFModalLayout from './ModalLayout.vue';
 import Text from '../previews/Text.vue';
 import Image from '../previews/Image.vue';

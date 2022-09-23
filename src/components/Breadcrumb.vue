@@ -58,7 +58,7 @@ export default {
 
 <script setup>
 
-import {nextTick, ref, watch} from 'vue';
+import {inject, nextTick, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
 
 const emitter = inject('emitter');

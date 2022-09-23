@@ -42,7 +42,7 @@ export default {
 <script setup>
 import plupload from 'plupload'
 import VFModalLayout from './ModalLayout.vue';
-import {onMounted, ref} from 'vue';
+import {inject, onMounted, ref} from 'vue';
 import {useApiUrl} from '../../composables/useApiUrl.js';
 import buildURLQuery from '../../utils/buildURLQuery.js';
 

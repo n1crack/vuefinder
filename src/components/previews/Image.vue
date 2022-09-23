@@ -16,7 +16,7 @@
 <script setup>
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
-import {ref} from 'vue';
+import {inject, ref} from 'vue';
 import ajax from '../../utils/ajax.js';
 import {getImageUrl} from '../../utils/getImageUrl.js';
 

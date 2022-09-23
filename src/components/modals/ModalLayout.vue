@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import {onMounted} from 'vue';
+import {inject, onMounted} from 'vue';
 
 const emitter = inject('emitter')
 

@@ -44,7 +44,7 @@ export default {
 
 <script setup>
 import VFModalLayout from './ModalLayout.vue';
-import {ref} from 'vue';
+import {inject, ref} from 'vue';
 
 const emitter = inject('emitter');
 const {getStore} = inject('storage');

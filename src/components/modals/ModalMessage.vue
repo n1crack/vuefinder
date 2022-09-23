@@ -29,6 +29,7 @@ export default {
 
 <script setup>
 import VFModalLayout from './ModalLayout.vue';
+import {inject} from 'vue';
 const emitter = inject('emitter');
 const {t} = inject('i18n');
 
