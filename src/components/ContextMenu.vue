@@ -147,9 +147,10 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
       context.items.push(menuItems.open);
     } else {
       context.items.push(menuItems.preview);
+      context.items.push(menuItems.download);
     }
     context.items.push(menuItems.rename);
-    context.items.push(menuItems.download);
+
     if (target.mime_type == 'application/zip') {
       context.items.push(menuItems.unarchive);
     } else {

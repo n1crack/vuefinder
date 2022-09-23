@@ -35,7 +35,6 @@ import VFStatusbar from '../components/Statusbar.vue';
 import VFBreadcrumb from '../components/Breadcrumb.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
 import {useI18n} from '../composables/useI18n.js';
-import buildURLQuery from '../utils/buildURLQuery.js';
 
 const props = defineProps({
   url: {
