@@ -51,12 +51,12 @@ const name = ref('');
 
 const createFolder = () => {
   if (name.value != '') {
-    emitter.emit('vf-fetch', {
+    emitter.emit('vf-fetch', {params:{
       q: 'newfolder',
       adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       name: name.value
-    });
+    }});
 
     emitter.emit('vf-toast-push', {label: 'New Folder is created successfully', type: 'success'})
   }

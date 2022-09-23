@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "vuefinder is an elegant web file manager.",
   "type": "module",
   "files": [

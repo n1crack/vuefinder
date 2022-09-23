@@ -60,12 +60,12 @@ const items = ref(props.selection.items);
 const remove = () => {
 
   if (items.value.length) {
-    emitter.emit('vf-fetch', {
+    emitter.emit('vf-fetch', {params:{
       q: 'delete',
       adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       items: JSON.stringify(items.value.map(({path, type}) => ({path, type})))
-    });
+    }});
   }
 };
 

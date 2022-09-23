@@ -101,7 +101,7 @@ onMounted(() => {
 
       UploadComplete: function () {
         disableUploadButton.value = true;
-        emitter.emit('vf-fetch', {q: 'index', adapter: props.current.adapter, path: props.current.dirname});
+        emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path: props.current.dirname}});
       },
 
       Error: function (up, err) {

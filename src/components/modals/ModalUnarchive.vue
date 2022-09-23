@@ -57,12 +57,12 @@ const item = ref(props.selection.items[0]);
 const items = ref([]);
 
 const unarchive = () => {
-    emitter.emit('vf-fetch', {
+    emitter.emit('vf-fetch', {params:{
       q: 'unarchive',
       adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       item: item.value.path
-    });
+    }});
 };
 
 </script>

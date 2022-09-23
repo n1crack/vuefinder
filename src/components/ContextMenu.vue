@@ -60,7 +60,7 @@ const menuItems = {
   refresh: {
     title: () =>  t('Refresh'),
     action: () => {
-      emitter.emit('vf-fetch',{q: 'index', adapter: props.current.adapter, path: props.current.dirname} );
+      emitter.emit('vf-fetch',{params:{q: 'index', adapter: props.current.adapter, path: props.current.dirname}} );
     },
   },
   preview: {
@@ -73,14 +73,14 @@ const menuItems = {
     title: () =>  t('Open'),
     action: () => {
       emitter.emit('vf-search-exit');
-      emitter.emit('vf-fetch', {q: 'index', adapter: props.current.adapter, path:selectedItems.value[0].path});
+      emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path:selectedItems.value[0].path}});
     },
   },
   openDir: {
     title: () =>  t('Open containing folder'),
     action: () => {
       emitter.emit('vf-search-exit');
-      emitter.emit('vf-fetch', {q: 'index', adapter: props.current.adapter, path: (selectedItems.value[0].dir)});
+      emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path: (selectedItems.value[0].dir)}});
     },
   },
   download: {

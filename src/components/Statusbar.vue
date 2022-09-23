@@ -61,7 +61,7 @@ const locale = ref(getStore('locale', ''))
 
 const handleStorageSelect = () => {
   emitter.emit('vf-search-exit');
-  emitter.emit('vf-fetch', {q: 'index', adapter: adapter.value});
+  emitter.emit('vf-fetch', {params:{q: 'index', adapter: adapter.value}});
   setStore('adapter', adapter.value)
 };
 

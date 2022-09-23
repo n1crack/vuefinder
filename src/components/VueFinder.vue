@@ -118,11 +118,16 @@ const updateItems = (data) => {
   emitter.emit('vf-explorer-update')
 }
 
-emitter.on('vf-fetch', (params) => {
+emitter.on('vf-fetch', ({params, callback = null}) => {
   ajax(apiUrl.value, {params})
       .then(data => {
         emitter.emit('vf-modal-close');
         updateItems(data);
+      })
+      .catch((e) => {
+        if(callback) {
+          callback(e);
+        }
       });
 });
 
@@ -132,7 +137,7 @@ emitter.on('vf-download', (url) => {
 });
 
 onMounted(() => {
-  emitter.emit('vf-fetch', {q: 'index', adapter: (getStore('adapter', fetchData.adapter)) })
+  emitter.emit('vf-fetch', {params: {q: 'index', adapter: (getStore('adapter', fetchData.adapter)) }})
 });
 
 </script>

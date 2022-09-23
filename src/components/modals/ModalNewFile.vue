@@ -48,12 +48,12 @@ const name = ref('');
 
 const createFile = () => {
   if (name.value != '') {
-    emitter.emit('vf-fetch', {
+    emitter.emit('vf-fetch', {params:{
       q: 'newfile',
       adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       name: name.value
-    });
+    }});
   }
 };
 

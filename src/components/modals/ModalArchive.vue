@@ -60,13 +60,13 @@ const items = ref(props.selection.items);
 
 const archive = () => {
   if (items.value.length) {
-    emitter.emit('vf-fetch', {
+    emitter.emit('vf-fetch', {params:{
       q: 'archive',
       adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
       name: name.value
-    });
+    }});
   }
 };
 

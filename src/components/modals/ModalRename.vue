@@ -21,6 +21,7 @@
           </p>
           <input v-model="name" @keyup.enter="rename"
                  class="px-2 py-1 border rounded dark:bg-gray-500 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" placeholder="Name" type="text">
+          <div class="text-red-600">{{ error }}</div>
         </div>
       </div>
     </div>
@@ -52,18 +53,24 @@ const props = defineProps({
   current: Object
 });
 
-
 const item = ref(props.selection.items[0]);
 const name = ref(props.selection.items[0].basename);
+const error = ref('');
 
 const rename = () => {
   if (name.value != '') {
     emitter.emit('vf-fetch', {
-      q: 'rename',
-      adapter: getStore('adapter', 'local'),
-      path: props.current.dirname,
-      item: item.value.path,
-      name: name.value
+      params: {
+        q: 'rename',
+        adapter: getStore('adapter', 'local'),
+        path: props.current.dirname,
+        item: item.value.path,
+        name: name.value
+      },
+      callback: (e) => {
+        error.value = e.message;
+        emitter.emit('vf-toast-push', {label: e.message, type: 'error'});
+      }
     });
   }
 };

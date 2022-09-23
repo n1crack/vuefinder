@@ -18,6 +18,6 @@ export default (url, {method = 'get', params = {}, json = true}) => {
         if (response.ok) {
             return json ? response.json() : response.text();
         }
-        return Promise.reject(response);
+        return response.json().then(Promise.reject.bind(Promise));
     });
 }
