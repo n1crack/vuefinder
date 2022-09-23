@@ -29,9 +29,8 @@
       </div>
 
     <div
-        :style="fullScreen ? 'height: 100%;' : ''"
         :class="fullScreen ? '' : 'resize-y'"
-        class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto  p-1 z-0"
+        class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto p-1 z-0"
         ref="selectorArea"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
 
       <div
@@ -124,7 +123,7 @@ export default {
 </script>
 
 <script setup>
-import {inject, nextTick, onMounted, reactive, ref, watch} from 'vue';
+import {inject, nextTick, onMounted, onUpdated, reactive, ref, watch} from 'vue';
 import DragSelect from 'dragselect';
 import filesize from './../utils/filesize.js'
 import datetimestring from '../utils/datetimestring.js';
@@ -305,6 +304,8 @@ const setDragSelect = () => {
 };
 
 onMounted(setDragSelect)
+
+onUpdated(() => ds.value.start())
 
 onMounted(() => {
   watch(() => props.view, () => emitter.emit('vf-explorer-update'));

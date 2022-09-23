@@ -128,6 +128,7 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     if (target) {
       context.items.push(menuItems.openDir);
       emitter.emit('vf-context-selected', [target]);
+      console.log('search item selected');
     } else {
       return;
     }
