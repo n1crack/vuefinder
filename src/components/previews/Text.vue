@@ -16,7 +16,9 @@
           ref="editInput"
           v-model="contentTemp"
           class="w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] text-xs" name="text" id="" cols="30" rows="10"></textarea>
+
     </div>
+    <message v-if="message.length" :error="isError">{{ message }}</message>
   </div>
 </template>
 
@@ -25,6 +27,7 @@
 import {inject, nextTick, onMounted, ref} from 'vue';
 import ajax from '../../utils/ajax.js';
 import {useApiUrl} from '../../composables/useApiUrl.js';
+import Message from '../Message.vue';
 
 const emit = defineEmits(['load'])
 const content = ref('');
@@ -35,6 +38,8 @@ const {apiUrl} = useApiUrl();
 const props = defineProps({
   selection: Object
 });
+const message = ref('');
+const isError = ref(false);
 
 const {t} = inject('i18n');
 
@@ -60,17 +65,23 @@ const editMode = () => {
 };
 
 const save = () => {
+  message.value = '';
+  isError.value = false;
   ajax(apiUrl.value, {
     method: 'POST',
     params: {q: 'save', adapter: props.selection.adapter, path: props.selection.item.path, content: contentTemp.value},
     json: false
   })
       .then(data => {
+        message.value = t('Updated.');
         content.value = data;
         emit('load');
         showEdit.value = !showEdit.value
       })
-      .catch((e) => console.log(e.statusText));
+      .catch((e) => {
+         message.value = t(e.message);
+         isError.value = true;
+      });
 }
 
 </script>

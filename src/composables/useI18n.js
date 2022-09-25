@@ -35,11 +35,10 @@ export function useI18n(id, locale) {
     const sprintf = (str, ...argv) => !argv.length ? str : sprintf(str = str.replace('%s', argv.shift()), ...argv);
 
     function t(key, ...params) {
-
         if (translations.value.hasOwnProperty(key)) {
             return sprintf(translations.value[key], ...params);
         }
-        return '';
+        return key;
     };
 
     return {t, support_locales, changeLocale};

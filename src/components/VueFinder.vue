@@ -35,7 +35,7 @@ import VFStatusbar from '../components/Statusbar.vue';
 import VFBreadcrumb from '../components/Breadcrumb.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
 import {useI18n} from '../composables/useI18n.js';
-
+import Message from './Message.vue';
 const props = defineProps({
   url: {
     type: [String],
@@ -123,7 +123,7 @@ emitter.on('vf-fetch', ({params, onSuccess = null, onError = null}) => {
       .then(data => {
         emitter.emit('vf-modal-close');
         updateItems(data);
-        onSuccess();
+        onSuccess(data);
       })
       .catch((e) => {
         if (onError) {

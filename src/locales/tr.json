@@ -56,5 +56,7 @@
   "Files moved." : "Dosyalar taşındı.",
   "Files deleted." : "Dosyalar silindi.",
   "The file is unarchived." : "Dosya arşivden çıkarıldı.",
-  "The file(s) is archived." : "Dosyalar arşivlendi."
+  "The file(s) is archived." : "Dosyalar arşivlendi.",
+  "Updated." : "Güncellendi.",
+  "No search result found." : "Arama sonucu bulunamadı."
 }

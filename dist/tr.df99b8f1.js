@@ -56,7 +56,9 @@ const e = `{
   "Files moved." : "Dosyalar ta\u015F\u0131nd\u0131.",
   "Files deleted." : "Dosyalar silindi.",
   "The file is unarchived." : "Dosya ar\u015Fivden \xE7\u0131kar\u0131ld\u0131.",
-  "The file(s) is archived." : "Dosyalar ar\u015Fivlendi."
+  "The file(s) is archived." : "Dosyalar ar\u015Fivlendi.",
+  "Updated." : "G\xFCncellendi.",
+  "No search result found." : "Arama sonucu bulunamad\u0131."
 }
 `;
 export {

@@ -49,6 +49,10 @@ const removeItemByID = (uid) => {
   }
 };
 
+emitter.on('vf-toast-clear', () => {
+  messageQueue.value = []
+});
+
 emitter.on('vf-toast-push', (data) => {
   let uid= new Date().getTime().toString(36).concat(performance.now().toString(), Math.random().toString()).replace(/\./g,"");
   data.id = uid;

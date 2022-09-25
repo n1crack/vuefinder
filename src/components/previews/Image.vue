@@ -11,6 +11,9 @@
   <div class="w-full flex justify-center">
     <img ref="image" class="max-w-[60vh] max-h-[60vh]" :src="getImageUrl(props.selection.adapter, props.selection.item.path)" alt="">
   </div>
+  
+  <message v-if="message.length" :error="isError">{{ message }}</message>
+
 </template>
 
 <script setup>
@@ -20,6 +23,7 @@ import {inject, ref} from 'vue';
 import ajax from '../../utils/ajax.js';
 import {getImageUrl} from '../../utils/getImageUrl.js';
 import {useApiUrl} from '../../composables/useApiUrl.js';
+import Message from '../Message.vue';
 
 const props = defineProps({
   selection: Object
@@ -33,6 +37,8 @@ const emit = defineEmits(['load']);
 const image = ref(null);
 const cropper = ref(null);
 const showEdit = ref(false);
+const message = ref('');
+const isError = ref(false);
 
 const editMode = () => {
   showEdit.value = !showEdit.value;
@@ -55,6 +61,8 @@ const crop = () => {
       })
       .toBlob(
           blob => {
+            message.value = '';
+            isError.value = false;
             ajax(apiUrl.value, {
               method: 'POST',
               params: {q: 'upload', adapter: props.selection.adapter, path: props.selection.item.path, file: blob},
@@ -62,13 +70,15 @@ const crop = () => {
               json: false
             })
                 .then(data => {
+                  message.value = t('Updated.');
                   image.value.src = getImageUrl(props.selection.adapter, props.selection.item.path);
                   editMode();
                   emit('load');
                 })
-                .catch((e) => console.log(e.statusText));
-
-
+                .catch((e) => {
+                  message.value = t(e.message);
+                  isError.value = true;
+                });
           });
 };
 

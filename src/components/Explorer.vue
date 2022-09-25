@@ -160,7 +160,20 @@ emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
 
   if (newQuery) {
-    emitter.emit('vf-fetch', {params:{q: 'search', adapter: props.data.adapter, path: props.data.dirname, filter: newQuery}});
+    emitter.emit('vf-fetch', {
+      params: {
+        q: 'search',
+        adapter: props.data.adapter,
+        path: props.data.dirname,
+        filter: newQuery
+      },
+      onSuccess: (data) => {
+        emitter.emit('vf-toast-clear');
+        if (!data.files.length) {
+          emitter.emit('vf-toast-push', {label: t('No search result found.')});
+        }
+      }
+    });
   } else {
     emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.data.adapter, path: props.data.dirname}});
   }
