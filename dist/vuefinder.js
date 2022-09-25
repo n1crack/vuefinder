@@ -1,4 +1,4 @@
-import { ref as P, watch as pt, inject as B, openBlock as w, createElementBlock as C, createElementVNode as h, unref as _, normalizeClass as de, createTextVNode as le, toDisplayString as $, createCommentVNode as q, createVNode as we, TransitionGroup as Ai, withCtx as F, Fragment as ce, renderList as be, reactive as ht, onMounted as _e, onUpdated as Oi, withDirectives as ve, vShow as st, withModifiers as Pe, nextTick as gt, vModelSelect as cr, customRef as Pi, withKeys as Ye, isRef as Ii, vModelText as We, normalizeStyle as Cr, renderSlot as Mt, provide as xt, createBlock as G, resolveDynamicComponent as Ni } from "vue";
+import { ref as P, watch as pt, inject as B, openBlock as w, createElementBlock as C, createElementVNode as h, unref as _, normalizeClass as de, createTextVNode as le, toDisplayString as $, createCommentVNode as q, createVNode as we, TransitionGroup as Ai, withCtx as F, Fragment as ce, renderList as be, reactive as ht, onMounted as _e, onUpdated as Oi, withDirectives as ve, vShow as st, withModifiers as Pe, nextTick as gt, vModelSelect as cr, customRef as Pi, withKeys as Ye, isRef as Ii, vModelText as We, normalizeStyle as Cr, provide as xt, createBlock as G, resolveDynamicComponent as Ni, renderSlot as Mt } from "vue";
 import _t from "plupload";
 const ft = (n, { method: e = "get", params: t = {}, json: o = !0 }) => {
   const a = { method: e };
@@ -1931,7 +1931,7 @@ const So = $r.exports, Do = (n, e, t, o, a) => (e = Math, t = e.log, o = 1024, a
           filter: j
         },
         onSuccess: (H) => {
-          t.emit("vf-toast-clear"), H.files.length || t.emit("vf-toast-push", { label: p("No search result found.") });
+          H.files.length || t.emit("vf-toast-push", { label: p("No search result found.") });
         }
       }) : t.emit("vf-fetch", { params: { q: "index", adapter: e.data.adapter, path: e.data.dirname } });
     });
@@ -2305,7 +2305,7 @@ const So = $r.exports, Do = (n, e, t, o, a) => (e = Math, t = e.log, o = 1024, a
       s.value = !0, gt(() => f.value.focus());
     }, p = Wn("", 400);
     pt(p, (L) => {
-      t.emit("vf-search-query", { newQuery: L });
+      t.emit("vf-toast-clear"), t.emit("vf-search-query", { newQuery: L });
     });
     const b = () => i.value.length && !s.value, A = (L) => {
       var R;
@@ -2537,59 +2537,12 @@ function ga(n, e) {
   }
   return { t: g, support_locales: a, changeLocale: s };
 }
-const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
-  xmlns: "http://www.w3.org/2000/svg",
-  fill: "none",
-  viewBox: "0 0 24 24",
-  "stroke-width": "1.5",
-  stroke: "currentColor",
-  class: "w-5 h-5"
-}, [
-  /* @__PURE__ */ h("path", {
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round",
-    d: "M6 18L18 6M6 6l12 12"
-  })
-], -1), ya = [
-  ba
-], wa = {
-  name: "Message"
-}, De = /* @__PURE__ */ Object.assign(wa, {
-  props: {
-    error: {
-      type: Boolean,
-      default: !1
-    }
-  },
-  setup(n) {
-    var s;
-    const { t: e } = B("i18n"), t = P(!1), o = P(null), a = P((s = o.value) == null ? void 0 : s.strMessage);
-    pt(a, () => t.value = !1);
-    const i = () => t.value = !0;
-    return (f, g) => (w(), C("div", null, [
-      t.value ? q("", !0) : (w(), C("div", {
-        key: 0,
-        ref_key: "strMessage",
-        ref: o,
-        class: de(["flex mt-1 p-1 px-2 rounded text-sm", n.error ? "bg-red-100 text-red-600" : "bg-emerald-100 text-emerald-600"])
-      }, [
-        Mt(f.$slots, "default"),
-        h("div", {
-          class: "ml-auto cursor-pointer",
-          onClick: i,
-          "aria-label": _(e)("Close"),
-          "data-microtip-position": "top-left",
-          role: "tooltip"
-        }, ya, 8, va)
-      ], 2))
-    ]));
-  }
-}), xa = /* @__PURE__ */ h("iframe", {
+const va = /* @__PURE__ */ h("iframe", {
   id: "download_frame",
   style: { display: "none" }
-}, null, -1), _a = {
+}, null, -1), ba = {
   name: "VueFinder"
-}, ka = /* @__PURE__ */ Object.assign(_a, {
+}, ya = /* @__PURE__ */ Object.assign(ba, {
   props: {
     url: {
       type: [String]
@@ -2673,10 +2626,10 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
         current: g
       }, null, 8, ["selection", "current"])) : q("", !0),
       we(fa, { current: g }, null, 8, ["current"]),
-      xa
+      va
     ], 2));
   }
-}), Sa = /* @__PURE__ */ h("div", { class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" }, null, -1), Da = { class: "fixed z-10 inset-0 overflow-y-auto" }, Ma = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl sm:w-full" }, Ca = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, $a = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, Me = {
+}), wa = /* @__PURE__ */ h("div", { class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" }, null, -1), xa = { class: "fixed z-10 inset-0 overflow-y-auto" }, _a = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl sm:w-full" }, ka = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, Sa = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, De = {
   __name: "ModalLayout",
   setup(n) {
     const e = B("emitter");
@@ -2691,17 +2644,17 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
       onKeyup: o[1] || (o[1] = Ye((a) => _(e).emit("vf-modal-close"), ["esc"])),
       tabindex: "0"
     }, [
-      Sa,
-      h("div", Da, [
+      wa,
+      h("div", xa, [
         h("div", {
           class: "flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0",
           onMousedown: o[0] || (o[0] = Pe((a) => _(e).emit("vf-modal-close"), ["self"]))
         }, [
-          h("div", Ma, [
-            h("div", Ca, [
+          h("div", _a, [
+            h("div", ka, [
               Mt(t.$slots, "default")
             ]),
-            h("div", $a, [
+            h("div", Sa, [
               Mt(t.$slots, "buttons")
             ])
           ])
@@ -2709,7 +2662,54 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
       ])
     ], 32));
   }
-}, Ea = { class: "sm:flex sm:items-start" }, Ta = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}, Da = ["aria-label"], Ma = /* @__PURE__ */ h("svg", {
+  xmlns: "http://www.w3.org/2000/svg",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  "stroke-width": "1.5",
+  stroke: "currentColor",
+  class: "w-5 h-5"
+}, [
+  /* @__PURE__ */ h("path", {
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+    d: "M6 18L18 6M6 6l12 12"
+  })
+], -1), Ca = [
+  Ma
+], $a = {
+  name: "Message"
+}, Me = /* @__PURE__ */ Object.assign($a, {
+  props: {
+    error: {
+      type: Boolean,
+      default: !1
+    }
+  },
+  setup(n) {
+    var s;
+    const { t: e } = B("i18n"), t = P(!1), o = P(null), a = P((s = o.value) == null ? void 0 : s.strMessage);
+    pt(a, () => t.value = !1);
+    const i = () => t.value = !0;
+    return (f, g) => (w(), C("div", null, [
+      t.value ? q("", !0) : (w(), C("div", {
+        key: 0,
+        ref_key: "strMessage",
+        ref: o,
+        class: de(["flex mt-1 p-1 px-2 rounded text-sm", n.error ? "bg-red-100 text-red-600" : "bg-emerald-100 text-emerald-600"])
+      }, [
+        Mt(f.$slots, "default"),
+        h("div", {
+          class: "ml-auto cursor-pointer",
+          onClick: i,
+          "aria-label": _(e)("Close"),
+          "data-microtip-position": "top-left",
+          role: "tooltip"
+        }, Ca, 8, Da)
+      ], 2))
+    ]));
+  }
+}), Ea = { class: "sm:flex sm:items-start" }, Ta = /* @__PURE__ */ h("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ h("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
@@ -2779,7 +2779,7 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
         }
       });
     };
-    return (g, m) => (w(), G(Me, null, {
+    return (g, m) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           type: "button",
@@ -2804,7 +2804,7 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
                 d.type == "dir" ? (w(), C("svg", La, Va)) : (w(), C("svg", za, Ra)),
                 h("span", Ha, $(d.basename), 1)
               ]))), 256)),
-              s.value.length ? (w(), G(De, {
+              s.value.length ? (w(), G(Me, {
                 key: 0,
                 error: ""
               }, {
@@ -2846,7 +2846,7 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
   },
   setup(n) {
     const e = B("emitter"), { t } = B("i18n");
-    return (o, a) => (w(), G(Me, null, {
+    return (o, a) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           type: "button",
@@ -2913,7 +2913,7 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
         }
       });
     };
-    return (g, m) => (w(), G(Me, null, {
+    return (g, m) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           type: "button",
@@ -2942,7 +2942,7 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
               }, null, 40, as), [
                 [We, i.value]
               ]),
-              s.value.length ? (w(), G(De, {
+              s.value.length ? (w(), G(Me, {
                 key: 0,
                 error: ""
               }, {
@@ -3000,7 +3000,7 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
         }
       });
     };
-    return (g, m) => (w(), G(Me, null, {
+    return (g, m) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           type: "button",
@@ -3029,7 +3029,7 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
               }, null, 40, ps), [
                 [We, i.value]
               ]),
-              s.value.length ? (w(), G(De, {
+              s.value.length ? (w(), G(Me, {
                 key: 0,
                 error: ""
               }, {
@@ -3112,7 +3112,7 @@ const va = ["aria-label"], ba = /* @__PURE__ */ h("svg", {
             [We, a.value]
           ])
         ])) : (w(), C("pre", xs, $(o.value), 1)),
-        g.value.length ? (w(), G(De, {
+        g.value.length ? (w(), G(Me, {
           key: 2,
           error: m.value
         }, {
@@ -4352,7 +4352,7 @@ const hl = { class: "flex" }, fl = {
           alt: ""
         }, null, 8, gl)
       ]),
-      g.value.length ? (w(), G(De, {
+      g.value.length ? (w(), G(Me, {
         key: 0,
         error: m.value
       }, {
@@ -4514,7 +4514,7 @@ const hl = { class: "flex" }, fl = {
       const m = t.value + "?" + Ne({ q: "download", adapter: e.selection.adapter, path: e.selection.item.path });
       o.emit("vf-download", m);
     };
-    return (m, d) => (w(), G(Me, null, {
+    return (m, d) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           type: "button",
@@ -4642,7 +4642,7 @@ const hl = { class: "flex" }, fl = {
         }
       });
     };
-    return (m, d) => (w(), G(Me, null, {
+    return (m, d) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           type: "button",
@@ -4674,7 +4674,7 @@ const hl = { class: "flex" }, fl = {
               }, null, 40, tc), [
                 [We, s.value]
               ]),
-              f.value.length ? (w(), G(De, {
+              f.value.length ? (w(), G(Me, {
                 key: 0,
                 error: ""
               }, {
@@ -4754,7 +4754,7 @@ const hl = { class: "flex" }, fl = {
           }
         }
       }), i.value.init();
-    }), (b, A) => (w(), G(Me, null, {
+    }), (b, A) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           disabled: d.value,
@@ -4797,7 +4797,7 @@ const hl = { class: "flex" }, fl = {
                   class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 }, $(_(a)("Select Files")), 513)
               ], 512),
-              m.value.length ? (w(), G(De, {
+              m.value.length ? (w(), G(Me, {
                 key: 0,
                 error: ""
               }, {
@@ -4884,7 +4884,7 @@ const hl = { class: "flex" }, fl = {
         }
       });
     };
-    return (m, d) => (w(), G(Me, null, {
+    return (m, d) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           type: "button",
@@ -4916,7 +4916,7 @@ const hl = { class: "flex" }, fl = {
               }, null, 40, $c), [
                 [We, i.value]
               ]),
-              s.value.length ? (w(), G(De, {
+              s.value.length ? (w(), G(Me, {
                 key: 0,
                 error: ""
               }, {
@@ -5004,7 +5004,7 @@ const hl = { class: "flex" }, fl = {
         }
       });
     };
-    return (m, d) => (w(), G(Me, null, {
+    return (m, d) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           type: "button",
@@ -5028,7 +5028,7 @@ const hl = { class: "flex" }, fl = {
                 h("span", Uc, $(p.basename), 1)
               ]))), 256)),
               h("p", Kc, $(_(a)("The archive will be unarchived at")) + " (" + $(n.current.dirname) + ")", 1),
-              s.value.length ? (w(), G(De, {
+              s.value.length ? (w(), G(Me, {
                 key: 0,
                 error: ""
               }, {
@@ -5129,7 +5129,7 @@ const hl = { class: "flex" }, fl = {
         }
       });
     };
-    return (g, m) => (w(), G(Me, null, {
+    return (g, m) => (w(), G(De, null, {
       buttons: F(() => [
         h("button", {
           type: "button",
@@ -5157,7 +5157,7 @@ const hl = { class: "flex" }, fl = {
                 lu,
                 h("span", cu, $(n.selection.items.to.path), 1)
               ]),
-              s.value.length ? (w(), G(De, {
+              s.value.length ? (w(), G(Me, {
                 key: 0,
                 error: ""
               }, {
@@ -5186,7 +5186,7 @@ const hl = { class: "flex" }, fl = {
   ModalUnarchive: Wc,
   ModalMove: du
 }, Symbol.toStringTag, { value: "Module" })), Dt = {
-  VueFinder: ka,
+  VueFinder: ya,
   ...hu
 };
 const pu = {

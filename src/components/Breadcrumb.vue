@@ -121,6 +121,7 @@ const enterSearchMode = () => {
 const query = useDebouncedRef('', 400);
 
 watch(query, newQuery => {
+  emitter.emit('vf-toast-clear');
   emitter.emit('vf-search-query', {newQuery});
 });
 

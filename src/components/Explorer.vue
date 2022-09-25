@@ -168,7 +168,6 @@ emitter.on('vf-search-query', ({newQuery}) => {
         filter: newQuery
       },
       onSuccess: (data) => {
-        emitter.emit('vf-toast-clear');
         if (!data.files.length) {
           emitter.emit('vf-toast-push', {label: t('No search result found.')});
         }
