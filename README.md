@@ -55,7 +55,7 @@ current progress :
 - [x] multi-language (en/tr atm. will be more. PRs are welcomed.)
 - [x] thumbnails
 - [x] update npm package
-- [ ] validation & error messages
+- [x] validation & error messages
 - [ ] code refactoring
 - [ ] test for different adapters (especially check if zip/archive works)
 - [ ] test for different OS (windows directory seperator is different)
