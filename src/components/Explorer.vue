@@ -320,7 +320,9 @@ const setDragSelect = () => {
 
 onMounted(setDragSelect)
 
-onUpdated(() => ds.value.start())
+onUpdated(() => {
+  ds.value.setSelection(ds.value.getSelection());
+})
 
 onMounted(() => {
   watch(() => props.view, () => emitter.emit('vf-explorer-update'));

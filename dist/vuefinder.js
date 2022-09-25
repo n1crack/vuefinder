@@ -1987,7 +1987,9 @@ const So = $r.exports, Do = (n, e, t, o, a) => (e = Math, t = e.log, o = 1024, a
       }), d.value.subscribe("callback", ({ items: j, event: H, isDragging: N }) => {
         t.emit("vf-nodes-selected", M()), m.value = d.value.getSelection().length;
       });
-    }), Oi(() => d.value.start()), _e(() => {
+    }), Oi(() => {
+      d.value.setSelection(d.value.getSelection());
+    }), _e(() => {
       pt(() => e.view, () => t.emit("vf-explorer-update"));
     }), (j, H) => (w(), C("div", Vo, [
       n.view == "list" || S.value.length ? (w(), C("div", zo, [
