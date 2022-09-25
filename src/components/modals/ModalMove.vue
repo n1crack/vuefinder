@@ -28,6 +28,7 @@
               </svg>
             <span class="ml-1.5 overflow-auto">{{ selection.items.to.path }}</span>
           </p>
+          <message v-if="message.length" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -55,6 +56,7 @@ import {inject, ref} from 'vue';
 const emitter = inject('emitter');
 const {t} = inject('i18n');
 const {getStore} = inject('storage');
+import Message from '../Message.vue';
 
 const props = defineProps({
   selection: Object,
@@ -62,17 +64,26 @@ const props = defineProps({
 });
 
 const items = ref(props.selection.items.from);
+const message = ref('');
 
 const move = () => {
 
   if (items.value.length) {
-    emitter.emit('vf-fetch', {params:{
-      q: 'move',
-      adapter: getStore('adapter', 'local'),
-      path: props.current.dirname,
-      items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
-      item: props.selection.items.to.path
-    }});
+    emitter.emit('vf-fetch', {
+      params: {
+        q: 'move',
+        adapter: getStore('adapter', 'local'),
+        path: props.current.dirname,
+        items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
+        item: props.selection.items.to.path
+      },
+      onSuccess: () => {
+        emitter.emit('vf-toast-push', {label: t('Files moved.', props.selection.items.to.name)});
+      },
+      onError: (e) => {
+        message.value = t(e.message);
+      }
+    });
   }
 };
 

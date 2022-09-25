@@ -20,6 +20,7 @@
               </svg>
             <span class="ml-1.5">{{ item.basename }}</span>
           </p>
+          <message v-if="message.length" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -44,6 +45,7 @@ export default {
 <script setup>
 import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
+import Message from '../Message.vue';
 
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
@@ -56,16 +58,25 @@ const props = defineProps({
 
 
 const items = ref(props.selection.items);
+const message = ref('');
 
 const remove = () => {
 
   if (items.value.length) {
-    emitter.emit('vf-fetch', {params:{
-      q: 'delete',
-      adapter: getStore('adapter', 'local'),
-      path: props.current.dirname,
-      items: JSON.stringify(items.value.map(({path, type}) => ({path, type})))
-    }});
+    emitter.emit('vf-fetch', {
+      params: {
+        q: 'delete',
+        adapter: getStore('adapter', 'local'),
+        path: props.current.dirname,
+        items: JSON.stringify(items.value.map(({path, type}) => ({path, type})))
+      },
+      onSuccess: () => {
+        emitter.emit('vf-toast-push', {label: t('Files deleted.')});
+      },
+      onError: (e) => {
+        message.value = t(e.message);
+      }
+    });
   }
 };
 

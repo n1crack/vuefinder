@@ -21,7 +21,7 @@
           </p>
           <input v-model="name" @keyup.enter="rename"
                  class="px-2 py-1 border rounded dark:bg-gray-500 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" placeholder="Name" type="text">
-          <div class="text-red-600">{{ error }}</div>
+          <message v-if="message.length" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -43,6 +43,7 @@ export default {
 <script setup>
 import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
+import Message from '../Message.vue';
 
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
@@ -55,7 +56,7 @@ const props = defineProps({
 
 const item = ref(props.selection.items[0]);
 const name = ref(props.selection.items[0].basename);
-const error = ref('');
+const message = ref('');
 
 const rename = () => {
   if (name.value != '') {
@@ -67,9 +68,11 @@ const rename = () => {
         item: item.value.path,
         name: name.value
       },
+      onSuccess: () => {
+        emitter.emit('vf-toast-push', {label: t('%s is renamed.', name.value)});
+      },
       onError: (e) => {
-        error.value = e.message;
-        emitter.emit('vf-toast-push', {label: e.message, type: 'error'});
+        message.value = t(e.message);
       }
     });
   }

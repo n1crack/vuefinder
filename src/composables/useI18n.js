@@ -32,9 +32,12 @@ export function useI18n(id, locale) {
         translations.value = getStore('translations');
     }
 
-    function t(key) {
+    const sprintf = (str, ...argv) => !argv.length ? str : sprintf(str = str.replace('%s', argv.shift()), ...argv);
+
+    function t(key, ...params) {
+
         if (translations.value.hasOwnProperty(key)) {
-            return translations.value[key];
+            return sprintf(translations.value[key], ...params);
         }
         return '';
     };

@@ -49,5 +49,12 @@
   "Are you sure you want to delete these files?": "Bu dosyaları silmek istediğinize emin misiniz?",
   "This action cannot be undone.": "Bu işlem geri alınamaz.",
   "Search results for": "Arama sonuçları:",
-  "item(s) selected.": "dosya seçildi."
+  "item(s) selected.": "dosya seçildi.",
+  "%s is renamed." : "%s yeniden adlandırılmıştır.",
+  "This is a readonly storage." : "Bu salt okunur bir depolama alanıdır.",
+  "%s is created." : "%s başarıyla oluşturulmuştur.",
+  "Files moved." : "Dosyalar taşındı.",
+  "Files deleted." : "Dosyalar silindi.",
+  "The file is unarchived." : "Dosya arşivden çıkarıldı.",
+  "The file(s) is archived." : "Dosyalar arşivlendi."
 }

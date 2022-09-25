@@ -49,7 +49,14 @@ const e = `{
   "Are you sure you want to delete these files?": "Bu dosyalar\u0131 silmek istedi\u011Finize emin misiniz?",
   "This action cannot be undone.": "Bu i\u015Flem geri al\u0131namaz.",
   "Search results for": "Arama sonu\xE7lar\u0131:",
-  "item(s) selected.": "dosya se\xE7ildi."
+  "item(s) selected.": "dosya se\xE7ildi.",
+  "%s is renamed." : "%s yeniden adland\u0131r\u0131lm\u0131\u015Ft\u0131r.",
+  "This is a readonly storage." : "Bu salt okunur bir depolama alan\u0131d\u0131r.",
+  "%s is created." : "%s ba\u015Far\u0131yla olu\u015Fturulmu\u015Ftur.",
+  "Files moved." : "Dosyalar ta\u015F\u0131nd\u0131.",
+  "Files deleted." : "Dosyalar silindi.",
+  "The file is unarchived." : "Dosya ar\u015Fivden \xE7\u0131kar\u0131ld\u0131.",
+  "The file(s) is archived." : "Dosyalar ar\u015Fivlendi."
 }
 `;
 export {

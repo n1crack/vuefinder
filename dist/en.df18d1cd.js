@@ -49,7 +49,14 @@ const e = `{
   "Are you sure you want to delete these files?": "Are you sure you want to delete these files?",
   "This action cannot be undone.": "This action cannot be undone.",
   "Search results for" : "Search results for",
-  "item(s) selected.": "item(s) selected."
+  "item(s) selected.": "item(s) selected.",
+  "%s is renamed." : "%s is renamed.",
+  "This is a readonly storage." : "This is a readonly storage.",
+  "%s is created." : "%s is created.",
+  "Files moved." : "Files moved.",
+  "Files deleted." : "Files deleted.",
+  "The file unarchived." : "The file unarchived.",
+  "The file(s) archived." : "The file(s) archived."
 }
 `;
 export {

@@ -13,6 +13,8 @@
           <p class="text-sm text-gray-500">{{ t('Create a new file') }}</p>
           <input v-model="name" @keyup.enter="createFile"
                  class="px-2 py-1 border rounded dark:bg-gray-500   dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" :placeholder="t('File Name')" type="text">
+          <message v-if="message.length" error>{{ message }}</message>
+
         </div>
       </div>
     </div>
@@ -38,6 +40,7 @@ import {inject, ref} from 'vue';
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
 const {t} = inject('i18n');
+import Message from '../Message.vue';
 
 const props = defineProps({
   selection: Object,
@@ -45,15 +48,24 @@ const props = defineProps({
 });
 
 const name = ref('');
+const message = ref('');
 
 const createFile = () => {
   if (name.value != '') {
-    emitter.emit('vf-fetch', {params:{
-      q: 'newfile',
-      adapter: getStore('adapter', 'local'),
-      path: props.current.dirname,
-      name: name.value
-    }});
+    emitter.emit('vf-fetch', {
+      params: {
+        q: 'newfile',
+        adapter: getStore('adapter', 'local'),
+        path: props.current.dirname,
+        name: name.value
+      },
+      onSuccess: () => {
+        emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
+      },
+      onError: (e) => {
+        message.value = t(e.message);
+      }
+    });
   }
 };
 

@@ -22,6 +22,8 @@
           <input v-model="name" @keyup.enter="archive"
                  class="my-1 px-2 py-1 border rounded dark:bg-gray-500  dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full"
                  :placeholder="t('Archive name. (.zip file will be created)')" type="text">
+
+          <message v-if="message.length" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -45,6 +47,7 @@ export default {
 <script setup>
 import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
+import Message from '../Message.vue';
 
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
@@ -55,18 +58,27 @@ const props = defineProps({
   current: Object
 });
 const name = ref('');
+const message = ref('');
 
 const items = ref(props.selection.items);
 
 const archive = () => {
   if (items.value.length) {
-    emitter.emit('vf-fetch', {params:{
-      q: 'archive',
-      adapter: getStore('adapter', 'local'),
-      path: props.current.dirname,
-      items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
-      name: name.value
-    }});
+    emitter.emit('vf-fetch', {
+      params: {
+        q: 'archive',
+        adapter: getStore('adapter', 'local'),
+        path: props.current.dirname,
+        items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
+        name: name.value
+      },
+      onSuccess: () => {
+        emitter.emit('vf-toast-push', {label: t('The file(s) archived.')});
+      },
+      onError: (e) => {
+        message.value = t(e.message);
+      }
+    });
   }
 };
 

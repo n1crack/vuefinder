@@ -17,9 +17,10 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
             <span class="ml-1.5">{{ item.basename }}</span>
-
           </p>
           <p class="my-1 text-sm text-gray-500">{{ t('The archive will be unarchived at')}} ({{current.dirname}})</p>
+
+          <message v-if="message.length" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -45,6 +46,7 @@ import {inject, ref} from 'vue';
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
 const {t} = inject('i18n');
+import Message from '../Message.vue';
 
 const props = defineProps({
   selection: Object,
@@ -52,17 +54,26 @@ const props = defineProps({
 });
 const name = ref('');
 const item = ref(props.selection.items[0]);
+const message = ref('');
 
 // todo: get zip folder content
 const items = ref([]);
 
 const unarchive = () => {
-    emitter.emit('vf-fetch', {params:{
+  emitter.emit('vf-fetch', {
+    params: {
       q: 'unarchive',
       adapter: getStore('adapter', 'local'),
       path: props.current.dirname,
       item: item.value.path
-    }});
+    },
+    onSuccess: () => {
+      emitter.emit('vf-toast-push', {label: t('The file unarchived.')});
+    },
+    onError: (e) => {
+      message.value = t(e.message);
+    }
+  });
 };
 
 </script>
