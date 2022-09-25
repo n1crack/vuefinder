@@ -58,7 +58,8 @@ const e = `{
   "The file is unarchived." : "Dosya ar\u015Fivden \xE7\u0131kar\u0131ld\u0131.",
   "The file(s) is archived." : "Dosyalar ar\u015Fivlendi.",
   "Updated." : "G\xFCncellendi.",
-  "No search result found." : "Arama sonucu bulunamad\u0131."
+  "No search result found." : "Arama sonucu bulunamad\u0131.",
+  "Are you sure you want to move these files?" : "Bu dosyalar\u0131 ta\u015F\u0131mak istedi\u011Finize emin misiniz?"
 }
 `;
 export {

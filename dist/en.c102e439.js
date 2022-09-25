@@ -58,7 +58,8 @@ const e = `{
   "The file unarchived." : "The file unarchived.",
   "The file(s) archived." : "The file(s) archived.",
   "Updated." : "Updated.",
-  "No search result found." : "No search result found."
+  "No search result found." : "No search result found.",
+  "Are you sure you want to move these files?" : "Are you sure you want to move these files?"
 }
 `;
 export {

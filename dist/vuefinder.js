@@ -2521,7 +2521,7 @@ const So = $r.exports, Do = (n, e, t, o, a) => (e = Math, t = e.log, o = 1024, a
   });
 };
 async function pa(n) {
-  const e = await ma(/* @__PURE__ */ Object.assign({ "../locales/en.json": () => import("./en.fee60fe4.js"), "../locales/tr.json": () => import("./tr.df99b8f1.js") }), `../locales/${n}.json`);
+  const e = await ma(/* @__PURE__ */ Object.assign({ "../locales/en.json": () => import("./en.c102e439.js"), "../locales/tr.json": () => import("./tr.78c5046b.js") }), `../locales/${n}.json`);
   return JSON.parse(e.default);
 }
 function ga(n, e) {
@@ -5091,7 +5091,7 @@ const hl = { class: "flex" }, fl = {
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
 }, null, -1), ou = [
   iu
-], nu = { class: "ml-1.5" }, au = /* @__PURE__ */ h("p", { class: "text-sm text-gray-500 pb-1 pt-3" }, "Bu dosyalar\u0131 ta\u015F\u0131mak istedi\u011Finizden emin misiniz?", -1), su = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, lu = /* @__PURE__ */ h("svg", {
+], nu = { class: "ml-1.5" }, au = { class: "text-sm text-gray-500 pb-1 pt-3" }, su = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, lu = /* @__PURE__ */ h("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
   fill: "none",
@@ -5152,7 +5152,7 @@ const hl = { class: "flex" }, fl = {
                 d.type == "dir" ? (w(), C("svg", Qc, tu)) : (w(), C("svg", ru, ou)),
                 h("span", nu, $(d.path), 1)
               ]))), 256)),
-              au,
+              h("p", au, $(_(o)("Are you sure you want to move these files?")), 1),
               h("p", su, [
                 lu,
                 h("span", cu, $(n.selection.items.to.path), 1)
