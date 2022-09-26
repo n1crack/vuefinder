@@ -71,6 +71,8 @@ const handleUpload = () => {
   uploader.value.start();
 };
 
+const ajaxData = inject('ajaxData');
+
 onMounted(() => {
   uploader.value = new plupload.Uploader({
     runtimes: 'html5',
@@ -79,7 +81,7 @@ onMounted(() => {
     max_file_size: '10mb',
     multiple_queues: true,
     file_data_name: 'file',
-    url: apiUrl.value + '?' + buildURLQuery({q: 'upload', adapter: props.current.adapter, path: props.current.dirname}),
+    url: apiUrl.value + '?' + buildURLQuery(Object.assign(ajaxData, {q: 'upload', adapter: props.current.adapter, path: props.current.dirname})),
     // filters : [
     // 	{title : "Image files", extensions : "jpg,gif,png,jpeg"},
     // 	{title : "Zip files", extensions : "zip"}
