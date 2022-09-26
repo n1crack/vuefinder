@@ -11,7 +11,7 @@
   <div class="w-full flex justify-center">
     <img ref="image" class="max-w-[60vh] max-h-[60vh]" :src="getImageUrl(props.selection.adapter, props.selection.item.path)" alt="">
   </div>
-  
+
   <message v-if="message.length" :error="isError">{{ message }}</message>
 
 </template>
@@ -19,7 +19,7 @@
 <script setup>
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
-import {inject, ref} from 'vue';
+import {inject, onMounted, ref} from 'vue';
 import ajax from '../../utils/ajax.js';
 import {getImageUrl} from '../../utils/getImageUrl.js';
 import {useApiUrl} from '../../composables/useApiUrl.js';
@@ -52,6 +52,7 @@ const editMode = () => {
     cropper.value.destroy();
   }
 };
+const ajaxData = inject('ajaxData');
 
 const crop = () => {
   cropper.value
@@ -67,7 +68,8 @@ const crop = () => {
               method: 'POST',
               params: {q: 'upload', adapter: props.selection.adapter, path: props.selection.item.path, file: blob},
               name: props.selection.item.basename,
-              json: false
+              json: false,
+              ...ajaxData
             })
                 .then(data => {
                   message.value = t('Updated.');

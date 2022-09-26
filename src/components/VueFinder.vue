@@ -55,6 +55,10 @@ const props = defineProps({
   maxHeight: {
     type: String,
     default: '600px'
+  },
+  ajaxData: {
+    type: Object,
+    default: {}
   }
 });
 
@@ -62,6 +66,7 @@ const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
 provide('emitter', emitter);
 provide('storage', useStorage(props.id));
+provide('ajaxData', props.ajaxData)
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale);

@@ -63,14 +63,15 @@ const editMode = () => {
     });
   }
 };
-
+const ajaxData = inject('ajaxData');
 const save = () => {
   message.value = '';
   isError.value = false;
   ajax(apiUrl.value, {
     method: 'POST',
     params: {q: 'save', adapter: props.selection.adapter, path: props.selection.item.path, content: contentTemp.value},
-    json: false
+    json: false,
+    ...ajaxData
   })
       .then(data => {
         message.value = t('Updated.');
