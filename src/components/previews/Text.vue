@@ -63,25 +63,33 @@ const editMode = () => {
     });
   }
 };
+
 const ajaxData = inject('ajaxData');
+
 const save = () => {
   message.value = '';
   isError.value = false;
+
+  console.log(ajaxData);
   ajax(apiUrl.value, {
     method: 'POST',
-    params: {q: 'save', adapter: props.selection.adapter, path: props.selection.item.path, content: contentTemp.value},
+    params: Object.assign(ajaxData, {
+      q: 'save',
+      adapter: props.selection.adapter,
+      path: props.selection.item.path,
+      content: contentTemp.value
+    }),
     json: false,
-    ...ajaxData
   })
       .then(data => {
         message.value = t('Updated.');
         content.value = data;
         emit('load');
-        showEdit.value = !showEdit.value
+        showEdit.value = !showEdit.value;
       })
       .catch((e) => {
-         message.value = t(e.message);
-         isError.value = true;
+        message.value = t(e.message);
+        isError.value = true;
       });
 }
 

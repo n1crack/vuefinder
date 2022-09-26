@@ -3076,11 +3076,15 @@ const vn = /* @__PURE__ */ h("iframe", {
         i.value.focus();
       });
     }, b = B("ajaxData"), A = () => {
-      g.value = "", m.value = !1, mt(f.value, {
+      g.value = "", m.value = !1, console.log(b), mt(f.value, {
         method: "POST",
-        params: { q: "save", adapter: t.selection.adapter, path: t.selection.item.path, content: n.value },
-        json: !1,
-        ...b
+        params: Object.assign(b, {
+          q: "save",
+          adapter: t.selection.adapter,
+          path: t.selection.item.path,
+          content: n.value
+        }),
+        json: !1
       }).then((_) => {
         g.value = d("Updated."), a.value = _, e("load"), s.value = !s.value;
       }).catch((_) => {
@@ -4320,10 +4324,14 @@ const hl = { class: "flex" }, fl = {
         (A) => {
           g.value = "", m.value = !1, mt(n.value, {
             method: "POST",
-            params: { q: "upload", adapter: t.selection.adapter, path: t.selection.item.path, file: A },
+            params: Object.assign(p, {
+              q: "upload",
+              adapter: t.selection.adapter,
+              path: t.selection.item.path,
+              file: A
+            }),
             name: t.selection.item.basename,
-            json: !1,
-            ...p
+            json: !1
           }).then((_) => {
             g.value = a("Updated."), i.value.src = $t(t.selection.adapter, t.selection.item.path), d(), e("load");
           }).catch((_) => {

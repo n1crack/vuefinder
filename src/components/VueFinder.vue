@@ -61,7 +61,6 @@ const props = defineProps({
     default: {}
   }
 });
-
 const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
 provide('emitter', emitter);

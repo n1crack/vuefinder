@@ -66,10 +66,14 @@ const crop = () => {
             isError.value = false;
             ajax(apiUrl.value, {
               method: 'POST',
-              params: {q: 'upload', adapter: props.selection.adapter, path: props.selection.item.path, file: blob},
+              params: Object.assign(ajaxData, {
+                q: 'upload',
+                adapter: props.selection.adapter,
+                path: props.selection.item.path,
+                file: blob
+              }),
               name: props.selection.item.basename,
-              json: false,
-              ...ajaxData
+              json: false
             })
                 .then(data => {
                   message.value = t('Updated.');
