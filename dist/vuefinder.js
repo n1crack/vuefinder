@@ -2803,7 +2803,7 @@ const vn = /* @__PURE__ */ h("iframe", {
           h("div", An, [
             h("h3", On, E(k(n)("Delete files")), 1),
             h("div", Pn, [
-              h("p", In, E(k(n)("Are you sure you want to delete these files ?")), 1),
+              h("p", In, E(k(n)("Are you sure you want to delete these files?")), 1),
               (w(!0), $(ce, null, be(i.value, (d) => (w(), $("p", jn, [
                 d.type == "dir" ? (w(), $("svg", Nn, Vn)) : (w(), $("svg", zn, Rn)),
                 h("span", Hn, E(d.basename), 1)
