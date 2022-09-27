@@ -57,8 +57,8 @@ current progress :
 - [x] update npm package
 - [x] validation & error messages
 - [ ] code refactoring
-- [ ] test for different adapters (especially check if zip/archive works)
-- [ ] test for different OS (windows directory seperator is different)
+- [x] test for different adapters (especially check if zip/archive works)
+- [x] test for different OS (windows directory seperator is different)
 - [ ] transfer items between adapters
 - [ ] documentation
 - [ ] demo pages
