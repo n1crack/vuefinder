@@ -2612,7 +2612,7 @@ const vn = /* @__PURE__ */ h("iframe", {
       class: de(d.value ? "dark" : "")
     }, [
       h("div", {
-        class: de([p.value ? "fixed w-screen inset-0 z-20" : "relative", "border flex flex-col rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"]),
+        class: de([p.value ? "fixed w-screen inset-0 z-20" : "relative rounded-md", "border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"]),
         style: Mr(p.value ? "" : "max-height: " + o.maxHeight),
         onMousedown: D[0] || (D[0] = (j) => k(t).emit("vf-contextmenu-hide"))
       }, [

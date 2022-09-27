@@ -25,14 +25,14 @@ import {getImageUrl} from '../../utils/getImageUrl.js';
 import {useApiUrl} from '../../composables/useApiUrl.js';
 import Message from '../Message.vue';
 
+const emit = defineEmits(['load']);
+
 const props = defineProps({
   selection: Object
 });
 
 const {t} = inject('i18n');
 const {apiUrl} = useApiUrl();
-
-const emit = defineEmits(['load']);
 
 const image = ref(null);
 const cropper = ref(null);
