@@ -1831,7 +1831,7 @@ const $o = $r.exports, Eo = (a, e, t, i, n) => (e = Math, t = e.log, i = 1024, n
   }
 }), Le = (a) => Object.entries(a).map((e) => e.map(encodeURIComponent).join("=")).join("&"), { apiUrl: Ro } = Se(), $t = (a, e) => Ro.value + "?" + Le({ q: "preview", adapter: a, path: e }), Ho = { class: "relative flex-auto flex flex-col overflow-hidden" }, Uo = {
   key: 0,
-  class: "grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none"
+  class: "grid grid-cols-12 border-b border-neutral-300 border-gray-200 dark:border-gray-700 text-xs select-none"
 }, Ko = { class: "absolute" }, Yo = /* @__PURE__ */ d("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "absolute h-6 w-6 md:h-12 md:w-12 m-auto stroke-neutral-500 fill-white dark:fill-gray-700 dark:stroke-gray-600 z-10",
@@ -2583,7 +2583,7 @@ const $o = $r.exports, Eo = (a, e, t, i, n) => (e = Math, t = e.log, i = 1024, n
     };
     return (b, E) => o.active ? (y(), D("ul", {
       key: 0,
-      class: "z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none",
+      class: "z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none",
       ref_key: "contextmenu",
       ref: i,
       style: Mr(o.positions)
