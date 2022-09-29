@@ -1,10 +1,18 @@
-export default (url, {method = 'get', params = {}, json = true}) => {
+export default (url, {method = 'get', params = {}, json = true, signal = null}) => {
     const init = {method: method};
+    init.signal = signal;
 
     if (method == 'get') {
         url += '?' + new URLSearchParams(params);
     } else {
         init.headers = {};
+
+        const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        
+        if (csrf) {
+            init.headers['X-CSRF-Token'] = csrf;
+        }
+
         let formData = new FormData();
 
         for (const [key, value] of Object.entries(params)) {

@@ -56,7 +56,7 @@ const props = defineProps({
     type: String,
     default: '600px'
   },
-  ajaxData: {
+  postData: {
     type: Object,
     default: {}
   }
@@ -65,13 +65,12 @@ const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
 provide('emitter', emitter);
 provide('storage', useStorage(props.id));
-provide('ajaxData', props.ajaxData)
+provide('postData', props.postData)
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale);
 const {t} = i18n;
 provide('i18n', i18n);
-
 
 const {apiUrl, setApiUrl} = useApiUrl();
 setApiUrl(props.url)
@@ -86,6 +85,10 @@ emitter.on('vf-darkMode-toggle', () => {
   darkMode.value = !darkMode.value;
   setStore('darkMode', darkMode.value)
 })
+
+const loadingState = ref(false);
+
+provide('loadingState', loadingState);
 
 const fullScreen = ref(getStore('full-screen', false));
 
@@ -121,9 +124,27 @@ const updateItems = (data) => {
   emitter.emit('vf-explorer-update')
 }
 
+let controller;
+emitter.on('vf-fetch-abort', () => {
+  controller.abort();
+  loadingState.value = false;
+});
+
 emitter.on('vf-fetch', ({params, onSuccess = null, onError = null}) => {
-  ajax(apiUrl.value, {params})
+  if (['index', 'search'].includes(params.q)) {
+    if (controller) {
+      controller.abort();
+    }
+    loadingState.value = true;
+  }
+
+  controller = new AbortController();
+  const signal = controller.signal;
+  ajax(apiUrl.value, {params, signal})
       .then(data => {
+        if (['index', 'search'].includes(params.q)) {
+          loadingState.value = false;
+        }
         emitter.emit('vf-modal-close');
         updateItems(data);
         onSuccess(data);
@@ -132,6 +153,8 @@ emitter.on('vf-fetch', ({params, onSuccess = null, onError = null}) => {
         if (onError) {
           onError(e);
         }
+      })
+      .finally(() => {
       });
 });
 

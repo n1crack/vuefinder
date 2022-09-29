@@ -52,7 +52,7 @@ const editMode = () => {
     cropper.value.destroy();
   }
 };
-const ajaxData = inject('ajaxData');
+const postData = inject('postData');
 
 const crop = () => {
   cropper.value
@@ -66,7 +66,7 @@ const crop = () => {
             isError.value = false;
             ajax(apiUrl.value, {
               method: 'POST',
-              params: Object.assign(ajaxData, {
+              params: Object.assign(postData, {
                 q: 'upload',
                 adapter: props.selection.adapter,
                 path: props.selection.item.path,

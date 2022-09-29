@@ -64,16 +64,15 @@ const editMode = () => {
   }
 };
 
-const ajaxData = inject('ajaxData');
+const postData = inject('postData');
 
 const save = () => {
   message.value = '';
   isError.value = false;
 
-  console.log(ajaxData);
   ajax(apiUrl.value, {
     method: 'POST',
-    params: Object.assign(ajaxData, {
+    params: Object.assign(postData, {
       q: 'save',
       adapter: props.selection.adapter,
       path: props.selection.item.path,

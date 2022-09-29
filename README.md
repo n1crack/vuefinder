@@ -21,46 +21,31 @@ version 1.0 is on its way..
 
 backend (php) : https://github.com/n1crack/vuefinder-php
 
-current progress :
+### features 
+- Dark Mode
+- Context Menu, Breadcrumb links, toolbar, explorer and status bar
+- loading indicator
+- View Modes: list, grid
+- drag & drop support
+- mouse selection
+- localstorage for remembering view/dark theme, selected language or file adapter
+- Able to cancel long running tasks
+- Multi adapter/storage
+- Create a new file/folder, Rename, Delete, Archive/Unarchive (zip/unzip)
+- Move items (to a folder or up one folder) with drag and drop
+- Upload files
+- Search (deep)
+- Full Screen
+- toast notifications
+- Text editing
+- Image Crop Tool
+- Multi language (only en/tr atm. will be more. PRs are welcomed.)
+- thumbnails (Image)
 
-- [x] vue, vite, tailwind setup
-- [x] toolbar, explorer and status
-- [x] add modals
-- [x] drag and mouse select support
-- [x] view mode: list, grid
-- [x] sorting files in list view
-- [x] breadcrumb links
-- [x] go up a folder when click up arrow
-- [x] tooltips
-- [x] context menu
-- [x] storage/file adapter selection
-- [x] dark mode
-- [x] localstorage for remembering view/dark theme or file adapter
-- [x] new folder
-- [x] rename
-- [x] delete
-- [x] zip/archive
-- [x] move
-- [x] moving items up one folder with drag and drop
-- [x] touch / create a file
-- [x] unzip/unarchive
-- [x] preview item
-- [x] download
-- [x] edit text file
-- [x] image tools
-- [x] upload
-- [x] toggle full screen
-- [x] toast notifications
-- [x] search
-- [x] multi-language (en/tr atm. will be more. PRs are welcomed.)
-- [x] thumbnails
-- [x] update npm package
-- [x] validation & error messages
-- [ ] code refactoring
-- [x] test for different adapters (especially check if zip/archive works)
-- [x] test for different OS (windows directory seperator is different)
-- [ ] transfer items between adapters
+### upcoming.. 
 - [ ] documentation
 - [ ] demo pages
+- [ ] code refactoring
+- [ ] transfer items between adapters
 - [ ] enjoy..
 
