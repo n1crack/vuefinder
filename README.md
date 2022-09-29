@@ -2,10 +2,7 @@
 
 #### Readme in progress..
 
-
-|          |           |
-| ---      | ---       |
-| ![image](https://user-images.githubusercontent.com/712404/191837549-229b4cc2-03bc-4f25-bd54-73eabc80fea8.png) |  ![image](https://user-images.githubusercontent.com/712404/191838344-88913a42-5613-446c-92cb-a805da9fdea9.png) |
+![ezgif-1-b902690b76](https://user-images.githubusercontent.com/712404/193141338-8d5f726f-da1a-4825-b652-28e4007493db.gif)
 
 
 app rebuilt to use vue 3 and tailwindcss.
