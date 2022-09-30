@@ -27,7 +27,7 @@ backend (php) : https://github.com/n1crack/vuefinder-php
 - mouse selection
 - localstorage for remembering view/dark theme, selected language or file adapter
 - Able to cancel long running tasks
-- Multi adapter/storage
+- Multi adapter/storage (see https://github.com/thephpleague/flysystem)
 - Create a new file/folder, Rename, Delete, Archive/Unarchive (zip/unzip)
 - Move items (to a folder or up one folder) with drag and drop
 - Upload files
@@ -40,9 +40,9 @@ backend (php) : https://github.com/n1crack/vuefinder-php
 - thumbnails (Image)
 
 ### upcoming.. 
+- [ ] lazy load for image thumbnails
 - [ ] documentation
 - [ ] demo pages
 - [ ] code refactoring
 - [ ] transfer items between adapters
 - [ ] enjoy..
-
