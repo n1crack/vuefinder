@@ -128,7 +128,7 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     if (target) {
       context.items.push(menuItems.openDir);
       emitter.emit('vf-context-selected', [target]);
-      console.log('search item selected');
+      // console.log('search item selected');
     } else {
       return;
     }
@@ -136,13 +136,13 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     context.items.push(menuItems.refresh);
     context.items.push(menuItems.newfolder);
     emitter.emit('vf-context-selected', []);
-    console.log('no files selected');
+    // console.log('no files selected');
   } else if (items.length > 1 && items.some(el => el.path === target.path)) {
     context.items.push(menuItems.refresh);
     context.items.push(menuItems.archive);
     context.items.push(menuItems.delete);
     emitter.emit('vf-context-selected', items);
-    console.log(items.length + ' selected (more than 1 item.)');
+    // console.log(items.length + ' selected (more than 1 item.)');
   } else {
     if (target.type == 'dir') {
       context.items.push(menuItems.open);
@@ -159,7 +159,7 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
     }
     context.items.push(menuItems.delete);
     emitter.emit('vf-context-selected', [target]);
-    console.log(target.type + ' is selected');
+    // console.log(target.type + ' is selected');
   }
   showContextMenu(event, area)
 })

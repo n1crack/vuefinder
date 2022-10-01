@@ -68,7 +68,7 @@ provide('storage', useStorage(props.id));
 provide('postData', props.postData)
 
 // Lang Management
-const i18n = useI18n(props.id, props.locale);
+const i18n = useI18n(props.id, props.locale, emitter);
 const {t} = i18n;
 provide('i18n', i18n);
 

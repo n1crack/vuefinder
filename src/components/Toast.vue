@@ -9,7 +9,7 @@
     >
       <div v-for="(message, index) in messageQueue" @click="removeItem(index)" :key="message"
            :class="getTypeClass(message.type)"
-           class="inline-block mx-auto my-0.5 py-0.5 px-2 min-w-max bg-gray-50 border text-xs rounded cursor-pointer ">
+           class="inline-block mx-auto my-0.5 py-0.5 px-2 min-w-max bg-gray-50 dark:bg-gray-600 border text-xs sm:text-sm rounded cursor-pointer ">
          {{ message.label }}
       </div>
     </transition-group>
@@ -31,9 +31,9 @@ const fullScreen = ref(getStore('full-screen', false));
 
 const getTypeClass = (type) => {
   if (type == 'error') {
-    return 'text-red-400 border-red-400';
+    return 'text-red-400 border-red-400 dark:text-red-300 dark:border-red-300';
   }
-  return 'text-lime-600 border-lime-600';
+  return 'text-lime-600 border-lime-600 dark:text-lime-300 dark:border-lime-1300';
 };
 
 const messageQueue = ref([]);
