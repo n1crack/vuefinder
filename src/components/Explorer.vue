@@ -29,6 +29,7 @@
     </div>
 
     <div
+
         :class="fullScreen ? '' : 'resize-y'"
         class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto p-1 z-0"
         ref="selectorArea"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
@@ -36,7 +37,7 @@
       <div
            v-if="searchQuery.length"
            @dblclick="openItem(item)"
-           @touchstart="delayedOpenItem(item)"
+           @touchstart="delayedOpenItem($event, item)"
            @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            :class="'vf-item-' + randId"
@@ -59,7 +60,7 @@
       <div draggable="true"
            v-if="view=='list' && !searchQuery.length"
            @dblclick="openItem(item)"
-           @touchstart="delayedOpenItem(item)"
+           @touchstart="delayedOpenItem($event, item)"
            @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
@@ -86,7 +87,7 @@
       <div draggable="true"
            v-if="view=='grid' && !searchQuery.length"
            @dblclick="openItem(item)"
-           @touchstart="delayedOpenItem(item)"
+           @touchstart="delayedOpenItem($event, item)"
            @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
@@ -186,9 +187,19 @@ const clearTimeOut = () => {
   }
 }
 
-const delayedOpenItem = (item) => {
+const delayedOpenItem = ($event, item) => {
   touchTimeOut = setTimeout(() =>  {
-    openItem(item);
+    const cmEvent = new MouseEvent("contextmenu", {
+        bubbles: true,
+        cancelable: false,
+        view: window,
+        button: 2,
+        buttons: 0,
+        clientX: $event.target.getBoundingClientRect().x  ,
+        clientY: $event.target.getBoundingClientRect().y
+    });
+    $event.target.dispatchEvent(cmEvent);
+
   } ,500)
 }
 
