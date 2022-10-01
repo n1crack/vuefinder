@@ -2142,7 +2142,7 @@ const $o = $r.exports, Eo = (n, e, t, i, a) => (e = Math, t = e.log, i = 1024, a
             onDragstart: (Q) => q(Q),
             onDragover: (Q) => ue(Q, j),
             onDrop: (Q) => ee(Q, j),
-            class: de(["vf-item-" + _(b), "border border-transparent hover:bg-neutral-50 m-0.5 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none"]),
+            class: de(["vf-item-" + _(b), "border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none"]),
             "data-type": j.type,
             "data-item": JSON.stringify(j),
             "data-index": W
@@ -2542,7 +2542,7 @@ const $o = $r.exports, Eo = (n, e, t, i, a) => (e = Math, t = e.log, i = 1024, a
       download: {
         title: () => f("Download"),
         action: () => {
-          const b = a.value + "?" + Le({ q: "download", adapter: s.value[0].adapter, path: s.value[0].path });
+          const b = a.value + "?" + Le({ q: "download", adapter: e.current.adapter, path: s.value[0].path });
           t.emit("vf-download", b);
         }
       },

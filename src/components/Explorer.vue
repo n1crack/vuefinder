@@ -94,7 +94,7 @@
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
            :class="'vf-item-' + randId"
-           class="border border-transparent hover:bg-neutral-50 m-0.5 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 md:h-24 text-center justify-center select-none"
+           class="border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none"
            v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
           <div>
             <div class="relative">
