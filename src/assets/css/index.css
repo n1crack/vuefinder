@@ -11,7 +11,7 @@
     @apply border border-slate-500 bg-slate-300 opacity-50 !important;
   }
 
-  .dark {
+  .vuefinder.dark {
     color-scheme: dark;
   }
 

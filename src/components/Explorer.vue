@@ -29,15 +29,15 @@
     </div>
 
     <div
-
+        @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})"
         :class="fullScreen ? '' : 'resize-y'"
         class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto p-1 z-0"
-        ref="selectorArea"  @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})" >
+        ref="selectorArea">
 
       <div
            v-if="searchQuery.length"
            @dblclick="openItem(item)"
-           @touchstart="delayedOpenItem($event, item)"
+           @touchstart="delayedOpenItem($event)"
            @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            :class="'vf-item-' + randId"
@@ -60,7 +60,7 @@
       <div draggable="true"
            v-if="view=='list' && !searchQuery.length"
            @dblclick="openItem(item)"
-           @touchstart="delayedOpenItem($event, item)"
+           @touchstart="delayedOpenItem($event)"
            @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
@@ -87,7 +87,7 @@
       <div draggable="true"
            v-if="view=='grid' && !searchQuery.length"
            @dblclick="openItem(item)"
-           @touchstart="delayedOpenItem($event, item)"
+           @touchstart="delayedOpenItem($event)"
            @touchend="clearTimeOut()"
            @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
@@ -187,7 +187,7 @@ const clearTimeOut = () => {
   }
 }
 
-const delayedOpenItem = ($event, item) => {
+const delayedOpenItem = ($event) => {
   touchTimeOut = setTimeout(() =>  {
     const cmEvent = new MouseEvent("contextmenu", {
         bubbles: true,

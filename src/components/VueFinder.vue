@@ -1,5 +1,5 @@
 <template>
-  <div :class="darkMode ? 'dark': ''">
+  <div class="vuefinder" :class="darkMode ? 'dark': ''">
     <div
         :class="fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
         :style="!fullScreen ? 'max-height: ' + maxHeight : ''"
