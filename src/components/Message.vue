@@ -35,8 +35,12 @@ const props = defineProps({
 const hidden = ref(false);
 const strMessage = ref(null);
 const strSlot = ref(strMessage.value?.strMessage);
+const emit = defineEmits(['hidden']);
 
 watch(strSlot, () => hidden.value = false);
 
-const hide = () => hidden.value = true;
+const hide = () => {
+  emit('hidden');
+  hidden.value = true;
+};
 </script>

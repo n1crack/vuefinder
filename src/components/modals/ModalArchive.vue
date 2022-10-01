@@ -20,10 +20,10 @@
 
           </p>
           <input v-model="name" @keyup.enter="archive"
-                 class="my-1 px-2 py-1 border rounded dark:bg-gray-500  dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full"
+                 class="my-1 px-2 py-1 border rounded  dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full"
                  :placeholder="t('Archive name. (.zip file will be created)')" type="text">
 
-          <message v-if="message.length" error>{{ message }}</message>
+          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>

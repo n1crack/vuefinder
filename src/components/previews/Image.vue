@@ -13,7 +13,7 @@
     <img ref="image" class="max-w-[60vh] max-h-[60vh]" :src="getImageUrl(props.selection.adapter, props.selection.item.path)" alt="">
   </div>
 
-  <message v-if="message.length" :error="isError">{{ message }}</message>
+  <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
 
 </template>
 

@@ -12,8 +12,8 @@
         <div class="mt-2">
           <p class="text-sm text-gray-500">{{ t('Create a new file') }}</p>
           <input v-model="name" @keyup.enter="createFile"
-                 class="px-2 py-1 border rounded dark:bg-gray-500   dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" :placeholder="t('File Name')" type="text">
-          <message v-if="message.length" error>{{ message }}</message>
+                 class="px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" :placeholder="t('File Name')" type="text">
+          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
 
         </div>
       </div>

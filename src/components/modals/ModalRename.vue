@@ -20,8 +20,8 @@
             <span class="ml-1.5">{{ item.basename }}</span>
           </p>
           <input v-model="name" @keyup.enter="rename"
-                 class="px-2 py-1 border rounded dark:bg-gray-500 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" placeholder="Name" type="text">
-          <message v-if="message.length" error>{{ message }}</message>
+                 class="px-2 py-1 border rounded  dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" placeholder="Name" type="text">
+          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>

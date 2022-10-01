@@ -19,7 +19,7 @@
           class="w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] max-h-[60vh] text-xs" name="text" id="" cols="30" rows="10"></textarea>
 
     </div>
-    <message v-if="message.length" :error="isError">{{ message }}</message>
+    <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
   </div>
 </template>
 

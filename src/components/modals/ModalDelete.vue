@@ -20,7 +20,7 @@
               </svg>
             <span class="ml-1.5">{{ item.basename }}</span>
           </p>
-          <message v-if="message.length" error>{{ message }}</message>
+          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>

@@ -28,7 +28,7 @@
               </svg>
             <span class="ml-1.5 overflow-auto">{{ selection.items.to.path }}</span>
           </p>
-          <message v-if="message.length" error>{{ message }}</message>
+          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>
