@@ -1757,7 +1757,10 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     return bi;
   });
 })(Tr);
-const Oo = Tr.exports, Ar = (a, e, t, i, n) => (e = Math, t = e.log, i = 1024, n = t(a) / t(i) | 0, a / e.pow(i, n)).toFixed(0) + " " + (n ? "KMGTPEZY"[--n] + "iB" : "B"), Or = (a, e = "en-US") => new Date(a * 1e3).toLocaleString(e), Po = {
+const Oo = Tr.exports, Ar = (a, e, t, i, n) => (e = Math, t = e.log, i = 1024, n = t(a) / t(i) | 0, a / e.pow(i, n)).toFixed(0) + " " + (n ? "KMGTPEZY"[--n] + "iB" : "B"), Or = (a, e = null) => {
+  var t;
+  return new Date(a * 1e3).toLocaleString((t = e != null ? e : navigator.language) != null ? t : "en-US");
+}, Po = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5",
