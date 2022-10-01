@@ -105,12 +105,11 @@
               <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
-              <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500" v-if="!(item.mime_type ?? '').startsWith('image')">{{ ext(item.extension) }}</div>
+              <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500" v-if="!(item.mime_type ?? '').startsWith('image') && item.type != 'dir'">{{ ext(item.extension) }}</div>
             </div>
             <span class="break-all">{{ title_shorten(item.basename) }}</span>
           </div>
       </div>
-
 
     </div>
     <v-f-toast />
