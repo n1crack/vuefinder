@@ -12,8 +12,6 @@
         </div>
 
         <div class="text-gray-700 dark:text-gray-200 text-sm">
-          <p>{{ selection.item.path }}</p>
-          <p>mime_type: {{ selection.item.mime_type }}</p>
           <div class="flex leading-5" v-if="loaded == false">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25 stroke-blue-900 dark:stroke-blue-100" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -24,11 +22,16 @@
           </div>
         </div>
       </div>
+
     </div>
+      <div class="p-2 flex font-normal break-all dark:text-gray-200 rounded text-xs">
+        <div><span class="font-bold pl-2">File Size: </span>{{ filesize(selection.item.file_size) }}</div>
+        <div><span class="font-bold pl-2">Last Modified: </span> {{ datetimestring(selection.item.last_modified) }}</div>
+      </div>
 
     <template v-slot:buttons>
-      <button type="button" @click="emitter.emit('vf-modal-close')" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">{{ t('Close') }}</button>
-      <button type="button" @click="download()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">{{ t('Download') }}</button>
+      <button type="button" @click="emitter.emit('vf-modal-close')" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-gray-400 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">{{ t('Close') }}</button>
+      <button type="button" @click="download()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-gray-400 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">{{ t('Download') }}</button>
     </template>
   </v-f-modal-layout>
 </template>
@@ -50,6 +53,8 @@ import Audio from '../previews/Audio.vue';
 import Pdf from '../previews/Pdf.vue';
 import buildURLQuery from '../../utils/buildURLQuery.js';
 import {useApiUrl} from '../../composables/useApiUrl.js';
+import filesize from '../../utils/filesize.js';
+import datetimestring from '../../utils/datetimestring.js';
 const {apiUrl} = useApiUrl();
 const emitter = inject('emitter')
 const {t} = inject('i18n')

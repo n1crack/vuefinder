@@ -13,9 +13,7 @@
 
           </div>
           <div class="bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-
             <slot name="buttons"/>
-
           </div>
         </div>
       </div>
