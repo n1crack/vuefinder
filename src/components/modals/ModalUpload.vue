@@ -49,6 +49,7 @@ import {inject, onMounted, ref} from 'vue';
 import {useApiUrl} from '../../composables/useApiUrl.js';
 import buildURLQuery from '../../utils/buildURLQuery.js';
 import Message from '../Message.vue';
+import {csrf} from '../../utils/ajax.js';
 
 const emitter = inject('emitter');
 const {apiUrl} = useApiUrl();
@@ -86,6 +87,9 @@ onMounted(() => {
     // 	{title : "Image files", extensions : "jpg,gif,png,jpeg"},
     // 	{title : "Zip files", extensions : "zip"}
     // ],
+    headers: {
+      ...(csrf && {'X-CSRF-Token' : csrf})
+    },
 
     init: {
       PostInit: function () {
