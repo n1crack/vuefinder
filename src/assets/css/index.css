@@ -3,39 +3,39 @@
 @tailwind utilities;
 
 @layer components {
-  .vf-explorer-selected {
+  .vuefinder .vf-explorer-selected {
     @apply bg-neutral-100 border border-neutral-300 dark:bg-slate-700 dark:border-gray-900 dark:border-slate-800 !important;
   }
 
-  .vf-explorer-selector {
+  .vuefinder .vf-explorer-selector {
     @apply border border-slate-500 bg-slate-300 opacity-50 !important;
   }
 
-  .vuefinder.dark {
+  .vuefinder .vuefinder.dark {
     color-scheme: dark;
   }
 
   /* width */
-  .vf-selector-area::-webkit-scrollbar {
+  .vuefinder .vf-selector-area::-webkit-scrollbar {
     width: 10px;
   }
 
   /* Track */
 
-  .vf-selector-area::-webkit-scrollbar-track-piece{
+  .vuefinder .vf-selector-area::-webkit-scrollbar-track-piece{
    @apply bg-gray-100 dark:bg-slate-900;
   }
   /* Handle */
-  .vf-selector-area::-webkit-scrollbar-thumb {
+  .vuefinder .vf-selector-area::-webkit-scrollbar-thumb {
    @apply bg-gray-200 dark:bg-slate-600;
   }
 
   /* Handle on hover */
-  .vf-selector-area::-webkit-scrollbar-thumb:hover {
+  .vuefinder .vf-selector-area::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-300 dark:bg-slate-700;
   }
 
-  .vf-selector-area::-webkit-scrollbar-corner {
+  .vuefinder .vf-selector-area::-webkit-scrollbar-corner {
     @apply bg-transparent;
   }
 }
