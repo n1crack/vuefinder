@@ -333,8 +333,8 @@ const setDragSelect = () => {
 onMounted(setDragSelect)
 
 onUpdated(() => {
-  ds.value.setSelection(ds.value.getSelection());
-
+  ds.value.Area.reset();
+  ds.value.SelectorArea.updatePos();
   vfLazyLoad.update();
 })
 

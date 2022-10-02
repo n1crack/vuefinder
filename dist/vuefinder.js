@@ -2363,7 +2363,7 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
         r.emit("vf-nodes-selected", K()), m.value = u.value.getSelection().length;
       });
     }), Wa(() => {
-      u.value.setSelection(u.value.getSelection()), k.update();
+      u.value.Area.reset(), u.value.SelectorArea.updatePos(), k.update();
     }), ke(() => {
       Ot(() => e.view, () => r.emit("vf-explorer-update"));
     }), (N, R) => (y(), C("div", ln, [
