@@ -44,6 +44,7 @@
     "cropperjs": "^1.5.12",
     "dragselect": "^2.3.1",
     "plupload": "^2.3.9",
+    "vanilla-lazyload": "^17.8.3",
     "vue": "^3.2.0"
   }
 }

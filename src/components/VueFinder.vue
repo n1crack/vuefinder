@@ -121,7 +121,7 @@ emitter.on('vf-modal-show', (item) => {
 const updateItems = (data) => {
   Object.assign(fetchData, data)
   emitter.emit('vf-nodes-selected', {});
-  emitter.emit('vf-explorer-update')
+  emitter.emit('vf-explorer-update');
 }
 
 let controller;

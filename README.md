@@ -12,6 +12,7 @@ dependencies :
  - Cropper  : Image crop tool
  - DragSelect : Selection Utility
  - Plupload : Upload library
+ - vanilla-lazyload : lazy load image thumbnails for better performance
 
 
 version 1.0 is on its way..
@@ -38,9 +39,9 @@ backend (php) : https://github.com/n1crack/vuefinder-php
 - Image Crop Tool
 - Multi language (only en/tr atm. will be more. PRs are welcomed.)
 - thumbnails (Image)
+- lazy load for image thumbnails
 
 ### upcoming.. 
-- [ ] lazy load for image thumbnails
 - [ ] documentation
 - [ ] demo pages
 - [ ] code refactoring
