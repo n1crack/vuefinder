@@ -56,8 +56,8 @@ Html
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)
 - File and folder operations
-  - Create a new file, 
-  - Create a new folder, 
+  - Create a new file 
+  - Create a new folder 
   - Rename 
   - Delete 
   - Archive (zip)
