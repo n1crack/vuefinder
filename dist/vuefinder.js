@@ -312,7 +312,7 @@ const Za = { class: "border-neutral-300 flex justify-between items-center py-1 t
         d("div", {
           class: "mx-1.5",
           "aria-label": x(i)("Toggle Full Screen"),
-          "data-microtip-position": "bottom",
+          "data-microtip-position": "bottom-left",
           role: "tooltip",
           onClick: v
         }, [
