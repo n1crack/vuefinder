@@ -10,7 +10,7 @@ export async function loadLocale(locale) {
 export function useI18n(id, locale, emitter) {
     const {getStore, setStore} = useStorage(id);
 
-    const support_locales = ['en', 'tr'];
+    const support_locales = ['en', 'ru', 'tr'];
     const translations = ref({});
 
     const changeLocale = (locale) => {

@@ -2961,7 +2961,7 @@ async function ql(t) {
   return JSON.parse(e.default);
 }
 function Gl(t, e, r) {
-  const { getStore: o, setStore: i } = Wt(t), a = ["en", "tr"], n = L({}), f = (u) => {
+  const { getStore: o, setStore: i } = Wt(t), a = ["en", "ru", "tr"], n = L({}), f = (u) => {
     a.includes(u) || (r.emit("vf-toast-push", { label: "The selected locale is not yet supported!", type: "error" }), u = "en"), ql(u).then((v) => {
       n.value = v, i("locale", u), i("translations", v), r.emit("vf-toast-push", { label: "The language is set to " + u });
     });
