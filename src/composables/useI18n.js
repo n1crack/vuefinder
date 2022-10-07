@@ -9,21 +9,17 @@ export async function loadLocale(locale) {
 
 export function useI18n(id, locale, emitter) {
     const {getStore, setStore} = useStorage(id);
-
-    const support_locales = ['en', 'ru', 'tr'];
     const translations = ref({});
 
     const changeLocale = (locale) => {
-        if (!support_locales.includes(locale)) {
-            emitter.emit('vf-toast-push', {label: 'The selected locale is not yet supported!', type:'error'});
-            locale = 'en';
-        }
-
         loadLocale(locale).then((i18n) => {
             translations.value = i18n;
             setStore('locale', locale);
             setStore('translations', i18n);
             emitter.emit('vf-toast-push', {label: 'The language is set to ' + locale});
+        }).catch(e => {
+            emitter.emit('vf-toast-push', {label: 'The selected locale is not yet supported!', type:'error'});
+            changeLocale('en');
         });
     };
 
@@ -42,6 +38,6 @@ export function useI18n(id, locale, emitter) {
         return key;
     };
 
-    return {t, support_locales, changeLocale};
+    return {t, changeLocale};
 }
 
