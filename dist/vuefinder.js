@@ -2507,7 +2507,7 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
       _e(Zs)
     ]));
   }
-}), qn = { class: "p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none" }, Gn = { class: "flex leading-5 items-center" }, Jn = ["aria-label"], Zn = /* @__PURE__ */ u("svg", {
+}), qn = "1.1.12", Gn = { class: "p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none" }, Jn = { class: "flex leading-5 items-center" }, Zn = ["aria-label"], Qn = /* @__PURE__ */ u("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5",
   fill: "none",
@@ -2520,12 +2520,12 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
     "stroke-linejoin": "round",
     d: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
   })
-], -1), Qn = [
-  Zn
-], el = ["value"], tl = { class: "ml-3" }, rl = { key: 0 }, ol = { class: "ml-1" }, al = { class: "flex leading-5 items-center" }, sl = {
+], -1), el = [
+  Qn
+], tl = ["value"], rl = { class: "ml-3" }, ol = { key: 0 }, al = { class: "ml-1" }, sl = { class: "flex leading-5 items-center" }, il = {
   value: "",
   disabled: ""
-}, il = /* @__PURE__ */ u("option", { value: "en" }, "English", -1), nl = /* @__PURE__ */ u("option", { value: "fr" }, "French", -1), ll = /* @__PURE__ */ u("option", { value: "ru" }, "Russian", -1), cl = /* @__PURE__ */ u("option", { value: "tr" }, "Turkish", -1), ul = ["aria-label"], dl = /* @__PURE__ */ u("svg", {
+}, nl = /* @__PURE__ */ u("option", { value: "en" }, "English", -1), ll = /* @__PURE__ */ u("option", { value: "fr" }, "French", -1), cl = /* @__PURE__ */ u("option", { value: "ru" }, "Russian", -1), ul = /* @__PURE__ */ u("option", { value: "tr" }, "Turkish", -1), dl = ["aria-label"], hl = /* @__PURE__ */ u("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 stroke-slate-500 cursor-pointer",
   fill: "none",
@@ -2538,11 +2538,11 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
     "stroke-linejoin": "round",
     d: "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
   })
-], -1), hl = [
-  dl
-], fl = {
+], -1), fl = [
+  hl
+], ml = {
   name: "VFStatusbar"
-}, ml = /* @__PURE__ */ Object.assign(fl, {
+}, gl = /* @__PURE__ */ Object.assign(ml, {
   props: {
     data: Object
   },
@@ -2557,39 +2557,39 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
     const v = L("");
     return r.on("vf-search-query", ({ newQuery: T }) => {
       v.value = T;
-    }), (T, k) => (y(), C("div", qn, [
-      u("div", Gn, [
+    }), (T, k) => (y(), C("div", Gn, [
+      u("div", Jn, [
         u("div", {
           class: "mx-2",
           "aria-label": x(f)("Storage"),
           "data-microtip-position": "top-right",
           role: "tooltip"
-        }, Qn, 8, Jn),
+        }, el, 8, Zn),
         ye(u("select", {
           "onUpdate:modelValue": k[0] || (k[0] = (S) => n.value = S),
           onChange: d,
           class: "py-0.5 text-sm text-slate-500 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8"
         }, [
-          (y(!0), C(le, null, we(t.data.storages, (S) => (y(), C("option", { value: S }, E(S), 9, el))), 256))
+          (y(!0), C(le, null, we(t.data.storages, (S) => (y(), C("option", { value: S }, E(S), 9, tl))), 256))
         ], 544), [
           [Br, n.value]
         ]),
-        u("div", tl, [
-          v.value.length ? (y(), C("span", rl, E(t.data.files.length) + " items found. ", 1)) : G("", !0),
-          u("span", ol, E(a.value > 0 ? a.value + " " + x(f)("item(s) selected.") : ""), 1)
+        u("div", rl, [
+          v.value.length ? (y(), C("span", ol, E(t.data.files.length) + " items found. ", 1)) : G("", !0),
+          u("span", al, E(a.value > 0 ? a.value + " " + x(f)("item(s) selected.") : ""), 1)
         ])
       ]),
-      u("div", al, [
+      u("div", sl, [
         ye(u("select", {
           "onUpdate:modelValue": k[1] || (k[1] = (S) => m.value = S),
           onChange: k[2] || (k[2] = (S) => x(g)(S.target.value)),
           class: "py-0.5 text-sm text-slate-500 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8 mr-3"
         }, [
-          u("option", sl, E(x(f)("Language")), 1),
-          il,
+          u("option", il, E(x(f)("Language")), 1),
           nl,
           ll,
-          cl
+          cl,
+          ul
         ], 544), [
           [Br, m.value]
         ]),
@@ -2597,25 +2597,25 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
           "aria-label": x(f)("About"),
           "data-microtip-position": "top-left",
           role: "tooltip",
-          onClick: k[3] || (k[3] = (S) => x(r).emit("vf-modal-show", { type: "message", title: "Vuefinder 1.0", message: x(f)("Vuefinder is a file manager component for vue 3.") }))
-        }, hl, 8, ul)
+          onClick: k[3] || (k[3] = (S) => x(r).emit("vf-modal-show", { type: "message", title: "Vuefinder " + x(qn), message: x(f)("Vuefinder is a file manager component for vue 3.") }))
+        }, fl, 8, dl)
       ])
     ]));
   }
-}), gl = (t, e = 0, r = !1) => {
+}), pl = (t, e = 0, r = !1) => {
   let o;
   return (...i) => {
     r && !o && t(...i), clearTimeout(o), o = setTimeout(() => {
       t(...i);
     }, e);
   };
-}, pl = (t, e, r) => {
+}, vl = (t, e, r) => {
   const o = L(t);
   return Xa((a, n) => ({
     get() {
       return a(), o.value;
     },
-    set: gl(
+    set: pl(
       (f) => {
         o.value = f, n();
       },
@@ -2623,51 +2623,51 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
       r
     )
   }));
-}, vl = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-xs" }, bl = ["aria-label"], yl = /* @__PURE__ */ u("path", {
+}, bl = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-xs" }, yl = ["aria-label"], wl = /* @__PURE__ */ u("path", {
   "fill-rule": "evenodd",
   d: "M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z",
   "clip-rule": "evenodd"
-}, null, -1), wl = [
-  yl
-], xl = ["aria-label"], _l = /* @__PURE__ */ u("path", { d: "M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z" }, null, -1), kl = [
-  _l
-], Sl = {
+}, null, -1), xl = [
+  wl
+], _l = ["aria-label"], kl = /* @__PURE__ */ u("path", { d: "M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z" }, null, -1), Sl = [
+  kl
+], Dl = {
   key: 1,
   "aria-label": "Cancel",
   "data-microtip-position": "bottom-right",
   role: "tooltip"
-}, Dl = /* @__PURE__ */ u("path", {
+}, Cl = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M6 18L18 6M6 6l12 12"
-}, null, -1), Cl = [
-  Dl
-], Ml = ["onClick"], $l = /* @__PURE__ */ u("path", { d: "M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" }, null, -1), El = [
-  $l
-], Tl = { class: "flex leading-5" }, Al = /* @__PURE__ */ u("span", { class: "text-neutral-300 dark:text-gray-600 mx-0.5" }, "/", -1), Ol = ["title", "onClick"], Il = {
+}, null, -1), Ml = [
+  Cl
+], $l = ["onClick"], El = /* @__PURE__ */ u("path", { d: "M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" }, null, -1), Tl = [
+  El
+], Al = { class: "flex leading-5" }, Ol = /* @__PURE__ */ u("span", { class: "text-neutral-300 dark:text-gray-600 mx-0.5" }, "/", -1), Il = ["title", "onClick"], Ll = {
   key: 0,
   class: "animate-spin p-1 h-6 w-6 text-white ml-auto",
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   viewBox: "0 0 24 24"
-}, Ll = /* @__PURE__ */ u("circle", {
+}, Pl = /* @__PURE__ */ u("circle", {
   class: "opacity-25 stroke-blue-900 dark:stroke-blue-100",
   cx: "12",
   cy: "12",
   r: "10",
   stroke: "currentColor",
   "stroke-width": "4"
-}, null, -1), Pl = /* @__PURE__ */ u("path", {
+}, null, -1), Nl = /* @__PURE__ */ u("path", {
   class: "opacity-75",
   fill: "currentColor",
   d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-}, null, -1), Nl = [
-  Ll,
-  Pl
-], jl = {
+}, null, -1), jl = [
+  Pl,
+  Nl
+], Vl = {
   key: 3,
   class: "flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full"
-}, Vl = /* @__PURE__ */ u("svg", {
+}, zl = /* @__PURE__ */ u("svg", {
   class: "h-6 w-6 p-1 m-auto stroke-gray-400 fill-gray-100 dark:stroke-gray-400 dark:fill-gray-400/20",
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 20 20",
@@ -2678,15 +2678,15 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
     "stroke-linejoin": "round",
     d: "M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
   })
-], -1), zl = ["onKeydown", "placeholder"], Rl = /* @__PURE__ */ u("path", {
+], -1), Rl = ["onKeydown", "placeholder"], Bl = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M6 18L18 6M6 6l12 12"
-}, null, -1), Bl = [
-  Rl
-], Hl = {
+}, null, -1), Hl = [
+  Bl
+], Ul = {
   name: "VFBreadcrumb"
-}, Ul = /* @__PURE__ */ Object.assign(Hl, {
+}, Kl = /* @__PURE__ */ Object.assign(Ul, {
   props: {
     data: Object
   },
@@ -2712,7 +2712,7 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
     });
     const v = () => {
       n.value = !0, It(() => f.value.focus());
-    }, b = pl("", 400), T = () => m.value;
+    }, b = vl("", 400), T = () => m.value;
     Ot(b, (H) => {
       r.emit("vf-toast-clear"), r.emit("vf-search-query", { newQuery: H });
     });
@@ -2733,7 +2733,7 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
     }, F = () => {
       b.value == "" && d();
     };
-    return (H, j) => (y(), C("div", vl, [
+    return (H, j) => (y(), C("div", bl, [
       u("span", {
         "aria-label": x(g)("Go up a directory"),
         "data-microtip-position": "bottom-right",
@@ -2750,9 +2750,9 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
           xmlns: "http://www.w3.org/2000/svg",
           viewBox: "0 0 20 20",
           fill: "currentColor"
-        }, wl, 34))
-      ], 8, bl),
-      T() ? (y(), C("span", Sl, [
+        }, xl, 34))
+      ], 8, yl),
+      T() ? (y(), C("span", Dl, [
         (y(), C("svg", {
           onClick: j[4] || (j[4] = (V) => x(r).emit("vf-fetch-abort")),
           xmlns: "http://www.w3.org/2000/svg",
@@ -2761,7 +2761,7 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
           "stroke-width": "1.5",
           stroke: "currentColor",
           class: "h-6 w-6 p-1 rounded text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer"
-        }, Cl))
+        }, Ml))
       ])) : (y(), C("span", {
         key: 0,
         "aria-label": x(g)("Refresh"),
@@ -2776,10 +2776,10 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
           xmlns: "http://www.w3.org/2000/svg",
           viewBox: "-40 -40 580 580",
           fill: "currentColor"
-        }, kl))
-      ], 8, xl)),
-      n.value ? (y(), C("div", jl, [
-        Vl,
+        }, Sl))
+      ], 8, _l)),
+      n.value ? (y(), C("div", Vl, [
+        zl,
         ye(u("input", {
           ref_key: "searchInput",
           ref: f,
@@ -2789,7 +2789,7 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
           placeholder: x(g)("Search anything.."),
           class: "py-0 px-2 w-full border-0 ring-0 outline-0 text-sm text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent",
           type: "text"
-        }, null, 40, zl), [
+        }, null, 40, Rl), [
           [rt, x(b)]
         ]),
         (y(), C("svg", {
@@ -2800,7 +2800,7 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
           viewBox: "0 0 24 24",
           "stroke-width": "1.5",
           stroke: "currentColor"
-        }, Bl))
+        }, Hl))
       ])) : (y(), C("div", {
         key: 2,
         class: "group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full",
@@ -2812,24 +2812,24 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
           xmlns: "http://www.w3.org/2000/svg",
           viewBox: "0 0 20 20",
           fill: "currentColor"
-        }, El)),
-        u("div", Tl, [
+        }, Tl)),
+        u("div", Al, [
           (y(!0), C(le, null, we(a.value, (V, W) => (y(), C("div", { key: W }, [
-            Al,
+            Ol,
             u("span", {
               class: "px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer",
               title: V.basename,
               onClick: (M) => x(r).emit("vf-fetch", { params: { q: "index", adapter: t.data.adapter, path: V.path } })
-            }, E(V.name), 9, Ol)
+            }, E(V.name), 9, Il)
           ]))), 128))
         ]),
-        T() ? (y(), C("svg", Il, Nl)) : G("", !0)
-      ], 8, Ml))
+        T() ? (y(), C("svg", Ll, jl)) : G("", !0)
+      ], 8, $l))
     ]));
   }
-}), Kl = ["onClick"], Fl = /* @__PURE__ */ u("span", { class: "px-1" }, null, -1), Yl = {
+}), Fl = ["onClick"], Yl = /* @__PURE__ */ u("span", { class: "px-1" }, null, -1), Wl = {
   name: "VFContextMenu"
-}, Wl = /* @__PURE__ */ Object.assign(Yl, {
+}, Xl = /* @__PURE__ */ Object.assign(Wl, {
   props: {
     current: Object
   },
@@ -2945,24 +2945,24 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
         key: k.title,
         onClick: (S) => m(k)
       }, [
-        Fl,
+        Yl,
         u("span", null, E(k.title()), 1)
-      ], 8, Kl))), 128))
+      ], 8, Fl))), 128))
     ], 4)) : G("", !0);
   }
-}), Xl = (t, e) => {
+}), ql = (t, e) => {
   const r = t[e];
   return r ? typeof r == "function" ? r() : Promise.resolve(r) : new Promise((o, i) => {
     (typeof queueMicrotask == "function" ? queueMicrotask : setTimeout)(i.bind(null, new Error("Unknown variable dynamic import: " + e)));
   });
 };
-async function ql(t) {
-  const e = await Xl(/* @__PURE__ */ Object.assign({ "../locales/en.json": () => import("./en.4dabcb3e.js"), "../locales/ru.json": () => import("./ru.743f06d0.js"), "../locales/tr.json": () => import("./tr.f45cbe8b.js") }), `../locales/${t}.json`);
+async function Gl(t) {
+  const e = await ql(/* @__PURE__ */ Object.assign({ "../locales/en.json": () => import("./en.4dabcb3e.js"), "../locales/ru.json": () => import("./ru.743f06d0.js"), "../locales/tr.json": () => import("./tr.f45cbe8b.js") }), `../locales/${t}.json`);
   return JSON.parse(e.default);
 }
-function Gl(t, e, r) {
+function Jl(t, e, r) {
   const { getStore: o, setStore: i } = Wt(t), a = L({}), n = (m) => {
-    ql(m).then((d) => {
+    Gl(m).then((d) => {
       a.value = d, i("locale", m), i("translations", d), r.emit("vf-toast-push", { label: "The language is set to " + m });
     }).catch((d) => {
       r.emit("vf-toast-push", { label: "The selected locale is not yet supported!", type: "error" }), n("en");
@@ -2975,12 +2975,12 @@ function Gl(t, e, r) {
   }
   return { t: g, changeLocale: n };
 }
-const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
+const Zl = { class: "vuefinder" }, Ql = /* @__PURE__ */ u("iframe", {
   id: "download_frame",
   style: { display: "none" }
-}, null, -1), Ql = {
+}, null, -1), ec = {
   name: "VueFinder"
-}, ec = /* @__PURE__ */ Object.assign(Ql, {
+}, tc = /* @__PURE__ */ Object.assign(ec, {
   props: {
     url: {
       type: [String]
@@ -3009,7 +3009,7 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
   setup(t) {
     const e = t, r = Ja(), { setStore: o, getStore: i } = Wt(e.id);
     it("emitter", r), it("storage", Wt(e.id)), it("postData", e.postData);
-    const a = Gl(e.id, e.locale, r);
+    const a = Jl(e.id, e.locale, r);
     it("i18n", a);
     const { apiUrl: n, setApiUrl: f } = Me();
     f(e.url);
@@ -3054,7 +3054,7 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       document.getElementById("download_frame").src = P, r.emit("vf-modal-close");
     }), ke(() => {
       r.emit("vf-fetch", { params: { q: "index", adapter: i("adapter", g.adapter) } });
-    }), (P, F) => (y(), C("div", Jl, [
+    }), (P, F) => (y(), C("div", Zl, [
       u("div", {
         class: de(d.value ? "dark" : "")
       }, [
@@ -3065,24 +3065,24 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
           onTouchstart: F[1] || (F[1] = (H) => x(r).emit("vf-contextmenu-hide"))
         }, [
           _e(Rs, { data: g }, null, 8, ["data"]),
-          _e(Ul, { data: g }, null, 8, ["data"]),
+          _e(Kl, { data: g }, null, 8, ["data"]),
           _e(Xn, {
             view: m.value,
             data: g
           }, null, 8, ["view", "data"]),
-          _e(ml, { data: g }, null, 8, ["data"])
+          _e(gl, { data: g }, null, 8, ["data"])
         ], 38),
         T.active ? (y(), Z(Ga("v-f-modal-" + T.type), {
           key: 0,
           selection: T.data,
           current: g
         }, null, 8, ["selection", "current"])) : G("", !0),
-        _e(Wl, { current: g }, null, 8, ["current"]),
-        Zl
+        _e(Xl, { current: g }, null, 8, ["current"]),
+        Ql
       ], 2)
     ]));
   }
-}), tc = /* @__PURE__ */ u("div", { class: "fixed inset-0 bg-gray-500 dark:bg-gray-800 dark:bg-opacity-75 bg-opacity-75 transition-opacity" }, null, -1), rc = { class: "fixed z-10 inset-0 overflow-y-auto w-screen h-screen" }, oc = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl w-full" }, ac = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, sc = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, $e = {
+}), rc = /* @__PURE__ */ u("div", { class: "fixed inset-0 bg-gray-500 dark:bg-gray-800 dark:bg-opacity-75 bg-opacity-75 transition-opacity" }, null, -1), oc = { class: "fixed z-10 inset-0 overflow-y-auto w-screen h-screen" }, ac = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl w-full" }, sc = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, ic = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, $e = {
   __name: "ModalLayout",
   setup(t) {
     const e = R("emitter");
@@ -3097,17 +3097,17 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       onKeyup: o[1] || (o[1] = tt((i) => x(e).emit("vf-modal-close"), ["esc"])),
       tabindex: "0"
     }, [
-      tc,
-      u("div", rc, [
+      rc,
+      u("div", oc, [
         u("div", {
           class: "flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0",
           onMousedown: o[0] || (o[0] = Re((i) => x(e).emit("vf-modal-close"), ["self"]))
         }, [
-          u("div", oc, [
-            u("div", ac, [
+          u("div", ac, [
+            u("div", sc, [
               Yt(r.$slots, "default")
             ]),
-            u("div", sc, [
+            u("div", ic, [
               Yt(r.$slots, "buttons")
             ])
           ])
@@ -3115,7 +3115,7 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       ])
     ], 32));
   }
-}, ic = ["aria-label"], nc = /* @__PURE__ */ u("svg", {
+}, nc = ["aria-label"], lc = /* @__PURE__ */ u("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   viewBox: "0 0 24 24",
@@ -3128,11 +3128,11 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
     "stroke-linejoin": "round",
     d: "M6 18L18 6M6 6l12 12"
   })
-], -1), lc = [
-  nc
-], cc = {
+], -1), cc = [
+  lc
+], uc = {
   name: "Message"
-}, Ee = /* @__PURE__ */ Object.assign(cc, {
+}, Ee = /* @__PURE__ */ Object.assign(uc, {
   props: {
     error: {
       type: Boolean,
@@ -3161,11 +3161,11 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
           "aria-label": x(r)("Close"),
           "data-microtip-position": "top-left",
           role: "tooltip"
-        }, lc, 8, ic)
+        }, cc, 8, nc)
       ], 2))
     ]));
   }
-}), uc = { class: "sm:flex sm:items-start" }, dc = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), dc = { class: "sm:flex sm:items-start" }, hc = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ u("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
@@ -3180,10 +3180,10 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       d: "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
     })
   ])
-], -1), hc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, fc = {
+], -1), fc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, mc = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, mc = { class: "mt-2" }, gc = { class: "text-sm text-gray-500" }, pc = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, vc = {
+}, gc = { class: "mt-2" }, pc = { class: "text-sm text-gray-500" }, vc = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, bc = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -3191,13 +3191,13 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, bc = /* @__PURE__ */ u("path", {
+}, yc = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), yc = [
-  bc
-], wc = {
+}, null, -1), wc = [
+  yc
+], xc = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -3205,15 +3205,15 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, xc = /* @__PURE__ */ u("path", {
+}, _c = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), _c = [
-  xc
-], kc = { class: "ml-1.5" }, Sc = { class: "m-auto font-bold text-red-500 text-sm dark:text-red-200 text-center" }, Dc = {
+}, null, -1), kc = [
+  _c
+], Sc = { class: "ml-1.5" }, Dc = { class: "m-auto font-bold text-red-500 text-sm dark:text-red-200 text-center" }, Cc = {
   name: "VFModalDelete"
-}, Cc = /* @__PURE__ */ Object.assign(Dc, {
+}, Mc = /* @__PURE__ */ Object.assign(Cc, {
   props: {
     selection: Object,
     current: Object
@@ -3247,18 +3247,18 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
           onClick: m[1] || (m[1] = (d) => x(r).emit("vf-modal-close")),
           class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         }, E(x(i)("Cancel")), 1),
-        u("div", Sc, E(x(i)("This action cannot be undone.")), 1)
+        u("div", Dc, E(x(i)("This action cannot be undone.")), 1)
       ]),
       default: J(() => [
-        u("div", uc, [
-          dc,
-          u("div", hc, [
-            u("h3", fc, E(x(i)("Delete files")), 1),
-            u("div", mc, [
-              u("p", gc, E(x(i)("Are you sure you want to delete these files?")), 1),
-              (y(!0), C(le, null, we(a.value, (d) => (y(), C("p", pc, [
-                d.type == "dir" ? (y(), C("svg", vc, yc)) : (y(), C("svg", wc, _c)),
-                u("span", kc, E(d.basename), 1)
+        u("div", dc, [
+          hc,
+          u("div", fc, [
+            u("h3", mc, E(x(i)("Delete files")), 1),
+            u("div", gc, [
+              u("p", pc, E(x(i)("Are you sure you want to delete these files?")), 1),
+              (y(!0), C(le, null, we(a.value, (d) => (y(), C("p", vc, [
+                d.type == "dir" ? (y(), C("svg", bc, wc)) : (y(), C("svg", xc, kc)),
+                u("span", Sc, E(d.basename), 1)
               ]))), 256)),
               n.value.length ? (y(), Z(Ee, {
                 key: 0,
@@ -3277,7 +3277,7 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       _: 1
     }));
   }
-}), Mc = { class: "sm:flex sm:items-start" }, $c = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), $c = { class: "sm:flex sm:items-start" }, Ec = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ u("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -3292,12 +3292,12 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       d: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
     })
   ])
-], -1), Ec = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Tc = {
+], -1), Tc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Ac = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Ac = { class: "mt-2" }, Oc = { class: "text-sm text-gray-500" }, Ic = {
+}, Oc = { class: "mt-2" }, Ic = { class: "text-sm text-gray-500" }, Lc = {
   name: "VFModalMessage"
-}, Lc = /* @__PURE__ */ Object.assign(Ic, {
+}, Pc = /* @__PURE__ */ Object.assign(Lc, {
   props: {
     selection: Object
   },
@@ -3314,12 +3314,12 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       default: J(() => {
         var a, n, f, g;
         return [
-          u("div", Mc, [
-            $c,
-            u("div", Ec, [
-              u("h3", Tc, E((n = (a = t.selection) == null ? void 0 : a.title) != null ? n : "Title"), 1),
-              u("div", Ac, [
-                u("p", Oc, E((g = (f = t.selection) == null ? void 0 : f.message) != null ? g : "Message") + ".", 1)
+          u("div", $c, [
+            Ec,
+            u("div", Tc, [
+              u("h3", Ac, E((n = (a = t.selection) == null ? void 0 : a.title) != null ? n : "Title"), 1),
+              u("div", Oc, [
+                u("p", Ic, E((g = (f = t.selection) == null ? void 0 : f.message) != null ? g : "Message") + ".", 1)
               ])
             ])
           ])
@@ -3328,7 +3328,7 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       _: 1
     }));
   }
-}), Pc = { class: "sm:flex sm:items-start" }, Nc = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Nc = { class: "sm:flex sm:items-start" }, jc = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ u("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -3343,12 +3343,12 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       d: "M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
     })
   ])
-], -1), jc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Vc = {
+], -1), Vc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, zc = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, zc = { class: "mt-2" }, Rc = { class: "text-sm text-gray-500" }, Bc = ["onKeyup", "placeholder"], Hc = {
+}, Rc = { class: "mt-2" }, Bc = { class: "text-sm text-gray-500" }, Hc = ["onKeyup", "placeholder"], Uc = {
   name: "VFModalNewFolder"
-}, Uc = /* @__PURE__ */ Object.assign(Hc, {
+}, Kc = /* @__PURE__ */ Object.assign(Uc, {
   props: {
     selection: Object,
     current: Object
@@ -3384,19 +3384,19 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
         }, E(x(i)("Cancel")), 1)
       ]),
       default: J(() => [
-        u("div", Pc, [
-          Nc,
-          u("div", jc, [
-            u("h3", Vc, E(x(i)("New Folder")), 1),
-            u("div", zc, [
-              u("p", Rc, E(x(i)("Create a new folder")), 1),
+        u("div", Nc, [
+          jc,
+          u("div", Vc, [
+            u("h3", zc, E(x(i)("New Folder")), 1),
+            u("div", Rc, [
+              u("p", Bc, E(x(i)("Create a new folder")), 1),
               ye(u("input", {
                 "onUpdate:modelValue": m[0] || (m[0] = (d) => a.value = d),
                 onKeyup: tt(f, ["enter"]),
                 class: "px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                 placeholder: x(i)("Folder Name"),
                 type: "text"
-              }, null, 40, Bc), [
+              }, null, 40, Hc), [
                 [rt, a.value]
               ]),
               n.value.length ? (y(), Z(Ee, {
@@ -3416,7 +3416,7 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       _: 1
     }));
   }
-}), Kc = { class: "sm:flex sm:items-start" }, Fc = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Fc = { class: "sm:flex sm:items-start" }, Yc = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ u("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -3431,12 +3431,12 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       d: "M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
     })
   ])
-], -1), Yc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Wc = {
+], -1), Wc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Xc = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Xc = { class: "mt-2" }, qc = { class: "text-sm text-gray-500" }, Gc = ["onKeyup", "placeholder"], Jc = {
+}, qc = { class: "mt-2" }, Gc = { class: "text-sm text-gray-500" }, Jc = ["onKeyup", "placeholder"], Zc = {
   name: "VFModalNewFile"
-}, Zc = /* @__PURE__ */ Object.assign(Jc, {
+}, Qc = /* @__PURE__ */ Object.assign(Zc, {
   props: {
     selection: Object,
     current: Object
@@ -3472,19 +3472,19 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
         }, "Cancel")
       ]),
       default: J(() => [
-        u("div", Kc, [
-          Fc,
-          u("div", Yc, [
-            u("h3", Wc, E(x(i)("New File")), 1),
-            u("div", Xc, [
-              u("p", qc, E(x(i)("Create a new file")), 1),
+        u("div", Fc, [
+          Yc,
+          u("div", Wc, [
+            u("h3", Xc, E(x(i)("New File")), 1),
+            u("div", qc, [
+              u("p", Gc, E(x(i)("Create a new file")), 1),
               ye(u("input", {
                 "onUpdate:modelValue": m[0] || (m[0] = (d) => a.value = d),
                 onKeyup: tt(f, ["enter"]),
                 class: "px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                 placeholder: x(i)("File Name"),
                 type: "text"
-              }, null, 40, Gc), [
+              }, null, 40, Jc), [
                 [rt, a.value]
               ]),
               n.value.length ? (y(), Z(Ee, {
@@ -3504,10 +3504,10 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       _: 1
     }));
   }
-}), Qc = { class: "flex" }, eu = ["aria-label"], tu = { class: "ml-auto mb-2" }, ru = {
+}), eu = { class: "flex" }, tu = ["aria-label"], ru = { class: "ml-auto mb-2" }, ou = {
   key: 0,
   class: "p-2 border font-normal whitespace-pre-wrap border-gray-200 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto"
-}, ou = { key: 1 }, au = {
+}, au = { key: 1 }, su = {
   __name: "Text",
   props: {
     selection: Object
@@ -3544,15 +3544,15 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
       });
     };
     return (k, S) => (y(), C(le, null, [
-      u("div", Qc, [
+      u("div", eu, [
         u("div", {
           class: "mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
           id: "modal-title",
           "aria-label": t.selection.item.path,
           "data-microtip-position": "bottom-right",
           role: "tooltip"
-        }, E(t.selection.item.basename), 9, eu),
-        u("div", tu, [
+        }, E(t.selection.item.basename), 9, tu),
+        u("div", ru, [
           n.value ? (y(), C("button", {
             key: 0,
             onClick: T,
@@ -3565,7 +3565,7 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
         ])
       ]),
       u("div", null, [
-        n.value ? (y(), C("div", ou, [
+        n.value ? (y(), C("div", au, [
           ye(u("textarea", {
             ref_key: "editInput",
             ref: a,
@@ -3578,7 +3578,7 @@ const Jl = { class: "vuefinder" }, Zl = /* @__PURE__ */ u("iframe", {
           }, null, 512), [
             [rt, i.value]
           ])
-        ])) : (y(), C("pre", ru, E(o.value), 1)),
+        ])) : (y(), C("pre", ou, E(o.value), 1)),
         g.value.length ? (y(), Z(Ee, {
           key: 2,
           onHidden: S[2] || (S[2] = (P) => g.value = ""),
@@ -3616,7 +3616,7 @@ function Ko(t) {
   for (var e = 1; e < arguments.length; e++) {
     var r = arguments[e] != null ? arguments[e] : {};
     e % 2 ? Xr(Object(r), !0).forEach(function(o) {
-      nu(t, o, r[o]);
+      lu(t, o, r[o]);
     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(r)) : Xr(Object(r)).forEach(function(o) {
       Object.defineProperty(t, o, Object.getOwnPropertyDescriptor(r, o));
     });
@@ -3630,7 +3630,7 @@ function Ct(t) {
     return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
   }, Ct(t);
 }
-function su(t, e) {
+function iu(t, e) {
   if (!(t instanceof e))
     throw new TypeError("Cannot call a class as a function");
 }
@@ -3640,10 +3640,10 @@ function qr(t, e) {
     o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(t, o.key, o);
   }
 }
-function iu(t, e, r) {
+function nu(t, e, r) {
   return e && qr(t.prototype, e), r && qr(t, r), t;
 }
-function nu(t, e, r) {
+function lu(t, e, r) {
   return e in t ? Object.defineProperty(t, e, {
     value: r,
     enumerable: !0,
@@ -3652,17 +3652,17 @@ function nu(t, e, r) {
   }) : t[e] = r, t;
 }
 function Fo(t) {
-  return lu(t) || cu(t) || uu(t) || du();
+  return cu(t) || uu(t) || du(t) || hu();
 }
-function lu(t) {
+function cu(t) {
   if (Array.isArray(t))
     return Gt(t);
 }
-function cu(t) {
+function uu(t) {
   if (typeof Symbol < "u" && t[Symbol.iterator] != null || t["@@iterator"] != null)
     return Array.from(t);
 }
-function uu(t, e) {
+function du(t, e) {
   if (!!t) {
     if (typeof t == "string")
       return Gt(t, e);
@@ -3679,11 +3679,11 @@ function Gt(t, e) {
     o[r] = t[r];
   return o;
 }
-function du() {
+function hu() {
   throw new TypeError(`Invalid attempt to spread non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
 }
-var Vt = typeof window < "u" && typeof window.document < "u", Ce = Vt ? window : {}, pr = Vt && Ce.document.documentElement ? "ontouchstart" in Ce.document.documentElement : !1, vr = Vt ? "PointerEvent" in Ce : !1, te = "cropper", br = "all", Yo = "crop", Wo = "move", Xo = "zoom", Ve = "e", ze = "w", qe = "s", Oe = "n", nt = "ne", lt = "nw", ct = "se", ut = "sw", Jt = "".concat(te, "-crop"), Gr = "".concat(te, "-disabled"), me = "".concat(te, "-hidden"), Jr = "".concat(te, "-hide"), hu = "".concat(te, "-invisible"), At = "".concat(te, "-modal"), Zt = "".concat(te, "-move"), ft = "".concat(te, "Action"), St = "".concat(te, "Preview"), yr = "crop", qo = "move", Go = "none", Qt = "crop", er = "cropend", tr = "cropmove", rr = "cropstart", Zr = "dblclick", fu = pr ? "touchstart" : "mousedown", mu = pr ? "touchmove" : "mousemove", gu = pr ? "touchend touchcancel" : "mouseup", Qr = vr ? "pointerdown" : fu, eo = vr ? "pointermove" : mu, to = vr ? "pointerup pointercancel" : gu, ro = "ready", oo = "resize", ao = "wheel", or = "zoom", so = "image/jpeg", pu = /^e|w|s|n|se|sw|ne|nw|all|crop|move|zoom$/, vu = /^data:/, bu = /^data:image\/jpeg;base64,/, yu = /^img|canvas$/i, Jo = 200, Zo = 100, io = {
+var Vt = typeof window < "u" && typeof window.document < "u", Ce = Vt ? window : {}, pr = Vt && Ce.document.documentElement ? "ontouchstart" in Ce.document.documentElement : !1, vr = Vt ? "PointerEvent" in Ce : !1, te = "cropper", br = "all", Yo = "crop", Wo = "move", Xo = "zoom", Ve = "e", ze = "w", qe = "s", Oe = "n", nt = "ne", lt = "nw", ct = "se", ut = "sw", Jt = "".concat(te, "-crop"), Gr = "".concat(te, "-disabled"), me = "".concat(te, "-hidden"), Jr = "".concat(te, "-hide"), fu = "".concat(te, "-invisible"), At = "".concat(te, "-modal"), Zt = "".concat(te, "-move"), ft = "".concat(te, "Action"), St = "".concat(te, "Preview"), yr = "crop", qo = "move", Go = "none", Qt = "crop", er = "cropend", tr = "cropmove", rr = "cropstart", Zr = "dblclick", mu = pr ? "touchstart" : "mousedown", gu = pr ? "touchmove" : "mousemove", pu = pr ? "touchend touchcancel" : "mouseup", Qr = vr ? "pointerdown" : mu, eo = vr ? "pointermove" : gu, to = vr ? "pointerup pointercancel" : pu, ro = "ready", oo = "resize", ao = "wheel", or = "zoom", so = "image/jpeg", vu = /^e|w|s|n|se|sw|ne|nw|all|crop|move|zoom$/, bu = /^data:/, yu = /^data:image\/jpeg;base64,/, wu = /^img|canvas$/i, Jo = 200, Zo = 100, io = {
   viewMode: 0,
   dragMode: yr,
   initialAspectRatio: NaN,
@@ -3723,9 +3723,9 @@ var Vt = typeof window < "u" && typeof window.document < "u", Ce = Vt ? window :
   cropend: null,
   crop: null,
   zoom: null
-}, wu = '<div class="cropper-container" touch-action="none"><div class="cropper-wrap-box"><div class="cropper-canvas"></div></div><div class="cropper-drag-box"></div><div class="cropper-crop-box"><span class="cropper-view-box"></span><span class="cropper-dashed dashed-h"></span><span class="cropper-dashed dashed-v"></span><span class="cropper-center"></span><span class="cropper-face"></span><span class="cropper-line line-e" data-cropper-action="e"></span><span class="cropper-line line-n" data-cropper-action="n"></span><span class="cropper-line line-w" data-cropper-action="w"></span><span class="cropper-line line-s" data-cropper-action="s"></span><span class="cropper-point point-e" data-cropper-action="e"></span><span class="cropper-point point-n" data-cropper-action="n"></span><span class="cropper-point point-w" data-cropper-action="w"></span><span class="cropper-point point-s" data-cropper-action="s"></span><span class="cropper-point point-ne" data-cropper-action="ne"></span><span class="cropper-point point-nw" data-cropper-action="nw"></span><span class="cropper-point point-sw" data-cropper-action="sw"></span><span class="cropper-point point-se" data-cropper-action="se"></span></div></div>', xu = Number.isNaN || Ce.isNaN;
+}, xu = '<div class="cropper-container" touch-action="none"><div class="cropper-wrap-box"><div class="cropper-canvas"></div></div><div class="cropper-drag-box"></div><div class="cropper-crop-box"><span class="cropper-view-box"></span><span class="cropper-dashed dashed-h"></span><span class="cropper-dashed dashed-v"></span><span class="cropper-center"></span><span class="cropper-face"></span><span class="cropper-line line-e" data-cropper-action="e"></span><span class="cropper-line line-n" data-cropper-action="n"></span><span class="cropper-line line-w" data-cropper-action="w"></span><span class="cropper-line line-s" data-cropper-action="s"></span><span class="cropper-point point-e" data-cropper-action="e"></span><span class="cropper-point point-n" data-cropper-action="n"></span><span class="cropper-point point-w" data-cropper-action="w"></span><span class="cropper-point point-s" data-cropper-action="s"></span><span class="cropper-point point-ne" data-cropper-action="ne"></span><span class="cropper-point point-nw" data-cropper-action="nw"></span><span class="cropper-point point-sw" data-cropper-action="sw"></span><span class="cropper-point point-se" data-cropper-action="se"></span></div></div>', _u = Number.isNaN || Ce.isNaN;
 function Y(t) {
-  return typeof t == "number" && !xu(t);
+  return typeof t == "number" && !_u(t);
 }
 var no = function(e) {
   return e > 0 && e < 1 / 0;
@@ -3736,13 +3736,13 @@ function Ut(t) {
 function He(t) {
   return Ct(t) === "object" && t !== null;
 }
-var _u = Object.prototype.hasOwnProperty;
+var ku = Object.prototype.hasOwnProperty;
 function Ge(t) {
   if (!He(t))
     return !1;
   try {
     var e = t.constructor, r = e.prototype;
-    return e && r && _u.call(r, "isPrototypeOf");
+    return e && r && ku.call(r, "isPrototypeOf");
   } catch {
     return !1;
   }
@@ -3750,9 +3750,9 @@ function Ge(t) {
 function fe(t) {
   return typeof t == "function";
 }
-var ku = Array.prototype.slice;
+var Su = Array.prototype.slice;
 function Qo(t) {
-  return Array.from ? Array.from(t) : ku.call(t);
+  return Array.from ? Array.from(t) : Su.call(t);
 }
 function se(t, e) {
   return t && fe(e) && (Array.isArray(t) || Y(t.length) ? Qo(t).forEach(function(r, o) {
@@ -3769,19 +3769,19 @@ var re = Object.assign || function(e) {
       e[n] = a[n];
     });
   }), e;
-}, Su = /\.\d*(?:0|9){12}\d*$/;
+}, Du = /\.\d*(?:0|9){12}\d*$/;
 function Ze(t) {
   var e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1e11;
-  return Su.test(t) ? Math.round(t * e) / e : t;
+  return Du.test(t) ? Math.round(t * e) / e : t;
 }
-var Du = /^width|height|left|top|marginLeft|marginTop$/;
+var Cu = /^width|height|left|top|marginLeft|marginTop$/;
 function Ie(t, e) {
   var r = t.style;
   se(e, function(o, i) {
-    Du.test(i) && Y(o) && (o = "".concat(o, "px")), r[i] = o;
+    Cu.test(i) && Y(o) && (o = "".concat(o, "px")), r[i] = o;
   });
 }
-function Cu(t, e) {
+function Mu(t, e) {
   return t.classList ? t.classList.contains(e) : t.className.indexOf(e) > -1;
 }
 function ne(t, e) {
@@ -3826,9 +3826,9 @@ function Je(t, e, r) {
     r ? ne(t, e) : De(t, e);
   }
 }
-var Mu = /([a-z\d])([A-Z])/g;
+var $u = /([a-z\d])([A-Z])/g;
 function wr(t) {
-  return t.replace(Mu, "$1-$2").toLowerCase();
+  return t.replace($u, "$1-$2").toLowerCase();
 }
 function ar(t, e) {
   return He(t[e]) ? t[e] : t.dataset ? t.dataset[e] : t.getAttribute("data-".concat(wr(e)));
@@ -3836,7 +3836,7 @@ function ar(t, e) {
 function mt(t, e, r) {
   He(r) ? t[e] = r : t.dataset ? t.dataset[e] = r : t.setAttribute("data-".concat(wr(e)), r);
 }
-function $u(t, e) {
+function Eu(t, e) {
   if (He(t[e]))
     try {
       delete t[e];
@@ -3908,9 +3908,9 @@ function ra(t) {
     top: e.top + (window.pageYOffset - document.documentElement.clientTop)
   };
 }
-var Kt = Ce.location, Eu = /^(\w+:)\/\/([^:/?#]*):?(\d*)/i;
+var Kt = Ce.location, Tu = /^(\w+:)\/\/([^:/?#]*):?(\d*)/i;
 function lo(t) {
-  var e = t.match(Eu);
+  var e = t.match(Tu);
   return e !== null && (e[1] !== Kt.protocol || e[2] !== Kt.hostname || e[3] !== Kt.port);
 }
 function co(t) {
@@ -3927,7 +3927,7 @@ function dt(t) {
     transform: f
   };
 }
-function Tu(t) {
+function Au(t) {
   var e = Ko({}, t), r = 0;
   return se(t, function(o, i) {
     delete e[i], se(e, function(a) {
@@ -3946,7 +3946,7 @@ function Dt(t, e) {
     startY: o
   }, i);
 }
-function Au(t) {
+function Ou(t) {
   var e = 0, r = 0, o = 0;
   return se(t, function(i) {
     var a = i.startX, n = i.startY;
@@ -3968,7 +3968,7 @@ function Le(t) {
     height: r
   };
 }
-function Ou(t) {
+function Iu(t) {
   var e = t.width, r = t.height, o = t.degree;
   if (o = Math.abs(o) % 180, o === 90)
     return {
@@ -3984,7 +3984,7 @@ function Ou(t) {
     height: g
   };
 }
-function Iu(t, e, r, o) {
+function Lu(t, e, r, o) {
   var i = e.aspectRatio, a = e.naturalWidth, n = e.naturalHeight, f = e.rotate, g = f === void 0 ? 0 : f, m = e.scaleX, d = m === void 0 ? 1 : m, v = e.scaleY, b = v === void 0 ? 1 : v, T = r.aspectRatio, k = r.naturalWidth, S = r.naturalHeight, P = o.fillColor, F = P === void 0 ? "transparent" : P, H = o.imageSmoothingEnabled, j = H === void 0 ? !0 : H, V = o.imageSmoothingQuality, W = V === void 0 ? "low" : V, M = o.maxWidth, K = M === void 0 ? 1 / 0 : M, Q = o.maxHeight, ce = Q === void 0 ? 1 / 0 : Q, he = o.minWidth, ve = he === void 0 ? 0 : he, N = o.minHeight, B = N === void 0 ? 0 : N, O = document.createElement("canvas"), X = O.getContext("2d"), q = Le({
     aspectRatio: T,
     width: K,
@@ -4007,26 +4007,26 @@ function Iu(t, e, r, o) {
   })))), X.restore(), O;
 }
 var oa = String.fromCharCode;
-function Lu(t, e, r) {
+function Pu(t, e, r) {
   var o = "";
   r += e;
   for (var i = e; i < r; i += 1)
     o += oa(t.getUint8(i));
   return o;
 }
-var Pu = /^data:.*,/;
-function Nu(t) {
-  var e = t.replace(Pu, ""), r = atob(e), o = new ArrayBuffer(r.length), i = new Uint8Array(o);
+var Nu = /^data:.*,/;
+function ju(t) {
+  var e = t.replace(Nu, ""), r = atob(e), o = new ArrayBuffer(r.length), i = new Uint8Array(o);
   return se(i, function(a, n) {
     i[n] = r.charCodeAt(n);
   }), o;
 }
-function ju(t, e) {
+function Vu(t, e) {
   for (var r = [], o = 8192, i = new Uint8Array(t); i.length > 0; )
     r.push(oa.apply(null, Qo(i.subarray(0, o)))), i = i.subarray(o);
   return "data:".concat(e, ";base64,").concat(btoa(r.join("")));
 }
-function Vu(t) {
+function zu(t) {
   var e = new DataView(t), r;
   try {
     var o, i, a;
@@ -4040,7 +4040,7 @@ function Vu(t) {
       }
     if (i) {
       var g = i + 4, m = i + 10;
-      if (Lu(e, g, 4) === "Exif") {
+      if (Pu(e, g, 4) === "Exif") {
         var d = e.getUint16(m);
         if (o = d === 18761, (o || d === 19789) && e.getUint16(m + 2, o) === 42) {
           var v = e.getUint32(m + 4, o);
@@ -4061,7 +4061,7 @@ function Vu(t) {
   }
   return r;
 }
-function zu(t) {
+function Ru(t) {
   var e = 0, r = 1, o = 1;
   switch (t) {
     case 2:
@@ -4092,7 +4092,7 @@ function zu(t) {
     scaleY: o
   };
 }
-var Ru = {
+var Bu = {
   render: function() {
     this.initContainer(), this.initCanvas(), this.initCropBox(), this.renderCanvas(), this.cropped && this.renderCropBox();
   },
@@ -4142,7 +4142,7 @@ var Ru = {
   renderCanvas: function(e, r) {
     var o = this.canvasData, i = this.imageData;
     if (r) {
-      var a = Ou({
+      var a = Iu({
         width: i.naturalWidth * Math.abs(i.scaleX || 1),
         height: i.naturalHeight * Math.abs(i.scaleY || 1),
         degree: i.rotate || 0
@@ -4200,7 +4200,7 @@ var Ru = {
   output: function() {
     this.preview(), Qe(this.element, Qt, this.getData());
   }
-}, Bu = {
+}, Hu = {
   initPreview: function() {
     var e = this.element, r = this.crossOrigin, o = this.options.preview, i = r ? this.crossOriginUrl : this.url, a = e.alt || "The image to preview", n = document.createElement("img");
     if (r && (n.crossOrigin = r), n.src = i, n.alt = a, this.viewBox.appendChild(n), this.viewBoxImage = n, !!o) {
@@ -4221,7 +4221,7 @@ var Ru = {
       Ie(e, {
         width: r.width,
         height: r.height
-      }), e.innerHTML = r.html, $u(e, St);
+      }), e.innerHTML = r.html, Eu(e, St);
     });
   },
   preview: function() {
@@ -4246,7 +4246,7 @@ var Ru = {
       }, e))));
     }));
   }
-}, Hu = {
+}, Uu = {
   bind: function() {
     var e = this.element, r = this.options, o = this.cropper;
     fe(r.cropstart) && be(e, rr, r.cropstart), fe(r.cropmove) && be(e, tr, r.cropmove), fe(r.cropend) && be(e, er, r.cropend), fe(r.crop) && be(e, Qt, r.crop), fe(r.zoom) && be(e, or, r.zoom), be(o, Qr, this.onCropStart = this.cropStart.bind(this)), r.zoomable && r.zoomOnWheel && be(o, ao, this.onWheel = this.wheel.bind(this), {
@@ -4261,7 +4261,7 @@ var Ru = {
       capture: !0
     }), r.toggleDragModeOnDblclick && xe(o, Zr, this.onDblclick), xe(e.ownerDocument, eo, this.onCropMove), xe(e.ownerDocument, to, this.onCropEnd), r.responsive && xe(window, oo, this.onResize);
   }
-}, Uu = {
+}, Ku = {
   resize: function() {
     if (!this.disabled) {
       var e = this.options, r = this.container, o = this.containerData, i = r.offsetWidth / o.width, a = r.offsetHeight / o.height, n = Math.abs(i - 1) > Math.abs(a - 1) ? i : a;
@@ -4276,7 +4276,7 @@ var Ru = {
     }
   },
   dblclick: function() {
-    this.disabled || this.options.dragMode === Go || this.setDragMode(Cu(this.dragBox, Jt) ? qo : yr);
+    this.disabled || this.options.dragMode === Go || this.setDragMode(Mu(this.dragBox, Jt) ? qo : yr);
   },
   wheel: function(e) {
     var r = this, o = Number(this.options.wheelZoomRatio) || 0.1, i = 1;
@@ -4290,7 +4290,7 @@ var Ru = {
       var i = this.options, a = this.pointers, n;
       e.changedTouches ? se(e.changedTouches, function(f) {
         a[f.identifier] = Dt(f);
-      }) : a[e.pointerId || 0] = Dt(e), Object.keys(a).length > 1 && i.zoomable && i.zoomOnTouch ? n = Xo : n = ar(e.target, ft), !!pu.test(n) && Qe(this.element, rr, {
+      }) : a[e.pointerId || 0] = Dt(e), Object.keys(a).length > 1 && i.zoomable && i.zoomOnTouch ? n = Xo : n = ar(e.target, ft), !!vu.test(n) && Qe(this.element, rr, {
         originalEvent: e,
         action: n
       }) !== !1 && (e.preventDefault(), this.action = n, this.cropping = !1, n === Yo && (this.cropping = !0, ne(this.dragBox, At)));
@@ -4319,7 +4319,7 @@ var Ru = {
       }));
     }
   }
-}, Ku = {
+}, Fu = {
   change: function(e) {
     var r = this.options, o = this.canvasData, i = this.containerData, a = this.cropBoxData, n = this.pointers, f = this.action, g = r.aspectRatio, m = a.left, d = a.top, v = a.width, b = a.height, T = m + v, k = d + b, S = 0, P = 0, F = i.width, H = i.height, j = !0, V;
     !g && e.shiftKey && (g = v && b ? v / b : 1), this.limited && (S = a.minLeft, P = a.minTop, F = S + Math.min(i.width, o.width, o.left + o.width), H = P + Math.min(i.height, o.height, o.top + o.height));
@@ -4422,7 +4422,7 @@ var Ru = {
         this.move(M.x, M.y), j = !1;
         break;
       case Xo:
-        this.zoom(Tu(n), e), j = !1;
+        this.zoom(Au(n), e), j = !1;
         break;
       case Yo:
         if (!M.x || !M.y) {
@@ -4436,7 +4436,7 @@ var Ru = {
       Q.startX = Q.endX, Q.startY = Q.endY;
     });
   }
-}, Fu = {
+}, Yu = {
   crop: function() {
     return this.ready && !this.cropped && !this.disabled && (this.cropped = !0, this.limitCropBox(!0, !0), this.options.modal && ne(this.dragBox, At), De(this.cropBox, me), this.setCropBoxData(this.initialCropBoxData)), this;
   },
@@ -4490,7 +4490,7 @@ var Ru = {
       }) === !1)
         return this;
       if (o) {
-        var b = this.pointers, T = ra(this.cropper), k = b && Object.keys(b).length ? Au(b) : {
+        var b = this.pointers, T = ra(this.cropper), k = b && Object.keys(b).length ? Ou(b) : {
           pageX: o.pageX,
           pageY: o.pageY
         };
@@ -4587,7 +4587,7 @@ var Ru = {
     var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
     if (!this.ready || !window.HTMLCanvasElement)
       return null;
-    var r = this.canvasData, o = Iu(this.image, this.imageData, r, e);
+    var r = this.canvasData, o = Lu(this.image, this.imageData, r, e);
     if (!this.cropped)
       return o;
     var i = this.getData(), a = i.x, n = i.y, f = i.width, g = i.height, m = o.width / Math.floor(r.naturalWidth);
@@ -4633,14 +4633,14 @@ var Ru = {
     }
     return this;
   }
-}, Yu = Ce.Cropper, aa = /* @__PURE__ */ function() {
+}, Wu = Ce.Cropper, aa = /* @__PURE__ */ function() {
   function t(e) {
     var r = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    if (su(this, t), !e || !yu.test(e.tagName))
+    if (iu(this, t), !e || !wu.test(e.tagName))
       throw new Error("The first argument is required and must be an <img> or <canvas> element.");
     this.element = e, this.options = re({}, io, Ge(r) && r), this.cropped = !1, this.disabled = !1, this.pointers = {}, this.ready = !1, this.reloading = !1, this.replaced = !1, this.sized = !1, this.sizing = !1, this.init();
   }
-  return iu(t, [{
+  return nu(t, [{
     key: "init",
     value: function() {
       var r = this.element, o = r.tagName.toLowerCase(), i;
@@ -4665,8 +4665,8 @@ var Ru = {
           this.clone();
           return;
         }
-        if (vu.test(r)) {
-          bu.test(r) ? this.read(Nu(r)) : this.clone();
+        if (bu.test(r)) {
+          yu.test(r) ? this.read(ju(r)) : this.clone();
           return;
         }
         var n = new XMLHttpRequest(), f = this.clone.bind(this);
@@ -4682,10 +4682,10 @@ var Ru = {
   }, {
     key: "read",
     value: function(r) {
-      var o = this.options, i = this.imageData, a = Vu(r), n = 0, f = 1, g = 1;
+      var o = this.options, i = this.imageData, a = zu(r), n = 0, f = 1, g = 1;
       if (a > 1) {
-        this.url = ju(r, so);
-        var m = zu(a);
+        this.url = Vu(r, so);
+        var m = Ru(a);
         n = m.rotate, f = m.scaleX, g = m.scaleY;
       }
       o.rotatable && (i.rotate = n), o.scalable && (i.scaleX = f, i.scaleY = g), this.clone();
@@ -4730,9 +4730,9 @@ var Ru = {
     value: function() {
       if (!(!this.sized || this.ready)) {
         var r = this.element, o = this.options, i = this.image, a = r.parentNode, n = document.createElement("div");
-        n.innerHTML = wu;
+        n.innerHTML = xu;
         var f = n.querySelector(".".concat(te, "-container")), g = f.querySelector(".".concat(te, "-canvas")), m = f.querySelector(".".concat(te, "-drag-box")), d = f.querySelector(".".concat(te, "-crop-box")), v = d.querySelector(".".concat(te, "-face"));
-        this.container = a, this.cropper = f, this.canvas = g, this.dragBox = m, this.cropBox = d, this.viewBox = f.querySelector(".".concat(te, "-view-box")), this.face = v, g.appendChild(i), ne(r, me), a.insertBefore(f, r.nextSibling), this.isImg || De(i, Jr), this.initPreview(), this.bind(), o.initialAspectRatio = Math.max(0, o.initialAspectRatio) || NaN, o.aspectRatio = Math.max(0, o.aspectRatio) || NaN, o.viewMode = Math.max(0, Math.min(3, Math.round(o.viewMode))) || 0, ne(d, me), o.guides || ne(d.getElementsByClassName("".concat(te, "-dashed")), me), o.center || ne(d.getElementsByClassName("".concat(te, "-center")), me), o.background && ne(f, "".concat(te, "-bg")), o.highlight || ne(v, hu), o.cropBoxMovable && (ne(v, Zt), mt(v, ft, br)), o.cropBoxResizable || (ne(d.getElementsByClassName("".concat(te, "-line")), me), ne(d.getElementsByClassName("".concat(te, "-point")), me)), this.render(), this.ready = !0, this.setDragMode(o.dragMode), o.autoCrop && this.crop(), this.setData(o.data), fe(o.ready) && be(r, ro, o.ready, {
+        this.container = a, this.cropper = f, this.canvas = g, this.dragBox = m, this.cropBox = d, this.viewBox = f.querySelector(".".concat(te, "-view-box")), this.face = v, g.appendChild(i), ne(r, me), a.insertBefore(f, r.nextSibling), this.isImg || De(i, Jr), this.initPreview(), this.bind(), o.initialAspectRatio = Math.max(0, o.initialAspectRatio) || NaN, o.aspectRatio = Math.max(0, o.aspectRatio) || NaN, o.viewMode = Math.max(0, Math.min(3, Math.round(o.viewMode))) || 0, ne(d, me), o.guides || ne(d.getElementsByClassName("".concat(te, "-dashed")), me), o.center || ne(d.getElementsByClassName("".concat(te, "-center")), me), o.background && ne(f, "".concat(te, "-bg")), o.highlight || ne(v, fu), o.cropBoxMovable && (ne(v, Zt), mt(v, ft, br)), o.cropBoxResizable || (ne(d.getElementsByClassName("".concat(te, "-line")), me), ne(d.getElementsByClassName("".concat(te, "-point")), me)), this.render(), this.ready = !0, this.setDragMode(o.dragMode), o.autoCrop && this.crop(), this.setData(o.data), fe(o.ready) && be(r, ro, o.ready, {
           once: !0
         }), Qe(r, ro);
       }
@@ -4750,7 +4750,7 @@ var Ru = {
   }], [{
     key: "noConflict",
     value: function() {
-      return window.Cropper = Yu, t;
+      return window.Cropper = Wu, t;
     }
   }, {
     key: "setDefaults",
@@ -4759,8 +4759,8 @@ var Ru = {
     }
   }]), t;
 }();
-re(aa.prototype, Ru, Bu, Hu, Uu, Ku, Fu);
-const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" }, Gu = { class: "w-full flex justify-center" }, Ju = ["src"], Zu = {
+re(aa.prototype, Bu, Hu, Uu, Ku, Fu, Yu);
+const Xu = { class: "flex" }, qu = ["aria-label"], Gu = { class: "ml-auto mb-2" }, Ju = { class: "w-full flex justify-center" }, Zu = ["src"], Qu = {
   __name: "Image",
   props: {
     selection: Object
@@ -4799,15 +4799,15 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
     return ke(() => {
       e("load");
     }), (T, k) => (y(), C(le, null, [
-      u("div", Wu, [
+      u("div", Xu, [
         u("h3", {
           class: "mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
           id: "modal-title",
           "aria-label": t.selection.item.path,
           "data-microtip-position": "bottom-right",
           role: "tooltip"
-        }, E(t.selection.item.basename), 9, Xu),
-        u("div", qu, [
+        }, E(t.selection.item.basename), 9, qu),
+        u("div", Gu, [
           f.value ? (y(), C("button", {
             key: 0,
             onClick: b,
@@ -4819,14 +4819,14 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
           }, E(f.value ? x(o)("Cancel") : x(o)("Edit")), 1)
         ])
       ]),
-      u("div", Gu, [
+      u("div", Ju, [
         u("img", {
           ref_key: "image",
           ref: a,
           class: "max-w-[60vh] max-h-[60vh]",
           src: x(Xt)(r.selection.adapter, r.selection.item.path),
           alt: ""
-        }, null, 8, Ju)
+        }, null, 8, Zu)
       ]),
       g.value.length ? (y(), Z(Ee, {
         key: 0,
@@ -4840,7 +4840,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       }, 8, ["error"])) : G("", !0)
     ], 64));
   }
-}, Qu = { class: "flex" }, ed = ["aria-label"], td = /* @__PURE__ */ u("div", null, null, -1), rd = {
+}, ed = { class: "flex" }, td = ["aria-label"], rd = /* @__PURE__ */ u("div", null, null, -1), od = {
   __name: "Default",
   props: {
     selection: Object
@@ -4850,23 +4850,23 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
     return ke(() => {
       e("load");
     }), (r, o) => (y(), C(le, null, [
-      u("div", Qu, [
+      u("div", ed, [
         u("h3", {
           class: "mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
           id: "modal-title",
           "aria-label": t.selection.item.path,
           "data-microtip-position": "bottom-right",
           role: "tooltip"
-        }, E(t.selection.item.basename), 9, ed)
+        }, E(t.selection.item.basename), 9, td)
       ]),
-      td
+      rd
     ], 64));
   }
-}, od = ["aria-label"], ad = {
+}, ad = ["aria-label"], sd = {
   class: "w-full",
   preload: "",
   controls: ""
-}, sd = ["src"], id = {
+}, id = ["src"], nd = {
   __name: "Video",
   props: {
     selection: Object
@@ -4883,22 +4883,22 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
         "aria-label": t.selection.item.path,
         "data-microtip-position": "bottom-right",
         role: "tooltip"
-      }, E(t.selection.item.basename), 9, od),
+      }, E(t.selection.item.basename), 9, ad),
       u("div", null, [
-        u("video", ad, [
+        u("video", sd, [
           u("source", {
             src: i(),
             type: "video/mp4"
-          }, null, 8, sd),
+          }, null, 8, id),
           ie(" Your browser does not support the video tag. ")
         ])
       ])
     ], 64));
   }
-}, nd = ["aria-label"], ld = {
+}, ld = ["aria-label"], cd = {
   class: "w-full",
   controls: ""
-}, cd = ["src"], ud = {
+}, ud = ["src"], dd = {
   __name: "Audio",
   props: {
     selection: Object
@@ -4915,19 +4915,19 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
         "aria-label": t.selection.item.path,
         "data-microtip-position": "bottom-right",
         role: "tooltip"
-      }, E(t.selection.item.basename), 9, nd),
+      }, E(t.selection.item.basename), 9, ld),
       u("div", null, [
-        u("audio", ld, [
+        u("audio", cd, [
           u("source", {
             src: i(),
             type: "audio/mpeg"
-          }, null, 8, cd),
+          }, null, 8, ud),
           ie(" Your browser does not support the audio element. ")
         ])
       ])
     ], 64));
   }
-}, dd = ["aria-label"], hd = ["data"], fd = ["src"], md = {
+}, hd = ["aria-label"], fd = ["data"], md = ["src"], gd = {
   __name: "Pdf",
   props: {
     selection: Object
@@ -4944,7 +4944,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
         "aria-label": t.selection.item.path,
         "data-microtip-position": "bottom-right",
         role: "tooltip"
-      }, E(t.selection.item.basename), 9, dd),
+      }, E(t.selection.item.basename), 9, hd),
       u("div", null, [
         u("object", {
           class: "h-[60vh]",
@@ -4964,15 +4964,15 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
             <a href="https://example.com/test.pdf">Download the PDF</a>
             .
           </p>
-        `, 8, fd)
-        ], 8, hd)
+        `, 8, md)
+        ], 8, fd)
       ])
     ], 64));
   }
-}, gd = { class: "sm:flex sm:items-start" }, pd = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, vd = { class: "text-gray-700 dark:text-gray-200 text-sm" }, bd = {
+}, pd = { class: "sm:flex sm:items-start" }, vd = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, bd = { class: "text-gray-700 dark:text-gray-200 text-sm" }, yd = {
   key: 0,
   class: "flex leading-5"
-}, yd = /* @__PURE__ */ u("svg", {
+}, wd = /* @__PURE__ */ u("svg", {
   class: "animate-spin -ml-1 mr-3 h-5 w-5 text-white",
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
@@ -4991,9 +4991,9 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
     fill: "currentColor",
     d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
   })
-], -1), wd = { class: "p-2 flex font-normal break-all dark:text-gray-200 rounded text-xs" }, xd = { class: "font-bold pl-2" }, _d = { class: "font-bold pl-2" }, kd = {
+], -1), xd = { class: "p-2 flex font-normal break-all dark:text-gray-200 rounded text-xs" }, _d = { class: "font-bold pl-2" }, kd = { class: "font-bold pl-2" }, Sd = {
   name: "VFModalPreview"
-}, Sd = /* @__PURE__ */ Object.assign(kd, {
+}, Dd = /* @__PURE__ */ Object.assign(Sd, {
   props: {
     selection: Object
   },
@@ -5019,50 +5019,50 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
         }, E(x(i)("Download")), 1)
       ]),
       default: J(() => [
-        u("div", gd, [
-          u("div", pd, [
+        u("div", pd, [
+          u("div", vd, [
             u("div", null, [
-              f("text") ? (y(), Z(au, {
+              f("text") ? (y(), Z(su, {
                 key: 0,
                 selection: t.selection,
                 onLoad: d[0] || (d[0] = (v) => n(!0))
-              }, null, 8, ["selection"])) : f("image") ? (y(), Z(Zu, {
+              }, null, 8, ["selection"])) : f("image") ? (y(), Z(Qu, {
                 key: 1,
                 selection: t.selection,
                 onLoad: d[1] || (d[1] = (v) => n(!0))
-              }, null, 8, ["selection"])) : f("video") ? (y(), Z(id, {
+              }, null, 8, ["selection"])) : f("video") ? (y(), Z(nd, {
                 key: 2,
                 selection: t.selection,
                 onLoad: d[2] || (d[2] = (v) => n(!0))
-              }, null, 8, ["selection"])) : f("audio") ? (y(), Z(ud, {
+              }, null, 8, ["selection"])) : f("audio") ? (y(), Z(dd, {
                 key: 3,
                 selection: t.selection,
                 onLoad: d[3] || (d[3] = (v) => n(!0))
-              }, null, 8, ["selection"])) : f("application/pdf") ? (y(), Z(md, {
+              }, null, 8, ["selection"])) : f("application/pdf") ? (y(), Z(gd, {
                 key: 4,
                 selection: t.selection,
                 onLoad: d[4] || (d[4] = (v) => n(!0))
-              }, null, 8, ["selection"])) : (y(), Z(rd, {
+              }, null, 8, ["selection"])) : (y(), Z(od, {
                 key: 5,
                 selection: t.selection,
                 onLoad: d[5] || (d[5] = (v) => n(!0))
               }, null, 8, ["selection"]))
             ]),
-            u("div", vd, [
-              a.value == !1 ? (y(), C("div", bd, [
-                yd,
+            u("div", bd, [
+              a.value == !1 ? (y(), C("div", yd, [
+                wd,
                 u("span", null, E(x(i)("Loading")), 1)
               ])) : G("", !0)
             ])
           ])
         ]),
-        u("div", wd, [
+        u("div", xd, [
           u("div", null, [
-            u("span", xd, E(x(i)("File Size")) + ": ", 1),
+            u("span", _d, E(x(i)("File Size")) + ": ", 1),
             ie(E(x(mo)(t.selection.item.file_size)), 1)
           ]),
           u("div", null, [
-            u("span", _d, E(x(i)("Last Modified")) + ": ", 1),
+            u("span", kd, E(x(i)("Last Modified")) + ": ", 1),
             ie(" " + E(x(go)(t.selection.item.last_modified)), 1)
           ])
         ])
@@ -5070,7 +5070,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), Dd = { class: "sm:flex sm:items-start" }, Cd = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Cd = { class: "sm:flex sm:items-start" }, Md = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ u("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -5085,10 +5085,10 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       d: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
     })
   ])
-], -1), Md = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, $d = {
+], -1), $d = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Ed = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Ed = { class: "mt-2" }, Td = { class: "flex text-sm text-gray-800 dark:text-gray-400 py-2" }, Ad = {
+}, Td = { class: "mt-2" }, Ad = { class: "flex text-sm text-gray-800 dark:text-gray-400 py-2" }, Od = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -5096,13 +5096,13 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Od = /* @__PURE__ */ u("path", {
+}, Id = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), Id = [
-  Od
-], Ld = {
+}, null, -1), Ld = [
+  Id
+], Pd = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -5110,15 +5110,15 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Pd = /* @__PURE__ */ u("path", {
+}, Nd = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), Nd = [
-  Pd
-], jd = { class: "ml-1.5" }, Vd = ["onKeyup"], zd = {
+}, null, -1), jd = [
+  Nd
+], Vd = { class: "ml-1.5" }, zd = ["onKeyup"], Rd = {
   name: "VFModalRename"
-}, Rd = /* @__PURE__ */ Object.assign(zd, {
+}, Bd = /* @__PURE__ */ Object.assign(Rd, {
   props: {
     selection: Object,
     current: Object
@@ -5155,14 +5155,14 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
         }, E(x(i)("Cancel")), 1)
       ]),
       default: J(() => [
-        u("div", Dd, [
-          Cd,
-          u("div", Md, [
-            u("h3", $d, E(x(i)("Rename")), 1),
-            u("div", Ed, [
-              u("p", Td, [
-                a.value.type == "dir" ? (y(), C("svg", Ad, Id)) : (y(), C("svg", Ld, Nd)),
-                u("span", jd, E(a.value.basename), 1)
+        u("div", Cd, [
+          Md,
+          u("div", $d, [
+            u("h3", Ed, E(x(i)("Rename")), 1),
+            u("div", Td, [
+              u("p", Ad, [
+                a.value.type == "dir" ? (y(), C("svg", Od, Ld)) : (y(), C("svg", Pd, jd)),
+                u("span", Vd, E(a.value.basename), 1)
               ]),
               ye(u("input", {
                 "onUpdate:modelValue": d[0] || (d[0] = (v) => n.value = v),
@@ -5170,7 +5170,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
                 class: "px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                 placeholder: "Name",
                 type: "text"
-              }, null, 40, Vd), [
+              }, null, 40, zd), [
                 [rt, n.value]
               ]),
               f.value.length ? (y(), Z(Ee, {
@@ -5190,7 +5190,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), Bd = { class: "sm:flex sm:items-start" }, Hd = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Hd = { class: "sm:flex sm:items-start" }, Ud = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ u("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -5205,15 +5205,15 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       d: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
     })
   ])
-], -1), Ud = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Kd = {
+], -1), Kd = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Fd = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Fd = { class: "mt-2" }, Yd = { class: "text-gray-500 mb-1" }, Wd = ["id"], Xd = {
+}, Yd = { class: "mt-2" }, Wd = { class: "text-gray-500 mb-1" }, Xd = ["id"], qd = {
   key: 0,
   class: "py-2"
-}, qd = ["disabled", "onClick"], Gd = {
+}, Gd = ["disabled", "onClick"], Jd = {
   name: "VFModalUpload"
-}, Jd = /* @__PURE__ */ Object.assign(Gd, {
+}, Zd = /* @__PURE__ */ Object.assign(Jd, {
   props: {
     current: Object
   },
@@ -5264,7 +5264,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
           onClick: Re(v, ["prevent"]),
           type: "button",
           class: de([d.value ? "bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500" : "bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500", "w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"])
-        }, E(x(i)("Upload")), 11, qd),
+        }, E(x(i)("Upload")), 11, Gd),
         u("button", {
           type: "button",
           onClick: k[1] || (k[1] = (S) => x(r).emit("vf-modal-close")),
@@ -5272,21 +5272,21 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
         }, E(x(i)("Cancel")), 1)
       ]),
       default: J(() => [
-        u("div", Bd, [
-          Hd,
-          u("div", Ud, [
-            u("h3", Kd, E(x(i)("Upload files")), 1),
-            u("div", Fd, [
-              u("div", Yd, [
+        u("div", Hd, [
+          Ud,
+          u("div", Kd, [
+            u("h3", Fd, E(x(i)("Upload files")), 1),
+            u("div", Yd, [
+              u("div", Wd, [
                 (y(!0), C(le, null, we(g.value, (S) => (y(), C("div", null, [
                   u("div", {
                     id: S.id
                   }, [
                     ie(E(S.name) + " ( " + E(S.size) + ") ", 1),
                     u("b", null, E(S.percent), 1)
-                  ], 8, Wd)
+                  ], 8, Xd)
                 ]))), 256)),
-                g.value.length ? G("", !0) : (y(), C("div", Xd, E(x(i)("No files selected!")), 1))
+                g.value.length ? G("", !0) : (y(), C("div", qd, E(x(i)("No files selected!")), 1))
               ]),
               u("div", {
                 class: "text-gray-500",
@@ -5317,7 +5317,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), Zd = { class: "sm:flex sm:items-start" }, Qd = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Qd = { class: "sm:flex sm:items-start" }, eh = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ u("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -5332,10 +5332,10 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       d: "M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
     })
   ])
-], -1), eh = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, th = {
+], -1), th = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, rh = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, rh = { class: "mt-2" }, oh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, ah = {
+}, oh = { class: "mt-2" }, ah = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, sh = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -5343,13 +5343,13 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, sh = /* @__PURE__ */ u("path", {
+}, ih = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), ih = [
-  sh
-], nh = {
+}, null, -1), nh = [
+  ih
+], lh = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -5357,15 +5357,15 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, lh = /* @__PURE__ */ u("path", {
+}, ch = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), ch = [
-  lh
-], uh = { class: "ml-1.5" }, dh = ["onKeyup", "placeholder"], hh = {
+}, null, -1), uh = [
+  ch
+], dh = { class: "ml-1.5" }, hh = ["onKeyup", "placeholder"], fh = {
   name: "VFModalArchive"
-}, fh = /* @__PURE__ */ Object.assign(hh, {
+}, mh = /* @__PURE__ */ Object.assign(fh, {
   props: {
     selection: Object,
     current: Object
@@ -5402,14 +5402,14 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
         }, E(x(i)("Cancel")), 1)
       ]),
       default: J(() => [
-        u("div", Zd, [
-          Qd,
-          u("div", eh, [
-            u("h3", th, E(x(i)("Archive the files")), 1),
-            u("div", rh, [
-              (y(!0), C(le, null, we(f.value, (v) => (y(), C("p", oh, [
-                v.type == "dir" ? (y(), C("svg", ah, ih)) : (y(), C("svg", nh, ch)),
-                u("span", uh, E(v.basename), 1)
+        u("div", Qd, [
+          eh,
+          u("div", th, [
+            u("h3", rh, E(x(i)("Archive the files")), 1),
+            u("div", oh, [
+              (y(!0), C(le, null, we(f.value, (v) => (y(), C("p", ah, [
+                v.type == "dir" ? (y(), C("svg", sh, nh)) : (y(), C("svg", lh, uh)),
+                u("span", dh, E(v.basename), 1)
               ]))), 256)),
               ye(u("input", {
                 "onUpdate:modelValue": d[0] || (d[0] = (v) => a.value = v),
@@ -5417,7 +5417,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
                 class: "my-1 px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
                 placeholder: x(i)("Archive name. (.zip file will be created)"),
                 type: "text"
-              }, null, 40, dh), [
+              }, null, 40, hh), [
                 [rt, a.value]
               ]),
               n.value.length ? (y(), Z(Ee, {
@@ -5437,7 +5437,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), mh = { class: "sm:flex sm:items-start" }, gh = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), gh = { class: "sm:flex sm:items-start" }, ph = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ u("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
@@ -5452,10 +5452,10 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       d: "M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
     })
   ])
-], -1), ph = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, vh = {
+], -1), vh = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, bh = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, bh = { class: "mt-2" }, yh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, wh = {
+}, yh = { class: "mt-2" }, wh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, xh = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -5463,13 +5463,13 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, xh = /* @__PURE__ */ u("path", {
+}, _h = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), _h = [
-  xh
-], kh = {
+}, null, -1), kh = [
+  _h
+], Sh = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -5477,15 +5477,15 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Sh = /* @__PURE__ */ u("path", {
+}, Dh = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), Dh = [
-  Sh
-], Ch = { class: "ml-1.5" }, Mh = { class: "my-1 text-sm text-gray-500" }, $h = {
+}, null, -1), Ch = [
+  Dh
+], Mh = { class: "ml-1.5" }, $h = { class: "my-1 text-sm text-gray-500" }, Eh = {
   name: "VFModalUnarchive"
-}, Eh = /* @__PURE__ */ Object.assign($h, {
+}, Th = /* @__PURE__ */ Object.assign(Eh, {
   props: {
     selection: Object,
     current: Object
@@ -5523,16 +5523,16 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
         }, E(x(i)("Cancel")), 1)
       ]),
       default: J(() => [
-        u("div", mh, [
-          gh,
-          u("div", ph, [
-            u("h3", vh, E(x(i)("Unarchive")), 1),
-            u("div", bh, [
-              (y(!0), C(le, null, we(f.value, (v) => (y(), C("p", yh, [
-                v.type == "dir" ? (y(), C("svg", wh, _h)) : (y(), C("svg", kh, Dh)),
-                u("span", Ch, E(v.basename), 1)
+        u("div", gh, [
+          ph,
+          u("div", vh, [
+            u("h3", bh, E(x(i)("Unarchive")), 1),
+            u("div", yh, [
+              (y(!0), C(le, null, we(f.value, (v) => (y(), C("p", wh, [
+                v.type == "dir" ? (y(), C("svg", xh, kh)) : (y(), C("svg", Sh, Ch)),
+                u("span", Mh, E(v.basename), 1)
               ]))), 256)),
-              u("p", Mh, E(x(i)("The archive will be unarchived at")) + " (" + E(t.current.dirname) + ")", 1),
+              u("p", $h, E(x(i)("The archive will be unarchived at")) + " (" + E(t.current.dirname) + ")", 1),
               n.value.length ? (y(), Z(Ee, {
                 key: 0,
                 onHidden: d[0] || (d[0] = (v) => n.value = ""),
@@ -5550,7 +5550,7 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), Th = { class: "sm:flex sm:items-start" }, Ah = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
+}), Ah = { class: "sm:flex sm:items-start" }, Oh = /* @__PURE__ */ u("div", { class: "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10" }, [
   /* @__PURE__ */ u("svg", {
     class: "h-6 w-6 stroke-red-600 dark:stroke-red-200",
     xmlns: "http://www.w3.org/2000/svg",
@@ -5566,10 +5566,10 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
     })
   ])
-], -1), Oh = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Ih = {
+], -1), Ih = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Lh = {
   class: "text-lg leading-6 font-medium text-gray-900 dark:text-gray-400",
   id: "modal-title"
-}, Lh = { class: "mt-2" }, Ph = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Nh = {
+}, Ph = { class: "mt-2" }, Nh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, jh = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -5577,13 +5577,13 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, jh = /* @__PURE__ */ u("path", {
+}, Vh = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-}, null, -1), Vh = [
-  jh
-], zh = {
+}, null, -1), zh = [
+  Vh
+], Rh = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500",
@@ -5591,13 +5591,13 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Rh = /* @__PURE__ */ u("path", {
+}, Bh = /* @__PURE__ */ u("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-}, null, -1), Bh = [
-  Rh
-], Hh = { class: "ml-1.5" }, Uh = { class: "text-sm text-gray-500 pb-1 pt-3" }, Kh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Fh = /* @__PURE__ */ u("svg", {
+}, null, -1), Hh = [
+  Bh
+], Uh = { class: "ml-1.5" }, Kh = { class: "text-sm text-gray-500 pb-1 pt-3" }, Fh = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Yh = /* @__PURE__ */ u("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
   fill: "none",
@@ -5610,9 +5610,9 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
     "stroke-linejoin": "round",
     d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
   })
-], -1), Yh = { class: "ml-1.5 overflow-auto" }, Wh = {
+], -1), Wh = { class: "ml-1.5 overflow-auto" }, Xh = {
   name: "VFModalMove"
-}, Xh = /* @__PURE__ */ Object.assign(Wh, {
+}, qh = /* @__PURE__ */ Object.assign(Xh, {
   props: {
     selection: Object,
     current: Object
@@ -5649,19 +5649,19 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
         }, E(x(o)("Cancel")), 1)
       ]),
       default: J(() => [
-        u("div", Th, [
-          Ah,
-          u("div", Oh, [
-            u("h3", Ih, E(x(o)("Move files")), 1),
-            u("div", Lh, [
-              (y(!0), C(le, null, we(a.value, (d) => (y(), C("p", Ph, [
-                d.type == "dir" ? (y(), C("svg", Nh, Vh)) : (y(), C("svg", zh, Bh)),
-                u("span", Hh, E(d.path), 1)
+        u("div", Ah, [
+          Oh,
+          u("div", Ih, [
+            u("h3", Lh, E(x(o)("Move files")), 1),
+            u("div", Ph, [
+              (y(!0), C(le, null, we(a.value, (d) => (y(), C("p", Nh, [
+                d.type == "dir" ? (y(), C("svg", jh, zh)) : (y(), C("svg", Rh, Hh)),
+                u("span", Uh, E(d.path), 1)
               ]))), 256)),
-              u("p", Uh, E(x(o)("Are you sure you want to move these files?")), 1),
-              u("p", Kh, [
-                Fh,
-                u("span", Yh, E(t.selection.items.to.path), 1)
+              u("p", Kh, E(x(o)("Are you sure you want to move these files?")), 1),
+              u("p", Fh, [
+                Yh,
+                u("span", Wh, E(t.selection.items.to.path), 1)
               ]),
               n.value.length ? (y(), Z(Ee, {
                 key: 0,
@@ -5680,23 +5680,23 @@ const Wu = { class: "flex" }, Xu = ["aria-label"], qu = { class: "ml-auto mb-2" 
       _: 1
     }));
   }
-}), qh = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}), Gh = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  ModalDelete: Cc,
-  ModalMessage: Lc,
-  ModalNewFolder: Uc,
-  ModalNewFile: Zc,
-  ModalPreview: Sd,
-  ModalRename: Rd,
-  ModalUpload: Jd,
-  ModalArchive: fh,
-  ModalUnarchive: Eh,
-  ModalMove: Xh
+  ModalDelete: Mc,
+  ModalMessage: Pc,
+  ModalNewFolder: Kc,
+  ModalNewFile: Qc,
+  ModalPreview: Dd,
+  ModalRename: Bd,
+  ModalUpload: Zd,
+  ModalArchive: mh,
+  ModalUnarchive: Th,
+  ModalMove: qh
 }, Symbol.toStringTag, { value: "Module" })), Ft = {
-  VueFinder: ec,
-  ...qh
+  VueFinder: tc,
+  ...Gh
 };
-const Zh = {
+const Qh = {
   install(t) {
     for (const e in Ft)
       if (Ft.hasOwnProperty(e)) {
@@ -5706,5 +5706,5 @@ const Zh = {
   }
 };
 export {
-  Zh as default
+  Qh as default
 };
