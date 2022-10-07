@@ -88,10 +88,16 @@ Html
 - PHP: [VueFinder Php Library](https://github.com/n1crack/vuefinder-php)
 
 ### Roadmap
-- [ ] code refactoring
+- [ ] code refactoring (cleanup the duplications, make reusable components)
+- [ ] restyle the modals
 - [ ] add more languages (only en/tr at the moment. PRs are welcomed.)
 - [ ] copy/move to a folder (modal, treeview)
 - [ ] transfer items between adapters
+
+### Known Issues
+- [ ] Viewport height issue on mobile browsers
+- [ ] Scrolling issue on ios devices (forced hidden scrollbar)
+- [ ] Default storage naming error if not 'local' exists
 
 ### Dependencies
  - [Vue3](https://vuejs.org/)
