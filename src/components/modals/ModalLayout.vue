@@ -2,7 +2,7 @@
   <!-- This example requires Tailwind CSS v2.0+ -->
   <div class="v-f-modal relative z-30" aria-labelledby="modal-title" role="dialog" aria-modal="true"
        @keyup.esc="emitter.emit('vf-modal-close')" tabindex="0">
-    <div class="fixed inset-0 bg-gray-500 dark:bg-gray-800 dark:bg-opacity-75 bg-opacity-75 transition-opacity"></div>
+    <div class="fixed inset-0 bg-gray-500 dark:bg-gray-600 dark:bg-opacity-75 bg-opacity-75 transition-opacity"></div>
 
     <div class="fixed z-10 inset-0 overflow-y-auto w-screen h-screen">
       <div class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0" @mousedown.self="emitter.emit('vf-modal-close')">
