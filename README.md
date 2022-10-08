@@ -97,7 +97,7 @@ Html
 ### Known Issues
 - [x] Viewport height issue on mobile browsers (fixed)
 - [ ] Scrolling issue on ios devices (forced hidden scrollbar)
-- [ ] Default storage naming error if not 'local' exists
+- [x] Default storage naming error if not 'local' exists (fixed)
 
 ### Dependencies
  - [Vue3](https://vuejs.org/)
