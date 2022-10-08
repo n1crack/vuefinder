@@ -95,7 +95,7 @@ Html
 - [ ] transfer items between adapters
 
 ### Known Issues
-- [ ] Viewport height issue on mobile browsers
+- [x] Viewport height issue on mobile browsers (fixed)
 - [ ] Scrolling issue on ios devices (forced hidden scrollbar)
 - [ ] Default storage naming error if not 'local' exists
 
