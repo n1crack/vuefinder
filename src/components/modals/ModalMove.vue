@@ -56,6 +56,7 @@ import {inject, ref} from 'vue';
 const emitter = inject('emitter');
 const {t} = inject('i18n');
 const {getStore} = inject('storage');
+const adapter = inject('adapter');
 import Message from '../Message.vue';
 
 const props = defineProps({
@@ -72,7 +73,7 @@ const move = () => {
     emitter.emit('vf-fetch', {
       params: {
         q: 'move',
-        adapter: getStore('adapter', 'local'),
+        adapter: adapter.value,
         path: props.current.dirname,
         items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
         item: props.selection.items.to.path

@@ -39,6 +39,7 @@ import {inject, ref} from 'vue';
 
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
+const adapter = inject('adapter');
 const {t} = inject('i18n');
 import Message from '../Message.vue';
 
@@ -55,7 +56,7 @@ const createFile = () => {
     emitter.emit('vf-fetch', {
       params: {
         q: 'newfile',
-        adapter: getStore('adapter', 'local'),
+        adapter: adapter.value,
         path: props.current.dirname,
         name: name.value
       },

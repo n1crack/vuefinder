@@ -65,9 +65,12 @@ const props = defineProps({
 });
 const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
+const adapter =ref(getStore('adapter'));
+
 provide('emitter', emitter);
 provide('storage', useStorage(props.id));
-provide('postData', props.postData)
+provide('postData', props.postData);
+provide('adapter', adapter);
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
@@ -75,9 +78,9 @@ const {t} = i18n;
 provide('i18n', i18n);
 
 const {apiUrl, setApiUrl} = useApiUrl();
-setApiUrl(props.url)
+setApiUrl(props.url);
 
-const fetchData = reactive({adapter:'local', storages: [], dirname: '.', files: []});
+const fetchData = reactive({adapter: adapter.value, storages: [], dirname: '.', files: []});
 
 // View Management
 const view = ref(getStore('viewport', 'grid'));
@@ -85,8 +88,8 @@ const darkMode = ref(getStore('darkMode', props.dark));
 
 emitter.on('vf-darkMode-toggle', () => {
   darkMode.value = !darkMode.value;
-  setStore('darkMode', darkMode.value)
-})
+  setStore('darkMode', darkMode.value);
+});
 
 const loadingState = ref(false);
 
@@ -95,20 +98,20 @@ provide('loadingState', loadingState);
 const fullScreen = ref(getStore('full-screen', false));
 
 emitter.on('vf-fullscreen-toggle', () => {
-   fullScreen.value = !fullScreen.value;
-   setStore('full-screen', fullScreen.value)
-})
+  fullScreen.value = !fullScreen.value;
+  setStore('full-screen', fullScreen.value);
+});
 
 emitter.on('vf-view-toggle', (newView) => {
   view.value = newView;
-})
+});
 
 // Modal Management
 const modal = reactive({
   active: false,
   type: 'delete',
   data: {}
-})
+});
 
 emitter.on('vf-modal-close', () => {
   modal.active = false;
@@ -121,10 +124,10 @@ emitter.on('vf-modal-show', (item) => {
 });
 
 const updateItems = (data) => {
-  Object.assign(fetchData, data)
+  Object.assign(fetchData, data);
   emitter.emit('vf-nodes-selected', {});
   emitter.emit('vf-explorer-update');
-}
+};
 
 let controller;
 emitter.on('vf-fetch-abort', () => {
@@ -144,6 +147,7 @@ emitter.on('vf-fetch', ({params, onSuccess = null, onError = null}) => {
   const signal = controller.signal;
   ajax(apiUrl.value, {params, signal})
       .then(data => {
+        adapter.value = data.adapter;
         if (['index', 'search'].includes(params.q)) {
           loadingState.value = false;
         }
@@ -162,11 +166,11 @@ emitter.on('vf-fetch', ({params, onSuccess = null, onError = null}) => {
 
 emitter.on('vf-download', (url) => {
   document.getElementById('download_frame').src = url;
-  emitter.emit('vf-modal-close')
+  emitter.emit('vf-modal-close');
 });
 
 onMounted(() => {
-  emitter.emit('vf-fetch', {params: {q: 'index', adapter: (getStore('adapter', fetchData.adapter)) }})
+  emitter.emit('vf-fetch', {params: {q: 'index', adapter: (adapter.value)}});
 });
 
 </script>

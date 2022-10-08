@@ -47,6 +47,7 @@ import Message from '../Message.vue';
 
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
+const adapter = inject('adapter');
 const {t} = inject('i18n');
 
 const props = defineProps({
@@ -63,7 +64,7 @@ const rename = () => {
     emitter.emit('vf-fetch', {
       params: {
         q: 'rename',
-        adapter: getStore('adapter', 'local'),
+        adapter: adapter.value,
         path: props.current.dirname,
         item: item.value.path,
         name: name.value

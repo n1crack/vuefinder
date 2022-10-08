@@ -55,7 +55,7 @@ const props = defineProps({
 const emitter = inject('emitter');
 const {getStore, setStore} = inject('storage');
 const selectedItemCount = ref(0);
-const adapter = ref(getStore('adapter') ?? props.data.adapter);
+const adapter = inject('adapter');
 
 const {t, changeLocale} = inject('i18n');
 

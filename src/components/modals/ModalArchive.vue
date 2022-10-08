@@ -51,6 +51,7 @@ import Message from '../Message.vue';
 
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
+const adapter = inject('adapter');
 const {t} = inject('i18n');
 
 const props = defineProps({
@@ -67,7 +68,7 @@ const archive = () => {
     emitter.emit('vf-fetch', {
       params: {
         q: 'archive',
-        adapter: getStore('adapter', 'local'),
+        adapter: adapter.value,
         path: props.current.dirname,
         items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
         name: name.value

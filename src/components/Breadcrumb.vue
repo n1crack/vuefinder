@@ -4,7 +4,7 @@
       <svg
           @dragover="handleDragOver($event)"
           @drop="handleDropZone($event)"
-          @click="!isGoUpAvailable() || emitter.emit('vf-fetch', {params:{q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? (getStore('adapter', 'local') + '://')}} )"
+          @click="!isGoUpAvailable() || emitter.emit('vf-fetch', {params:{q: 'index', adapter: data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? (adapter + '://')}} )"
           class="h-6 w-6 p-0.5 rounded"
           :class="isGoUpAvailable() ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'"
           xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
@@ -42,19 +42,20 @@
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
     </div>
-    <div v-else class="flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full">
+    <div v-else class="relative flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full">
       <svg
            class="h-6 w-6 p-1 m-auto stroke-gray-400 fill-gray-100 dark:stroke-gray-400 dark:fill-gray-400/20"
            xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
       </svg>
+      <div class="w-full"></div>
       <input
           ref="searchInput"
           @keydown.esc="exitSearchMode"
           @blur="handleBlur"
           v-model="query"
           :placeholder="t('Search anything..')"
-          class="py-0 px-2 w-full border-0 ring-0 outline-0 text-sm text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
+          class="absolute ml-4 pt-1 pb-0 px-2 border-0 ring-0 outline-0 text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
           type="text">
       <svg
           class="w-6 h-6 cursor-pointer"
@@ -80,6 +81,7 @@ import useDebouncedRef from '../composables/useDebouncedRef.js';
 
 const emitter = inject('emitter');
 const { getStore } = inject('storage');
+const adapter = inject('adapter');
 const dirname = ref(null);
 const breadcrumb = ref([]);
 const searchMode = ref(false);
@@ -94,13 +96,13 @@ const loadingState= inject('loadingState');
 
 emitter.on('vf-explorer-update', () => {
   let items = [], links = [];
-  dirname.value = props.data.dirname ?? (getStore('adapter', 'local') + '://');
+  dirname.value = props.data.dirname ?? (adapter.value + '://');
 
   if (dirname.value.length == 0) {
     breadcrumb.value = [];
   }
   dirname.value
-      .replace(getStore('adapter', 'local') + '://', '')
+      .replace(adapter.value + '://', '')
       .split('/')
       .forEach(function (item) {
         items.push(item);
@@ -108,7 +110,7 @@ emitter.on('vf-explorer-update', () => {
           links.push({
             'basename': item,
             'name': item,
-            'path': getStore('adapter', 'local') + '://' + items.join('/'),
+            'path': adapter.value + '://' + items.join('/'),
             'type': 'dir'
           });
         }
@@ -153,14 +155,14 @@ const handleDropZone = (e) => {
   e.preventDefault();
   let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
 
-  if (draggedItems.find(item => item.storage != getStore('adapter', 'local'))) {
+  if (draggedItems.find(item => item.storage != adapter.value)) {
     alert('Moving items between different storages is not supported yet.');
     return;
   }
 
   emitter.emit('vf-modal-show', {
     type: 'move',
-    items: {from: draggedItems, to: breadcrumb.value[breadcrumb.value.length - 2] ?? {path: (getStore('adapter', 'local') + '://')}}
+    items: {from: draggedItems, to: breadcrumb.value[breadcrumb.value.length - 2] ?? {path: (adapter.value + '://')}}
   });
 };
 
