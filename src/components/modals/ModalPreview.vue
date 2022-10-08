@@ -24,7 +24,7 @@
       </div>
 
     </div>
-      <div class="p-2 flex font-normal break-all dark:text-gray-200 rounded text-xs">
+      <div class="py-2 flex font-normal break-all dark:text-gray-200 rounded text-xs">
         <div><span class="font-bold pl-2">{{ t('File Size') }}: </span>{{ filesize(selection.item.file_size) }}</div>
         <div><span class="font-bold pl-2">{{ t('Last Modified') }}: </span> {{ datetimestring(selection.item.last_modified) }}</div>
       </div>

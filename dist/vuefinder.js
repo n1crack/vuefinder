@@ -2594,6 +2594,7 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
           [Br, m.value]
         ]),
         u("span", {
+          class: "mr-1",
           "aria-label": x(f)("About"),
           "data-microtip-position": "top-left",
           role: "tooltip",
@@ -3082,7 +3083,7 @@ const Zl = { class: "vuefinder" }, Ql = /* @__PURE__ */ u("iframe", {
       ], 2)
     ]));
   }
-}), rc = /* @__PURE__ */ u("div", { class: "fixed inset-0 bg-gray-500 dark:bg-gray-800 dark:bg-opacity-75 bg-opacity-75 transition-opacity" }, null, -1), oc = { class: "fixed z-10 inset-0 overflow-y-auto w-screen h-screen" }, ac = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl w-full" }, sc = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, ic = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, $e = {
+}), rc = /* @__PURE__ */ u("div", { class: "fixed inset-0 bg-gray-500 dark:bg-gray-600 dark:bg-opacity-75 bg-opacity-75 transition-opacity" }, null, -1), oc = { class: "fixed z-10 inset-0 overflow-hidden" }, ac = { class: "relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-5xl w-full" }, sc = { class: "bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4" }, ic = { class: "bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse" }, $e = {
   __name: "ModalLayout",
   setup(t) {
     const e = R("emitter");
@@ -4823,7 +4824,7 @@ const Xu = { class: "flex" }, qu = ["aria-label"], Gu = { class: "ml-auto mb-2" 
         u("img", {
           ref_key: "image",
           ref: a,
-          class: "max-w-[60vh] max-h-[60vh]",
+          class: "max-w-[50vh] max-h-[50vh]",
           src: x(Xt)(r.selection.adapter, r.selection.item.path),
           alt: ""
         }, null, 8, Zu)
@@ -4991,7 +4992,7 @@ const Xu = { class: "flex" }, qu = ["aria-label"], Gu = { class: "ml-auto mb-2" 
     fill: "currentColor",
     d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
   })
-], -1), xd = { class: "p-2 flex font-normal break-all dark:text-gray-200 rounded text-xs" }, _d = { class: "font-bold pl-2" }, kd = { class: "font-bold pl-2" }, Sd = {
+], -1), xd = { class: "py-2 flex font-normal break-all dark:text-gray-200 rounded text-xs" }, _d = { class: "font-bold pl-2" }, kd = { class: "font-bold pl-2" }, Sd = {
   name: "VFModalPreview"
 }, Dd = /* @__PURE__ */ Object.assign(Sd, {
   props: {
