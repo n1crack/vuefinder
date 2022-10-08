@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 
+.vuefinder * {
+  touch-action: manipulation;
+}
+
 .vf-explorer-selected {
   @apply bg-neutral-100 border border-neutral-300 dark:bg-slate-700 dark:border-gray-900 dark:border-slate-800 !important;
 }
