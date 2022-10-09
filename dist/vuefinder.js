@@ -2285,7 +2285,7 @@ const ln = { class: "relative flex-auto flex flex-col overflow-hidden" }, cn = {
   setup(t) {
     const e = t, r = N("emitter"), { setStore: o, getStore: i } = N("storage"), a = N("adapter"), n = (O) => O == null ? void 0 : O.substring(0, 3), m = (O) => O.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, "$2..$4"), g = I(null), f = I(null), h = I(0), v = I(null), { t: b } = N("i18n"), C = Math.floor(Math.random() * 2 ** 32), k = I(i("full-screen", !1)), T = new yt();
     r.on("vf-fullscreen-toggle", () => {
-      k.value = !k.value, o("full-screen", k.value);
+      g.value.style.height = null, k.value = !k.value, o("full-screen", k.value);
     });
     const j = I("");
     r.on("vf-search-query", ({ newQuery: O }) => {

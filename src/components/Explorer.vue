@@ -155,9 +155,10 @@ const fullScreen = ref(getStore('full-screen', false));
 const vfLazyLoad = new LazyLoad();
 
 emitter.on('vf-fullscreen-toggle', () => {
-   fullScreen.value = !fullScreen.value;
-   setStore('full-screen', fullScreen.value)
-})
+  selectorArea.value.style.height = null;
+  fullScreen.value = !fullScreen.value;
+  setStore('full-screen', fullScreen.value);
+});
 
 const searchQuery = ref('');
 
