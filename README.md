@@ -94,11 +94,6 @@ Html
 - [ ] copy/move to a folder (modal, treeview)
 - [ ] transfer items between adapters
 
-### Known Issues
-- [x] Viewport height issue on mobile browsers (fixed)
-- [ ] Scrolling issue on ios devices (forced hidden scrollbar)
-- [x] Default storage naming error if not 'local' exists (fixed)
-
 ### Dependencies
  - [Vue3](https://vuejs.org/)
  - [Cropperjs](https://github.com/fengyuanchen/cropperjs)  : JavaScript image cropper

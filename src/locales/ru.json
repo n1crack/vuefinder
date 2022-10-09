@@ -61,5 +61,7 @@
   "No search result found.": "Ничего не найдено",
   "Are you sure you want to move these files?": "Вы уверены, что хотите переместить эти файлы?",
   "File Size": "Размер файла",
-  "Last Modified": "Последнее изменение"
+  "Last Modified": "Последнее изменение",
+  "Drag&Drop: on": "Drag&Drop: on",
+  "Drag&Drop: off": "Drag&Drop: off"
 }

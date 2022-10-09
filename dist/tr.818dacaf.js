@@ -61,7 +61,9 @@ const e = `{
   "No search result found." : "Arama sonucu bulunamad\u0131.",
   "Are you sure you want to move these files?" : "Bu dosyalar\u0131 ta\u015F\u0131mak istedi\u011Finize emin misiniz?",
   "File Size": "Dosya Boyutu",
-  "Last Modified": "Son De\u011Fi\u015Fiklik"
+  "Last Modified": "Son De\u011Fi\u015Fiklik",
+  "Drag&Drop: on": "S\xFCr\xFCkle&B\u0131rak: etkin",
+  "Drag&Drop: off": "S\xFCr\xFCkle&B\u0131rak: devre d\u0131\u015F\u0131"
 }
 `;
 export {

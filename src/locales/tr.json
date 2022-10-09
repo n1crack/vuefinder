@@ -61,5 +61,7 @@
   "No search result found." : "Arama sonucu bulunamadı.",
   "Are you sure you want to move these files?" : "Bu dosyaları taşımak istediğinize emin misiniz?",
   "File Size": "Dosya Boyutu",
-  "Last Modified": "Son Değişiklik"
+  "Last Modified": "Son Değişiklik",
+  "Drag&Drop: on": "Sürükle&Bırak: etkin",
+  "Drag&Drop: off": "Sürükle&Bırak: devre dışı"
 }

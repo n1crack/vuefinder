@@ -25,16 +25,16 @@
 /* Track */
 
 .vf-selector-area::-webkit-scrollbar-track-piece{
-  @apply bg-gray-100 dark:bg-slate-900;
+  @apply bg-gray-100 dark:bg-slate-900/50;
 }
 /* Handle */
 .vf-selector-area::-webkit-scrollbar-thumb {
-  @apply bg-gray-200 dark:bg-slate-700;
+  @apply bg-gray-300 dark:bg-slate-700;
 }
 
 /* Handle on hover */
 .vf-selector-area::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-300 dark:bg-slate-600;
+  @apply bg-gray-400 dark:bg-slate-600;
 }
 
 .vf-selector-area::-webkit-scrollbar-corner {

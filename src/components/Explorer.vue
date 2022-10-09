@@ -29,6 +29,7 @@
     </div>
 
     <div
+        @touchstart="handleTouchStart"
         @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})"
         :class="fullScreen ? '' : 'resize-y'"
         class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto p-1 z-0"
@@ -190,6 +191,24 @@ const clearTimeOut = () => {
   }
 }
 
+// on ios devices scrollbars are hidden as system level.
+// to be able to scroll, 2 finger tap needed.
+// this is the easiest way that I can think of.
+const dragAndDrop = ref(true);
+const handleTouchStart = (event) => {
+  if (event.touches.length > 1) {
+    if (!dragAndDrop.value) {
+      ds.value.start();
+      emitter.emit('vf-toast-push', {label: t('Drag&Drop: on')});
+      emitter.emit('vf-explorer-update');
+    } else {
+      ds.value.stop();
+      emitter.emit('vf-toast-push', {label: t('Drag&Drop: off')});
+    }
+    dragAndDrop.value = !dragAndDrop.value;
+  }
+};
+
 const delayedOpenItem = ($event) => {
   touchTimeOut = setTimeout(() =>  {
     const cmEvent = new MouseEvent("contextmenu", {
@@ -198,7 +217,7 @@ const delayedOpenItem = ($event) => {
         view: window,
         button: 2,
         buttons: 0,
-        clientX: $event.target.getBoundingClientRect().x  ,
+        clientX: $event.target.getBoundingClientRect().x,
         clientY: $event.target.getBoundingClientRect().y
     });
     $event.target.dispatchEvent(cmEvent);
