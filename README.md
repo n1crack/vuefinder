@@ -90,7 +90,7 @@ Html
 ### Roadmap
 - [ ] code refactoring (cleanup the duplications, make reusable components)
 - [ ] restyle the modals
-- [ ] add more languages (only en/tr at the moment. PRs are welcomed.)
+- [ ] add more languages (only en/tr/ru at the moment. PRs are welcomed.)
 - [ ] copy/move to a folder (modal, treeview)
 - [ ] transfer items between adapters
 
