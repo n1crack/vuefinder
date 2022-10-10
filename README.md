@@ -11,7 +11,7 @@
 Vuefinder is a file manager component for Vue.js version 3
 
 ### Demo
-[Live Demo](https://vuefinder.ozdemir.be/)
+[Live Demo](https://vuefinder.ozdemir.be/) [ [Source](https://github.com/n1crack/vuefinder.ozdemir.be) ]
 
 ### Installation
 
