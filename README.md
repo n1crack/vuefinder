@@ -24,7 +24,7 @@ JS entry point (it can be index.js or main.js)
 ```js
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createRouter, createWebHistory } from 'vue-router/auto'
+
 import 'vuefinder/dist/style.css'
 import VueFinder from 'vuefinder/dist/vuefinder'
 
