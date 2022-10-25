@@ -46,12 +46,13 @@ Html
 
 ### Props
 
-| Prop   |  Value  | Description                             |
-|--------|:-------:|:----------------------------------------|
-| id     | string  | required                                |
-| url    | string  | required - backend url                  |
-| locale | string  | optional - default language code ('en') |
-| dark   | boolean | optional - makes theme dark as default  |
+| Prop          |  Value  | Default | Description                            |
+|---------------|:-------:|---------|:---------------------------------------|
+| id            | string  | _null_  | required                               |
+| url           | string  | _null_  | required - backend url                 |
+| locale        | string  | en      | optional - default language code       |
+| dark          | boolean | false   | optional - makes theme dark as default |
+| max-file-size | string  | 10mb    | optional - client side max file upload |
 
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)

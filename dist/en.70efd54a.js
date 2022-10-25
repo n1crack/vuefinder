@@ -63,7 +63,8 @@ const e = `{
   "File Size": "File Size",
   "Last Modified": "Last Modified",
   "Drag&Drop: on": "Drag&Drop: on",
-  "Drag&Drop: off": "Drag&Drop: off"
+  "Drag&Drop: off": "Drag&Drop: off",
+  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "The selected file exceeds the maximum file size. You cannot upload files greater than %s"
 }
 `;
 export {

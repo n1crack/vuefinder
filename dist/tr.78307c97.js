@@ -63,7 +63,8 @@ const e = `{
   "File Size": "Dosya Boyutu",
   "Last Modified": "Son De\u011Fi\u015Fiklik",
   "Drag&Drop: on": "S\xFCr\xFCkle&B\u0131rak: etkin",
-  "Drag&Drop: off": "S\xFCr\xFCkle&B\u0131rak: devre d\u0131\u015F\u0131"
+  "Drag&Drop: off": "S\xFCr\xFCkle&B\u0131rak: devre d\u0131\u015F\u0131",
+  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "Se\xE7ilen dosya maksimum dosya boyutunu a\u015F\u0131yor. %s'den b\xFCy\xFCk dosyalar\u0131 y\xFCkleyemezsiniz."
 }
 `;
 export {

@@ -58,6 +58,10 @@ const props = defineProps({
     type: String,
     default: '600px'
   },
+  maxFileSize: {
+    type: String,
+    default: '10mb'
+  },
   postData: {
     type: Object,
     default: {}
@@ -71,6 +75,7 @@ provide('emitter', emitter);
 provide('storage', useStorage(props.id));
 provide('postData', props.postData);
 provide('adapter', adapter);
+provide('maxFileSize', props.maxFileSize);
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);

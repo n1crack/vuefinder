@@ -35,7 +35,7 @@ export function useI18n(id, locale, emitter) {
         if (translations.value.hasOwnProperty(key)) {
             return sprintf(translations.value[key], ...params);
         }
-        return key;
+        return sprintf(key, ...params);
     };
 
     return {t, changeLocale};

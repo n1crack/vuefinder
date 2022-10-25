@@ -54,6 +54,7 @@ import {csrf} from '../../utils/ajax.js';
 const emitter = inject('emitter');
 const {apiUrl} = useApiUrl();
 const {t} = inject('i18n');
+const maxFileSize = inject('maxFileSize');
 
 const props = defineProps({
   current: Object
@@ -74,12 +75,28 @@ const handleUpload = () => {
 
 const postData = inject('postData');
 
+// HTTP transport error. For example if the server produces a HTTP status other than 200.
+const HTTP_ERROR = '-200';
+// File size error. If the user selects a file that is too large or is empty it will be blocked and
+const FILE_SIZE_ERROR = '-600';
+//File extension error. If the user selects a file that isn't valid according to the filters setting.
+const FILE_EXTENSION_ERROR = '-601';
+//Duplicate file error. If prevent_duplicates is set to true and user selects the same file again.
+const FILE_DUPLICATE_ERROR = '-602';
+// Runtime will try to detect if image is proper one. Otherwise will throw this error.
+const IMAGE_FORMAT_ERROR = '-700';
+//While working on files runtime may run out of memory and will throw this error.
+const MEMORY_ERROR = '-701';
+//Each runtime has an upper limit on a dimension of the image it can handle.
+// If bigger, will throw this error.
+const IMAGE_DIMENSIONS_ERROR = '-702';
+
 onMounted(() => {
   uploader.value = new plupload.Uploader({
     runtimes: 'html5',
     browse_button: pickFiles.value,
     container: container.value,
-    max_file_size: '10mb',
+    max_file_size: maxFileSize,
     multiple_queues: true,
     file_data_name: 'file',
     url: apiUrl.value + '?' + buildURLQuery(Object.assign(postData, {q: 'upload', adapter: props.current.adapter, path: props.current.dirname})),
@@ -117,8 +134,15 @@ onMounted(() => {
       },
 
       Error: function (up, err) {
+
         uploader.value.stop();
-        message.value = t(JSON.parse(err.response).message);
+        if (err.code == HTTP_ERROR) {
+          message.value = t(JSON.parse(err.response).message);
+        } else if (err.code == FILE_SIZE_ERROR) {
+          message.value = t('The selected file exceeds the maximum file size. You cannot upload files greater than %s', [maxFileSize]);
+        } else {
+          message.value = t(err.message);
+        }
       }
     }
   });

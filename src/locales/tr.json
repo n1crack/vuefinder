@@ -63,5 +63,6 @@
   "File Size": "Dosya Boyutu",
   "Last Modified": "Son Değişiklik",
   "Drag&Drop: on": "Sürükle&Bırak: etkin",
-  "Drag&Drop: off": "Sürükle&Bırak: devre dışı"
+  "Drag&Drop: off": "Sürükle&Bırak: devre dışı",
+  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "Seçilen dosya maksimum dosya boyutunu aşıyor. %s'den büyük dosyaları yükleyemezsiniz."
 }
