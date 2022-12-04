@@ -25,6 +25,7 @@
         <option value="" disabled>{{ t('Language') }}</option>
         <option value="en">English</option>
         <option value="fr">French</option>
+        <option value="fa">Persian</option>
         <option value="ru">Russian</option>
         <option value="tr">Turkish</option>
       </select>
