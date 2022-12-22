@@ -93,7 +93,11 @@ Html
 - [ ] restyle the modals
 - [ ] add more languages (only en/tr/ru at the moment. PRs are welcomed.)
 - [ ] copy/move to a folder (modal, treeview)
-- [ ] transfer items between adapters
+- [ ] transfer items between filesystem adapters
+- [ ] show/hide components (toolbar/statusbar etc.)
+- [ ] emit select event, with @select get selected files for online editors like tinymce/ckeditor
+- [ ] drag&drop on folders at address bar
+- [ ] update DragSelect plugin for using its dropzone support
 
 ### Dependencies
  - [Vue3](https://vuejs.org/)
