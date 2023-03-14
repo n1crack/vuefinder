@@ -28,6 +28,7 @@
         <option value="fa">Persian</option>
         <option value="ru">Russian</option>
         <option value="tr">Turkish</option>
+        <option value="tr">Hebrew</option>        
       </select>
 
       <span class="mr-1" :aria-label="t('About')" data-microtip-position="top-left" role="tooltip" @click="emitter.emit('vf-modal-show', {type:'message', title:'Vuefinder ' + version, message: t('Vuefinder is a file manager component for vue 3.')})">
