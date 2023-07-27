@@ -26,6 +26,7 @@
         <option value="en">English</option>
         <option value="fr">French</option>
         <option value="fa">Persian</option>
+        <option value="de">German</option>
         <option value="ru">Russian</option>
         <option value="tr">Turkish</option>
         <option value="tr">Hebrew</option>        
