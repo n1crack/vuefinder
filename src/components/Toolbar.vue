@@ -48,7 +48,7 @@
         </div>
 
         <div class="mx-1.5" v-if="selectedItems.length == 1 && selectedItems[0].mime_type == 'application/zip'"
-             :aria-label="t('Unrchive')" data-microtip-position="bottom" role="tooltip"
+             :aria-label="t('Unarchive')" data-microtip-position="bottom" role="tooltip"
               @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
