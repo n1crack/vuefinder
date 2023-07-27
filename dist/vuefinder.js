@@ -3139,7 +3139,7 @@ const Ji = { class: "relative flex-auto flex flex-col overflow-hidden" }, Qi = {
       Ce(Un)
     ]));
   }
-}), Va = "1.2.2", Ba = { class: "p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none" }, za = { class: "flex leading-5 items-center" }, Ha = ["aria-label"], Ua = /* @__PURE__ */ f("svg", {
+}), Va = "1.2.3", Ba = { class: "p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none" }, za = { class: "flex leading-5 items-center" }, Ha = ["aria-label"], Ua = /* @__PURE__ */ f("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5",
   fill: "none",
@@ -3652,7 +3652,7 @@ const Bl = { class: "vuefinder" }, zl = /* @__PURE__ */ f("iframe", {
     const { apiUrl: g, setApiUrl: l } = Ae();
     l(e.url);
     const v = Lt({ adapter: i.value, storages: [], dirname: ".", files: [] }), p = L(a("viewport", "grid")), b = e.usePropDarkMode ? jo(() => e.dark) : L(a("darkMode", e.dark));
-    console.log(e.usePropDarkMode), s.on("vf-darkMode-toggle", () => {
+    s.on("vf-darkMode-toggle", () => {
       b.value = !b.value, o("darkMode", b.value);
     });
     const S = L(!1);
