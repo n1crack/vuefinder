@@ -262,7 +262,7 @@ const Bo = { class: "border-neutral-300 flex justify-between items-center py-1 t
         g.value.length == 1 && g.value[0].mime_type == "application/zip" ? (w(), C("div", {
           key: 0,
           class: "mx-1.5",
-          "aria-label": x(i)("Unrchive"),
+          "aria-label": x(i)("Unarchive"),
           "data-microtip-position": "bottom",
           role: "tooltip",
           onClick: k[5] || (k[5] = (I) => !g.value.length || x(e).emit("vf-modal-show", { type: "unarchive", items: g.value }))
@@ -3139,7 +3139,7 @@ const Ji = { class: "relative flex-auto flex flex-col overflow-hidden" }, Qi = {
       Ce(Un)
     ]));
   }
-}), Va = "1.2.3", Ba = { class: "p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none" }, za = { class: "flex leading-5 items-center" }, Ha = ["aria-label"], Ua = /* @__PURE__ */ f("svg", {
+}), Va = "1.2.4", Ba = { class: "p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none" }, za = { class: "flex leading-5 items-center" }, Ha = ["aria-label"], Ua = /* @__PURE__ */ f("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5",
   fill: "none",
