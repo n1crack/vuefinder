@@ -95,7 +95,6 @@ const fetchData = reactive({adapter: adapter.value, storages: [], dirname: '.', 
 // View Management
 const view = ref(getStore('viewport', 'grid'));
 const darkMode = props.usePropDarkMode ? computed(() => props.dark) : ref(getStore('darkMode', props.dark));
-console.log(props.usePropDarkMode)
 
 emitter.on('vf-darkMode-toggle', () => {
   darkMode.value = !darkMode.value;
