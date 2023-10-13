@@ -40,12 +40,12 @@ export default {
 <script setup>
 import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
+import Message from '../Message.vue';
 
 const emitter = inject('emitter');
 const {getStore} = inject('storage');
 const adapter = inject('adapter');
 const {t} = inject('i18n');
-import Message from '../Message.vue';
 
 const props = defineProps({
   selection: Object,
