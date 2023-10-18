@@ -18,7 +18,6 @@ export function useI18n(id, locale, emitter) {
             setStore('translations', i18n);
             emitter.emit('vf-toast-push', {label: 'The language is set to ' + locale});
         }).catch(e => {
-          .catch((e) => {
             if (defaultLocale) {
               emitter.emit('vf-toast-push', {label: 'The selected locale is not yet supported!', type:'error'});
               changeLocale(defaultLocale, null);
