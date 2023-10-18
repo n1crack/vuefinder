@@ -57,16 +57,16 @@ Html
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)
 - File and folder operations
-  - Create a new file 
-  - Create a new folder 
-  - Rename 
-  - Delete 
+  - Create a new file
+  - Create a new folder
+  - Rename
+  - Delete
   - Archive (zip)
   - Unarchive (unzip)
   - Text editing
   - Image Crop Tool
   - Upload / Download files
-  - Search (deep based on current folder) 
+  - Search (deep based on current folder)
 - Nice UI
   - Context Menu
   - Breadcrumb links
