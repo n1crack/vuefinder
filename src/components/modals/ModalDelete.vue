@@ -20,7 +20,7 @@
               </svg>
             <span class="ml-1.5">{{ item.basename }}</span>
           </p>
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
+          <message v-if="message && message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@ const remove = () => {
         emitter.emit('vf-toast-push', {label: t('Files deleted.')});
       },
       onError: (e) => {
-        message.value = t(e.message);
+        message.value = t(e.message) ? t(e.message) : e.message;
       }
     });
   }

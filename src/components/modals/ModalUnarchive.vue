@@ -20,7 +20,7 @@
           </p>
           <p class="my-1 text-sm text-gray-500">{{ t('The archive will be unarchived at')}} ({{current.dirname}})</p>
 
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
+          <message v-if="message && message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -72,7 +72,7 @@ const unarchive = () => {
       emitter.emit('vf-toast-push', {label: t('The file unarchived.')});
     },
     onError: (e) => {
-      message.value = t(e.message);
+      message.value = t(e.message) ? t(e.message) : e.message;
     }
   });
 };

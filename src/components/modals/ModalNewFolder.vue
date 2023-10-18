@@ -13,7 +13,7 @@
           <p class="text-sm text-gray-500">{{ t('Create a new folder') }}</p>
           <input v-model="name" @keyup.enter="createFolder"
                  class="px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" :placeholder="t('Folder Name')" type="text">
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
+          <message v-if="message && message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@ const createFolder = () => {
         emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
       },
       onError: (e) => {
-        message.value = t(e.message);
+        message.value = t(e.message) ? t(e.message) : e.message;
       }
     });
   }

@@ -28,7 +28,7 @@
               </svg>
             <span class="ml-1.5 overflow-auto">{{ selection.items.to.path }}</span>
           </p>
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
+          <message v-if="message && message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -82,7 +82,7 @@ const move = () => {
         emitter.emit('vf-toast-push', {label: t('Files moved.', props.selection.items.to.name)});
       },
       onError: (e) => {
-        message.value = t(e.message);
+        message.value = t(e.message) ? t(e.message) : e.message;
       }
     });
   }

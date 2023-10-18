@@ -21,7 +21,7 @@
           </p>
           <input v-model="name" @keyup.enter="rename"
                  class="px-2 py-1 border rounded  dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" placeholder="Name" type="text">
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
+          <message v-if="message && message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -73,7 +73,7 @@ const rename = () => {
         emitter.emit('vf-toast-push', {label: t('%s is renamed.', name.value)});
       },
       onError: (e) => {
-        message.value = t(e.message);
+        message.value = t(e.message) ? t(e.message) : e.message;
       }
     });
   }

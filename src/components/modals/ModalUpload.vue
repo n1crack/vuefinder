@@ -20,7 +20,7 @@
               <button ref="pickFiles"  type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                 {{ t('Select Files') }}</button>
           </div>
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
+          <message v-if="message && message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -125,7 +125,7 @@ onMounted(() => {
         } else if (err.code == plupload.FILE_SIZE_ERROR) {
           message.value = t('The selected file exceeds the maximum file size. You cannot upload files greater than %s', [maxFileSize]);
         } else {
-          message.value = t(err.message);
+          message.value = t(err.message) ? t(err.message) : err.message;
         }
       }
     }
