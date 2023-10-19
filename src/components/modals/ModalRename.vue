@@ -73,7 +73,7 @@ const rename = () => {
         emitter.emit('vf-toast-push', {label: t('%s is renamed.', name.value)});
       },
       onError: (e) => {
-        message.value = t(e.message) ? t(e.message) : e.message;
+        message.value = t(e.message);
       }
     });
   }

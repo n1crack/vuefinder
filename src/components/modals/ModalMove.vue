@@ -82,7 +82,7 @@ const move = () => {
         emitter.emit('vf-toast-push', {label: t('Files moved.', props.selection.items.to.name)});
       },
       onError: (e) => {
-        message.value = t(e.message) ? t(e.message) : e.message;
+        message.value = t(e.message);
       }
     });
   }

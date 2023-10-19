@@ -75,7 +75,7 @@ const remove = () => {
         emitter.emit('vf-toast-push', {label: t('Files deleted.')});
       },
       onError: (e) => {
-        message.value = t(e.message) ? t(e.message) : e.message;
+        message.value = t(e.message);
       }
     });
   }
