@@ -1,11 +1,8 @@
 ## Vuefinder File Manager
 
-![GitHub](https://img.shields.io/github/license/n1crack/vuefinder)
-![npm](https://img.shields.io/npm/v/vuefinder)
+[![GitHub](https://img.shields.io/github/license/n1crack/vuefinder)](https://github.com/n1crack/vuefinder/blob/master/LICENSE) 
+[![npm](https://img.shields.io/npm/v/vuefinder)](https://www.npmjs.com/package/vuefinder)
 
-[//]: # (![npm]&#40;https://img.shields.io/npm/dw/vuefinder&#41;)
-
-![ezgif-1-b902690b76](https://user-images.githubusercontent.com/712404/193141338-8d5f726f-da1a-4825-b652-28e4007493db.gif)
 
 ### About
 Vuefinder is a file manager component for Vue.js version 3
