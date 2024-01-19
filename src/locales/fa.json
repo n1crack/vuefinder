@@ -63,6 +63,5 @@
   "File Size": "سایز فایل",
   "Last Modified": "آخرین ویرایش",
   "Drag&Drop: on": "Drag&Drop: روشن",
-  "Drag&Drop: off": "Drag&Drop: خاموش",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "حداکثر ظرفیت مجاز فایل %s میباشد! فایل شما بزرگتر از این مقدار میباشد."
+  "Drag&Drop: off": "Drag&Drop: خاموش"
 }

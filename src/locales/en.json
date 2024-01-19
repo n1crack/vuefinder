@@ -64,5 +64,13 @@
   "Last Modified": "Last Modified",
   "Drag&Drop: on": "Drag&Drop: on",
   "Drag&Drop: off": "Drag&Drop: off",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "The selected file exceeds the maximum file size. You cannot upload files greater than %s"
+  "Select Folders": "Select Folders",
+  "Clear all": "Clear all",
+  "Clear only successful": "Clear only successful",
+  "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
+  "Release to drop these files.": "Release to drop these files.",
+  "Canceled": "Canceled",
+  "Done": "Done",
+  "Network Error, Unable establish connection to the server or interrupted.": "Network Error，Unable establish connection to the server or interrupted.",
+  "Pending upload": "Pending"
 }

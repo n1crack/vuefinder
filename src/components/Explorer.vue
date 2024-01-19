@@ -124,9 +124,9 @@ export default {
 </script>
 
 <script setup>
-import {inject, nextTick, onMounted, onUpdated, reactive, ref, watch} from 'vue';
+import { inject, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from 'vue';
 import DragSelect from 'dragselect';
-import filesize from './../utils/filesize.js'
+import { format as filesize } from './../utils/filesize.js'
 import datetimestring from '../utils/datetimestring.js';
 import VFSortIcon from './SortIcon.vue';
 import VFToast from './Toast.vue';
@@ -152,7 +152,8 @@ const {t} = inject('i18n');
 const randId = Math.floor(Math.random() * 2**32);
 const fullScreen = ref(getStore('full-screen', false));
 
-const vfLazyLoad = new LazyLoad();
+/** @type {import('vanilla-lazyload').ILazyLoadInstance} */
+let vfLazyLoad
 
 emitter.on('vf-fullscreen-toggle', () => {
   selectorArea.value.style.height = null;
@@ -351,17 +352,23 @@ const setDragSelect = () => {
   })
 };
 
-onMounted(setDragSelect)
+onMounted(() => {
+  vfLazyLoad = new LazyLoad(selectorArea.value);
+  setDragSelect();
+});
 
 onUpdated(() => {
   ds.value.Area.reset();
   ds.value.SelectorArea.updatePos();
   vfLazyLoad.update();
-})
+});
 
 onMounted(() => {
   watch(() => props.view, () => emitter.emit('vf-explorer-update'));
 });
 
-</script>
+onBeforeUnmount(() => {
+  vfLazyLoad.destroy();
+});
 
+</script>

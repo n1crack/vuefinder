@@ -63,6 +63,5 @@
   "File Size": "Filstorlek",
   "Last Modified": "Senast ändrad",
   "Drag&Drop: on": "Dra och släpp: på",
-  "Drag&Drop: off": "Dra och släpp: av",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "Den valda filen överskrider den maximala filstorleken. Du kan inte ladda upp filer större än %s"
+  "Drag&Drop: off": "Dra och släpp: av"
 }

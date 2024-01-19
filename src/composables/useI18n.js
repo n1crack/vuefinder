@@ -42,6 +42,10 @@ export function useI18n(id, locale, emitter) {
         return sprintf(key, ...params);
     };
 
-    return {t, changeLocale};
+    function getLocale() {
+        return getStore('locale')
+    }
+
+    return {t, changeLocale, getLocale};
 }
 

@@ -7,6 +7,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.js'),
+      formats: ['cjs', 'es'],
       name: 'VueFinder',
       // the proper extensions will be added
       fileName: 'vuefinder',
@@ -15,7 +16,17 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['vue', 'DragSelect', 'Cropper', 'plupload'],
+      external: [
+        'vue',
+        'microtip/microtip.css',
+        'mitt',
+        'vanilla-lazyload',
+        'dragselect',
+        'cropperjs/dist/cropper.css',
+        'cropperjs',
+        '@uppy/core',
+        '@uppy/xhr-upload',
+      ],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps

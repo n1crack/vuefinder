@@ -53,7 +53,7 @@ import Audio from '../previews/Audio.vue';
 import Pdf from '../previews/Pdf.vue';
 import buildURLQuery from '../../utils/buildURLQuery.js';
 import {useApiUrl} from '../../composables/useApiUrl.js';
-import filesize from '../../utils/filesize.js';
+import { format as filesize } from '../../utils/filesize.js';
 import datetimestring from '../../utils/datetimestring.js';
 const {apiUrl} = useApiUrl();
 const emitter = inject('emitter')
