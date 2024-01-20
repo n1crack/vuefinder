@@ -11,7 +11,8 @@
         <div class="mt-2">
           <div
             ref="dropArea"
-            class="flex items-center justify-center text-lg mb-4 text-gray-500 border-2 border-gray-300 rounded border-dashed select-none cursor-pointer"
+            class="flex items-center justify-center text-lg mb-4 text-gray-500 border-2 border-gray-300 rounded border-dashed select-none cursor-pointer
+              dark:border-gray-600"
             style="height: 150px;"
             @click="openFileSelector">
             <div class="pointer-events-none" v-if="hasFilesInDropArea">
@@ -27,38 +28,56 @@
           </div>
           <div ref="container" class="text-gray-500 mb-1">
             <button ref="pickFiles" type="button"
-                    class=" w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm">
+                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
+                      hover:bg-gray-50
+                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+                      dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
+                      sm:mt-0 sm:w-auto sm:text-sm">
               {{ t('Select Files') }}</button>
             <button ref="pickFolders" type="button"
-                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
+                      hover:bg-gray-50
+                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+                      dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
+                      sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
               {{ t('Select Folders') }}</button>
             <button type="button"
-                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
+                      hover:bg-gray-50
+                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+                      dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
+                      sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                     :disabled="uploading"
                     @click="clear(false)">
               {{ t('Clear all') }}</button>
             <button type="button"
-                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
+                      hover:bg-gray-50
+                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+                      dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
+                      disabled:cursor-not-allowed
+                      sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                     :disabled="uploading"
                     @click="clear(true)">
               {{ t('Clear only successful') }}</button>
           </div>
           <div class="text-gray-500 text-sm mb-1 overflow-auto" style="max-height: 200px;">
-            <div v-for="entry in queue">
-              <div :id="entry.id">
-                <span :class="getClassNameForEntry(entry)">[{{ entry.statusName }}]</span>
-                <span class="ml-1">{{ entry.name }} ({{ entry.size }})</span>
-                <b class="ml-1" v-if="entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING">{{ entry.percent }}</b>
-                <button
-                  type="button"
-                  class="mt-3 w-full inline-flex justify-center rounded border-0 px-4 py-2 text-base text-white leading-none font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-1 sm:text-xs"
-                  :class="uploading ? 'disabled:bg-gray-100 text-white text-opacity-50' : 'bg-gray-100 hover:bg-gray-200'"
-                  :title="t('Delete')"
-                  :disabled="uploading"
-                  @click="remove(entry)">
-                  <span>❌</span>
-                </button>
-              </div>
+            <div class="flex flex-row flex-nowrap items-center h-8 leading-none overflow-hidden" :key="entry.id" v-for="entry in queue">
+              <span :class="getClassNameForEntry(entry)">[{{ entry.statusName }}]</span>
+              <span class="ml-1">{{ entry.name }} ({{ entry.size }})</span>
+              <b class="ml-1" v-if="entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING">{{ entry.percent }}</b>
+              <button
+                type="button"
+                class="rounded w-6 h-6 border-1 text-base text-white leading-none font-medium
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+                  dark:border-gray-200 dark:bg-gray-800 dark:text-gray-50 dark:hover:bg-gray-700
+                  sm:mt-0 sm:ml-3 sm:text-xs"
+                :class="uploading ? 'disabled:bg-gray-100 text-white text-opacity-50' : 'bg-gray-100 hover:bg-gray-200'"
+                :title="t('Delete')"
+                :disabled="uploading"
+                @click="remove(entry)">
+                ❌
+              </button>
             </div>
 
             <div class="py-2" v-if="!queue.length">{{ t('No files selected!') }}</div>
@@ -75,7 +94,10 @@
     <template v-slot:buttons>
       <button
         type="button"
-        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
+          dark:text-gray-50
+          sm:ml-3 sm:w-auto sm:text-sm"
         :disabled="uploading"
         :class="uploading ? 'bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500' : 'bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500'"
         @click.prevent="upload">
@@ -83,14 +105,22 @@
       </button>
       <button
         type="button"
-        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
+          hover:bg-gray-50
+          dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+          sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         v-if="uploading"
         @click.prevent="cancel">
         {{ t('Cancel') }}
       </button>
       <button
         type="button"
-        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
+          hover:bg-gray-50
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+          dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
+          sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         v-else
         @click.prevent="close">
         {{ t('Close') }}
@@ -137,6 +167,24 @@ const QUEUE_ENTRY_STATUS = {
 }
 const definitions = ref({ QUEUE_ENTRY_STATUS })
 
+const appLocaleToUppyLocaleMap = {
+  'en': 'en_US',
+  'de': 'de_DE',
+  'fa': 'fa_IR',
+  'he': 'he_IL',
+  'hi': 'hi_IN',
+  'ru': 'ru_RU',
+  'sv': 'sv_SE',
+  'tr': 'tr_TR',
+  'zhCN': 'zh_CN',
+  'zhTW': 'zh_TW',
+};
+let uppyLocaleName = appLocaleToUppyLocaleMap[getLocale()];
+if (uppyLocaleName == null) {
+  uppyLocaleName = 'en_US';
+  console.warn(`Lacking locale for uppy, please specify locale, use ${uppyLocaleName} as fallback now.`);
+}
+
 /** @type {import('vue').Ref<HTMLDivElement>} */
 const container = ref(null);
 /** @type {import('vue').Ref<HTMLInputElement>} */
@@ -167,113 +215,9 @@ const hasFilesInDropArea = ref(false);
 
 /**
  * Uploader instance
- * @type {Uppy}
+ * @type {?Uppy}
  */
-const uppy = new Uppy({
-  debug: process.env.NODE_ENV === 'development',
-  restrictions: {
-    maxFileSize: parse(maxFileSize),
-    //maxNumberOfFiles
-    //allowedFileTypes
-  },
-  locale: uppyLocale,
-  onBeforeFileAdded(file, files) {
-    const duplicated = files[file.id] != null;
-    if (duplicated) {
-      const i = findQueueEntryIndexById(file.id);
-      if (queue.value[i].status === QUEUE_ENTRY_STATUS.PENDING) {
-        // Undocumented, as long as uppy don't change this we are good.
-        message.value = uppy.i18n('noDuplicates', { fileName: file.name });
-      }
-      queue.value = queue.value.filter(entry => entry.id !== file.id);
-    }
-    // We only push the file in the end of queue, so user just need scroll down to find the newly selected stuff.
-    queue.value.push({
-      id: file.id,
-      name: file.name,
-      size: fileSize(file.size),
-      status: QUEUE_ENTRY_STATUS.PENDING,
-      statusName: t('Pending upload'),
-      percent: null,
-      originalFile: file.data,
-    });
-    return true;
-    // Uppy would only upload that file once even you call .addFile() twice in one row, nice.
-  }
-});
-uppy.use(XHR, {
-  method: 'post',
-  endpoint: apiUrl.value + '?' + buildURLQuery(Object.assign(postData, {q: 'upload', adapter: props.current.adapter, path: props.current.dirname })),
-  headers: {
-    ...(csrf && {'X-CSRF-Token' : csrf}),
-  },
-  limit: 5,
-  timeout: 0,
-  getResponseError(responseText, _response) {
-    /** @type {String} */
-    let message;
-    try {
-      /** @type {*} */
-      const body = JSON.parse(responseText);
-      message = body.message;
-    } catch (e) {
-      message = t('Cannot parse server response.');
-    }
-    return new Error(message);
-  },
-});
-uppy.on('restriction-failed', (upFile, error) => {
-  message.value = error.message;
-});
-uppy.on('upload', () => {
-  uploading.value = true;
-  queue.value.forEach(file => {
-    if (file.status === QUEUE_ENTRY_STATUS.DONE) {
-      return;
-    }
-    file.percent = null;
-    file.status = QUEUE_ENTRY_STATUS.UPLOADING;
-    file.statusName = t('Pending upload');
-  });
-});
-uppy.on('upload-progress', (upFile, progress) => {
-  // upFile.progress.percentage never updates itself during this callback, and progress param definition showed
-  // some non exist properties, weird.
-  const p = Math.floor(progress.bytesUploaded / progress.bytesTotal * 100);
-  queue.value[findQueueEntryIndexById(upFile.id)].percent = `${p}%`;
-});
-uppy.on('upload-success',(upFile) => {
-  const entry = queue.value[findQueueEntryIndexById(upFile.id)];
-  entry.status = QUEUE_ENTRY_STATUS.DONE;
-  entry.statusName = t('Done');
-});
-uppy.on('upload-error', (upFile, error) => {
-  const entry = queue.value[findQueueEntryIndexById(upFile.id)];
-  entry.percent = null;
-  entry.status = QUEUE_ENTRY_STATUS.ERROR;
-  // https://uppy.io/docs/uppy/#upload-error
-  // noinspection JSUnresolvedReference
-  if (error.isNetworkError) {
-    entry.statusName = t(`Network Error, Unable establish connection to the server or interrupted.`);
-  } else {
-    entry.statusName = error ? error.message : t('Unknown Error');
-  }
-});
-uppy.on('error', (error) => {
-  message.value = error.message;
-  uploading.value = false;
-  emitter.emit('vf-fetch', {
-    params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
-    noCloseModal: true,
-  });
-})
-uppy.on('complete', () => {
-  uploading.value = false;
-  emitter.emit('vf-fetch', {
-    params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
-    noCloseModal: true,
-  });
-});
+let uppy;
 
 /**
  * Find queue entry index by id
@@ -400,7 +344,120 @@ function close() {
   emitter.emit('vf-modal-close');
 }
 
-onMounted(() => {
+onMounted(async () => {
+  let locale = null
+  try {
+    const uppyLocaleModule = await import(`../../../node_modules/@uppy/locales/lib/${uppyLocaleName}.js`);
+    locale = uppyLocaleModule.default;
+  } catch (e) {
+    console.warn("Encounter import error, skipping import locale for uppy.", e);
+  }
+  uppy = new Uppy({
+    debug: process.env.NODE_ENV === 'development',
+    restrictions: {
+      maxFileSize: parse(maxFileSize),
+      //maxNumberOfFiles
+      //allowedFileTypes
+    },
+    locale,
+    onBeforeFileAdded(file, files) {
+      const duplicated = files[file.id] != null;
+      if (duplicated) {
+        const i = findQueueEntryIndexById(file.id);
+        if (queue.value[i].status === QUEUE_ENTRY_STATUS.PENDING) {
+          // Undocumented, as long as uppy don't change this we are good.
+          message.value = uppy.i18n('noDuplicates', { fileName: file.name });
+        }
+        queue.value = queue.value.filter(entry => entry.id !== file.id);
+      }
+      // We only push the file in the end of queue, so user just need scroll down to find the newly selected stuff.
+      queue.value.push({
+        id: file.id,
+        name: file.name,
+        size: fileSize(file.size),
+        status: QUEUE_ENTRY_STATUS.PENDING,
+        statusName: t('Pending upload'),
+        percent: null,
+        originalFile: file.data,
+      });
+      return true;
+      // Uppy would only upload that file once even you call .addFile() twice in one row, nice.
+    }
+  });
+  uppy.use(XHR, {
+    method: 'post',
+    endpoint: apiUrl.value + '?' + buildURLQuery(Object.assign(postData, {q: 'upload', adapter: props.current.adapter, path: props.current.dirname })),
+    headers: {
+      ...(csrf && {'X-CSRF-Token' : csrf}),
+    },
+    limit: 5,
+    timeout: 0,
+    getResponseError(responseText, _response) {
+      /** @type {String} */
+      let message;
+      try {
+        /** @type {*} */
+        const body = JSON.parse(responseText);
+        message = body.message;
+      } catch (e) {
+        message = t('Cannot parse server response.');
+      }
+      return new Error(message);
+    },
+  });
+  uppy.on('restriction-failed', (upFile, error) => {
+    message.value = error.message;
+  });
+  uppy.on('upload', () => {
+    uploading.value = true;
+    queue.value.forEach(file => {
+      if (file.status === QUEUE_ENTRY_STATUS.DONE) {
+        return;
+      }
+      file.percent = null;
+      file.status = QUEUE_ENTRY_STATUS.UPLOADING;
+      file.statusName = t('Pending upload');
+    });
+  });
+  uppy.on('upload-progress', (upFile, progress) => {
+    // upFile.progress.percentage never updates itself during this callback, and progress param definition showed
+    // some non exist properties, weird.
+    const p = Math.floor(progress.bytesUploaded / progress.bytesTotal * 100);
+    queue.value[findQueueEntryIndexById(upFile.id)].percent = `${p}%`;
+  });
+  uppy.on('upload-success',(upFile) => {
+    const entry = queue.value[findQueueEntryIndexById(upFile.id)];
+    entry.status = QUEUE_ENTRY_STATUS.DONE;
+    entry.statusName = t('Done');
+  });
+  uppy.on('upload-error', (upFile, error) => {
+    const entry = queue.value[findQueueEntryIndexById(upFile.id)];
+    entry.percent = null;
+    entry.status = QUEUE_ENTRY_STATUS.ERROR;
+    // https://uppy.io/docs/uppy/#upload-error
+    // noinspection JSUnresolvedReference
+    if (error.isNetworkError) {
+      entry.statusName = t(`Network Error, Unable establish connection to the server or interrupted.`);
+    } else {
+      entry.statusName = error ? error.message : t('Unknown Error');
+    }
+  });
+  uppy.on('error', (error) => {
+    message.value = error.message;
+    uploading.value = false;
+    emitter.emit('vf-fetch', {
+      params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
+      noCloseModal: true,
+    });
+  })
+  uppy.on('complete', () => {
+    uploading.value = false;
+    emitter.emit('vf-fetch', {
+      params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
+      noCloseModal: true,
+    });
+  });
+
   pickFiles.value.addEventListener('click', () => {
     internalFileInput.value.click();
   })
@@ -467,6 +524,6 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  uppy.close({ reason: 'unmount' });
+  uppy?.close({ reason: 'unmount' });
 });
 </script>

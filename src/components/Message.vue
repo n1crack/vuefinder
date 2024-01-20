@@ -3,7 +3,7 @@
     <div
         v-if="!hidden"
         ref="strMessage" class="flex mt-1 p-1 px-2 rounded text-sm"
-        :class="error ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-600'">
+        :class="error ? 'bg-red-100 text-red-600 dark:bg-red-950' : 'bg-emerald-100 text-emerald-600 dark:bg-emerald-950'">
       <slot></slot>
       <div class="ml-auto cursor-pointer" @click="hide"
       :aria-label="t('Close')" data-microtip-position="top-left" role="tooltip">
