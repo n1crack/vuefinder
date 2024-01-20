@@ -167,24 +167,6 @@ const QUEUE_ENTRY_STATUS = {
 }
 const definitions = ref({ QUEUE_ENTRY_STATUS })
 
-const appLocaleToUppyLocaleMap = {
-  'en': 'en_US',
-  'de': 'de_DE',
-  'fa': 'fa_IR',
-  'he': 'he_IL',
-  'hi': 'hi_IN',
-  'ru': 'ru_RU',
-  'sv': 'sv_SE',
-  'tr': 'tr_TR',
-  'zhCN': 'zh_CN',
-  'zhTW': 'zh_TW',
-};
-let uppyLocaleName = appLocaleToUppyLocaleMap[getLocale()];
-if (uppyLocaleName == null) {
-  uppyLocaleName = 'en_US';
-  console.warn(`Lacking locale for uppy, please specify locale, use ${uppyLocaleName} as fallback now.`);
-}
-
 /** @type {import('vue').Ref<HTMLDivElement>} */
 const container = ref(null);
 /** @type {import('vue').Ref<HTMLInputElement>} */
@@ -345,13 +327,6 @@ function close() {
 }
 
 onMounted(async () => {
-  let locale = null
-  try {
-    const uppyLocaleModule = await import(`../../../node_modules/@uppy/locales/lib/${uppyLocaleName}.js`);
-    locale = uppyLocaleModule.default;
-  } catch (e) {
-    console.warn("Encounter import error, skipping import locale for uppy.", e);
-  }
   uppy = new Uppy({
     debug: process.env.NODE_ENV === 'development',
     restrictions: {
@@ -359,7 +334,7 @@ onMounted(async () => {
       //maxNumberOfFiles
       //allowedFileTypes
     },
-    locale,
+    locale: uppyLocale,
     onBeforeFileAdded(file, files) {
       const duplicated = files[file.id] != null;
       if (duplicated) {
