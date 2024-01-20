@@ -42,20 +42,21 @@
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
     </div>
-    <div v-else class="relative flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full">
-      <svg
+    <div v-else class="relative flex bg-white dark:bg-gray-700 justify-between items-center rounded p-1 ml-2 w-full">
+      <div>
+        <svg
            class="h-6 w-6 p-1 m-auto stroke-gray-400 fill-gray-100 dark:stroke-gray-400 dark:fill-gray-400/20"
            xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
       </svg>
-      <div class="w-full"></div>
+      </div>
       <input
           ref="searchInput"
           @keydown.esc="exitSearchMode"
           @blur="handleBlur"
           v-model="query"
           :placeholder="t('Search anything..')"
-          class="absolute ml-4 pt-1 pb-0 px-2 border-0 ring-0 outline-0 text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
+          class="w-full pt-1 pb-0 px-2 border-0 ring-0 outline-0 text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
           type="text">
       <svg
           class="w-6 h-6 cursor-pointer"
