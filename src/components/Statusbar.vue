@@ -6,7 +6,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
         </svg>
       </div>
-      <select v-model="adapter" @change="handleStorageSelect" class="py-0.5 text-sm text-slate-500 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8">
+      <select v-model="adapter" @change="handleStorageSelect" class="py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8">
         <option v-for="storage in data.storages" :value="storage">
           {{ storage }}
         </option>
@@ -21,12 +21,12 @@
 
 
       <select v-model="locale" @change="changeLocale($event.target.value)"
-              class="py-0.5 text-sm text-slate-500 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8 mr-3">
+              class="py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8 mr-3">
         <option value="" disabled>{{ t('Language') }}</option>
         <option value="en">English</option>
         <option value="fr">French (Français)</option>
         <option value="de">German (Deutsch)</option>
-        <option value="tr">Hebrew (עִברִית)</option>
+        <option value="he">Hebrew (עִברִית)</option>
         <option value="hi">Hindi (हिंदी)</option>
         <option value="fa">Persian (فارسی)</option>
         <option value="ru">Russian (Pусский)</option>
