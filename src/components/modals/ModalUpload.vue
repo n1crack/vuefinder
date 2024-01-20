@@ -60,9 +60,9 @@
                     @click="clear(true)">
               {{ t('Clear only successful') }}</button>
           </div>
-          <div class="text-gray-500 text-sm mb-1 pr-1 max-h-[200px] overflow-auto vf-scrollbar">
-            <div class="flex flex-row flex-nowrap items-center h-8 leading-none hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300" :key="entry.id" v-for="entry in queue">
-              <span class="rounded flex w-6 h-6 border bg-gray-50 text-xs cursor-default
+          <div class="text-gray-500 text-sm mb-1 pr-1 max-h-[200px] overflow-y-auto vf-scrollbar">
+            <div class="flex   hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300" :key="entry.id" v-for="entry in queue">
+              <span class="rounded flex flex-shrink-0 w-6 h-6 border bg-gray-50 text-xs cursor-default
                   dark:border-gray-700 dark:bg-gray-800 dark:text-gray-50
                   ">
                 <span class="text-base m-auto"
@@ -70,8 +70,9 @@
                       v-text="getIconForEntry(entry)"></span>
               </span>
               <div class="ml-1 w-full h-fit">
-                <div>{{ title_shorten(entry.name, 40) }} ({{ entry.size }})</div>
-                <div class="flex" :class="getClassNameForEntry(entry)"> {{ entry.statusName }}
+                <div class="text-left hidden md:block">{{ title_shorten(entry.name, 40) }} ({{ entry.size }})</div>
+                <div class="text-left md:hidden">{{ title_shorten(entry.name, 16) }} ({{ entry.size }})</div>
+                <div class="flex break-all text-left" :class="getClassNameForEntry(entry)"> {{ entry.statusName }}
                   <b class="ml-auto" v-if="entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING">{{ entry.percent }}</b>
                 </div>
               </div>
