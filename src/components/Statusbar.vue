@@ -19,7 +19,7 @@
     </div>
     <div class="flex leading-5 items-center justify-end">
       <select v-model="locale" @change="changeLocale($event.target.value)"
-              class="w-1/2 delay-200 duration-300 hover:w-full transition-all py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8 mr-3">
+              class="w-[120px] delay-200 duration-300 hover:w-full transition-all py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8 mr-3">
         <option value="" disabled>{{ t('Language') }}</option>
         <option value="en">English</option>
         <option value="fr">French (Français)</option>
