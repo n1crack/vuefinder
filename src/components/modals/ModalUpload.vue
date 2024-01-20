@@ -321,15 +321,6 @@ function addFile(file, name = null) {
 }
 
 /**
- * Send file from queue entry to uppy again
- * @param {number} queueEntryIndex
- */
-function reAddFile(queueEntryIndex) {
-  const entry = queue.value[queueEntryIndex];
-  addFile(entry.originalFile, entry.name);
-}
-
-/**
  * Get dom class for entry
  * @param {QueueEntry} entry
  */
@@ -413,8 +404,8 @@ function clear(onlySuccessful) {
       }
     });
     queue.value = [];
-    retryQueue.forEach((item, index) => {
-      reAddFile(index)
+    retryQueue.forEach(entry => {
+      addFile(entry.originalFile, entry.name);
     });
     return;
   }
