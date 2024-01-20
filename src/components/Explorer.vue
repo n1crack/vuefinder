@@ -321,7 +321,9 @@ const setDragSelect = () => {
 
   emitter.on('vf-explorer-update', () => nextTick(() => {
     ds.value.clearSelection();
-    ds.value.setSelectables(document.getElementsByClassName('vf-item-' + randId ));
+    ds.value.setSettings({
+      selectables: document.getElementsByClassName('vf-item-' + randId ),
+    })
   }));
 
   ds.value.subscribe('predragstart', ({event, isDragging}) => {
