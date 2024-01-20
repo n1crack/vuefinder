@@ -32,7 +32,7 @@
         @touchstart="handleTouchStart"
         @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})"
         :class="fullScreen ? '' : 'resize-y'"
-        class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto p-1 z-0"
+        class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
         ref="selectorArea">
 
       <div
@@ -132,6 +132,7 @@ import VFSortIcon from './SortIcon.vue';
 import VFToast from './Toast.vue';
 import {getImageUrl} from '../utils/getImageUrl.js';
 import LazyLoad from 'vanilla-lazyload';
+import title_shorten from "../utils/title_shorten.js";
 
 const props = defineProps({
   view: String,
@@ -143,7 +144,6 @@ const emitter = inject('emitter');
 const { setStore, getStore } = inject('storage');
 const adapter = inject('adapter');
 const ext = (item) => item?.substring(0, 3)
-const title_shorten = (title) => title.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, '$2..$4');
 const selectorArea = ref(null);
 const dragImage = ref(null);
 const selectedCount = ref(0)

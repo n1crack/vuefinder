@@ -12,8 +12,7 @@
           <div
             ref="dropArea"
             class="flex items-center justify-center text-lg mb-4 text-gray-500 border-2 border-gray-300 rounded border-dashed select-none cursor-pointer
-              dark:border-gray-600"
-            style="height: 150px;"
+              dark:border-gray-600 h-[120px]"
             @click="openFileSelector">
             <div class="pointer-events-none" v-if="hasFilesInDropArea">
               {{ t('Release to drop these files.') }}
@@ -61,29 +60,38 @@
                     @click="clear(true)">
               {{ t('Clear only successful') }}</button>
           </div>
-          <div class="text-gray-500 text-sm mb-1 overflow-auto" style="max-height: 200px;">
-            <div class="flex flex-row flex-nowrap items-center h-8 leading-none overflow-hidden" :key="entry.id" v-for="entry in queue">
-              <span :class="getClassNameForEntry(entry)">[{{ entry.statusName }}]</span>
-              <span class="ml-1">{{ entry.name }} ({{ entry.size }})</span>
-              <b class="ml-1" v-if="entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING">{{ entry.percent }}</b>
+          <div class="text-gray-500 text-sm mb-1 pr-1 max-h-[200px] overflow-auto vf-scrollbar">
+            <div class="flex flex-row flex-nowrap items-center h-8 leading-none hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300" :key="entry.id" v-for="entry in queue">
+              <span class="rounded flex w-6 h-6 border bg-gray-50 text-xs cursor-default
+                  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-50
+                  ">
+                <span class="text-base m-auto"
+                      :class="getClassNameForEntry(entry)"
+                      v-text="getIconForEntry(entry)"></span>
+              </span>
+              <div class="ml-1 w-full h-fit">
+                <div>{{ title_shorten(entry.name, 40) }} ({{ entry.size }})</div>
+                <div class="flex" :class="getClassNameForEntry(entry)"> {{ entry.statusName }}
+                  <b class="ml-auto" v-if="entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING">{{ entry.percent }}</b>
+                </div>
+              </div>
               <button
                 type="button"
-                class="rounded w-6 h-6 border-1 text-base text-white leading-none font-medium
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-                  dark:border-gray-200 dark:bg-gray-800 dark:text-gray-50 dark:hover:bg-gray-700
-                  sm:mt-0 sm:ml-3 sm:text-xs"
-                :class="uploading ? 'disabled:bg-gray-100 text-white text-opacity-50' : 'bg-gray-100 hover:bg-gray-200'"
+                class="rounded w-5 h-5 border-1 text-base leading-none font-medium
+                  focus:outline-none dark:border-gray-200 dark:text-gray-400 dark:hover:text-gray-200 dark:bg-gray-600
+                    ml-auto sm:text-xs hover:text-red-600"
+                :class="uploading ? 'disabled:bg-gray-100 text-white text-opacity-50' : 'bg-gray-100'"
                 :title="t('Delete')"
                 :disabled="uploading"
                 @click="remove(entry)">
-                ❌
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
               </button>
             </div>
 
             <div class="py-2" v-if="!queue.length">{{ t('No files selected!') }}</div>
           </div>
-
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
+<!-- No need this ? -->
+<!--          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>-->
         </div>
       </div>
     </div>
@@ -145,6 +153,7 @@ import buildURLQuery from '../../utils/buildURLQuery.js';
 import Message from '../Message.vue';
 import {csrf} from '../../utils/ajax.js';
 import { parse, format as fileSize } from '../../utils/filesize.js';
+import title_shorten from "../../utils/title_shorten.js";
 
 const {apiUrl} = useApiUrl();
 const emitter = inject('emitter');
@@ -242,6 +251,19 @@ function getClassNameForEntry(entry) {
     case QUEUE_ENTRY_STATUS.PENDING:
     default:
       return '';
+  }
+}
+
+const getIconForEntry = (entry) =>{
+  switch (entry.status) {
+    case QUEUE_ENTRY_STATUS.DONE:
+      return '✓'
+    case QUEUE_ENTRY_STATUS.ERROR:
+    case QUEUE_ENTRY_STATUS.CANCELED:
+      return '!';
+    case QUEUE_ENTRY_STATUS.PENDING:
+    default:
+      return '...';
   }
 }
 
