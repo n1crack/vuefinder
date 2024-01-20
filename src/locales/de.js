@@ -1,4 +1,6 @@
-{
+import uppyLocaleDe from '@uppy/locales/lib/de_DE.js';
+
+export default {
     "Language": "Sprache",
     "Create": "Erstellen",
     "Close": "Schließen",
@@ -63,5 +65,6 @@
     "File Size": "Dateigröße",
     "Last Modified": "Zuletzt geändert",
     "Drag&Drop: on": "Drag&Drop: an",
-    "Drag&Drop: off": "Drag&Drop: aus"
+    "Drag&Drop: off": "Drag&Drop: aus",
+    "uppy" : uppyLocaleDe,
 }

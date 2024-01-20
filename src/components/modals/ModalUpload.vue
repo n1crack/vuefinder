@@ -18,6 +18,10 @@
               {{ t('Release to drop these files.') }}
             </div>
             <div class="pointer-events-none" v-else>
+              <!--
+              We can use uppy's localization here..
+              {{ uppy.i18n('dropPasteFiles', {browseFiles: uppy.i18n('browseFiles')}) }}
+              -->
               {{ t('Drag and drop the files/folders to here or click here.') }}
             </div>
           </div>
@@ -122,30 +126,7 @@ const props = defineProps({
   current: Object
 });
 
-// Yea I'm gonna do this mess to include all locales for uppy, someone consider dynamically load this?
-import uppyLocaleEn from '@uppy/locales/lib/en_US.js';
-import uppyLocaleDe from '@uppy/locales/lib/de_DE.js';
-import uppyLocaleFa from '@uppy/locales/lib/fa_IR.js';
-import uppyLocaleHe from '@uppy/locales/lib/he_IL.js';
-import uppyLocaleHi from '@uppy/locales/lib/hi_IN.js';
-import uppyLocaleRu from '@uppy/locales/lib/ru_RU.js';
-import uppyLocaleSv from '@uppy/locales/lib/sv_SE.js';
-import uppyLocaleTr from '@uppy/locales/lib/tr_TR.js';
-import uppyLocalezhCN from '@uppy/locales/lib/zh_CN.js';
-import uppyLocalezhTW from '@uppy/locales/lib/zh_TW.js';
-const appLocaleToUppyLocaleMap = {
-  'en': uppyLocaleEn,
-  'de': uppyLocaleDe,
-  'fa': uppyLocaleFa,
-  'he': uppyLocaleHe,
-  'hi': uppyLocaleHi,
-  'ru': uppyLocaleRu,
-  'sv': uppyLocaleSv,
-  'tr': uppyLocaleTr,
-  'zhCN': uppyLocalezhCN,
-  'zhTW': uppyLocalezhTW,
-};
-const uppyLocale = appLocaleToUppyLocaleMap[getLocale()];
+const uppyLocale = t("uppy");
 
 const QUEUE_ENTRY_STATUS = {
   PENDING: 0,

@@ -1,4 +1,6 @@
-{
+import uppyLocalezhTW from '@uppy/locales/lib/zh_TW.js';
+
+export default {
   "Language": "語言",
   "Create": "建立",
   "Close": "關閉",
@@ -72,5 +74,6 @@
   "Canceled": "已取消",
   "Done": "已完成",
   "Network Error, Unable establish connection to the server or interrupted.": "網路錯誤，無法連線到伺服器或連線被意外中斷。",
-  "Pending upload": "待上傳"
+  "Pending upload": "待上傳",
+  "uppy": uppyLocalezhTW
 }

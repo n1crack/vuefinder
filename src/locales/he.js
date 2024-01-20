@@ -1,4 +1,6 @@
-{
+import uppyLocaleHe from '@uppy/locales/lib/he_IL.js';
+
+export default {
   "Language": "שפה",
   "Create": "יצירה",
   "Close": "סגירה",
@@ -63,5 +65,6 @@
   "File Size": "גודל קובץ",
   "Last Modified": "תאריך שינוי",
   "Drag&Drop: on": "מצב גרירה: פעיל",
-  "Drag&Drop: off": "מצב גרירה: כבוי"
+  "Drag&Drop: off": "מצב גרירה: כבוי",
+  "uppy": uppyLocaleHe
 }

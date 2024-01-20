@@ -1,4 +1,6 @@
-{
+import uppyLocaleTr from '@uppy/locales/lib/tr_TR.js';
+
+export default {
   "Language": "Dil",
   "Create": "Oluştur",
   "Close": "Kapat",
@@ -63,5 +65,6 @@
   "File Size": "Dosya Boyutu",
   "Last Modified": "Son Değişiklik",
   "Drag&Drop: on": "Sürükle&Bırak: etkin",
-  "Drag&Drop: off": "Sürükle&Bırak: devre dışı"
+  "Drag&Drop: off": "Sürükle&Bırak: devre dışı",
+  "uppy": uppyLocaleTr,
 }

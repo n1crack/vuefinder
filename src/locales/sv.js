@@ -1,4 +1,6 @@
-{
+import uppyLocaleSv from '@uppy/locales/lib/sv_SE.js';
+
+export default {
   "Language": "Språk",
   "Create": "Skapa",
   "Close": "Stäng",
@@ -63,5 +65,6 @@
   "File Size": "Filstorlek",
   "Last Modified": "Senast ändrad",
   "Drag&Drop: on": "Dra och släpp: på",
-  "Drag&Drop: off": "Dra och släpp: av"
+  "Drag&Drop: off": "Dra och släpp: av",
+  "uppy": uppyLocaleSv
 }

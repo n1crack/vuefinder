@@ -1,4 +1,6 @@
-{
+import uppyLocaleHi from '@uppy/locales/lib/hi_IN.js';
+
+export default {
   "Language": "भाषा",
   "Create": "बनाएँ",
   "Close": "बंद करें",
@@ -63,5 +65,6 @@
   "File Size": "फ़ाइल का आकार",
   "Last Modified": "अंतिम संशोधित",
   "Drag&Drop: on": "ड्रैग और ड्रॉप: चालू",
-  "Drag&Drop: off": "ड्रैग और ड्रॉप: बंद"
+  "Drag&Drop: off": "ड्रैग और ड्रॉप: बंद",
+  "uppy": uppyLocaleHi
 }

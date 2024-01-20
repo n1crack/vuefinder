@@ -1,4 +1,6 @@
-{
+import uppyLocaleFa from '@uppy/locales/lib/fa_IR.js';
+
+export default {
   "Language": "زبان",
   "Create": "ایجاد",
   "Close": "بستن",
@@ -63,5 +65,6 @@
   "File Size": "سایز فایل",
   "Last Modified": "آخرین ویرایش",
   "Drag&Drop: on": "Drag&Drop: روشن",
-  "Drag&Drop: off": "Drag&Drop: خاموش"
+  "Drag&Drop: off": "Drag&Drop: خاموش",
+  "uppy": uppyLocaleFa
 }

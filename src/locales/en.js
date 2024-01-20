@@ -1,4 +1,6 @@
-{
+import uppyLocaleEn from '@uppy/locales/lib/en_US.js';
+
+export default {
   "Language": "Language",
   "Create": "Create",
   "Close": "Close",
@@ -72,5 +74,6 @@
   "Canceled": "Canceled",
   "Done": "Done",
   "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
-  "Pending upload": "Pending"
+  "Pending upload": "Pending",
+  "uppy": uppyLocaleEn
 }

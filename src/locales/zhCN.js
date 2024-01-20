@@ -1,4 +1,6 @@
-{
+import uppyLocalezhCN from '@uppy/locales/lib/zh_CN.js';
+
+export default {
   "Language": "语言",
   "Create": "创建",
   "Close": "关闭",
@@ -72,5 +74,6 @@
   "Canceled": "已取消",
   "Done": "已完成",
   "Network Error, Unable establish connection to the server or interrupted.": "网络错误，无法连接到服务器或连接被意外中断。",
-  "Pending upload": "待上传"
+  "Pending upload": "待上传",
+  "uppy": uppyLocalezhCN
 }
