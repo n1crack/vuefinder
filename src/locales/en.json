@@ -43,7 +43,7 @@
   "Unarchive the files": "Unarchive the files",
   "The archive will be unarchived at": "The archive will be unarchived at",
   "Archive name. (.zip file will be created)": "Archive name. (.zip file will be created)",
-  "Vuefinder is a file manager component for vue 3.": "Vuefinder is a file manager component for vue 3.",
+  "Vuefinder is a file manager component for vue 3.": "Vuefinder is a file manager component for Vue 3.",
   "Create a new folder": "Create a new folder",
   "Create a new file": "Create a new file",
   "Are you sure you want to delete these files?": "Are you sure you want to delete these files?",
@@ -71,6 +71,6 @@
   "Release to drop these files.": "Release to drop these files.",
   "Canceled": "Canceled",
   "Done": "Done",
-  "Network Error, Unable establish connection to the server or interrupted.": "Network Error，Unable establish connection to the server or interrupted.",
+  "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
   "Pending upload": "Pending"
 }
