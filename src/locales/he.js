@@ -1,4 +1,6 @@
-const e = `{
+import uppyLocaleHe from '@uppy/locales/lib/he_IL.js';
+
+export default {
   "Language": "שפה",
   "Create": "יצירה",
   "Close": "סגירה",
@@ -64,9 +66,5 @@ const e = `{
   "Last Modified": "תאריך שינוי",
   "Drag&Drop: on": "מצב גרירה: פעיל",
   "Drag&Drop: off": "מצב גרירה: כבוי",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "הקובץ הנבחר חורג ממגבלת המקסימום של גודל קובץ. לא ניתן להעלות קובץ גדול מ-%s"
+  "uppy": uppyLocaleHe
 }
-`;
-export {
-  e as default
-};

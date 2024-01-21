@@ -1,4 +1,6 @@
-{
+import uppyLocaleTr from '@uppy/locales/lib/tr_TR.js';
+
+export default {
   "Language": "Dil",
   "Create": "Oluştur",
   "Close": "Kapat",
@@ -64,5 +66,5 @@
   "Last Modified": "Son Değişiklik",
   "Drag&Drop: on": "Sürükle&Bırak: etkin",
   "Drag&Drop: off": "Sürükle&Bırak: devre dışı",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "Seçilen dosya maksimum dosya boyutunu aşıyor. %s'den büyük dosyaları yükleyemezsiniz."
+  "uppy": uppyLocaleTr,
 }

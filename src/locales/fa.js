@@ -1,4 +1,6 @@
-const e = `{
+import uppyLocaleFa from '@uppy/locales/lib/fa_IR.js';
+
+export default {
   "Language": "زبان",
   "Create": "ایجاد",
   "Close": "بستن",
@@ -64,9 +66,5 @@ const e = `{
   "Last Modified": "آخرین ویرایش",
   "Drag&Drop: on": "Drag&Drop: روشن",
   "Drag&Drop: off": "Drag&Drop: خاموش",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "حداکثر ظرفیت مجاز فایل %s میباشد! فایل شما بزرگتر از این مقدار میباشد."
+  "uppy": uppyLocaleFa
 }
-`;
-export {
-  e as default
-};

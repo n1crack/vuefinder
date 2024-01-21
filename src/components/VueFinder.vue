@@ -145,7 +145,7 @@ emitter.on('vf-fetch-abort', () => {
   loadingState.value = false;
 });
 
-emitter.on('vf-fetch', ({params, onSuccess = null, onError = null}) => {
+emitter.on('vf-fetch', ({params, onSuccess = null, onError = null, noCloseModal = false}) => {
   if (['index', 'search'].includes(params.q)) {
     if (controller) {
       controller.abort();
@@ -161,7 +161,9 @@ emitter.on('vf-fetch', ({params, onSuccess = null, onError = null}) => {
         if (['index', 'search'].includes(params.q)) {
           loadingState.value = false;
         }
-        emitter.emit('vf-modal-close');
+        if (!noCloseModal) {
+          emitter.emit('vf-modal-close');
+        }
         updateItems(data);
         onSuccess(data);
       })

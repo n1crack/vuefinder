@@ -2,9 +2,9 @@ import {ref} from 'vue';
 import {useStorage} from './useStorage.js';
 
 export async function loadLocale(locale) {
-    const messages = await import(`../locales/${locale}.json?raw`);
+    const messages = await import(`../locales/${locale}.js`);
 
-    return JSON.parse(messages.default);
+    return messages.default;
 }
 
 export function useI18n(id, locale, emitter) {
@@ -42,6 +42,10 @@ export function useI18n(id, locale, emitter) {
         return sprintf(key, ...params);
     };
 
-    return {t, changeLocale};
+    function getLocale() {
+        return getStore('locale')
+    }
+
+    return {t, changeLocale, getLocale};
 }
 

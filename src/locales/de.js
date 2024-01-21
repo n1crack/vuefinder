@@ -1,4 +1,6 @@
-const e = `{
+import uppyLocaleDe from '@uppy/locales/lib/de_DE.js';
+
+export default {
     "Language": "Sprache",
     "Create": "Erstellen",
     "Close": "Schließen",
@@ -64,9 +66,5 @@ const e = `{
     "Last Modified": "Zuletzt geändert",
     "Drag&Drop: on": "Drag&Drop: an",
     "Drag&Drop: off": "Drag&Drop: aus",
-    "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "Die ausgewählte Datei überschreitet die maximale Dateigröße. Sie können keine Dateien hochladen, die größer sind als %s"
+    "uppy" : uppyLocaleDe,
 }
-`;
-export {
-  e as default
-};

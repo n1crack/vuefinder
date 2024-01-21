@@ -1,3 +1,5 @@
+@tailwind base;
+
 @tailwind components;
 
 @layer components {
@@ -18,26 +20,26 @@
     }
 
     /* width */
-    .vf-selector-area::-webkit-scrollbar {
+    .vf-scrollbar::-webkit-scrollbar {
         width: 12px;
     }
 
     /* Track */
-    .vf-selector-area::-webkit-scrollbar-track-piece {
+    .vf-scrollbar::-webkit-scrollbar-track-piece {
         @apply bg-gray-100 dark:bg-slate-900/50;
     }
 
     /* Handle */
-    .vf-selector-area::-webkit-scrollbar-thumb {
+    .vf-scrollbar::-webkit-scrollbar-thumb {
         @apply bg-gray-300 dark:bg-slate-700;
     }
 
     /* Handle on hover */
-    .vf-selector-area::-webkit-scrollbar-thumb:hover {
+    .vf-scrollbar::-webkit-scrollbar-thumb:hover {
         @apply bg-gray-400 dark:bg-slate-600;
     }
 
-    .vf-selector-area::-webkit-scrollbar-corner {
+    .vf-scrollbar::-webkit-scrollbar-corner {
         @apply bg-transparent;
     }
 }

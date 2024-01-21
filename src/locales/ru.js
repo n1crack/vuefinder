@@ -1,4 +1,6 @@
-{
+import uppyLocaleRu from '@uppy/locales/lib/ru_RU.js';
+
+export default {
   "Language": "Язык",
   "Create": "Создать",
   "Close": "Закрыть",
@@ -63,5 +65,6 @@
   "File Size": "Размер файла",
   "Last Modified": "Последнее изменение",
   "Drag&Drop: on": "Drag&Drop: on",
-  "Drag&Drop: off": "Drag&Drop: off"
+  "Drag&Drop: off": "Drag&Drop: off",
+  "uppy": uppyLocaleRu
 }

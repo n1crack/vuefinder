@@ -1,4 +1,6 @@
-const e = `{
+import uppyLocaleSv from '@uppy/locales/lib/sv_SE.js';
+
+export default {
   "Language": "Språk",
   "Create": "Skapa",
   "Close": "Stäng",
@@ -64,8 +66,5 @@ const e = `{
   "Last Modified": "Senast ändrad",
   "Drag&Drop: on": "Dra och släpp: på",
   "Drag&Drop: off": "Dra och släpp: av",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "Den valda filen överskrider den maximala filstorleken. Du kan inte ladda upp filer större än %s"
-}`;
-export {
-  e as default
-};
+  "uppy": uppyLocaleSv
+}
