@@ -17,7 +17,7 @@ module.exports = {
     // https://github.com/tailwindlabs/tailwindcss/discussions/10332#discussioncomment-4699227
     plugin(({ addBase }) => {
       const preflightStyles = postcss.parse(
-        fs.readFileSync(require.resolve('tailwindcss/lib/css/preflight.css'), "utf8")
+        fs.readFileSync(require.resolve('./src/assets/css/preflight.css'), "utf8")
       )
 
       // Scope the selectors to specific components
