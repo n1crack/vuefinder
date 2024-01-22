@@ -3,6 +3,10 @@
 @tailwind components;
 
 @layer components {
+    .vuefinder {
+        position: relative;
+    }
+
     .vuefinder * {
         touch-action: manipulation;
     }

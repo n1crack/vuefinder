@@ -1,5 +1,5 @@
 <template>
-  <div class="vuefinder">
+  <div class="vuefinder" ref="root">
     <div :class="darkMode ? 'dark': ''">
       <div
           :class="fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
@@ -75,6 +75,9 @@ const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
 const adapter =ref(getStore('adapter'));
 
+/** @type import('vue').Ref<HTMLDivElement> */
+const root = ref(null);
+provide('root', root);
 provide('emitter', emitter);
 provide('storage', useStorage(props.id));
 provide('postData', props.postData);
