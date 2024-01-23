@@ -42,12 +42,15 @@ const props = defineProps({
 const message = ref('');
 const isError = ref(false);
 
+const requestTransformer = inject('requestTransformer');
+
 const {t} = inject('i18n');
 
 onMounted(() => {
   ajax(apiUrl.value, {
     params: {q: 'preview', adapter: props.selection.adapter, path: props.selection.item.path},
-    json: false
+    json: false,
+    requestTransformer
   })
       .then(data => {
         content.value = data;
@@ -80,6 +83,7 @@ const save = () => {
       content: contentTemp.value
     }),
     json: false,
+    requestTransformer
   })
       .then(data => {
         message.value = t('Updated.');

@@ -69,7 +69,11 @@ const props = defineProps({
   postData: {
     type: Object,
     default: {}
-  }
+  },
+  requestTransformer: {
+    type: Function,
+    default: null,
+  },
 });
 const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
@@ -84,6 +88,7 @@ provide('postData', props.postData);
 provide('adapter', adapter);
 provide('maxFileSize', props.maxFileSize);
 provide('usePropDarkMode', props.usePropDarkMode);
+provide('requestTransformer', props.requestTransformer);
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
@@ -158,7 +163,11 @@ emitter.on('vf-fetch', ({params, onSuccess = null, onError = null, noCloseModal 
 
   controller = new AbortController();
   const signal = controller.signal;
-  ajax(apiUrl.value, {params, signal})
+  ajax(apiUrl.value, {
+    params,
+    signal,
+    requestTransformer: props.requestTransformer
+  })
       .then(data => {
         adapter.value = data.adapter;
         if (['index', 'search'].includes(params.q)) {

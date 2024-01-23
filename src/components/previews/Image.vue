@@ -32,6 +32,8 @@ const props = defineProps({
   selection: Object
 });
 
+const requestTransformer = inject('requestTransformer');
+
 const {t} = inject('i18n');
 const {apiUrl} = useApiUrl();
 
@@ -74,7 +76,8 @@ const crop = () => {
                 file: blob
               }),
               name: props.selection.item.basename,
-              json: false
+              json: false,
+              requestTransformer,
             })
                 .then(data => {
                   message.value = t('Updated.');
