@@ -1,4 +1,6 @@
-const e = `{
+import uppyLocaleDe from '@uppy/locales/lib/de_DE.js';
+
+export default {
     "Language": "Sprache",
     "Create": "Erstellen",
     "Close": "Schließen",
@@ -64,9 +66,20 @@ const e = `{
     "Last Modified": "Zuletzt geändert",
     "Drag&Drop: on": "Drag&Drop: an",
     "Drag&Drop: off": "Drag&Drop: aus",
-    "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "Die ausgewählte Datei überschreitet die maximale Dateigröße. Sie können keine Dateien hochladen, die größer sind als %s"
+    "Select Folders": "Select Folders",
+    "Clear all": "Clear all",
+    "Clear only successful": "Clear only successful",
+    "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
+    "Release to drop these files.": "Release to drop these files.",
+    "Canceled": "Canceled",
+    "Done": "Done",
+    "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
+    "Pending upload": "Pending",
+    "Please select file to upload first.": "Bitte wählen Sie zuerst eine Datei zum Hochladen aus.",
+    "About %s": "Über %s",
+    "Settings": "Einstellungen",
+    "Use Metric Units": "Use Metric Units",
+    "Saved.": "Saved.",
+    "Clear Local Storage": "Clear Local Storage",
+    "uppy" : uppyLocaleDe,
 }
-`;
-export {
-  e as default
-};

@@ -32,7 +32,7 @@
         @touchstart="handleTouchStart"
         @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})"
         :class="fullScreen ? '' : 'resize-y'"
-        class="h-full w-full text-xs vf-selector-area min-h-[150px] overflow-auto p-1 z-0"
+        class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
         ref="selectorArea">
 
       <div
@@ -124,14 +124,14 @@ export default {
 </script>
 
 <script setup>
-import {inject, nextTick, onMounted, onUpdated, reactive, ref, watch} from 'vue';
+import { inject, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from 'vue';
 import DragSelect from 'dragselect';
-import filesize from './../utils/filesize.js'
 import datetimestring from '../utils/datetimestring.js';
 import VFSortIcon from './SortIcon.vue';
 import VFToast from './Toast.vue';
 import {getImageUrl} from '../utils/getImageUrl.js';
 import LazyLoad from 'vanilla-lazyload';
+import title_shorten from "../utils/title_shorten.js";
 
 const props = defineProps({
   view: String,
@@ -143,7 +143,6 @@ const emitter = inject('emitter');
 const { setStore, getStore } = inject('storage');
 const adapter = inject('adapter');
 const ext = (item) => item?.substring(0, 3)
-const title_shorten = (title) => title.replace(/((?=([\w\W]{0,14}))([\w\W]{8,})([\w\W]{8,}))/, '$2..$4');
 const selectorArea = ref(null);
 const dragImage = ref(null);
 const selectedCount = ref(0)
@@ -151,8 +150,10 @@ const ds = ref(null);
 const {t} = inject('i18n');
 const randId = Math.floor(Math.random() * 2**32);
 const fullScreen = ref(getStore('full-screen', false));
+const filesize = inject("filesize")
 
-const vfLazyLoad = new LazyLoad();
+/** @type {import('vanilla-lazyload').ILazyLoadInstance} */
+let vfLazyLoad
 
 emitter.on('vf-fullscreen-toggle', () => {
   selectorArea.value.style.height = null;
@@ -320,7 +321,9 @@ const setDragSelect = () => {
 
   emitter.on('vf-explorer-update', () => nextTick(() => {
     ds.value.clearSelection();
-    ds.value.setSelectables(document.getElementsByClassName('vf-item-' + randId ));
+    ds.value.setSettings({
+      selectables: document.getElementsByClassName('vf-item-' + randId ),
+    })
   }));
 
   ds.value.subscribe('predragstart', ({event, isDragging}) => {
@@ -351,17 +354,23 @@ const setDragSelect = () => {
   })
 };
 
-onMounted(setDragSelect)
+onMounted(() => {
+  vfLazyLoad = new LazyLoad(selectorArea.value);
+  setDragSelect();
+});
 
 onUpdated(() => {
   ds.value.Area.reset();
   ds.value.SelectorArea.updatePos();
   vfLazyLoad.update();
-})
+});
 
 onMounted(() => {
   watch(() => props.view, () => emitter.emit('vf-explorer-update'));
 });
 
-</script>
+onBeforeUnmount(() => {
+  vfLazyLoad.destroy();
+});
 
+</script>

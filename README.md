@@ -100,7 +100,7 @@ Html
  - [Vue3](https://vuejs.org/)
  - [Cropperjs](https://github.com/fengyuanchen/cropperjs)  : JavaScript image cropper
  - [DragSelect](https://github.com/ThibaultJanBeyer/DragSelect/) : Selection utility
- - [Plupload](https://github.com/moxiecode/plupload) : Upload library
+ - [Uppy](https://github.com/transloadit/uppy) : Upload library
  - [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) : lazy loading for thumbnails
 
 ### License

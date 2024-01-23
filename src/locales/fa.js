@@ -1,4 +1,6 @@
-const e = `{
+import uppyLocaleFa from '@uppy/locales/lib/fa_IR.js';
+
+export default {
   "Language": "زبان",
   "Create": "ایجاد",
   "Close": "بستن",
@@ -64,9 +66,20 @@ const e = `{
   "Last Modified": "آخرین ویرایش",
   "Drag&Drop: on": "Drag&Drop: روشن",
   "Drag&Drop: off": "Drag&Drop: خاموش",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "حداکثر ظرفیت مجاز فایل %s میباشد! فایل شما بزرگتر از این مقدار میباشد."
+  "Select Folders": "Select Folders",
+  "Clear all": "Clear all",
+  "Clear only successful": "Clear only successful",
+  "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
+  "Release to drop these files.": "Release to drop these files.",
+  "Canceled": "Canceled",
+  "Done": "Done",
+  "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
+  "Pending upload": "Pending",
+  "Please select file to upload first." : "Please select file to upload first.",
+  "About %s": "درباره %s",
+  "Settings": "تنظیمات",
+  "Use Metric Units": "استفاده از واحد های متریک",
+  "Saved.": "ذخیره شد.",
+  "Clear Local Storage": "پاک کردن فضای ذخیره سازی محلی",
+  "uppy": uppyLocaleFa
 }
-`;
-export {
-  e as default
-};

@@ -1,4 +1,6 @@
-const e = `{
+import uppyLocaleHe from '@uppy/locales/lib/he_IL.js';
+
+export default {
   "Language": "שפה",
   "Create": "יצירה",
   "Close": "סגירה",
@@ -64,9 +66,20 @@ const e = `{
   "Last Modified": "תאריך שינוי",
   "Drag&Drop: on": "מצב גרירה: פעיל",
   "Drag&Drop: off": "מצב גרירה: כבוי",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "הקובץ הנבחר חורג ממגבלת המקסימום של גודל קובץ. לא ניתן להעלות קובץ גדול מ-%s"
+  "Select Folders": "Select Folders",
+  "Clear all": "Clear all",
+  "Clear only successful": "Clear only successful",
+  "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
+  "Release to drop these files.": "Release to drop these files.",
+  "Canceled": "Canceled",
+  "Done": "Done",
+  "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
+  "Pending upload": "Pending",
+  "Please select file to upload first." : "Please select file to upload first.",
+  "About %s": "אודות %s",
+  "Settings": "הגדרות",
+  "Use Metric Units": "השתמש ביחידות מטריות",
+  "Saved.": "נשמר",
+  "Clear Local Storage": "נקה אחסון מקומי",
+  "uppy": uppyLocaleHe
 }
-`;
-export {
-  e as default
-};

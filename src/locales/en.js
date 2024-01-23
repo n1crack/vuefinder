@@ -1,4 +1,6 @@
-{
+import uppyLocaleEn from '@uppy/locales/lib/en_US.js';
+
+export default {
   "Language": "Language",
   "Create": "Create",
   "Close": "Close",
@@ -43,7 +45,7 @@
   "Unarchive the files": "Unarchive the files",
   "The archive will be unarchived at": "The archive will be unarchived at",
   "Archive name. (.zip file will be created)": "Archive name. (.zip file will be created)",
-  "Vuefinder is a file manager component for vue 3.": "Vuefinder is a file manager component for vue 3.",
+  "Vuefinder is a file manager component for vue 3.": "Vuefinder is a file manager component for Vue 3.",
   "Create a new folder": "Create a new folder",
   "Create a new file": "Create a new file",
   "Are you sure you want to delete these files?": "Are you sure you want to delete these files?",
@@ -64,5 +66,20 @@
   "Last Modified": "Last Modified",
   "Drag&Drop: on": "Drag&Drop: on",
   "Drag&Drop: off": "Drag&Drop: off",
-  "The selected file exceeds the maximum file size. You cannot upload files greater than %s": "The selected file exceeds the maximum file size. You cannot upload files greater than %s"
+  "Select Folders": "Select Folders",
+  "Clear all": "Clear all",
+  "Clear only successful": "Clear only successful",
+  "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
+  "Release to drop these files.": "Release to drop these files.",
+  "Canceled": "Canceled",
+  "Done": "Done",
+  "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
+  "Pending upload": "Pending",
+  "Please select file to upload first." : "Please select file to upload first.",
+  "About %s": "About %s",
+  "Settings": "Settings",
+  "Use Metric Units": "Use Metric Units",
+  "Saved.": "Saved.",
+  "Clear Local Storage": "Clear Local Storage",
+  "uppy": uppyLocaleEn
 }

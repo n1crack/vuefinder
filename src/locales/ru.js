@@ -1,4 +1,6 @@
-{
+import uppyLocaleRu from '@uppy/locales/lib/ru_RU.js';
+
+export default {
   "Language": "Язык",
   "Create": "Создать",
   "Close": "Закрыть",
@@ -63,5 +65,21 @@
   "File Size": "Размер файла",
   "Last Modified": "Последнее изменение",
   "Drag&Drop: on": "Drag&Drop: on",
-  "Drag&Drop: off": "Drag&Drop: off"
+  "Drag&Drop: off": "Drag&Drop: off",
+  "Select Folders": "Select Folders",
+  "Clear all": "Clear all",
+  "Clear only successful": "Clear only successful",
+  "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
+  "Release to drop these files.": "Release to drop these files.",
+  "Canceled": "Canceled",
+  "Done": "Done",
+  "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
+  "Pending upload": "Pending",
+  "Please select file to upload first." : "Please select file to upload first.",
+  "About %s": "О компоненте %s",
+  "Settings": "Настройки",
+  "Use Metric Units": "Использовать метрические единицы",
+  "Saved.": "Сохранено.",
+  "Clear Local Storage": "Очистить локальное хранилище",
+  "uppy": uppyLocaleRu
 }

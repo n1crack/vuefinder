@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "1.2.8",
+  "version": "1.3.3",
   "description": "Vuefinder is a file manager component for vuejs.",
   "type": "module",
   "files": [
@@ -34,16 +34,18 @@
     "@types/node": "^18.7.1",
     "@vitejs/plugin-vue": "^4.0.0",
     "autoprefixer": "^10.4.8",
-    "microtip": "^0.2.2",
-    "mitt": "^3.0.0",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
     "vite": "^4.0.2"
   },
   "dependencies": {
+    "@uppy/core": "^3.8.0",
+    "@uppy/locales": "^3.5.0",
+    "@uppy/xhr-upload": "^3.6.0",
     "cropperjs": "^1.5.12",
     "dragselect": "^2.3.1",
-    "plupload": "^2.3.9",
+    "microtip": "^0.2.2",
+    "mitt": "^3.0.0",
     "vanilla-lazyload": "^17.8.3",
     "vue": "^3.2.0"
   }
