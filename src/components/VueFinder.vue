@@ -117,7 +117,7 @@ watch(metricUnits, (value) => {
 })
 provide('filesize', filesize);
 
-emitter.on('vf-metric-units-toggled', (value) => {
+emitter.on('vf-metric-units-saved', (value) => {
   metricUnits.value = value;
   setStore('metricUnits', value);
 });

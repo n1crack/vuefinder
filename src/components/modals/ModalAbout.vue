@@ -30,7 +30,7 @@
                   </div>
                   <div class="flex-1 block text-sm">
                     <label for="dark_mode" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
-                      Dark Mode <action-message class="ms-3" on="vf-darkMode-changed">{{ 'Saved.' }}</action-message>
+                      Dark Mode <action-message class="ms-3" on="vf-darkMode-saved">{{ 'Saved.' }}</action-message>
                     </label>
                   </div>
                 </div>
@@ -43,7 +43,7 @@
                   </div>
                   <div class="flex-1 block text-sm">
                     <label for="metric_unit" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
-                      Use Metric Units <action-message class="ms-3" on="vf-metric-units-toggled">{{ 'Saved.' }}</action-message>
+                      Use Metric Units <action-message class="ms-3" on="vf-metric-units-saved">{{ 'Saved.' }}</action-message>
                     </label>
                   </div>
                 </div>
@@ -73,12 +73,12 @@ export default {
 
 <script setup>
 import VFModalLayout from './ModalLayout.vue';
-import {inject, nextTick, ref} from 'vue';
+import {inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";
 import {version} from './../../../package.json';
 
 const emitter = inject('emitter');
-const {setStore, getStore, clearStore} = inject('storage');
+const {getStore, clearStore} = inject('storage');
 const adapter = inject('adapter');
 const {t} = inject('i18n');
 
@@ -99,13 +99,13 @@ const clearLocalStorage = async () => {
 
 const handleDarkMode = () => {
   emitter.emit('vf-darkMode-toggle');
-  emitter.emit('vf-darkMode-changed');
+  emitter.emit('vf-darkMode-saved');
 }
 
 const metricUnits = inject('metricUnits');
 
 const handleMetricUnits = () => {
-  emitter.emit('vf-metric-units-toggled', !metricUnits.value);
+  emitter.emit('vf-metric-units-saved', !metricUnits.value);
 }
 
 </script>
