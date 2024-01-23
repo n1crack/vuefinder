@@ -75,5 +75,11 @@ export default {
   "Done": "已完成",
   "Network Error, Unable establish connection to the server or interrupted.": "网络错误，无法连接到服务器或连接被意外中断。",
   "Pending upload": "待上传",
+  "Please select file to upload first." : "请先选择要上传的文件。",
+  "About %s": "关于 %s",
+  "Settings": "设置",
+  "Use Metric Units": "使用公制单位",
+  "Saved.": "已保存。",
+  "Clear Local Storage": "清除本地存储",
   "uppy": uppyLocalezhCN
 }
