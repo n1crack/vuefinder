@@ -107,19 +107,19 @@ emitter.on('vf-darkMode-toggle', () => {
   setStore('darkMode', darkMode.value);
 });
 
-// binary measurement (for example: GB vs GiB)
-const binaryMeasurement = ref(getStore('binaryMeasurement', false));
-provide('binaryMeasurement', binaryMeasurement);
-import { format as filesizeDefault, binaryFormat as filesizeBinary } from './../utils/filesize.js'
-const filesize = ref(binaryMeasurement.value ?  filesizeBinary  : filesizeDefault)
-watch(binaryMeasurement, (value) => {
-  filesize.value = value ?  filesizeBinary  : filesizeDefault
+// unit switcher (for example: GB vs GiB)
+const metricUnits = ref(getStore('metricUnits', false));
+provide('metricUnits', metricUnits);
+import { format as filesizeDefault, metricFormat as filesizeMetric } from './../utils/filesize.js'
+const filesize = ref(metricUnits.value ?  filesizeMetric  : filesizeDefault)
+watch(metricUnits, (value) => {
+  filesize.value = value ?  filesizeMetric  : filesizeDefault
 })
 provide('filesize', filesize);
 
-emitter.on('vf-binary-measurement-changed', (value) => {
-  binaryMeasurement.value = value;
-  setStore('binaryMeasurement', value);
+emitter.on('vf-metric-units-toggled', (value) => {
+  metricUnits.value = value;
+  setStore('metricUnits', value);
 });
 
 const loadingState = ref(false);

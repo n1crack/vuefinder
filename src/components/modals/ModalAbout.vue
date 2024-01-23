@@ -36,14 +36,14 @@
                 </div>
                 <div class="flex relative gap-x-3">
                   <div class="h-6 items-center">
-                    <input id="binary_measurement" name="binary_measurement" type="checkbox"
-                           v-model="binaryMeasurement"
-                           @click="handleBinaryMeasurement"
+                    <input id="metric_unit" name="metric_unit" type="checkbox"
+                           v-model="metricUnits"
+                           @click="handleMetricUnits"
                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
                   </div>
                   <div class="flex-1 block text-sm">
-                    <label for="binary_measurement" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
-                      Binary Measurement <action-message class="ms-3" on="vf-binary-measurement-changed">{{ 'Saved.' }}</action-message>
+                    <label for="metric_unit" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
+                      Use Metric Units <action-message class="ms-3" on="vf-metric-units-toggled">{{ 'Saved.' }}</action-message>
                     </label>
                   </div>
                 </div>
@@ -102,10 +102,10 @@ const handleDarkMode = () => {
   emitter.emit('vf-darkMode-changed');
 }
 
-const binaryMeasurement = inject('binaryMeasurement');
+const metricUnits = inject('metricUnits');
 
-const handleBinaryMeasurement = () => {
-  emitter.emit('vf-binary-measurement-changed', !binaryMeasurement.value);
+const handleMetricUnits = () => {
+  emitter.emit('vf-metric-units-toggled', !metricUnits.value);
 }
 
 </script>
