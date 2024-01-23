@@ -130,7 +130,7 @@ e.strings = {
   openFolderNamed: "Açık dosya %{name}"
 };
 typeof Uppy < "u" && (globalThis.Uppy.locales.tr_TR = e);
-const i = e, l = {
+const l = e, i = {
   Language: "Dil",
   Create: "Oluştur",
   Close: "Kapat",
@@ -196,8 +196,23 @@ const i = e, l = {
   "Last Modified": "Son Değişiklik",
   "Drag&Drop: on": "Sürükle&Bırak: etkin",
   "Drag&Drop: off": "Sürükle&Bırak: devre dışı",
-  uppy: i
+  "Select Folders": "Klasörleri Seç",
+  "Clear all": "Hepsini Temizle",
+  "Clear only successful": "Başarılı Olanları Temizle",
+  "Drag and drop the files/folders to here or click here.": "Dosyaları/klasörleri buraya sürükleyin veya buraya tıklayın.",
+  "Release to drop these files.": "Dosyaları eklemek için serbest bırakın.",
+  Canceled: "İptal edildi",
+  Done: "Tamamlandı",
+  "Network Error, Unable establish connection to the server or interrupted.": "Ağ Hatası, Sunucuya bağlantı kurulamıyor veya kesiliyor.",
+  "Pending upload": "Bekliyor",
+  "Please select file to upload first.": "Lütfen önce yüklenecek dosyayı seçin.",
+  "About %s": "%s Hakkında",
+  Settings: "Ayarlar",
+  "Use Metric Units": "Metrik Birimleri Kullan",
+  "Saved.": "Kaydedildi.",
+  "Clear Local Storage": "Yerel Depolamayı Temizle",
+  uppy: l
 };
 export {
-  l as default
+  i as default
 };

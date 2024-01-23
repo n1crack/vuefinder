@@ -282,6 +282,12 @@ const r = e, i = {
   Done: "Done",
   "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
   "Pending upload": "Pending",
+  "Please select file to upload first.": "Please select file to upload first.",
+  "About %s": "About %s",
+  Settings: "Settings",
+  "Use Metric Units": "Use Metric Units",
+  "Saved.": "Saved.",
+  "Clear Local Storage": "Clear Local Storage",
   uppy: r
 };
 export {

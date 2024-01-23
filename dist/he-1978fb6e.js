@@ -132,7 +132,7 @@ e.strings = {
   }
 };
 typeof Uppy < "u" && (globalThis.Uppy.locales.he_IL = e);
-const t = e, a = {
+const t = e, l = {
   Language: "שפה",
   Create: "יצירה",
   Close: "סגירה",
@@ -198,8 +198,23 @@ const t = e, a = {
   "Last Modified": "תאריך שינוי",
   "Drag&Drop: on": "מצב גרירה: פעיל",
   "Drag&Drop: off": "מצב גרירה: כבוי",
+  "Select Folders": "Select Folders",
+  "Clear all": "Clear all",
+  "Clear only successful": "Clear only successful",
+  "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
+  "Release to drop these files.": "Release to drop these files.",
+  Canceled: "Canceled",
+  Done: "Done",
+  "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
+  "Pending upload": "Pending",
+  "Please select file to upload first.": "Please select file to upload first.",
+  "About %s": "אודות %s",
+  Settings: "הגדרות",
+  "Use Metric Units": "השתמש ביחידות מטריות",
+  "Saved.": "נשמר",
+  "Clear Local Storage": "נקה אחסון מקומי",
   uppy: t
 };
 export {
-  a as default
+  l as default
 };

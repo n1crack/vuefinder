@@ -239,6 +239,12 @@ const o = e, i = {
   Done: "已完成",
   "Network Error, Unable establish connection to the server or interrupted.": "網路錯誤，無法連線到伺服器或連線被意外中斷。",
   "Pending upload": "待上傳",
+  "Please select file to upload first.": "請先選擇要上傳的檔案。",
+  "About %s": "關於 %s",
+  Settings: "設定",
+  "Use Metric Units": "使用公制單位",
+  "Saved.": "已儲存。",
+  "Clear Local Storage": "清除本地儲存",
   uppy: o
 };
 export {
