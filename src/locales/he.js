@@ -78,8 +78,8 @@ export default {
   "Please select file to upload first." : "Please select file to upload first.",
   "About %s": "אודות %s",
   "Settings": "הגדרות",
-  "Use Metric Units": "Use Metric Units",
-  "Saved.":"Saved.",
-  "Clear Local Storage":"Clear Local Storage",
+  "Use Metric Units": "השתמש ביחידות מטריות",
+  "Saved.": "נשמר",
+  "Clear Local Storage": "נקה אחסון מקומי",
   "uppy": uppyLocaleHe
 }
