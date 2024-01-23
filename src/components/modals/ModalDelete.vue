@@ -11,7 +11,7 @@
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{ t('Delete files') }}</h3>
         <div class="mt-2">
           <p class="text-sm text-gray-500">{{ t('Are you sure you want to delete these files?') }}</p>
-          <div class="text-gray-500 text-sm mb-1 overflow-auto" style="max-height: 200px;">
+          <div class="text-gray-500 text-sm mb-1 overflow-auto vf-scrollbar" style="max-height: 200px;">
             <p v-for="item in items" class="flex text-sm text-gray-800 dark:text-gray-400">
               <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
