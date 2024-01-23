@@ -26,7 +26,7 @@ export default {
 </script>
 
 <script setup>
-import {computed, defineProps, onMounted, provide, reactive, ref} from 'vue';
+import {computed, defineProps, defineEmits, onMounted, provide, reactive, ref, watch} from 'vue';
 import ajax from '../utils/ajax.js';
 import mitt from 'mitt';
 import {useStorage} from '../composables/useStorage.js';
@@ -75,6 +75,11 @@ const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
 const adapter =ref(getStore('adapter'));
 
+const emit = defineEmits(['select'])
+
+/** @type import('vue').Ref<HTMLDivElement> */
+const root = ref(null);
+provide('root', root);
 provide('emitter', emitter);
 provide('storage', useStorage(props.id));
 provide('postData', props.postData);
@@ -138,6 +143,10 @@ const updateItems = (data) => {
   emitter.emit('vf-nodes-selected', {});
   emitter.emit('vf-explorer-update');
 };
+
+emitter.on('vf-nodes-selected', (items) => {
+  emit('select', items);
+})
 
 let controller;
 emitter.on('vf-fetch-abort', () => {
