@@ -126,7 +126,6 @@ export default {
 <script setup>
 import { inject, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from 'vue';
 import DragSelect from 'dragselect';
-import { format as filesize } from './../utils/filesize.js'
 import datetimestring from '../utils/datetimestring.js';
 import VFSortIcon from './SortIcon.vue';
 import VFToast from './Toast.vue';
@@ -151,6 +150,7 @@ const ds = ref(null);
 const {t} = inject('i18n');
 const randId = Math.floor(Math.random() * 2**32);
 const fullScreen = ref(getStore('full-screen', false));
+const filesize = inject("filesize")
 
 /** @type {import('vanilla-lazyload').ILazyLoadInstance} */
 let vfLazyLoad

@@ -16,15 +16,15 @@ export function useStorage(key) {
         }
     }
 
-    function setStore(key, value){
-      storage.value = Object.assign({...storage.value}, {...{[key]:value}});
+    function setStore(key, value) {
+        storage.value = Object.assign({...storage.value}, {...{[key]: value}});
     }
 
     function clearStore() {
-       storage.value = null
+        storage.value = null;
     }
 
-    const getStore = (key, defaultValue= null )  => {
+    const getStore = (key, defaultValue = null) => {
         if (storage.value === null || storage.value === '') {
             return defaultValue;
         }

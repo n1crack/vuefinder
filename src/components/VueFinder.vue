@@ -26,7 +26,7 @@ export default {
 </script>
 
 <script setup>
-import {computed, defineProps, onMounted, provide, reactive, ref} from 'vue';
+import {computed, defineProps, onMounted, provide, reactive, ref, watch} from 'vue';
 import ajax from '../utils/ajax.js';
 import mitt from 'mitt';
 import {useStorage} from '../composables/useStorage.js';
@@ -84,6 +84,7 @@ provide('postData', props.postData);
 provide('adapter', adapter);
 provide('maxFileSize', props.maxFileSize);
 provide('usePropDarkMode', props.usePropDarkMode);
+// use reactive instead of ref to be able to use one object for all components
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
@@ -97,15 +98,31 @@ const fetchData = reactive({adapter: adapter.value, storages: [], dirname: '.', 
 
 // View Management
 const view = ref(getStore('viewport', 'grid'));
+// dark mode
 const darkMode = props.usePropDarkMode ? computed(() => props.dark) : ref(getStore('darkMode', props.dark));
+provide('darkMode', darkMode);
 
 emitter.on('vf-darkMode-toggle', () => {
   darkMode.value = !darkMode.value;
   setStore('darkMode', darkMode.value);
 });
 
-const loadingState = ref(false);
+// binary measurement (for example: GB vs GiB)
+const binaryMeasurement = ref(getStore('binaryMeasurement', false));
+provide('binaryMeasurement', binaryMeasurement);
+import { format as filesizeDefault, binaryFormat as filesizeBinary } from './../utils/filesize.js'
+const filesize = ref(binaryMeasurement.value ?  filesizeBinary  : filesizeDefault)
+watch(binaryMeasurement, (value) => {
+  filesize.value = value ?  filesizeBinary  : filesizeDefault
+})
+provide('filesize', filesize);
 
+emitter.on('vf-binary-measurement-changed', (value) => {
+  binaryMeasurement.value = value;
+  setStore('binaryMeasurement', value);
+});
+
+const loadingState = ref(false);
 provide('loadingState', loadingState);
 
 const fullScreen = ref(getStore('full-screen', false));
