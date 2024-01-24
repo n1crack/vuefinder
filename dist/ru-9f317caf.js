@@ -144,7 +144,7 @@ o.strings = {
   openFolderNamed: "Открыть папку %{name}"
 };
 typeof Uppy < "u" && (globalThis.Uppy.locales.ru_RU = o);
-const t = o, a = {
+const t = o, r = {
   Language: "Язык",
   Create: "Создать",
   Close: "Закрыть",
@@ -210,8 +210,23 @@ const t = o, a = {
   "Last Modified": "Последнее изменение",
   "Drag&Drop: on": "Drag&Drop: on",
   "Drag&Drop: off": "Drag&Drop: off",
+  "Select Folders": "Select Folders",
+  "Clear all": "Clear all",
+  "Clear only successful": "Clear only successful",
+  "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
+  "Release to drop these files.": "Release to drop these files.",
+  Canceled: "Canceled",
+  Done: "Done",
+  "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
+  "Pending upload": "Pending",
+  "Please select file to upload first.": "Please select file to upload first.",
+  "About %s": "О компоненте %s",
+  Settings: "Настройки",
+  "Use Metric Units": "Использовать метрические единицы",
+  "Saved.": "Сохранено.",
+  "Clear Local Storage": "Очистить локальное хранилище",
   uppy: t
 };
 export {
-  a as default
+  r as default
 };

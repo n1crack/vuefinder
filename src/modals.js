@@ -8,3 +8,4 @@ export {default as ModalUpload} from './components/modals/ModalUpload.vue';
 export {default as ModalArchive} from './components/modals/ModalArchive.vue';
 export {default as ModalUnarchive} from './components/modals/ModalUnarchive.vue';
 export {default as ModalMove} from './components/modals/ModalMove.vue';
+export {default as ModalAbout} from './components/modals/ModalAbout.vue';

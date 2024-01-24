@@ -176,7 +176,7 @@ e.strings = {
   zoomOut: "ज़ूम आउट"
 };
 typeof Uppy < "u" && (globalThis.Uppy.locales.hi_IN = e);
-const t = e, a = {
+const r = e, t = {
   Language: "भाषा",
   Create: "बनाएँ",
   Close: "बंद करें",
@@ -242,8 +242,23 @@ const t = e, a = {
   "Last Modified": "अंतिम संशोधित",
   "Drag&Drop: on": "ड्रैग और ड्रॉप: चालू",
   "Drag&Drop: off": "ड्रैग और ड्रॉप: बंद",
-  uppy: t
+  "Select Folders": "Select Folders",
+  "Clear all": "Clear all",
+  "Clear only successful": "Clear only successful",
+  "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
+  "Release to drop these files.": "Release to drop these files.",
+  Canceled: "Canceled",
+  Done: "Done",
+  "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
+  "Pending upload": "Pending",
+  "Please select file to upload first.": "Please select file to upload first.",
+  "About %s": "के बारे में %s",
+  Settings: "सेटिंग्स",
+  "Use Metric Units": "Use Metric Units",
+  "Saved.": "Saved.",
+  "Clear Local Storage": "Clear Local Storage",
+  uppy: r
 };
 export {
-  a as default
+  t as default
 };

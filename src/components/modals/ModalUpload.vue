@@ -26,39 +26,18 @@
             </div>
           </div>
           <div ref="container" class="text-gray-500 mb-1">
-            <button ref="pickFiles" type="button"
-                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
-                      hover:bg-gray-50
-                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-                      dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
-                      sm:mt-0 sm:w-auto sm:text-sm">
-              {{ t('Select Files') }}</button>
-            <button ref="pickFolders" type="button"
-                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
-                      hover:bg-gray-50
-                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-                      dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
-                      sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-              {{ t('Select Folders') }}</button>
-            <button type="button"
-                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
-                      hover:bg-gray-50
-                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-                      dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
-                      sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    :disabled="uploading"
-                    @click="clear(false)">
-              {{ t('Clear all') }}</button>
-            <button type="button"
-                    class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
-                      hover:bg-gray-50
-                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-                      dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
-                      disabled:cursor-not-allowed
-                      sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    :disabled="uploading"
-                    @click="clear(true)">
-              {{ t('Clear only successful') }}</button>
+            <button ref="pickFiles" type="button" class="vf-btn vf-btn-secondary">
+              {{ t('Select Files') }}
+            </button>
+            <button ref="pickFolders" type="button" class="vf-btn vf-btn-secondary">
+              {{ t('Select Folders') }}
+            </button>
+            <button type="button" class="vf-btn vf-btn-secondary" :disabled="uploading" @click="clear(false)">
+              {{ t('Clear all') }}
+            </button>
+            <button type="button" class="vf-btn vf-btn-secondary" :disabled="uploading" @click="clear(true)">
+              {{ t('Clear only successful') }}
+            </button>
           </div>
           <div class="text-gray-500 text-sm mb-1 pr-1 max-h-[200px] overflow-y-auto vf-scrollbar">
             <div class="flex   hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300" :key="entry.id" v-for="entry in queue">
@@ -92,7 +71,7 @@
             <div class="py-2" v-if="!queue.length">{{ t('No files selected!') }}</div>
           </div>
 <!-- No need this ? -->
-<!--          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>-->
+          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
     </div>
@@ -101,39 +80,12 @@
     <input ref="internalFolderInput" type="file" multiple webkitdirectory class="hidden">
 
     <template v-slot:buttons>
-      <button
-        type="button"
-        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white
-          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
-          dark:text-gray-50
-          sm:ml-3 sm:w-auto sm:text-sm"
-        :disabled="uploading"
-        :class="uploading ? 'bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500' : 'bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500'"
-        @click.prevent="upload">
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="uploading" @click.prevent="upload"
+        :class="uploading ? 'bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500' : 'bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500'">
         {{ t('Upload') }}
       </button>
-      <button
-        type="button"
-        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
-          hover:bg-gray-50
-          dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
-          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-          sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-        v-if="uploading"
-        @click.prevent="cancel">
-        {{ t('Cancel') }}
-      </button>
-      <button
-        type="button"
-        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700
-          hover:bg-gray-50
-          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
-          dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700
-          sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-        v-else
-        @click.prevent="close">
-        {{ t('Close') }}
-      </button>
+      <button type="button" class="vf-btn vf-btn-secondary" v-if="uploading" @click.prevent="cancel">{{ t('Cancel') }}</button>
+      <button type="button" class="vf-btn vf-btn-secondary" v-else @click.prevent="close">{{ t('Close') }}</button>
     </template>
   </v-f-modal-layout>
 </template>
@@ -153,14 +105,17 @@ import {useApiUrl} from '../../composables/useApiUrl.js';
 import buildURLQuery from '../../utils/buildURLQuery.js';
 import Message from '../Message.vue';
 import {csrf} from '../../utils/ajax.js';
-import { parse, format as fileSize } from '../../utils/filesize.js';
+import { parse } from '../../utils/filesize.js';
 import title_shorten from "../../utils/title_shorten.js";
 
 const {apiUrl} = useApiUrl();
 const emitter = inject('emitter');
-const {t, getLocale} = inject('i18n');
+const {t} = inject('i18n');
 const maxFileSize = inject('maxFileSize');
 const postData = inject('postData');
+
+const filesize = inject("filesize")
+
 
 const props = defineProps({
   current: Object
@@ -372,7 +327,7 @@ onMounted(async () => {
       queue.value.push({
         id: file.id,
         name: file.name,
-        size: fileSize(file.size),
+        size: filesize.value(file.size),
         status: QUEUE_ENTRY_STATUS.PENDING,
         statusName: t('Pending upload'),
         percent: null,
@@ -404,6 +359,9 @@ onMounted(async () => {
     },
   });
   uppy.on('restriction-failed', (upFile, error) => {
+    //remove the restricted file.
+    const entry = queue.value[findQueueEntryIndexById(upFile.id)];
+    remove(entry)
     message.value = error.message;
   });
   uppy.on('upload', () => {

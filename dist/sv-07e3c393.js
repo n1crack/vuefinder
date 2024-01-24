@@ -131,7 +131,7 @@ e.strings = {
   }
 };
 typeof Uppy < "u" && (globalThis.Uppy.locales.sv_SE = e);
-const r = e, l = {
+const l = e, r = {
   Language: "Språk",
   Create: "Skapa",
   Close: "Stäng",
@@ -197,8 +197,23 @@ const r = e, l = {
   "Last Modified": "Senast ändrad",
   "Drag&Drop: on": "Dra och släpp: på",
   "Drag&Drop: off": "Dra och släpp: av",
-  uppy: r
+  "Select Folders": "Välj mappar",
+  "Clear all": "Rensa alla",
+  "Clear only successful": "Rensa endast lyckade",
+  "Drag and drop the files/folders to here or click here.": "Dra och släpp filerna/mapparna hit eller klicka här.",
+  "Release to drop these files.": "Släpp för att lägga till dessa filer.",
+  Canceled: "Avbruten",
+  Done: "Klar",
+  "Network Error, Unable establish connection to the server or interrupted.": "Nätverksfel, kan inte upprätta anslutning till servern eller avbruten.",
+  "Pending upload": "Väntar på uppladdning",
+  "Please select file to upload first.": "Välj fil att ladda upp först.",
+  "About %s": "Om %s",
+  Settings: "Inställningar",
+  "Use Metric Units": "Använd metriska enheter",
+  "Saved.": "Sparad.",
+  "Clear Local Storage": "Rensa lokal lagring",
+  uppy: l
 };
 export {
-  l as default
+  r as default
 };

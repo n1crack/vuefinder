@@ -114,7 +114,7 @@ e.strings = {
   youHaveToAtLeastSelectX: "您至少要选择 %{smart_count} 个文件"
 };
 typeof Uppy < "u" && (globalThis.Uppy.locales.zh_CN = e);
-const o = e, a = {
+const o = e, t = {
   Language: "语言",
   Create: "创建",
   Close: "关闭",
@@ -189,8 +189,14 @@ const o = e, a = {
   Done: "已完成",
   "Network Error, Unable establish connection to the server or interrupted.": "网络错误，无法连接到服务器或连接被意外中断。",
   "Pending upload": "待上传",
+  "Please select file to upload first.": "请先选择要上传的文件。",
+  "About %s": "关于 %s",
+  Settings: "设置",
+  "Use Metric Units": "使用公制单位",
+  "Saved.": "已保存。",
+  "Clear Local Storage": "清除本地存储",
   uppy: o
 };
 export {
-  a as default
+  t as default
 };

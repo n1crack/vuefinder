@@ -11,20 +11,23 @@ export function useI18n(id, locale, emitter) {
     const {getStore, setStore} = useStorage(id);
     const translations = ref({});
 
+    const active_locale = ref(getStore('locale', locale));
+
     const changeLocale = (locale, defaultLocale = "en") => {
         loadLocale(locale).then((i18n) => {
             translations.value = i18n;
             setStore('locale', locale);
+            active_locale.value = locale;
             setStore('translations', i18n);
             emitter.emit('vf-toast-push', {label: 'The language is set to ' + locale});
         }).catch(e => {
             if (defaultLocale) {
-              emitter.emit('vf-toast-push', {label: 'The selected locale is not yet supported!', type:'error'});
-              changeLocale(defaultLocale, null);
+                emitter.emit('vf-toast-push', {label: 'The selected locale is not yet supported!', type: 'error'});
+                changeLocale(defaultLocale, null);
             } else {
-              emitter.emit("vf-toast-push", {label: "Locale cannot be loaded!", type: "error"});
+                emitter.emit("vf-toast-push", {label: "Locale cannot be loaded!", type: "error"});
             }
-          });
+        });
     };
 
     if (!getStore('locale')) {
@@ -42,10 +45,6 @@ export function useI18n(id, locale, emitter) {
         return sprintf(key, ...params);
     };
 
-    function getLocale() {
-        return getStore('locale')
-    }
-
-    return {t, changeLocale, getLocale};
+    return {t, changeLocale, locale: active_locale};
 }
 

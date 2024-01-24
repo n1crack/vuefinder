@@ -26,7 +26,7 @@ export default {
 </script>
 
 <script setup>
-import {computed, defineProps, onMounted, provide, reactive, ref} from 'vue';
+import {computed, defineProps, defineEmits, onMounted, provide, reactive, ref, watch} from 'vue';
 import ajax from '../utils/ajax.js';
 import mitt from 'mitt';
 import {useStorage} from '../composables/useStorage.js';
@@ -79,6 +79,8 @@ const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
 const adapter =ref(getStore('adapter'));
 
+const emit = defineEmits(['select'])
+
 /** @type import('vue').Ref<HTMLDivElement> */
 const root = ref(null);
 provide('root', root);
@@ -89,6 +91,7 @@ provide('adapter', adapter);
 provide('maxFileSize', props.maxFileSize);
 provide('usePropDarkMode', props.usePropDarkMode);
 provide('requestTransformer', props.requestTransformer);
+// use reactive instead of ref to be able to use one object for all components
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
@@ -102,15 +105,31 @@ const fetchData = reactive({adapter: adapter.value, storages: [], dirname: '.', 
 
 // View Management
 const view = ref(getStore('viewport', 'grid'));
+// dark mode
 const darkMode = props.usePropDarkMode ? computed(() => props.dark) : ref(getStore('darkMode', props.dark));
+provide('darkMode', darkMode);
 
 emitter.on('vf-darkMode-toggle', () => {
   darkMode.value = !darkMode.value;
   setStore('darkMode', darkMode.value);
 });
 
-const loadingState = ref(false);
+// unit switcher (for example: GB vs GiB)
+const metricUnits = ref(getStore('metricUnits', false));
+provide('metricUnits', metricUnits);
+import { format as filesizeDefault, metricFormat as filesizeMetric } from './../utils/filesize.js'
+const filesize = ref(metricUnits.value ?  filesizeMetric  : filesizeDefault)
+watch(metricUnits, (value) => {
+  filesize.value = value ?  filesizeMetric  : filesizeDefault
+})
+provide('filesize', filesize);
 
+emitter.on('vf-metric-units-saved', (value) => {
+  metricUnits.value = value;
+  setStore('metricUnits', value);
+});
+
+const loadingState = ref(false);
 provide('loadingState', loadingState);
 
 const fullScreen = ref(getStore('full-screen', false));
@@ -146,6 +165,10 @@ const updateItems = (data) => {
   emitter.emit('vf-nodes-selected', {});
   emitter.emit('vf-explorer-update');
 };
+
+emitter.on('vf-nodes-selected', (items) => {
+  emit('select', items);
+})
 
 let controller;
 emitter.on('vf-fetch-abort', () => {
