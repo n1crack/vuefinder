@@ -5,12 +5,12 @@
     <div class="ml-auto mb-2">
       <button @click="crop" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">
         {{ t('Crop') }}</button>
-      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
+      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()" v-if="features.includes(FEATURES.EDIT)">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
     </div>
   </div>
 
   <div class="w-full flex justify-center">
-    <img ref="image" class="max-w-[50vh] max-h-[50vh]" :src="getImageUrl(props.selection.adapter, props.selection.item.path)" alt="">
+    <img ref="image" class="max-w-[50vh] max-h-[50vh]" :src="requester.getPreviewUrl(props.selection.adapter, props.selection.item.path)" alt="">
   </div>
 
   <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
@@ -21,10 +21,8 @@
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
 import {inject, onMounted, ref} from 'vue';
-import ajax from '../../utils/ajax.js';
-import {getImageUrl} from '../../utils/getImageUrl.js';
-import {useApiUrl} from '../../composables/useApiUrl.js';
 import Message from '../Message.vue';
+import {FEATURES} from "../features.js";
 
 const emit = defineEmits(['load']);
 
@@ -32,10 +30,11 @@ const props = defineProps({
   selection: Object
 });
 
-const requestTransformer = inject('requestTransformer');
-
 const {t} = inject('i18n');
-const {apiUrl} = useApiUrl();
+/** @type {import('../../utils/ajax.js').Requester} */
+const requester = inject('requester');
+/** @type {String[]} */
+const features = inject('features');
 
 const image = ref(null);
 const cropper = ref(null);
@@ -55,7 +54,6 @@ const editMode = () => {
     cropper.value.destroy();
   }
 };
-const postData = inject('postData');
 
 const crop = () => {
   cropper.value
@@ -67,21 +65,21 @@ const crop = () => {
           blob => {
             message.value = '';
             isError.value = false;
-            ajax(apiUrl.value, {
-              method: 'POST',
-              params: Object.assign(postData, {
+            const body = new FormData();
+            body.set('file', blob);
+            requester.send({
+              url: '',
+              method: 'post',
+              params: {
                 q: 'upload',
                 adapter: props.selection.adapter,
                 path: props.selection.item.path,
-                file: blob
-              }),
-              name: props.selection.item.basename,
-              json: false,
-              requestTransformer,
+              },
+              body,
             })
                 .then(data => {
                   message.value = t('Updated.');
-                  image.value.src = getImageUrl(props.selection.adapter, props.selection.item.path);
+                  image.value.src = requester.getPreviewUrl(props.selection.adapter, props.selection.item.path);
                   editMode();
                   emit('load');
                 })

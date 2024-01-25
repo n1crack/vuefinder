@@ -64,8 +64,11 @@ const rename = () => {
     emitter.emit('vf-fetch', {
       params: {
         q: 'rename',
+        m: 'post',
         adapter: adapter.value,
         path: props.current.dirname,
+      },
+      body: {
         item: item.value.path,
         name: name.value
       },

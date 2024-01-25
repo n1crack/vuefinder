@@ -101,21 +101,17 @@ import Uppy from '@uppy/core';
 import XHR from '@uppy/xhr-upload';
 import VFModalLayout from './ModalLayout.vue';
 import { inject, onBeforeUnmount, onMounted, ref } from 'vue';
-import {useApiUrl} from '../../composables/useApiUrl.js';
-import buildURLQuery from '../../utils/buildURLQuery.js';
 import Message from '../Message.vue';
-import {csrf} from '../../utils/ajax.js';
 import { parse } from '../../utils/filesize.js';
 import title_shorten from "../../utils/title_shorten.js";
 
-const {apiUrl} = useApiUrl();
+const debug = inject('debug');
 const emitter = inject('emitter');
 const {t} = inject('i18n');
 const maxFileSize = inject('maxFileSize');
-const postData = inject('postData');
-
-const filesize = inject("filesize")
-
+const filesize = inject("filesize");
+/** @type {import('../../utils/ajax.js').Requester} */
+const requester = inject('requester');
 
 const props = defineProps({
   current: Object
@@ -306,7 +302,7 @@ function close() {
 
 onMounted(async () => {
   uppy = new Uppy({
-    debug: process.env.NODE_ENV === 'development',
+    debug,
     restrictions: {
       maxFileSize: parse(maxFileSize),
       //maxNumberOfFiles
@@ -337,12 +333,21 @@ onMounted(async () => {
       // Uppy would only upload that file once even you call .addFile() twice in one row, nice.
     }
   });
-  uppy.use(XHR, {
+  const params = requester.transformRequestParams({
+    url: '',
     method: 'post',
-    endpoint: apiUrl.value + '?' + buildURLQuery(Object.assign(postData, {q: 'upload', adapter: props.current.adapter, path: props.current.dirname })),
-    headers: {
-      ...(csrf && {'X-CSRF-Token' : csrf}),
-    },
+    params: { q: 'upload', adapter: props.current.adapter, path: props.current.dirname },
+  });
+  if (debug) {
+    if (params.body != null && (params.body instanceof FormData || Object.keys(params.body).length > 0)) {
+      console.warn('Cannot set body on upload, make sure request.transformRequest didn\'t set body when upload.'
+        + '\nWill ignore for now.');
+    }
+  }
+  uppy.use(XHR, {
+    method: params.method,
+    endpoint: params.url + '?' + new URLSearchParams(params.params),
+    headers: params.headers,
     limit: 5,
     timeout: 0,
     getResponseError(responseText, _response) {
@@ -474,6 +479,7 @@ onMounted(async () => {
     for (const file of files) {
       addFile(file);
     }
+    target.value = '';
   };
   internalFileInput.value.addEventListener('change', onFileInputChange);
   internalFolderInput.value.addEventListener('change', onFileInputChange);

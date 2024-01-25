@@ -27,20 +27,29 @@ export default {
 
 <script setup>
 import {computed, defineProps, defineEmits, onMounted, provide, reactive, ref, watch} from 'vue';
-import ajax from '../utils/ajax.js';
 import mitt from 'mitt';
+import { buildRequester } from '../utils/ajax.js';
 import {useStorage} from '../composables/useStorage.js';
-import {useApiUrl} from '../composables/useApiUrl.js';
 import VFToolbar from '../components/Toolbar.vue';
 import VFExplorer from '../components/Explorer.vue';
 import VFStatusbar from '../components/Statusbar.vue';
 import VFBreadcrumb from '../components/Breadcrumb.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
 import {useI18n} from '../composables/useI18n.js';
+import { FEATURE_ALL_NAMES } from "./features.js";
 
 const props = defineProps({
-  url: {
-    type: [String],
+  request: {
+    type: [String, Object],
+    required: true,
+  },
+  features: {
+    type: [Array, Boolean],
+    default: true,
+  },
+  debug: {
+    type: Boolean,
+    default: false,
   },
   id: {
     type: String,
@@ -66,14 +75,6 @@ const props = defineProps({
     type: String,
     default: '10mb'
   },
-  postData: {
-    type: Object,
-    default: {}
-  },
-  requestTransformer: {
-    type: Function,
-    default: null,
-  },
 });
 const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
@@ -86,20 +87,29 @@ const root = ref(null);
 provide('root', root);
 provide('emitter', emitter);
 provide('storage', useStorage(props.id));
-provide('postData', props.postData);
 provide('adapter', adapter);
 provide('maxFileSize', props.maxFileSize);
 provide('usePropDarkMode', props.usePropDarkMode);
-provide('requestTransformer', props.requestTransformer);
+provide('debug', props.debug);
 // use reactive instead of ref to be able to use one object for all components
+
+// Requester
+const requester = buildRequester(props.request);
+provide('requester', requester);
+
+// Features
+const features = []
+if (props.features === true) {
+  features.push(...FEATURE_ALL_NAMES)
+} else if (Array.isArray(props.features)) {
+  features.push(...props.features)
+}
+provide('features', props.features);
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
 const {t} = i18n;
 provide('i18n', i18n);
-
-const {apiUrl, setApiUrl} = useApiUrl();
-setApiUrl(props.url);
 
 const fetchData = reactive({adapter: adapter.value, storages: [], dirname: '.', files: []});
 
@@ -176,7 +186,7 @@ emitter.on('vf-fetch-abort', () => {
   loadingState.value = false;
 });
 
-emitter.on('vf-fetch', ({params, onSuccess = null, onError = null, noCloseModal = false}) => {
+emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}) => {
   if (['index', 'search'].includes(params.q)) {
     if (controller) {
       controller.abort();
@@ -186,29 +196,30 @@ emitter.on('vf-fetch', ({params, onSuccess = null, onError = null, noCloseModal 
 
   controller = new AbortController();
   const signal = controller.signal;
-  ajax(apiUrl.value, {
+  requester.send({
+    url: '',
+    method: params.m || 'get',
     params,
-    signal,
-    requestTransformer: props.requestTransformer
-  })
-      .then(data => {
-        adapter.value = data.adapter;
-        if (['index', 'search'].includes(params.q)) {
-          loadingState.value = false;
-        }
-        if (!noCloseModal) {
-          emitter.emit('vf-modal-close');
-        }
-        updateItems(data);
-        onSuccess(data);
-      })
-      .catch((e) => {
-        if (onError) {
-          onError(e);
-        }
-      })
-      .finally(() => {
-      });
+    body,
+    abortSignal: signal,
+  }).then(data => {
+    adapter.value = data.adapter;
+    if (['index', 'search'].includes(params.q)) {
+      loadingState.value = false;
+    }
+    if (!noCloseModal) {
+      emitter.emit('vf-modal-close');
+    }
+    updateItems(data);
+    if (onSuccess) {
+      onSuccess(data);
+    }
+  }).catch((e) => {
+    console.error(e)
+    if (onError) {
+      onError(e);
+    }
+  });
 });
 
 emitter.on('vf-download', (url) => {

@@ -60,8 +60,11 @@ const createFile = () => {
     emitter.emit('vf-fetch', {
       params: {
         q: 'newfile',
+        m: 'post',
         adapter: adapter.value,
         path: props.current.dirname,
+      },
+      body: {
         name: name.value
       },
       onSuccess: () => {

@@ -11,17 +11,15 @@
 
 <script setup>
 import {onMounted} from 'vue';
-import buildURLQuery from '../../utils/buildURLQuery.js';
-import {useApiUrl} from '../../composables/useApiUrl.js';
-const {apiUrl} = useApiUrl();
 const props = defineProps({
   selection: Object
 });
 
 const emit = defineEmits(['load']);
-
+/** @type {import('../utils/ajax.js').Requester} */
+const requester = inject('requester');
 const getVideoUrl = () => {
-  return apiUrl.value + '?' + buildURLQuery({q:'preview', adapter: props.selection.adapter, path: props.selection.item.path})
+  return requester.getPreviewUrl(props.selection.adapter, props.selection.item.path)
 }
 
 onMounted(() => {

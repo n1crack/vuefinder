@@ -79,6 +79,7 @@ export default {
 
 import {inject, nextTick, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
+import {FEATURES} from "./features.js";
 
 const emitter = inject('emitter');
 const { getStore } = inject('storage');
@@ -87,6 +88,9 @@ const dirname = ref(null);
 const breadcrumb = ref([]);
 const searchMode = ref(false);
 const searchInput = ref(null);
+
+/** @type {String[]} */
+const features = inject('features');
 
 const props = defineProps({
   data: Object
@@ -135,6 +139,9 @@ emitter.on('vf-search-exit', () => {
 });
 
 const enterSearchMode = () => {
+  if (!features.includes(FEATURES.SEARCH)) {
+    return;
+  }
   searchMode.value = true;
   nextTick(() => searchInput.value.focus())
 }

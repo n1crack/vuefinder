@@ -57,8 +57,11 @@ const createFolder = () => {
     emitter.emit('vf-fetch', {
       params: {
         q: 'newfolder',
+        m: 'post',
         adapter: adapter.value,
         path: props.current.dirname,
+      },
+      body: {
         name: name.value
       },
       onSuccess: () => {
