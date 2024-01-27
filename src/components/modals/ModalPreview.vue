@@ -60,7 +60,7 @@ const loaded = ref(false);
 const filesize = inject("filesize")
 /** @type {import('../../utils/ajax.js').Requester} */
 const requester = inject('requester');
-/** @type {String[]} */
+/** @type {import('vue').Ref<String[]>} */
 const features = inject('features');
 
 const setLoad = (bool) => loaded.value = bool;
@@ -76,7 +76,7 @@ const download = () => {
   emitter.emit('vf-download', url)
 }
 
-const enabledPreview = features.includes(FEATURES.PREVIEW)
+const enabledPreview = features.value.includes(FEATURES.PREVIEW)
 if (!enabledPreview) {
   setLoad(true)
 }

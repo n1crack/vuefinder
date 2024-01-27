@@ -2,8 +2,9 @@
   <div class="wrapper">
     <vue-finder
       id='my_vuefinder'
+      :request="request"
       :max-file-size="maxFileSize"
-      :url="url"
+      :features="features"
       @select="handleSelect"
     />
   </div>
@@ -11,9 +12,13 @@
 
 <script setup>
 import { ref } from 'vue';
+import { FEATURES, FEATURE_ALL_NAMES } from './components/features.js';
 
 // CHANGE ME, Url for development server endpoint
-const url = ref("http://localhost:8005/")
+/** @type {import('./utils/ajax.js').RequestConfig} */
+const request = {
+  baseUrl: "http://localhost:8005/"
+}
 const maxFileSize = ref("500MB")
 
 // an example how to show selected files, outside of vuefinder
@@ -22,7 +27,10 @@ const maxFileSize = ref("500MB")
 const handleSelect = (selection) => {
   console.log(selection)
 }
-</script> 
+const features = [
+  ...FEATURE_ALL_NAMES
+]
+</script>
 
 <style>
 body {

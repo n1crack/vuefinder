@@ -3,27 +3,26 @@ export const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttrib
 /**
  * @typedef RequestConfig
  * @property {String} baseUrl
- * @property {?Record<String,String>} headers Additional headers
- * @property {?Record<String,?String>} params Additional query params
- * @property {?RequestTransformer} transformRequest Transform request callback
- * @property {?ResponseTransformer} transformResponse Transform response callback
- * @property {?String} xsrfHeaderName The http header that carries the xsrf token value
+ * @property {Record<String,String>=} headers Additional headers
+ * @property {Record<String,?String>=} params Additional query params
+ * @property {RequestTransformer=} transformRequest Transform request callback
+ * @property {String=} xsrfHeaderName The http header that carries the xsrf token value
  */
 /**
  * @typedef RequestTransformParams
  * @property {String} url
  * @property {'get'|'post'|'put'|'patch'|'delete'} method
- * @property {Record<String, String>} headers
- * @property {Record<String, ?String>} params
+ * @property {Record<String,String>} headers
+ * @property {Record<String,?String>} params
  * @property {Record<String,?String>|FormData|null} body
  */
 /**
  * @typedef RequestTransformResult
- * @property {String|null|undefined} url
- * @property {'get'|'post'|'put'|'patch'|'delete'|null|undefined} method
- * @property {Record<String, String>|null|undefined} headers
- * @property {Record<String, ?String>|null|undefined} params
- * @property {Record<String,?String>|FormData|null|undefined} body
+ * @property {String=} url
+ * @property {'get'|'post'|'put'|'patch'|'delete'=} method
+ * @property {Record<String, String>=} headers
+ * @property {Record<String, ?String>=} params
+ * @property {Record<String,?String>|FormData=} body
  */
 /**
  * @typedef RequestTransformResultInternal
@@ -31,7 +30,7 @@ export const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttrib
  * @property {'get'|'post'|'put'|'patch'|'delete'} method
  * @property {Record<String, String>} headers
  * @property {Record<String, ?String>} params
- * @property {Record<String,?String>|FormData|null} body
+ * @property {Record<String,?String>|FormData=} body
  */
 /**
  * @callback RequestTransformer
@@ -61,9 +60,9 @@ export class Requester {
      * @param {Object} input
      * @param {String} input.url
      * @param {'get'|'post'|'put'|'patch'|'delete'} input.method
-     * @param {Record<String,String>|null|undefined} input.headers
-     * @param {Record<String,?String>|null|undefined} input.params
-     * @param {Record<String,?String>|FormData|null|undefined} input.body
+     * @param {Record<String,String>=} input.headers
+     * @param {Record<String,?String>=} input.params
+     * @param {Record<String,?String>|FormData=} input.body
      * @return {RequestTransformResultInternal}
      */
     transformRequestParams(input ) {
@@ -72,7 +71,7 @@ export class Requester {
         const headers = Object.assign({}, config.headers, {
             [config.xsrfHeaderName]: csrf,
         }, input.headers);
-        const params = input.params || {};
+        const params = input.params ?? {};
         const body = input.body;
         const url = config.baseUrl + input.url;
         const method = input.method;
@@ -99,10 +98,10 @@ export class Requester {
                 transformed.method = transformResult.method;
             }
             if (transformResult.params != null) {
-                transformed.params = transformResult.params || {};
+                transformed.params = transformResult.params ?? {};
             }
             if (transformResult.headers != null) {
-                transformed.headers = transformResult.headers || {};
+                transformed.headers = transformResult.headers ?? {};
             }
             if (transformResult.body != null) {
                 transformed.body = transformResult.body;
@@ -146,13 +145,13 @@ export class Requester {
      * @param {Object} input
      * @param {String} input.url
      * @param {'get'|'post'|'put'|'patch'|'delete'} input.method
-     * @param {Record<String,String>|null|undefined} input.headers
-     * @param {Record<String,?String>|null|undefined} input.params
-     * @param {Record<String,?String>|FormData|null|undefined} input.body
-     * @param {'arrayBuffer'|'blob'|'json'|'text'|null|undefined} input.responseType
-     * @param {AbortSignal|null|undefined} input.abortSignal
+     * @param {Record<String,String>=} input.headers
+     * @param {Record<String,?String>=} input.params
+     * @param {(Record<String,?String>|FormData|null)=} input.body
+     * @param {'arrayBuffer'|'blob'|'json'|'text'=} input.responseType
+     * @param {AbortSignal=} input.abortSignal
      * @returns {Promise<(ArrayBuffer|Blob|Record<String,?String>|String|null)>}
-     * @throws {?Record<String,?String>} resp json error
+     * @throws {Record<String,?String>|null} resp json error
      */
     async send(input) {
         const reqParams = this.transformRequestParams(input);
@@ -165,14 +164,15 @@ export class Requester {
         };
         const url = reqParams.url + '?' + new URLSearchParams(reqParams.params);
         if (reqParams.method !== 'get' && reqParams.body != null) {
-            let body
+            /** @type {String|FormData} */
+            let newBody
             if (!(reqParams.body instanceof FormData)) {
-                body = JSON.stringify(reqParams.body);
+                newBody = JSON.stringify(reqParams.body);
                 init.headers['Content-Type'] = 'application/json';
             } else {
-                body = input.body;
+                newBody = input.body;
             }
-            init.body = body;
+            init.body = newBody;
         }
         const response = await fetch(url, init);
         if (response.ok) {
@@ -193,7 +193,6 @@ export function buildRequester(userConfig) {
         baseUrl: '',
         headers: {},
         params: {},
-        transformRequest: null,
         xsrfHeaderName: 'X-CSRF-Token',
     };
     if (typeof userConfig === 'string') {
@@ -203,3 +202,5 @@ export function buildRequester(userConfig) {
     }
     return new Requester(config);
 }
+
+export {}

@@ -10,6 +10,7 @@ export const FEATURES = {
     UPLOAD: 'upload',
     DELETE: 'delete',
     DOWNLOAD: 'download',
+    LANGUAGE: 'language',
 }
 
-export const FEATURE_ALL_NAMES = Object.keys(FEATURES)
+export const FEATURE_ALL_NAMES = Object.values(FEATURES)

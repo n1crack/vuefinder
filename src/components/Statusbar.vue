@@ -18,7 +18,7 @@
      </div>
     </div>
     <div class="flex leading-5 items-center justify-end">
-      <select v-model="locale" @change="changeLocale($event.target.value)"
+      <select v-model="locale" v-if="features.includes(FEATURES.LANGUAGE)" @change="changeLocale($event.target.value)"
               class="w-[120px] delay-200 duration-300 hover:w-full transition-[width] py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8 mr-3">
         <option value="" disabled>{{ t('Language') }}</option>
         <option value="en">English</option>
@@ -51,6 +51,7 @@ export default {
 
 <script setup>
 import {inject, ref} from 'vue';
+import { FEATURES } from "./features.js";
 
 const props = defineProps({
   data: Object,
@@ -62,6 +63,9 @@ const selectedItemCount = ref(0);
 const adapter = inject('adapter');
 
 const {t, changeLocale, locale} = inject('i18n');
+
+/** @type {import('vue').Ref<String[]>} */
+const features = inject('features')
 
 const handleStorageSelect = () => {
   emitter.emit('vf-search-exit');

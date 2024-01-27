@@ -33,7 +33,7 @@ const props = defineProps({
 const {t} = inject('i18n');
 /** @type {import('../../utils/ajax.js').Requester} */
 const requester = inject('requester');
-/** @type {String[]} */
+/** @type {import('vue').Ref<String[]>} */
 const features = inject('features');
 
 const image = ref(null);

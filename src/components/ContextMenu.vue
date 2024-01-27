@@ -24,7 +24,7 @@ const contextmenu = ref(null);
 const root = inject('root');
 /** @type {import('../utils/ajax.js').Requester} */
 const requester = inject('requester');
-/** @type {String[]} */
+/** @type {import('vue').Ref<String[]>} */
 const features = inject('features');
 
 const props = defineProps({
@@ -41,7 +41,7 @@ const context = reactive({
 });
 
 const filteredItems = computed(() => {
-  return context.items.filter(item => item.key == null || features.includes(item.key))
+  return context.items.filter(item => item.key == null || features.value.includes(item.key))
 });
 
 const selectedItems = ref([]);

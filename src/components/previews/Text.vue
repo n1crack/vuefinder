@@ -42,7 +42,7 @@ const isError = ref(false);
 
 /** @type {import('../../utils/ajax.js').Requester} */
 const requester = inject('requester');
-/** @type {String[]} */
+/** @type {import('vue').Ref<String[]>} */
 const features = inject('features');
 
 const {t} = inject('i18n');

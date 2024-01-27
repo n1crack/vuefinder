@@ -14,7 +14,7 @@
 
       <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :selection="modal.data" :current="fetchData"/>
       <v-f-context-menu :current="fetchData"/>
-      <iframe id="download_frame" style="display:none;"></iframe>
+      <iframe ref="downloadFrame" style="display:none;"></iframe>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <script setup>
-import {computed, defineProps, defineEmits, onMounted, provide, reactive, ref, watch} from 'vue';
+import {computed, onMounted, provide, reactive, ref, watch} from 'vue';
 import mitt from 'mitt';
 import { buildRequester } from '../utils/ajax.js';
 import {useStorage} from '../composables/useStorage.js';
@@ -98,13 +98,14 @@ const requester = buildRequester(props.request);
 provide('requester', requester);
 
 // Features
-const features = []
-if (props.features === true) {
-  features.push(...FEATURE_ALL_NAMES)
-} else if (Array.isArray(props.features)) {
-  features.push(...props.features)
+/** @type {import('vue').Ref<String[]>} */
+const features = ref([]);
+if (Array.isArray(props.features)) {
+  features.value.push(...props.features);
+} else if (props.features === true) {
+  features.value.push(...FEATURE_ALL_NAMES);
 }
-provide('features', props.features);
+provide('features', features);
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
@@ -180,6 +181,7 @@ emitter.on('vf-nodes-selected', (items) => {
   emit('select', items);
 })
 
+/** @type {AbortController} */
 let controller;
 emitter.on('vf-fetch-abort', () => {
   controller.abort();
@@ -222,8 +224,11 @@ emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, 
   });
 });
 
+/** @type {import('vue').Ref<HTMLIFrameElement>} */
+const downloadFrame = ref(null)
+
 emitter.on('vf-download', (url) => {
-  document.getElementById('download_frame').src = url;
+  downloadFrame.value.src = url;
   emitter.emit('vf-modal-close');
 });
 

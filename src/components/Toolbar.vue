@@ -137,8 +137,9 @@ const view = ref(getStore('viewport', 'grid'));
 
 const selectedItems = ref([]);
 
-const fullScreen = ref(getStore('full-screen', false));
+const fullScreen = ref(getStore('full-screen', false))
 
+/** @type {import('vue').Ref<String[]>} */
 const features = inject('features')
 
 const props = defineProps({
