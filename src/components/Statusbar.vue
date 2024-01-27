@@ -18,21 +18,6 @@
      </div>
     </div>
     <div class="flex leading-5 items-center justify-end">
-      <select v-model="locale" v-if="features.includes(FEATURES.LANGUAGE)" @change="changeLocale($event.target.value)"
-              class="w-[120px] delay-200 duration-300 hover:w-full transition-[width] py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8 mr-3">
-        <option value="" disabled>{{ t('Language') }}</option>
-        <option value="en">English</option>
-        <option value="fr">French (Français)</option>
-        <option value="de">German (Deutsch)</option>
-        <option value="he">Hebrew (עִברִית)</option>
-        <option value="hi">Hindi (हिंदी)</option>
-        <option value="fa">Persian (فارسی)</option>
-        <option value="ru">Russian (Pусский)</option>
-        <option value="sv">Swedish (Svenska)</option>
-        <option value="tr">Turkish (Türkçe)</option>
-        <option value="zhCN">Simplified Chinese (简体中文)</option>
-        <option value="zhTW">Traditional Chinese (繁體中文)</option>
-      </select>
 
       <span class="mr-1" :aria-label="t('About')" data-microtip-position="top-left" role="tooltip" @click="emitter.emit('vf-modal-show', {type:'about'})">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-slate-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -51,7 +36,6 @@ export default {
 
 <script setup>
 import {inject, ref} from 'vue';
-import { FEATURES } from "./features.js";
 
 const props = defineProps({
   data: Object,
@@ -62,10 +46,7 @@ const {getStore, setStore} = inject('storage');
 const selectedItemCount = ref(0);
 const adapter = inject('adapter');
 
-const {t, changeLocale, locale} = inject('i18n');
-
-/** @type {import('vue').Ref<String[]>} */
-const features = inject('features')
+const {t} = inject('i18n');
 
 const handleStorageSelect = () => {
   emitter.emit('vf-search-exit');

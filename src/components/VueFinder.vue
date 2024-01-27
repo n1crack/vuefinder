@@ -12,8 +12,12 @@
         <v-f-statusbar :data="fetchData"/>
       </div>
 
-      <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :selection="modal.data" :current="fetchData"/>
+      <Transition name="fade">
+       <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :selection="modal.data" :current="fetchData"/>
+      </Transition>
+
       <v-f-context-menu :current="fetchData"/>
+
       <iframe ref="downloadFrame" style="display:none;"></iframe>
     </div>
   </div>

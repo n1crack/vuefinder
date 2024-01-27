@@ -7,6 +7,18 @@
       :features="features"
       @select="handleSelect"
     />
+
+    <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">Show Selected</button>
+
+    <div v-show="selectedFiles.length">
+      <h3>Selected Files</h3>
+      <ul>
+        <li v-for="file in selectedFiles" :key="file.path">
+          {{ file.path }}
+        </li>
+      </ul>
+    </div>
+
   </div>
 </template>
 
@@ -21,15 +33,23 @@ const request = {
 }
 const maxFileSize = ref("500MB")
 
+
+const selectedFiles = ref([]);
+
+const features = [
+  ...FEATURE_ALL_NAMES
+]
 // an example how to show selected files, outside of vuefinder
 // you can create a ref object and assign the items to it,
 // then with a button click, you can get the selected items easily
 const handleSelect = (selection) => {
-  console.log(selection)
+  selectedFiles.value = selection
 }
-const features = [
-  ...FEATURE_ALL_NAMES
-]
+
+const handleButton = () => {
+  console.log(selectedFiles.value)
+}
+
 </script>
 
 <style>
@@ -38,7 +58,17 @@ body {
   background: #eeeeee;
 }
 .wrapper {
-  width: 800px;
+  max-width: 800px;
   margin: 100px auto;
+}
+.btn{
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
 }
 </style>

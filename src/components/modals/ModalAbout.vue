@@ -48,6 +48,22 @@
                   </div>
                 </div>
 
+                <div class="flex relative gap-x-3">
+                  <div class="h-6 items-center">
+                    <div class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
+                      {{ t('Language') }}
+                    </div>
+                  </div>
+                  <div class="flex text-sm">
+                    <select v-model="locale" @change="changeLocale($event.target.value)"
+                            class="w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
+                      <optgroup :label="t('Language')">
+                        <option v-for="(language, code) in supportedLanguages" :value="code">{{ language }}</option>
+                      </optgroup>
+                    </select> <action-message class="ms-3" on="vf-language-saved">{{ t('Saved.') }}</action-message>
+                  </div>
+                </div>
+
                 <button @click="clearLocalStorage" type="button" class="vf-btn vf-btn-secondary">
                   {{ t('Clear Local Storage') }}
                 </button>
@@ -80,7 +96,7 @@ import {version} from './../../../package.json';
 const emitter = inject('emitter');
 const {getStore, clearStore} = inject('storage');
 const adapter = inject('adapter');
-const {t} = inject('i18n');
+const {t, changeLocale, locale} = inject('i18n');
 
 const props = defineProps({
   selection: Object,
@@ -106,6 +122,20 @@ const metricUnits = inject('metricUnits');
 
 const handleMetricUnits = () => {
   emitter.emit('vf-metric-units-saved', !metricUnits.value);
+}
+
+const supportedLanguages = {
+  en: 'English',
+  fr: 'French (Français)',
+  de: 'German (Deutsch)',
+  he: 'Hebrew (עִברִית)',
+  hi: 'Hindi (हिंदी)',
+  fa: 'Persian (فارسی)',
+  ru: 'Russian (Pусский)',
+  sv: 'Swedish (Svenska)',
+  tr: 'Turkish (Türkçe)',
+  zhCN: 'Simplified Chinese (简体中文)',
+  zhTW: 'Traditional Chinese (繁體中文)',
 }
 
 </script>

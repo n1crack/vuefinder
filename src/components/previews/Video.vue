@@ -26,9 +26,5 @@ onMounted(() => {
   emit('load');
 });
 
-const test = (event) => {
-  console.log(event);
-};
-
 </script>
 
