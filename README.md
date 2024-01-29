@@ -32,24 +32,52 @@ app.use(VueFinder)
 app.mount('#app')
  
 ```
-Html
-```html
+Vue Template
+```vue
 ...
 <div>
-    <vue-finder id='my_vuefinder' url="http://vuefinder-php.test"></vue-finder>
+    <vue-finder id='my_vuefinder' :request="request"></vue-finder>
 </div>
 ...
+
+<script setup>
+  const request = "http://vuefinder-php.test"
+  
+  // Or ...
+  const request = {
+    // ----- CHANGE ME! -----
+    // [REQUIRED] Url for development server endpoint
+    baseUrl: "http://vuefinder-php.test",
+    // ----- CHANGE ME! -----
+
+    // Additional headers & params & body
+    headers: { "X-ADDITIONAL-HEADER": 'yes' },
+    params: { additionalParam1: 'yes' },
+    body: { additionalBody1: ['yes'] },
+
+    // And/or transform request callback
+    transformRequest: req => {
+      if (req.method === 'get') {
+        req.params.vf = "1"
+      }
+      return req;
+    },
+
+    // XSRF Token header name
+    xsrfHeaderName: "X-CSRF-TOKEN",
+  }
+</script>
 ```
 
 ### Props
 
-| Prop          |  Value  | Default | Description                            |
-|---------------|:-------:|---------|:---------------------------------------|
-| id            | string  | _null_  | required                               |
-| url           | string  | _null_  | required - backend url                 |
-| locale        | string  | en      | optional - default language code       |
-| dark          | boolean | false   | optional - makes theme dark as default |
-| max-file-size | string  | 10mb    | optional - client side max file upload |
+| Prop          |  Value  | Default | Description                                         |
+|---------------|:-------:|---------|:----------------------------------------------------|
+| id            | string  | _null_  | required                                            |
+| request       | object  | _null_  | required - backend url or request object, see above |
+| locale        | string  | en      | optional - default language code                    |
+| dark          | boolean | false   | optional - makes theme dark as default              |
+| max-file-size | string  | 10mb    | optional - client side max file upload              |
 
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)
