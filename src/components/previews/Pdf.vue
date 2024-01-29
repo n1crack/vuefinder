@@ -21,7 +21,7 @@
 
 <script setup>
 
-import {onMounted} from 'vue';
+import {inject,onMounted} from 'vue';
 const props = defineProps({
   selection: Object
 });
