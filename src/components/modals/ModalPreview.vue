@@ -72,7 +72,7 @@ const props = defineProps({
 const loadPreview = (type) => (props.selection.item.mime_type ?? '').startsWith(type)
 
 const download = () => {
-  const url = requester.getDownloadUrl(props.selection.adapter, props.selection.item.path)
+  const url = requester.getDownloadUrl(props.selection.adapter, props.selection.item)
   emitter.emit('vf-download', url)
 }
 

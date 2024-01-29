@@ -19,7 +19,7 @@ const emit = defineEmits(['load']);
 /** @type {import('../utils/ajax.js').Requester} */
 const requester = inject('requester');
 const getVideoUrl = () => {
-  return requester.getPreviewUrl(props.selection.adapter, props.selection.item.path)
+  return requester.getPreviewUrl(props.selection.adapter, props.selection.item)
 }
 
 onMounted(() => {

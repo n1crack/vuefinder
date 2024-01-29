@@ -135,14 +135,19 @@ export class Requester {
     /**
      * Get download url
      * @param {String} adapter
-     * @param {String} path
+     * @param {String} node
+     * @param {String} node.path
+     * @param {String=} node.url
      * @return {String}
      */
-    getDownloadUrl(adapter, path) {
+    getDownloadUrl(adapter, node) {
+        if (node.url != null) {
+            return node.url
+        }
         const transform = this.transformRequestParams({
             url: '',
             method: 'get',
-            params: { q: 'download', adapter, path }
+            params: { q: 'download', adapter, path: node.path }
         });
         return transform.url + '?' + new URLSearchParams(transform.params).toString()
     }
@@ -150,14 +155,19 @@ export class Requester {
     /**
      * Get preview url
      * @param {String} adapter
-     * @param {String} path
+     * @param {String} node
+     * @param {String} node.path
+     * @param {String=} node.url
      * @return {String}
      */
-    getPreviewUrl(adapter, path) {
+    getPreviewUrl(adapter, node) {
+        if (node.url != null) {
+            return node.url
+        }
         const transform = this.transformRequestParams({
             url: '',
             method: 'get',
-            params: { q: 'preview', adapter, path }
+            params: { q: 'preview', adapter, path: node.path }
         });
         return transform.url + '?' + new URLSearchParams(transform.params).toString()
     }

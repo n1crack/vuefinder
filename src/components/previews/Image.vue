@@ -10,7 +10,7 @@
   </div>
 
   <div class="w-full flex justify-center">
-    <img ref="image" class="max-w-[50vh] max-h-[50vh]" :src="requester.getPreviewUrl(props.selection.adapter, props.selection.item.path)" alt="">
+    <img ref="image" class="max-w-[50vh] max-h-[50vh]" :src="requester.getPreviewUrl(props.selection.adapter, props.selection.item)" alt="">
   </div>
 
   <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
@@ -79,7 +79,7 @@ const crop = () => {
             })
                 .then(data => {
                   message.value = t('Updated.');
-                  image.value.src = requester.getPreviewUrl(props.selection.adapter, props.selection.item.path);
+                  image.value.src = requester.getPreviewUrl(props.selection.adapter, props.selection.item);
                   editMode();
                   emit('load');
                 })

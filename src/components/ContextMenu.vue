@@ -97,7 +97,7 @@ const menuItems = {
     key: FEATURES.DOWNLOAD,
     title: () =>  t('Download'),
     action: () => {
-      const url = requester.getDownloadUrl(props.current.adapter, selectedItems.value[0].path);
+      const url = requester.getDownloadUrl(props.current.adapter, selectedItems.value[0]);
       emitter.emit('vf-download', url);
     },
   },

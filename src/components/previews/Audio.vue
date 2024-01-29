@@ -21,7 +21,7 @@ const requester = inject('requester');
 const emit = defineEmits(['load']);
 
 const getAudioUrl = () => {
-  return requester.getPreviewUrl(props.selection.adapter, props.selection.item.path)
+  return requester.getPreviewUrl(props.selection.adapter, props.selection.item)
 }
 
 onMounted(() => {
