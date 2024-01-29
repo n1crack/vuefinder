@@ -5,6 +5,7 @@ export const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttrib
  * @property {String} baseUrl
  * @property {Record<String,String>=} headers Additional headers
  * @property {Record<String,?String>=} params Additional query params
+ * @property {Record<String,*>=} body Additional body key pairs
  * @property {RequestTransformer=} transformRequest Transform request callback
  * @property {String=} xsrfHeaderName The http header that carries the xsrf token value
  */
@@ -67,21 +68,42 @@ export class Requester {
      */
     transformRequestParams(input ) {
         const config = this.#config;
+        const ourHeaders = {};
+        if (csrf != null && csrf !== '') {
+            ourHeaders[config.xsrfHeaderName] = csrf;
+        }
         /** @type {Record<String, String>} */
-        const headers = Object.assign({}, config.headers, {
-            [config.xsrfHeaderName]: csrf,
-        }, input.headers);
-        const params = input.params ?? {};
+        const headers = Object.assign({}, config.headers, ourHeaders, input.headers);
+        const params = Object.assign({}, config.params, input.params);
         const body = input.body;
         const url = config.baseUrl + input.url;
         const method = input.method;
+        let newBody
+        if (method !== 'get') {
+            /** @type {Record<String,*>|FormData} */
+            if (!(body instanceof FormData)) {
+                // JSON
+                newBody = { ...body };
+                if (config.body != null) {
+                    Object.assign(newBody, this.config.body);
+                }
+            } else {
+                // FormData
+                newBody = body;
+                if (config.body != null) {
+                    Object.entries(this.config.body).forEach(([key, value]) => {
+                        newBody.append(key, value);
+                    });
+                }
+            }
+        }
         /** @type {RequestTransformResultInternal} */
         const transformed = {
             url,
             method,
             headers,
             params,
-            body,
+            body: newBody,
         }
         if (config.transformRequest != null) {
             const transformResult = config.transformRequest({
@@ -89,7 +111,7 @@ export class Requester {
                 method,
                 headers,
                 params,
-                body,
+                body: newBody,
             });
             if (transformResult.url != null) {
                 transformed.url = transformResult.url;
@@ -167,9 +189,11 @@ export class Requester {
             /** @type {String|FormData} */
             let newBody
             if (!(reqParams.body instanceof FormData)) {
+                // JSON
                 newBody = JSON.stringify(reqParams.body);
                 init.headers['Content-Type'] = 'application/json';
             } else {
+                // FormData
                 newBody = input.body;
             }
             init.body = newBody;
@@ -193,6 +217,7 @@ export function buildRequester(userConfig) {
         baseUrl: '',
         headers: {},
         params: {},
+        body: {},
         xsrfHeaderName: 'X-CSRF-Token',
     };
     if (typeof userConfig === 'string') {

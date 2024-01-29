@@ -26,19 +26,40 @@
 import { ref } from 'vue';
 import { FEATURES, FEATURE_ALL_NAMES } from './components/features.js';
 
-// CHANGE ME, Url for development server endpoint
 /** @type {import('./utils/ajax.js').RequestConfig} */
 const request = {
-  baseUrl: "http://localhost:8005/"
+  // ----- CHANGE ME! -----
+  // [REQUIRED] Url for development server endpoint
+  baseUrl: "http://localhost:8005/",
+  // ----- CHANGE ME! -----
+
+  // Additional headers & params & body
+  headers: { "X-ADDITIONAL-HEADER": 'yes' },
+  params: { additionalParam1: 'yes' },
+  body: { additionalBody1: ['yes'] },
+
+  // And/or transform request callback
+  transformRequest: req => {
+    if (req.method === 'get') {
+      req.params.vf = "1"
+    }
+    return req;
+  },
+
+  // XSRF Token header name
+  xsrfHeaderName: "CSRF-TOKEN",
 }
 const maxFileSize = ref("500MB")
 
+const features = [
+  ...FEATURE_ALL_NAMES,
+  // Or remove the line above, specify the features want to include
+  // Like...
+  //FEATURES.LANGUAGE,
+]
 
 const selectedFiles = ref([]);
 
-const features = [
-  ...FEATURE_ALL_NAMES
-]
 // an example how to show selected files, outside of vuefinder
 // you can create a ref object and assign the items to it,
 // then with a button click, you can get the selected items easily

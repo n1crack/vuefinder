@@ -48,7 +48,7 @@
                   </div>
                 </div>
 
-                <div class="flex relative gap-x-3">
+                <div class="flex relative gap-x-3" v-if="features.includes(FEATURES.LANGUAGE)">
                   <div class="h-6 items-center">
                     <div class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
                       {{ t('Language') }}
@@ -92,11 +92,13 @@ import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";
 import {version} from './../../../package.json';
+import { FEATURES } from '../features.js';
 
 const emitter = inject('emitter');
 const {getStore, clearStore} = inject('storage');
 const adapter = inject('adapter');
 const {t, changeLocale, locale} = inject('i18n');
+const features = inject("features");
 
 const props = defineProps({
   selection: Object,
