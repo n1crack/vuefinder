@@ -2,7 +2,7 @@
   <div class="text-sm text-green-600 dark:text-green-600 transition-opacity duration-500 ease-out"
        :class="[{ 'opacity-0': !shown }]">
     <slot v-if="$slots.default"/>
-    <span v-else>Saved.</span>
+    <span v-else>{{ t('Saved.') }}</span>
   </div>
 </template>
 
@@ -16,6 +16,8 @@ export default {
   setup(props, {emit, slots}) {
     const emitter = inject('emitter');
     const shown = ref(false);
+    const {t} = inject('i18n');
+
     let timeout = null;
 
     const handleEvent = () => {
@@ -35,7 +37,7 @@ export default {
     });
 
     return {
-      shown,
+      shown, t
     };
   },
 };
