@@ -7,7 +7,7 @@ export default {
   setup() {
     /** @type {import('vue').Ref<HTMLIFrameElement>} */
     const downloadFrame = ref(null)
-    const app = inject('VueFinder');
+    const app = inject('ServiceContainer');
 
     app.emitter.on('vf-download', (url) => {
       downloadFrame.value.src = url;

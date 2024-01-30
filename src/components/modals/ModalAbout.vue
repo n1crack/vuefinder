@@ -95,10 +95,9 @@ import { format as filesizeDefault, metricFormat as filesizeMetric } from '../..
 
 import { FEATURES } from '../features.js';
 
-const app = inject('VueFinder');
+const app = inject('ServiceContainer');
 const {getStore, setStore, clearStore} = inject('storage');
-const adapter = inject('adapter');
-const {t, changeLocale, locale} = inject('i18n');
+const {t, changeLocale, locale} = app.i18n;
 
 
 const props = defineProps({

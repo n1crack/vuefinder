@@ -54,10 +54,9 @@ import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
-const app = inject('VueFinder');
-const {t} = inject('i18n');
+const app = inject('ServiceContainer');
+const {t} = app.i18n;
 const {getStore} = inject('storage');
-const adapter = inject('adapter');
 
 const props = defineProps({
   selection: Object,
@@ -74,7 +73,7 @@ const move = () => {
       params: {
         q: 'move',
         m: 'post',
-        adapter: adapter.value,
+        adapter: app.adapter,
         path: props.current.dirname,
       },
       body: {

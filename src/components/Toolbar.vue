@@ -117,11 +117,11 @@ export default {
 import {inject, ref} from 'vue';
 import { FEATURES } from "./features.js";
 
-const app = inject('VueFinder');
+const app = inject('ServiceContainer');
 
 const {getStore, setStore} = inject('storage')
 
-const {t} = inject('i18n');
+const {t} = app.i18n;
 
 app.view = getStore('viewport', 'grid');
 

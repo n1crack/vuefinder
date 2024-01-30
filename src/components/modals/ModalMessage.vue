@@ -30,8 +30,8 @@ export default {
 <script setup>
 import VFModalLayout from './ModalLayout.vue';
 import {inject} from 'vue';
-const app = inject('VueFinder');
-const {t} = inject('i18n');
+const app = inject('ServiceContainer');
+const {t} = app.i18n;
 
 const props = defineProps({
   selection: Object

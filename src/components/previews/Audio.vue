@@ -18,7 +18,7 @@ const props = defineProps({
 
 const emit = defineEmits(['load']);
 
-const app = inject('VueFinder');
+const app = inject('ServiceContainer');
 
 const getAudioUrl = () => {
   return app.requester.getPreviewUrl(props.selection.adapter, props.selection.item)

@@ -23,9 +23,9 @@ export default {
 </script>
 
 <script setup>
-import {inject, ref, watch} from 'vue';
+import {ref, watch} from 'vue';
 
-const {t} = inject('i18n');
+const {t} = app.i18n;
 const props = defineProps({
   error: {
     type: Boolean,

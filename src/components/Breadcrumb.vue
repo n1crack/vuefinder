@@ -81,8 +81,7 @@ import {inject, nextTick, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
 import {FEATURES} from "./features.js";
 
-const app = inject('VueFinder');
-const adapter = inject('adapter');
+const app = inject('ServiceContainer');
 const dirname = ref(null);
 const breadcrumb = ref([]);
 const searchMode = ref(false);
@@ -92,17 +91,17 @@ const props = defineProps({
   data: Object
 });
 
-const {t} = inject('i18n');
+const {t} = app.i18n;
 
 app.emitter.on('vf-explorer-update', () => {
   let items = [], links = [];
-  dirname.value = props.data.dirname ?? (adapter.value + '://');
+  dirname.value = props.data.dirname ?? (app.adapter + '://');
 
   if (dirname.value.length == 0) {
     breadcrumb.value = [];
   }
   dirname.value
-      .replace(adapter.value + '://', '')
+      .replace(app.adapter + '://', '')
       .split('/')
       .forEach(function (item) {
         items.push(item);
@@ -110,7 +109,7 @@ app.emitter.on('vf-explorer-update', () => {
           links.push({
             'basename': item,
             'name': item,
-            'path': adapter.value + '://' + items.join('/'),
+            'path': app.adapter + '://' + items.join('/'),
             'type': 'dir'
           });
         }
@@ -156,14 +155,14 @@ const handleDropZone = (e) => {
   e.preventDefault();
   let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
 
-  if (draggedItems.find(item => item.storage != adapter.value)) {
+  if (draggedItems.find(item => item.storage != app.adapter)) {
     alert('Moving items between different storages is not supported yet.');
     return;
   }
 
   app.emitter.emit('vf-modal-show', {
     type: 'move',
-    items: {from: draggedItems, to: breadcrumb.value[breadcrumb.value.length - 2] ?? {path: (adapter.value + '://')}}
+    items: {from: draggedItems, to: breadcrumb.value[breadcrumb.value.length - 2] ?? {path: (app.adapter + '://')}}
   });
 };
 

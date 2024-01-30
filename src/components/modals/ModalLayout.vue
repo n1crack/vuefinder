@@ -23,7 +23,7 @@
 <script setup>
 import {inject, onMounted} from 'vue';
 
-const app = inject('VueFinder')
+const app = inject('ServiceContainer')
 
 onMounted(() => {
   const inputElements = document.querySelector('.v-f-modal input')

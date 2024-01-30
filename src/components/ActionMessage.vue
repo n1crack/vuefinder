@@ -14,9 +14,9 @@ export default {
     on: {type: String, required: true},
   },
   setup(props, {emit, slots}) {
-    const app = inject('VueFinder');
+    const app = inject('ServiceContainer');
     const shown = ref(false);
-    const {t} = inject('i18n');
+    const {t} = app.i18n;
 
     let timeout = null;
 

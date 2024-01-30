@@ -30,9 +30,9 @@ const props = defineProps({
   selection: Object
 });
 
-const app = inject('VueFinder');
+const app = inject('ServiceContainer');
 
-const {t} = inject('i18n');
+const {t} = app.i18n;
 
 const image = ref(null);
 const cropper = ref(null);

@@ -24,7 +24,7 @@ export default {
 
 <script setup>
 import {inject, ref} from 'vue';
-const app = inject('VueFinder');
+const app = inject('ServiceContainer');
 const {getStore} = inject('storage');
 
 const fullScreen = ref(getStore('full-screen', false));

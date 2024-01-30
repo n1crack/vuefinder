@@ -105,9 +105,8 @@ import Message from '../Message.vue';
 import { parse } from '../../utils/filesize.js';
 import title_shorten from "../../utils/title_shorten.js";
 
-const debug = inject('debug');
-const app = inject('VueFinder');
-const {t} = inject('i18n');
+const app = inject('ServiceContainer');
+const {t} = app.i18n;
 const maxFileSize = inject('maxFileSize');
 
 const props = defineProps({
@@ -299,7 +298,7 @@ function close() {
 
 onMounted(async () => {
   uppy = new Uppy({
-    debug,
+    debug: app.debug,
     restrictions: {
       maxFileSize: parse(maxFileSize),
       //maxNumberOfFiles
@@ -335,7 +334,7 @@ onMounted(async () => {
     method: 'post',
     params: { q: 'upload', adapter: props.current.adapter, path: props.current.dirname },
   });
-  if (debug) {
+  if (app.debug) {
     if (params.body != null && (params.body instanceof FormData || Object.keys(params.body).length > 0)) {
       console.warn('Cannot set body on upload, make sure request.transformRequest didn\'t set body when upload.'
         + '\nWill ignore for now.');

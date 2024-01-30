@@ -26,7 +26,7 @@ const props = defineProps({
   selection: Object
 });
 
-const app = inject('VueFinder');
+const app = inject('ServiceContainer');
 
 const emit = defineEmits(['load']);
 

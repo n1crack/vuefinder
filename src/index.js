@@ -2,11 +2,6 @@ import VueFinder from './components/VueFinder.vue';
 import * as modals from './modals.js';
 import 'microtip/microtip.css'
 import './assets/css/index.css';
-import {reactive, ref} from "vue";
-import mitt from "mitt";
-import {version} from './../package.json';
-import {FEATURE_ALL_NAMES} from "./components/features.js";
-import {useStorage} from "./composables/useStorage.js";
 
 export default {
     /** @param {import('vue').App} app
@@ -21,39 +16,8 @@ export default {
             app.component(modal.name, modal);
         }
 
-        // provide god object
-        app.provide('VueFinder', reactive({
-            // app id
-            id: null,
-            // app version
-            version: version,
-            // root element
-            root: null,
-            // Event Bus
-            emitter: mitt(),
-            // modals
-            features: [...FEATURE_ALL_NAMES],
-            // theme state
-            darkMode: false,
-            // view state
-            view: 'grid',
-            // fullscreen state
-            fullscreen: false,
-            // unit state - for example: GB or GiB
-            metricUnits: false,
-            // human readable file sizes
-            filesize: null,
-            // loading state
-            loading: false,
-            // locale state
-            locale: options.locale ?? 'en',
-            // modal state
-            modal: {
-                active: false,
-                type: 'delete',
-                data: {}
-            }
-        }));
+        // define global properties with 'options'
+
     }
 };
 

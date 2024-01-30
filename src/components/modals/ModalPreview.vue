@@ -54,8 +54,8 @@ import Pdf from '../previews/Pdf.vue';
 import datetimestring from '../../utils/datetimestring.js';
 import {FEATURES} from "../features.js";
 
-const app = inject('VueFinder')
-const {t} = inject('i18n')
+const app = inject('ServiceContainer')
+const {t} = app.i18n
 const loaded = ref(false);
 
 const setLoad = (bool) => loaded.value = bool;

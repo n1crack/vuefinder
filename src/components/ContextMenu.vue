@@ -18,7 +18,7 @@ export default {
 import {computed, inject, nextTick, reactive, ref} from 'vue';
 import {FEATURES} from "./features.js";
 
-const app = inject('VueFinder');
+const app = inject('ServiceContainer');
 const contextmenu = ref(null);
 
 const props = defineProps({
@@ -43,7 +43,7 @@ const selectedItems = ref([]);
 app.emitter.on('vf-context-selected', (items) => {
   selectedItems.value = items;
 })
-const {t} = inject('i18n')
+const {t} = app.i18n
 
 const menuItems = {
   newfolder: {

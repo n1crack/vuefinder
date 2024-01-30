@@ -30,16 +30,16 @@ export default {
 </script>
 
 <script setup>
-import {computed, inject, onMounted, provide, reactive, ref, watch} from 'vue';
-import { buildRequester } from '../utils/ajax.js';
+import {onMounted, provide, reactive, ref} from 'vue';
 import {useStorage} from '../composables/useStorage.js';
 import VFToolbar from '../components/Toolbar.vue';
 import VFExplorer from '../components/Explorer.vue';
 import VFStatusbar from '../components/Statusbar.vue';
 import VFBreadcrumb from '../components/Breadcrumb.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
-import {useI18n} from '../composables/useI18n.js';
-import { FEATURE_ALL_NAMES } from "./features.js";
+import Downloader from "./Downloader.vue";
+
+import ServiceContainer from "../provider.js";
 
 const props = defineProps({
   request: {
@@ -76,49 +76,26 @@ const props = defineProps({
   },
 });
 const {getStore} = useStorage(props.id);
-const adapter =ref(getStore('adapter'));
-
 const emit = defineEmits(['select'])
 
-/** @type import('vue').Ref<HTMLDivElement> */
-
 provide('storage', useStorage(props.id));
-provide('adapter', adapter);
 provide('maxFileSize', props.maxFileSize);
-provide('debug', props.debug);
-// use reactive instead of ref to be able to use one object for all components
 
 // the object is passed to all components as props
-const app = inject('VueFinder');
-
-// Requester
-app.requester = buildRequester(props.request);
+const app = ServiceContainer(props);
+provide('ServiceContainer', app);
 
 //  Define root element
 const root = ref(null);
 app.root = root;
 
-// Features
-if (Array.isArray(props.features)) {
-  app.features.push(...props.features);
-} else if (props.features === true) {
-  app.features.push(...FEATURE_ALL_NAMES);
-}
+// Translator
+const {t} = app.i18n;
 
-// Lang Management
-const i18n = useI18n(props.id, props.locale, app.emitter);
-const {t} = i18n;
-provide('i18n', i18n);
-
-const fetchData = reactive({adapter: adapter.value, storages: [], dirname: '.', files: []});
-
-// Dark mode todo: add system dark mode detection
-app.darkMode = ref(getStore('darkMode', props.dark));
+const fetchData = reactive({adapter: app.adapter, storages: [], dirname: '.', files: []});
 
 // unit switcher (for example: GB vs GiB)
-app.metricUnits = getStore('metricUnits', false);
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './../utils/filesize.js'
-import Downloader from "./Downloader.vue";
 app.filesize = app.metricUnits ?  filesizeMetric  : filesizeDefault;
 
 app.emitter.on('vf-modal-close', () => {
@@ -166,7 +143,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     body,
     abortSignal: signal,
   }).then(data => {
-    adapter.value = data.adapter;
+    app.adapter = data.adapter;
     if (['index', 'search'].includes(params.q)) {
       app.loading = false;
     }
@@ -187,7 +164,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
 
 // fetch initial data
 onMounted(() => {
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: (adapter.value)}});
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: (app.adapter)}});
 });
 
 </script>

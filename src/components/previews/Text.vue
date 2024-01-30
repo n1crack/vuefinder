@@ -40,9 +40,9 @@ const props = defineProps({
 const message = ref('');
 const isError = ref(false);
 
-const app = inject('VueFinder');
+const app = inject('ServiceContainer');
 
-const {t} = inject('i18n');
+const {t} = app.i18n;
 
 onMounted(() => {
   app.requester.send({
