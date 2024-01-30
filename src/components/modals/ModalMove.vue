@@ -56,7 +56,7 @@ import Message from '../Message.vue';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const {getStore} = inject('storage');
+const {getStore} = app.storage;
 
 const props = defineProps({
   selection: Object,

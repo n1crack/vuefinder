@@ -25,7 +25,7 @@ export default {
 <script setup>
 import {inject, ref} from 'vue';
 const app = inject('ServiceContainer');
-const {getStore} = inject('storage');
+const {getStore} = app.storage;
 
 const fullScreen = ref(getStore('full-screen', false));
 

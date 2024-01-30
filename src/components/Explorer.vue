@@ -139,7 +139,7 @@ const props = defineProps({
 
 const app = inject('ServiceContainer');
 
-const { setStore, getStore } = inject('storage');
+const { setStore, getStore } = app.storage;
 const ext = (item) => item?.substring(0, 3)
 const selectorArea = ref(null);
 const dragImage = ref(null);

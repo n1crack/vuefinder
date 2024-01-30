@@ -43,7 +43,7 @@ import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
 const app = inject('ServiceContainer');
-const {getStore} = inject('storage');
+const {getStore} = app.storage;
 const {t} = app.i18n;
 
 const props = defineProps({

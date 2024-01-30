@@ -6,17 +6,17 @@
           :style="!app.fullscreen ? 'max-height: ' + maxHeight : ''"
           class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')" @touchstart="app.emitter.emit('vf-contextmenu-hide')">
-        <v-f-toolbar :data="fetchData" />
-        <v-f-breadcrumb :data="fetchData"/>
-        <v-f-explorer :data="fetchData"/>
-        <v-f-statusbar :data="fetchData"/>
+        <v-f-toolbar :data="app.items" />
+        <v-f-breadcrumb :data="app.items"/>
+        <v-f-explorer :data="app.items"/>
+        <v-f-statusbar :data="app.items"/>
       </div>
 
       <Transition name="fade">
-       <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type" :selection="app.modal.data" :current="fetchData"/>
+       <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type" :selection="app.modal.data" :current="app.items"/>
       </Transition>
 
-      <v-f-context-menu :current="fetchData"/>
+      <v-f-context-menu :current="app.items"/>
 
       <downloader />
     </div>
@@ -78,9 +78,6 @@ const props = defineProps({
 const {getStore} = useStorage(props.id);
 const emit = defineEmits(['select'])
 
-provide('storage', useStorage(props.id));
-provide('maxFileSize', props.maxFileSize);
-
 // the object is passed to all components as props
 const app = ServiceContainer(props);
 provide('ServiceContainer', app);
@@ -91,8 +88,6 @@ app.root = root;
 
 // Translator
 const {t} = app.i18n;
-
-const fetchData = reactive({adapter: app.adapter, storages: [], dirname: '.', files: []});
 
 // unit switcher (for example: GB vs GiB)
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './../utils/filesize.js'
@@ -109,7 +104,7 @@ app.emitter.on('vf-modal-show', (item) => {
 });
 
 const updateItems = (data) => {
-  Object.assign(fetchData, data);
+  Object.assign(app.items, data);
   app.emitter.emit('vf-nodes-selected', {});
   app.emitter.emit('vf-explorer-update');
 };

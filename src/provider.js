@@ -7,7 +7,9 @@ import {buildRequester} from "./utils/ajax.js";
 import {useI18n} from "./composables/useI18n.js";
 
 export default (props) => {
-    const {setStore, getStore, clearStore} = useStorage(props.id);
+    const storage = useStorage(props.id);
+
+    const {setStore, getStore, clearStore} = storage;
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
@@ -15,6 +17,8 @@ export default (props) => {
         }
         return FEATURE_ALL_NAMES;
     }
+
+    const emitter = mitt()
 
     return reactive({
         // app id
@@ -26,7 +30,7 @@ export default (props) => {
         // app id
         debug: props.debug,
         // Event Bus
-        emitter: mitt(),
+        emitter: emitter,
         // modals
         features: setFeatures(props.features),
         // http object
@@ -41,19 +45,25 @@ export default (props) => {
         metricUnits: getStore('metricUnits', false),
         // human readable file sizes
         filesize: null,
+        // max file size
+        maxFileSize: props.maxFileSize,
         // loading state
         loading: false,
         // locale state
         locale: props.locale ?? 'en',
-        // defaılt locale
-        i18n : useI18n(props.id, props.locale, app.emitter),
+        // default locale
+        i18n : useI18n(props.id, props.locale, emitter),
         // modal state
         modal: {
             active: false,
             type: 'delete',
             data: {}
         },
+        // main storage adapter
         adapter: getStore('adapter'),
-
+        // storage
+        storage: storage,
+        // fetched items
+        items: {adapter: app.adapter, storages: [], dirname: '.', files: []}
     });
 }

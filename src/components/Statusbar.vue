@@ -43,7 +43,7 @@ const props = defineProps({
 
 const app = inject('ServiceContainer');
 
-const {getStore, setStore} = inject('storage');
+const {getStore, setStore} = app.storage;
 const selectedItemCount = ref(0);
 
 const {t} = app.i18n;

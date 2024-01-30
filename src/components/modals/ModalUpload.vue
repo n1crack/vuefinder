@@ -107,7 +107,6 @@ import title_shorten from "../../utils/title_shorten.js";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const maxFileSize = inject('maxFileSize');
 
 const props = defineProps({
   current: Object
@@ -300,7 +299,7 @@ onMounted(async () => {
   uppy = new Uppy({
     debug: app.debug,
     restrictions: {
-      maxFileSize: parse(maxFileSize),
+      maxFileSize: parse(app.maxFileSize),
       //maxNumberOfFiles
       //allowedFileTypes
     },

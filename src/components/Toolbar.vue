@@ -119,7 +119,7 @@ import { FEATURES } from "./features.js";
 
 const app = inject('ServiceContainer');
 
-const {getStore, setStore} = inject('storage')
+const {getStore, setStore} = app.storage;
 
 const {t} = app.i18n;
 
