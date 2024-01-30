@@ -117,10 +117,10 @@ Vue Template
 - [x] restyle the modals
 - [x] add more languages (only en/tr/ru at the moment. PRs are welcomed.)
 - [x] emit select event, with @select get selected files for online editors like tinymce/ckeditor
+- [x] show/hide components (toolbar/statusbar etc.)
 - [ ] code refactoring (cleanup the duplications, make reusable components)
 - [ ] copy/move to a folder (modal, treeview)
 - [ ] transfer items between filesystem adapters
-- [ ] show/hide components (toolbar/statusbar etc.)
 - [ ] drag&drop on folders at address bar
 - [ ] update DragSelect plugin for using its dropzone support
 

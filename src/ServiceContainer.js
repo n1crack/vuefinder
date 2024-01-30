@@ -5,10 +5,13 @@ import {useStorage} from "./composables/useStorage.js";
 import {useI18n} from "./composables/useI18n.js";
 import {FEATURE_ALL_NAMES} from "./components/features.js";
 import {version} from './../package.json';
+import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
+
 
 export default (props) => {
     const storage = useStorage(props.id);
     const emitter = mitt()
+    const metricUnits = storage.getStore('metricUnits', false);
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
@@ -18,8 +21,6 @@ export default (props) => {
     }
 
     return reactive({
-        // app id
-        id: null,
         // app version
         version: version,
         // root element
@@ -35,13 +36,13 @@ export default (props) => {
         // theme state
         darkMode: storage.getStore('darkMode', props.dark),
         // view state
-        view: 'grid',
+        view: storage.getStore('viewport', 'grid'),
         // fullscreen state
-        fullscreen: false,
+        fullscreen: storage.getStore('full-screen', false),
         // unit state - for example: GB or GiB
-        metricUnits: storage.getStore('metricUnits', false),
+        metricUnits: metricUnits,
         // human readable file sizes
-        filesize: null,
+        filesize: metricUnits ? filesizeMetric  : filesizeDefault,
         // max file size
         maxFileSize: props.maxFileSize,
         // loading state
@@ -61,6 +62,6 @@ export default (props) => {
         // storage
         storage: storage,
         // fetched items
-        items: {adapter: app.adapter, storages: [], dirname: '.', files: []}
+        data: {adapter: app.adapter, storages: [], dirname: '.', files: []}
     });
 }

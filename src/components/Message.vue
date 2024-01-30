@@ -25,7 +25,7 @@ export default {
 <script setup>
 import {ref, watch} from 'vue';
 
-const {t} = app.i18n;
+const emit = defineEmits(['hidden']);
 const props = defineProps({
   error: {
     type: Boolean,
@@ -33,10 +33,12 @@ const props = defineProps({
   }
 });
 
+const app = inject('ServiceContainer');
+const {t} = app.i18n;
+
 const hidden = ref(false);
 const strMessage = ref(null);
 const strSlot = ref(strMessage.value?.strMessage);
-const emit = defineEmits(['hidden']);
 
 watch(strSlot, () => hidden.value = false);
 

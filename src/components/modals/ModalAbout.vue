@@ -122,9 +122,9 @@ const handleDarkMode = () => {
 
 const handleMetricUnits = () => {
   app.metricUnits = !app.metricUnits;
-    app.filesize = app.metricUnits ?  filesizeMetric  : filesizeDefault
+  app.filesize = app.metricUnits ?  filesizeMetric  : filesizeDefault
 
-  setStore('metricUnits', !app.metricUnits);
+  setStore('metricUnits', app.metricUnits);
   app.emitter.emit('vf-metric-units-saved');
 }
 

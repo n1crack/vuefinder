@@ -18,12 +18,16 @@ export default {
 import {computed, inject, nextTick, reactive, ref} from 'vue';
 import {FEATURES} from "./features.js";
 
-const app = inject('ServiceContainer');
-const contextmenu = ref(null);
-
 const props = defineProps({
   current: Object
 });
+
+const app = inject('ServiceContainer');
+const {t} = app.i18n
+
+const contextmenu = ref(null);
+const selectedItems = ref([]);
+const searchQuery = ref('');
 
 const context = reactive({
   active: false,
@@ -38,12 +42,9 @@ const filteredItems = computed(() => {
   return context.items.filter(item => item.key == null || app.features.includes(item.key))
 });
 
-const selectedItems = ref([]);
-
 app.emitter.on('vf-context-selected', (items) => {
   selectedItems.value = items;
 })
-const {t} = app.i18n
 
 const menuItems = {
   newfolder: {
@@ -123,7 +124,6 @@ const run = (item) =>{
   item.action();
 };
 
-const searchQuery = ref('');
 
 app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;

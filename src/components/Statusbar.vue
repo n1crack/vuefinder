@@ -7,13 +7,13 @@
         </svg>
       </div>
       <select v-model="app.adapter" @change="handleStorageSelect" class="py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8">
-        <option v-for="storage in data.storages" :value="storage">
+        <option v-for="storage in app.data.storages" :value="storage">
           {{ storage }}
         </option>
       </select>
 
      <div class="ml-3">
-       <span v-if="searchQuery.length">{{ data.files.length }} items found. </span>
+       <span v-if="searchQuery.length">{{ app.data.files.length }} items found. </span>
        <span class="ml-1">{{ selectedItemCount > 0 ? selectedItemCount + ' ' + t('item(s) selected.') : '' }}</span>
      </div>
     </div>
@@ -37,16 +37,11 @@ export default {
 <script setup>
 import {inject, ref} from 'vue';
 
-const props = defineProps({
-  data: Object,
-});
-
 const app = inject('ServiceContainer');
-
-const {getStore, setStore} = app.storage;
-const selectedItemCount = ref(0);
-
 const {t} = app.i18n;
+const {setStore} = app.storage;
+
+const selectedItemCount = ref(0);
 
 const handleStorageSelect = () => {
   app.emitter.emit('vf-search-exit');

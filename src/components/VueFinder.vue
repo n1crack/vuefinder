@@ -6,17 +6,17 @@
           :style="!app.fullscreen ? 'max-height: ' + maxHeight : ''"
           class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')" @touchstart="app.emitter.emit('vf-contextmenu-hide')">
-        <v-f-toolbar :data="app.items" />
-        <v-f-breadcrumb :data="app.items"/>
-        <v-f-explorer :data="app.items"/>
-        <v-f-statusbar :data="app.items"/>
+        <v-f-toolbar />
+        <v-f-breadcrumb/>
+        <v-f-explorer/>
+        <v-f-statusbar/>
       </div>
 
       <Transition name="fade">
-       <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type" :selection="app.modal.data" :current="app.items"/>
+       <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type" :selection="app.modal.data" :current="app.data"/>
       </Transition>
 
-      <v-f-context-menu :current="app.items"/>
+      <v-f-context-menu :current="app.data"/>
 
       <downloader />
     </div>
@@ -40,7 +40,6 @@ import VFExplorer from '../components/Explorer.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
 import VFStatusbar from '../components/Statusbar.vue';
 import Downloader from "./Downloader.vue";
-
 
 const props = defineProps({
   request: {
@@ -76,6 +75,7 @@ const props = defineProps({
     default: '10mb'
   },
 });
+
 const {getStore} = useStorage(props.id);
 const emit = defineEmits(['select'])
 
@@ -90,10 +90,6 @@ app.root = root;
 // Translator
 const {t} = app.i18n;
 
-// unit switcher (for example: GB vs GiB)
-import { format as filesizeDefault, metricFormat as filesizeMetric } from './../utils/filesize.js'
-app.filesize = app.metricUnits ?  filesizeMetric  : filesizeDefault;
-
 app.emitter.on('vf-modal-close', () => {
   app.modal.active = false;
 });
@@ -105,7 +101,7 @@ app.emitter.on('vf-modal-show', (item) => {
 });
 
 const updateItems = (data) => {
-  Object.assign(app.items, data);
+  Object.assign(app.data, data);
   app.emitter.emit('vf-nodes-selected', {});
   app.emitter.emit('vf-explorer-update');
 };

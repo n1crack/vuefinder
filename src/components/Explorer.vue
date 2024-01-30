@@ -133,20 +133,20 @@ import LazyLoad from 'vanilla-lazyload';
 import title_shorten from "../utils/title_shorten.js";
 
 const props = defineProps({
-  data: Object,
   search: Object
 });
 
 const app = inject('ServiceContainer');
-
+const {t} = app.i18n;
 const {getStore} = app.storage;
+
 const ext = (item) => item?.substring(0, 3)
 const selectorArea = ref(null);
 const dragImage = ref(null);
 const selectedCount = ref(0)
 const ds = ref(null);
-const {t} = app.i18n;
 const randId = Math.floor(Math.random() * 2 ** 32);
+const searchQuery = ref('');
 
 /** @type {import('vanilla-lazyload').ILazyLoadInstance} */
 let vfLazyLoad
@@ -155,8 +155,6 @@ app.emitter.on('vf-fullscreen-toggle', () => {
   selectorArea.value.style.height = null;
 });
 
-const searchQuery = ref('');
-
 app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
 
@@ -164,8 +162,8 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
     app.emitter.emit('vf-fetch', {
       params: {
         q: 'search',
-        adapter: props.data.adapter,
-        path: props.data.dirname,
+        adapter: app.data.adapter,
+        path: app.data.dirname,
         filter: newQuery
       },
       onSuccess: (data) => {
@@ -175,7 +173,7 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
       }
     });
   } else {
-    app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.data.adapter, path: props.data.dirname}});
+    app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path: app.data.dirname}});
   }
 });
 
@@ -224,16 +222,16 @@ const delayedOpenItem = ($event) => {
 const openItem = (item) => {
   if (item.type == 'dir') {
     app.emitter.emit('vf-search-exit');
-    app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.data.adapter, path:item.path}});
+    app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:item.path}});
   } else {
-    app.emitter.emit('vf-modal-show', {type: 'preview', adapter: props.data.adapter, item});
+    app.emitter.emit('vf-modal-show', {type: 'preview', adapter: app.data.adapter, item});
   }
 };
 
 const sort = reactive( { active: false, column: '', order: '' });
 
 const getItems = (sorted = true) => {
-  let files = [...props.data.files],
+  let files = [...app.data.files],
       column = sort.column,
       order = sort.order == 'asc' ? 1 : -1;
 

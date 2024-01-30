@@ -118,26 +118,15 @@ import {inject, ref} from 'vue';
 import { FEATURES } from "./features.js";
 
 const app = inject('ServiceContainer');
-
-const {getStore, setStore} = app.storage;
-
+const {setStore} = app.storage;
 const {t} = app.i18n;
 
-app.view = getStore('viewport', 'grid');
-
 const selectedItems = ref([]);
-
-const props = defineProps({
-  data: Object
-});
-
 const searchQuery = ref('');
 
 app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
 });
-
-app.fullscreen = ref(getStore('full-screen', false))
 
 const toggleFullScreen = () => {
   app.fullscreen = !app.fullscreen;
