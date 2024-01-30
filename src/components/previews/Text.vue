@@ -7,7 +7,7 @@
     <div class="ml-auto mb-2">
       <button @click="save" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">
         {{ t('Save') }}</button>
-      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
+      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()" v-if="features.includes(FEATURES.EDIT)">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
     </div>
   </div>
   <div>
@@ -26,28 +26,33 @@
 <script setup>
 
 import {inject, nextTick, onMounted, ref} from 'vue';
-import ajax from '../../utils/ajax.js';
-import {useApiUrl} from '../../composables/useApiUrl.js';
 import Message from '../Message.vue';
+import {FEATURES} from "../features.js";
 
 const emit = defineEmits(['load'])
 const content = ref('');
 const contentTemp = ref('');
 const editInput = ref(null);
 const showEdit = ref(false);
-const {apiUrl} = useApiUrl();
 const props = defineProps({
   selection: Object
 });
 const message = ref('');
 const isError = ref(false);
 
+/** @type {import('../../utils/ajax.js').Requester} */
+const requester = inject('requester');
+/** @type {import('vue').Ref<String[]>} */
+const features = inject('features');
+
 const {t} = inject('i18n');
 
 onMounted(() => {
-  ajax(apiUrl.value, {
+  requester.send({
+    url: '',
+    method: 'get',
     params: {q: 'preview', adapter: props.selection.adapter, path: props.selection.item.path},
-    json: false
+    responseType: 'text',
   })
       .then(data => {
         content.value = data;
@@ -65,21 +70,22 @@ const editMode = () => {
   }
 };
 
-const postData = inject('postData');
-
 const save = () => {
   message.value = '';
   isError.value = false;
 
-  ajax(apiUrl.value, {
-    method: 'POST',
-    params: Object.assign(postData, {
+  requester.send({
+    url: '',
+    method: 'post',
+    params: {
       q: 'save',
       adapter: props.selection.adapter,
       path: props.selection.item.path,
+    },
+    body: {
       content: contentTemp.value
-    }),
-    json: false,
+    },
+    responseType: 'text',
   })
       .then(data => {
         message.value = t('Updated.');

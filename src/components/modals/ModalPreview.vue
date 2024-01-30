@@ -2,7 +2,7 @@
   <v-f-modal-layout>
     <div class="sm:flex sm:items-start">
       <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-        <div>
+        <div v-if="enabledPreview">
           <Text v-if="loadPreview('text')" :selection="selection" @load="setLoad(true)"/>
           <Image v-else-if="loadPreview('image')" :selection="selection" @load="setLoad(true)"/>
           <Video v-else-if="loadPreview('video')" :selection="selection" @load="setLoad(true)"/>
@@ -31,7 +31,7 @@
 
     <template v-slot:buttons>
       <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Close') }}</button>
-      <button type="button" @click="download()" class="vf-btn vf-btn-primary">{{ t('Download') }}</button>
+      <button type="button" @click="download()" class="vf-btn vf-btn-primary" v-if="features.includes(FEATURES.DOWNLOAD)">{{ t('Download') }}</button>
     </template>
   </v-f-modal-layout>
 </template>
@@ -51,14 +51,17 @@ import Default from '../previews/Default.vue';
 import Video from '../previews/Video.vue';
 import Audio from '../previews/Audio.vue';
 import Pdf from '../previews/Pdf.vue';
-import buildURLQuery from '../../utils/buildURLQuery.js';
-import {useApiUrl} from '../../composables/useApiUrl.js';
 import datetimestring from '../../utils/datetimestring.js';
-const {apiUrl} = useApiUrl();
+import {FEATURES} from "../features.js";
+
 const emitter = inject('emitter')
 const {t} = inject('i18n')
 const loaded = ref(false);
 const filesize = inject("filesize")
+/** @type {import('../../utils/ajax.js').Requester} */
+const requester = inject('requester');
+/** @type {import('vue').Ref<String[]>} */
+const features = inject('features');
 
 const setLoad = (bool) => loaded.value = bool;
 
@@ -69,7 +72,12 @@ const props = defineProps({
 const loadPreview = (type) => (props.selection.item.mime_type ?? '').startsWith(type)
 
 const download = () => {
-  const url = apiUrl.value + '?' + buildURLQuery({q:'download', adapter: props.selection.adapter, path: props.selection.item.path});
+  const url = requester.getDownloadUrl(props.selection.adapter, props.selection.item)
   emitter.emit('vf-download', url)
+}
+
+const enabledPreview = features.value.includes(FEATURES.PREVIEW)
+if (!enabledPreview) {
+  setLoad(true)
 }
 </script>

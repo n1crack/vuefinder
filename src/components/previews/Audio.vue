@@ -11,18 +11,17 @@
 
 <script setup>
 
-import {onMounted} from 'vue';
-import buildURLQuery from '../../utils/buildURLQuery.js';
-import {useApiUrl} from '../../composables/useApiUrl.js';
-const {apiUrl} = useApiUrl();
+import {inject, onMounted} from 'vue';
 const props = defineProps({
   selection: Object
 });
 
+/** @type {import('../../utils/ajax.js').Requester} */
+const requester = inject('requester');
 const emit = defineEmits(['load']);
 
 const getAudioUrl = () => {
-  return apiUrl.value + '?' + buildURLQuery({q:'preview', adapter: props.selection.adapter, path: props.selection.item.path})
+  return requester.getPreviewUrl(props.selection.adapter, props.selection.item)
 }
 
 onMounted(() => {

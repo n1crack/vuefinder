@@ -1,6 +1,7 @@
 import {ref, watch} from 'vue';
 
 
+/** @param {String} key */
 export function useStorage(key) {
     let storedValues = localStorage.getItem(key + '_storage');
 
@@ -16,6 +17,10 @@ export function useStorage(key) {
         }
     }
 
+    /**
+     * @param {String} key
+     * @param {*} value
+     */
     function setStore(key, value) {
         storage.value = Object.assign({...storage.value}, {...{[key]: value}});
     }
@@ -24,6 +29,10 @@ export function useStorage(key) {
         storage.value = null;
     }
 
+    /**
+     * @param {String} key
+     * @param {*} defaultValue
+     */
     const getStore = (key, defaultValue = null) => {
         if (storage.value === null || storage.value === '') {
             return defaultValue;

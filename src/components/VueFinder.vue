@@ -12,9 +12,13 @@
         <v-f-statusbar :data="fetchData"/>
       </div>
 
-      <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :selection="modal.data" :current="fetchData"/>
+      <Transition name="fade">
+       <component v-if="modal.active" :is="'v-f-modal-'+ modal.type" :selection="modal.data" :current="fetchData"/>
+      </Transition>
+
       <v-f-context-menu :current="fetchData"/>
-      <iframe id="download_frame" style="display:none;"></iframe>
+
+      <iframe ref="downloadFrame" style="display:none;"></iframe>
     </div>
   </div>
 </template>
@@ -26,21 +30,30 @@ export default {
 </script>
 
 <script setup>
-import {computed, defineProps, onMounted, provide, reactive, ref, watch} from 'vue';
-import ajax from '../utils/ajax.js';
+import {computed, onMounted, provide, reactive, ref, watch} from 'vue';
 import mitt from 'mitt';
+import { buildRequester } from '../utils/ajax.js';
 import {useStorage} from '../composables/useStorage.js';
-import {useApiUrl} from '../composables/useApiUrl.js';
 import VFToolbar from '../components/Toolbar.vue';
 import VFExplorer from '../components/Explorer.vue';
 import VFStatusbar from '../components/Statusbar.vue';
 import VFBreadcrumb from '../components/Breadcrumb.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
 import {useI18n} from '../composables/useI18n.js';
+import { FEATURE_ALL_NAMES } from "./features.js";
 
 const props = defineProps({
-  url: {
-    type: [String],
+  request: {
+    type: [String, Object],
+    required: true,
+  },
+  features: {
+    type: [Array, Boolean],
+    default: true,
+  },
+  debug: {
+    type: Boolean,
+    default: false,
   },
   id: {
     type: String,
@@ -66,33 +79,42 @@ const props = defineProps({
     type: String,
     default: '10mb'
   },
-  postData: {
-    type: Object,
-    default: {}
-  }
 });
 const emitter = mitt();
 const {setStore, getStore} = useStorage(props.id);
 const adapter =ref(getStore('adapter'));
+
+const emit = defineEmits(['select'])
 
 /** @type import('vue').Ref<HTMLDivElement> */
 const root = ref(null);
 provide('root', root);
 provide('emitter', emitter);
 provide('storage', useStorage(props.id));
-provide('postData', props.postData);
 provide('adapter', adapter);
 provide('maxFileSize', props.maxFileSize);
 provide('usePropDarkMode', props.usePropDarkMode);
+provide('debug', props.debug);
 // use reactive instead of ref to be able to use one object for all components
+
+// Requester
+const requester = buildRequester(props.request);
+provide('requester', requester);
+
+// Features
+/** @type {import('vue').Ref<String[]>} */
+const features = ref([]);
+if (Array.isArray(props.features)) {
+  features.value.push(...props.features);
+} else if (props.features === true) {
+  features.value.push(...FEATURE_ALL_NAMES);
+}
+provide('features', features);
 
 // Lang Management
 const i18n = useI18n(props.id, props.locale, emitter);
 const {t} = i18n;
 provide('i18n', i18n);
-
-const {apiUrl, setApiUrl} = useApiUrl();
-setApiUrl(props.url);
 
 const fetchData = reactive({adapter: adapter.value, storages: [], dirname: '.', files: []});
 
@@ -159,13 +181,18 @@ const updateItems = (data) => {
   emitter.emit('vf-explorer-update');
 };
 
+emitter.on('vf-nodes-selected', (items) => {
+  emit('select', items);
+})
+
+/** @type {AbortController} */
 let controller;
 emitter.on('vf-fetch-abort', () => {
   controller.abort();
   loadingState.value = false;
 });
 
-emitter.on('vf-fetch', ({params, onSuccess = null, onError = null, noCloseModal = false}) => {
+emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}) => {
   if (['index', 'search'].includes(params.q)) {
     if (controller) {
       controller.abort();
@@ -175,29 +202,37 @@ emitter.on('vf-fetch', ({params, onSuccess = null, onError = null, noCloseModal 
 
   controller = new AbortController();
   const signal = controller.signal;
-  ajax(apiUrl.value, {params, signal})
-      .then(data => {
-        adapter.value = data.adapter;
-        if (['index', 'search'].includes(params.q)) {
-          loadingState.value = false;
-        }
-        if (!noCloseModal) {
-          emitter.emit('vf-modal-close');
-        }
-        updateItems(data);
-        onSuccess(data);
-      })
-      .catch((e) => {
-        if (onError) {
-          onError(e);
-        }
-      })
-      .finally(() => {
-      });
+  requester.send({
+    url: '',
+    method: params.m || 'get',
+    params,
+    body,
+    abortSignal: signal,
+  }).then(data => {
+    adapter.value = data.adapter;
+    if (['index', 'search'].includes(params.q)) {
+      loadingState.value = false;
+    }
+    if (!noCloseModal) {
+      emitter.emit('vf-modal-close');
+    }
+    updateItems(data);
+    if (onSuccess) {
+      onSuccess(data);
+    }
+  }).catch((e) => {
+    console.error(e)
+    if (onError) {
+      onError(e);
+    }
+  });
 });
 
+/** @type {import('vue').Ref<HTMLIFrameElement>} */
+const downloadFrame = ref(null)
+
 emitter.on('vf-download', (url) => {
-  document.getElementById('download_frame').src = url;
+  downloadFrame.value.src = url;
   emitter.emit('vf-modal-close');
 });
 

@@ -3,6 +3,7 @@
     <div class="flex text-center" v-if="!searchQuery.length">
         <div class="mx-1.5"
              :aria-label="t('New Folder')" data-microtip-position="bottom-right" role="tooltip"
+             v-if="features.includes(FEATURES.NEW_FOLDER)"
              @click="emitter.emit('vf-modal-show', {type:'new-folder', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -12,6 +13,7 @@
 
         <div class="mx-1.5"
              :aria-label="t('New File')" data-microtip-position="bottom" role="tooltip"
+             v-if="features.includes(FEATURES.NEW_FILE)"
              @click="emitter.emit('vf-modal-show', {type:'new-file', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -21,6 +23,7 @@
 
         <div class="mx-1.5"
              :aria-label="t('Rename')" data-microtip-position="bottom" role="tooltip"
+             v-if="features.includes(FEATURES.RENAME)"
              @click="(selectedItems.length != 1) || emitter.emit('vf-modal-show', {type:'rename', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                 :class="(selectedItems.length == 1) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
@@ -31,6 +34,7 @@
 
         <div class="mx-1.5"
              :aria-label="t('Delete')" data-microtip-position="bottom" role="tooltip"
+             v-if="features.includes(FEATURES.DELETE)"
              @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'delete', items: selectedItems})">
             <svg xmlns="http://www.w3.org/2000/svg"
                  :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
@@ -41,13 +45,14 @@
 
         <div class="mx-1.5"
              :aria-label="t('Upload')" data-microtip-position="bottom" role="tooltip"
+             v-if="features.includes(FEATURES.UPLOAD)"
              @click="emitter.emit('vf-modal-show', {type:'upload', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
           </svg>
         </div>
 
-        <div class="mx-1.5" v-if="selectedItems.length == 1 && selectedItems[0].mime_type == 'application/zip'"
+        <div class="mx-1.5" v-if="features.includes(FEATURES.UNARCHIVE) && selectedItems.length == 1 && selectedItems[0].mime_type == 'application/zip'"
              :aria-label="t('Unarchive')" data-microtip-position="bottom" role="tooltip"
               @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +61,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
           </svg>
         </div>
-        <div class="mx-1.5" v-else
+        <div class="mx-1.5" v-if="features.includes(FEATURES.ARCHIVE)"
              :aria-label="t('Archive')" data-microtip-position="bottom" role="tooltip"
               @click="(!selectedItems.length) || emitter.emit('vf-modal-show', {type:'archive', items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -118,6 +123,7 @@ export default {
 
 <script setup>
 import {inject, ref} from 'vue';
+import { FEATURES } from "./features.js";
 
 const emitter = inject('emitter')
 
@@ -131,7 +137,10 @@ const view = ref(getStore('viewport', 'grid'));
 
 const selectedItems = ref([]);
 
-const fullScreen = ref(getStore('full-screen', false));
+const fullScreen = ref(getStore('full-screen', false))
+
+/** @type {import('vue').Ref<String[]>} */
+const features = inject('features')
 
 const props = defineProps({
   data: Object

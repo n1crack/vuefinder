@@ -1,7 +1,7 @@
 <template>
   <ul class="z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none" ref="contextmenu" v-if="context.active" :style="context.positions">
     <li class="px-2 py-1.5 cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700"
-        v-for="(item) in context.items" :key="item.title" @click="run(item)">
+        v-for="(item) in filteredItems" :key="item.title" @click="run(item)">
       <span class="px-1"></span>
       <span>{{ item.title() }}</span>
     </li>
@@ -15,16 +15,17 @@ export default {
 </script>
 
 <script setup>
-import {inject, nextTick, reactive, ref} from 'vue';
-import buildURLQuery from '../utils/buildURLQuery.js';
-import {useApiUrl} from '../composables/useApiUrl.js';
+import {computed, inject, nextTick, reactive, ref} from 'vue';
+import {FEATURES} from "./features.js";
 
 const emitter = inject('emitter');
 const contextmenu = ref(null);
 
-const {apiUrl} = useApiUrl();
-
 const root = inject('root');
+/** @type {import('../utils/ajax.js').Requester} */
+const requester = inject('requester');
+/** @type {import('vue').Ref<String[]>} */
+const features = inject('features');
 
 const props = defineProps({
   current: Object
@@ -39,6 +40,10 @@ const context = reactive({
   }
 });
 
+const filteredItems = computed(() => {
+  return context.items.filter(item => item.key == null || features.value.includes(item.key))
+});
+
 const selectedItems = ref([]);
 
 emitter.on('vf-context-selected', (items) => {
@@ -48,12 +53,14 @@ const {t} = inject('i18n')
 
 const menuItems = {
   newfolder: {
+    key: FEATURES.NEW_FOLDER,
     title: () => t('New Folder'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'new-folder'});
     },
   },
   delete: {
+    key: FEATURES.DELETE,
     title: () => t('Delete'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'delete', items: selectedItems});
@@ -66,6 +73,7 @@ const menuItems = {
     },
   },
   preview: {
+    key: FEATURES.PREVIEW,
     title: () =>  t('Preview'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
@@ -86,25 +94,29 @@ const menuItems = {
     },
   },
   download: {
+    key: FEATURES.DOWNLOAD,
     title: () =>  t('Download'),
     action: () => {
-      const url = apiUrl.value + '?' + buildURLQuery({q:'download', adapter: props.current.adapter, path: selectedItems.value[0].path});
+      const url = requester.getDownloadUrl(props.current.adapter, selectedItems.value[0]);
       emitter.emit('vf-download', url);
     },
   },
   archive: {
+    key: FEATURES.ARCHIVE,
     title: () =>  t('Archive'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'archive', items: selectedItems});
     },
   },
   unarchive: {
+    key: FEATURES.UNARCHIVE,
     title: () => t('Unarchive'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems});
     },
   },
   rename: {
+    key: FEATURES.RENAME,
     title: () =>  t('Rename'),
     action: () => {
       emitter.emit('vf-modal-show', {type:'rename', items: selectedItems});

@@ -69,10 +69,13 @@ const archive = () => {
     emitter.emit('vf-fetch', {
       params: {
         q: 'archive',
+        m: 'post',
         adapter: adapter.value,
         path: props.current.dirname,
-        items: JSON.stringify(items.value.map(({path, type}) => ({path, type}))),
-        name: name.value
+      },
+      body: {
+        items: items.value.map(({path, type}) => ({path, type})),
+        name: name.value,
       },
       onSuccess: () => {
         emitter.emit('vf-toast-push', {label: t('The file(s) archived.')});

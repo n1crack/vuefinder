@@ -89,6 +89,19 @@
     .vf-scrollbar::-webkit-scrollbar-corner {
         @apply bg-transparent;
     }
+
+
+    /* modal fade effect */
+    .vuefinder .fade-enter-active,
+    .vuefinder .fade-leave-active {
+        transition: opacity 0.2s ease;
+    }
+
+    .vuefinder .fade-enter-from,
+    .vuefinder .fade-leave-to {
+        opacity: 0;
+    }
+
 }
 
 @tailwind utilities;
