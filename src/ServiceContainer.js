@@ -7,7 +7,6 @@ import {FEATURE_ALL_NAMES} from "./components/features.js";
 import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
 
-
 export default (props) => {
     const storage = useStorage(props.id);
     const emitter = mitt()
