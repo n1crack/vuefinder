@@ -18,14 +18,8 @@ export default {
 import {computed, inject, nextTick, reactive, ref} from 'vue';
 import {FEATURES} from "./features.js";
 
-const emitter = inject('emitter');
+const app = inject('VueFinder');
 const contextmenu = ref(null);
-
-const root = inject('root');
-/** @type {import('../utils/ajax.js').Requester} */
-const requester = inject('requester');
-/** @type {import('vue').Ref<String[]>} */
-const features = inject('features');
 
 const props = defineProps({
   current: Object
@@ -41,12 +35,12 @@ const context = reactive({
 });
 
 const filteredItems = computed(() => {
-  return context.items.filter(item => item.key == null || features.value.includes(item.key))
+  return context.items.filter(item => item.key == null || app.features.includes(item.key))
 });
 
 const selectedItems = ref([]);
 
-emitter.on('vf-context-selected', (items) => {
+app.emitter.on('vf-context-selected', (items) => {
   selectedItems.value = items;
 })
 const {t} = inject('i18n')
@@ -56,92 +50,92 @@ const menuItems = {
     key: FEATURES.NEW_FOLDER,
     title: () => t('New Folder'),
     action: () => {
-      emitter.emit('vf-modal-show', {type:'new-folder'});
+      app.emitter.emit('vf-modal-show', {type:'new-folder'});
     },
   },
   delete: {
     key: FEATURES.DELETE,
     title: () => t('Delete'),
     action: () => {
-      emitter.emit('vf-modal-show', {type:'delete', items: selectedItems});
+      app.emitter.emit('vf-modal-show', {type:'delete', items: selectedItems});
     },
   },
   refresh: {
     title: () =>  t('Refresh'),
     action: () => {
-      emitter.emit('vf-fetch',{params:{q: 'index', adapter: props.current.adapter, path: props.current.dirname}} );
+      app.emitter.emit('vf-fetch',{params:{q: 'index', adapter: props.current.adapter, path: props.current.dirname}} );
     },
   },
   preview: {
     key: FEATURES.PREVIEW,
     title: () =>  t('Preview'),
     action: () => {
-      emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
+      app.emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
     },
   },
   open: {
     title: () =>  t('Open'),
     action: () => {
-      emitter.emit('vf-search-exit');
-      emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path:selectedItems.value[0].path}});
+      app.emitter.emit('vf-search-exit');
+      app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path:selectedItems.value[0].path}});
     },
   },
   openDir: {
     title: () =>  t('Open containing folder'),
     action: () => {
-      emitter.emit('vf-search-exit');
-      emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path: (selectedItems.value[0].dir)}});
+      app.emitter.emit('vf-search-exit');
+      app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path: (selectedItems.value[0].dir)}});
     },
   },
   download: {
     key: FEATURES.DOWNLOAD,
     title: () =>  t('Download'),
     action: () => {
-      const url = requester.getDownloadUrl(props.current.adapter, selectedItems.value[0]);
-      emitter.emit('vf-download', url);
+      const url = app.requester.getDownloadUrl(props.current.adapter, selectedItems.value[0]);
+      app.emitter.emit('vf-download', url);
     },
   },
   archive: {
     key: FEATURES.ARCHIVE,
     title: () =>  t('Archive'),
     action: () => {
-      emitter.emit('vf-modal-show', {type:'archive', items: selectedItems});
+      app.emitter.emit('vf-modal-show', {type:'archive', items: selectedItems});
     },
   },
   unarchive: {
     key: FEATURES.UNARCHIVE,
     title: () => t('Unarchive'),
     action: () => {
-      emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems});
+      app.emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems});
     },
   },
   rename: {
     key: FEATURES.RENAME,
     title: () =>  t('Rename'),
     action: () => {
-      emitter.emit('vf-modal-show', {type:'rename', items: selectedItems});
+      app.emitter.emit('vf-modal-show', {type:'rename', items: selectedItems});
     },
   }
 };
 
 const run = (item) =>{
-  emitter.emit('vf-contextmenu-hide');
+  app.emitter.emit('vf-contextmenu-hide');
   item.action();
 };
 
 const searchQuery = ref('');
 
-emitter.on('vf-search-query', ({newQuery}) => {
+app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
 });
 
-emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
+app.emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
   context.items = [];
 
   if (searchQuery.value) {
     if (target) {
       context.items.push(menuItems.openDir);
-      emitter.emit('vf-context-selected', [target]);
+      app.emitter.emit('vf-context-selected', [target]);
       // console.log('search item selected');
     } else {
       return;
@@ -149,13 +143,13 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
   } else if (!target && !searchQuery.value) {
     context.items.push(menuItems.refresh);
     context.items.push(menuItems.newfolder);
-    emitter.emit('vf-context-selected', []);
+    app.emitter.emit('vf-context-selected', []);
     // console.log('no files selected');
   } else if (items.length > 1 && items.some(el => el.path === target.path)) {
     context.items.push(menuItems.refresh);
     context.items.push(menuItems.archive);
     context.items.push(menuItems.delete);
-    emitter.emit('vf-context-selected', items);
+    app.emitter.emit('vf-context-selected', items);
     // console.log(items.length + ' selected (more than 1 item.)');
   } else {
     if (target.type == 'dir') {
@@ -172,13 +166,13 @@ emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
       context.items.push(menuItems.archive);
     }
     context.items.push(menuItems.delete);
-    emitter.emit('vf-context-selected', [target]);
+    app.emitter.emit('vf-context-selected', [target]);
     // console.log(target.type + ' is selected');
   }
   showContextMenu(event, area)
 })
 
-emitter.on('vf-contextmenu-hide', () => {
+app.emitter.on('vf-contextmenu-hide', () => {
   context.active = false;
 })
 
@@ -186,7 +180,7 @@ const showContextMenu = (event, area) => {
   context.active = true;
 
   nextTick(() => {
-    const rootBbox = root.value.getBoundingClientRect();
+    const rootBbox = app.root.getBoundingClientRect();
     const areaContainer = area.getBoundingClientRect();
 
     let left = event.pageX - rootBbox.left;

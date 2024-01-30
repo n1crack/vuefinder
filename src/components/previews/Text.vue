@@ -7,7 +7,7 @@
     <div class="ml-auto mb-2">
       <button @click="save" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">
         {{ t('Save') }}</button>
-      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()" v-if="features.includes(FEATURES.EDIT)">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
+      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()" v-if="app.features.includes(FEATURES.EDIT)">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
     </div>
   </div>
   <div>
@@ -40,15 +40,12 @@ const props = defineProps({
 const message = ref('');
 const isError = ref(false);
 
-/** @type {import('../../utils/ajax.js').Requester} */
-const requester = inject('requester');
-/** @type {import('vue').Ref<String[]>} */
-const features = inject('features');
+const app = inject('VueFinder');
 
 const {t} = inject('i18n');
 
 onMounted(() => {
-  requester.send({
+  app.requester.send({
     url: '',
     method: 'get',
     params: {q: 'preview', adapter: props.selection.adapter, path: props.selection.item.path},
@@ -74,7 +71,7 @@ const save = () => {
   message.value = '';
   isError.value = false;
 
-  requester.send({
+  app.requester.send({
     url: '',
     method: 'post',
     params: {

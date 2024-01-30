@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { FEATURES, FEATURE_ALL_NAMES } from './components/features.js';
+import { FEATURES, FEATURE_ALL_NAMES } from '../src/components/features.js';
 
 /** @type {import('./utils/ajax.js').RequestConfig} */
 const request = {

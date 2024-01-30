@@ -12,7 +12,7 @@
       </div>
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">
-          {{ t('About %s', 'Vuefinder ' + version ) }}</h3>
+          {{ t('About %s', 'Vuefinder ' + app.version ) }}</h3>
         <div class="mt-2">
 
           <p class="text-sm text-gray-500">{{ t('Vuefinder is a file manager component for vue 3.') }}</p>
@@ -24,7 +24,7 @@
               <div class="space-y-2">
                 <div class="flex relative gap-x-3">
                   <div class="h-6 items-center">
-                    <input id="dark_mode" name="dark_mode" v-model="darkMode" type="checkbox"
+                    <input id="dark_mode" name="dark_mode" v-model="app.darkMode" type="checkbox"
                            @click="handleDarkMode"
                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
                   </div>
@@ -37,7 +37,7 @@
                 <div class="flex relative gap-x-3">
                   <div class="h-6 items-center">
                     <input id="metric_unit" name="metric_unit" type="checkbox"
-                           v-model="metricUnits"
+                           v-model="app.metricUnits"
                            @click="handleMetricUnits"
                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
                   </div>
@@ -48,7 +48,7 @@
                   </div>
                 </div>
 
-                <div class="flex relative gap-x-3" v-if="features.includes(FEATURES.LANGUAGE)">
+                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE)">
                   <div class="h-6 items-center">
                     <div class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
                       {{ t('Language') }}
@@ -74,7 +74,7 @@
       </div>
     </div>
     <template v-slot:buttons>
-      <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
+      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
         {{ t('Close') }}
       </button>
     </template>
@@ -91,14 +91,15 @@ export default {
 import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";
-import {version} from './../../../package.json';
+import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize.js'
+
 import { FEATURES } from '../features.js';
 
-const emitter = inject('emitter');
-const {getStore, clearStore} = inject('storage');
+const app = inject('VueFinder');
+const {getStore, setStore, clearStore} = inject('storage');
 const adapter = inject('adapter');
 const {t, changeLocale, locale} = inject('i18n');
-const features = inject("features");
+
 
 const props = defineProps({
   selection: Object,
@@ -108,22 +109,24 @@ const props = defineProps({
 const name = ref('');
 const message = ref('');
 
-const darkMode = inject('darkMode');
-
 const clearLocalStorage = async () => {
   clearStore();
   location.reload();
 };
 
+// todo: add system dark mode detection as 3rd option
 const handleDarkMode = () => {
-  emitter.emit('vf-darkMode-toggle');
-  emitter.emit('vf-darkMode-saved');
+  app.darkMode = !app.darkMode;
+  setStore('darkMode', app.darkMode);
+  app.emitter.emit('vf-darkMode-saved');
 }
 
-const metricUnits = inject('metricUnits');
-
 const handleMetricUnits = () => {
-  emitter.emit('vf-metric-units-saved', !metricUnits.value);
+  app.metricUnits = !app.metricUnits;
+    app.filesize = app.metricUnits ?  filesizeMetric  : filesizeDefault
+
+  setStore('metricUnits', !app.metricUnits);
+  app.emitter.emit('vf-metric-units-saved');
 }
 
 const supportedLanguages = {
