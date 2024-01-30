@@ -64,7 +64,7 @@ const createFolder = () => {
         name: name.value
       },
       onSuccess: () => {
-        emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
+        app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
       },
       onError: (e) => {
         message.value = t(e.message);

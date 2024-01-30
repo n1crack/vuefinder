@@ -32,14 +32,15 @@ export default {
 <script setup>
 import {onMounted, provide, reactive, ref} from 'vue';
 import {useStorage} from '../composables/useStorage.js';
+import ServiceContainer from "../ServiceContainer.js";
+
 import VFToolbar from '../components/Toolbar.vue';
-import VFExplorer from '../components/Explorer.vue';
-import VFStatusbar from '../components/Statusbar.vue';
 import VFBreadcrumb from '../components/Breadcrumb.vue';
+import VFExplorer from '../components/Explorer.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
+import VFStatusbar from '../components/Statusbar.vue';
 import Downloader from "./Downloader.vue";
 
-import ServiceContainer from "../provider.js";
 
 const props = defineProps({
   request: {

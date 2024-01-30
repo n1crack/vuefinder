@@ -139,14 +139,14 @@ const props = defineProps({
 
 const app = inject('ServiceContainer');
 
-const { setStore, getStore } = app.storage;
+const {setStore, getStore} = app.storage;
 const ext = (item) => item?.substring(0, 3)
 const selectorArea = ref(null);
 const dragImage = ref(null);
 const selectedCount = ref(0)
 const ds = ref(null);
 const {t} = app.i18n;
-const randId = Math.floor(Math.random() * 2**32);
+const randId = Math.floor(Math.random() * 2 ** 32);
 
 /** @type {import('vanilla-lazyload').ILazyLoadInstance} */
 let vfLazyLoad

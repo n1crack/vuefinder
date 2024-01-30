@@ -1,10 +1,10 @@
-import {reactive, ref} from "vue";
+import {reactive} from "vue";
 import mitt from "mitt";
-import {version} from './../package.json';
-import {FEATURE_ALL_NAMES} from "./components/features.js";
-import {useStorage} from "./composables/useStorage.js";
 import {buildRequester} from "./utils/ajax.js";
+import {useStorage} from "./composables/useStorage.js";
 import {useI18n} from "./composables/useI18n.js";
+import {FEATURE_ALL_NAMES} from "./components/features.js";
+import {version} from './../package.json';
 
 export default (props) => {
     const storage = useStorage(props.id);
