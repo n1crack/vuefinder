@@ -199,7 +199,7 @@ const o = e, i = {
   "File Name": "檔案名称",
   "Move files": "移動檔案",
   "Are you sure you want to move these files to?": "您確定要移動這些檔案嗎？",
-  "Yes, Move!": "確定，複製！",
+  "Yes, Move!": "確定，移動！",
   "Delete files": "刪除檔案",
   "Yes, Delete!": "確定，刪除！",
   "Upload Files": "上傳檔案",
