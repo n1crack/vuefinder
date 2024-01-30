@@ -31,26 +31,22 @@ export default {
             root: null,
             // Event Bus
             emitter: mitt(),
-
             // modals
             features: [...FEATURE_ALL_NAMES],
-
+            // theme state
             darkMode: false,
-
+            // view state
             view: 'grid',
-
+            // fullscreen state
             fullscreen: false,
-
+            // unit state - for example: GB or GiB
             metricUnits: false,
-
+            // human readable file sizes
             filesize: null,
-
             // loading state
             loading: false,
-
-            // modal state
+            // locale state
             locale: options.locale ?? 'en',
-
             // modal state
             modal: {
                 active: false,
