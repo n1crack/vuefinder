@@ -24,13 +24,13 @@
 
 <script setup>
 import { ref } from 'vue';
-import { FEATURES, FEATURE_ALL_NAMES } from '../src/components/features.js';
+import { FEATURES, FEATURE_ALL_NAMES } from './components/features.js';
 
 /** @type {import('./utils/ajax.js').RequestConfig} */
 const request = {
   // ----- CHANGE ME! -----
   // [REQUIRED] Url for development server endpoint
-  baseUrl: "http://vuefinder.ozdemir.be.test/vuefinder",
+  baseUrl: "http://localhost:8005/",
   // ----- CHANGE ME! -----
 
   // Additional headers & params & body

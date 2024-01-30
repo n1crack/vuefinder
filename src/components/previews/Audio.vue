@@ -16,12 +16,12 @@ const props = defineProps({
   selection: Object
 });
 
+/** @type {import('../../utils/ajax.js').Requester} */
+const requester = inject('requester');
 const emit = defineEmits(['load']);
 
-const app = inject('VueFinder');
-
 const getAudioUrl = () => {
-  return app.requester.getPreviewUrl(props.selection.adapter, props.selection.item)
+  return requester.getPreviewUrl(props.selection.adapter, props.selection.item)
 }
 
 onMounted(() => {

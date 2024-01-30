@@ -21,7 +21,7 @@
     <template v-slot:buttons>
       <button type="button" @click="createFolder" class="vf-btn vf-btn-primary">
         {{ t('Create') }}</button>
-      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
+      <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
         {{ t('Cancel') }}</button>
     </template>
   </v-f-modal-layout>
@@ -39,7 +39,7 @@ import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
-const app = inject('VueFinder');
+const emitter = inject('emitter');
 const {getStore} = inject('storage');
 const adapter = inject('adapter');
 const {t} = inject('i18n');

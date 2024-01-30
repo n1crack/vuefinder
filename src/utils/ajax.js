@@ -44,16 +44,16 @@ export const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttrib
  */
 export class Requester {
     /** @type {RequestConfig} */
-    config
+    #config
 
     /** @param {RequestConfig} config */
     constructor(config) {
-        this.config = config;
+        this.#config = config;
     }
 
     /** @type {RequestConfig} */
     get config() {
-        return this.config;
+        return this.#config;
     }
 
     /**
@@ -67,7 +67,7 @@ export class Requester {
      * @return {RequestTransformResultInternal}
      */
     transformRequestParams(input ) {
-        const config = this.config;
+        const config = this.#config;
         const ourHeaders = {};
         if (csrf != null && csrf !== '') {
             ourHeaders[config.xsrfHeaderName] = csrf;

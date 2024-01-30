@@ -25,13 +25,13 @@
 
     </div>
       <div class="py-2 flex font-normal break-all dark:text-gray-200 rounded text-xs">
-        <div><span class="font-bold pl-2">{{ t('File Size') }}: </span>{{ app.filesize(selection.item.file_size) }}</div>
+        <div><span class="font-bold pl-2">{{ t('File Size') }}: </span>{{ filesize(selection.item.file_size) }}</div>
         <div><span class="font-bold pl-2">{{ t('Last Modified') }}: </span> {{ datetimestring(selection.item.last_modified) }}</div>
       </div>
 
     <template v-slot:buttons>
-      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Close') }}</button>
-      <button type="button" @click="download()" class="vf-btn vf-btn-primary" v-if="app.features.includes(FEATURES.DOWNLOAD)">{{ t('Download') }}</button>
+      <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Close') }}</button>
+      <button type="button" @click="download()" class="vf-btn vf-btn-primary" v-if="features.includes(FEATURES.DOWNLOAD)">{{ t('Download') }}</button>
     </template>
   </v-f-modal-layout>
 </template>
@@ -54,9 +54,14 @@ import Pdf from '../previews/Pdf.vue';
 import datetimestring from '../../utils/datetimestring.js';
 import {FEATURES} from "../features.js";
 
-const app = inject('VueFinder')
+const emitter = inject('emitter')
 const {t} = inject('i18n')
 const loaded = ref(false);
+const filesize = inject("filesize")
+/** @type {import('../../utils/ajax.js').Requester} */
+const requester = inject('requester');
+/** @type {import('vue').Ref<String[]>} */
+const features = inject('features');
 
 const setLoad = (bool) => loaded.value = bool;
 
@@ -67,11 +72,11 @@ const props = defineProps({
 const loadPreview = (type) => (props.selection.item.mime_type ?? '').startsWith(type)
 
 const download = () => {
-  const url = app.requester.getDownloadUrl(props.selection.adapter, props.selection.item)
-  app.emitter.emit('vf-download', url)
+  const url = requester.getDownloadUrl(props.selection.adapter, props.selection.item)
+  emitter.emit('vf-download', url)
 }
 
-const enabledPreview = app.features.includes(FEATURES.PREVIEW)
+const enabledPreview = features.value.includes(FEATURES.PREVIEW)
 if (!enabledPreview) {
   setLoad(true)
 }

@@ -14,7 +14,7 @@ export default {
     on: {type: String, required: true},
   },
   setup(props, {emit, slots}) {
-    const app = inject('VueFinder');
+    const emitter = inject('emitter');
     const shown = ref(false);
     const {t} = inject('i18n');
 
@@ -29,7 +29,7 @@ export default {
     };
 
     onMounted(() => {
-      app.emitter.on(props.on, handleEvent);
+      emitter.on(props.on, handleEvent);
     });
 
     onUnmounted(() => {

@@ -26,12 +26,12 @@ const props = defineProps({
   selection: Object
 });
 
-const app = inject('VueFinder');
-
 const emit = defineEmits(['load']);
 
+/** @type {import('../utils/ajax.js').Requester} */
+const requester = inject('requester');
 const getPDFUrl = () => {
-  return app.requester.getPreviewUrl(props.selection.adapter, props.selection.item)
+  return requester.getPreviewUrl(props.selection.adapter, props.selection.item)
 }
 
 onMounted(() => {

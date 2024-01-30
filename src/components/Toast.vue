@@ -24,7 +24,7 @@ export default {
 
 <script setup>
 import {inject, ref} from 'vue';
-const app = inject('VueFinder');
+const emitter = inject('emitter');
 const {getStore} = inject('storage');
 
 const fullScreen = ref(getStore('full-screen', false));
@@ -49,11 +49,11 @@ const removeItemByID = (uid) => {
   }
 };
 
-app.emitter.on('vf-toast-clear', () => {
+emitter.on('vf-toast-clear', () => {
   messageQueue.value = []
 });
 
-app.emitter.on('vf-toast-push', (data) => {
+emitter.on('vf-toast-push', (data) => {
   let uid= new Date().getTime().toString(36).concat(performance.now().toString(), Math.random().toString()).replace(/\./g,"");
   data.id = uid;
   messageQueue.value.push(data);

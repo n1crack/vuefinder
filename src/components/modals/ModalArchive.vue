@@ -32,7 +32,7 @@
     <template v-slot:buttons>
       <button type="button" @click="archive" class="vf-btn vf-btn-primary">
         {{ t('Archive') }}</button>
-      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
+      <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
         {{ t('Cancel') }}</button>
     </template>
   </v-f-modal-layout>
@@ -49,7 +49,8 @@ export default {
 import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
-const app = inject('VueFinder');
+
+const emitter = inject('emitter');
 const {getStore} = inject('storage');
 const adapter = inject('adapter');
 const {t} = inject('i18n');
@@ -65,7 +66,7 @@ const items = ref(props.selection.items);
 
 const archive = () => {
   if (items.value.length) {
-    app.emitter.emit('vf-fetch', {
+    emitter.emit('vf-fetch', {
       params: {
         q: 'archive',
         m: 'post',
@@ -77,7 +78,7 @@ const archive = () => {
         name: name.value,
       },
       onSuccess: () => {
-        app.emitter.emit('vf-toast-push', {label: t('The file(s) archived.')});
+        emitter.emit('vf-toast-push', {label: t('The file(s) archived.')});
       },
       onError: (e) => {
         message.value = t(e.message);

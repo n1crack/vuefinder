@@ -27,7 +27,7 @@
 
     <template v-slot:buttons>
       <button type="button" @click="unarchive" class="vf-btn vf-btn-primary">{{ t('Unarchive') }}</button>
-      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
+      <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
     </template>
   </v-f-modal-layout>
 </template>
@@ -44,7 +44,7 @@ import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
-const app = inject('VueFinder');
+const emitter = inject('emitter');
 const {getStore} = inject('storage');
 const adapter = inject('adapter');
 const {t} = inject('i18n');
@@ -61,7 +61,7 @@ const message = ref('');
 const items = ref([]);
 
 const unarchive = () => {
-  app.emitter.emit('vf-fetch', {
+  emitter.emit('vf-fetch', {
     params: {
       q: 'unarchive',
       m: 'post',
@@ -72,7 +72,7 @@ const unarchive = () => {
       item: item.value.path
     },
     onSuccess: () => {
-      app.emitter.emit('vf-toast-push', {label: t('The file unarchived.')});
+      emitter.emit('vf-toast-push', {label: t('The file unarchived.')});
     },
     onError: (e) => {
       message.value = t(e.message);

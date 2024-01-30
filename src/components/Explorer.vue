@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex-auto flex flex-col overflow-hidden">
-    <div v-if="app.view=='list' || searchQuery.length" class="grid grid-cols-12 border-b border-neutral-300 border-gray-200 dark:border-gray-700 text-xs select-none">
+    <div v-if="view=='list' || searchQuery.length" class="grid grid-cols-12 border-b border-neutral-300 border-gray-200 dark:border-gray-700 text-xs select-none">
         <div @click="sortBy('basename')" class="col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center pl-1">
           {{ t('Name') }}
             <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'" v-show="sort.active && sort.column=='basename'" />
@@ -30,8 +30,8 @@
 
     <div
         @touchstart="handleTouchStart"
-        @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})"
-        :class="app.fullscreen ? '' : 'resize-y'"
+        @contextmenu.self.prevent="emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})"
+        :class="fullScreen ? '' : 'resize-y'"
         class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
         ref="selectorArea">
 
@@ -40,7 +40,7 @@
            @dblclick="openItem(item)"
            @touchstart="delayedOpenItem($event)"
            @touchend="clearTimeOut()"
-           @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+           @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            :class="'vf-item-' + randId"
            class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
            v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
@@ -59,11 +59,11 @@
       </div>
 
       <div draggable="true"
-           v-if="app.view==='list' && !searchQuery.length"
+           v-if="view=='list' && !searchQuery.length"
            @dblclick="openItem(item)"
            @touchstart="delayedOpenItem($event)"
            @touchend="clearTimeOut()"
-           @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+           @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
@@ -80,17 +80,17 @@
               </svg>
               <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
             </div>
-            <div class="col-span-2 text-center">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
+            <div class="col-span-2 text-center">{{ item.file_size ? filesize(item.file_size) : '' }}</div>
             <div class="col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ datetimestring(item.last_modified) }}</div>
           </div>
       </div>
 
       <div draggable="true"
-           v-if="app.view==='grid' && !searchQuery.length"
+           v-if="view=='grid' && !searchQuery.length"
            @dblclick="openItem(item)"
            @touchstart="delayedOpenItem($event)"
            @touchend="clearTimeOut()"
-           @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+           @contextmenu.prevent="emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
            @dragstart="handleDragStart($event,item)"
            @dragover="handleDragOver($event,item)"
            @drop="handleDropZone($event,item)"
@@ -102,7 +102,7 @@
               <svg v-if="item.type == 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
               </svg>
-              <img class="lazy h-10 md:h-12 m-auto" v-else-if="(item.mime_type ?? '').startsWith('image')" :data-src="app.requester.getPreviewUrl(adapter.value, item)" :alt="item.basename">
+              <img class="lazy h-10 md:h-12 m-auto" v-else-if="(item.mime_type ?? '').startsWith('image')" :data-src="requester.getPreviewUrl(adapter.value, item)" :alt="item.basename">
               <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
@@ -133,12 +133,14 @@ import LazyLoad from 'vanilla-lazyload';
 import title_shorten from "../utils/title_shorten.js";
 
 const props = defineProps({
+  view: String,
   data: Object,
   search: Object
 });
 
-const app = inject('VueFinder');
-
+/** @type {import('../utils/ajax.js').Requester} */
+const requester = inject('requester')
+const emitter = inject('emitter');
 const { setStore, getStore } = inject('storage');
 const adapter = inject('adapter');
 const ext = (item) => item?.substring(0, 3)
@@ -148,21 +150,25 @@ const selectedCount = ref(0)
 const ds = ref(null);
 const {t} = inject('i18n');
 const randId = Math.floor(Math.random() * 2**32);
+const fullScreen = ref(getStore('full-screen', false));
+const filesize = inject("filesize")
 
 /** @type {import('vanilla-lazyload').ILazyLoadInstance} */
 let vfLazyLoad
 
-app.emitter.on('vf-fullscreen-toggle', () => {
+emitter.on('vf-fullscreen-toggle', () => {
   selectorArea.value.style.height = null;
+  fullScreen.value = !fullScreen.value;
+  setStore('full-screen', fullScreen.value);
 });
 
 const searchQuery = ref('');
 
-app.emitter.on('vf-search-query', ({newQuery}) => {
+emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
 
   if (newQuery) {
-    app.emitter.emit('vf-fetch', {
+    emitter.emit('vf-fetch', {
       params: {
         q: 'search',
         adapter: props.data.adapter,
@@ -171,12 +177,12 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
       },
       onSuccess: (data) => {
         if (!data.files.length) {
-          app.emitter.emit('vf-toast-push', {label: t('No search result found.')});
+          emitter.emit('vf-toast-push', {label: t('No search result found.')});
         }
       }
     });
   } else {
-    app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.data.adapter, path: props.data.dirname}});
+    emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.data.adapter, path: props.data.dirname}});
   }
 });
 
@@ -196,11 +202,11 @@ const handleTouchStart = (event) => {
   if (event.touches.length > 1) {
     if (!dragAndDrop.value) {
       ds.value.start();
-      app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: on')});
-      app.emitter.emit('vf-explorer-update');
+      emitter.emit('vf-toast-push', {label: t('Drag&Drop: on')});
+      emitter.emit('vf-explorer-update');
     } else {
       ds.value.stop();
-      app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: off')});
+      emitter.emit('vf-toast-push', {label: t('Drag&Drop: off')});
     }
     dragAndDrop.value = !dragAndDrop.value;
   }
@@ -224,10 +230,10 @@ const delayedOpenItem = ($event) => {
 
 const openItem = (item) => {
   if (item.type == 'dir') {
-    app.emitter.emit('vf-search-exit');
-    app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.data.adapter, path:item.path}});
+    emitter.emit('vf-search-exit');
+    emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.data.adapter, path:item.path}});
   } else {
-    app.emitter.emit('vf-modal-show', {type: 'preview', adapter: props.data.adapter, item});
+    emitter.emit('vf-modal-show', {type: 'preview', adapter: props.data.adapter, item});
   }
 };
 
@@ -293,7 +299,7 @@ const handleDropZone = (e, item) => {
     return;
   }
 
-  app.emitter.emit('vf-modal-show', {type:'move', items: {from: draggedItems, to: item}});
+  emitter.emit('vf-modal-show', {type:'move', items: {from: draggedItems, to: item}});
 };
 
 const handleDragOver = (e, item) => {
@@ -314,7 +320,7 @@ const setDragSelect = () => {
     selectorClass: 'vf-explorer-selector',
   });
 
-  app.emitter.on('vf-explorer-update', () => nextTick(() => {
+  emitter.on('vf-explorer-update', () => nextTick(() => {
     ds.value.clearSelection();
     ds.value.setSettings({
       selectables: document.getElementsByClassName('vf-item-' + randId ),
@@ -344,7 +350,7 @@ const setDragSelect = () => {
   });
 
   ds.value.subscribe("callback", (	{ items, event, isDragging}) => {
-    app.emitter.emit('vf-nodes-selected', getSelectedItems());
+    emitter.emit('vf-nodes-selected', getSelectedItems());
     selectedCount.value = ds.value.getSelection().length;
   })
 };
@@ -361,7 +367,7 @@ onUpdated(() => {
 });
 
 onMounted(() => {
-  watch(() => app.view, () => app.emitter.emit('vf-explorer-update'));
+  watch(() => props.view, () => emitter.emit('vf-explorer-update'));
 });
 
 onBeforeUnmount(() => {
