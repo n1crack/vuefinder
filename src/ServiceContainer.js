@@ -8,8 +8,7 @@ import {version} from './../package.json';
 
 export default (props) => {
     const storage = useStorage(props.id);
-
-    const {setStore, getStore, clearStore} = storage;
+    const emitter = mitt()
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
@@ -17,8 +16,6 @@ export default (props) => {
         }
         return FEATURE_ALL_NAMES;
     }
-
-    const emitter = mitt()
 
     return reactive({
         // app id
@@ -36,13 +33,13 @@ export default (props) => {
         // http object
         requester : buildRequester(props.request),
         // theme state
-        darkMode: getStore('darkMode', props.dark),
+        darkMode: storage.getStore('darkMode', props.dark),
         // view state
         view: 'grid',
         // fullscreen state
         fullscreen: false,
         // unit state - for example: GB or GiB
-        metricUnits: getStore('metricUnits', false),
+        metricUnits: storage.getStore('metricUnits', false),
         // human readable file sizes
         filesize: null,
         // max file size
@@ -60,7 +57,7 @@ export default (props) => {
             data: {}
         },
         // main storage adapter
-        adapter: getStore('adapter'),
+        adapter: storage.getStore('adapter'),
         // storage
         storage: storage,
         // fetched items
