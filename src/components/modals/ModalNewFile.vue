@@ -23,7 +23,7 @@
       <button type="button" @click="createFile" class="vf-btn vf-btn-primary">
         {{ t('Create') }}
       </button>
-      <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
+      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
         {{ t('Cancel') }}
       </button>
     </template>
@@ -42,7 +42,7 @@ import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
-const emitter = inject('emitter');
+const app = inject('VueFinder');
 const {getStore} = inject('storage');
 const adapter = inject('adapter');
 const {t} = inject('i18n');
@@ -57,7 +57,7 @@ const message = ref('');
 
 const createFile = () => {
   if (name.value != '') {
-    emitter.emit('vf-fetch', {
+    app.emitter.emit('vf-fetch', {
       params: {
         q: 'newfile',
         m: 'post',
@@ -68,7 +68,7 @@ const createFile = () => {
         name: name.value
       },
       onSuccess: () => {
-        emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
+        app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
       },
       onError: (e) => {
         message.value = t(e.message);

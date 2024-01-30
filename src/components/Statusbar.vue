@@ -19,7 +19,7 @@
     </div>
     <div class="flex leading-5 items-center justify-end">
 
-      <span class="mr-1" :aria-label="t('About')" data-microtip-position="top-left" role="tooltip" @click="emitter.emit('vf-modal-show', {type:'about'})">
+      <span class="mr-1" :aria-label="t('About')" data-microtip-position="top-left" role="tooltip" @click="app.emitter.emit('vf-modal-show', {type:'about'})">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-slate-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -41,7 +41,8 @@ const props = defineProps({
   data: Object,
 });
 
-const emitter = inject('emitter');
+const app = inject('VueFinder');
+
 const {getStore, setStore} = inject('storage');
 const selectedItemCount = ref(0);
 const adapter = inject('adapter');
@@ -49,18 +50,18 @@ const adapter = inject('adapter');
 const {t} = inject('i18n');
 
 const handleStorageSelect = () => {
-  emitter.emit('vf-search-exit');
-  emitter.emit('vf-fetch', {params:{q: 'index', adapter: adapter.value}});
+  app.emitter.emit('vf-search-exit');
+  app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: adapter.value}});
   setStore('adapter', adapter.value)
 };
 
-emitter.on('vf-nodes-selected', (items) => {
+app.emitter.on('vf-nodes-selected', (items) => {
   selectedItemCount.value = items.length;
 })
 
 const searchQuery = ref('');
 
-emitter.on('vf-search-query', ({newQuery}) => {
+app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
 });
 

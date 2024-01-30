@@ -106,12 +106,9 @@ import { parse } from '../../utils/filesize.js';
 import title_shorten from "../../utils/title_shorten.js";
 
 const debug = inject('debug');
-const emitter = inject('emitter');
+const app = inject('VueFinder');
 const {t} = inject('i18n');
 const maxFileSize = inject('maxFileSize');
-const filesize = inject("filesize");
-/** @type {import('../../utils/ajax.js').Requester} */
-const requester = inject('requester');
 
 const props = defineProps({
   current: Object
@@ -297,7 +294,7 @@ function clear(onlySuccessful) {
  * Close upload modal
  */
 function close() {
-  emitter.emit('vf-modal-close');
+  app.emitter.emit('vf-modal-close');
 }
 
 onMounted(async () => {
@@ -323,7 +320,7 @@ onMounted(async () => {
       queue.value.push({
         id: file.id,
         name: file.name,
-        size: filesize.value(file.size),
+        size: app.filesize(file.size),
         status: QUEUE_ENTRY_STATUS.PENDING,
         statusName: t('Pending upload'),
         percent: null,
@@ -333,7 +330,7 @@ onMounted(async () => {
       // Uppy would only upload that file once even you call .addFile() twice in one row, nice.
     }
   });
-  const params = requester.transformRequestParams({
+  const params = app.requester.transformRequestParams({
     url: '',
     method: 'post',
     params: { q: 'upload', adapter: props.current.adapter, path: props.current.dirname },
@@ -406,14 +403,14 @@ onMounted(async () => {
   uppy.on('error', (error) => {
     message.value = error.message;
     uploading.value = false;
-    emitter.emit('vf-fetch', {
+    app.emitter.emit('vf-fetch', {
       params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
       noCloseModal: true,
     });
   })
   uppy.on('complete', () => {
     uploading.value = false;
-    emitter.emit('vf-fetch', {
+    app.emitter.emit('vf-fetch', {
       params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
       noCloseModal: true,
     });
