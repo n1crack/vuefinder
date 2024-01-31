@@ -5,20 +5,20 @@
           :class="app.fullscreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
           :style="!app.fullscreen ? 'max-height: ' + maxHeight : ''"
           class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
-          @mousedown="app.emitter.emit('vf-contextmenu-hide')" @touchstart="app.emitter.emit('vf-contextmenu-hide')">
-        <v-f-toolbar />
+          @mousedown="app.emitter.emit('vf-contextmenu-hide')"
+          @touchstart="app.emitter.emit('vf-contextmenu-hide')">
+        <v-f-toolbar/>
         <v-f-breadcrumb/>
         <v-f-explorer/>
         <v-f-statusbar/>
       </div>
 
       <Transition name="fade">
-       <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type"/>
+        <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type"/>
       </Transition>
 
-      <v-f-context-menu :current="app.data"/>
-
-      <downloader />
+      <v-f-context-menu/>
+      <downloader/>
     </div>
   </div>
 </template>

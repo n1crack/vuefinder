@@ -132,10 +132,6 @@ import VFToast from './Toast.vue';
 import LazyLoad from 'vanilla-lazyload';
 import title_shorten from "../utils/title_shorten.js";
 
-const props = defineProps({
-  search: Object
-});
-
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {getStore} = app.storage;
