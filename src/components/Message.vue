@@ -23,7 +23,7 @@ export default {
 </script>
 
 <script setup>
-import {ref, watch} from 'vue';
+import {ref, watch, inject} from 'vue';
 
 const emit = defineEmits(['hidden']);
 const props = defineProps({
