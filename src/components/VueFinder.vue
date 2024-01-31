@@ -41,6 +41,8 @@ import VFContextMenu from '../components/ContextMenu.vue';
 import VFStatusbar from '../components/Statusbar.vue';
 import Downloader from "./Downloader.vue";
 
+const emit = defineEmits(['select'])
+
 const props = defineProps({
   request: {
     type: [String, Object],
@@ -75,9 +77,6 @@ const props = defineProps({
     default: '10mb'
   },
 });
-
-const {getStore} = useStorage(props.id);
-const emit = defineEmits(['select'])
 
 // the object is passed to all components as props
 const app = ServiceContainer(props);
