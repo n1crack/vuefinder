@@ -31,7 +31,6 @@ export default {
 
 <script setup>
 import {onMounted, provide, ref} from 'vue';
-import {useStorage} from '../composables/useStorage.js';
 import ServiceContainer from "../ServiceContainer.js";
 
 import VFToolbar from '../components/Toolbar.vue';
