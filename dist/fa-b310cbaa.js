@@ -207,7 +207,7 @@ e.strings = {
   zoomOut: "کوچک‌نمایی"
 };
 typeof Uppy < "u" && (globalThis.Uppy.locales.fa_IR = e);
-const r = e, t = {
+const t = e, r = {
   Language: "زبان",
   Create: "ایجاد",
   Close: "بستن",
@@ -274,22 +274,22 @@ const r = e, t = {
   "Drag&Drop: on": "Drag&Drop: روشن",
   "Drag&Drop: off": "Drag&Drop: خاموش",
   "Select Folders": "Select Folders",
-  "Clear all": "Clear all",
-  "Clear only successful": "Clear only successful",
-  "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
-  "Release to drop these files.": "Release to drop these files.",
-  Canceled: "Canceled",
-  Done: "Done",
-  "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
-  "Pending upload": "Pending",
-  "Please select file to upload first.": "Please select file to upload first.",
+  "Clear all": "پاک کردن همه",
+  "Clear only successful": "پاک کردن فقط موفق",
+  "Drag and drop the files/folders to here or click here.": "فایل ها/پوشه ها را به اینجا بکشید یا اینجا کلیک کنید.",
+  "Release to drop these files.": "رها کنید تا این فایل ها را رها کنید.",
+  Canceled: "لغو شد",
+  Done: "انجام شد",
+  "Network Error, Unable establish connection to the server or interrupted.": "خطای شبکه، اتصال به سرور برقرار نشد یا قطع شد.",
+  "Pending upload": "آپلود در حال انتظار",
+  "Please select file to upload first.": "لطفا ابتدا فایلی را برای آپلود انتخاب کنید.",
   "About %s": "درباره %s",
   Settings: "تنظیمات",
   "Use Metric Units": "استفاده از واحد های متریک",
   "Saved.": "ذخیره شد.",
   "Clear Local Storage": "پاک کردن فضای ذخیره سازی محلی",
-  uppy: r
+  uppy: t
 };
 export {
-  t as default
+  r as default
 };

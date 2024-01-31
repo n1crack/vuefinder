@@ -28,7 +28,7 @@ export default (props) => {
         debug: props.debug,
         // Event Bus
         emitter: emitter,
-        // modals
+        // active features
         features: setFeatures(props.features),
         // http object
         requester : buildRequester(props.request),
