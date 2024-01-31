@@ -26,7 +26,7 @@
 import { ref } from 'vue';
 import { FEATURES, FEATURE_ALL_NAMES } from '../src/components/features.js';
 
-/** @type {import('./utils/ajax.js').RequestConfig} */
+/** @type {import('../src/utils/ajax.js').RequestConfig} */
 const request = {
   // ----- CHANGE ME! -----
   // [REQUIRED] Url for development server endpoint

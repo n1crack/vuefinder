@@ -18,7 +18,6 @@
       </Transition>
 
       <v-f-context-menu/>
-      <downloader/>
     </div>
   </div>
 </template>
@@ -39,7 +38,6 @@ import VFBreadcrumb from '../components/Breadcrumb.vue';
 import VFExplorer from '../components/Explorer.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
 import VFStatusbar from '../components/Statusbar.vue';
-import Downloader from "./Downloader.vue";
 
 const props = defineProps({
   request: {
@@ -152,6 +150,17 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
       onError(e);
     }
   });
+});
+
+// Download
+app.emitter.on('vf-download', (url) => {
+  const $a = document.createElement('a');
+  $a.style.display = 'none';
+  $a.href = url;
+  $a.download = url;
+  app.root.appendChild($a);
+  $a.click();
+  $a.remove();
 });
 
 // fetch initial data
