@@ -80,6 +80,6 @@ export default {
   "Settings": "הגדרות",
   "Use Metric Units": "השתמש ביחידות מטריות",
   "Saved.": "נשמר",
-  "Clear Local Storage": "נקה אחסון מקומי",
+  "Reset Settings": "איפוס הגדרות",
   "uppy": uppyLocaleHe
 }

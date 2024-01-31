@@ -80,6 +80,6 @@ export default {
   "Settings": "Inställningar",
   "Use Metric Units": "Använd metriska enheter",
   "Saved.": "Sparad.",
-  "Clear Local Storage": "Rensa lokal lagring",
+  "Reset Settings": "Återställ inställningar",
   "uppy": uppyLocaleSv
 }

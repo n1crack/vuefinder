@@ -80,6 +80,6 @@ export default {
   "Settings": "Настройки",
   "Use Metric Units": "Использовать метрические единицы",
   "Saved.": "Сохранено.",
-  "Clear Local Storage": "Очистить локальное хранилище",
+  "Reset Settings": "Сбросить настройки",
   "uppy": uppyLocaleRu
 }

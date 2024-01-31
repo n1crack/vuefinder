@@ -80,6 +80,6 @@ export default {
   "Settings": "تنظیمات",
   "Use Metric Units": "استفاده از واحد های متریک",
   "Saved.": "ذخیره شد.",
-  "Clear Local Storage": "پاک کردن فضای ذخیره سازی محلی",
+  "Reset Settings": "بازنشانی تنظیمات",
   "uppy": uppyLocaleFa
 }

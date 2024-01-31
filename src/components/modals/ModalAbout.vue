@@ -65,7 +65,7 @@
                 </div>
 
                 <button @click="clearLocalStorage" type="button" class="vf-btn vf-btn-secondary">
-                  {{ t('Clear Local Storage') }}
+                  {{ t('Reset Settings') }}
                 </button>
               </div>
             </fieldset>
