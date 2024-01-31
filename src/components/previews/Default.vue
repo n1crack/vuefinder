@@ -12,9 +12,9 @@ import {onMounted, inject} from 'vue';
 
 const app = inject('ServiceContainer');
 
-const emit = defineEmits(['load']);
+const emit = defineEmits(['success']);
 
 onMounted(() => {
-  emit('load');
+  emit('success');
 });
 </script>

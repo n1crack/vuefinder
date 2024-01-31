@@ -24,7 +24,7 @@ import {inject, onMounted, ref} from 'vue';
 import Message from '../Message.vue';
 import {FEATURES} from "../features.js";
 
-const emit = defineEmits(['load']);
+const emit = defineEmits(['success']);
 
 const app = inject('ServiceContainer');
 
@@ -75,7 +75,7 @@ const crop = () => {
                   message.value = t('Updated.');
                   image.value.src = app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item);
                   editMode();
-                  emit('load');
+                  emit('success');
                 })
                 .catch((e) => {
                   message.value = t(e.message);
@@ -85,7 +85,7 @@ const crop = () => {
 };
 
 onMounted(() => {
-  emit('load');
+  emit('success');
 });
 
 </script>
