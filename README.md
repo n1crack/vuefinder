@@ -129,7 +129,9 @@ Vue Template
  - [Cropperjs](https://github.com/fengyuanchen/cropperjs)  : JavaScript image cropper
  - [DragSelect](https://github.com/ThibaultJanBeyer/DragSelect/) : Selection utility
  - [Uppy](https://github.com/transloadit/uppy) : Upload library
- - [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) : lazy loading for thumbnails
+ - [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) : lightweight and flexible lazy loading for thumbnails
+ - [microtip](https://github.com/ghosh/microtip) : Minimal, accessible, ultra lightweight css tooltip library
+ - [mitt](https://github.com/developit/mitt) : Tiny 200 byte functional event emitter / pubsub
 
 ### License
 Copyright (c) 2018 Yusuf ÖZDEMİR, released under [the MIT license](LICENSE)
