@@ -61,6 +61,6 @@ export default (props) => {
         // storage
         storage: storage,
         // fetched items
-        data: {adapter: app.adapter, storages: [], dirname: '.', files: []}
+        data: {adapter: storage.getStore('adapter'), storages: [], dirname: '.', files: []}
     });
 }

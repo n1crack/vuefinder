@@ -154,7 +154,9 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
 
 // fetch initial data
 onMounted(() => {
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: (app.adapter)}});
+  // app.adapter can be null at first, until we get the adapter list it will be the first one from response
+  // later we can set default adapter from a prop value
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter}});
 });
 
 </script>
