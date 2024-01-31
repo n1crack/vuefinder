@@ -108,10 +108,6 @@ import title_shorten from "../../utils/title_shorten.js";
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
-const props = defineProps({
-  current: Object
-});
-
 const uppyLocale = t("uppy");
 
 const QUEUE_ENTRY_STATUS = {
@@ -331,7 +327,7 @@ onMounted(async () => {
   const params = app.requester.transformRequestParams({
     url: '',
     method: 'post',
-    params: { q: 'upload', adapter: props.current.adapter, path: props.current.dirname },
+    params: { q: 'upload', adapter: app.data.adapter, path: app.data.dirname },
   });
   if (app.debug) {
     if (params.body != null && (params.body instanceof FormData || Object.keys(params.body).length > 0)) {
@@ -402,14 +398,14 @@ onMounted(async () => {
     message.value = error.message;
     uploading.value = false;
     app.emitter.emit('vf-fetch', {
-      params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
+      params: { q: 'index', adapter: app.data.adapter, path: app.data.dirname },
       noCloseModal: true,
     });
   })
   uppy.on('complete', () => {
     uploading.value = false;
     app.emitter.emit('vf-fetch', {
-      params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
+      params: { q: 'index', adapter: app.data.adapter, path: app.data.dirname },
       noCloseModal: true,
     });
   });

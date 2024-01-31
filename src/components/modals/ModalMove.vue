@@ -26,7 +26,7 @@
              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
               </svg>
-            <span class="ml-1.5 overflow-auto">{{ selection.items.to.path }}</span>
+            <span class="ml-1.5 overflow-auto">{{ app.modal.data.items.to.path }}</span>
           </p>
           <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
@@ -58,12 +58,7 @@ const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {getStore} = app.storage;
 
-const props = defineProps({
-  selection: Object,
-  current: Object
-});
-
-const items = ref(props.selection.items.from);
+const items = ref(app.modal.data.items.from);
 const message = ref('');
 
 const move = () => {
@@ -74,14 +69,14 @@ const move = () => {
         q: 'move',
         m: 'post',
         adapter: app.adapter,
-        path: props.current.dirname,
+        path: app.data.dirname,
       },
       body: {
         items: items.value.map(({path, type}) => ({path, type})),
-        item: props.selection.items.to.path
+        item: app.modal.data.items.to.path
       },
       onSuccess: () => {
-        app.emitter.emit('vf-toast-push', {label: t('Files moved.', props.selection.items.to.name)});
+        app.emitter.emit('vf-toast-push', {label: t('Files moved.', app.modal.data.items.to.name)});
       },
       onError: (e) => {
         message.value = t(e.message);

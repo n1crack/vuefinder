@@ -1,8 +1,8 @@
 <template>
   <div class="flex">
     <div class="mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title"
-         :aria-label="selection.item.path" data-microtip-position="bottom-right" role="tooltip">
-      {{ selection.item.basename }}
+         :aria-label="app.modal.data.item.path" data-microtip-position="bottom-right" role="tooltip">
+      {{ app.modal.data.item.basename }}
     </div>
     <div class="ml-auto mb-2">
       <button @click="save" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">
@@ -34,9 +34,7 @@ const content = ref('');
 const contentTemp = ref('');
 const editInput = ref(null);
 const showEdit = ref(false);
-const props = defineProps({
-  selection: Object
-});
+
 const message = ref('');
 const isError = ref(false);
 
@@ -48,7 +46,7 @@ onMounted(() => {
   app.requester.send({
     url: '',
     method: 'get',
-    params: {q: 'preview', adapter: props.selection.adapter, path: props.selection.item.path},
+    params: {q: 'preview', adapter: app.modal.data.adapter, path: app.modal.data.item.path},
     responseType: 'text',
   })
       .then(data => {
@@ -76,8 +74,8 @@ const save = () => {
     method: 'post',
     params: {
       q: 'save',
-      adapter: props.selection.adapter,
-      path: props.selection.item.path,
+      adapter: app.modal.data.adapter,
+      path: app.modal.data.item.path,
     },
     body: {
       content: contentTemp.value

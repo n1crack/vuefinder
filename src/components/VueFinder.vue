@@ -13,7 +13,7 @@
       </div>
 
       <Transition name="fade">
-       <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type" :selection="app.modal.data" :current="app.data"/>
+       <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type"/>
       </Transition>
 
       <v-f-context-menu :current="app.data"/>

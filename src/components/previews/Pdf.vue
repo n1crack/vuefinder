@@ -1,6 +1,6 @@
 <template>
   <h3 class="mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title"
-         :aria-label="selection.item.path" data-microtip-position="bottom-right" role="tooltip">{{ selection.item.basename }}</h3>
+         :aria-label="app.modal.data.item.path" data-microtip-position="bottom-right" role="tooltip">{{ app.modal.data.item.basename }}</h3>
   <div>
     <object class="h-[60vh]" :data="getPDFUrl()" type="application/pdf" width="100%" height="100%">
       <iframe
@@ -22,16 +22,13 @@
 <script setup>
 
 import {inject,onMounted} from 'vue';
-const props = defineProps({
-  selection: Object
-});
 
 const app = inject('ServiceContainer');
 
 const emit = defineEmits(['load']);
 
 const getPDFUrl = () => {
-  return app.requester.getPreviewUrl(props.selection.adapter, props.selection.item)
+  return app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)
 }
 
 onMounted(() => {

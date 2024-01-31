@@ -3,16 +3,16 @@
     <div class="sm:flex sm:items-start">
       <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div v-if="enabledPreview">
-          <Text v-if="loadPreview('text')" :selection="selection" @load="setLoad(true)"/>
-          <Image v-else-if="loadPreview('image')" :selection="selection" @load="setLoad(true)"/>
-          <Video v-else-if="loadPreview('video')" :selection="selection" @load="setLoad(true)"/>
-          <Audio v-else-if="loadPreview('audio')" :selection="selection" @load="setLoad(true)"/>
-          <Pdf v-else-if="loadPreview('application/pdf')" :selection="selection" @load="setLoad(true)"/>
-          <Default v-else :selection="selection" @load="setLoad(true)"/>
+          <Text v-if="loadPreview('text')" @load="setLoad(true)"/>
+          <Image v-else-if="loadPreview('image')" @load="setLoad(true)"/>
+          <Video v-else-if="loadPreview('video')" @load="setLoad(true)"/>
+          <Audio v-else-if="loadPreview('audio')" @load="setLoad(true)"/>
+          <Pdf v-else-if="loadPreview('application/pdf')" @load="setLoad(true)"/>
+          <Default v-else @load="setLoad(true)"/>
         </div>
 
         <div class="text-gray-700 dark:text-gray-200 text-sm">
-          <div class="flex leading-5" v-if="loaded == false">
+          <div class="flex leading-5" v-if="loaded === false">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25 stroke-blue-900 dark:stroke-blue-100" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor"
@@ -25,8 +25,8 @@
 
     </div>
       <div class="py-2 flex font-normal break-all dark:text-gray-200 rounded text-xs">
-        <div><span class="font-bold pl-2">{{ t('File Size') }}: </span>{{ app.filesize(selection.item.file_size) }}</div>
-        <div><span class="font-bold pl-2">{{ t('Last Modified') }}: </span> {{ datetimestring(selection.item.last_modified) }}</div>
+        <div><span class="font-bold pl-2">{{ t('File Size') }}: </span>{{ app.filesize(app.modal.data.item.file_size) }}</div>
+        <div><span class="font-bold pl-2">{{ t('Last Modified') }}: </span> {{ datetimestring(app.modal.data.item.last_modified) }}</div>
       </div>
 
     <template v-slot:buttons>
@@ -60,14 +60,10 @@ const loaded = ref(false);
 
 const setLoad = (bool) => loaded.value = bool;
 
-const props = defineProps({
-  selection: Object
-});
-
-const loadPreview = (type) => (props.selection.item.mime_type ?? '').startsWith(type)
+const loadPreview = (type) => (app.modal.data.item.mime_type ?? '').startsWith(type)
 
 const download = () => {
-  const url = app.requester.getDownloadUrl(props.selection.adapter, props.selection.item)
+  const url = app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item)
   app.emitter.emit('vf-download', url)
 }
 

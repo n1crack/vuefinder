@@ -18,10 +18,6 @@ export default {
 import {computed, inject, nextTick, reactive, ref} from 'vue';
 import {FEATURES} from "./features.js";
 
-const props = defineProps({
-  current: Object
-});
-
 const app = inject('ServiceContainer');
 const {t} = app.i18n
 
@@ -64,35 +60,35 @@ const menuItems = {
   refresh: {
     title: () =>  t('Refresh'),
     action: () => {
-      app.emitter.emit('vf-fetch',{params:{q: 'index', adapter: props.current.adapter, path: props.current.dirname}} );
+      app.emitter.emit('vf-fetch',{params:{q: 'index', adapter: app.data.adapter, path: app.data.dirname}} );
     },
   },
   preview: {
     key: FEATURES.PREVIEW,
     title: () =>  t('Preview'),
     action: () => {
-      app.emitter.emit('vf-modal-show', {type:'preview', adapter:props.current.adapter, item: selectedItems.value[0]});
+      app.emitter.emit('vf-modal-show', {type:'preview', adapter:app.data.adapter, item: selectedItems.value[0]});
     },
   },
   open: {
     title: () =>  t('Open'),
     action: () => {
       app.emitter.emit('vf-search-exit');
-      app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path:selectedItems.value[0].path}});
+      app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:selectedItems.value[0].path}});
     },
   },
   openDir: {
     title: () =>  t('Open containing folder'),
     action: () => {
       app.emitter.emit('vf-search-exit');
-      app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.current.adapter, path: (selectedItems.value[0].dir)}});
+      app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path: (selectedItems.value[0].dir)}});
     },
   },
   download: {
     key: FEATURES.DOWNLOAD,
     title: () =>  t('Download'),
     action: () => {
-      const url = app.requester.getDownloadUrl(props.current.adapter, selectedItems.value[0]);
+      const url = app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0]);
       app.emitter.emit('vf-download', url);
     },
   },

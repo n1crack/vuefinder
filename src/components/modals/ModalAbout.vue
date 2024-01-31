@@ -99,12 +99,6 @@ const app = inject('ServiceContainer');
 const {getStore, setStore, clearStore} = app.storage;
 const {t, changeLocale, locale} = app.i18n;
 
-
-const props = defineProps({
-  selection: Object,
-  current: Object
-});
-
 const name = ref('');
 const message = ref('');
 

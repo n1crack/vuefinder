@@ -53,13 +53,7 @@ const app = inject('ServiceContainer');
 const {getStore} = app.storage;
 const {t} = app.i18n;
 
-const props = defineProps({
-  selection: Object,
-  current: Object
-});
-
-
-const items = ref(props.selection.items);
+const items = ref(app.modal.data.items);
 const message = ref('');
 
 const remove = () => {
@@ -70,7 +64,7 @@ const remove = () => {
         q: 'delete',
         m: 'post',
         adapter: app.adapter,
-        path: props.current.dirname,
+        path: app.data.dirname,
       },
       body: {
         items: items.value.map(({path, type}) => ({path, type})),

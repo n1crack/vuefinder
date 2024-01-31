@@ -46,11 +46,6 @@ const app = inject('ServiceContainer');
 const {getStore} = app.storage;
 const {t} = app.i18n;
 
-const props = defineProps({
-  selection: Object,
-  current: Object
-});
-
 const name = ref('');
 const message = ref('');
 
@@ -61,7 +56,7 @@ const createFile = () => {
         q: 'newfile',
         m: 'post',
         adapter: app.adapter,
-        path: props.current.dirname,
+        path: app.data.dirname,
       },
       body: {
         name: name.value

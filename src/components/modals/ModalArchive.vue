@@ -11,7 +11,7 @@
         <div class="mt-2">
           <div class="text-gray-500 text-sm mb-1 overflow-auto vf-scrollbar" style="max-height: 200px;">
             <p v-for="item in items" class="flex text-sm text-gray-800 dark:text-gray-400">
-              <svg v-if="item.type == 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
               </svg>
               <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
@@ -53,14 +53,10 @@ const app = inject('ServiceContainer');
 const {getStore} = app.storage;
 const {t} = app.i18n;
 
-const props = defineProps({
-  selection: Object,
-  current: Object
-});
 const name = ref('');
 const message = ref('');
 
-const items = ref(props.selection.items);
+const items = ref(app.modal.data.items);
 
 const archive = () => {
   if (items.value.length) {
@@ -69,7 +65,7 @@ const archive = () => {
         q: 'archive',
         m: 'post',
         adapter: app.adapter,
-        path: props.current.dirname,
+        path: app.data.dirname,
       },
       body: {
         items: items.value.map(({path, type}) => ({path, type})),
