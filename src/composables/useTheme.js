@@ -11,7 +11,6 @@ const THEMES = {
  * @typedef Theme
  * @type {"system"|"light"|"dark"} theme
  */
-const ALL_THEMES = Object.values(THEMES)
 
 export default function(propId, propTheme) {
   const storage = useStorage(propId);
