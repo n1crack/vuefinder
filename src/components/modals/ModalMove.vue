@@ -42,7 +42,7 @@
       <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
         {{ t('Cancel') }}</button>
 
-      <div class="mt-1 mr-auto font-bold text-gray-500 text-sm dark:text-gray-200 self-center">
+      <div class="m-1 mr-auto font-bold text-gray-500 text-sm dark:text-gray-200 self-center">
         {{ t('%s item(s) selected.', items.length) }}
       </div>
     </template>
