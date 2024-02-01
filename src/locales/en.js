@@ -20,7 +20,6 @@ export default {
   "Open containing folder": "Open containing folder",
   "Refresh": "Refresh",
   "Preview": "Preview",
-  "Dark Mode": "Dark Mode",
   "Toggle Full Screen": "Toggle Full Screen",
   "Change View": "Change View",
   "Storage" : "Storage",
@@ -82,5 +81,9 @@ export default {
   "Saved.": "Saved.",
   "Reset Settings": "Reset Settings",
   "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
+  "Theme": "Theme",
+  "Dark": "Dark",
+  "Light": "Light",
+  "System": "System",
   "uppy": uppyLocaleEn
 }

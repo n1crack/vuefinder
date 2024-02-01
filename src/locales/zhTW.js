@@ -82,5 +82,9 @@ export default {
   "Saved.": "已儲存。",
   "Reset Settings": "重置設定",
   "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "下載不管用？您可以嘗試右鍵點擊“下載”按鈕，選擇“另存連結為...”。",
+  "Theme": "主題",
+  "Dark": "深色",
+  "Light": "淺色",
+  "System": "系統",
   "uppy": uppyLocalezhTW
 }
