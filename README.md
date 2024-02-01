@@ -71,13 +71,13 @@ Vue Template
 
 ### Props
 
-| Prop          |  Value  | Default | Description                                         |
-|---------------|:-------:|---------|:----------------------------------------------------|
-| id            | string  | _null_  | required                                            |
-| request       | object  | _null_  | required - backend url or request object, see above |
-| locale        | string  | en      | optional - default language code                    |
-| dark          | boolean | false   | optional - makes theme dark as default              |
-| max-file-size | string  | 10mb    | optional - client side max file upload              |
+| Prop          | Value  | Default | Description                                                |
+|---------------|:------:|---------|:-----------------------------------------------------------|
+| id            | string | _null_  | required                                                   |
+| request       | object | _null_  | required - backend url or request object, see above        |
+| locale        | string | en      | optional - default language code                           |
+| theme         | string | system  | optional - default theme, options: "system","light","dark" |
+| max-file-size | string | 10mb    | optional - client side max file upload                     |
 
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)
