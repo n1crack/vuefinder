@@ -1,5 +1,5 @@
 <template>
-  <div class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none  text-xs">
+  <div class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm">
     <span :aria-label="t('Go up a directory')" data-microtip-position="bottom-right" role="tooltip">
       <svg
           @dragover="handleDragOver($event)"
@@ -34,7 +34,7 @@
         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
       </svg>
 
-      <div class="flex leading-5">
+      <div class="flex leading-6">
         <div v-for="(item, index) in breadcrumb" :key="index">
           <span class="text-neutral-300 dark:text-gray-600 mx-0.5">/</span>
           <span
@@ -65,7 +65,7 @@
           @blur="handleBlur"
           v-model="query"
           :placeholder="t('Search anything..')"
-          class="w-full pt-1 pb-0 px-2 border-0 text-sm ring-0 outline-0 text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
+          class="w-full pb-0 px-1 border-0 text-base ring-0 outline-0 text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
           type="text">
       <svg
           class="w-6 h-6 cursor-pointer"
