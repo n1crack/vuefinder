@@ -3,6 +3,7 @@
     <vue-finder
       id='my_vuefinder'
       :request="request"
+      theme="light"
       :max-file-size="maxFileSize"
       :features="features"
       @select="handleSelect"

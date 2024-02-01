@@ -25,6 +25,13 @@ export function useStorage(key) {
         storage.value = Object.assign({...storage.value}, {...{[key]: value}});
     }
 
+    /**
+     * @param {String} key
+     */
+    function removeStore(key) {
+        delete storage.value[key];
+    }
+
     function clearStore() {
         storage.value = null;
     }
@@ -43,5 +50,5 @@ export function useStorage(key) {
         return defaultValue;
     }
 
-    return {getStore, setStore, clearStore};
+    return {getStore, setStore, removeStore, clearStore};
 }

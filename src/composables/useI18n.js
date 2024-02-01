@@ -7,8 +7,8 @@ export async function loadLocale(locale) {
     return messages.default;
 }
 
-export function useI18n(id, locale, emitter) {
-    const {getStore, setStore} = useStorage(id);
+export function useI18n(storage, locale, emitter) {
+    const {getStore, setStore} = storage;
     const translations = ref({});
 
     const active_locale = ref(getStore('locale', locale));

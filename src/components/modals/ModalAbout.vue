@@ -114,7 +114,7 @@ const clearLocalStorage = async () => {
 };
 
 const handleTheme = (key) => {
-  app.theme.setValue(key);
+  app.theme.set(key);
   app.emitter.emit('vf-theme-saved');
 }
 

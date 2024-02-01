@@ -12,7 +12,7 @@ export default (props) => {
     const storage = useStorage(props.id);
     const emitter = mitt()
     const metricUnits = storage.getStore('metricUnits', false);
-    const theme = useTheme(props.id, props.theme);
+    const theme = useTheme(storage, props.theme);
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
@@ -51,7 +51,7 @@ export default (props) => {
         // locale state
         locale: props.locale ?? 'en',
         // default locale
-        i18n : useI18n(props.id, props.locale, emitter),
+        i18n : useI18n(storage, props.locale, emitter),
         // modal state
         modal: {
             active: false,

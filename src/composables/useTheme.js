@@ -1,5 +1,4 @@
-import { computed, ref } from 'vue';
-import { useStorage } from './useStorage.js';
+import { ref } from 'vue';
 
 const THEMES = {
   SYSTEM: 'system',
@@ -12,8 +11,7 @@ const THEMES = {
  * @type {"system"|"light"|"dark"} theme
  */
 
-export default function(propId, propTheme) {
-  const storage = useStorage(propId);
+export default function(storage, propTheme) {
   const theme = ref(THEMES.SYSTEM);
   const actualTheme = ref(THEMES.LIGHT);
   theme.value = storage.getStore('theme', propTheme ?? THEMES.SYSTEM);
@@ -39,17 +37,19 @@ export default function(propId, propTheme) {
 
     /**
      * @param {Theme} value
-     * @param {Boolean} dontSaveToStorage
      */
-    setValue(value, dontSaveToStorage = false) {
+    set(value) {
       theme.value = value;
       if (value !== THEMES.SYSTEM) {
         actualTheme.value = value;
-      } else {
-        actualTheme.value = matcher.matches ? THEMES.DARK : THEMES.LIGHT
-      }
-      if (!dontSaveToStorage) {
         storage.setStore('theme', value);
+      } else {
+        if (propTheme) {
+          actualTheme.value = propTheme;
+        } else {
+          actualTheme.value = matcher.matches ? THEMES.DARK : THEMES.LIGHT
+        }
+        storage.removeStore('theme');
       }
     },
   }
