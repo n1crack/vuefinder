@@ -20,7 +20,6 @@ export default {
   "Open containing folder": "محتوای پوشه را باز کن!",
   "Refresh": "بارکذاری مجدد",
   "Preview": "پیشنمایش",
-  "Dark Mode": "حالت شب",
   "Toggle Full Screen": "تمام تصویر کردن",
   "Change View": "تغییر نوع نمایش",
   "Storage" : "فضا",
