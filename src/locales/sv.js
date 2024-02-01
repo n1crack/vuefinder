@@ -20,7 +20,6 @@ export default {
   "Open containing folder": "Öppna innehållande mapp",
   "Refresh": "Uppdatera",
   "Preview": "Förhandsgranska",
-  "Dark Mode": "Mörkt läge",
   "Toggle Full Screen": "Växla till helskärm",
   "Change View": "Ändra vy",
   "Storage" : "Lagring",
@@ -81,5 +80,10 @@ export default {
   "Use Metric Units": "Använd metriska enheter",
   "Saved.": "Sparad.",
   "Reset Settings": "Återställ inställningar",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
+  "Theme": "Theme",
+  "Dark": "Dark",
+  "Light": "Light",
+  "System": "System",
   "uppy": uppyLocaleSv
 }

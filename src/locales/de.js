@@ -20,7 +20,6 @@ export default {
     "Open containing folder": "Enthaltenden Ordner öffnen",
     "Refresh": "Aktualisieren",
     "Preview": "Vorschau",
-    "Dark Mode": "Dunkler Modus",
     "Toggle Full Screen": "Vollbild umschalten",
     "Change View": "Ansicht ändern",
     "Storage": "Speicher",
@@ -81,5 +80,10 @@ export default {
     "Use Metric Units": "Use Metric Units",
     "Saved.": "Gespeichert.",
     "Reset Settings": "Einstellungen zurücksetzen",
+    "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
+    "Theme": "Theme",
+    "Dark": "Dark",
+    "Light": "Light",
+    "System": "System",
     "uppy" : uppyLocaleDe,
 }

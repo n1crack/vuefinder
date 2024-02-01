@@ -81,5 +81,10 @@ export default {
   "Use Metric Units": "استفاده از واحد های متریک",
   "Saved.": "ذخیره شد.",
   "Reset Settings": "بازنشانی تنظیمات",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
+  "Theme": "Theme",
+  "Dark": "Dark",
+  "Light": "Light",
+  "System": "System",
   "uppy": uppyLocaleFa
 }

@@ -20,7 +20,6 @@ export default {
   "Open containing folder": "Открыть расположение",
   "Refresh": "Обновить",
   "Preview": "Предпросмотр",
-  "Dark Mode": "Тёмный режим",
   "Toggle Full Screen": "Полный экран",
   "Change View": "Изменить вид",
   "Storage" : "Хранилище",
@@ -81,5 +80,10 @@ export default {
   "Use Metric Units": "Использовать метрические единицы",
   "Saved.": "Сохранено.",
   "Reset Settings": "Сбросить настройки",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
+  "Theme": "Theme",
+  "Dark": "Dark",
+  "Light": "Light",
+  "System": "System",
   "uppy": uppyLocaleRu
 }

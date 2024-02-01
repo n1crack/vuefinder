@@ -20,7 +20,6 @@ export default {
   "Open containing folder": "धारक फोल्डर खोलें",
   "Refresh": "ताजगी करें",
   "Preview": "पूर्वावलोकन",
-  "Dark Mode": "डार्क मोड",
   "Toggle Full Screen": "पूर्ण स्क्रीन टॉगल करें",
   "Change View": "दृश्य बदलें",
   "Storage" : "संग्रहण",
@@ -81,5 +80,10 @@ export default {
   "Use Metric Units": "Use Metric Units",
   "Saved.": "Saved.",
   "Reset Settings": "Reset Settings",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
+  "Theme": "Theme",
+  "Dark": "Dark",
+  "Light": "Light",
+  "System": "System",
   "uppy": uppyLocaleHi
 }

@@ -20,7 +20,6 @@ export default {
   "Open containing folder": "İçeren klasörü aç",
   "Refresh": "Yenile",
   "Preview": "Önizleme",
-  "Dark Mode": "Karanlık Mod",
   "Toggle Full Screen": "Tam ekran",
   "Change View": "Görünümü değiştir",
   "Storage": "Depo",
@@ -81,5 +80,10 @@ export default {
   "Use Metric Units": "Metrik Birimleri Kullan",
   "Saved.": "Kaydedildi.",
   "Reset Settings": "Ayarları Sıfırla",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download çalışmıyor mu?  \"İndir\" düğmesine sağ tıklayarak, \"Farklı kaydet...\" seçebilirsiniz.",
+  "Theme": "Tema",
+  "Dark": "Koyu",
+  "Light": "Açık",
+  "System": "Sistem",
   "uppy": uppyLocaleTr,
 }

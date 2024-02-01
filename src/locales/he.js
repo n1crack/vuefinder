@@ -20,7 +20,6 @@ export default {
   "Open containing folder": "פתיחת מיקום קובץ",
   "Refresh": "רענון",
   "Preview": "תצוגה מקדימה",
-  "Dark Mode": "עיצוב כהה",
   "Toggle Full Screen": "שינוי מצב מסך מלא",
   "Change View": "שינוי תצוגה",
   "Storage": "אחסון",
@@ -81,5 +80,10 @@ export default {
   "Use Metric Units": "השתמש ביחידות מטריות",
   "Saved.": "נשמר",
   "Reset Settings": "איפוס הגדרות",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
+  "Theme": "Theme",
+  "Dark": "Dark",
+  "Light": "Light",
+  "System": "System",
   "uppy": uppyLocaleHe
 }
