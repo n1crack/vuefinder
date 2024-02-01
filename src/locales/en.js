@@ -81,5 +81,6 @@ export default {
   "Use Metric Units": "Use Metric Units",
   "Saved.": "Saved.",
   "Reset Settings": "Reset Settings",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
   "uppy": uppyLocaleEn
 }

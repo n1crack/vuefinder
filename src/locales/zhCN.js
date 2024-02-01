@@ -81,5 +81,6 @@ export default {
   "Use Metric Units": "使用公制单位",
   "Saved.": "已保存。",
   "Reset Settings": "重置设置",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "下载不管用？您可以尝试右键点击“下载”按钮，选择“链接另存为...”。",
   "uppy": uppyLocalezhCN
 }
