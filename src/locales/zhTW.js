@@ -20,7 +20,6 @@ export default {
   "Open containing folder": "打開對應的資料夾",
   "Refresh": "重新整理",
   "Preview": "預覽",
-  "Dark Mode": "黑暗模式",
   "Toggle Full Screen": "切換全螢幕",
   "Change View": "變更視圖",
   "Storage" : "儲存",

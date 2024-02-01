@@ -20,7 +20,6 @@ export default {
   "Open containing folder": "打开对应的文件夹",
   "Refresh": "刷新",
   "Preview": "预览",
-  "Dark Mode": "暗黑模式",
   "Toggle Full Screen": "切换到全屏",
   "Change View": "切换视图",
   "Storage" : "存储",
