@@ -152,7 +152,6 @@ const t = e, a = {
   "Open containing folder": "פתיחת מיקום קובץ",
   Refresh: "רענון",
   Preview: "תצוגה מקדימה",
-  "Dark Mode": "עיצוב כהה",
   "Toggle Full Screen": "שינוי מצב מסך מלא",
   "Change View": "שינוי תצוגה",
   Storage: "אחסון",
@@ -166,7 +165,6 @@ const t = e, a = {
   "Folder Name": "שם התיקייה",
   "File Name": "שם הקובץ",
   "Move files": "העברת קבצים",
-  "Are you sure you want to move these files to?": "האם בטוח להעביר קבצים אלה?",
   "Yes, Move!": "כן, להעביר!",
   "Delete files": "מחיקת קבצים",
   "Yes, Delete!": "כן, למחוק!",
@@ -212,7 +210,13 @@ const t = e, a = {
   Settings: "הגדרות",
   "Use Metric Units": "השתמש ביחידות מטריות",
   "Saved.": "נשמר",
-  "Clear Local Storage": "נקה אחסון מקומי",
+  "Reset Settings": "איפוס הגדרות",
+  'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".': `Download doesn't work? You can try right-click "Download" button, select "Save link as...".`,
+  Theme: "Theme",
+  Dark: "Dark",
+  Light: "Light",
+  System: "System",
+  "Target Directory": "Target Directory",
   uppy: t
 };
 export {

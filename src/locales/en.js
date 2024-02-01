@@ -33,7 +33,6 @@ export default {
   "Folder Name": "Folder Name",
   "File Name": "File Name",
   "Move files": "Move files",
-  "Are you sure you want to move these files to?": "Are you sure you want to move these files to?",
   "Yes, Move!": "Yes, Move!",
   "Delete files": "Delete files",
   "Yes, Delete!": "Yes, Delete!",
@@ -85,5 +84,6 @@ export default {
   "Dark": "Dark",
   "Light": "Light",
   "System": "System",
+  "Target Directory" : "Target Directory",
   "uppy": uppyLocaleEn
 }

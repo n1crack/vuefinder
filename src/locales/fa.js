@@ -33,7 +33,6 @@ export default {
   "Folder Name": "نام پوشه",
   "File Name": "نام فایل",
   "Move files": "انتقال فایل ها",
-  "Are you sure you want to move these files to?": "آیا برای انتقال فایل ها مطمئن هستید ؟",
   "Yes, Move!": "بله، انتقال بده!",
   "Delete files": "پاک کردن فایل ها",
   "Yes, Delete!": "بله، پاک کن!",
@@ -85,5 +84,6 @@ export default {
   "Dark": "Dark",
   "Light": "Light",
   "System": "System",
+  "Target Directory" : "Target Directory",
   "uppy": uppyLocaleFa
 }

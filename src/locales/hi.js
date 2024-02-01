@@ -33,7 +33,6 @@ export default {
   "Folder Name": "फ़ोल्डर नाम",
   "File Name": "फ़ाइल नाम",
   "Move files": "फ़ाइलें ले जाएं",
-  "Are you sure you want to move these files to?": "क्या आप वाकई इन फ़ाइलों को इस जगह ले जाना चाहते हैं?",
   "Yes, Move!": "हां, ले जाएं!",
   "Delete files": "फ़ाइलें हटाएं",
   "Yes, Delete!": "हां, हटाएं!",
@@ -85,5 +84,6 @@ export default {
   "Dark": "Dark",
   "Light": "Light",
   "System": "System",
+  "Target Directory" : "Target Directory",
   "uppy": uppyLocaleHi
 }

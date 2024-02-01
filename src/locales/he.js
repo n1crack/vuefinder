@@ -33,7 +33,6 @@ export default {
   "Folder Name": "שם התיקייה",
   "File Name": "שם הקובץ",
   "Move files": "העברת קבצים",
-  "Are you sure you want to move these files to?": "האם בטוח להעביר קבצים אלה?",
   "Yes, Move!": "כן, להעביר!",
   "Delete files": "מחיקת קבצים",
   "Yes, Delete!": "כן, למחוק!",
@@ -85,5 +84,6 @@ export default {
   "Dark": "Dark",
   "Light": "Light",
   "System": "System",
+  "Target Directory" : "Target Directory",
   "uppy": uppyLocaleHe
 }

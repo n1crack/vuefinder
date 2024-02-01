@@ -134,7 +134,6 @@ const o = e, t = {
   "Open containing folder": "打开对应的文件夹",
   Refresh: "刷新",
   Preview: "预览",
-  "Dark Mode": "暗黑模式",
   "Toggle Full Screen": "切换到全屏",
   "Change View": "切换视图",
   Storage: "存储",
@@ -148,7 +147,6 @@ const o = e, t = {
   "Folder Name": "文件夹名称",
   "File Name": "文件名称",
   "Move files": "移动文件",
-  "Are you sure you want to move these files to?": "您确定要移动这些文件吗？",
   "Yes, Move!": "确定，移动！",
   "Delete files": "删除文件",
   "Yes, Delete!": "确定，删除！",
@@ -194,7 +192,13 @@ const o = e, t = {
   Settings: "设置",
   "Use Metric Units": "使用公制单位",
   "Saved.": "已保存。",
-  "Clear Local Storage": "清除本地存储",
+  "Reset Settings": "重置设置",
+  'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".': "下载不管用？您可以尝试右键点击“下载”按钮，选择“链接另存为...”。",
+  Theme: "主题",
+  Dark: "深色",
+  Light: "浅色",
+  System: "系统",
+  "Target Directory": "Target Directory",
   uppy: o
 };
 export {

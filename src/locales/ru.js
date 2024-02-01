@@ -33,7 +33,6 @@ export default {
   "Folder Name": "Название папки",
   "File Name": "Название файла",
   "Move files": "Переместить файлы",
-  "Are you sure you want to move these files to?": "Вы уверены, что хотите переместить эти файлы в?",
   "Yes, Move!": "Переместить",
   "Delete files": "Удалить файлы",
   "Yes, Delete!": "Удалить",
@@ -85,5 +84,6 @@ export default {
   "Dark": "Dark",
   "Light": "Light",
   "System": "System",
+  "Target Directory" : "Target Directory",
   "uppy": uppyLocaleRu
 }

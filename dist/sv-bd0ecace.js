@@ -131,7 +131,7 @@ e.strings = {
   }
 };
 typeof Uppy < "u" && (globalThis.Uppy.locales.sv_SE = e);
-const l = e, r = {
+const r = e, l = {
   Language: "Språk",
   Create: "Skapa",
   Close: "Stäng",
@@ -151,7 +151,6 @@ const l = e, r = {
   "Open containing folder": "Öppna innehållande mapp",
   Refresh: "Uppdatera",
   Preview: "Förhandsgranska",
-  "Dark Mode": "Mörkt läge",
   "Toggle Full Screen": "Växla till helskärm",
   "Change View": "Ändra vy",
   Storage: "Lagring",
@@ -165,7 +164,6 @@ const l = e, r = {
   "Folder Name": "Mappnamn",
   "File Name": "Filnamn",
   "Move files": "Flytta filer",
-  "Are you sure you want to move these files to?": "Är du säker på att du vill flytta dessa filer?",
   "Yes, Move!": "Ja, flytta!",
   "Delete files": "Radera filer",
   "Yes, Delete!": "Ja, radera!",
@@ -211,9 +209,15 @@ const l = e, r = {
   Settings: "Inställningar",
   "Use Metric Units": "Använd metriska enheter",
   "Saved.": "Sparad.",
-  "Clear Local Storage": "Rensa lokal lagring",
-  uppy: l
+  "Reset Settings": "Återställ inställningar",
+  'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".': `Download doesn't work? You can try right-click "Download" button, select "Save link as...".`,
+  Theme: "Theme",
+  Dark: "Dark",
+  Light: "Light",
+  System: "System",
+  "Target Directory": "Target Directory",
+  uppy: r
 };
 export {
-  r as default
+  l as default
 };

@@ -164,7 +164,6 @@ const t = o, r = {
   "Open containing folder": "Открыть расположение",
   Refresh: "Обновить",
   Preview: "Предпросмотр",
-  "Dark Mode": "Тёмный режим",
   "Toggle Full Screen": "Полный экран",
   "Change View": "Изменить вид",
   Storage: "Хранилище",
@@ -178,7 +177,6 @@ const t = o, r = {
   "Folder Name": "Название папки",
   "File Name": "Название файла",
   "Move files": "Переместить файлы",
-  "Are you sure you want to move these files to?": "Вы уверены, что хотите переместить эти файлы в?",
   "Yes, Move!": "Переместить",
   "Delete files": "Удалить файлы",
   "Yes, Delete!": "Удалить",
@@ -224,7 +222,13 @@ const t = o, r = {
   Settings: "Настройки",
   "Use Metric Units": "Использовать метрические единицы",
   "Saved.": "Сохранено.",
-  "Clear Local Storage": "Очистить локальное хранилище",
+  "Reset Settings": "Сбросить настройки",
+  'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".': `Download doesn't work? You can try right-click "Download" button, select "Save link as...".`,
+  Theme: "Theme",
+  Dark: "Dark",
+  Light: "Light",
+  System: "System",
+  "Target Directory": "Target Directory",
   uppy: t
 };
 export {

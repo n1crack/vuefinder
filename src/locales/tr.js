@@ -33,7 +33,6 @@ export default {
   "Folder Name": "Klasör Adı",
   "File Name": "Dosya Adı",
   "Move files": "Dosyaları taşı",
-  "Are you sure you want to move these files to?": "Bu dosyaları taşımak istediğinizden emin misiniz?",
   "Yes, Move!": "Evet, Taşı!",
   "Delete files": "Dosyaları Sil",
   "Yes, Delete!": "Evet, Sil!",
@@ -85,5 +84,6 @@ export default {
   "Dark": "Koyu",
   "Light": "Açık",
   "System": "Sistem",
+  "Target Directory" : "Hedef Klasör",
   "uppy": uppyLocaleTr,
 }

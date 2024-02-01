@@ -33,7 +33,6 @@ export default {
   "Folder Name": "Mappnamn",
   "File Name": "Filnamn",
   "Move files": "Flytta filer",
-  "Are you sure you want to move these files to?": "Är du säker på att du vill flytta dessa filer?",
   "Yes, Move!": "Ja, flytta!",
   "Delete files": "Radera filer",
   "Yes, Delete!": "Ja, radera!",
@@ -85,5 +84,6 @@ export default {
   "Dark": "Dark",
   "Light": "Light",
   "System": "System",
+  "Target Directory" : "Target Directory",
   "uppy": uppyLocaleSv
 }

@@ -33,7 +33,6 @@ export default {
   "Folder Name": "文件夹名称",
   "File Name": "文件名称",
   "Move files": "移动文件",
-  "Are you sure you want to move these files to?": "您确定要移动这些文件吗？",
   "Yes, Move!": "确定，移动！",
   "Delete files": "删除文件",
   "Yes, Delete!": "确定，删除！",
@@ -85,5 +84,6 @@ export default {
   "Dark": "深色",
   "Light": "浅色",
   "System": "系统",
+  "Target Directory": "Target Directory",
   "uppy": uppyLocalezhCN
 }
