@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import {ref, watch} from 'vue';
 
 const THEMES = {
   SYSTEM: 'system',
@@ -15,14 +15,19 @@ export default function(storage, propTheme) {
   const theme = ref(THEMES.SYSTEM);
   const actualTheme = ref(THEMES.LIGHT);
   theme.value = storage.getStore('theme', propTheme ?? THEMES.SYSTEM);
-  actualTheme.value = theme.value === THEMES.DARK ? THEMES.DARK : THEMES.LIGHT;
 
   const matcher = window.matchMedia('(prefers-color-scheme: dark)');
-  matcher.addEventListener('change', e => {
-    if (theme.value === THEMES.SYSTEM) {
-      actualTheme.value = e.matches ? THEMES.DARK : THEMES.LIGHT;
+
+  const updateActualTheme = (matcher) => {
+    if (theme.value === THEMES.DARK || (theme.value === THEMES.SYSTEM && matcher.matches)) {
+      actualTheme.value = THEMES.DARK;
+    } else {
+      actualTheme.value = THEMES.LIGHT;
     }
-  });
+  }
+
+  updateActualTheme(matcher);
+  matcher.addEventListener('change', updateActualTheme);
 
   return {
     /**
@@ -41,16 +46,11 @@ export default function(storage, propTheme) {
     set(value) {
       theme.value = value;
       if (value !== THEMES.SYSTEM) {
-        actualTheme.value = value;
         storage.setStore('theme', value);
       } else {
-        if (propTheme) {
-          actualTheme.value = propTheme;
-        } else {
-          actualTheme.value = matcher.matches ? THEMES.DARK : THEMES.LIGHT
-        }
         storage.removeStore('theme');
       }
+      updateActualTheme(matcher)
     },
   }
 }
