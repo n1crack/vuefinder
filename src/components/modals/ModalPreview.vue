@@ -3,12 +3,12 @@
     <div class="sm:flex sm:items-start">
       <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div v-if="enabledPreview">
-          <Text v-if="loadPreview('text')" @load="setLoad(true)"/>
-          <Image v-else-if="loadPreview('image')" @load="setLoad(true)"/>
-          <Video v-else-if="loadPreview('video')" @load="setLoad(true)"/>
-          <Audio v-else-if="loadPreview('audio')" @load="setLoad(true)"/>
-          <Pdf v-else-if="loadPreview('application/pdf')" @load="setLoad(true)"/>
-          <Default v-else @load="setLoad(true)"/>
+          <Text v-if="loadPreview('text')" @success="loaded = true"/>
+          <Image v-else-if="loadPreview('image')" @success="loaded = true"/>
+          <Video v-else-if="loadPreview('video')" @success="loaded = true"/>
+          <Audio v-else-if="loadPreview('audio')" @success="loaded = true"/>
+          <Pdf v-else-if="loadPreview('application/pdf')" @success="loaded = true"/>
+          <Default v-else @success="loaded = true"/>
         </div>
 
         <div class="text-gray-700 dark:text-gray-200 text-sm">
@@ -57,18 +57,15 @@ import {FEATURES} from "../features.js";
 const app = inject('ServiceContainer')
 const {t} = app.i18n
 const loaded = ref(false);
-
-const setLoad = (bool) => loaded.value = bool;
-
 const loadPreview = (type) => (app.modal.data.item.mime_type ?? '').startsWith(type)
 
 const download = () => {
-  const url = app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item)
-  app.emitter.emit('vf-download', url)
+  const url = app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item);
+  app.emitter.emit('vf-download', url);
 }
 
 const enabledPreview = app.features.includes(FEATURES.PREVIEW)
 if (!enabledPreview) {
-  setLoad(true)
+  loaded.value = true;
 }
 </script>

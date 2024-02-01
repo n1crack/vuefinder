@@ -30,7 +30,6 @@ export default {
 
 <script setup>
 import {onMounted, provide, ref} from 'vue';
-import {useStorage} from '../composables/useStorage.js';
 import ServiceContainer from "../ServiceContainer.js";
 
 import VFToolbar from '../components/Toolbar.vue';
@@ -38,6 +37,8 @@ import VFBreadcrumb from '../components/Breadcrumb.vue';
 import VFExplorer from '../components/Explorer.vue';
 import VFContextMenu from '../components/ContextMenu.vue';
 import VFStatusbar from '../components/Statusbar.vue';
+
+const emit = defineEmits(['select'])
 
 const props = defineProps({
   request: {
@@ -73,9 +74,6 @@ const props = defineProps({
     default: '10mb'
   },
 });
-
-const {getStore} = useStorage(props.id);
-const emit = defineEmits(['select'])
 
 // the object is passed to all components as props
 const app = ServiceContainer(props);
@@ -165,7 +163,9 @@ app.emitter.on('vf-download', (url) => {
 
 // fetch initial data
 onMounted(() => {
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: (app.adapter)}});
+  // app.adapter can be null at first, until we get the adapter list it will be the first one from response
+  // later we can set default adapter from a prop value
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter}});
 });
 
 </script>

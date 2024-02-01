@@ -25,14 +25,14 @@ import {inject,onMounted} from 'vue';
 
 const app = inject('ServiceContainer');
 
-const emit = defineEmits(['load']);
+const emit = defineEmits(['success']);
 
 const getPDFUrl = () => {
   return app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)
 }
 
 onMounted(() => {
-  emit('load');
+  emit('success');
 });
 
 

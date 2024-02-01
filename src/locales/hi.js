@@ -80,6 +80,6 @@ export default {
   "Settings": "सेटिंग्स",
   "Use Metric Units": "Use Metric Units",
   "Saved.": "Saved.",
-  "Clear Local Storage": "Clear Local Storage",
+  "Reset Settings": "Reset Settings",
   "uppy": uppyLocaleHi
 }

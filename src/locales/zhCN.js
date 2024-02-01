@@ -80,6 +80,6 @@ export default {
   "Settings": "设置",
   "Use Metric Units": "使用公制单位",
   "Saved.": "已保存。",
-  "Clear Local Storage": "清除本地存储",
+  "Reset Settings": "重置设置",
   "uppy": uppyLocalezhCN
 }

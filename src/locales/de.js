@@ -80,6 +80,6 @@ export default {
     "Settings": "Einstellungen",
     "Use Metric Units": "Use Metric Units",
     "Saved.": "Gespeichert.",
-    "Clear Local Storage": "Lokalen Speicher löschen",
+    "Reset Settings": "Einstellungen zurücksetzen",
     "uppy" : uppyLocaleDe,
 }

@@ -29,7 +29,7 @@ import {inject, nextTick, onMounted, ref} from 'vue';
 import Message from '../Message.vue';
 import {FEATURES} from "../features.js";
 
-const emit = defineEmits(['load'])
+const emit = defineEmits(['success'])
 const content = ref('');
 const contentTemp = ref('');
 const editInput = ref(null);
@@ -51,7 +51,7 @@ onMounted(() => {
   })
       .then(data => {
         content.value = data;
-        emit('load');
+        emit('success');
       });
 });
 
@@ -85,7 +85,7 @@ const save = () => {
       .then(data => {
         message.value = t('Updated.');
         content.value = data;
-        emit('load');
+        emit('success');
         showEdit.value = !showEdit.value;
       })
       .catch((e) => {

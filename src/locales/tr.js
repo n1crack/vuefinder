@@ -80,6 +80,6 @@ export default {
   "Settings": "Ayarlar",
   "Use Metric Units": "Metrik Birimleri Kullan",
   "Saved.": "Kaydedildi.",
-  "Clear Local Storage": "Yerel Depolamayı Temizle",
+  "Reset Settings": "Ayarları Sıfırla",
   "uppy": uppyLocaleTr,
 }

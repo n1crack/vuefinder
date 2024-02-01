@@ -81,6 +81,6 @@ export default {
   "Settings": "Paramètres",
   "Use Metric Units": "Utiliser les unités métriques",
   "Saved.": "Enregistré.",
-  "Clear Local Storage": "Effacer le stockage local",
+  "Reset Settings": "Réinitialiser les paramètres",
   "uppy": uppyLocaleFr
 }

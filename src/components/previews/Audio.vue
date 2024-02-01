@@ -13,7 +13,7 @@
 
 import {inject, onMounted} from 'vue';
 
-const emit = defineEmits(['load']);
+const emit = defineEmits(['success']);
 
 const app = inject('ServiceContainer');
 
@@ -22,7 +22,7 @@ const getAudioUrl = () => {
 }
 
 onMounted(() => {
-  emit('load');
+  emit('success');
 });
 
 </script>
