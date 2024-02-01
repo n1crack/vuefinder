@@ -4,7 +4,7 @@
       <svg
           @dragover="handleDragOver($event)"
           @drop="handleDropZone($event)"
-          @click="!isGoUpAvailable() || app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? (adapter + '://')}} )"
+          @click="!isGoUpAvailable() || app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? (app.adapter + '://')}} )"
           class="h-6 w-6 p-0.5 rounded"
           :class="isGoUpAvailable() ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'"
           xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
