@@ -49,7 +49,7 @@ export default {
   "Are you sure you want to delete these files?": "آیا از حذف فایل ها مطمئن هستید ؟",
   "This action cannot be undone.": "این تغییرات قابل بازگشت نیست!",
   "Search results for" : "نتیجه جستجو برای",
-  "item(s) selected.": "آیتم(های) انتخاب شده",
+  "%s item(s) selected.": "%s آیتم(های) انتخاب شده",
   "%s is renamed." : "تغییر نام برای %s صورت گرفت.",
   "This is a readonly storage." : "این فضا فقط قابل خواندن است!",
   "%s is created." : "%s ساخته شد!",

@@ -49,7 +49,7 @@ export default {
   "Are you sure you want to delete these files?": "您确定要删除这些文件吗？",
   "This action cannot be undone.": "此操作不能撤销。",
   "Search results for" : "搜索结果为",
-  "item(s) selected.": "个文件 已选择。",
+  "%s item(s) selected.": "%s 个文件 已选择。",
   "%s is renamed." : "%s 已重命名。",
   "This is a readonly storage." : "这是只读存储。",
   "%s is created." : "%s 已创建。",

@@ -43,7 +43,7 @@
         {{ t('Cancel') }}</button>
 
       <div class="mt-1 mr-auto font-bold text-gray-500 text-sm dark:text-gray-200 self-center">
-        {{ items.length + ' ' + t('item(s) selected.') }}
+        {{ t('%s item(s) selected.', items.length) }}
       </div>
     </template>
   </v-f-modal-layout>

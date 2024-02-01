@@ -49,7 +49,7 @@ export default {
   "Are you sure you want to delete these files?": "האם בטוח למחוק קבצים אלה?",
   "This action cannot be undone.": "לא ניתן לבטל פעולה זו.",
   "Search results for": "תוצאות חיפוש עבור",
-  "item(s) selected.": "פריט(ים) נבחרו.",
+  "%s item(s) selected.": "%s פריט(ים) נבחרו.",
   "%s is renamed.": "השם של %s השתנה.",
   "This is a readonly storage.": "זהו אחסון לקריאה בלבד.",
   "%s is created.": "%s נוצר",

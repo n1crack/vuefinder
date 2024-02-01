@@ -49,7 +49,7 @@ export default {
   "Are you sure you want to delete these files?": "您確定要刪除這些檔案嗎？",
   "This action cannot be undone.": "此操作不能撤銷。",
   "Search results for" : "搜尋結果為",
-  "item(s) selected.": "個檔案 已選取。",
+  "%s item(s) selected.": "%s 個檔案 已選取。",
   "%s is renamed." : "%s 已重新命名。",
   "This is a readonly storage." : "這是只讀存儲器。",
   "%s is created." : "%s 已創建。",

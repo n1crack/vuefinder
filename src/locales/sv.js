@@ -49,7 +49,7 @@ export default {
   "Are you sure you want to delete these files?": "Är du säker på att du vill radera dessa filer?",
   "This action cannot be undone.": "Denna åtgärd kan inte ångras.",
   "Search results for" : "Sökresultat för",
-  "item(s) selected.": "objekt valda.",
+  "%s item(s) selected.": "%s objekt valda.",
   "%s is renamed." : "%s har fått ett nytt namn.",
   "This is a readonly storage." : "Detta är en skrivskyddad lagring.",
   "%s is created." : "%s har skapats.",

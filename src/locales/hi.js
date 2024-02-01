@@ -49,7 +49,7 @@ export default {
   "Are you sure you want to delete these files?": "क्या आप वाकई इन फ़ाइलों को हटाना चाहते हैं?",
   "This action cannot be undone.": "इस क्रिया को पूर्वस्थित नहीं किया जा सकता है।",
   "Search results for": "के लिए खोज परिणाम",
-  "item(s) selected.": "आइटम(आइटम) चयनित।",
+  "%s item(s) selected.": "%s आइटम(आइटम) चयनित।",
   "%s is renamed.": "%s का नाम बदला गया है।",
   "This is a readonly storage.": "यह एक केवल पठनीय संग्रह है।",
   "%s is created.": "%s बनाया गया है।",

@@ -49,7 +49,7 @@ export default {
   "Are you sure you want to delete these files?": "Вы уверены, что хотите удалить эти файлы?",
   "This action cannot be undone.": "Это действия нельзя отменить.",
   "Search results for": "Результаты поиска по",
-  "item(s) selected.": "выбраны.",
+  "%s item(s) selected.": "%s выбраны.",
   "%s is renamed.": "%s переименован.",
   "This is a readonly storage.": "Данное хранилище только для чтения.",
   "%s is created.": "%s создан.",

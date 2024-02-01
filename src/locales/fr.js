@@ -50,7 +50,7 @@ export default {
   "Are you sure you want to delete these files?": "Êtes-vous sûr de vouloir supprimer ces fichiers?",
   "This action cannot be undone.": "Cette action ne peut pas être annulée.",
   "Search results for" : "Résultats de recherche pour",
-  "item(s) selected.": "élément(s) sélectionné(s).",
+  "%s item(s) selected.": "%s élément(s) sélectionné(s).",
   "%s is renamed." : "%s est renommé.",
   "This is a readonly storage." : "C'est un stockage en lecture seule.",
   "%s is created." : "%s est créé.",
