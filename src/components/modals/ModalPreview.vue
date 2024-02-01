@@ -22,16 +22,24 @@
           </div>
         </div>
       </div>
-
     </div>
-      <div class="py-2 flex font-normal break-all dark:text-gray-200 rounded text-xs">
-        <div><span class="font-bold pl-2">{{ t('File Size') }}: </span>{{ app.filesize(app.modal.data.item.file_size) }}</div>
-        <div><span class="font-bold pl-2">{{ t('Last Modified') }}: </span> {{ datetimestring(app.modal.data.item.last_modified) }}</div>
-      </div>
+
+    <div class="py-2 flex font-normal break-all dark:text-gray-200 rounded text-xs">
+      <div><span class="font-bold">{{ t('File Size') }}: </span>{{ app.filesize(app.modal.data.item.file_size) }}</div>
+      <div><span class="font-bold pl-2">{{ t('Last Modified') }}: </span> {{ datetimestring(app.modal.data.item.last_modified) }}</div>
+    </div>
+    <div class="text-xs" v-if="app.features.includes(FEATURES.DOWNLOAD)">
+      <span>{{ t('Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".') }}</span>
+    </div>
 
     <template v-slot:buttons>
       <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Close') }}</button>
-      <button type="button" @click="download()" class="vf-btn vf-btn-primary" v-if="app.features.includes(FEATURES.DOWNLOAD)">{{ t('Download') }}</button>
+      <a
+        target="_blank"
+        class="vf-btn vf-btn-primary"
+        :download="app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item)"
+        :href="app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item)"
+        v-if="app.features.includes(FEATURES.DOWNLOAD)">{{ t('Download') }}</a>
     </template>
   </v-f-modal-layout>
 </template>
