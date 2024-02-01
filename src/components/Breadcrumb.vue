@@ -38,9 +38,9 @@
         <div v-for="(item, index) in breadcrumb" :key="index">
           <span class="text-neutral-300 dark:text-gray-600 mx-0.5">/</span>
           <span
-          @dragover="handleDragOver($event)"
-          @dragleave="handleDragLeave($event)"
-          @drop="handleDropZone($event, index)"
+          @dragover="(index === breadcrumb.length - 1) || handleDragOver($event)"
+          @dragleave="(index === breadcrumb.length - 1) || handleDragLeave($event)"
+          @drop="(index === breadcrumb.length - 1) || handleDropZone($event, index)"
           class="px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer" :title="item.basename" @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:item.path}})">{{ item.name }}</span>
         </div>
       </div>
