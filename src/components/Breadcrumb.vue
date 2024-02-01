@@ -3,6 +3,7 @@
     <span :aria-label="t('Go up a directory')" data-microtip-position="bottom-right" role="tooltip">
       <svg
           @dragover="handleDragOver($event)"
+          @dragleave="handleDragLeave($event)"
           @drop="handleDropZone($event)"
           @click="!isGoUpAvailable() || app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? (app.adapter + '://')}} )"
           class="h-6 w-6 p-0.5 rounded"
@@ -23,7 +24,11 @@
     </span>
 
     <div v-if="!searchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full" @click.self="enterSearchMode">
-      <svg @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter}})"
+      <svg
+          @dragover="handleDragOver($event)"
+          @dragleave="handleDragLeave($event)"
+          @drop="handleDropZone($event, -1)"
+          @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter}})"
            class="h-6 w-6 p-1 rounded text-slate-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-gray-800 cursor-pointer"
            xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor">
         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
@@ -32,7 +37,11 @@
       <div class="flex leading-5">
         <div v-for="(item, index) in breadcrumb" :key="index">
           <span class="text-neutral-300 dark:text-gray-600 mx-0.5">/</span>
-          <span class="px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer" :title="item.basename" @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:item.path}})">{{ item.name }}</span>
+          <span
+          @dragover="handleDragOver($event)"
+          @dragleave="handleDragLeave($event)"
+          @drop="handleDropZone($event, index)"
+          class="px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer" :title="item.basename" @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:item.path}})">{{ item.name }}</span>
         </div>
       </div>
 
@@ -147,29 +156,45 @@ const isGoUpAvailable = () => {
   return breadcrumb.value.length && !searchMode.value;
 };
 
-const handleDropZone = (e) => {
+const handleDropZone = (e, index = null) => {
   e.preventDefault();
+
+  handleDragLeave(e);
+
+  index ??= breadcrumb.value.length - 2;
+
   let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
 
-  if (draggedItems.find(item => item.storage != app.adapter)) {
+  if (draggedItems.find(item => item.storage !== app.adapter)) {
     alert('Moving items between different storages is not supported yet.');
     return;
   }
 
   app.emitter.emit('vf-modal-show', {
     type: 'move',
-    items: {from: draggedItems, to: breadcrumb.value[breadcrumb.value.length - 2] ?? {path: (app.adapter + '://')}}
+    items: {from: draggedItems, to: breadcrumb.value[index] ?? {path: (app.adapter + '://')}}
   });
 };
 
 const handleDragOver = (e) => {
   e.preventDefault();
 
+
   if (isGoUpAvailable()) {
     e.dataTransfer.dropEffect = 'copy';
+    e.currentTarget.classList.add('bg-blue-200','dark:bg-slate-500');
   } else {
     e.dataTransfer.dropEffect = 'none';
     e.dataTransfer.effectAllowed = 'none';
+  }
+};
+const handleDragLeave = (e) => {
+  e.preventDefault();
+
+  e.currentTarget.classList.remove('bg-blue-200','dark:bg-slate-500');
+
+  if (isGoUpAvailable()) {
+    e.currentTarget.classList.remove('bg-blue-200','dark:bg-slate-500');
   }
 };
 
