@@ -150,7 +150,6 @@ const l = e, i = {
   "Open containing folder": "İçeren klasörü aç",
   Refresh: "Yenile",
   Preview: "Önizleme",
-  "Dark Mode": "Karanlık Mod",
   "Toggle Full Screen": "Tam ekran",
   "Change View": "Görünümü değiştir",
   Storage: "Depo",
@@ -164,7 +163,6 @@ const l = e, i = {
   "Folder Name": "Klasör Adı",
   "File Name": "Dosya Adı",
   "Move files": "Dosyaları taşı",
-  "Are you sure you want to move these files to?": "Bu dosyaları taşımak istediğinizden emin misiniz?",
   "Yes, Move!": "Evet, Taşı!",
   "Delete files": "Dosyaları Sil",
   "Yes, Delete!": "Evet, Sil!",
@@ -210,7 +208,13 @@ const l = e, i = {
   Settings: "Ayarlar",
   "Use Metric Units": "Metrik Birimleri Kullan",
   "Saved.": "Kaydedildi.",
-  "Clear Local Storage": "Yerel Depolamayı Temizle",
+  "Reset Settings": "Ayarları Sıfırla",
+  'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".': 'Download çalışmıyor mu?  "İndir" düğmesine sağ tıklayarak, "Farklı kaydet..." seçebilirsiniz.',
+  Theme: "Tema",
+  Dark: "Koyu",
+  Light: "Açık",
+  System: "Sistem",
+  "Target Directory": "Target Directory",
   uppy: l
 };
 export {

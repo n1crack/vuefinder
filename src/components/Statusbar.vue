@@ -14,7 +14,7 @@
 
      <div class="ml-3">
        <span v-if="searchQuery.length">{{ app.data.files.length }} items found. </span>
-       <span class="ml-1">{{ selectedItemCount > 0 ? selectedItemCount + ' ' + t('item(s) selected.') : '' }}</span>
+       <span class="ml-1">{{ selectedItemCount > 0 ? t('%s item(s) selected.', selectedItemCount) : '' }}</span>
      </div>
     </div>
     <div class="flex leading-5 items-center justify-end">

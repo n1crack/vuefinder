@@ -227,7 +227,6 @@ const r = e, i = {
   "Open containing folder": "Open containing folder",
   Refresh: "Refresh",
   Preview: "Preview",
-  "Dark Mode": "Dark Mode",
   "Toggle Full Screen": "Toggle Full Screen",
   "Change View": "Change View",
   Storage: "Storage",
@@ -241,7 +240,6 @@ const r = e, i = {
   "Folder Name": "Folder Name",
   "File Name": "File Name",
   "Move files": "Move files",
-  "Are you sure you want to move these files to?": "Are you sure you want to move these files to?",
   "Yes, Move!": "Yes, Move!",
   "Delete files": "Delete files",
   "Yes, Delete!": "Yes, Delete!",
@@ -287,7 +285,13 @@ const r = e, i = {
   Settings: "Settings",
   "Use Metric Units": "Use Metric Units",
   "Saved.": "Saved.",
-  "Clear Local Storage": "Clear Local Storage",
+  "Reset Settings": "Reset Settings",
+  'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".': `Download doesn't work? You can try right-click "Download" button, select "Save link as...".`,
+  Theme: "Theme",
+  Dark: "Dark",
+  Light: "Light",
+  System: "System",
+  "Target Directory": "Target Directory",
   uppy: r
 };
 export {

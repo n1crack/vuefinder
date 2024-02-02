@@ -196,7 +196,6 @@ const t = e, r = {
   "Open containing folder": "धारक फोल्डर खोलें",
   Refresh: "ताजगी करें",
   Preview: "पूर्वावलोकन",
-  "Dark Mode": "डार्क मोड",
   "Toggle Full Screen": "पूर्ण स्क्रीन टॉगल करें",
   "Change View": "दृश्य बदलें",
   Storage: "संग्रहण",
@@ -210,7 +209,6 @@ const t = e, r = {
   "Folder Name": "फ़ोल्डर नाम",
   "File Name": "फ़ाइल नाम",
   "Move files": "फ़ाइलें ले जाएं",
-  "Are you sure you want to move these files to?": "क्या आप वाकई इन फ़ाइलों को इस जगह ले जाना चाहते हैं?",
   "Yes, Move!": "हां, ले जाएं!",
   "Delete files": "फ़ाइलें हटाएं",
   "Yes, Delete!": "हां, हटाएं!",
@@ -256,7 +254,13 @@ const t = e, r = {
   Settings: "सेटिंग्स",
   "Use Metric Units": "Use Metric Units",
   "Saved.": "Saved.",
-  "Clear Local Storage": "Clear Local Storage",
+  "Reset Settings": "Reset Settings",
+  'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".': `Download doesn't work? You can try right-click "Download" button, select "Save link as...".`,
+  Theme: "Theme",
+  Dark: "Dark",
+  Light: "Light",
+  System: "System",
+  "Target Directory": "Target Directory",
   uppy: t
 };
 export {

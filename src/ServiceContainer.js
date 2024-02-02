@@ -6,11 +6,13 @@ import {useI18n} from "./composables/useI18n.js";
 import {FEATURE_ALL_NAMES} from "./components/features.js";
 import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
+import useTheme from './composables/useTheme.js';
 
 export default (props) => {
     const storage = useStorage(props.id);
     const emitter = mitt()
     const metricUnits = storage.getStore('metricUnits', false);
+    const theme = useTheme(storage, props.theme);
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
@@ -33,7 +35,7 @@ export default (props) => {
         // http object
         requester : buildRequester(props.request),
         // theme state
-        darkMode: storage.getStore('darkMode', props.dark),
+        theme: theme,
         // view state
         view: storage.getStore('viewport', 'grid'),
         // fullscreen state
@@ -49,7 +51,7 @@ export default (props) => {
         // locale state
         locale: props.locale ?? 'en',
         // default locale
-        i18n : useI18n(props.id, props.locale, emitter),
+        i18n : useI18n(storage, props.locale, emitter),
         // modal state
         modal: {
             active: false,

@@ -227,7 +227,6 @@ const t = e, r = {
   "Open containing folder": "محتوای پوشه را باز کن!",
   Refresh: "بارکذاری مجدد",
   Preview: "پیشنمایش",
-  "Dark Mode": "حالت شب",
   "Toggle Full Screen": "تمام تصویر کردن",
   "Change View": "تغییر نوع نمایش",
   Storage: "فضا",
@@ -241,7 +240,6 @@ const t = e, r = {
   "Folder Name": "نام پوشه",
   "File Name": "نام فایل",
   "Move files": "انتقال فایل ها",
-  "Are you sure you want to move these files to?": "آیا برای انتقال فایل ها مطمئن هستید ؟",
   "Yes, Move!": "بله، انتقال بده!",
   "Delete files": "پاک کردن فایل ها",
   "Yes, Delete!": "بله، پاک کن!",
@@ -287,7 +285,13 @@ const t = e, r = {
   Settings: "تنظیمات",
   "Use Metric Units": "استفاده از واحد های متریک",
   "Saved.": "ذخیره شد.",
-  "Clear Local Storage": "پاک کردن فضای ذخیره سازی محلی",
+  "Reset Settings": "بازنشانی تنظیمات",
+  'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".': `Download doesn't work? You can try right-click "Download" button, select "Save link as...".`,
+  Theme: "Theme",
+  Dark: "Dark",
+  Light: "Light",
+  System: "System",
+  "Target Directory": "Target Directory",
   uppy: t
 };
 export {
