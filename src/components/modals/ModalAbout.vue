@@ -53,7 +53,7 @@
                   </div>
                 </div>
 
-                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE) && supportedLanguages.length > 1">
+                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE) && Object.keys(supportedLanguages).length > 1">
                   <div class="h-6 items-center">
                     <label for="language" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
                       {{ t('Language') }}

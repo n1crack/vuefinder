@@ -16,7 +16,7 @@ export function useI18n(storage, initialLocale, emitter, supportedLocales) {
             setStore('locale', newLocale);
             locale.value = newLocale;
             setStore('translations', i18n);
-            if (supportedLocales.length) {
+            if (Object.values(supportedLocales).length > 1) {
                 emitter.emit('vf-toast-push', {label: 'The language is set to ' + newLocale});
                 emitter.emit('vf-language-saved');
             }
