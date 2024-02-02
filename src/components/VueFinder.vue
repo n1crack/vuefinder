@@ -63,7 +63,7 @@ const props = defineProps({
   },
   locale: {
       type: String,
-      default: 'en'
+      default: null
   },
   maxHeight: {
     type: String,
@@ -76,7 +76,7 @@ const props = defineProps({
 });
 
 // the object is passed to all components as props
-const app = ServiceContainer(props, inject('supportedLocales'));
+const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
 
 //  Define root element

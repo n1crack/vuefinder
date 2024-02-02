@@ -8,23 +8,20 @@ import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
 import useTheme from './composables/useTheme.js';
 
-export default (props, supportedLocales) => {
+export default (props, options) => {
     const storage = useStorage(props.id);
     const emitter = mitt()
     const metricUnits = storage.getStore('metricUnits', false);
     const theme = useTheme(storage, props.theme);
-    const i18n = computed(() => useI18n(storage, props.locale, emitter, supportedLocales));
+    const supportedLocales = options.i18n;
+    const initialLang = props.locale ?? options.locale;
+    const i18n = computed(() => useI18n(storage, initialLang, emitter, supportedLocales));
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
             return features;
         }
         return FEATURE_ALL_NAMES;
-    }
-    let features = setFeatures(props.features);
-
-    if (!Object.values(supportedLocales).length){
-        features = features.filter(item => item !== FEATURES.LANGUAGE)
     }
 
     return reactive({
@@ -37,7 +34,7 @@ export default (props, supportedLocales) => {
         // Event Bus
         emitter: emitter,
         // active features
-        features: features,
+        features: setFeatures(props.features),
         // http object
         requester : buildRequester(props.request),
         // theme state

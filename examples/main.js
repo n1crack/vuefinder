@@ -6,6 +6,9 @@ const app = createApp(App);
 
 app.use(VueFinder,
     {
+        // you can set the default locale, if you don't set the locale key, it will be the first locale in the i18n object (en in this case)
+        // if if you set a locale prop of the vuefinder elements, it will override this default locale
+        locale: 'en',
         i18n: {
             en: async () => await import ("../src/locales/en.js"),
             fr: async () => await import ("../src/locales/fr.js"),

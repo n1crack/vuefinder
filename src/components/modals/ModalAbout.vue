@@ -53,7 +53,7 @@
                   </div>
                 </div>
 
-                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE)">
+                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE) && supportedLanguages.length > 1">
                   <div class="h-6 items-center">
                     <label for="language" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
                       {{ t('Language') }}
@@ -126,7 +126,7 @@ const handleMetricUnits = () => {
   app.emitter.emit('vf-metric-units-saved');
 }
 
-const supportedLocales = inject('supportedLocales');
+const {i18n} = inject('VueFinderOptions');
 
 const languageList = {
   en: 'English',
@@ -144,7 +144,7 @@ const languageList = {
 
 // Filter the supportedLanguages object
 const supportedLanguages = Object.fromEntries(
-  Object.entries(languageList).filter(([key]) => Object.keys(supportedLocales).includes(key))
+  Object.entries(languageList).filter(([key]) => Object.keys(i18n).includes(key))
 );
 
 const themes = {
