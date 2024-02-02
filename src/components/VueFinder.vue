@@ -41,6 +41,10 @@ import VFStatusbar from '../components/Statusbar.vue';
 const emit = defineEmits(['select'])
 
 const props = defineProps({
+  id: {
+    type: String,
+    default: 'vf'
+  },
   request: {
     type: [String, Object],
     required: true,
@@ -52,10 +56,6 @@ const props = defineProps({
   debug: {
     type: Boolean,
     default: false,
-  },
-  id: {
-    type: String,
-    default: 'vf'
   },
   theme: {
     type: String,

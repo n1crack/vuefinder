@@ -79,11 +79,11 @@ export default {
   "Use Metric Units": "השתמש ביחידות מטריות",
   "Saved.": "נשמר",
   "Reset Settings": "איפוס הגדרות",
-  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
-  "Theme": "Theme",
-  "Dark": "Dark",
-  "Light": "Light",
-  "System": "System",
-  "Target Directory" : "Target Directory",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "ההורדה לא עובדה? ניתן לנסות ללחוץ ימינה על כפתור \"הורדה\", ולבחור \"שמור קישור בשם...\".",
+  "Theme": "ערכת נושא",
+  "Dark": "כהה",
+  "Light": "בהיר",
+  "System": "מערכת",
+  "Target Directory" : "תיקיית יעד",
   "uppy": uppyLocaleHe
 }

@@ -79,11 +79,11 @@ export default {
   "Use Metric Units": "Использовать метрические единицы",
   "Saved.": "Сохранено.",
   "Reset Settings": "Сбросить настройки",
-  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
-  "Theme": "Theme",
-  "Dark": "Dark",
-  "Light": "Light",
-  "System": "System",
-  "Target Directory" : "Target Directory",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Загрузка не работает? Вы можете попробовать щелкнуть правой кнопкой мыши по кнопке \"Скачать\", выбрать \"Сохранить ссылку как...\".",
+  "Theme": "Тема",
+  "Dark": "Темный",
+  "Light": "Светлый",
+  "System": "Система",
+  "Target Directory" : "Целевая директория",
   "uppy": uppyLocaleRu
 }

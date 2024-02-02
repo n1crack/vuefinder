@@ -79,11 +79,11 @@ export default {
   "Use Metric Units": "استفاده از واحد های متریک",
   "Saved.": "ذخیره شد.",
   "Reset Settings": "بازنشانی تنظیمات",
-  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
-  "Theme": "Theme",
-  "Dark": "Dark",
-  "Light": "Light",
-  "System": "System",
-  "Target Directory" : "Target Directory",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "دانلود کار نمیکند؟ میتوانید روی دکمه \"دانلود\" راست کلیک کرده و \"ذخیره لینک به عنوان...\" را انتخاب کنید",
+  "Theme": "تم",
+  "Dark": "تاریک",
+  "Light": "روشن",
+  "System": "سیستم",
+  "Target Directory" : "پوشه مقصد",
   "uppy": uppyLocaleFa
 }

@@ -1406,6 +1406,10 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
   name: "VueFinder"
 }, Ao = /* @__PURE__ */ Object.assign(jo, {
   props: {
+    id: {
+      type: String,
+      default: "vf"
+    },
     request: {
       type: [String, Object],
       required: !0
@@ -1417,10 +1421,6 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
     debug: {
       type: Boolean,
       default: !1
-    },
-    id: {
-      type: String,
-      default: "vf"
     },
     theme: {
       type: String,

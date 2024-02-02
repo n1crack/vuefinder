@@ -84,6 +84,6 @@ export default {
   "Dark": "深色",
   "Light": "浅色",
   "System": "系统",
-  "Target Directory": "Target Directory",
+  "Target Directory": "目标目录",
   "uppy": uppyLocalezhCN
 }

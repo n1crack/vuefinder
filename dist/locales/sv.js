@@ -79,11 +79,11 @@ export default {
   "Use Metric Units": "Använd metriska enheter",
   "Saved.": "Sparad.",
   "Reset Settings": "Återställ inställningar",
-  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
-  "Theme": "Theme",
-  "Dark": "Dark",
-  "Light": "Light",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Fungerar inte nedladdningen? Du kan högerklicka på \"Ladda ner\"-knappen, välja \"Spara länk som...\".",
+  "Theme": "Tema",
+  "Dark": "Mörk",
+  "Light": "Ljus",
   "System": "System",
-  "Target Directory" : "Target Directory",
+  "Target Directory" : "Mål katalog",
   "uppy": uppyLocaleSv
 }

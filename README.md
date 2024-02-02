@@ -78,6 +78,8 @@ Vue Template
 | locale        | string | en      | optional - default language code                           |
 | theme         | string | system  | optional - default theme, options: "system","light","dark" |
 | max-file-size | string | 10mb    | optional - client side max file upload                     |
+| max-height    | string | 600px   | optional - max height of the component                     |
+| features      | array  | _null_  | optional - array of the enabled features                   |
 
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)

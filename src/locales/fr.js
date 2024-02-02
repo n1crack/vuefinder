@@ -80,11 +80,11 @@ export default {
   "Use Metric Units": "Utiliser les unités métriques",
   "Saved.": "Enregistré.",
   "Reset Settings": "Réinitialiser les paramètres",
-  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".",
-  "Theme": "Theme",
-  "Dark": "Dark",
-  "Light": "Light",
-  "System": "System",
-  "Target Directory" : "Target Directory",
+  "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "Le téléchargement ne fonctionne pas? Vous pouvez essayer de cliquer avec le bouton droit sur le bouton \"Télécharger\", puis sélectionner \"Enregistrer le lien sous...\".",
+  "Theme": "Thème",
+  "Dark": "Sombre",
+  "Light": "Clair",
+  "System": "Système",
+  "Target Directory" : "Répertoire cible",
   "uppy": uppyLocaleFr
 }
