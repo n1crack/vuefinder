@@ -49,6 +49,14 @@ const props = defineProps({
     type: [String, Object],
     required: true,
   },
+  persist: {
+    type: Boolean,
+    default: false,
+  },
+  path: {
+    type: String,
+    default: '.',
+  },
   features: {
     type: [Array, Boolean],
     default: true,
@@ -78,6 +86,7 @@ const props = defineProps({
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
+const {setStore} = app.storage;
 
 //  Define root element
 const root = ref(null);
@@ -132,6 +141,11 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     abortSignal: signal,
   }).then(data => {
     app.adapter = data.adapter;
+    if (app.persist) {
+      app.path = data.dirname;
+      setStore('path', app.path);
+    }
+
     if (['index', 'search'].includes(params.q)) {
       app.loading = false;
     }
@@ -167,7 +181,17 @@ app.emitter.on('vf-download', (url) => {
 onMounted(() => {
   // app.adapter can be null at first, until we get the adapter list it will be the first one from response
   // later we can set default adapter from a prop value
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter}});
+
+  // if there is a path coming from the prop, we should use it.
+  let pathExists = {};
+  if (app.path.includes("://")) {
+    pathExists = {
+      adapter: app.path.split("://")[0],
+      path: app.path
+    };
+  }
+
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter, ...pathExists}});
 });
 
 </script>

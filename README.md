@@ -100,15 +100,17 @@ app.use(VueFinder, {
 
 ### Props
 
-| Prop          | Value  | Default | Description                                                |
-|---------------|:------:|---------|:-----------------------------------------------------------|
-| id            | string | _null_  | required                                                   |
-| request       | object | _null_  | required - backend url or request object, see above        |
-| locale        | string | en      | optional - default language code                           |
-| theme         | string | system  | optional - default theme, options: "system","light","dark" |
-| max-file-size | string | 10mb    | optional - client side max file upload                     |
-| max-height    | string | 600px   | optional - max height of the component                     |
-| features      | array  | _null_  | optional - array of the enabled features                   |
+| Prop          |  Value  | Default | Description                                                |
+|---------------|:-------:|---------|:-----------------------------------------------------------|
+| id            | string  | _null_  | required                                                   |
+| request       | object  | _null_  | required - backend url or request object, see above        |
+| locale        | string  | en      | optional - default language code                           |
+| theme         | string  | system  | optional - default theme, options: "system","light","dark" |
+| max-file-size | string  | 10mb    | optional - client side max file upload                     |
+| max-height    | string  | 600px   | optional - max height of the component                     |
+| features      |  array  | _null_  | optional - array of the enabled features                   |
+| path          | string  | _null_  | optional - initial directory, example: 'media://public'    |
+| persist       | boolean | false   | optional - keep current directory on page refresh          |
 
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)

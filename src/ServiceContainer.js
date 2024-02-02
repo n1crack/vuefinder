@@ -24,6 +24,8 @@ export default (props, options) => {
         return FEATURE_ALL_NAMES;
     }
 
+    const path = props.persist ? storage.getStore('path', props.path) : props.path;
+
     return reactive({
         // app version
         version: version,
@@ -61,9 +63,13 @@ export default (props, options) => {
         },
         // main storage adapter
         adapter: storage.getStore('adapter'),
+        // main storage adapter
+        path: path,
+        // persist state
+        persist: props.persist,
         // storage
         storage: storage,
         // fetched items
-        data: {adapter: storage.getStore('adapter'), storages: [], dirname: '.', files: []}
+        data: {adapter: storage.getStore('adapter'), storages: [], dirname: path, files: []}
     });
 }
