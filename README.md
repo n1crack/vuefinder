@@ -27,14 +27,43 @@ import VueFinder from 'vuefinder/dist/vuefinder'
 
 const app = createApp(App)
 
+//By default, Vuefinder will use English as the main language. 
+// However, if you want to support multiple languages and customize the localization, 
+// you can import the language files manually during component registration.
 app.use(VueFinder)
 
 app.mount('#app')
  
 ```
-Vue Template
-```vue
-...
+### Localization
+You can manually import the localization files from the package and register them with Vuefinder. The localization files are located in the dist/locales folder.
+
+```js
+import en from 'vuefinder/dist/lang/en.json'
+import tr from 'vuefinder/dist/lang/tr.json'
+import ru from 'vuefinder/dist/lang/ru.json'
+
+app.use(VueFinder, {
+  i18n: { en, tr, ru }
+});
+```
+
+### Async Localization
+Alternatively, you can import the localization files asynchronously during component registration. This can be useful for lazy loading or if you prefer to load the files dynamically.
+
+```js
+app.use(VueFinder, {
+  i18n: {
+    en: async () => await import("vuefinder/dist/locales/en.js"),
+    de: async () => await import("vuefinder/dist/locales/de.js"),
+    // Add more locales as needed
+  }
+});
+```
+
+#### Vue Template
+
+```vue 
 <div>
     <vue-finder id='my_vuefinder' :request="request"></vue-finder>
 </div>
