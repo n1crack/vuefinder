@@ -185,7 +185,7 @@ const z = {
   DELETE: "delete",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, Ge = Object.values(z), We = "2.0.1";
+}, Ge = Object.values(z), We = "2.1.1";
 function ye(p, e, s, r, a) {
   return (e = Math, s = e.log, r = 1024, a = s(p) / s(r) | 0, p / e.pow(r, a)).toFixed(0) + " " + (a ? "KMGTPEZY"[--a] + "iB" : "B");
 }
