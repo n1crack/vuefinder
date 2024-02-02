@@ -6,6 +6,7 @@ import {useI18n} from "./composables/useI18n.js";
 import {FEATURE_ALL_NAMES, FEATURES} from "./components/features.js";
 import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
+import useTheme from './composables/useTheme.js';
 
 export default (props, supportedLocales) => {
     const storage = useStorage(props.id);
@@ -40,7 +41,7 @@ export default (props, supportedLocales) => {
         // http object
         requester : buildRequester(props.request),
         // theme state
-        darkMode: storage.getStore('darkMode', props.dark),
+        theme: theme,
         // view state
         view: storage.getStore('viewport', 'grid'),
         // fullscreen state

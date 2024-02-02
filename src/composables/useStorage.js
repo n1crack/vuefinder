@@ -1,19 +1,19 @@
-import {ref, watch} from 'vue';
+import {reactive, watch} from 'vue';
 
 
 /** @param {String} key */
 export function useStorage(key) {
     let storedValues = localStorage.getItem(key + '_storage');
 
-    const storage = ref(JSON.parse(storedValues));
+    const storage = reactive(JSON.parse(storedValues ?? '{}'));
 
     watch(storage, setItem);
 
     function setItem() {
-        if (storage.value === null || storage.value === '') {
+        if (!Object.keys(storage).length) {
             localStorage.removeItem(key + '_storage');
         } else {
-            localStorage.setItem(key + '_storage', JSON.stringify(storage.value));
+            localStorage.setItem(key + '_storage', JSON.stringify(storage));
         }
     }
 
@@ -22,11 +22,18 @@ export function useStorage(key) {
      * @param {*} value
      */
     function setStore(key, value) {
-        storage.value = Object.assign({...storage.value}, {...{[key]: value}});
+        storage[key] = value;
+    }
+
+    /**
+     * @param {String} key
+     */
+    function removeStore(key) {
+        delete storage[key];
     }
 
     function clearStore() {
-        storage.value = null;
+        Object.keys(storage).map(key => removeStore(key));
     }
 
     /**
@@ -34,14 +41,11 @@ export function useStorage(key) {
      * @param {*} defaultValue
      */
     const getStore = (key, defaultValue = null) => {
-        if (storage.value === null || storage.value === '') {
-            return defaultValue;
-        }
-        if (storage.value.hasOwnProperty(key)) {
-            return storage.value[key]
+        if (storage.hasOwnProperty(key)) {
+            return storage[key]
         }
         return defaultValue;
     }
 
-    return {getStore, setStore, clearStore};
+    return {getStore, setStore, removeStore, clearStore};
 }

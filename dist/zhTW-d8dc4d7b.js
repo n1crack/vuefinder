@@ -184,7 +184,6 @@ const o = e, i = {
   "Open containing folder": "打開對應的資料夾",
   Refresh: "重新整理",
   Preview: "預覽",
-  "Dark Mode": "黑暗模式",
   "Toggle Full Screen": "切換全螢幕",
   "Change View": "變更視圖",
   Storage: "儲存",
@@ -198,7 +197,6 @@ const o = e, i = {
   "Folder Name": "資料夾名稱",
   "File Name": "檔案名称",
   "Move files": "移動檔案",
-  "Are you sure you want to move these files to?": "您確定要移動這些檔案嗎？",
   "Yes, Move!": "確定，移動！",
   "Delete files": "刪除檔案",
   "Yes, Delete!": "確定，刪除！",
@@ -244,7 +242,13 @@ const o = e, i = {
   Settings: "設定",
   "Use Metric Units": "使用公制單位",
   "Saved.": "已儲存。",
-  "Clear Local Storage": "清除本地儲存",
+  "Reset Settings": "重置設定",
+  'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".': "下載不管用？您可以嘗試右鍵點擊“下載”按鈕，選擇“另存連結為...”。",
+  Theme: "主題",
+  Dark: "深色",
+  Light: "淺色",
+  System: "系統",
+  "Target Directory": "Target Directory",
   uppy: o
 };
 export {

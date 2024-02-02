@@ -71,13 +71,13 @@ Vue Template
 
 ### Props
 
-| Prop          |  Value  | Default | Description                                         |
-|---------------|:-------:|---------|:----------------------------------------------------|
-| id            | string  | _null_  | required                                            |
-| request       | object  | _null_  | required - backend url or request object, see above |
-| locale        | string  | en      | optional - default language code                    |
-| dark          | boolean | false   | optional - makes theme dark as default              |
-| max-file-size | string  | 10mb    | optional - client side max file upload              |
+| Prop          | Value  | Default | Description                                                |
+|---------------|:------:|---------|:-----------------------------------------------------------|
+| id            | string | _null_  | required                                                   |
+| request       | object | _null_  | required - backend url or request object, see above        |
+| locale        | string | en      | optional - default language code                           |
+| theme         | string | system  | optional - default theme, options: "system","light","dark" |
+| max-file-size | string | 10mb    | optional - client side max file upload                     |
 
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)
@@ -118,10 +118,10 @@ Vue Template
 - [x] add more languages (only en/tr/ru at the moment. PRs are welcomed.)
 - [x] emit select event, with @select get selected files for online editors like tinymce/ckeditor
 - [x] show/hide components (toolbar/statusbar etc.)
+- [x] drag&drop on folders at address bar
 - [ ] code refactoring (cleanup the duplications, make reusable components)
 - [ ] copy/move to a folder (modal, treeview)
 - [ ] transfer items between filesystem adapters
-- [ ] drag&drop on folders at address bar
 - [ ] update DragSelect plugin for using its dropzone support
 
 ### Dependencies

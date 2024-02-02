@@ -1,6 +1,6 @@
 <template>
   <div class="vuefinder" ref="root">
-    <div :class="app.darkMode ? 'dark': ''">
+    <div :class="app.theme.actualValue === 'dark' ? 'dark': ''">
       <div
           :class="app.fullscreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
           :style="!app.fullscreen ? 'max-height: ' + maxHeight : ''"
@@ -57,9 +57,9 @@ const props = defineProps({
     type: String,
     default: 'vf'
   },
-  dark: {
-    type: Boolean,
-    default: false
+  theme: {
+    type: String,
+    default: 'system',
   },
   locale: {
       type: String,

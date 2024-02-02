@@ -24,18 +24,6 @@
               <div class="space-y-2">
                 <div class="flex relative gap-x-3">
                   <div class="h-6 items-center">
-                    <input id="dark_mode" name="dark_mode" v-model="app.darkMode" type="checkbox"
-                           @click="handleDarkMode"
-                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
-                  </div>
-                  <div class="flex-1 block text-sm">
-                    <label for="dark_mode" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
-                      {{ t("Dark Mode") }} <action-message class="ms-3" on="vf-darkMode-saved">{{ t('Saved.') }}</action-message>
-                    </label>
-                  </div>
-                </div>
-                <div class="flex relative gap-x-3">
-                  <div class="h-6 items-center">
                     <input id="metric_unit" name="metric_unit" type="checkbox"
                            v-model="app.metricUnits"
                            @click="handleMetricUnits"
@@ -48,19 +36,37 @@
                   </div>
                 </div>
 
-                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE)">
+                <div class="flex relative gap-x-3">
                   <div class="h-6 items-center">
-                    <div class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
-                      {{ t('Language') }}
-                    </div>
+                    <label for="theme" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
+                      {{ t('Theme') }}
+                    </label>
                   </div>
                   <div class="flex text-sm">
-                    <select v-model="locale" @change="changeLocale($event.target.value)"
-                            class="w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
+                    <select id="theme" v-model="app.theme.value" @change="handleTheme($event.target.value)"
+                            class="flex-shrink-0 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
+                      <optgroup :label="t('Theme')">
+                        <option v-for="(name, key) in themes" :value="key">{{ name }}</option>
+                      </optgroup>
+                    </select>
+                    <action-message class="ms-3 flex-shrink-0 flex-grow basis-full" on="vf-theme-saved">{{ t('Saved.') }}</action-message>
+                  </div>
+                </div>
+
+                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE)">
+                  <div class="h-6 items-center">
+                    <label for="language" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
+                      {{ t('Language') }}
+                    </label>
+                  </div>
+                  <div class="flex text-sm">
+                    <select id="language" v-model="locale" @change="changeLocale($event.target.value)"
+                            class="flex-shrink-0 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
                       <optgroup :label="t('Language')">
                         <option v-for="(language, code) in supportedLanguages" :value="code">{{ language }}</option>
                       </optgroup>
-                    </select> <action-message class="ms-3" on="vf-language-saved">{{ t('Saved.') }}</action-message>
+                    </select>
+                    <action-message class="ms-3 flex-shrink-0 flex-grow basis-full" on="vf-language-saved">{{ t('Saved.') }}</action-message>
                   </div>
                 </div>
 
@@ -107,11 +113,9 @@ const clearLocalStorage = async () => {
   location.reload();
 };
 
-// todo: add system dark mode detection as 3rd option
-const handleDarkMode = () => {
-  app.darkMode = !app.darkMode;
-  setStore('darkMode', app.darkMode);
-  app.emitter.emit('vf-darkMode-saved');
+const handleTheme = (key) => {
+  app.theme.set(key);
+  app.emitter.emit('vf-theme-saved');
 }
 
 const handleMetricUnits = () => {
@@ -142,5 +146,11 @@ const languageList = {
 const supportedLanguages = Object.fromEntries(
   Object.entries(languageList).filter(([key]) => Object.keys(supportedLocales).includes(key))
 );
+
+const themes = {
+  system: t('System'),
+  light: t('Light'),
+  dark: t('Dark'),
+}
 
 </script>
