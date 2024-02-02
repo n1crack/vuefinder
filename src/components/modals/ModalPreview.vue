@@ -28,7 +28,7 @@
       <div><span class="font-bold">{{ t('File Size') }}: </span>{{ app.filesize(app.modal.data.item.file_size) }}</div>
       <div><span class="font-bold pl-2">{{ t('Last Modified') }}: </span> {{ datetimestring(app.modal.data.item.last_modified) }}</div>
     </div>
-    <div class="text-xs" v-if="app.features.includes(FEATURES.DOWNLOAD)">
+    <div class="text-xs text-gray-600 dark:text-gray-400" v-if="app.features.includes(FEATURES.DOWNLOAD)">
       <span>{{ t('Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".') }}</span>
     </div>
 
