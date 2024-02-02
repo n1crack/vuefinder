@@ -29,7 +29,7 @@ export default {
 </script>
 
 <script setup>
-import {onMounted, provide, ref} from 'vue';
+import {inject, onMounted, provide, ref} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
 
 import VFToolbar from '../components/Toolbar.vue';
@@ -76,7 +76,7 @@ const props = defineProps({
 });
 
 // the object is passed to all components as props
-const app = ServiceContainer(props);
+const app = ServiceContainer(props, inject('supportedLocales'));
 provide('ServiceContainer', app);
 
 //  Define root element

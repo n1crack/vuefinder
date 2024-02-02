@@ -17,7 +17,7 @@ export default {
         }
 
         // define global properties with 'options'
-
+        app.provide('supportedLocales', options.i18n ?? {});
     }
 };
 

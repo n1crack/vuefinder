@@ -122,7 +122,9 @@ const handleMetricUnits = () => {
   app.emitter.emit('vf-metric-units-saved');
 }
 
-const supportedLanguages = {
+const supportedLocales = inject('supportedLocales');
+
+const languageList = {
   en: 'English',
   fr: 'French (Français)',
   de: 'German (Deutsch)',
@@ -134,6 +136,11 @@ const supportedLanguages = {
   tr: 'Turkish (Türkçe)',
   zhCN: 'Simplified Chinese (简体中文)',
   zhTW: 'Traditional Chinese (繁體中文)',
-}
+};
+
+// Filter the supportedLanguages object
+const supportedLanguages = Object.fromEntries(
+  Object.entries(languageList).filter(([key]) => Object.keys(supportedLocales).includes(key))
+);
 
 </script>
