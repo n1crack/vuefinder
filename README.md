@@ -39,9 +39,9 @@ app.mount('#app')
 You can manually import the localization files from the package and register them with Vuefinder. The localization files are located in the dist/locales folder.
 
 ```js
-import en from 'vuefinder/dist/lang/en.js'
-import tr from 'vuefinder/dist/lang/tr.js'
-import ru from 'vuefinder/dist/lang/ru.js'
+import en from 'vuefinder/dist/locales/en.js'
+import tr from 'vuefinder/dist/locales/tr.js'
+import ru from 'vuefinder/dist/locales/ru.js'
 
 app.use(VueFinder, {
   i18n: { en, tr, ru }
