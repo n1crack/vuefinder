@@ -1,25 +1,29 @@
 import {ref} from 'vue';
-import {useStorage} from './useStorage.js';
 
-export async function loadLocale(locale) {
-    const messages = await import(`../locales/${locale}.js`);
+export async function loadLocale(locale, supportedLocales) {
+    let messages;
+    if (typeof supportedLocales[locale] === 'function') {
+        messages = (await supportedLocales[locale]()).default;
+    } else {
+        messages = supportedLocales[locale];
+    }
 
-    return messages.default;
+    return messages;
 }
 
-export function useI18n(id, locale, emitter) {
-    const {getStore, setStore} = useStorage(id);
+
+export function useI18n(storage, initialLocale, emitter, supportedLocales) {
+    const {getStore, setStore} = storage;
     const translations = ref({});
+    const locale = ref(getStore('locale', initialLocale));
 
-    const active_locale = ref(getStore('locale', locale));
-
-    const changeLocale = (locale, defaultLocale = "en") => {
-        loadLocale(locale).then((i18n) => {
+    const changeLocale = (newLocale, defaultLocale = "en") => {
+        loadLocale(newLocale, supportedLocales).then((i18n) => {
             translations.value = i18n;
-            setStore('locale', locale);
-            active_locale.value = locale;
+            setStore('locale', newLocale);
+            locale.value = newLocale;
             setStore('translations', i18n);
-            emitter.emit('vf-toast-push', {label: 'The language is set to ' + locale});
+            emitter.emit('vf-toast-push', {label: 'The language is set to ' + newLocale});
             emitter.emit('vf-language-saved');
         }).catch(e => {
             if (defaultLocale) {
@@ -32,11 +36,10 @@ export function useI18n(id, locale, emitter) {
     };
 
     if (!getStore('locale')) {
-        changeLocale(locale);
+        changeLocale(initialLocale);
     } else {
         translations.value = getStore('translations');
     }
-
     const sprintf = (str, ...argv) => !argv.length ? str : sprintf(str = str.replace('%s', argv.shift()), ...argv);
 
     function t(key, ...params) {
@@ -46,6 +49,7 @@ export function useI18n(id, locale, emitter) {
         return sprintf(key, ...params);
     };
 
-    return {t, changeLocale, locale: active_locale};
+
+    return {t, changeLocale, locale};
 }
 

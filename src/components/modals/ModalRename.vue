@@ -11,7 +11,7 @@
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{ t('Rename') }}</h3>
         <div class="mt-2">
           <p class="flex text-sm text-gray-800 dark:text-gray-400 py-2">
-            <svg v-if="item.type == 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
               </svg>
               <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
@@ -28,7 +28,7 @@
 
     <template v-slot:buttons>
       <button type="button" @click="rename" class="vf-btn vf-btn-primary">{{ t('Rename') }}</button>
-      <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
+      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
     </template>
   </v-f-modal-layout>
 </template>
@@ -45,35 +45,29 @@ import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
-const emitter = inject('emitter');
-const {getStore} = inject('storage');
-const adapter = inject('adapter');
-const {t} = inject('i18n');
+const app = inject('ServiceContainer');
+const {getStore} = app.storage;
+const {t} = app.i18n;
 
-const props = defineProps({
-  selection: Object,
-  current: Object
-});
-
-const item = ref(props.selection.items[0]);
-const name = ref(props.selection.items[0].basename);
+const item = ref(app.modal.data.items[0]);
+const name = ref(app.modal.data.items[0].basename);
 const message = ref('');
 
 const rename = () => {
   if (name.value != '') {
-    emitter.emit('vf-fetch', {
+    app.emitter.emit('vf-fetch', {
       params: {
         q: 'rename',
         m: 'post',
-        adapter: adapter.value,
-        path: props.current.dirname,
+        adapter: app.adapter,
+        path: app.data.dirname,
       },
       body: {
         item: item.value.path,
         name: name.value
       },
       onSuccess: () => {
-        emitter.emit('vf-toast-push', {label: t('%s is renamed.', name.value)});
+        app.emitter.emit('vf-toast-push', {label: t('%s is renamed.', name.value)});
       },
       onError: (e) => {
         message.value = t(e.message);

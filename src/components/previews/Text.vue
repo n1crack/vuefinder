@@ -1,13 +1,13 @@
 <template>
   <div class="flex">
     <div class="mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title"
-         :aria-label="selection.item.path" data-microtip-position="bottom-right" role="tooltip">
-      {{ selection.item.basename }}
+         :aria-label="app.modal.data.item.path" data-microtip-position="bottom-right" role="tooltip">
+      {{ app.modal.data.item.basename }}
     </div>
     <div class="ml-auto mb-2">
       <button @click="save" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">
         {{ t('Save') }}</button>
-      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()" v-if="features.includes(FEATURES.EDIT)">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
+      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()" v-if="app.features.includes(FEATURES.EDIT)">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
     </div>
   </div>
   <div>
@@ -29,34 +29,29 @@ import {inject, nextTick, onMounted, ref} from 'vue';
 import Message from '../Message.vue';
 import {FEATURES} from "../features.js";
 
-const emit = defineEmits(['load'])
+const emit = defineEmits(['success'])
 const content = ref('');
 const contentTemp = ref('');
 const editInput = ref(null);
 const showEdit = ref(false);
-const props = defineProps({
-  selection: Object
-});
+
 const message = ref('');
 const isError = ref(false);
 
-/** @type {import('../../utils/ajax.js').Requester} */
-const requester = inject('requester');
-/** @type {import('vue').Ref<String[]>} */
-const features = inject('features');
+const app = inject('ServiceContainer');
 
-const {t} = inject('i18n');
+const {t} = app.i18n;
 
 onMounted(() => {
-  requester.send({
+  app.requester.send({
     url: '',
     method: 'get',
-    params: {q: 'preview', adapter: props.selection.adapter, path: props.selection.item.path},
+    params: {q: 'preview', adapter: app.modal.data.adapter, path: app.modal.data.item.path},
     responseType: 'text',
   })
       .then(data => {
         content.value = data;
-        emit('load');
+        emit('success');
       });
 });
 
@@ -74,13 +69,13 @@ const save = () => {
   message.value = '';
   isError.value = false;
 
-  requester.send({
+  app.requester.send({
     url: '',
     method: 'post',
     params: {
       q: 'save',
-      adapter: props.selection.adapter,
-      path: props.selection.item.path,
+      adapter: app.modal.data.adapter,
+      path: app.modal.data.item.path,
     },
     body: {
       content: contentTemp.value
@@ -90,7 +85,7 @@ const save = () => {
       .then(data => {
         message.value = t('Updated.');
         content.value = data;
-        emit('load');
+        emit('success');
         showEdit.value = !showEdit.value;
       })
       .catch((e) => {

@@ -12,7 +12,7 @@
       </div>
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
         <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">
-          {{ t('About %s', 'Vuefinder ' + version ) }}</h3>
+          {{ t('About %s', 'Vuefinder ' + app.version ) }}</h3>
         <div class="mt-2">
 
           <p class="text-sm text-gray-500">{{ t('Vuefinder is a file manager component for vue 3.') }}</p>
@@ -24,20 +24,8 @@
               <div class="space-y-2">
                 <div class="flex relative gap-x-3">
                   <div class="h-6 items-center">
-                    <input id="dark_mode" name="dark_mode" v-model="darkMode" type="checkbox"
-                           @click="handleDarkMode"
-                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
-                  </div>
-                  <div class="flex-1 block text-sm">
-                    <label for="dark_mode" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
-                      {{ t("Dark Mode") }} <action-message class="ms-3" on="vf-darkMode-saved">{{ t('Saved.') }}</action-message>
-                    </label>
-                  </div>
-                </div>
-                <div class="flex relative gap-x-3">
-                  <div class="h-6 items-center">
                     <input id="metric_unit" name="metric_unit" type="checkbox"
-                           v-model="metricUnits"
+                           v-model="app.metricUnits"
                            @click="handleMetricUnits"
                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
                   </div>
@@ -48,24 +36,42 @@
                   </div>
                 </div>
 
-                <div class="flex relative gap-x-3" v-if="features.includes(FEATURES.LANGUAGE)">
+                <div class="flex relative gap-x-3">
                   <div class="h-6 items-center">
-                    <div class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
-                      {{ t('Language') }}
-                    </div>
+                    <label for="theme" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
+                      {{ t('Theme') }}
+                    </label>
                   </div>
                   <div class="flex text-sm">
-                    <select v-model="locale" @change="changeLocale($event.target.value)"
-                            class="w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
+                    <select id="theme" v-model="app.theme.value" @change="handleTheme($event.target.value)"
+                            class="flex-shrink-0 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
+                      <optgroup :label="t('Theme')">
+                        <option v-for="(name, key) in themes" :value="key">{{ name }}</option>
+                      </optgroup>
+                    </select>
+                    <action-message class="ms-3 flex-shrink-0 flex-grow basis-full" on="vf-theme-saved">{{ t('Saved.') }}</action-message>
+                  </div>
+                </div>
+
+                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE)">
+                  <div class="h-6 items-center">
+                    <label for="language" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
+                      {{ t('Language') }}
+                    </label>
+                  </div>
+                  <div class="flex text-sm">
+                    <select id="language" v-model="locale" @change="changeLocale($event.target.value)"
+                            class="flex-shrink-0 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
                       <optgroup :label="t('Language')">
                         <option v-for="(language, code) in supportedLanguages" :value="code">{{ language }}</option>
                       </optgroup>
-                    </select> <action-message class="ms-3" on="vf-language-saved">{{ t('Saved.') }}</action-message>
+                    </select>
+                    <action-message class="ms-3 flex-shrink-0 flex-grow basis-full" on="vf-language-saved">{{ t('Saved.') }}</action-message>
                   </div>
                 </div>
 
                 <button @click="clearLocalStorage" type="button" class="vf-btn vf-btn-secondary">
-                  {{ t('Clear Local Storage') }}
+                  {{ t('Reset Settings') }}
                 </button>
               </div>
             </fieldset>
@@ -74,7 +80,7 @@
       </div>
     </div>
     <template v-slot:buttons>
-      <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
+      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
         {{ t('Close') }}
       </button>
     </template>
@@ -91,42 +97,38 @@ export default {
 import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";
-import {version} from './../../../package.json';
+import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize.js'
+
 import { FEATURES } from '../features.js';
 
-const emitter = inject('emitter');
-const {getStore, clearStore} = inject('storage');
-const adapter = inject('adapter');
-const {t, changeLocale, locale} = inject('i18n');
-const features = inject("features");
-
-const props = defineProps({
-  selection: Object,
-  current: Object
-});
+const app = inject('ServiceContainer');
+const {getStore, setStore, clearStore} = app.storage;
+const {t, changeLocale, locale} = app.i18n;
 
 const name = ref('');
 const message = ref('');
-
-const darkMode = inject('darkMode');
 
 const clearLocalStorage = async () => {
   clearStore();
   location.reload();
 };
 
-const handleDarkMode = () => {
-  emitter.emit('vf-darkMode-toggle');
-  emitter.emit('vf-darkMode-saved');
+const handleTheme = (key) => {
+  app.theme.set(key);
+  app.emitter.emit('vf-theme-saved');
 }
-
-const metricUnits = inject('metricUnits');
 
 const handleMetricUnits = () => {
-  emitter.emit('vf-metric-units-saved', !metricUnits.value);
+  app.metricUnits = !app.metricUnits;
+  app.filesize = app.metricUnits ?  filesizeMetric  : filesizeDefault
+
+  setStore('metricUnits', app.metricUnits);
+  app.emitter.emit('vf-metric-units-saved');
 }
 
-const supportedLanguages = {
+const supportedLocales = inject('supportedLocales');
+
+const languageList = {
   en: 'English',
   fr: 'French (Français)',
   de: 'German (Deutsch)',
@@ -138,6 +140,17 @@ const supportedLanguages = {
   tr: 'Turkish (Türkçe)',
   zhCN: 'Simplified Chinese (简体中文)',
   zhTW: 'Traditional Chinese (繁體中文)',
+};
+
+// Filter the supportedLanguages object
+const supportedLanguages = Object.fromEntries(
+  Object.entries(languageList).filter(([key]) => Object.keys(supportedLocales).includes(key))
+);
+
+const themes = {
+  system: t('System'),
+  light: t('Light'),
+  dark: t('Dark'),
 }
 
 </script>

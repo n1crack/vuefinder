@@ -27,14 +27,43 @@ import VueFinder from 'vuefinder/dist/vuefinder'
 
 const app = createApp(App)
 
+//By default, Vuefinder will use English as the main language. 
+// However, if you want to support multiple languages and customize the localization, 
+// you can import the language files manually during component registration.
 app.use(VueFinder)
 
 app.mount('#app')
  
 ```
-Vue Template
-```vue
-...
+### Localization
+You can manually import the localization files from the package and register them with Vuefinder. The localization files are located in the dist/locales folder.
+
+```js
+import en from 'vuefinder/dist/lang/en.json'
+import tr from 'vuefinder/dist/lang/tr.json'
+import ru from 'vuefinder/dist/lang/ru.json'
+
+app.use(VueFinder, {
+  i18n: { en, tr, ru }
+});
+```
+
+### Async Localization
+Alternatively, you can import the localization files asynchronously during component registration. This can be useful for lazy loading or if you prefer to load the files dynamically.
+
+```js
+app.use(VueFinder, {
+  i18n: {
+    en: async () => await import("vuefinder/dist/locales/en.js"),
+    de: async () => await import("vuefinder/dist/locales/de.js"),
+    // Add more locales as needed
+  }
+});
+```
+
+#### Vue Template
+
+```vue 
 <div>
     <vue-finder id='my_vuefinder' :request="request"></vue-finder>
 </div>
@@ -71,13 +100,15 @@ Vue Template
 
 ### Props
 
-| Prop          |  Value  | Default | Description                                         |
-|---------------|:-------:|---------|:----------------------------------------------------|
-| id            | string  | _null_  | required                                            |
-| request       | object  | _null_  | required - backend url or request object, see above |
-| locale        | string  | en      | optional - default language code                    |
-| dark          | boolean | false   | optional - makes theme dark as default              |
-| max-file-size | string  | 10mb    | optional - client side max file upload              |
+| Prop          | Value  | Default | Description                                                |
+|---------------|:------:|---------|:-----------------------------------------------------------|
+| id            | string | _null_  | required                                                   |
+| request       | object | _null_  | required - backend url or request object, see above        |
+| locale        | string | en      | optional - default language code                           |
+| theme         | string | system  | optional - default theme, options: "system","light","dark" |
+| max-file-size | string | 10mb    | optional - client side max file upload                     |
+| max-height    | string | 600px   | optional - max height of the component                     |
+| features      | array  | _null_  | optional - array of the enabled features                   |
 
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)
@@ -117,11 +148,11 @@ Vue Template
 - [x] restyle the modals
 - [x] add more languages (only en/tr/ru at the moment. PRs are welcomed.)
 - [x] emit select event, with @select get selected files for online editors like tinymce/ckeditor
+- [x] show/hide components (toolbar/statusbar etc.)
+- [x] drag&drop on folders at address bar
 - [ ] code refactoring (cleanup the duplications, make reusable components)
 - [ ] copy/move to a folder (modal, treeview)
 - [ ] transfer items between filesystem adapters
-- [ ] show/hide components (toolbar/statusbar etc.)
-- [ ] drag&drop on folders at address bar
 - [ ] update DragSelect plugin for using its dropzone support
 
 ### Dependencies
@@ -129,7 +160,9 @@ Vue Template
  - [Cropperjs](https://github.com/fengyuanchen/cropperjs)  : JavaScript image cropper
  - [DragSelect](https://github.com/ThibaultJanBeyer/DragSelect/) : Selection utility
  - [Uppy](https://github.com/transloadit/uppy) : Upload library
- - [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) : lazy loading for thumbnails
+ - [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) : lightweight and flexible lazy loading for thumbnails
+ - [microtip](https://github.com/ghosh/microtip) : Minimal, accessible, ultra lightweight css tooltip library
+ - [mitt](https://github.com/developit/mitt) : Tiny 200 byte functional event emitter / pubsub
 
 ### License
 Copyright (c) 2018 Yusuf ÖZDEMİR, released under [the MIT license](LICENSE)

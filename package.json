@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Vuefinder is a file manager component for vuejs.",
   "type": "module",
   "files": [
@@ -36,7 +36,8 @@
     "autoprefixer": "^10.4.8",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
-    "vite": "^4.0.2"
+    "vite": "^5.0.12",
+    "rollup-plugin-copy": "^3.5.0"
   },
   "dependencies": {
     "@uppy/core": "^3.8.0",

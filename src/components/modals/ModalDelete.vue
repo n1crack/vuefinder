@@ -30,7 +30,7 @@
     <template v-slot:buttons>
       <button type="button" @click="remove" class="vf-btn vf-btn-danger">
         {{ t('Yes, Delete!') }}</button>
-      <button type="button" @click="emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
+      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
         {{ t('Cancel') }}</button>
       <div class="m-auto font-bold text-red-500 text-sm dark:text-red-200 text-center">{{ t('This action cannot be undone.') }}</div>
     </template>
@@ -49,35 +49,28 @@ import VFModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
-const emitter = inject('emitter');
-const {getStore} = inject('storage');
-const adapter = inject('adapter');
-const {t} = inject('i18n');
+const app = inject('ServiceContainer');
+const {getStore} = app.storage;
+const {t} = app.i18n;
 
-const props = defineProps({
-  selection: Object,
-  current: Object
-});
-
-
-const items = ref(props.selection.items);
+const items = ref(app.modal.data.items);
 const message = ref('');
 
 const remove = () => {
 
   if (items.value.length) {
-    emitter.emit('vf-fetch', {
+    app.emitter.emit('vf-fetch', {
       params: {
         q: 'delete',
         m: 'post',
-        adapter: adapter.value,
-        path: props.current.dirname,
+        adapter: app.adapter,
+        path: app.data.dirname,
       },
       body: {
         items: items.value.map(({path, type}) => ({path, type})),
       },
       onSuccess: () => {
-        emitter.emit('vf-toast-push', {label: t('Files deleted.')});
+        app.emitter.emit('vf-toast-push', {label: t('Files deleted.')});
       },
       onError: (e) => {
         message.value = t(e.message);

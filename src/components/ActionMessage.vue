@@ -14,9 +14,9 @@ export default {
     on: {type: String, required: true},
   },
   setup(props, {emit, slots}) {
-    const emitter = inject('emitter');
+    const app = inject('ServiceContainer');
     const shown = ref(false);
-    const {t} = inject('i18n');
+    const {t} = app.i18n;
 
     let timeout = null;
 
@@ -29,7 +29,7 @@ export default {
     };
 
     onMounted(() => {
-      emitter.on(props.on, handleEvent);
+      app.emitter.on(props.on, handleEvent);
     });
 
     onUnmounted(() => {

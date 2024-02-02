@@ -12,9 +12,9 @@ export function metricFormat(a, b, c, d, e)  {
  *
  * <div>Example:
  * ```javascript
- * unhumanize("50 MB") // 52428800
- * unhumanize("50gb")  // 53687091200
- * unhumanize("50G")   // 53687091200
+ * parse("50 MB") // 52428800
+ * parse("50gb")  // 53687091200
+ * parse("50G")   // 53687091200
  * ```
  * </div>
  * @param {String} text

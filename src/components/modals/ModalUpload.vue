@@ -105,17 +105,8 @@ import Message from '../Message.vue';
 import { parse } from '../../utils/filesize.js';
 import title_shorten from "../../utils/title_shorten.js";
 
-const debug = inject('debug');
-const emitter = inject('emitter');
-const {t} = inject('i18n');
-const maxFileSize = inject('maxFileSize');
-const filesize = inject("filesize");
-/** @type {import('../../utils/ajax.js').Requester} */
-const requester = inject('requester');
-
-const props = defineProps({
-  current: Object
-});
+const app = inject('ServiceContainer');
+const {t} = app.i18n;
 
 const uppyLocale = t("uppy");
 
@@ -297,14 +288,14 @@ function clear(onlySuccessful) {
  * Close upload modal
  */
 function close() {
-  emitter.emit('vf-modal-close');
+  app.emitter.emit('vf-modal-close');
 }
 
 onMounted(async () => {
   uppy = new Uppy({
-    debug,
+    debug: app.debug,
     restrictions: {
-      maxFileSize: parse(maxFileSize),
+      maxFileSize: parse(app.maxFileSize),
       //maxNumberOfFiles
       //allowedFileTypes
     },
@@ -323,7 +314,7 @@ onMounted(async () => {
       queue.value.push({
         id: file.id,
         name: file.name,
-        size: filesize.value(file.size),
+        size: app.filesize(file.size),
         status: QUEUE_ENTRY_STATUS.PENDING,
         statusName: t('Pending upload'),
         percent: null,
@@ -333,12 +324,12 @@ onMounted(async () => {
       // Uppy would only upload that file once even you call .addFile() twice in one row, nice.
     }
   });
-  const params = requester.transformRequestParams({
+  const params = app.requester.transformRequestParams({
     url: '',
     method: 'post',
-    params: { q: 'upload', adapter: props.current.adapter, path: props.current.dirname },
+    params: { q: 'upload', adapter: app.data.adapter, path: app.data.dirname },
   });
-  if (debug) {
+  if (app.debug) {
     if (params.body != null && (params.body instanceof FormData || Object.keys(params.body).length > 0)) {
       console.warn('Cannot set body on upload, make sure request.transformRequest didn\'t set body when upload.'
         + '\nWill ignore for now.');
@@ -406,15 +397,15 @@ onMounted(async () => {
   uppy.on('error', (error) => {
     message.value = error.message;
     uploading.value = false;
-    emitter.emit('vf-fetch', {
-      params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
+    app.emitter.emit('vf-fetch', {
+      params: { q: 'index', adapter: app.data.adapter, path: app.data.dirname },
       noCloseModal: true,
     });
   })
   uppy.on('complete', () => {
     uploading.value = false;
-    emitter.emit('vf-fetch', {
-      params: { q: 'index', adapter: props.current.adapter, path: props.current.dirname },
+    app.emitter.emit('vf-fetch', {
+      params: { q: 'index', adapter: app.data.adapter, path: app.data.dirname },
       noCloseModal: true,
     });
   });

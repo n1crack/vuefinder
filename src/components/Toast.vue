@@ -24,19 +24,19 @@ export default {
 
 <script setup>
 import {inject, ref} from 'vue';
-const emitter = inject('emitter');
-const {getStore} = inject('storage');
+
+const app = inject('ServiceContainer');
+const {getStore} = app.storage;
 
 const fullScreen = ref(getStore('full-screen', false));
+const messageQueue = ref([]);
 
 const getTypeClass = (type) => {
-  if (type == 'error') {
+  if (type === 'error') {
     return 'text-red-400 border-red-400 dark:text-red-300 dark:border-red-300';
   }
   return 'text-lime-600 border-lime-600 dark:text-lime-300 dark:border-lime-1300';
 };
-
-const messageQueue = ref([]);
 
 const removeItem = (index) => {
   messageQueue.value.splice(index, 1);
@@ -49,14 +49,15 @@ const removeItemByID = (uid) => {
   }
 };
 
-emitter.on('vf-toast-clear', () => {
+app.emitter.on('vf-toast-clear', () => {
   messageQueue.value = []
 });
 
-emitter.on('vf-toast-push', (data) => {
-  let uid= new Date().getTime().toString(36).concat(performance.now().toString(), Math.random().toString()).replace(/\./g,"");
+app.emitter.on('vf-toast-push', (data) => {
+  let uid = new Date().getTime().toString(36).concat(performance.now().toString(), Math.random().toString()).replace(/\./g, "");
   data.id = uid;
   messageQueue.value.push(data);
+
   setTimeout(() => {
     removeItemByID(uid)
   }, 5000)

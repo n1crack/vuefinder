@@ -23,9 +23,9 @@ export default {
 </script>
 
 <script setup>
-import {inject, ref, watch} from 'vue';
+import {ref, watch, inject} from 'vue';
 
-const {t} = inject('i18n');
+const emit = defineEmits(['hidden']);
 const props = defineProps({
   error: {
     type: Boolean,
@@ -33,10 +33,12 @@ const props = defineProps({
   }
 });
 
+const app = inject('ServiceContainer');
+const {t} = app.i18n;
+
 const hidden = ref(false);
 const strMessage = ref(null);
 const strSlot = ref(strMessage.value?.strMessage);
-const emit = defineEmits(['hidden']);
 
 watch(strSlot, () => hidden.value = false);
 
