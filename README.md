@@ -146,6 +146,9 @@ app.use(VueFinder, {
 ### Backend
 - PHP: [VueFinder Php Library](https://github.com/n1crack/vuefinder-php)
 
+You can use any backend language. Just be sure, the response should be compatible.
+If you develop a backend library for another language, please let me know to add it here.
+
 ### Roadmap
 - [x] restyle the modals
 - [x] add more languages (only en/tr/ru at the moment. PRs are welcomed.)
