@@ -112,6 +112,12 @@ app.use(VueFinder, {
 | path          | string  | _null_  | optional - initial directory, example: 'media://public'    |
 | persist       | boolean | false   | optional - keep current directory on page refresh          |
 
+
+### Events
+| Event              | Description                                                                                                                |
+|--------------------|:---------------------------------------------------------------------------------------------------------------------------|
+| @select="callback" | The callback function is invoked when the user selects a file or folder, and the selected elements are passed as arguments |
+
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)
 - File and folder operations
