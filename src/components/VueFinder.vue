@@ -2,8 +2,8 @@
   <div class="vuefinder" ref="root">
     <div :class="app.theme.actualValue === 'dark' ? 'dark': ''">
       <div
-          :class="app.fullscreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
-          :style="!app.fullscreen ? 'max-height: ' + maxHeight : ''"
+          :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
+          :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
           class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')">
@@ -49,6 +49,14 @@ const props = defineProps({
     type: [String, Object],
     required: true,
   },
+  persist: {
+    type: Boolean,
+    default: false,
+  },
+  path: {
+    type: String,
+    default: '.',
+  },
   features: {
     type: [Array, Boolean],
     default: true,
@@ -62,8 +70,8 @@ const props = defineProps({
     default: 'system',
   },
   locale: {
-      type: String,
-      default: 'en'
+    type: String,
+    default: null
   },
   maxHeight: {
     type: String,
@@ -73,11 +81,30 @@ const props = defineProps({
     type: String,
     default: '10mb'
   },
+  fullScreen: {
+    type: Boolean,
+    default: false
+  },
+  selectButton: {
+    type: Object,
+    default(rawProps) {
+      return {
+        active: false,
+        multiple: false,
+        click: (items) => {
+          // items is an array of selected items
+          //
+        },
+        ...rawProps,
+      }
+    },
+  },
 });
 
 // the object is passed to all components as props
-const app = ServiceContainer(props, inject('supportedLocales'));
+const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
+const {setStore} = app.storage;
 
 //  Define root element
 const root = ref(null);
@@ -103,6 +130,7 @@ const updateItems = (data) => {
 };
 
 app.emitter.on('vf-nodes-selected', (items) => {
+  app.selectedItems = items;
   emit('select', items);
 })
 
@@ -132,6 +160,11 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     abortSignal: signal,
   }).then(data => {
     app.adapter = data.adapter;
+    if (app.persist) {
+      app.path = data.dirname;
+      setStore('path', app.path);
+    }
+
     if (['index', 'search'].includes(params.q)) {
       app.loading = false;
     }
@@ -167,7 +200,17 @@ app.emitter.on('vf-download', (url) => {
 onMounted(() => {
   // app.adapter can be null at first, until we get the adapter list it will be the first one from response
   // later we can set default adapter from a prop value
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter}});
+
+  // if there is a path coming from the prop, we should use it.
+  let pathExists = {};
+  if (app.path.includes("://")) {
+    pathExists = {
+      adapter: app.path.split("://")[0],
+      path: app.path
+    };
+  }
+
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter, ...pathExists}});
 });
 
 </script>

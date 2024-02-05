@@ -8,12 +8,14 @@ import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
 import useTheme from './composables/useTheme.js';
 
-export default (props, supportedLocales) => {
+export default (props, options) => {
     const storage = useStorage(props.id);
     const emitter = mitt()
     const metricUnits = storage.getStore('metricUnits', false);
     const theme = useTheme(storage, props.theme);
-    const i18n = computed(() => useI18n(storage, props.locale, emitter, supportedLocales));
+    const supportedLocales = options.i18n;
+    const initialLang = props.locale ?? options.locale;
+    const i18n = computed(() => useI18n(storage, initialLang, emitter, supportedLocales));
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
@@ -21,11 +23,8 @@ export default (props, supportedLocales) => {
         }
         return FEATURE_ALL_NAMES;
     }
-    let features = setFeatures(props.features);
 
-    if (!Object.values(supportedLocales).length){
-        features = features.filter(item => item !== FEATURES.LANGUAGE)
-    }
+    const path = props.persist ? storage.getStore('path', props.path) : props.path;
 
     return reactive({
         // app version
@@ -37,7 +36,7 @@ export default (props, supportedLocales) => {
         // Event Bus
         emitter: emitter,
         // active features
-        features: features,
+        features: setFeatures(props.features),
         // http object
         requester : buildRequester(props.request),
         // theme state
@@ -45,7 +44,9 @@ export default (props, supportedLocales) => {
         // view state
         view: storage.getStore('viewport', 'grid'),
         // fullscreen state
-        fullscreen: storage.getStore('full-screen', false),
+        fullScreen: storage.getStore('full-screen', props.fullScreen),
+        // selectButton state
+        selectButton: props.selectButton,
         // unit state - for example: GB or GiB
         metricUnits: metricUnits,
         // human readable file sizes
@@ -64,9 +65,15 @@ export default (props, supportedLocales) => {
         },
         // main storage adapter
         adapter: storage.getStore('adapter'),
+        // main storage adapter
+        path: path,
+        // persist state
+        persist: props.persist,
         // storage
         storage: storage,
         // fetched items
-        data: {adapter: storage.getStore('adapter'), storages: [], dirname: '.', files: []}
+        data: {adapter: storage.getStore('adapter'), storages: [], dirname: path, files: []},
+        // selected items
+        selectedItems: [],
     });
 }

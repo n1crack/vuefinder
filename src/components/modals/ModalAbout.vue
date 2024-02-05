@@ -53,15 +53,15 @@
                   </div>
                 </div>
 
-                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE)">
+                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE) && Object.keys(supportedLanguages).length > 1">
                   <div class="h-6 items-center">
-                    <label for="language" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
+                    <label for="language" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm text-nowrap">
                       {{ t('Language') }}
                     </label>
                   </div>
                   <div class="flex text-sm">
                     <select id="language" v-model="locale" @change="changeLocale($event.target.value)"
-                            class="flex-shrink-0 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
+                            class="flex-shrink-0 w-1/2 sm:w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
                       <optgroup :label="t('Language')">
                         <option v-for="(language, code) in supportedLanguages" :value="code">{{ language }}</option>
                       </optgroup>
@@ -95,7 +95,7 @@ export default {
 
 <script setup>
 import VFModalLayout from './ModalLayout.vue';
-import {inject, ref} from 'vue';
+import {computed, inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";
 import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize.js'
 
@@ -126,7 +126,7 @@ const handleMetricUnits = () => {
   app.emitter.emit('vf-metric-units-saved');
 }
 
-const supportedLocales = inject('supportedLocales');
+const {i18n} = inject('VueFinderOptions');
 
 const languageList = {
   en: 'English',
@@ -144,13 +144,13 @@ const languageList = {
 
 // Filter the supportedLanguages object
 const supportedLanguages = Object.fromEntries(
-  Object.entries(languageList).filter(([key]) => Object.keys(supportedLocales).includes(key))
+  Object.entries(languageList).filter(([key]) => Object.keys(i18n).includes(key))
 );
 
-const themes = {
+const themes = computed(() => ({
   system: t('System'),
   light: t('Light'),
   dark: t('Dark'),
-}
+}));
 
 </script>

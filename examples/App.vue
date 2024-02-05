@@ -1,17 +1,29 @@
 <template>
   <div class="wrapper">
+    <div style="font-weight: bold;padding: 10px">Inline select button example</div>
     <vue-finder
       id='my_vuefinder'
+      :request="request"
+      :max-file-size="maxFileSize"
+      :features="features"
+      :select-button="handleSelectButton"
+    />
+
+    <br>
+    <br>
+    <div style="font-weight: bold;padding: 10px">External select example</div>
+    <vue-finder
+      id='my_vuefinder2'
       :request="request"
       :max-file-size="maxFileSize"
       :features="features"
       @select="handleSelect"
     />
 
-    <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">Show Selected</button>
+    <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">Show Selected  ({{ selectedFiles.length ?? 0 }} selected)</button>
 
     <div v-show="selectedFiles.length">
-      <h3>Selected Files</h3>
+      <h3>Selected Files ({{ selectedFiles.length }} selected)</h3>
       <ul>
         <li v-for="file in selectedFiles" :key="file.path">
           {{ file.path }}
@@ -71,6 +83,22 @@ const handleButton = () => {
   console.log(selectedFiles.value)
 }
 
+const handleSelectButton = {
+  // show select button
+  active: true,
+  // allow multiple selection
+  multiple: false,
+  // handle click event
+  click: (items, event) => {
+    if (!items.length) {
+      alert('No item selected');
+      return;
+    }
+    alert('Selected: ' + items[0].path);
+    console.log(items, event);
+  }
+}
+
 </script>
 
 <style>
@@ -80,7 +108,7 @@ body {
 }
 .wrapper {
   max-width: 800px;
-  margin: 100px auto;
+  margin: 80px auto;
 }
 .btn{
   display: block;
