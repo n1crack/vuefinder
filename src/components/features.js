@@ -9,6 +9,7 @@ export const FEATURES = {
     RENAME: 'rename',
     UPLOAD: 'upload',
     DELETE: 'delete',
+    FULL_SCREEN: 'fullscreen',
     DOWNLOAD: 'download',
     LANGUAGE: 'language',
 }

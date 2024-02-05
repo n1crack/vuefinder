@@ -111,6 +111,7 @@ app.use(VueFinder, {
 | features      |  array  | _null_  | optional - array of the enabled features                   |
 | path          | string  | _null_  | optional - initial directory, example: 'media://public'    |
 | persist       | boolean | false   | optional - keep current directory on page refresh          |
+| full-screen   | boolean | false   | optional - start in full screen mode                       |
 
 
 ### Events

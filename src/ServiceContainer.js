@@ -44,7 +44,7 @@ export default (props, options) => {
         // view state
         view: storage.getStore('viewport', 'grid'),
         // fullscreen state
-        fullscreen: storage.getStore('full-screen', false),
+        fullScreen: storage.getStore('full-screen', props.fullScreen),
         // unit state - for example: GB or GiB
         metricUnits: metricUnits,
         // human readable file sizes

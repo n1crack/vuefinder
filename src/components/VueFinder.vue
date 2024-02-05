@@ -2,8 +2,8 @@
   <div class="vuefinder" ref="root">
     <div :class="app.theme.actualValue === 'dark' ? 'dark': ''">
       <div
-          :class="app.fullscreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
-          :style="!app.fullscreen ? 'max-height: ' + maxHeight : ''"
+          :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
+          :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
           class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')">
@@ -81,6 +81,10 @@ const props = defineProps({
     type: String,
     default: '10mb'
   },
+  fullScreen: {
+    type: Boolean,
+    default: false
+  }
 });
 
 // the object is passed to all components as props
