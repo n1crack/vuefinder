@@ -28,6 +28,11 @@
         focus:ring-indigo-500
         dark:text-gray-50 dark:border-gray-800 dark:bg-gray-700 dark:hover:bg-gray-500;
     }
+    .vuefinder .vf-btn-primary.disabled{
+        @apply
+        hover:bg-blue-600
+        dark:hover:bg-gray-700
+    }
 
     .vuefinder .vf-btn-secondary {
         @apply
@@ -36,6 +41,12 @@
         bg-white hover:bg-gray-50
         focus:ring-gray-500
         dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-500;
+    }
+
+    .vuefinder .vf-btn-secondary.disabled{
+        @apply
+        hover:bg-gray-50
+        dark:hover:bg-gray-800
     }
 
     .vuefinder .vf-btn-danger {

@@ -45,6 +45,8 @@ export default (props, options) => {
         view: storage.getStore('viewport', 'grid'),
         // fullscreen state
         fullScreen: storage.getStore('full-screen', props.fullScreen),
+        // selectButton state
+        selectButton: props.selectButton,
         // unit state - for example: GB or GiB
         metricUnits: metricUnits,
         // human readable file sizes
@@ -70,6 +72,8 @@ export default (props, options) => {
         // storage
         storage: storage,
         // fetched items
-        data: {adapter: storage.getStore('adapter'), storages: [], dirname: path, files: []}
+        data: {adapter: storage.getStore('adapter'), storages: [], dirname: path, files: []},
+        // selected items
+        selectedItems: [],
     });
 }

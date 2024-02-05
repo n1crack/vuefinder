@@ -100,24 +100,84 @@ app.use(VueFinder, {
 
 ### Props
 
-| Prop          |  Value  | Default | Description                                                |
-|---------------|:-------:|---------|:-----------------------------------------------------------|
-| id            | string  | _null_  | required                                                   |
-| request       | object  | _null_  | required - backend url or request object, see above        |
-| locale        | string  | en      | optional - default language code                           |
-| theme         | string  | system  | optional - default theme, options: "system","light","dark" |
-| max-file-size | string  | 10mb    | optional - client side max file upload                     |
-| max-height    | string  | 600px   | optional - max height of the component                     |
-| features      |  array  | _null_  | optional - array of the enabled features                   |
-| path          | string  | _null_  | optional - initial directory, example: 'media://public'    |
-| persist       | boolean | false   | optional - keep current directory on page refresh          |
-| full-screen   | boolean | false   | optional - start in full screen mode                       |
+| Prop          |     Value     | Default  | Description                                                |
+|---------------|:-------------:|----------|:-----------------------------------------------------------|
+| id            |    string     | _null_   | required                                                   |
+| request       | string/object | _object_ | required - backend url or request object, see above        |
+| locale        |    string     | en       | optional - default language code                           |
+| theme         |    string     | system   | optional - default theme, options: "system","light","dark" |
+| max-file-size |    string     | 10mb     | optional - client side max file upload                     |
+| max-height    |    string     | 600px    | optional - max height of the component                     |
+| features      |     array     | _null_   | optional - array of the enabled features                   |
+| path          |    string     | _null_   | optional - initial directory, example: 'media://public'    |
+| persist       |    boolean    | false    | optional - keep current directory on page refresh          |
+| full-screen   |    boolean    | false    | optional - start in full screen mode                       |
+| select-button |    object     | _object_ | optional - adds select button in status bar, see example   |
 
 
 ### Events
 | Event              | Description                                                                                                                |
 |--------------------|:---------------------------------------------------------------------------------------------------------------------------|
 | @select="callback" | The callback function is invoked when the user selects a file or folder, and the selected elements are passed as arguments |
+
+### Selection
+There are 2 ways to select files and folders.
+
+First one, you can use the select button in the status bar. To enable the select button, you can use the select-button prop.
+when you set the select-button active to true, the select button will be visible in the status bar.
+```vue
+<vue-finder
+  id='my_vuefinder'
+  :request="request"
+  :select-button="handleSelectButton"
+/>
+
+<script>
+  // other codes
+
+  const handleSelectButton = {
+    // show select button
+    active: true,
+    // allow multiple selection
+    multiple: false,
+    // handle click event
+    click: (items, event) => {
+      if (!items.length) {
+        alert('No item selected');
+        return;
+      }
+      alert('Selected: ' + items[0].path);
+      console.log(items, event);
+    }
+  }
+</script>
+```
+
+Alternatively, you can use the select event to get the selected items.
+```vue
+<vue-finder
+  id='my_vuefinder'
+  :request="request"
+  @select="handleSelect"
+/>
+
+<script>
+  // other codes
+  
+  // we can define a ref object to store the selected items
+  const selectedFiles = ref([]);
+  
+  // handle select event, and store the selected items
+  const handleSelect = (selection) => {
+    selectedFiles.value = selection
+  }
+  // then with a button click, you can get the selected items easily
+  // you can add this method to the click event of a button. 
+  const handleButtonClick = () => {
+    console.log(selectedFiles.value);
+  }
+</script>
+```
 
 ### Features 
 - Multi adapter/storage (see https://github.com/thephpleague/flysystem)

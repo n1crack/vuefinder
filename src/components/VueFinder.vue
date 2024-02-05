@@ -70,8 +70,8 @@ const props = defineProps({
     default: 'system',
   },
   locale: {
-      type: String,
-      default: null
+    type: String,
+    default: null
   },
   maxHeight: {
     type: String,
@@ -84,7 +84,21 @@ const props = defineProps({
   fullScreen: {
     type: Boolean,
     default: false
-  }
+  },
+  selectButton: {
+    type: Object,
+    default(rawProps) {
+      return {
+        active: false,
+        multiple: false,
+        click: (items) => {
+          // items is an array of selected items
+          //
+        },
+        ...rawProps,
+      }
+    },
+  },
 });
 
 // the object is passed to all components as props
@@ -116,6 +130,7 @@ const updateItems = (data) => {
 };
 
 app.emitter.on('vf-nodes-selected', (items) => {
+  app.selectedItems = items;
   emit('select', items);
 })
 
