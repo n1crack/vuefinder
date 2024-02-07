@@ -333,11 +333,8 @@ onMounted(async () => {
     }
   });
 
-  const reqParams = buildReqParams()
   uppy.use(XHR, {
-    method: reqParams.method,
-    endpoint: reqParams.url + '?' + new URLSearchParams(reqParams.params),
-    headers: reqParams.headers,
+    endpoint: 'WILL_BE_REPLACED_BEFORE_UPLOAD',
     limit: 5,
     timeout: 0,
     getResponseError(responseText, _response) {
@@ -362,6 +359,10 @@ onMounted(async () => {
   uppy.on('upload', () => {
     const reqParams = buildReqParams();
     uppy.setMeta({ ...reqParams.body });
+    const xhrPlugin = uppy.getPlugin('XHRUpload');
+    xhrPlugin.opts.method = reqParams.method;
+    xhrPlugin.opts.endpoint = reqParams.url + '?' + new URLSearchParams(reqParams.params);
+    xhrPlugin.opts.headers = reqParams.headers;
     uploading.value = true;
     queue.value.forEach(file => {
       if (file.status === QUEUE_ENTRY_STATUS.DONE) {
