@@ -291,6 +291,14 @@ function close() {
   app.emitter.emit('vf-modal-close');
 }
 
+function buildReqParams() {
+  return app.requester.transformRequestParams({
+    url: '',
+    method: 'post',
+    params: { q: 'upload', adapter: app.data.adapter, path: app.data.dirname },
+  });
+}
+
 onMounted(async () => {
   uppy = new Uppy({
     debug: app.debug,
@@ -324,21 +332,12 @@ onMounted(async () => {
       // Uppy would only upload that file once even you call .addFile() twice in one row, nice.
     }
   });
-  const params = app.requester.transformRequestParams({
-    url: '',
-    method: 'post',
-    params: { q: 'upload', adapter: app.data.adapter, path: app.data.dirname },
-  });
-  if (app.debug) {
-    if (params.body != null && (params.body instanceof FormData || Object.keys(params.body).length > 0)) {
-      console.warn('Cannot set body on upload, make sure request.transformRequest didn\'t set body when upload.'
-        + '\nWill ignore for now.');
-    }
-  }
+
+  const reqParams = buildReqParams()
   uppy.use(XHR, {
-    method: params.method,
-    endpoint: params.url + '?' + new URLSearchParams(params.params),
-    headers: params.headers,
+    method: reqParams.method,
+    endpoint: reqParams.url + '?' + new URLSearchParams(reqParams.params),
+    headers: reqParams.headers,
     limit: 5,
     timeout: 0,
     getResponseError(responseText, _response) {
@@ -361,6 +360,8 @@ onMounted(async () => {
     message.value = error.message;
   });
   uppy.on('upload', () => {
+    const reqParams = buildReqParams();
+    uppy.setMeta({ ...reqParams.body });
     uploading.value = true;
     queue.value.forEach(file => {
       if (file.status === QUEUE_ENTRY_STATUS.DONE) {
