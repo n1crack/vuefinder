@@ -21,7 +21,7 @@ module.exports = {
       )
 
       // Scope the selectors to specific components
-      preflightStyles.walkRules(rule => {
+      preflightStyles.walkRules((rule) => {
         rule.selector = rule.selectors
           .map(selector => ".vuefinder " + selector)
           .join(",");
