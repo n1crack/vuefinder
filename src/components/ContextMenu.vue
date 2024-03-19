@@ -89,7 +89,6 @@ const menuItems = {
     link: computed(() => app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0])),
     title: () =>  t('Download'),
     action: () => {
-      console.log(1);
       const url = app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0]);
       app.emitter.emit('vf-download', url);
     },
