@@ -186,7 +186,7 @@ const B = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, We = Object.values(B), Ge = "2.2.4";
+}, We = Object.values(B), Ge = "2.2.5";
 function ye(p, e, s, r, o) {
   return (e = Math, s = e.log, r = 1024, o = s(p) / s(r) | 0, p / e.pow(r, o)).toFixed(0) + " " + (o ? "KMGTPEZY"[--o] + "iB" : "B");
 }
@@ -3072,7 +3072,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
                 c.type === "dir" ? (n(), m("svg", Mn, Dn)) : (n(), m("svg", jn, Ln)),
                 t("span", Tn, v(c.basename), 1)
               ]))), 256)),
-              t("p", Fn, v(a(s)("The archive will be unarchived at")) + " (" + v(d.current.dirname) + ")", 1),
+              t("p", Fn, v(a(s)("The archive will be unarchived at")) + " (" + v(a(e).data.dirname) + ")", 1),
               o.value.length ? (n(), T(G, {
                 key: 0,
                 onHidden: l[0] || (l[0] = (c) => o.value = ""),
