@@ -1,9 +1,17 @@
 <template>
   <ul class="z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded select-none" ref="contextmenu" v-if="context.active" :style="context.positions">
-    <li class="px-2 py-1.5 cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700"
-        v-for="(item) in filteredItems" :key="item.title" @click="run(item)">
-        <span class="px-1"></span>
-        <span>{{ item.title() }}</span>
+    <li class="cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700"
+        v-for="(item) in filteredItems" :key="item.title">
+        <template v-if="item.link">
+          <a class="block pl-2 pr-3 py-1 " target="_blank" :href="item.link" :download="item.link" @click="app.emitter.emit('vf-contextmenu-hide')">
+            <span>{{ item.title() }}</span>
+          </a>
+        </template>
+        <template v-else>
+          <div class="pl-2 pr-3 py-1" @click="run(item)">
+            <span>{{ item.title() }}</span>
+          </div>
+        </template>
     </li>
   </ul>
 </template>
@@ -89,8 +97,9 @@ const menuItems = {
     link: computed(() => app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0])),
     title: () =>  t('Download'),
     action: () => {
-      const url = app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0]);
-      app.emitter.emit('vf-download', url);
+      // this is no longer needed since we are using the link attribute
+      // const url = app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0]);
+      // app.emitter.emit('vf-download', url);
     },
   },
   archive: {
