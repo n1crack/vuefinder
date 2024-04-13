@@ -85,5 +85,6 @@ export default {
   "Light": "Светлый",
   "System": "Система",
   "Target Directory" : "Целевая директория",
+  "Select": "Выбрать",
   "uppy": uppyLocaleRu
 }

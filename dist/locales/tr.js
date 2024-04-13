@@ -85,5 +85,6 @@ export default {
   "Light": "Açık",
   "System": "Sistem",
   "Target Directory" : "Hedef Klasör",
+  "Select": "Seç",
   "uppy": uppyLocaleTr,
 }

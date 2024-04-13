@@ -85,5 +85,6 @@ export default {
   "Light": "浅色",
   "System": "系统",
   "Target Directory": "目标目录",
+  "Select": "选择",
   "uppy": uppyLocalezhCN
 }

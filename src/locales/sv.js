@@ -85,5 +85,6 @@ export default {
   "Light": "Ljus",
   "System": "System",
   "Target Directory" : "Mål katalog",
+  "Select": "Välj",
   "uppy": uppyLocaleSv
 }

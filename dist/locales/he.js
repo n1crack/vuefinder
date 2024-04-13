@@ -85,5 +85,6 @@ export default {
   "Light": "בהיר",
   "System": "מערכת",
   "Target Directory" : "תיקיית יעד",
+  "Select": "בחר",
   "uppy": uppyLocaleHe
 }

@@ -85,5 +85,6 @@ export default {
     "Light": "Licht",
     "System": "System",
     "Target Directory" : "Zielverzeichnis",
+    "Select": "Auswählen",
     "uppy" : uppyLocaleDe,
 }

@@ -85,5 +85,6 @@ export default {
   "Light": "روشن",
   "System": "سیستم",
   "Target Directory" : "پوشه مقصد",
+  "Select": "انتخاب",
   "uppy": uppyLocaleFa
 }

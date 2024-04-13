@@ -85,5 +85,6 @@ export default {
   "Light": "淺色",
   "System": "系統",
   "Target Directory": "目標目錄",
+  "Select": "選擇",
   "uppy": uppyLocalezhTW
 }

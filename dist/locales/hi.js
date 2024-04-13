@@ -85,5 +85,6 @@ export default {
   "Light": "लाइट",
   "System": "सिस्टम",
   "Target Directory" : "लक्षित निर्देशिका",
+  "Select": "चयन",
   "uppy": uppyLocaleHi
 }
