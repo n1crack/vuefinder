@@ -186,7 +186,7 @@ const B = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, We = Object.values(B), Ge = "2.2.6";
+}, We = Object.values(B), Ge = "2.2.7";
 function ye(p, e, s, r, o) {
   return (e = Math, s = e.log, r = 1024, o = s(p) / s(r) | 0, p / e.pow(r, o)).toFixed(0) + " " + (o ? "KMGTPEZY"[--o] + "iB" : "B");
 }
@@ -637,12 +637,12 @@ const Je = (p, e) => {
   setup(p) {
     const e = k(null), s = k([]), r = k(!1), o = k(null), i = F("ServiceContainer"), { t: u } = i.i18n;
     i.emitter.on("vf-explorer-update", () => {
-      let $ = [], f = [];
+      let C = [], f = [];
       e.value = i.data.dirname ?? i.adapter + "://", e.value.length == 0 && (s.value = []), e.value.replace(i.adapter + "://", "").split("/").forEach(function(h) {
-        $.push(h), $.join("/") != "" && f.push({
+        C.push(h), C.join("/") != "" && f.push({
           basename: h,
           name: h,
-          path: i.adapter + "://" + $.join("/"),
+          path: i.adapter + "://" + C.join("/"),
           type: "dir"
         });
       }), f.length > 4 && (f = f.slice(-5), f[0].name = ".."), s.value = f;
@@ -656,12 +656,12 @@ const Je = (p, e) => {
     const l = () => {
       i.features.includes(B.SEARCH) && (r.value = !0, ce(() => o.value.focus()));
     }, c = Bt("", 400);
-    de(c, ($) => {
-      i.emitter.emit("vf-toast-clear"), i.emitter.emit("vf-search-query", { newQuery: $ });
+    de(c, (C) => {
+      i.emitter.emit("vf-toast-clear"), i.emitter.emit("vf-search-query", { newQuery: C });
     });
-    const g = () => s.value.length && !r.value, _ = ($, f = null) => {
-      $.preventDefault(), x($), f ?? (f = s.value.length - 2);
-      let h = JSON.parse($.dataTransfer.getData("items"));
+    const g = () => s.value.length && !r.value, _ = (C, f = null) => {
+      C.preventDefault(), x(C), f ?? (f = s.value.length - 2);
+      let h = JSON.parse(C.dataTransfer.getData("items"));
       if (h.find((N) => N.storage !== i.adapter)) {
         alert("Moving items between different storages is not supported yet.");
         return;
@@ -670,14 +670,14 @@ const Je = (p, e) => {
         type: "move",
         items: { from: h, to: s.value[f] ?? { path: i.adapter + "://" } }
       });
-    }, y = ($) => {
-      $.preventDefault(), g() ? ($.dataTransfer.dropEffect = "copy", $.currentTarget.classList.add("bg-blue-200", "dark:bg-slate-500")) : ($.dataTransfer.dropEffect = "none", $.dataTransfer.effectAllowed = "none");
-    }, x = ($) => {
-      $.preventDefault(), $.currentTarget.classList.remove("bg-blue-200", "dark:bg-slate-500"), g() && $.currentTarget.classList.remove("bg-blue-200", "dark:bg-slate-500");
+    }, y = (C) => {
+      C.preventDefault(), g() ? (C.dataTransfer.dropEffect = "copy", C.currentTarget.classList.add("bg-blue-200", "dark:bg-slate-500")) : (C.dataTransfer.dropEffect = "none", C.dataTransfer.effectAllowed = "none");
+    }, x = (C) => {
+      C.preventDefault(), C.currentTarget.classList.remove("bg-blue-200", "dark:bg-slate-500"), g() && C.currentTarget.classList.remove("bg-blue-200", "dark:bg-slate-500");
     }, E = () => {
       c.value == "" && d();
     };
-    return ($, f) => (n(), m("div", zt, [
+    return (C, f) => (n(), m("div", zt, [
       t("span", {
         "aria-label": a(u)("Go up a directory"),
         "data-microtip-position": "bottom-right",
@@ -989,7 +989,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
       _ && clearTimeout(_);
     }, x = k(!0), E = (w) => {
       w.touches.length > 1 && (x.value ? (d.value.stop(), e.emitter.emit("vf-toast-push", { label: s("Drag&Drop: off") })) : (d.value.start(), e.emitter.emit("vf-toast-push", { label: s("Drag&Drop: on") }), e.emitter.emit("vf-explorer-update")), x.value = !x.value);
-    }, $ = (w) => {
+    }, C = (w) => {
       _ = setTimeout(() => {
         const D = new MouseEvent("contextmenu", {
           bubbles: !0,
@@ -1005,11 +1005,11 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
     }, f = (w) => {
       w.type === "dir" ? (e.emitter.emit("vf-search-exit"), e.emitter.emit("vf-fetch", { params: { q: "index", adapter: e.data.adapter, path: w.path } })) : e.emitter.emit("vf-modal-show", { type: "preview", adapter: e.data.adapter, item: w });
     }, h = ie({ active: !1, column: "", order: "" }), N = (w = !0) => {
-      let D = [...e.data.files], C = h.column, j = h.order == "asc" ? 1 : -1;
+      let D = [...e.data.files], $ = h.column, j = h.order == "asc" ? 1 : -1;
       if (!w)
         return D;
       const S = (b, L) => typeof b == "string" && typeof L == "string" ? b.toLowerCase().localeCompare(L.toLowerCase()) : b < L ? -1 : b > L ? 1 : 0;
-      return h.active && (D = D.slice().sort((b, L) => S(b[C], L[C]) * j)), D;
+      return h.active && (D = D.slice().sort((b, L) => S(b[$], L[$]) * j)), D;
     }, R = (w) => {
       h.active && h.column == w ? (h.active = h.order == "asc", h.column = w, h.order = "desc") : (h.active = !0, h.column = w, h.order = "asc");
     }, K = () => d.value.getSelection().map((w) => JSON.parse(w.dataset.item)), te = (w, D) => {
@@ -1018,14 +1018,14 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
       w.dataTransfer.setDragImage(i.value, 0, 15), w.dataTransfer.effectAllowed = "all", w.dataTransfer.dropEffect = "copy", w.dataTransfer.setData("items", JSON.stringify(K()));
     }, se = (w, D) => {
       w.preventDefault();
-      let C = JSON.parse(w.dataTransfer.getData("items"));
-      if (C.find((j) => j.storage !== e.adapter)) {
+      let $ = JSON.parse(w.dataTransfer.getData("items"));
+      if ($.find((j) => j.storage !== e.adapter)) {
         alert("Moving items between different storages is not supported yet.");
         return;
       }
-      e.emitter.emit("vf-modal-show", { type: "move", items: { from: C, to: D } });
+      e.emitter.emit("vf-modal-show", { type: "move", items: { from: $, to: D } });
     }, ae = (w, D) => {
-      w.preventDefault(), !D || D.type !== "dir" || d.value.getSelection().find((C) => C == w.currentTarget) ? (w.dataTransfer.dropEffect = "none", w.dataTransfer.effectAllowed = "none") : w.dataTransfer.dropEffect = "copy";
+      w.preventDefault(), !D || D.type !== "dir" || d.value.getSelection().find(($) => $ == w.currentTarget) ? (w.dataTransfer.dropEffect = "none", w.dataTransfer.effectAllowed = "none") : w.dataTransfer.dropEffect = "copy";
     }, oe = () => {
       d.value = new Ve({
         area: o.value,
@@ -1040,12 +1040,12 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
         if (D)
           u.value = d.value.getSelection().length, d.value.break();
         else {
-          const C = w.target.offsetWidth - w.offsetX, j = w.target.offsetHeight - w.offsetY;
-          C < 15 && j < 15 && (d.value.clearSelection(), d.value.break());
+          const $ = w.target.offsetWidth - w.offsetX, j = w.target.offsetHeight - w.offsetY;
+          $ < 15 && j < 15 && (d.value.clearSelection(), d.value.break());
         }
       }), d.value.subscribe("predragmove", ({ isDragging: w }) => {
         w && d.value.break();
-      }), d.value.subscribe("callback", ({ items: w, event: D, isDragging: C }) => {
+      }), d.value.subscribe("callback", ({ items: w, event: D, isDragging: $ }) => {
         e.emitter.emit("vf-nodes-selected", K()), u.value = d.value.getSelection().length;
       });
     };
@@ -1060,7 +1060,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
     }), (w, D) => (n(), m("div", ys, [
       a(e).view == "list" || c.value.length ? (n(), m("div", xs, [
         t("div", {
-          onClick: D[0] || (D[0] = (C) => R("basename")),
+          onClick: D[0] || (D[0] = ($) => R("basename")),
           class: "col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center pl-1"
         }, [
           V(v(a(s)("Name")) + " ", 1),
@@ -1072,7 +1072,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
         ]),
         c.value.length ? M("", !0) : (n(), m("div", {
           key: 0,
-          onClick: D[1] || (D[1] = (C) => R("file_size")),
+          onClick: D[1] || (D[1] = ($) => R("file_size")),
           class: "col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center justify-center border-l border-r dark:border-gray-700"
         }, [
           V(v(a(s)("Size")) + " ", 1),
@@ -1084,7 +1084,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
         ])),
         c.value.length ? M("", !0) : (n(), m("div", {
           key: 1,
-          onClick: D[2] || (D[2] = (C) => R("last_modified")),
+          onClick: D[2] || (D[2] = ($) => R("last_modified")),
           class: "col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center justify-center"
         }, [
           V(v(a(s)("Date")) + " ", 1),
@@ -1096,7 +1096,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
         ])),
         c.value.length ? (n(), m("div", {
           key: 2,
-          onClick: D[3] || (D[3] = (C) => R("path")),
+          onClick: D[3] || (D[3] = ($) => R("path")),
           class: "col-span-5 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center justify-center border-l dark:border-gray-700"
         }, [
           V(v(a(s)("Filepath")) + " ", 1),
@@ -1119,77 +1119,77 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
       ]),
       t("div", {
         onTouchstart: E,
-        onContextmenu: D[10] || (D[10] = Y((C) => a(e).emitter.emit("vf-contextmenu-show", { event: C, area: o.value, items: K() }), ["self", "prevent"])),
+        onContextmenu: D[10] || (D[10] = Y(($) => a(e).emitter.emit("vf-contextmenu-show", { event: $, area: o.value, items: K() }), ["self", "prevent"])),
         class: z([a(e).fullScreen ? "" : "resize-y", "h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"]),
         ref_key: "selectorArea",
         ref: o
       }, [
-        c.value.length ? (n(!0), m(U, { key: 0 }, q(N(), (C, j) => (n(), m("div", {
-          onDblclick: (S) => f(C),
-          onTouchstart: D[4] || (D[4] = (S) => $(S)),
+        c.value.length ? (n(!0), m(U, { key: 0 }, q(N(), ($, j) => (n(), m("div", {
+          onDblclick: (S) => f($),
+          onTouchstart: D[4] || (D[4] = (S) => C(S)),
           onTouchend: D[5] || (D[5] = (S) => y()),
-          onContextmenu: Y((S) => a(e).emitter.emit("vf-contextmenu-show", { event: S, area: o.value, items: K(), target: C }), ["prevent"]),
+          onContextmenu: Y((S) => a(e).emitter.emit("vf-contextmenu-show", { event: S, area: o.value, items: K(), target: $ }), ["prevent"]),
           class: z(["vf-item-" + a(l), "grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"]),
-          "data-type": C.type,
-          "data-item": JSON.stringify(C),
+          "data-type": $.type,
+          "data-item": JSON.stringify($),
           "data-index": j
         }, [
           t("div", Ms, [
             t("div", Es, [
-              C.type === "dir" ? (n(), m("svg", Ds, As)) : (n(), m("svg", Ls, Fs)),
-              t("span", Os, v(C.basename), 1)
+              $.type === "dir" ? (n(), m("svg", Ds, As)) : (n(), m("svg", Ls, Fs)),
+              t("span", Os, v($.basename), 1)
             ]),
-            t("div", Vs, v(C.path), 1)
+            t("div", Vs, v($.path), 1)
           ])
         ], 42, Ss))), 256)) : M("", !0),
-        a(e).view === "list" && !c.value.length ? (n(!0), m(U, { key: 1 }, q(N(), (C, j) => (n(), m("div", {
+        a(e).view === "list" && !c.value.length ? (n(!0), m(U, { key: 1 }, q(N(), ($, j) => (n(), m("div", {
           draggable: "true",
-          onDblclick: (S) => f(C),
-          onTouchstart: D[6] || (D[6] = (S) => $(S)),
+          onDblclick: (S) => f($),
+          onTouchstart: D[6] || (D[6] = (S) => C(S)),
           onTouchend: D[7] || (D[7] = (S) => y()),
-          onContextmenu: Y((S) => a(e).emitter.emit("vf-contextmenu-show", { event: S, area: o.value, items: K(), target: C }), ["prevent"]),
+          onContextmenu: Y((S) => a(e).emitter.emit("vf-contextmenu-show", { event: S, area: o.value, items: K(), target: $ }), ["prevent"]),
           onDragstart: (S) => te(S),
-          onDragover: (S) => ae(S, C),
-          onDrop: (S) => se(S, C),
+          onDragover: (S) => ae(S, $),
+          onDrop: (S) => se(S, $),
           class: z(["vf-item-" + a(l), "grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"]),
-          "data-type": C.type,
-          "data-item": JSON.stringify(C),
+          "data-type": $.type,
+          "data-item": JSON.stringify($),
           "data-index": j
         }, [
           t("div", Bs, [
             t("div", zs, [
-              C.type === "dir" ? (n(), m("svg", Us, Rs)) : (n(), m("svg", Is, Ps)),
-              t("span", Ws, v(C.basename), 1)
+              $.type === "dir" ? (n(), m("svg", Us, Rs)) : (n(), m("svg", Is, Ps)),
+              t("span", Ws, v($.basename), 1)
             ]),
-            t("div", Gs, v(C.file_size ? a(e).filesize(C.file_size) : ""), 1),
-            t("div", Ys, v(a(we)(C.last_modified)), 1)
+            t("div", Gs, v($.file_size ? a(e).filesize($.file_size) : ""), 1),
+            t("div", Ys, v(a(we)($.last_modified)), 1)
           ])
         ], 42, Ns))), 256)) : M("", !0),
-        a(e).view === "grid" && !c.value.length ? (n(!0), m(U, { key: 2 }, q(N(!1), (C, j) => (n(), m("div", {
+        a(e).view === "grid" && !c.value.length ? (n(!0), m(U, { key: 2 }, q(N(!1), ($, j) => (n(), m("div", {
           draggable: "true",
-          onDblclick: (S) => f(C),
-          onTouchstart: D[8] || (D[8] = (S) => $(S)),
+          onDblclick: (S) => f($),
+          onTouchstart: D[8] || (D[8] = (S) => C(S)),
           onTouchend: D[9] || (D[9] = (S) => y()),
-          onContextmenu: Y((S) => a(e).emitter.emit("vf-contextmenu-show", { event: S, area: o.value, items: K(), target: C }), ["prevent"]),
+          onContextmenu: Y((S) => a(e).emitter.emit("vf-contextmenu-show", { event: S, area: o.value, items: K(), target: $ }), ["prevent"]),
           onDragstart: (S) => te(S),
-          onDragover: (S) => ae(S, C),
-          onDrop: (S) => se(S, C),
+          onDragover: (S) => ae(S, $),
+          onDrop: (S) => se(S, $),
           class: z(["vf-item-" + a(l), "border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none"]),
-          "data-type": C.type,
-          "data-item": JSON.stringify(C),
+          "data-type": $.type,
+          "data-item": JSON.stringify($),
           "data-index": j
         }, [
           t("div", null, [
             t("div", Js, [
-              C.type === "dir" ? (n(), m("svg", Xs, Zs)) : (C.mime_type ?? "").startsWith("image") ? (n(), m("img", {
-                key: 1,
+              $.type === "dir" ? (n(), m("svg", Xs, Zs)) : ($.mime_type ?? "").startsWith("image") ? (n(), m("img", {
                 class: "lazy h-10 md:h-12 m-auto",
-                "data-src": a(e).requester.getPreviewUrl(a(e).adapter, C),
-                alt: C.basename
+                "data-src": a(e).requester.getPreviewUrl(a(e).adapter, $),
+                alt: $.basename,
+                key: $.path
               }, null, 8, ea)) : (n(), m("svg", ta, aa)),
-              !(C.mime_type ?? "").startsWith("image") && C.type != "dir" ? (n(), m("div", oa, v(r(C.extension)), 1)) : M("", !0)
+              !($.mime_type ?? "").startsWith("image") && $.type != "dir" ? (n(), m("div", oa, v(r($.extension)), 1)) : M("", !0)
             ]),
-            t("span", ra, v(a(he)(C.basename)), 1)
+            t("span", ra, v(a(he)($.basename)), 1)
           ])
         ], 42, Ks))), 256)) : M("", !0)
       ], 34),
@@ -1291,7 +1291,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
         else
           return;
       else
-        !E && !i.value ? (u.items.push(l.refresh), u.items.push(l.newfolder), e.emitter.emit("vf-context-selected", [])) : x.length > 1 && x.some(($) => $.path === E.path) ? (u.items.push(l.refresh), u.items.push(l.archive), u.items.push(l.delete), e.emitter.emit("vf-context-selected", x)) : (E.type == "dir" ? u.items.push(l.open) : (u.items.push(l.preview), u.items.push(l.download)), u.items.push(l.rename), E.mime_type == "application/zip" ? u.items.push(l.unarchive) : u.items.push(l.archive), u.items.push(l.delete), e.emitter.emit("vf-context-selected", [E]));
+        !E && !i.value ? (u.items.push(l.refresh), u.items.push(l.newfolder), e.emitter.emit("vf-context-selected", [])) : x.length > 1 && x.some((C) => C.path === E.path) ? (u.items.push(l.refresh), u.items.push(l.archive), u.items.push(l.delete), e.emitter.emit("vf-context-selected", x)) : (E.type == "dir" ? u.items.push(l.open) : (u.items.push(l.preview), u.items.push(l.download)), u.items.push(l.rename), E.mime_type == "application/zip" ? u.items.push(l.unarchive) : u.items.push(l.archive), u.items.push(l.delete), e.emitter.emit("vf-context-selected", [E]));
       g(_, y);
     }), e.emitter.on("vf-contextmenu-hide", () => {
       u.active = !1;
@@ -1299,9 +1299,9 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
     const g = (_, y) => {
       u.active = !0, ce(() => {
         const x = e.root.getBoundingClientRect(), E = y.getBoundingClientRect();
-        let $ = _.pageX - x.left, f = _.pageY - x.top, h = r.value.offsetHeight, N = r.value.offsetWidth;
-        $ = E.right - _.pageX + window.scrollX < N ? $ - N : $, f = E.bottom - _.pageY + window.scrollY < h ? f - h : f, u.positions = {
-          left: $ + "px",
+        let C = _.pageX - x.left, f = _.pageY - x.top, h = r.value.offsetHeight, N = r.value.offsetWidth;
+        C = E.right - _.pageX + window.scrollX < N ? C - N : C, f = E.bottom - _.pageY + window.scrollY < h ? f - h : f, u.positions = {
+          left: C + "px",
           top: f + "px"
         };
       });
@@ -1512,10 +1512,10 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
         params: c,
         body: g,
         abortSignal: E
-      }).then(($) => {
-        o.adapter = $.adapter, o.persist && (o.path = $.dirname, i("path", o.path)), ["index", "search"].includes(c.q) && (o.loading = !1), x || o.emitter.emit("vf-modal-close"), d($), _ && _($);
-      }).catch(($) => {
-        console.error($), y && y($);
+      }).then((C) => {
+        o.adapter = C.adapter, o.persist && (o.path = C.dirname, i("path", o.path)), ["index", "search"].includes(c.q) && (o.loading = !1), x || o.emitter.emit("vf-modal-close"), d(C), _ && _(C);
+      }).catch((C) => {
+        console.error(C), y && y(C);
       });
     }), o.emitter.on("vf-download", (c) => {
       const g = document.createElement("a");
@@ -2041,7 +2041,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
           a(c).features.includes(a(B).EDIT) ? (n(), m("button", {
             key: 1,
             class: "ml-1 px-2 py-1 text-blue-500",
-            onClick: E[0] || (E[0] = ($) => _())
+            onClick: E[0] || (E[0] = (C) => _())
           }, v(u.value ? a(g)("Cancel") : a(g)("Edit")), 1)) : M("", !0)
         ])
       ]),
@@ -2050,7 +2050,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
           I(t("textarea", {
             ref_key: "editInput",
             ref: i,
-            "onUpdate:modelValue": E[1] || (E[1] = ($) => o.value = $),
+            "onUpdate:modelValue": E[1] || (E[1] = (C) => o.value = C),
             class: "w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] max-h-[60vh] text-xs",
             name: "text",
             id: "",
@@ -2062,7 +2062,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
         ])) : (n(), m("pre", To, v(r.value), 1)),
         d.value.length ? (n(), T(G, {
           key: 2,
-          onHidden: E[2] || (E[2] = ($) => d.value = ""),
+          onHidden: E[2] || (E[2] = (C) => d.value = ""),
           error: l.value
         }, {
           default: A(() => [
@@ -2540,7 +2540,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
       UPLOADING: 2,
       ERROR: 3,
       DONE: 10
-    }, i = k({ QUEUE_ENTRY_STATUS: o }), u = k(null), d = k(null), l = k(null), c = k(null), g = k(null), _ = k(null), y = k([]), x = k(""), E = k(!1), $ = k(!1);
+    }, i = k({ QUEUE_ENTRY_STATUS: o }), u = k(null), d = k(null), l = k(null), c = k(null), g = k(null), _ = k(null), y = k([]), x = k(""), E = k(!1), C = k(!1);
     let f;
     function h(j) {
       return y.value.findIndex((S) => S.id === j);
@@ -2615,7 +2615,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
     function D() {
       e.emitter.emit("vf-modal-close");
     }
-    function C() {
+    function $() {
       return e.requester.transformRequestParams({
         url: "",
         method: "post",
@@ -2663,7 +2663,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
         const O = y.value[h(b.id)];
         oe(O), x.value = L.message;
       }), f.on("upload", () => {
-        const b = C();
+        const b = $();
         f.setMeta({ ...b.body });
         const L = f.getPlugin("XHRUpload");
         L.opts.method = b.method, L.opts.endpoint = b.url + "?" + new URLSearchParams(b.params), L.opts.headers = b.headers, E.value = !0, y.value.forEach((O) => {
@@ -2693,9 +2693,9 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
       }), g.value.addEventListener("click", () => {
         l.value.click();
       }), _.value.addEventListener("dragover", (b) => {
-        b.preventDefault(), $.value = !0;
+        b.preventDefault(), C.value = !0;
       }), _.value.addEventListener("dragleave", (b) => {
-        b.preventDefault(), $.value = !1;
+        b.preventDefault(), C.value = !1;
       });
       function j(b, L) {
         L.isFile && L.file((O) => b(L, O)), L.isDirectory && L.createReader().readEntries((O) => {
@@ -2705,7 +2705,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
         });
       }
       _.value.addEventListener("drop", (b) => {
-        b.preventDefault(), $.value = !1;
+        b.preventDefault(), C.value = !1;
         const L = /^[/\\](.+)/;
         [...b.dataTransfer.items].forEach((O) => {
           O.kind === "file" && j((X, ue) => {
@@ -2755,7 +2755,7 @@ const ys = { class: "relative flex-auto flex flex-col overflow-hidden" }, xs = {
                 class: "flex items-center justify-center text-lg mb-4 text-gray-500 border-2 border-gray-300 rounded border-dashed select-none cursor-pointer dark:border-gray-600 h-[120px]",
                 onClick: te
               }, [
-                $.value ? (n(), m("div", zr, v(a(s)("Release to drop these files.")), 1)) : (n(), m("div", Ur, v(a(s)("Drag and drop the files/folders to here or click here.")), 1))
+                C.value ? (n(), m("div", zr, v(a(s)("Release to drop these files.")), 1)) : (n(), m("div", Ur, v(a(s)("Drag and drop the files/folders to here or click here.")), 1))
               ], 512),
               t("div", {
                 ref_key: "container",
@@ -3302,8 +3302,8 @@ const ve = /* @__PURE__ */ ol(rl, [["render", ll]]), il = { class: "sm:flex sm:i
     k(""), k("");
     const l = async () => {
       o(), location.reload();
-    }, c = ($) => {
-      e.theme.set($), e.emitter.emit("vf-theme-saved");
+    }, c = (C) => {
+      e.theme.set(C), e.emitter.emit("vf-theme-saved");
     }, g = () => {
       e.metricUnits = !e.metricUnits, e.filesize = e.metricUnits ? xe : ye, r("metricUnits", e.metricUnits), e.emitter.emit("vf-metric-units-saved");
     }, { i18n: _ } = F("VueFinderOptions"), x = Object.fromEntries(
@@ -3319,13 +3319,13 @@ const ve = /* @__PURE__ */ ol(rl, [["render", ll]]), il = { class: "sm:flex sm:i
         tr: "Turkish (Türkçe)",
         zhCN: "Simplified Chinese (简体中文)",
         zhTW: "Traditional Chinese (繁體中文)"
-      }).filter(([$]) => Object.keys(_).includes($))
+      }).filter(([C]) => Object.keys(_).includes(C))
     ), E = ee(() => ({
       system: i("System"),
       light: i("Light"),
       dark: i("Dark")
     }));
-    return ($, f) => (n(), T(W, null, {
+    return (C, f) => (n(), T(W, null, {
       buttons: A(() => [
         t("button", {
           type: "button",
