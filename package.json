@@ -44,7 +44,7 @@
     "@uppy/locales": "^3.5.0",
     "@uppy/xhr-upload": "^3.6.0",
     "cropperjs": "^1.5.12",
-    "dragselect": "^2.3.1",
+    "dragselect": "^3.0.5",
     "microtip": "^0.2.2",
     "mitt": "^3.0.0",
     "vanilla-lazyload": "^17.8.3",

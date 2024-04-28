@@ -309,7 +309,7 @@ const setDragSelect = () => {
     })
   }));
 
-  ds.value.subscribe('predragstart', ({event, isDragging}) => {
+  ds.value.subscribe('DS:start:pre', ({event, isDragging}) => {
     // apply custom drag event
     if (isDragging) {
       selectedCount.value = ds.value.getSelection().length
@@ -325,13 +325,13 @@ const setDragSelect = () => {
     }
   });
 
-  ds.value.subscribe('predragmove', ({isDragging}) => {
+  ds.value.subscribe('DS:update:pre', ({isDragging}) => {
     if (isDragging) {
       ds.value.break();
     }
   });
 
-  ds.value.subscribe("callback", (	{ items, event, isDragging}) => {
+  ds.value.subscribe("DS:end", (	{ items, event, isDragging}) => {
     app.emitter.emit('vf-nodes-selected', getSelectedItems());
     selectedCount.value = ds.value.getSelection().length;
   })
