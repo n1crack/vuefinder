@@ -7,6 +7,7 @@ import {FEATURE_ALL_NAMES, FEATURES} from "./components/features.js";
 import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
 import useTheme from './composables/useTheme.js';
+import useModal from "./composables/useModal.js";
 
 export default (props, options) => {
     const storage = useStorage(props.id);
@@ -50,7 +51,7 @@ export default (props, options) => {
         // unit state - for example: GB or GiB
         metricUnits: metricUnits,
         // human readable file sizes
-        filesize: metricUnits ? filesizeMetric  : filesizeDefault,
+        filesize: metricUnits ? filesizeMetric : filesizeDefault,
         // max file size
         maxFileSize: props.maxFileSize,
         // loading state
@@ -58,11 +59,7 @@ export default (props, options) => {
         // default locale
         i18n : i18n,
         // modal state
-        modal: {
-            active: false,
-            type: 'delete',
-            data: {}
-        },
+        modal: useModal(),
         // main storage adapter
         adapter: storage.getStore('adapter'),
         // main storage adapter

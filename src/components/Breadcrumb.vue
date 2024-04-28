@@ -77,18 +77,12 @@
   </div>
 </template>
 
-
-<script>
-export default {
-  name: 'VFBreadcrumb',
-};
-</script>
-
 <script setup>
 
 import {inject, nextTick, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
 import {FEATURES} from "./features.js";
+import ModalMove from "./modals/ModalMove.vue";
 
 const dirname = ref(null);
 const breadcrumb = ref([]);
@@ -170,15 +164,11 @@ const handleDropZone = (e, index = null) => {
     return;
   }
 
-  app.emitter.emit('vf-modal-show', {
-    type: 'move',
-    items: {from: draggedItems, to: breadcrumb.value[index] ?? {path: (app.adapter + '://')}}
-  });
+  app.modal.open(ModalMove, {items: {from: draggedItems, to: breadcrumb.value[index] ?? {path: (app.adapter + '://')}}})
 };
 
 const handleDragOver = (e) => {
   e.preventDefault();
-
 
   if (isGoUpAvailable()) {
     e.dataTransfer.dropEffect = 'copy';

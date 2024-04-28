@@ -16,15 +16,15 @@
   </ul>
 </template>
 
-<script>
-export default {
-  name: 'VFContextMenu'
-};
-</script>
-
 <script setup>
 import {computed, inject, nextTick, reactive, ref} from 'vue';
 import {FEATURES} from "./features.js";
+import ModalNewFolder from "./modals/ModalNewFolder.vue";
+import ModalPreview from "./modals/ModalPreview.vue";
+import ModalArchive from "./modals/ModalArchive.vue";
+import ModalUnarchive from "./modals/ModalUnarchive.vue";
+import ModalRename from "./modals/ModalRename.vue";
+import ModalDelete from "./modals/ModalDelete.vue";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n
@@ -54,15 +54,13 @@ const menuItems = {
   newfolder: {
     key: FEATURES.NEW_FOLDER,
     title: () => t('New Folder'),
-    action: () => {
-      app.emitter.emit('vf-modal-show', {type:'new-folder'});
-    },
+    action: () => app.modal.open(ModalNewFolder),
   },
   delete: {
     key: FEATURES.DELETE,
     title: () => t('Delete'),
     action: () => {
-      app.emitter.emit('vf-modal-show', {type:'delete', items: selectedItems});
+      app.modal.open(ModalDelete, {items: selectedItems});
     },
   },
   refresh: {
@@ -74,9 +72,7 @@ const menuItems = {
   preview: {
     key: FEATURES.PREVIEW,
     title: () =>  t('Preview'),
-    action: () => {
-      app.emitter.emit('vf-modal-show', {type:'preview', adapter:app.data.adapter, item: selectedItems.value[0]});
-    },
+    action: () => app.modal.open(ModalPreview, {adapter:app.data.adapter, item: selectedItems.value[0]}),
   },
   open: {
     title: () =>  t('Open'),
@@ -105,23 +101,17 @@ const menuItems = {
   archive: {
     key: FEATURES.ARCHIVE,
     title: () =>  t('Archive'),
-    action: () => {
-      app.emitter.emit('vf-modal-show', {type:'archive', items: selectedItems});
-    },
+    action: () => app.modal.open(ModalArchive, {items: selectedItems}),
   },
   unarchive: {
     key: FEATURES.UNARCHIVE,
     title: () => t('Unarchive'),
-    action: () => {
-      app.emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems});
-    },
+    action: () => app.modal.open(ModalUnarchive, {items: selectedItems}),
   },
   rename: {
     key: FEATURES.RENAME,
     title: () =>  t('Rename'),
-    action: () => {
-      app.emitter.emit('vf-modal-show', {type:'rename', items: selectedItems});
-    },
+    action: () => app.modal.open(ModalRename, {items: selectedItems}),
   }
 };
 

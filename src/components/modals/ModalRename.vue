@@ -1,5 +1,5 @@
 <template>
-  <v-f-modal-layout>
+  <ModalLayout>
     <div class="sm:flex sm:items-start">
       <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
 
@@ -28,20 +28,13 @@
 
     <template v-slot:buttons>
       <button type="button" @click="rename" class="vf-btn vf-btn-primary">{{ t('Rename') }}</button>
-      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
+      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
     </template>
-  </v-f-modal-layout>
+  </ModalLayout>
 </template>
 
-<script>
-export default {
-  name: 'VFModalRename'
-};
-</script>
-
-
 <script setup>
-import VFModalLayout from './ModalLayout.vue';
+import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 

@@ -1,42 +1,36 @@
 <template>
   <div class="vuefinder" ref="root">
-    <div :class="app.theme.actualValue === 'dark' ? 'dark': ''">
+    <div :class="app.theme.actualValue">
       <div
           :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
           :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
           class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')">
-        <v-f-toolbar/>
-        <v-f-breadcrumb/>
-        <v-f-explorer/>
-        <v-f-statusbar/>
+        <Toolbar/>
+        <Breadcrumb/>
+        <Explorer/>
+        <Statusbar/>
       </div>
 
       <Transition name="fade">
-        <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type"/>
+        <Component v-if="app.modal.visible" :is="app.modal.type"/>
       </Transition>
 
-      <v-f-context-menu/>
+      <ContextMenu/>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'VueFinder'
-};
-</script>
 
 <script setup>
 import {inject, onMounted, provide, ref} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
 
-import VFToolbar from '../components/Toolbar.vue';
-import VFBreadcrumb from '../components/Breadcrumb.vue';
-import VFExplorer from '../components/Explorer.vue';
-import VFContextMenu from '../components/ContextMenu.vue';
-import VFStatusbar from '../components/Statusbar.vue';
+import Toolbar from '../components/Toolbar.vue';
+import Breadcrumb from '../components/Breadcrumb.vue';
+import Explorer from '../components/Explorer.vue';
+import ContextMenu from '../components/ContextMenu.vue';
+import Statusbar from '../components/Statusbar.vue';
 
 const emit = defineEmits(['select'])
 
@@ -110,19 +104,6 @@ const {setStore} = app.storage;
 const root = ref(null);
 app.root = root;
 
-// Translator
-const {t} = app.i18n;
-
-app.emitter.on('vf-modal-close', () => {
-  app.modal.active = false;
-});
-
-app.emitter.on('vf-modal-show', (item) => {
-  app.modal.active = true;
-  app.modal.type = item.type;
-  app.modal.data = item;
-});
-
 const updateItems = (data) => {
   Object.assign(app.data, data);
   app.emitter.emit('vf-nodes-selected', {});
@@ -169,7 +150,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
       app.loading = false;
     }
     if (!noCloseModal) {
-      app.emitter.emit('vf-modal-close');
+      app.modal.close();
     }
     updateItems(data);
     if (onSuccess) {

@@ -16,12 +16,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'VFToast.vue'
-};
-</script>
-
 <script setup>
 import {inject, ref} from 'vue';
 

@@ -4,7 +4,7 @@
         <div class="mx-1.5"
              :aria-label="t('New Folder')" data-microtip-position="bottom-right" role="tooltip"
              v-if="app.features.includes(FEATURES.NEW_FOLDER)"
-             @click="app.emitter.emit('vf-modal-show', {type:'new-folder', items: selectedItems})">
+             @click="app.modal.open(ModalNewFolder, {items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
@@ -14,7 +14,7 @@
         <div class="mx-1.5"
              :aria-label="t('New File')" data-microtip-position="bottom" role="tooltip"
              v-if="app.features.includes(FEATURES.NEW_FILE)"
-             @click="app.emitter.emit('vf-modal-show', {type:'new-file', items: selectedItems})">
+             @click="app.modal.open(ModalNewFile, {items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
@@ -24,7 +24,7 @@
         <div class="mx-1.5"
              :aria-label="t('Rename')" data-microtip-position="bottom" role="tooltip"
              v-if="app.features.includes(FEATURES.RENAME)"
-             @click="(selectedItems.length != 1) || app.emitter.emit('vf-modal-show', {type:'rename', items: selectedItems})">
+             @click="(selectedItems.length != 1) || app.modal.open(ModalRename, {items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                 :class="(selectedItems.length == 1) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
                class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -35,7 +35,7 @@
         <div class="mx-1.5"
              :aria-label="t('Delete')" data-microtip-position="bottom" role="tooltip"
              v-if="app.features.includes(FEATURES.DELETE)"
-             @click="(!selectedItems.length) || app.emitter.emit('vf-modal-show', {type:'delete', items: selectedItems})">
+             @click="(!selectedItems.length) || app.modal.open(ModalDelete, {items: selectedItems})">
             <svg xmlns="http://www.w3.org/2000/svg"
                  :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
                  class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -46,7 +46,7 @@
         <div class="mx-1.5"
              :aria-label="t('Upload')" data-microtip-position="bottom" role="tooltip"
              v-if="app.features.includes(FEATURES.UPLOAD)"
-             @click="app.emitter.emit('vf-modal-show', {type:'upload', items: selectedItems})">
+             @click="app.modal.open(ModalUpload, {items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
           </svg>
@@ -54,7 +54,7 @@
 
         <div class="mx-1.5" v-if="app.features.includes(FEATURES.UNARCHIVE) && selectedItems.length == 1 && selectedItems[0].mime_type == 'application/zip'"
              :aria-label="t('Unarchive')" data-microtip-position="bottom" role="tooltip"
-              @click="(!selectedItems.length) || app.emitter.emit('vf-modal-show', {type:'unarchive', items: selectedItems})">
+              @click="(!selectedItems.length) || app.modal.open(ModalUnarchive, {items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
                class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -63,7 +63,7 @@
         </div>
         <div class="mx-1.5" v-if="app.features.includes(FEATURES.ARCHIVE)"
              :aria-label="t('Archive')" data-microtip-position="bottom" role="tooltip"
-              @click="(!selectedItems.length) || app.emitter.emit('vf-modal-show', {type:'archive', items: selectedItems})">
+              @click="(!selectedItems.length) || app.modal.open(ModalArchive, {items: selectedItems})">
           <svg xmlns="http://www.w3.org/2000/svg"
                :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
                class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -107,15 +107,16 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'VFToolbar'
-};
-</script>
-
 <script setup>
 import {inject, ref} from 'vue';
 import { FEATURES } from "./features.js";
+import ModalNewFolder from "./modals/ModalNewFolder.vue";
+import ModalNewFile from "./modals/ModalNewFile.vue";
+import ModalRename from "./modals/ModalRename.vue";
+import ModalDelete from "./modals/ModalDelete.vue";
+import ModalUpload from "./modals/ModalUpload.vue";
+import ModalUnarchive from "./modals/ModalUnarchive.vue";
+import ModalArchive from "./modals/ModalArchive.vue";
 
 const app = inject('ServiceContainer');
 const {setStore} = app.storage;

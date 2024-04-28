@@ -1,5 +1,5 @@
 <template>
-  <v-f-modal-layout>
+  <ModalLayout>
     <div class="sm:flex sm:items-start">
       <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-blue-600 dark:stroke-blue-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
@@ -87,19 +87,13 @@
       <button type="button" class="vf-btn vf-btn-secondary" v-if="uploading" @click.prevent="cancel">{{ t('Cancel') }}</button>
       <button type="button" class="vf-btn vf-btn-secondary" v-else @click.prevent="close">{{ t('Close') }}</button>
     </template>
-  </v-f-modal-layout>
+  </ModalLayout>
 </template>
-
-<script>
-export default {
-  name: 'VFModalUpload'
-};
-</script>
 
 <script setup>
 import Uppy from '@uppy/core';
 import XHR from '@uppy/xhr-upload';
-import VFModalLayout from './ModalLayout.vue';
+import ModalLayout from './ModalLayout.vue';
 import { inject, onBeforeUnmount, onMounted, ref } from 'vue';
 import Message from '../Message.vue';
 import { parse } from '../../utils/filesize.js';
@@ -288,7 +282,7 @@ function clear(onlySuccessful) {
  * Close upload modal
  */
 function close() {
-  app.emitter.emit('vf-modal-close');
+  app.modal.close();
 }
 
 function buildReqParams() {

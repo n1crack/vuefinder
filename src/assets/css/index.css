@@ -63,7 +63,9 @@
         opacity-50 cursor-not-allowed
     }
 
-
+    .vuefinder .vf-sort-button{
+        @apply p-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center dark:border-gray-700
+    }
 
     .vf-explorer-selected {
         @apply bg-neutral-100 border border-neutral-300 dark:bg-slate-700 dark:border-gray-900 dark:border-slate-800 !important;

@@ -1,23 +1,23 @@
 <template>
   <div class="relative flex-auto flex flex-col overflow-hidden">
-    <div v-if="app.view=='list' || searchQuery.length" class="grid grid-cols-12 border-b border-neutral-300 border-gray-200 dark:border-gray-700 text-xs select-none">
-        <div @click="sortBy('basename')" class="col-span-7 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center pl-1">
+    <div v-if="app.view === 'list' || searchQuery.length" class="grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none divide-x">
+        <div @click="sortBy('basename')" class="col-span-7 vf-sort-button">
           {{ t('Name') }}
-            <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'" v-show="sort.active && sort.column=='basename'" />
+          <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'" />
         </div>
-        <div v-if="!searchQuery.length" @click="sortBy('file_size')" class="col-span-2 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center justify-center border-l border-r dark:border-gray-700">
+        <div v-if="!searchQuery.length" @click="sortBy('file_size')" class="justify-center col-span-2 vf-sort-button">
           {{ t('Size') }}
-          <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='file_size'" />
+          <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'file_size'" />
         </div>
-        <div v-if="!searchQuery.length" @click="sortBy('last_modified')" class="col-span-3 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center justify-center">
+        <div v-if="!searchQuery.length" @click="sortBy('last_modified')" class="justify-center col-span-3 vf-sort-button">
           {{ t('Date') }}
-          <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='last_modified'" />
+          <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'last_modified'" />
         </div>
-        <div v-if="searchQuery.length" @click="sortBy('path')" class="col-span-5 py-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center justify-center border-l dark:border-gray-700">
+        <div v-if="searchQuery.length" @click="sortBy('path')" class="justify-center col-span-5 vf-sort-button">
           {{ t('Filepath') }}
-            <v-f-sort-icon :direction="sort.order=='asc'? 'down': 'up'"  v-show="sort.active && sort.column=='path'" />
+          <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'path'" />
         </div>
-      </div>
+    </div>
 
     <div class="absolute">
       <div ref="dragImage"  class="absolute -z-50 -top-96">
@@ -113,28 +113,23 @@
       </div>
 
     </div>
-    <v-f-toast />
+    <Toast />
   </div>
 </template>
-
-<script>
-export default {
-  name: 'VFExplorer'
-};
-</script>
 
 <script setup>
 import { inject, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from 'vue';
 import DragSelect from 'dragselect';
 import datetimestring from '../utils/datetimestring.js';
-import VFSortIcon from './SortIcon.vue';
-import VFToast from './Toast.vue';
+import Toast from './Toast.vue';
 import LazyLoad from 'vanilla-lazyload';
 import title_shorten from "../utils/title_shorten.js";
+import ModalPreview from "./modals/ModalPreview.vue";
+import ModalMove from "./modals/ModalMove.vue";
+import SortIcon from "./SortIcon.vue";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const {getStore} = app.storage;
 
 const ext = (item) => item?.substring(0, 3)
 const selectorArea = ref(null);
@@ -220,7 +215,7 @@ const openItem = (item) => {
     app.emitter.emit('vf-search-exit');
     app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:item.path}});
   } else {
-    app.emitter.emit('vf-modal-show', {type: 'preview', adapter: app.data.adapter, item});
+    app.modal.open(ModalPreview, {adapter: app.data.adapter, item})
   }
 };
 
@@ -252,8 +247,8 @@ const getItems = (sorted = true) => {
 };
 
 const sortBy = (column) => {
-  if (sort.active && sort.column == column) {
-    sort.active =  sort.order == 'asc'
+  if (sort.active && sort.column === column) {
+    sort.active =  sort.order === 'asc'
     sort.column = column
     sort.order = 'desc'
   } else {
@@ -286,7 +281,7 @@ const handleDropZone = (e, item) => {
     return;
   }
 
-  app.emitter.emit('vf-modal-show', {type:'move', items: {from: draggedItems, to: item}});
+  app.modal.open(ModalMove, {items: {from: draggedItems, to: item}})
 };
 
 const handleDragOver = (e, item) => {
