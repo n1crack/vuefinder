@@ -51,7 +51,6 @@ const handleStorageSelect = () => {
 
 app.emitter.on('vf-nodes-selected', (items) => {
   selectedItemCount.value = items.length;
-
 })
 
 const searchQuery = ref('');

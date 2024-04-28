@@ -28,88 +28,89 @@
       </div>
     </div>
 
-    <div
-        @touchstart="handleTouchStart"
-        @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})"
-        :class="app.fullScreen ? '' : 'resize-y'"
-        class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
-        ref="selectorArea">
-
+    <div class="h-full min-h-[150px] overflow-auto z-0"   :class="app.fullScreen ? '' : 'resize-y'">
       <div
-           v-if="searchQuery.length"
-           @dblclick="openItem(item)"
-           @touchstart="delayedOpenItem($event)"
-           @touchend="clearTimeOut()"
-           @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
-           :class="'vf-item-' + randId"
-           class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
-           v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
-          <div class="grid grid-cols-12 items-center">
-            <div class="flex col-span-7 items-center">
-              <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-              <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
-            </div>
-            <div class="col-span-5 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.path }}</div>
-          </div>
-      </div>
+          @touchstart="handleTouchStart"
+          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})"
+          class="h-full text-xs vf-selector-area overflow-auto vf-scrollbar p-1 z-0"
+          ref="selectorArea">
 
-      <div draggable="true"
-           v-if="app.view==='list' && !searchQuery.length"
-           @dblclick="openItem(item)"
-           @touchstart="delayedOpenItem($event)"
-           @touchend="clearTimeOut()"
-           @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
-           @dragstart="handleDragStart($event,item)"
-           @dragover="handleDragOver($event,item)"
-           @drop="handleDropZone($event,item)"
-           :class="'vf-item-' + randId"
-           class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
-           v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
-          <div class="grid grid-cols-12 items-center">
-            <div class="flex col-span-7 items-center">
-              <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-              <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
+        <div
+             v-if="searchQuery.length"
+             @dblclick="openItem(item)"
+             @touchstart="delayedOpenItem($event)"
+             @touchend="clearTimeOut()"
+             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+             :class="'vf-item-' + randId"
+             class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
+             v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+            <div class="grid grid-cols-12 items-center">
+              <div class="flex col-span-7 items-center">
+                <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
+              </div>
+              <div class="col-span-5 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.path }}</div>
             </div>
-            <div class="col-span-2 text-center">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
-            <div class="col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ datetimestring(item.last_modified) }}</div>
-          </div>
-      </div>
+        </div>
 
-      <div draggable="true"
-           v-if="app.view==='grid' && !searchQuery.length"
-           @dblclick="openItem(item)"
-           @touchstart="delayedOpenItem($event)"
-           @touchend="clearTimeOut()"
-           @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
-           @dragstart="handleDragStart($event,item)"
-           @dragover="handleDragOver($event,item)"
-           @drop="handleDropZone($event,item)"
-           :class="'vf-item-' + randId"
-           class="border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none"
-           v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
-          <div>
-            <div class="relative">
-              <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-              <img class="lazy h-10 md:h-12 m-auto" v-else-if="(item.mime_type ?? '').startsWith('image')" :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-              <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500" v-if="!(item.mime_type ?? '').startsWith('image') && item.type != 'dir'">{{ ext(item.extension) }}</div>
+        <div draggable="true"
+             v-if="app.view==='list' && !searchQuery.length"
+             @dblclick="openItem(item)"
+             @touchstart="delayedOpenItem($event)"
+             @touchend="clearTimeOut()"
+             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+             @dragstart="handleDragStart($event,item)"
+             @dragover="handleDragOver($event,item)"
+             @drop="handleDropZone($event,item)"
+             :class="'vf-item-' + randId"
+             class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
+             v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+            <div class="grid grid-cols-12 items-center">
+              <div class="flex col-span-7 items-center">
+                <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
+              </div>
+              <div class="col-span-2 text-center">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
+              <div class="col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ datetimestring(item.last_modified) }}</div>
             </div>
-            <span class="break-all">{{ title_shorten(item.basename) }}</span>
-          </div>
+        </div>
+
+        <div draggable="true"
+             v-if="app.view==='grid' && !searchQuery.length"
+             @dblclick="openItem(item)"
+             @touchstart="delayedOpenItem($event)"
+             @touchend="clearTimeOut()"
+             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+             @dragstart="handleDragStart($event,item)"
+             @dragover="handleDragOver($event,item)"
+             @drop="handleDropZone($event,item)"
+             :class="'vf-item-' + randId"
+             class="border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none"
+             v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+            <div>
+              <div class="relative">
+                <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                </svg>
+                <img class="lazy h-10 md:h-12 m-auto" v-else-if="(item.mime_type ?? '').startsWith('image')" :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500" v-if="!(item.mime_type ?? '').startsWith('image') && item.type != 'dir'">{{ ext(item.extension) }}</div>
+              </div>
+              <span class="break-all">{{ title_shorten(item.basename) }}</span>
+            </div>
+        </div>
       </div>
 
     </div>
@@ -119,7 +120,6 @@
 
 <script setup>
 import { inject, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from 'vue';
-import DragSelect from 'dragselect';
 import datetimestring from '../utils/datetimestring.js';
 import Toast from './Toast.vue';
 import LazyLoad from 'vanilla-lazyload';
@@ -127,6 +127,7 @@ import title_shorten from "../utils/title_shorten.js";
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalMove from "./modals/ModalMove.vue";
 import SortIcon from "./SortIcon.vue";
+import useDragSelect from "../composables/useDragSelect.js";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -135,9 +136,10 @@ const ext = (item) => item?.substring(0, 3)
 const selectorArea = ref(null);
 const dragImage = ref(null);
 const selectedCount = ref(0)
-const ds = ref(null);
+// const ds = ref(null);
 const randId = Math.floor(Math.random() * 2 ** 32);
 const searchQuery = ref('');
+const ds = useDragSelect();
 
 /** @type {import('vanilla-lazyload').ILazyLoadInstance} */
 let vfLazyLoad
@@ -183,11 +185,11 @@ const dragAndDrop = ref(true);
 const handleTouchStart = (event) => {
   if (event.touches.length > 1) {
     if (!dragAndDrop.value) {
-      ds.value.start();
+      ds.obj.value.start();
       app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: on')});
       app.emitter.emit('vf-explorer-update');
     } else {
-      ds.value.stop();
+      ds.obj.value.stop();
       app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: off')});
     }
     dragAndDrop.value = !dragAndDrop.value;
@@ -258,7 +260,7 @@ const sortBy = (column) => {
   }
 };
 
-const getSelectedItems = () => ds.value.getSelection().map((el) => JSON.parse(el.dataset.item))
+const getSelectedItems = () => ds.obj.value.getSelection().map((el) => JSON.parse(el.dataset.item))
 
 const handleDragStart = (e, item) => {
   if (e.altKey || e.ctrlKey || e.metaKey) {
@@ -286,7 +288,7 @@ const handleDropZone = (e, item) => {
 
 const handleDragOver = (e, item) => {
   e.preventDefault();
-  if (!item || item.type !== 'dir' || ds.value.getSelection().find(el => el == e.currentTarget)) {
+  if (!item || item.type !== 'dir' || ds.obj.value.getSelection().find(el => el == e.currentTarget)) {
     e.dataTransfer.dropEffect = 'none';
     e.dataTransfer.effectAllowed = 'none';
   } else {
@@ -295,61 +297,44 @@ const handleDragOver = (e, item) => {
 };
 
 const setDragSelect = () => {
-  ds.value = new DragSelect({
-    area: selectorArea.value,
-    keyboardDrag: false,
-    selectedClass: 'vf-explorer-selected',
-    selectorClass: 'vf-explorer-selector',
-  });
-
   app.emitter.on('vf-explorer-update', () => nextTick(() => {
-    ds.value.clearSelection();
-    ds.value.setSettings({
+    ds.obj.value.clearSelection();
+    ds.obj.value.setSettings({
       selectables: document.getElementsByClassName('vf-item-' + randId ),
     })
   }));
 
-  ds.value.subscribe('DS:start:pre', ({event, isDragging}) => {
-    // apply custom drag event
+  ds.obj.value.subscribe('DS:start:pre', ({ items, isDragging, isDraggingKeyboard }) => {
     if (isDragging) {
-      selectedCount.value = ds.value.getSelection().length
-      ds.value.break();
-    } else {
-      // if resizing selectable area at the corner dont start selection.
-      const offsetX = event.target.offsetWidth - event.offsetX;
-      const offsetY = event.target.offsetHeight - event.offsetY;
-      if (offsetX < 15 && offsetY < 15) {
-        ds.value.clearSelection();
-        ds.value.break();
-      }
+      selectedCount.value = ds.obj.value.getSelection().length
+      ds.obj.value.break();
     }
   });
 
-  ds.value.subscribe('DS:update:pre', ({isDragging}) => {
-    if (isDragging) {
-      ds.value.break();
+  ds.obj.value.subscribe('DS:update:pre', ({ isDragging, isDraggingKeyboard }) => {
+    if(isDragging || isDraggingKeyboard) {
+      ds.obj.value.break();
     }
   });
 
-  ds.value.subscribe("DS:end", (	{ items, event, isDragging}) => {
+  ds.obj.value.subscribe("DS:end", (	{ items, event, isDragging}) => {
     app.emitter.emit('vf-nodes-selected', getSelectedItems());
-    selectedCount.value = ds.value.getSelection().length;
+    selectedCount.value = ds.obj.value.getSelection().length;
   })
 };
 
 onMounted(() => {
   vfLazyLoad = new LazyLoad(selectorArea.value);
+  ds.init(selectorArea.value)
   setDragSelect();
+
+  watch(() => app.view, () => app.emitter.emit('vf-explorer-update'));
 });
 
 onUpdated(() => {
-  ds.value.Area.reset();
-  ds.value.SelectorArea.updatePos();
+  ds.obj.value.Area.reset();
+  ds.obj.value.SelectorArea.updatePos();
   vfLazyLoad.update();
-});
-
-onMounted(() => {
-  watch(() => app.view, () => app.emitter.emit('vf-explorer-update'));
 });
 
 onBeforeUnmount(() => {
