@@ -36,7 +36,7 @@ export default function(storage, propTheme) {
     value: theme,
 
     /**
-     * @type {import('vue').Ref<String>}
+     * @type {import('vue').Ref<Theme>}
      */
     actualValue: actualTheme,
 
