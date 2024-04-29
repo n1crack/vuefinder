@@ -86,5 +86,6 @@ export default {
   "System": "Sistem",
   "Target Directory" : "Hedef Klasör",
   "Select": "Seç",
+  "Compact list view": "Kompakt liste görünümü",
   "uppy": uppyLocaleTr,
 }

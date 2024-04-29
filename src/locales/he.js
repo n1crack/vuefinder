@@ -86,5 +86,6 @@ export default {
   "System": "מערכת",
   "Target Directory" : "תיקיית יעד",
   "Select": "בחר",
+  "Compact list view": "תצוגת רשימה קומפקטית",
   "uppy": uppyLocaleHe
 }

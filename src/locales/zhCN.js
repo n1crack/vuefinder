@@ -86,5 +86,6 @@ export default {
   "System": "系统",
   "Target Directory": "目标目录",
   "Select": "选择",
+  "Compact list view": "紧凑列表视图",
   "uppy": uppyLocalezhCN
 }

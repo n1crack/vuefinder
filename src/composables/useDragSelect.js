@@ -1,10 +1,13 @@
-import {computed, ref, shallowRef} from "vue";
+import {ref, shallowRef} from "vue";
 import DragSelect from 'dragselect';
 
 export default function (emitter) {
     const obj = shallowRef();
 
+    const area = ref(null);
+
     const init = (selectArea) => {
+        area.value = selectArea;
         obj.value = new DragSelect({
             area: selectArea,
             keyboardDrag: false,
@@ -19,9 +22,17 @@ export default function (emitter) {
             }
         });
 
-        obj.value.subscribe('DS:update:pre', ({isDragging, isDraggingKeyboard}) => {
+        obj.value.subscribe('DS:update:pre', ({event, isDragging, isDraggingKeyboard}) => {
             if (isDragging || isDraggingKeyboard) {
                 obj.value.break();
+            } else {
+                // Prevent starting selection when resizing the selectable area from the corner.
+                const offsetX = area.value.offsetWidth - event.offsetX;
+                const offsetY = area.value.offsetHeight - event.offsetY;
+                if (offsetX < 15 && offsetY < 15) {
+                    obj.value.Selector.stop()
+                    obj.value.break();
+                }
             }
         });
 
@@ -38,6 +49,7 @@ export default function (emitter) {
 
     return {
         obj,
+        area,
         init,
         getSelected,
         getCount

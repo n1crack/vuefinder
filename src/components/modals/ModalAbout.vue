@@ -110,11 +110,8 @@ import { format as filesizeDefault, metricFormat as filesizeMetric } from '../..
 import { FEATURES } from '../features.js';
 
 const app = inject('ServiceContainer');
-const {getStore, setStore, clearStore} = app.storage;
+const {setStore, clearStore} = app.storage;
 const {t, changeLocale, locale} = app.i18n;
-
-const name = ref('');
-const message = ref('');
 
 const clearLocalStorage = async () => {
   clearStore();

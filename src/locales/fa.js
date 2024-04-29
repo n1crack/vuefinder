@@ -86,5 +86,6 @@ export default {
   "System": "سیستم",
   "Target Directory" : "پوشه مقصد",
   "Select": "انتخاب",
+  "Compact list view": "نمایش لیست کوچک",
   "uppy": uppyLocaleFa
 }

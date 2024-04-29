@@ -86,5 +86,6 @@ export default {
   "System": "System",
   "Target Directory" : "Target Directory",
   "Select": "Select",
+  "Compact list view": "Compact list view",
   "uppy": uppyLocaleEn
 }

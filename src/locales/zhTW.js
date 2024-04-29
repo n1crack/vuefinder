@@ -86,5 +86,6 @@ export default {
   "System": "系統",
   "Target Directory": "目標目錄",
   "Select": "選擇",
+  "Compact list view": "緊湊列表視圖",
   "uppy": uppyLocalezhTW
 }

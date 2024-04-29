@@ -71,6 +71,14 @@
         @apply bg-neutral-100 border border-neutral-300 dark:bg-slate-700 dark:border-gray-900 dark:border-slate-800 !important;
     }
 
+    .vf-item-list {
+        @apply grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none;
+    }
+
+    .vf-item-grid {
+        @apply border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none
+    }
+
     .vf-explorer-selector {
         @apply border border-slate-500 bg-slate-300 opacity-50 !important;
     }

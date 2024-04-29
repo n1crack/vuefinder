@@ -86,5 +86,6 @@ export default {
   "System": "Система",
   "Target Directory" : "Целевая директория",
   "Select": "Выбрать",
+  "Compact list view": "Компактный вид списка",
   "uppy": uppyLocaleRu
 }

@@ -125,8 +125,10 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
 });
 
-app.emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => {
+app.emitter.on('vf-contextmenu-show', ({event, items,  target = null}) => {
   context.items = [];
+
+  const area = app.dragSelect.area.value;
 
   if (searchQuery.value) {
     if (target) {

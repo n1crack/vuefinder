@@ -86,5 +86,6 @@ export default {
   "System": "सिस्टम",
   "Target Directory" : "लक्षित निर्देशिका",
   "Select": "चयन",
+  "Compact list view": "संक्षिप्त सूची दृश्य",
   "uppy": uppyLocaleHi
 }

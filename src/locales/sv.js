@@ -86,5 +86,6 @@ export default {
   "System": "System",
   "Target Directory" : "Mål katalog",
   "Select": "Välj",
+  "Compact list view": "Kompakt listvy",
   "uppy": uppyLocaleSv
 }

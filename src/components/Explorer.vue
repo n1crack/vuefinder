@@ -1,118 +1,95 @@
 <template>
   <div class="relative flex-auto flex flex-col overflow-hidden">
     <div v-if="app.view === 'list' || searchQuery.length" class="grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none divide-x">
-        <div @click="sortBy('basename')" class="col-span-7 vf-sort-button">
-          {{ t('Name') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'" />
-        </div>
-        <div v-if="!searchQuery.length" @click="sortBy('file_size')" class="justify-center col-span-2 vf-sort-button">
-          {{ t('Size') }} <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'file_size'" />
-        </div>
-        <div v-if="!searchQuery.length" @click="sortBy('last_modified')" class="justify-center col-span-3 vf-sort-button">
-          {{ t('Date') }} <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'last_modified'" />
-        </div>
-        <div v-if="searchQuery.length" @click="sortBy('path')" class="justify-center col-span-5 vf-sort-button">
-          {{ t('Filepath') }} <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'path'" />
-        </div>
+      <div @click="sortBy('basename')" class="col-span-7 vf-sort-button">
+        {{ t('Name') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'"/>
+      </div>
+      <div v-if="!searchQuery.length" @click="sortBy('file_size')" class="justify-center col-span-2 vf-sort-button">
+        {{ t('Size') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'file_size'"/>
+      </div>
+      <div v-if="!searchQuery.length" @click="sortBy('last_modified')" class="justify-center col-span-3 vf-sort-button">
+        {{ t('Date') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'last_modified'"/>
+      </div>
+      <div v-if="searchQuery.length" @click="sortBy('path')" class="justify-center col-span-5 vf-sort-button">
+        {{ t('Filepath') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'path'"/>
+      </div>
     </div>
 
     <div class="relative">
-      <DragItem ref="dragImage" :count="ds.getCount()" />
+      <DragItem ref="dragImage" :count="ds.getCount()"/>
     </div>
 
-    <div class="h-full min-h-[150px] overflow-auto z-0"   :class="app.fullScreen ? '' : 'resize-y'">
-      <div
-          @touchstart="handleTouchStart"
-          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: ds.getSelected()})"
-          class="h-full text-xs vf-selector-area overflow-auto vf-scrollbar p-1 z-0"
-          ref="selectorArea">
+      <div ref="selectorArea"
+          :class="app.fullScreen ? '' : 'resize-y'"
+          class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
 
-        <div
-             v-if="searchQuery.length"
-             @dblclick="openItem(item)"
-             @touchstart="delayedOpenItem($event)"
-             @touchend="clearTimeOut()"
-             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: ds.getSelected(), target: item })"
-             :class="'vf-item-' + randId"
-             class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
-             v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
-            <div class="grid grid-cols-12 items-center">
-              <div class="flex col-span-7 items-center">
-                <ItemIcon :type="item.type" :small="app.compactListView" />
-                <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
-              </div>
-              <div class="col-span-5 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.path }}</div>
+           @touchstart="handleTouchStart"
+           @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
+      >
+
+        <Item :item="item" :dragImage="dragImage" v-if="searchQuery.length" class="vf-item vf-item-list"
+              v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+          <div class="grid grid-cols-12 items-center">
+            <div class="flex col-span-7 items-center">
+              <ItemIcon :type="item.type" :small="app.compactListView"/>
+              <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.basename }}</span>
             </div>
-        </div>
+            <div class="col-span-5 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.path }}</div>
+          </div>
+        </Item>
 
-        <div
-            v-draggable="item"
-             draggable="true"
-             v-if="app.view==='list' && !searchQuery.length"
-             @dblclick="openItem(item)"
-             @touchstart="delayedOpenItem($event)"
-             @touchend="clearTimeOut()"
-             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: ds.getSelected(), target: item })"
-             :class="'vf-item-' + randId"
-             class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
-             v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
-            <div class="grid grid-cols-12 items-center">
-              <div class="flex col-span-7 items-center">
-                <ItemIcon :type="item.type" :small="app.compactListView"/>
-                <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
-              </div>
-              <div class="col-span-2 text-center">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
-              <div class="col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ datetimestring(item.last_modified) }}</div>
+        <Item :item="item" :dragImage="dragImage" draggable="true" v-if="app.view==='list' && !searchQuery.length" class="vf-item vf-item-list"
+              v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+          <div class="grid grid-cols-12 items-center">
+            <div class="flex col-span-7 items-center">
+              <ItemIcon :type="item.type" :small="app.compactListView"/>
+              <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.basename }}</span>
             </div>
-        </div>
-
-        <div
-             v-draggable="item"
-             draggable="true"
-             v-if="app.view==='grid' && !searchQuery.length"
-             @dblclick="openItem(item)"
-             @touchstart="delayedOpenItem($event)"
-             @touchend="clearTimeOut()"
-             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: ds.getSelected(), target: item })"
-             :class="'vf-item-' + randId"
-             class="border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none"
-             v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
-            <div>
-              <div class="relative">
-                <img class="lazy h-10 md:h-12 m-auto" v-if="(item.mime_type ?? '').startsWith('image')" :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
-                <ItemIcon :type="item.type" v-else />
-                <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500" v-if="!(item.mime_type ?? '').startsWith('image') && item.type != 'dir'">{{ ext(item.extension) }}</div>
-              </div>
-              <span class="break-all">{{ title_shorten(item.basename) }}</span>
+            <div class="col-span-2 text-center">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
+            <div class="col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap">
+              {{ datetimestring(item.last_modified) }}
             </div>
-        </div>
-      </div>
+          </div>
+        </Item>
 
+        <Item :item="item" :dragImage="dragImage" draggable="true" v-if="app.view==='grid' && !searchQuery.length" class="vf-item vf-item-grid"
+              v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+          <div>
+            <div class="relative">
+              <img class="lazy h-10 md:h-12 m-auto" v-if="(item.mime_type ?? '').startsWith('image')"
+                   :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
+              <ItemIcon :type="item.type" v-else/>
+              <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500"
+                   v-if="!(item.mime_type ?? '').startsWith('image') && item.type != 'dir'">{{ ext(item.extension) }}
+              </div>
+            </div>
+            <span class="break-all">{{ title_shorten(item.basename) }}</span>
+          </div>
+        </Item>
     </div>
-    <Toast />
+    <Toast/>
   </div>
 </template>
 
 <script setup>
-import { inject, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch } from 'vue';
+import {inject, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch} from 'vue';
 import datetimestring from '../utils/datetimestring.js';
 import Toast from './Toast.vue';
 import LazyLoad from 'vanilla-lazyload';
 import title_shorten from "../utils/title_shorten.js";
-import ModalPreview from "./modals/ModalPreview.vue";
-import ModalMove from "./modals/ModalMove.vue";
 import SortIcon from "./SortIcon.vue";
 import DragItem from "./DragItem.vue";
 import ItemIcon from "./icons/ItemIcon.vue";
+import Item from "./Item.vue";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
 const ext = (item) => item?.substring(0, 3)
 const selectorArea = ref(null);
+const resizer = ref(null);
 const dragImage = ref(null);
 
-
-const randId = Math.floor(Math.random() * 2 ** 32);
 const searchQuery = ref('');
 const ds = app.dragSelect;
 
@@ -123,58 +100,6 @@ app.emitter.on('vf-fullscreen-toggle', () => {
   selectorArea.value.style.height = null;
 });
 
-const handleDragStart = (e, item) => {
-  if (e.altKey || e.ctrlKey || e.metaKey) {
-    e.preventDefault();
-    return false;
-  }
-
-  e.dataTransfer.setDragImage(dragImage.value.$el, 0, 15);
-  e.dataTransfer.effectAllowed = 'all';
-  e.dataTransfer.dropEffect = 'copy';
-  e.dataTransfer.setData('items', JSON.stringify(ds.getSelected()))
-};
-
-const handleDropZone = (e, item) => {
-  e.preventDefault();
-  let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
-
-  if (draggedItems.find(item => item.storage !== app.adapter)) {
-    alert('Moving items between different storages is not supported yet.');
-    return;
-  }
-
-  app.modal.open(ModalMove, {items: {from: draggedItems, to: item}})
-};
-
-const handleDragOver = (e, item) => {
-  e.preventDefault();
-  if (!item || item.type !== 'dir' || ds.obj.value.getSelection().find(el => el === e.currentTarget)) {
-    e.dataTransfer.dropEffect = 'none';
-    e.dataTransfer.effectAllowed = 'none';
-  } else {
-    e.dataTransfer.dropEffect = 'copy';
-  }
-};
-
- const vDraggable = {
-   mounted(el, binding, vnode, prevVnode) {
-    el.addEventListener('dragstart', (event) => {
-      handleDragStart(event, binding.value)
-    });
-    el.addEventListener('dragover', (event) => {
-      handleDragOver(event, binding.value)
-    });
-    el.addEventListener('drop', (event) => {
-      handleDropZone(event, binding.value)
-    });
-   },
-  beforeUnmount(el, binding, vnode, prevVnode) {
-    el.removeEventListener('dragstart', handleDragStart);
-    el.removeEventListener('dragover', handleDragOver);
-    el.removeEventListener('drop', handleDropZone);
-  }
-}
 
 app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
@@ -194,22 +119,16 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
       }
     });
   } else {
-    app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path: app.data.dirname}});
+    app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.data.adapter, path: app.data.dirname}});
   }
 });
 
-let touchTimeOut = null;
-
-const clearTimeOut = () => {
-  if (touchTimeOut) {
-    clearTimeout(touchTimeOut);
-  }
-}
 
 // on ios devices scrollbars are hidden as system level.
 // to be able to scroll, 2 finger tap needed.
 // this is the easiest way that I can think of.
 const dragAndDrop = ref(true);
+
 const handleTouchStart = (event) => {
   if (event.touches.length > 1) {
     if (!dragAndDrop.value) {
@@ -224,32 +143,8 @@ const handleTouchStart = (event) => {
   }
 };
 
-const delayedOpenItem = ($event) => {
-  touchTimeOut = setTimeout(() =>  {
-    const cmEvent = new MouseEvent("contextmenu", {
-        bubbles: true,
-        cancelable: false,
-        view: window,
-        button: 2,
-        buttons: 0,
-        clientX: $event.target.getBoundingClientRect().x,
-        clientY: $event.target.getBoundingClientRect().y
-    });
-    $event.target.dispatchEvent(cmEvent);
 
-  } ,500)
-}
-
-const openItem = (item) => {
-  if (item.type === 'dir') {
-    app.emitter.emit('vf-search-exit');
-    app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:item.path}});
-  } else {
-    app.modal.open(ModalPreview, {adapter: app.data.adapter, item})
-  }
-};
-
-const sort = reactive( { active: false, column: '', order: '' });
+const sort = reactive({active: false, column: '', order: ''});
 
 const getItems = (sorted = true) => {
   let files = [...app.data.files],
@@ -278,11 +173,11 @@ const getItems = (sorted = true) => {
 
 const sortBy = (column) => {
   if (sort.active && sort.column === column) {
-    sort.active =  sort.order === 'asc'
+    sort.active = sort.order === 'asc'
     sort.column = column
     sort.order = 'desc'
   } else {
-    sort.active =  true
+    sort.active = true
     sort.column = column
     sort.order = 'asc'
   }
@@ -294,7 +189,7 @@ onMounted(() => {
   app.emitter.on('vf-explorer-update', () => nextTick(() => {
     ds.obj.value.clearSelection();
     ds.obj.value.setSettings({
-      selectables: document.getElementsByClassName('vf-item-' + randId ),
+      selectables: document.getElementsByClassName('vf-item'),
     })
   }));
 
