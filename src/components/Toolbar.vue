@@ -138,6 +138,8 @@ const toggleFullScreen = () => {
 // View Management
 const toggleView = () => {
   app.view = app.view === 'list' ? 'grid' : 'list';
+  ds.obj.value.clearSelection(true);
+
   setStore('viewport', app.view)
 };
 
