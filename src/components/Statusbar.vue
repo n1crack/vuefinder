@@ -14,7 +14,7 @@
 
      <div class="ml-3">
        <span v-if="searchQuery.length">{{ app.data.files.length }} items found. </span>
-       <span class="ml-1">{{ selectedItemCount > 0 ? t('%s item(s) selected.', selectedItemCount) : '' }}</span>
+       <span class="ml-1">{{ app.dragSelect.getCount() > 0 ? t('%s item(s) selected.', app.dragSelect.getCount()) : '' }}</span>
      </div>
     </div>
     <div class="flex leading-5 items-center justify-end">
@@ -41,17 +41,11 @@ const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {setStore} = app.storage;
 
-const selectedItemCount = ref(0);
-
 const handleStorageSelect = () => {
   app.emitter.emit('vf-search-exit');
   app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.adapter}});
   setStore('adapter', app.adapter)
 };
-
-app.emitter.on('vf-nodes-selected', (items) => {
-  selectedItemCount.value = items.length;
-})
 
 const searchQuery = ref('');
 

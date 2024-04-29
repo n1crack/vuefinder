@@ -148,7 +148,7 @@ app.emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => 
     app.emitter.emit('vf-context-selected', items);
     // console.log(items.length + ' selected (more than 1 item.)');
   } else {
-    if (target.type == 'dir') {
+    if (target.type === 'dir') {
       context.items.push(menuItems.open);
     } else {
       context.items.push(menuItems.preview);
@@ -156,7 +156,7 @@ app.emitter.on('vf-contextmenu-show', ({event, area, items,  target = null}) => 
     }
     context.items.push(menuItems.rename);
 
-    if (target.mime_type == 'application/zip') {
+    if (target.mime_type === 'application/zip') {
       context.items.push(menuItems.unarchive);
     } else {
       context.items.push(menuItems.archive);

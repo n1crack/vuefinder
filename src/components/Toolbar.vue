@@ -4,7 +4,7 @@
         <div class="mx-1.5"
              :aria-label="t('New Folder')" data-microtip-position="bottom-right" role="tooltip"
              v-if="app.features.includes(FEATURES.NEW_FOLDER)"
-             @click="app.modal.open(ModalNewFolder, {items: selectedItems})">
+             @click="app.modal.open(ModalNewFolder, {items: ds.getSelected()})">
           <svg xmlns="http://www.w3.org/2000/svg"
                class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
@@ -14,7 +14,7 @@
         <div class="mx-1.5"
              :aria-label="t('New File')" data-microtip-position="bottom" role="tooltip"
              v-if="app.features.includes(FEATURES.NEW_FILE)"
-             @click="app.modal.open(ModalNewFile, {items: selectedItems})">
+             @click="app.modal.open(ModalNewFile, {items: ds.getSelected()})">
           <svg xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
@@ -24,9 +24,9 @@
         <div class="mx-1.5"
              :aria-label="t('Rename')" data-microtip-position="bottom" role="tooltip"
              v-if="app.features.includes(FEATURES.RENAME)"
-             @click="(selectedItems.length != 1) || app.modal.open(ModalRename, {items: selectedItems})">
+             @click="(ds.getCount() !== 1) || app.modal.open(ModalRename, {items: ds.getSelected()})">
           <svg xmlns="http://www.w3.org/2000/svg"
-                :class="(selectedItems.length == 1) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
+                :class="(ds.getCount() === 1) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
                class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
           </svg>
@@ -35,9 +35,9 @@
         <div class="mx-1.5"
              :aria-label="t('Delete')" data-microtip-position="bottom" role="tooltip"
              v-if="app.features.includes(FEATURES.DELETE)"
-             @click="(!selectedItems.length) || app.modal.open(ModalDelete, {items: selectedItems})">
+             @click="(!ds.getCount()) || app.modal.open(ModalDelete, {items: ds.getSelected()})">
             <svg xmlns="http://www.w3.org/2000/svg"
-                 :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
+                 :class="(ds.getCount()) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
                  class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
             </svg>
@@ -46,26 +46,26 @@
         <div class="mx-1.5"
              :aria-label="t('Upload')" data-microtip-position="bottom" role="tooltip"
              v-if="app.features.includes(FEATURES.UPLOAD)"
-             @click="app.modal.open(ModalUpload, {items: selectedItems})">
+             @click="app.modal.open(ModalUpload, {items: ds.getSelected()})">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8 m-auto cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
           </svg>
         </div>
 
-        <div class="mx-1.5" v-if="app.features.includes(FEATURES.UNARCHIVE) && selectedItems.length == 1 && selectedItems[0].mime_type == 'application/zip'"
+        <div class="mx-1.5" v-if="app.features.includes(FEATURES.UNARCHIVE) && ds.getCount() === 1 && ds.getSelected()[0].mime_type === 'application/zip'"
              :aria-label="t('Unarchive')" data-microtip-position="bottom" role="tooltip"
-              @click="(!selectedItems.length) || app.modal.open(ModalUnarchive, {items: selectedItems})">
+              @click="(!ds.getCount()) || app.modal.open(ModalUnarchive, {items: ds.getSelected()})">
           <svg xmlns="http://www.w3.org/2000/svg"
-               :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
+               :class="(ds.getCount()) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
                class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
           </svg>
         </div>
         <div class="mx-1.5" v-if="app.features.includes(FEATURES.ARCHIVE)"
              :aria-label="t('Archive')" data-microtip-position="bottom" role="tooltip"
-              @click="(!selectedItems.length) || app.modal.open(ModalArchive, {items: selectedItems})">
+              @click="(!ds.getCount()) || app.modal.open(ModalArchive, {items: ds.getSelected()})">
           <svg xmlns="http://www.w3.org/2000/svg"
-               :class="(selectedItems.length) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
+               :class="(ds.getCount()) ? 'cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300' : 'stroke-gray-200  dark:stroke-gray-700'"
                class="h-6 w-6 md:h-8 md:w-8 m-auto" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
           </svg>
@@ -122,7 +122,7 @@ const app = inject('ServiceContainer');
 const {setStore} = app.storage;
 const {t} = app.i18n;
 
-const selectedItems = ref([]);
+const ds = app.dragSelect;
 const searchQuery = ref('');
 
 app.emitter.on('vf-search-query', ({newQuery}) => {
@@ -134,10 +134,6 @@ const toggleFullScreen = () => {
   setStore('full-screen', app.fullScreen);
   app.emitter.emit('vf-fullscreen-toggle');
 }
-
-app.emitter.on('vf-nodes-selected', (items) => {
-  selectedItems.value = items;
-})
 
 // View Management
 const toggleView = () => {

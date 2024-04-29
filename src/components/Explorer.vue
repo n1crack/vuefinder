@@ -24,14 +24,14 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="absolute h-6 w-6 md:h-12 md:w-12 m-auto stroke-neutral-500 fill-white dark:fill-gray-700 dark:stroke-gray-600 z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
           <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
         </svg>
-        <div class="text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs">{{ selectedCount }}</div>
+        <div class="text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs">{{ ds.getCount() }}</div>
       </div>
     </div>
 
     <div class="h-full min-h-[150px] overflow-auto z-0"   :class="app.fullScreen ? '' : 'resize-y'">
       <div
           @touchstart="handleTouchStart"
-          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: getSelectedItems()})"
+          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, area: selectorArea, items: ds.getSelected()})"
           class="h-full text-xs vf-selector-area overflow-auto vf-scrollbar p-1 z-0"
           ref="selectorArea">
 
@@ -40,7 +40,7 @@
              @dblclick="openItem(item)"
              @touchstart="delayedOpenItem($event)"
              @touchend="clearTimeOut()"
-             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
+             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: ds.getSelected(), target: item })"
              :class="'vf-item-' + randId"
              class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
              v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
@@ -63,10 +63,8 @@
              @dblclick="openItem(item)"
              @touchstart="delayedOpenItem($event)"
              @touchend="clearTimeOut()"
-             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
-             @dragstart="handleDragStart($event,item)"
-             @dragover="handleDragOver($event,item)"
-             @drop="handleDropZone($event,item)"
+             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: ds.getSelected(), target: item })"
+             v-draggable="item"
              :class="'vf-item-' + randId"
              class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
              v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
@@ -90,10 +88,8 @@
              @dblclick="openItem(item)"
              @touchstart="delayedOpenItem($event)"
              @touchend="clearTimeOut()"
-             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: getSelectedItems(), target: item })"
-             @dragstart="handleDragStart($event,item)"
-             @dragover="handleDragOver($event,item)"
-             @drop="handleDropZone($event,item)"
+             @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: ds.getSelected(), target: item })"
+             v-draggable="item"
              :class="'vf-item-' + randId"
              class="border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none"
              v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
@@ -127,7 +123,6 @@ import title_shorten from "../utils/title_shorten.js";
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalMove from "./modals/ModalMove.vue";
 import SortIcon from "./SortIcon.vue";
-import useDragSelect from "../composables/useDragSelect.js";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -135,11 +130,11 @@ const {t} = app.i18n;
 const ext = (item) => item?.substring(0, 3)
 const selectorArea = ref(null);
 const dragImage = ref(null);
-const selectedCount = ref(0)
-// const ds = ref(null);
+
+
 const randId = Math.floor(Math.random() * 2 ** 32);
 const searchQuery = ref('');
-const ds = useDragSelect();
+const ds = app.dragSelect;
 
 /** @type {import('vanilla-lazyload').ILazyLoadInstance} */
 let vfLazyLoad
@@ -147,6 +142,59 @@ let vfLazyLoad
 app.emitter.on('vf-fullscreen-toggle', () => {
   selectorArea.value.style.height = null;
 });
+
+const handleDragStart = (e, item) => {
+  if (e.altKey || e.ctrlKey || e.metaKey) {
+    e.preventDefault();
+    return false;
+  }
+
+  e.dataTransfer.setDragImage(dragImage.value, 0, 15);
+  e.dataTransfer.effectAllowed = 'all';
+  e.dataTransfer.dropEffect = 'copy';
+  e.dataTransfer.setData('items', JSON.stringify(ds.getSelected()))
+};
+
+const handleDropZone = (e, item) => {
+  e.preventDefault();
+  let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
+
+  if (draggedItems.find(item => item.storage !== app.adapter)) {
+    alert('Moving items between different storages is not supported yet.');
+    return;
+  }
+
+  app.modal.open(ModalMove, {items: {from: draggedItems, to: item}})
+};
+
+const handleDragOver = (e, item) => {
+  e.preventDefault();
+  if (!item || item.type !== 'dir' || ds.obj.value.getSelection().find(el => el === e.currentTarget)) {
+    e.dataTransfer.dropEffect = 'none';
+    e.dataTransfer.effectAllowed = 'none';
+  } else {
+    e.dataTransfer.dropEffect = 'copy';
+  }
+};
+
+ const vDraggable = {
+   mounted(el, binding, vnode, prevVnode) {
+    el.addEventListener('dragstart', (event) => {
+      handleDragStart(event, binding.value)
+    });
+    el.addEventListener('dragover', (event) => {
+      handleDragOver(event, binding.value)
+    });
+    el.addEventListener('drop', (event) => {
+      handleDropZone(event, binding.value)
+    });
+   },
+  beforeUnmount(el, binding, vnode, prevVnode) {
+    el.removeEventListener('dragstart', handleDragStart);
+    el.removeEventListener('dragover', handleDragOver);
+    el.removeEventListener('drop', handleDropZone);
+  }
+}
 
 app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
@@ -260,43 +308,9 @@ const sortBy = (column) => {
   }
 };
 
-const getSelectedItems = () => ds.obj.value.getSelection().map((el) => JSON.parse(el.dataset.item))
+onMounted(() => {
+  vfLazyLoad = new LazyLoad(selectorArea.value);
 
-const handleDragStart = (e, item) => {
-  if (e.altKey || e.ctrlKey || e.metaKey) {
-    e.preventDefault();
-    return false;
-  }
-
-  e.dataTransfer.setDragImage(dragImage.value, 0, 15);
-  e.dataTransfer.effectAllowed = 'all';
-  e.dataTransfer.dropEffect = 'copy';
-  e.dataTransfer.setData('items', JSON.stringify(getSelectedItems()))
-};
-
-const handleDropZone = (e, item) => {
-  e.preventDefault();
-  let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
-
-  if (draggedItems.find(item => item.storage !== app.adapter)) {
-    alert('Moving items between different storages is not supported yet.');
-    return;
-  }
-
-  app.modal.open(ModalMove, {items: {from: draggedItems, to: item}})
-};
-
-const handleDragOver = (e, item) => {
-  e.preventDefault();
-  if (!item || item.type !== 'dir' || ds.obj.value.getSelection().find(el => el == e.currentTarget)) {
-    e.dataTransfer.dropEffect = 'none';
-    e.dataTransfer.effectAllowed = 'none';
-  } else {
-    e.dataTransfer.dropEffect = 'copy';
-  }
-};
-
-const setDragSelect = () => {
   app.emitter.on('vf-explorer-update', () => nextTick(() => {
     ds.obj.value.clearSelection();
     ds.obj.value.setSettings({
@@ -304,29 +318,7 @@ const setDragSelect = () => {
     })
   }));
 
-  ds.obj.value.subscribe('DS:start:pre', ({ items, isDragging, isDraggingKeyboard }) => {
-    if (isDragging) {
-      selectedCount.value = ds.obj.value.getSelection().length
-      ds.obj.value.break();
-    }
-  });
-
-  ds.obj.value.subscribe('DS:update:pre', ({ isDragging, isDraggingKeyboard }) => {
-    if(isDragging || isDraggingKeyboard) {
-      ds.obj.value.break();
-    }
-  });
-
-  ds.obj.value.subscribe("DS:end", (	{ items, event, isDragging}) => {
-    app.emitter.emit('vf-nodes-selected', getSelectedItems());
-    selectedCount.value = ds.obj.value.getSelection().length;
-  })
-};
-
-onMounted(() => {
-  vfLazyLoad = new LazyLoad(selectorArea.value);
   ds.init(selectorArea.value)
-  setDragSelect();
 
   watch(() => app.view, () => app.emitter.emit('vf-explorer-update'));
 });

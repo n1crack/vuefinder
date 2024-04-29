@@ -8,6 +8,7 @@ import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
 import useTheme from './composables/useTheme.js';
 import useModal from "./composables/useModal.js";
+import useDragSelect from "./composables/useDragSelect.js";
 
 export default (props, options) => {
     const storage = useStorage(props.id);
@@ -60,6 +61,8 @@ export default (props, options) => {
         i18n : i18n,
         // modal state
         modal: useModal(),
+        // dragSelect state
+        dragSelect: computed(() => useDragSelect(emitter)),
         // main storage adapter
         adapter: storage.getStore('adapter'),
         // main storage adapter
