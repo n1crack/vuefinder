@@ -1,5 +1,6 @@
 <template>
-  <ul class="z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded-sm select-none" ref="contextmenu" v-if="context.active" :style="context.positions">
+  <ul ref="contextmenu" v-if="context.active" :style="context.positions"
+      class="z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded-sm select-none">
     <li class="cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700"
         v-for="(item) in filteredItems" :key="item.title">
         <template v-if="item.link">

@@ -1,6 +1,6 @@
 import VueFinder from './components/VueFinder.vue';
 import 'microtip/microtip.css'
-import './assets/css/index.css';
+import './assets/css/style.scss';
 
 export default {
     /**
