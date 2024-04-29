@@ -74,12 +74,12 @@
 <script setup>
 import {inject, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch} from 'vue';
 import datetimestring from '../utils/datetimestring.js';
+import title_shorten from "../utils/title_shorten.js";
 import Toast from './Toast.vue';
 import LazyLoad from 'vanilla-lazyload';
-import title_shorten from "../utils/title_shorten.js";
-import SortIcon from "./SortIcon.vue";
-import DragItem from "./DragItem.vue";
+import SortIcon from "./icons/SortIcon.vue";
 import ItemIcon from "./icons/ItemIcon.vue";
+import DragItem from "./DragItem.vue";
 import Item from "./Item.vue";
 
 const app = inject('ServiceContainer');
@@ -87,7 +87,6 @@ const {t} = app.i18n;
 
 const ext = (item) => item?.substring(0, 3)
 const selectorArea = ref(null);
-const resizer = ref(null);
 const dragImage = ref(null);
 
 const searchQuery = ref('');
@@ -99,7 +98,6 @@ let vfLazyLoad
 app.emitter.on('vf-fullscreen-toggle', () => {
   selectorArea.value.style.height = null;
 });
-
 
 app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
@@ -123,7 +121,6 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
   }
 });
 
-
 // on ios devices scrollbars are hidden as system level.
 // to be able to scroll, 2 finger tap needed.
 // this is the easiest way that I can think of.
@@ -142,7 +139,6 @@ const handleTouchStart = (event) => {
     dragAndDrop.value = !dragAndDrop.value;
   }
 };
-
 
 const sort = reactive({active: false, column: '', order: ''});
 
