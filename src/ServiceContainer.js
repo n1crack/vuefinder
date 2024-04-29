@@ -51,6 +51,8 @@ export default (props, options) => {
         selectButton: props.selectButton,
         // unit state - for example: GB or GiB
         metricUnits: metricUnits,
+        // show large icons in list view
+        compactListView: storage.getStore('compactListView', true),
         // human readable file sizes
         filesize: metricUnits ? filesizeMetric : filesizeDefault,
         // max file size

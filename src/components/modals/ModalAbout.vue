@@ -38,6 +38,20 @@
 
                 <div class="flex relative gap-x-3">
                   <div class="h-6 items-center">
+                    <input id="large_icons" name="large_icons" type="checkbox"
+                           v-model="app.compactListView"
+                           @click="handleCompactListView"
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
+                  </div>
+                  <div class="flex-1 block text-sm">
+                    <label for="large_icons" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
+                      {{ t('Compact list view') }} <action-message class="ms-3" on="vf-compact-view-saved">{{ t('Saved.') }}</action-message>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="flex relative gap-x-3">
+                  <div class="h-6 items-center">
                     <label for="theme" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
                       {{ t('Theme') }}
                     </label>
@@ -119,6 +133,14 @@ const handleMetricUnits = () => {
   setStore('metricUnits', app.metricUnits);
   app.emitter.emit('vf-metric-units-saved');
 }
+
+const handleCompactListView = () => {
+  app.compactListView = !app.compactListView;
+
+  setStore('compactListView', app.compactListView);
+  app.emitter.emit('vf-compact-view-saved');
+}
+
 
 const {i18n} = inject('VueFinderOptions');
 
