@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex-auto flex flex-col overflow-hidden">
-    <div v-if="app.view === 'list' || searchQuery.length" class="grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none divide-x">
+    <div v-if="app.view === 'list' || searchQuery.length" class="grid grid-cols-12 px-1 bg-neutral-50 border-b border-neutral-300 dark:border-gray-700 text-xs select-none divide-x">
       <div @click="sortBy('basename')" class="col-span-7 vf-sort-button">
         {{ t('Name') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'"/>
       </div>
@@ -46,7 +46,7 @@
               <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.basename }}</span>
             </div>
             <div class="col-span-2 text-center">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
-            <div class="col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap">
+            <div class="col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap px-1 md:px-3">
               {{ datetimestring(item.last_modified) }}
             </div>
           </div>
