@@ -2,20 +2,16 @@
   <div class="relative flex-auto flex flex-col overflow-hidden">
     <div v-if="app.view === 'list' || searchQuery.length" class="grid grid-cols-12 border-b border-neutral-300 dark:border-gray-700 text-xs select-none divide-x">
         <div @click="sortBy('basename')" class="col-span-7 vf-sort-button">
-          {{ t('Name') }}
-          <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'" />
+          {{ t('Name') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'" />
         </div>
         <div v-if="!searchQuery.length" @click="sortBy('file_size')" class="justify-center col-span-2 vf-sort-button">
-          {{ t('Size') }}
-          <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'file_size'" />
+          {{ t('Size') }} <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'file_size'" />
         </div>
         <div v-if="!searchQuery.length" @click="sortBy('last_modified')" class="justify-center col-span-3 vf-sort-button">
-          {{ t('Date') }}
-          <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'last_modified'" />
+          {{ t('Date') }} <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'last_modified'" />
         </div>
         <div v-if="searchQuery.length" @click="sortBy('path')" class="justify-center col-span-5 vf-sort-button">
-          {{ t('Filepath') }}
-          <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'path'" />
+          {{ t('Filepath') }} <SortIcon :direction="sort.order"  v-show="sort.active && sort.column === 'path'" />
         </div>
     </div>
 
@@ -41,36 +37,27 @@
              v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
             <div class="grid grid-cols-12 items-center">
               <div class="flex col-span-7 items-center">
-                <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                </svg>
-                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
+                <ItemIcon :type="item.type" :small="app.compactListView" />
                 <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
               </div>
               <div class="col-span-5 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.path }}</div>
             </div>
         </div>
 
-        <div draggable="true"
+        <div
+            v-draggable="item"
+             draggable="true"
              v-if="app.view==='list' && !searchQuery.length"
              @dblclick="openItem(item)"
              @touchstart="delayedOpenItem($event)"
              @touchend="clearTimeOut()"
              @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: ds.getSelected(), target: item })"
-             v-draggable="item"
              :class="'vf-item-' + randId"
              class="grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none"
              v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
             <div class="grid grid-cols-12 items-center">
               <div class="flex col-span-7 items-center">
-                <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                </svg>
-                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
+                <ItemIcon :type="item.type" :small="app.compactListView"/>
                 <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{item.basename }}</span>
               </div>
               <div class="col-span-2 text-center">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
@@ -78,25 +65,21 @@
             </div>
         </div>
 
-        <div draggable="true"
+        <div
+             v-draggable="item"
+             draggable="true"
              v-if="app.view==='grid' && !searchQuery.length"
              @dblclick="openItem(item)"
              @touchstart="delayedOpenItem($event)"
              @touchend="clearTimeOut()"
              @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, area: selectorArea, items: ds.getSelected(), target: item })"
-             v-draggable="item"
              :class="'vf-item-' + randId"
              class="border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none"
              v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
             <div>
               <div class="relative">
-                <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                </svg>
-                <img class="lazy h-10 md:h-12 m-auto" v-else-if="(item.mime_type ?? '').startsWith('image')" :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
-                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 m-auto text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
+                <img class="lazy h-10 md:h-12 m-auto" v-if="(item.mime_type ?? '').startsWith('image')" :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
+                <ItemIcon :type="item.type" v-else />
                 <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500" v-if="!(item.mime_type ?? '').startsWith('image') && item.type != 'dir'">{{ ext(item.extension) }}</div>
               </div>
               <span class="break-all">{{ title_shorten(item.basename) }}</span>
@@ -118,6 +101,8 @@ import title_shorten from "../utils/title_shorten.js";
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalMove from "./modals/ModalMove.vue";
 import SortIcon from "./SortIcon.vue";
+import DragItem from "./DragItem.vue";
+import ItemIcon from "./icons/ItemIcon.vue";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -144,7 +129,7 @@ const handleDragStart = (e, item) => {
     return false;
   }
 
-  e.dataTransfer.setDragImage(dragImage.value, 0, 15);
+  e.dataTransfer.setDragImage(dragImage.value.$el, 0, 15);
   e.dataTransfer.effectAllowed = 'all';
   e.dataTransfer.dropEffect = 'copy';
   e.dataTransfer.setData('items', JSON.stringify(ds.getSelected()))
