@@ -138,7 +138,6 @@ const handleCompactListView = () => {
   app.emitter.emit('vf-compact-view-saved');
 }
 
-
 const {i18n} = inject('VueFinderOptions');
 
 const languageList = {

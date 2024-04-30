@@ -38,10 +38,8 @@ import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
 const app = inject('ServiceContainer');
-const {getStore} = app.storage;
 const {t} = app.i18n;
 
-const name = ref('');
 const item = ref(app.modal.data.items[0]);
 const message = ref('');
 

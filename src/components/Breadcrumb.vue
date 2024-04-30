@@ -96,7 +96,7 @@ app.emitter.on('vf-explorer-update', () => {
   let items = [], links = [];
   dirname.value = app.data.dirname ?? (app.adapter + '://');
 
-  if (dirname.value.length == 0) {
+  if (dirname.value.length === 0) {
     breadcrumb.value = [];
   }
   dirname.value
@@ -189,7 +189,7 @@ const handleDragLeave = (e) => {
 };
 
 const handleBlur = () => {
-  if (query.value == '') {
+  if (query.value === '') {
     exitSearchMode();
   }
 }

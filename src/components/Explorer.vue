@@ -145,7 +145,7 @@ const sort = reactive({active: false, column: '', order: ''});
 const getItems = (sorted = true) => {
   let files = [...app.data.files],
       column = sort.column,
-      order = sort.order == 'asc' ? 1 : -1;
+      order = sort.order === 'asc' ? 1 : -1;
 
   if (!sorted) {
     return files;
