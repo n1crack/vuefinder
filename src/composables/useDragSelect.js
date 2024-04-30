@@ -38,7 +38,6 @@ export default function (emitter) {
 
         obj.value.subscribe("DS:end", ({items, event, isDragging}) => {
             selectedItems.value = obj.value.getSelection().map((el) => JSON.parse(el.dataset.item));
-            emitter.emit('vf-nodes-selected', selectedItems.value);
         })
     }
     const selectedItems = ref([]);
@@ -47,11 +46,18 @@ export default function (emitter) {
 
     const getCount = () => selectedItems.value.length;
 
+    const onSelect = (callback) => {
+        obj.value.subscribe("DS:end", ({items, event, isDragging}) => {
+            callback(obj.value.getSelection().map((el) => JSON.parse(el.dataset.item)));
+        });
+    }
+
     return {
         obj,
         area,
         init,
         getSelected,
-        getCount
+        getCount,
+        onSelect
     }
 }

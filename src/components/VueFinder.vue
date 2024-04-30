@@ -104,16 +104,13 @@ const {setStore} = app.storage;
 const root = ref(null);
 app.root = root;
 
+// Define dragSelect object
+const ds = app.dragSelect;
+
 const updateItems = (data) => {
   Object.assign(app.data, data);
-  app.emitter.emit('vf-nodes-selected', {});
   app.emitter.emit('vf-explorer-update');
 };
-
-app.emitter.on('vf-nodes-selected', (items) => {
-  app.selectedItems = items;
-  emit('select', items);
-})
 
 /** @type {AbortController} */
 let controller;
@@ -190,6 +187,11 @@ onMounted(() => {
       path: app.path
     };
   }
+
+  // Emit select event
+  ds.onSelect((items) => {
+    emit('select', items);
+  });
 
   app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter, ...pathExists}});
 });

@@ -179,7 +179,10 @@ const sortBy = (column) => {
   }
 };
 
+
 onMounted(() => {
+  ds.init(selectorArea.value)
+
   vfLazyLoad = new LazyLoad(selectorArea.value);
 
   app.emitter.on('vf-explorer-update', () => nextTick(() => {
@@ -188,8 +191,6 @@ onMounted(() => {
       selectables: document.getElementsByClassName('vf-item'),
     })
   }));
-
-  ds.init(selectorArea.value)
 
   watch(() => app.view, () => app.emitter.emit('vf-explorer-update'));
 });

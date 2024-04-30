@@ -12,7 +12,7 @@ import useDragSelect from "./composables/useDragSelect.js";
 
 export default (props, options) => {
     const storage = useStorage(props.id);
-    const emitter = mitt()
+    const emitter = mitt();
     const metricUnits = storage.getStore('metricUnits', false);
     const theme = useTheme(storage, props.theme);
     const supportedLocales = options.i18n;
@@ -63,7 +63,7 @@ export default (props, options) => {
         i18n : i18n,
         // modal state
         modal: useModal(),
-        // dragSelect state
+        // dragSelect object, it is responsible for selecting items
         dragSelect: computed(() => useDragSelect(emitter)),
         // main storage adapter
         adapter: storage.getStore('adapter'),
@@ -75,7 +75,5 @@ export default (props, options) => {
         storage: storage,
         // fetched items
         data: {adapter: storage.getStore('adapter'), storages: [], dirname: path, files: []},
-        // selected items
-        selectedItems: [],
     });
 }

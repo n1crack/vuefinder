@@ -22,7 +22,7 @@
       <button class="vf-btn py-0 vf-btn-primary"
               :class="{disabled: !isSelectButtonActive}"
               :disabled="!isSelectButtonActive"
-              v-if="app.selectButton.active" @click="app.selectButton.click(app.selectedItems, $event)">{{ t("Select") }}</button>
+              v-if="app.selectButton.active" @click="app.selectButton.click(ds.getSelected(), $event)">{{ t("Select") }}</button>
 
       <span class="mr-1" :aria-label="t('About')" data-microtip-position="top-left" role="tooltip" @click="app.modal.open(ModalAbout)">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 stroke-slate-500 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -40,6 +40,7 @@ import ModalAbout from "./modals/ModalAbout.vue";
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {setStore} = app.storage;
+const  ds = app.dragSelect;
 
 const handleStorageSelect = () => {
   app.emitter.emit('vf-search-exit');
@@ -54,7 +55,7 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
 });
 
 const isSelectButtonActive = computed(() => {
-  const selectionAllowed = app.selectButton.multiple ? app.selectedItems.length > 0 : app.selectedItems.length === 1;
+  const selectionAllowed = app.selectButton.multiple ? ds.getSelected().length > 0 : ds.getSelected().length === 1;
   return app.selectButton.active && selectionAllowed;
 });
 
