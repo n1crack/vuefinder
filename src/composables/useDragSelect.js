@@ -15,24 +15,24 @@ export default function (emitter) {
             selectorClass: 'vf-explorer-selector',
         });
 
-        obj.value.subscribe('DS:start:pre', ({items, isDragging, isDraggingKeyboard}) => {
+        obj.value.subscribe('DS:start:pre', ({event, items, isDragging, isDraggingKeyboard}) => {
             if (isDragging) {
                 selectedItems.value = obj.value.getSelection().map((el) => JSON.parse(el.dataset.item));
                 obj.value.break();
-            }
-        });
-
-        obj.value.subscribe('DS:update:pre', ({event, isDragging, isDraggingKeyboard}) => {
-            if (isDragging || isDraggingKeyboard) {
-                obj.value.break();
             } else {
-                // Prevent starting selection when resizing the selectable area from the corner.
+                // Prevent starting selection when start resizing the selectable area from the corner.
                 const offsetX = area.value.offsetWidth - event.offsetX;
                 const offsetY = area.value.offsetHeight - event.offsetY;
                 if (offsetX < 15 && offsetY < 15) {
                     obj.value.Selector.stop()
                     obj.value.break();
                 }
+            }
+        });
+
+        obj.value.subscribe('DS:update:pre', ({isDragging, isDraggingKeyboard}) => {
+            if (isDragging || isDraggingKeyboard) {
+                obj.value.break();
             }
         });
 
