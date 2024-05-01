@@ -21,7 +21,6 @@ const ds = app.dragSelect;
 const props = defineProps({
   item: {type: Object},
   dragImage: {type: Object}
-  // draggable: {type: Boolean, default: false}
 })
 
 const openItem = (item) => {
