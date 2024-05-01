@@ -17,7 +17,6 @@ export default (props, options) => {
     const theme = useTheme(storage, props.theme);
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
-    const i18n = computed(() => useI18n(storage, initialLang, emitter, supportedLocales));
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
@@ -52,22 +51,22 @@ export default (props, options) => {
         // unit state - for example: GB or GiB
         metricUnits: metricUnits,
         // show large icons in list view
-        compactListView: storage.getStore('compactListView', true),
+        compactListView: storage.getStore('compact-list-view', true),
         // human readable file sizes
         filesize: metricUnits ? filesizeMetric : filesizeDefault,
         // max file size
         maxFileSize: props.maxFileSize,
         // loading state
         loading: false,
-        // default locale
-        i18n : i18n,
+        // localization object
+        i18n : computed(() => useI18n(storage, initialLang, emitter, supportedLocales)),
         // modal state
         modal: useModal(),
         // dragSelect object, it is responsible for selecting items
         dragSelect: computed(() => useDragSelect(emitter)),
         // main storage adapter
         adapter: storage.getStore('adapter'),
-        // main storage adapter
+        // current active path
         path: path,
         // persist state
         persist: props.persist,
