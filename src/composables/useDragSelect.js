@@ -6,6 +6,8 @@ export default function (emitter) {
 
     const area = ref(null);
 
+    const explorerId = ref(Math.floor(Math.random() * 2 ** 32));
+
     const init = (selectArea) => {
         area.value = selectArea;
         obj.value = new DragSelect({
@@ -49,7 +51,24 @@ export default function (emitter) {
     const getCount = () => selectedItems.value.length;
 
     const clearSelection = () => {
-        obj.value.clearSelection(true);
+       obj.value.clearSelection(true);
+    }
+
+    // Refresh selection after the list is updated.
+    const refreshSelection = () => {
+        const currentSelectedItems = getSelected().map((item) => item.path);
+        clearSelection();
+        // reinitialize the selectables
+        obj.value.setSettings({
+          selectables: document.getElementsByClassName('vf-item-' + explorerId.value),
+        })
+        // add the previously selected items
+        obj.value.addSelection(
+            obj.value.getSelectables()
+                .filter(el => currentSelectedItems.includes(JSON.parse(el.dataset.item).path))
+        );
+        // update selection
+        selectedItems.value = obj.value.getSelection().map((el) => JSON.parse(el.dataset.item));
     }
 
     const onSelect = (callback) => {
@@ -61,10 +80,12 @@ export default function (emitter) {
     return {
         obj,
         area,
+        explorerId,
         init,
         getSelected,
         getSelection,
         clearSelection,
+        refreshSelection,
         getCount,
         onSelect
     }

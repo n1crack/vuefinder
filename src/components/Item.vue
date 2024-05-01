@@ -1,5 +1,6 @@
 <template>
   <div
+      :class="'vf-item-' + ds.explorerId.value"
       v-draggable="item"
       @dblclick="openItem(item)"
       @touchstart="delayedOpenItem($event)"
