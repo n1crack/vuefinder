@@ -138,8 +138,8 @@ const toggleFullScreen = () => {
 // View Management
 const toggleView = () => {
   app.view = app.view === 'list' ? 'grid' : 'list';
-  ds.obj.value.clearSelection(true);
 
+  app.emitter.emit('vf-explorer-update')
   setStore('viewport', app.view)
 };
 

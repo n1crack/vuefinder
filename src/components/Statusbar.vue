@@ -45,7 +45,7 @@ const  ds = app.dragSelect;
 const handleStorageSelect = () => {
   app.emitter.emit('vf-search-exit');
   app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.adapter}});
-  setStore('adapter', app.adapter)
+  setStore('adapter', app.adapter);
 };
 
 const searchQuery = ref('');

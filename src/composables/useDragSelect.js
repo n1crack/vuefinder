@@ -48,6 +48,10 @@ export default function (emitter) {
 
     const getCount = () => selectedItems.value.length;
 
+    const clearSelection = () => {
+        obj.value.clearSelection(true);
+    }
+
     const onSelect = (callback) => {
         obj.value.subscribe("DS:end", ({items, event, isDragging}) => {
             callback(items.map((el) => JSON.parse(el.dataset.item)));
@@ -60,6 +64,7 @@ export default function (emitter) {
         init,
         getSelected,
         getSelection,
+        clearSelection,
         getCount,
         onSelect
     }

@@ -186,13 +186,11 @@ onMounted(() => {
   vfLazyLoad = new LazyLoad(selectorArea.value);
 
   app.emitter.on('vf-explorer-update', () => nextTick(() => {
-    ds.obj.value.clearSelection();
+    ds.clearSelection();
     ds.obj.value.setSettings({
       selectables: document.getElementsByClassName('vf-item'),
     })
   }));
-
-  watch(() => app.view, () => app.emitter.emit('vf-explorer-update'));
 });
 
 onUpdated(() => {
