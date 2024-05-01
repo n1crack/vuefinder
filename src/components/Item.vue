@@ -1,6 +1,9 @@
 <template>
   <div
       :class="'vf-item-' + ds.explorerId.value"
+      :data-type="item.type"
+      :data-item="JSON.stringify(item)"
+      :data-index="index"
       v-draggable="item"
       @dblclick="openItem(item)"
       @touchstart="delayedOpenItem($event)"
@@ -21,6 +24,7 @@ const ds = app.dragSelect;
 
 const props = defineProps({
   item: {type: Object},
+  index: {type: Number},
   dragImage: {type: Object}
 })
 

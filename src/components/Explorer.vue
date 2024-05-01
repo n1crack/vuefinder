@@ -26,9 +26,9 @@
            @touchstart="handleTouchStart"
            @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
       >
-
-        <Item :item="item" :dragImage="dragImage" v-if="searchQuery.length" class="vf-item vf-item-list"
-              v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+        <!-- Search View -->
+        <Item v-if="searchQuery.length" v-for="(item, index) in getItems()"
+              :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list">
           <div class="grid grid-cols-12 items-center">
             <div class="flex col-span-7 items-center">
               <ItemIcon :type="item.type" :small="app.compactListView"/>
@@ -37,9 +37,9 @@
             <div class="col-span-5 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.path }}</div>
           </div>
         </Item>
-
-        <Item :item="item" :dragImage="dragImage" draggable="true" v-if="app.view==='list' && !searchQuery.length" class="vf-item vf-item-list"
-              v-for="(item, index) in getItems()" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+        <!-- List View -->
+        <Item  v-if="app.view==='list' && !searchQuery.length" v-for="(item, index) in getItems()"
+              :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true" >
           <div class="grid grid-cols-12 items-center">
             <div class="flex col-span-7 items-center">
               <ItemIcon :type="item.type" :small="app.compactListView"/>
@@ -51,9 +51,9 @@
             </div>
           </div>
         </Item>
-
-        <Item :item="item" :dragImage="dragImage" draggable="true" v-if="app.view==='grid' && !searchQuery.length" class="vf-item vf-item-grid"
-              v-for="(item, index) in getItems(false)" :data-type="item.type" :data-item="JSON.stringify(item)" :data-index="index">
+        <!-- Grid View -->
+        <Item v-if="app.view==='grid' && !searchQuery.length" v-for="(item, index) in getItems(false)"
+              :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-grid" draggable="true">
           <div>
             <div class="relative">
               <img class="lazy h-10 md:h-12 m-auto" v-if="(item.mime_type ?? '').startsWith('image')"
