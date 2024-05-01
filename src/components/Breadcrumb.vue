@@ -104,7 +104,7 @@ app.emitter.on('vf-explorer-update', () => {
       .split('/')
       .forEach(function (item) {
         items.push(item);
-        if (items.join('/') != '') {
+        if (items.join('/') !== '') {
           links.push({
             'basename': item,
             'name': item,
