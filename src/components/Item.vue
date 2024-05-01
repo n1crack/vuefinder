@@ -76,7 +76,7 @@ const handleDropZone = (e, item) => {
 
 const handleDragOver = (e, item) => {
   e.preventDefault();
-  if (!item || item.type !== 'dir' || ds.obj.value.getSelection().find(el => el === e.currentTarget)) {
+  if (!item || item.type !== 'dir' || ds.getSelection().find(el => el === e.currentTarget)) {
     e.dataTransfer.dropEffect = 'none';
     e.dataTransfer.effectAllowed = 'none';
   } else {

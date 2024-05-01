@@ -15,9 +15,9 @@ export default function (emitter) {
             selectorClass: 'vf-explorer-selector',
         });
 
-        obj.value.subscribe('DS:start:pre', ({event, items, isDragging, isDraggingKeyboard}) => {
+        obj.value.subscribe('DS:start:pre', ({items, event, isDragging, isDraggingKeyboard}) => {
             if (isDragging) {
-                selectedItems.value = obj.value.getSelection().map((el) => JSON.parse(el.dataset.item));
+                selectedItems.value = items.map((el) => JSON.parse(el.dataset.item));
                 obj.value.break();
             } else {
                 // Prevent starting selection when start resizing the selectable area from the corner.
@@ -37,18 +37,20 @@ export default function (emitter) {
         });
 
         obj.value.subscribe("DS:end", ({items, event, isDragging}) => {
-            selectedItems.value = obj.value.getSelection().map((el) => JSON.parse(el.dataset.item));
+            selectedItems.value = items.map((el) => JSON.parse(el.dataset.item));
         })
     }
     const selectedItems = ref([]);
 
     const getSelected = () => selectedItems.value;
 
+    const getSelection = () => obj.value.getSelection();
+
     const getCount = () => selectedItems.value.length;
 
     const onSelect = (callback) => {
         obj.value.subscribe("DS:end", ({items, event, isDragging}) => {
-            callback(obj.value.getSelection().map((el) => JSON.parse(el.dataset.item)));
+            callback(items.map((el) => JSON.parse(el.dataset.item)));
         });
     }
 
@@ -57,6 +59,7 @@ export default function (emitter) {
         area,
         init,
         getSelected,
+        getSelection,
         getCount,
         onSelect
     }
