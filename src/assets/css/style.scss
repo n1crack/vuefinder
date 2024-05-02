@@ -79,10 +79,6 @@
       @apply border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none
     }
 
-    .vf-explorer-selector {
-      @apply border border-slate-500 bg-slate-300 opacity-50 #{!important};
-    }
-
     .vuefinder.dark {
       color-scheme: dark;
     }
@@ -124,6 +120,12 @@
 
   }
 
+  /*
+    DragSelect selector appends to body
+   */
+  .vf-explorer-selector {
+    @apply border border-slate-500 bg-slate-300 opacity-50 #{!important};
+  }
 
 }
 
