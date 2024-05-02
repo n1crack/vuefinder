@@ -11,7 +11,7 @@
       />
     </span>
     <span :aria-label="t('Refresh')" data-microtip-position="bottom-right" role="tooltip" v-if="!app.loading">
-      <HomeSVG
+      <RefreshSVG
           @click="app.emitter.emit('vf-fetch',{params:{q: 'index', adapter: app.data.adapter, path: app.data.dirname}} );"/>
     </span>
     <span :aria-label="t('Cancel')" data-microtip-position="bottom-right" role="tooltip" v-else>
@@ -20,7 +20,7 @@
 
     <div v-if="!searchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full"
          @click.self="enterSearchMode">
-      <SearchSVG
+      <HomeSVG
           @dragover="handleDragOver($event)"
           @dragleave="handleDragLeave($event)"
           @drop="handleDropZone($event, -1)"
@@ -45,7 +45,7 @@
     </div>
     <div v-else class="relative flex bg-white dark:bg-gray-700 justify-between items-center rounded p-1 ml-2 w-full">
       <div>
-        <MagnifierSVG/>
+        <SearchSVG />
       </div>
       <input
           ref="searchInput"
@@ -66,11 +66,11 @@ import {inject, nextTick, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
 import {FEATURES} from "./features.js";
 import ModalMove from "./modals/ModalMove.vue";
-import HomeSVG from "./icons/home.svg";
+import RefreshSVG from "./icons/refresh.svg";
 import GoUpSVG from "./icons/go_up.svg";
 import CloseSVG from "./icons/close.svg";
+import HomeSVG from "./icons/home.svg";
 import SearchSVG from "./icons/search.svg";
-import MagnifierSVG from "./icons/magnifier.svg";
 import LoadingSVG from "./icons/loading.svg";
 import ExitSVG from "./icons/exit.svg";
 
