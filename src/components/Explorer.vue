@@ -19,53 +19,52 @@
       <DragItem ref="dragImage" :count="ds.getCount()"/>
     </div>
 
-      <div ref="selectorArea"
-          :class="app.fullScreen ? '' : 'resize-y'"
-          class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
-
-           @touchstart="handleTouchStart"
-           @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
-      >
-        <!-- Search View -->
-        <Item v-if="searchQuery.length" v-for="(item, index) in getItems()"
-              :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list">
-          <div class="grid grid-cols-12 items-center">
-            <div class="flex col-span-7 items-center">
-              <ItemIcon :type="item.type" :small="app.compactListView"/>
-              <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.basename }}</span>
-            </div>
-            <div class="col-span-5 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.path }}</div>
+    <div ref="selectorArea"
+         :class="app.fullScreen ? '' : 'resize-y'"
+         class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
+         @touchstart="handleTouchStart"
+         @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
+    >
+      <!-- Search View -->
+      <Item v-if="searchQuery.length" v-for="(item, index) in getItems()"
+            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list">
+        <div class="grid grid-cols-12 items-center">
+          <div class="flex col-span-7 items-center">
+            <ItemIcon :type="item.type" :small="app.compactListView"/>
+            <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.basename }}</span>
           </div>
-        </Item>
-        <!-- List View -->
-        <Item  v-if="app.view==='list' && !searchQuery.length" v-for="(item, index) in getItems()"
-              :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true" >
-          <div class="grid grid-cols-12 items-center">
-            <div class="flex col-span-7 items-center">
-              <ItemIcon :type="item.type" :small="app.compactListView"/>
-              <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.basename }}</span>
-            </div>
-            <div class="col-span-2 text-center">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
-            <div class="col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap px-1 md:px-3">
-              {{ datetimestring(item.last_modified) }}
+          <div class="col-span-5 overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.path }}</div>
+        </div>
+      </Item>
+      <!-- List View -->
+      <Item v-if="app.view==='list' && !searchQuery.length" v-for="(item, index) in getItems()"
+            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true">
+        <div class="grid grid-cols-12 items-center">
+          <div class="flex col-span-7 items-center">
+            <ItemIcon :type="item.type" :small="app.compactListView"/>
+            <span class="overflow-ellipsis overflow-hidden whitespace-nowrap">{{ item.basename }}</span>
+          </div>
+          <div class="col-span-2 text-center">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
+          <div class="col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap px-1 md:px-3">
+            {{ datetimestring(item.last_modified) }}
+          </div>
+        </div>
+      </Item>
+      <!-- Grid View -->
+      <Item v-if="app.view==='grid' && !searchQuery.length" v-for="(item, index) in getItems(false)"
+            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-grid" draggable="true">
+        <div>
+          <div class="relative">
+            <img class="lazy h-10 md:h-12 m-auto" v-if="(item.mime_type ?? '').startsWith('image')"
+                 :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
+            <ItemIcon :type="item.type" v-else/>
+            <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500"
+                 v-if="!(item.mime_type ?? '').startsWith('image') && item.type != 'dir'">{{ ext(item.extension) }}
             </div>
           </div>
-        </Item>
-        <!-- Grid View -->
-        <Item v-if="app.view==='grid' && !searchQuery.length" v-for="(item, index) in getItems(false)"
-              :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-grid" draggable="true">
-          <div>
-            <div class="relative">
-              <img class="lazy h-10 md:h-12 m-auto" v-if="(item.mime_type ?? '').startsWith('image')"
-                   :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
-              <ItemIcon :type="item.type" v-else/>
-              <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500"
-                   v-if="!(item.mime_type ?? '').startsWith('image') && item.type != 'dir'">{{ ext(item.extension) }}
-              </div>
-            </div>
-            <span class="break-all">{{ title_shorten(item.basename) }}</span>
-          </div>
-        </Item>
+          <span class="break-all">{{ title_shorten(item.basename) }}</span>
+        </div>
+      </Item>
     </div>
     <Toast/>
   </div>
