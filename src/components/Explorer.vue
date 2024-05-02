@@ -77,8 +77,8 @@ import datetimestring from '../utils/datetimestring.js';
 import title_shorten from "../utils/title_shorten.js";
 import Toast from './Toast.vue';
 import LazyLoad from 'vanilla-lazyload';
-import SortIcon from "./icons/SortIcon.vue";
-import ItemIcon from "./icons/ItemIcon.vue";
+import SortIcon from "./SortIcon.vue";
+import ItemIcon from "./ItemIcon.vue";
 import DragItem from "./DragItem.vue";
 import Item from "./Item.vue";
 
