@@ -109,6 +109,7 @@ const ds = app.dragSelect;
 
 const updateItems = (data) => {
   Object.assign(app.data, data);
+  ds.clearSelection();
   app.emitter.emit('vf-explorer-update');
 };
 
@@ -188,12 +189,13 @@ onMounted(() => {
     };
   }
 
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter, ...pathExists}});
+
   // Emit select event
   ds.onSelect((items) => {
     emit('select', items);
   });
 
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter, ...pathExists}});
 });
 
 </script>

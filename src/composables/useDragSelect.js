@@ -37,10 +37,6 @@ export default function (emitter) {
                 obj.value.break();
             }
         });
-
-        obj.value.subscribe("DS:end", ({items, event, isDragging}) => {
-            selectedItems.value = items.map((el) => JSON.parse(el.dataset.item));
-        })
     }
     const selectedItems = ref([]);
 
@@ -73,9 +69,11 @@ export default function (emitter) {
 
     const onSelect = (callback) => {
         obj.value.subscribe("DS:end", ({items, event, isDragging}) => {
+            selectedItems.value = items.map((el) => JSON.parse(el.dataset.item));
             callback(items.map((el) => JSON.parse(el.dataset.item)));
         });
     }
+
 
     return {
         obj,
