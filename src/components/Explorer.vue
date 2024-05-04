@@ -19,7 +19,7 @@
       <DragItem ref="dragImage" :count="ds.getCount()"/>
     </div>
 
-    <div ref="selectorArea"
+    <div :ref="ds.area"
          :class="app.fullScreen ? '' : 'resize-y'"
          class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
          @touchstart="handleTouchStart"
@@ -69,6 +69,7 @@
         </div>
       </Item>
     </div>
+
     <Toast/>
   </div>
 </template>
@@ -88,7 +89,6 @@ const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
 const ext = (item) => item?.substring(0, 3)
-const selectorArea = ref(null);
 const dragImage = ref(null);
 
 const searchQuery = ref('');
@@ -98,7 +98,7 @@ const ds = app.dragSelect;
 let vfLazyLoad
 
 app.emitter.on('vf-fullscreen-toggle', () => {
-  selectorArea.value.style.height = null;
+  ds.area.value.style.height = null;
 });
 
 app.emitter.on('vf-search-query', ({newQuery}) => {
@@ -131,11 +131,11 @@ const dragAndDrop = ref(true);
 const handleTouchStart = (event) => {
   if (event.touches.length > 1) {
     if (!dragAndDrop.value) {
-      ds.obj.value.start();
+      ds.instance.start();
       app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: on')});
-      app.emitter.emit('vf-explorer-update');
+      ds.refreshSelection();
     } else {
-      ds.obj.value.stop();
+      ds.instance.stop();
       app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: off')});
     }
     dragAndDrop.value = !dragAndDrop.value;
@@ -183,18 +183,10 @@ const sortBy = (column) => {
 
 
 onMounted(() => {
-  ds.init(selectorArea.value)
-
-  vfLazyLoad = new LazyLoad(selectorArea.value);
-
-  app.emitter.on('vf-explorer-update', () => nextTick(() => {
-    ds.refreshSelection();
-  }));
+  vfLazyLoad = new LazyLoad(ds.area.value);
 });
 
 onUpdated(() => {
-  ds.obj.value.Area.reset();
-  ds.obj.value.SelectorArea.updatePos();
   vfLazyLoad.update();
 });
 

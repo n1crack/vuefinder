@@ -73,7 +73,7 @@
                   </div>
                   <div class="flex-1 block text-sm">
                     <label for="show_thumbnails" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
-                      {{ t('Show Thumbnails') }} <action-message class="ms-3" on="vf-show-thumbnails-saved">{{ t('Saved.') }}</action-message>
+                      {{ t('Show thumbnails') }} <action-message class="ms-3" on="vf-show-thumbnails-saved">{{ t('Saved.') }}</action-message>
                     </label>
                   </div>
                 </div>

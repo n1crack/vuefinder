@@ -51,7 +51,7 @@ export default (props, options) => {
         // modal state
         modal: useModal(),
         // dragSelect object, it is responsible for selecting items
-        dragSelect: computed(() => useDragSelect(emitter)),
+        dragSelect: computed(() => useDragSelect()),
         // http object
         requester : buildRequester(props.request),
         // active features

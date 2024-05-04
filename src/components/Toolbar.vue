@@ -116,7 +116,7 @@ const toggleFullScreen = () => {
 const toggleView = () => {
   app.view = app.view === 'list' ? 'grid' : 'list';
 
-  app.emitter.emit('vf-explorer-update')
+  ds.refreshSelection();
   setStore('viewport', app.view)
 };
 

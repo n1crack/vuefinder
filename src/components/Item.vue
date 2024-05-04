@@ -1,7 +1,7 @@
 <template>
   <div
       :style="{opacity:  ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el) ? '0.5 !important' : ''}"
-      :class="[ 'vf-item-' + ds.explorerId.value]"
+      :class="[ 'vf-item-' + ds.explorerId]"
       :data-type="item.type"
       :key="item.path"
       :data-item="JSON.stringify(item)"

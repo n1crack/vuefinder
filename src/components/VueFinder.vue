@@ -114,6 +114,7 @@ const ds = app.dragSelect;
 const updateItems = (data) => {
   Object.assign(app.data, data);
   ds.clearSelection();
+  ds.refreshSelection();
   app.emitter.emit('vf-explorer-update');
 };
 
