@@ -1,4 +1,4 @@
-import {unref, isRef, ref, onMounted, onUpdated, onUnmounted, watchEffect, nextTick} from 'vue';
+import {ref, onMounted, onUpdated, onUnmounted, nextTick} from 'vue';
 import DragSelect from 'dragselect';
 
 export default function () {
