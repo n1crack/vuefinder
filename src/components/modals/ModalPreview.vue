@@ -61,11 +61,6 @@ const {t} = app.i18n
 const loaded = ref(false);
 const loadPreview = (type) => (app.modal.data.item.mime_type ?? '').startsWith(type)
 
-const download = () => {
-  const url = app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item);
-  app.emitter.emit('vf-download', url);
-}
-
 const enabledPreview = app.features.includes(FEATURES.PREVIEW)
 if (!enabledPreview) {
   loaded.value = true;

@@ -167,19 +167,6 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   });
 });
 
-// Download
-app.emitter.on('vf-download', (url) => {
-  const $a = document.createElement('a');
-  $a.style.display = 'none';
-  $a.target = '_blank';
-  $a.href = url;
-  // Cross-origin this doesn't work, but at least this does bring up a new window.
-  $a.download = url;
-  app.root.appendChild($a);
-  $a.click();
-  $a.remove();
-});
-
 // fetch initial data
 onMounted(() => {
   // app.adapter can be null at first, until we get the adapter list it will be the first one from response

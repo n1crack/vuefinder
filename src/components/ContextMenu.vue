@@ -93,11 +93,7 @@ const menuItems = {
     key: FEATURES.DOWNLOAD,
     link: computed(() => app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0])),
     title: () =>  t('Download'),
-    action: () => {
-      // this is no longer needed since we are using the link attribute
-      // const url = app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0]);
-      // app.emitter.emit('vf-download', url);
-    },
+    action: () => {},
   },
   archive: {
     key: FEATURES.ARCHIVE,
