@@ -1,7 +1,9 @@
 <template>
   <div
-      :class="'vf-item-' + ds.explorerId.value"
+      :style="{opacity:  ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el) ? '0.5 !important' : ''}"
+      :class="[ 'vf-item-' + ds.explorerId.value]"
       :data-type="item.type"
+      :key="item.path"
       :data-item="JSON.stringify(item)"
       :data-index="index"
       v-draggable="item"
@@ -15,7 +17,7 @@
 </template>
 
 <script setup>
-import {ref, defineProps, inject} from 'vue';
+import {defineProps, inject} from 'vue';
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalMove from "./modals/ModalMove.vue";
 
@@ -60,6 +62,7 @@ const handleDragStart = (e, item) => {
     return false;
   }
 
+  ds.isDraggingRef.value = true;
   e.dataTransfer.setDragImage(props.dragImage.$el, 0, 15);
   e.dataTransfer.effectAllowed = 'all';
   e.dataTransfer.dropEffect = 'copy';
@@ -68,6 +71,7 @@ const handleDragStart = (e, item) => {
 
 const handleDropZone = (e, item) => {
   e.preventDefault();
+  ds.isDraggingRef.value = false;
   let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
 
   if (draggedItems.find(item => item.storage !== app.adapter)) {
@@ -95,6 +99,7 @@ const clearTimeOut = () => {
     clearTimeout(touchTimeOut);
   }
 }
+
 const delayedOpenItem = ($event) => {
   touchTimeOut = setTimeout(() => {
     const cmEvent = new MouseEvent("contextmenu", {

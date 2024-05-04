@@ -82,6 +82,8 @@ const searchInput = ref(null);
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
+const ds = app.dragSelect;
+
 app.emitter.on('vf-explorer-update', () => {
   let items = [], links = [];
   dirname.value = app.data.dirname ?? (app.adapter + '://');
@@ -143,6 +145,7 @@ const isGoUpAvailable = () => {
 const handleDropZone = (e, index = null) => {
   e.preventDefault();
 
+  ds.isDraggingRef.value = false;
   handleDragLeave(e);
 
   index ??= breadcrumb.value.length - 2;
