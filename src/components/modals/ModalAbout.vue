@@ -52,6 +52,34 @@
 
                 <div class="flex relative gap-x-3">
                   <div class="h-6 items-center">
+                    <input id="persist_path" name="persist_path" type="checkbox"
+                           v-model="app.persist"
+                           @click="handlePersistPath"
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
+                  </div>
+                  <div class="flex-1 block text-sm">
+                    <label for="persist_path" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
+                      {{ t('Persist path on reload') }} <action-message class="ms-3" on="vf-persist-path-saved">{{ t('Saved.') }}</action-message>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="flex relative gap-x-3">
+                  <div class="h-6 items-center">
+                    <input id="show_thumbnails" name="show_thumbnails" type="checkbox"
+                           v-model="app.showThumbnails"
+                           @click="handleShowThumbnails"
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
+                  </div>
+                  <div class="flex-1 block text-sm">
+                    <label for="show_thumbnails" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
+                      {{ t('Show Thumbnails') }} <action-message class="ms-3" on="vf-show-thumbnails-saved">{{ t('Saved.') }}</action-message>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="flex relative gap-x-3">
+                  <div class="h-6 items-center">
                     <label for="theme" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
                       {{ t('Theme') }}
                     </label>
@@ -137,6 +165,21 @@ const handleCompactListView = () => {
   setStore('compactListView', app.compactListView);
   app.emitter.emit('vf-compact-view-saved');
 }
+
+const handleShowThumbnails = () => {
+  app.showThumbnails = !app.showThumbnails;
+
+  setStore('show-thumbnails', app.showThumbnails);
+  app.emitter.emit('vf-show-thumbnails-saved');
+}
+
+const handlePersistPath = () => {
+  app.persist = !app.persist;
+
+  setStore('persist-path', app.persist);
+  app.emitter.emit('vf-persist-path-saved');
+}
+
 
 const {i18n} = inject('VueFinderOptions');
 

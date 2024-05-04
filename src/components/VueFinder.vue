@@ -79,6 +79,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  showThumbnails: {
+    type: Boolean,
+    default: true
+  },
   selectButton: {
     type: Object,
     default(rawProps) {

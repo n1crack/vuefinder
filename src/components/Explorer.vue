@@ -55,13 +55,16 @@
             :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-grid" draggable="true">
         <div>
           <div class="relative">
-            <img class="lazy h-10 md:h-12 m-auto" v-if="(item.mime_type ?? '').startsWith('image')"
+            <img src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                 class="lazy h-10 md:h-12 m-auto" v-if="(item.mime_type ?? '').startsWith('image') && app.showThumbnails"
                  :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
             <ItemIcon :type="item.type" v-else/>
             <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500"
-                 v-if="!(item.mime_type ?? '').startsWith('image') && item.type != 'dir'">{{ ext(item.extension) }}
+                 v-if="!((item.mime_type ?? '').startsWith('image') && app.showThumbnails) && item.type !== 'dir'" >
+              {{ ext(item.extension) }}
             </div>
           </div>
+
           <span class="break-all">{{ title_shorten(item.basename) }}</span>
         </div>
       </Item>

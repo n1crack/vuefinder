@@ -25,53 +25,71 @@ export default (props, options) => {
         return FEATURE_ALL_NAMES;
     }
 
-    const path = props.persist ? storage.getStore('path', props.path) : props.path;
+    const persist = storage.getStore('persist-path', props.persist);
+
+    const path = persist ? storage.getStore('path', props.path) : props.path;
 
     return reactive({
+        /*
+        * Core properties
+        * */
+
         // app version
         version: version,
         // root element
         root: null,
+        // loading state
+        loading: false,
         // app id
         debug: props.debug,
         // Event Bus
         emitter: emitter,
-        // active features
-        features: setFeatures(props.features),
-        // http object
-        requester : buildRequester(props.request),
-        // theme state
-        theme: theme,
-        // view state
-        view: storage.getStore('viewport', 'grid'),
-        // fullscreen state
-        fullScreen: storage.getStore('full-screen', props.fullScreen),
-        // selectButton state
-        selectButton: props.selectButton,
-        // unit state - for example: GB or GiB
-        metricUnits: metricUnits,
-        // show large icons in list view
-        compactListView: storage.getStore('compact-list-view', true),
-        // human readable file sizes
-        filesize: metricUnits ? filesizeMetric : filesizeDefault,
-        // max file size
-        maxFileSize: props.maxFileSize,
-        // loading state
-        loading: false,
+        // storage
+        storage: storage,
         // localization object
         i18n : computed(() => useI18n(storage, initialLang, emitter, supportedLocales)),
         // modal state
         modal: useModal(),
         // dragSelect object, it is responsible for selecting items
         dragSelect: computed(() => useDragSelect(emitter)),
+        // http object
+        requester : buildRequester(props.request),
+        // active features
+        features: setFeatures(props.features),
+        // view state
+        view: storage.getStore('viewport', 'grid'),
+        // fullscreen state
+        fullScreen: storage.getStore('full-screen', props.fullScreen),
+        // selectButton state
+        selectButton: props.selectButton,
+        // max file size
+        maxFileSize: props.maxFileSize,
+
+        /*
+        * Settings
+        * */
+
+        // theme state
+        theme: theme,
+        // unit state - for example: GB or GiB
+        metricUnits: metricUnits,
+        // human readable file sizes
+        filesize: metricUnits ? filesizeMetric : filesizeDefault,
+        // show large icons in list view
+        compactListView: storage.getStore('compact-list-view', true),
+        // persist state
+        persist: persist,
+        // show thumbnails
+        showThumbnails: storage.getStore('show-thumbnails', props.showThumbnails),
+
+        /*
+        * Items
+        * */
+
         // main storage adapter
         adapter: storage.getStore('adapter'),
         // current active path
         path: path,
-        // persist state
-        persist: props.persist,
-        // storage
-        storage: storage,
         // fetched items
         data: {adapter: storage.getStore('adapter'), storages: [], dirname: path, files: []},
     });
