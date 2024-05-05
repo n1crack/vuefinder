@@ -18,36 +18,25 @@
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-if="!app.fs.searchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full"
+    <div v-if="!app.fs.searchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full overflow-hidden"
          @click.self="enterSearchMode">
-      <HomeSVG
+      <div>
+        <HomeSVG
           @dragover="handleDragOver($event)"
           @dragleave="handleDragLeave($event)"
           @drop="handleDropZone($event, -1)"
           @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter}})"/>
+      </div>
 
       <div class="flex leading-6">
 
-        <div v-if="app.fs.hiddenBreadcrumbs.length" class="flex" v-click-outside="() => app.fs.toggleHiddenBreadcrumbs(false)">
+        <div v-if="app.fs.hiddenBreadcrumbs.length" class="flex" v-click-outside="handleClickOutside">
           <div class="text-neutral-300 dark:text-gray-600 mx-0.5">/</div>
           <div class="relative">
             <span @click="app.fs.toggleHiddenBreadcrumbs()"
                    class="text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer">
               <DotsSVG class="px-1" />
             </span>
-
-            <div v-show="app.fs.showHiddenBreadcrumbs"
-                class="z-30 absolute rounded -mx-1.5 mt-1 bg-neutral-50 dark:bg-gray-800 max-w-80 max-h-40 shadow overflow-y-auto text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600">
-              <div
-                  v-for="(item, index) in app.fs.hiddenBreadcrumbs" :key="index"
-                  @dragover="handleDragOver($event)"
-                  @dragleave="handleDragLeave($event)"
-                  @drop="handleHiddenBreadcrumbDropZone($event, index)"
-                  @click="handleHiddenBreadcrumbsClick(item)"
-                  class="flex px-2 py-0.5 hover:bg-gray-400/20 cursor-pointer items-center whitespace-nowrap   " >
-                <span><FolderSVG class="h-5 w-5" /></span> <span class="inline-block w-full text-ellipsis overflow-hidden">{{ item.name}}</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -59,7 +48,7 @@
               @dragover="(index === app.fs.breadcrumbs.length - 1) || handleDragOver($event)"
               @dragleave="(index === app.fs.breadcrumbs.length - 1) || handleDragLeave($event)"
               @drop="(index === app.fs.breadcrumbs.length - 1) || handleDropZone($event, index)"
-              class="px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer"
+              class="px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer whitespace-nowrap"
               :title="item.basename"
               @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter, path:item.path}})">{{
               item.name
@@ -82,6 +71,22 @@
           class="w-full pb-0 px-1 border-0 text-base ring-0 outline-0 text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent"
           type="text">
       <ExitSVG @click="exitSearchMode"/>
+    </div>
+
+
+    <div v-show="app.fs.showHiddenBreadcrumbs"
+        class="z-30 absolute top-[65px] md:top-[75px] left-[90px] rounded -mx-1.5 mt-1 bg-neutral-50 dark:bg-gray-800 max-w-80 max-h-50 shadow overflow-y-auto text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600">
+      <div
+          v-for="(item, index) in app.fs.hiddenBreadcrumbs" :key="index"
+          @dragover="handleDragOver($event)"
+          @dragleave="handleDragLeave($event)"
+          @drop="handleHiddenBreadcrumbDropZone($event, index)"
+          @click="handleHiddenBreadcrumbsClick(item)"
+          class="px-2 py-0.5 hover:bg-gray-400/20 cursor-pointer items-center whitespace-nowrap" >
+        <div class="flex pointer-events-none">
+          <span><FolderSVG class="h-5 w-5" /></span> <span class="inline-block w-full text-ellipsis overflow-hidden">{{ item.name}}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -197,6 +202,12 @@ const handleGoUp = () => {
 const handleHiddenBreadcrumbsClick = (item) => {
   app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: item.path}});
   app.fs.toggleHiddenBreadcrumbs(false);
+}
+
+const handleClickOutside = () => {
+  if (app.fs.showHiddenBreadcrumbs) {
+    app.fs.toggleHiddenBreadcrumbs(false);
+  }
 }
 
 const vClickOutside = {
