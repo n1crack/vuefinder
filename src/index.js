@@ -8,9 +8,6 @@ export default {
      * @param options
      */
     install(app, options = {}) {
-        // define main component
-        app.component("VueFinder", VueFinder);
-
         // define global properties with 'options'
         options.i18n = options.i18n ?? {};
         let [firstLanguage] = Object.keys(options.i18n)
@@ -18,6 +15,9 @@ export default {
 
         // unique id for the app options
         app.provide('VueFinderOptions', options);
+
+        // define main component
+        app.component("VueFinder", VueFinder);
     }
 };
 

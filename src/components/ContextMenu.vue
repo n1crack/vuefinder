@@ -1,18 +1,19 @@
 <template>
-  <ul ref="contextmenu" v-if="context.active" :style="context.positions"
+  <ul ref="contextmenu" v-show="context.active" :style="context.positions"
       class="z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600 shadow rounded-sm select-none">
     <li class="cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700"
         v-for="(item) in filteredItems" :key="item.title">
-        <template v-if="item.link">
-          <a class="block pl-2 pr-3 py-2 " target="_blank" :href="item.link" :download="item.link" @click="app.emitter.emit('vf-contextmenu-hide')">
-            <span>{{ item.title() }}</span>
-          </a>
-        </template>
-        <template v-else>
-          <div class="pl-2 pr-3 py-1.5" @click="run(item)">
-            <span>{{ item.title() }}</span>
-          </div>
-        </template>
+      <template v-if="item.link">
+        <a class="block pl-2 pr-3 py-2 " target="_blank" :href="item.link" :download="item.link"
+           @click="app.emitter.emit('vf-contextmenu-hide')">
+          <span>{{ item.title() }}</span>
+        </a>
+      </template>
+      <template v-else>
+        <div class="pl-2 pr-3 py-1.5" @click="run(item)">
+          <span>{{ item.title() }}</span>
+        </div>
+      </template>
     </li>
   </ul>
 </template>
@@ -65,39 +66,52 @@ const menuItems = {
     },
   },
   refresh: {
-    title: () =>  t('Refresh'),
+    title: () => t('Refresh'),
     action: () => {
-      app.emitter.emit('vf-fetch',{params:{q: 'index', adapter: app.data.adapter, path: app.data.dirname}} );
+      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.data.adapter, path: app.data.dirname}});
     },
   },
   preview: {
     key: FEATURES.PREVIEW,
-    title: () =>  t('Preview'),
-    action: () => app.modal.open(ModalPreview, {adapter:app.data.adapter, item: selectedItems.value[0]}),
+    title: () => t('Preview'),
+    action: () => app.modal.open(ModalPreview, {adapter: app.data.adapter, item: selectedItems.value[0]}),
   },
   open: {
-    title: () =>  t('Open'),
+    title: () => t('Open'),
     action: () => {
       app.emitter.emit('vf-search-exit');
-      app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:selectedItems.value[0].path}});
+      app.emitter.emit('vf-fetch', {
+        params: {
+          q: 'index',
+          adapter: app.data.adapter,
+          path: selectedItems.value[0].path
+        }
+      });
     },
   },
   openDir: {
-    title: () =>  t('Open containing folder'),
+    title: () => t('Open containing folder'),
     action: () => {
       app.emitter.emit('vf-search-exit');
-      app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path: (selectedItems.value[0].dir)}});
+      app.emitter.emit('vf-fetch', {
+        params: {
+          q: 'index',
+          adapter: app.data.adapter,
+          path: (selectedItems.value[0].dir)
+        }
+      });
     },
   },
   download: {
     key: FEATURES.DOWNLOAD,
     link: computed(() => app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0])),
-    title: () =>  t('Download'),
-    action: () => {},
+    title: () => t('Download'),
+    action: () => {
+    },
   },
   archive: {
     key: FEATURES.ARCHIVE,
-    title: () =>  t('Archive'),
+    title: () => t('Archive'),
     action: () => app.modal.open(ModalArchive, {items: selectedItems}),
   },
   unarchive: {
@@ -107,12 +121,12 @@ const menuItems = {
   },
   rename: {
     key: FEATURES.RENAME,
-    title: () =>  t('Rename'),
+    title: () => t('Rename'),
     action: () => app.modal.open(ModalRename, {items: selectedItems}),
   }
 };
 
-const run = (item) =>{
+const run = (item) => {
   app.emitter.emit('vf-contextmenu-hide');
   item.action();
 };
@@ -122,10 +136,8 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
   searchQuery.value = newQuery;
 });
 
-app.emitter.on('vf-contextmenu-show', ({event, items,  target = null}) => {
+app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
   context.items = [];
-
-  const area = app.dragSelect.area.value;
 
   if (searchQuery.value) {
     if (target) {
@@ -164,25 +176,31 @@ app.emitter.on('vf-contextmenu-show', ({event, items,  target = null}) => {
     app.emitter.emit('vf-context-selected', [target]);
     // console.log(target.type + ' is selected');
   }
-  showContextMenu(event, area)
+  showContextMenu(event)
 })
 
 app.emitter.on('vf-contextmenu-hide', () => {
   context.active = false;
 })
 
-const showContextMenu = (event, area) => {
+const showContextMenu = (event) => {
+  const area = app.dragSelect.area.value
+  const rootContainer = app.root.getBoundingClientRect();
+  const areaContainer = area.getBoundingClientRect();
+
+  let left = event.clientX - rootContainer.left;
+  let top = event.clientY - rootContainer.top;
+
   context.active = true;
-
+  // wait for the next tick to get the actual size of the context menu
   nextTick(() => {
-    const rootBbox = app.root.getBoundingClientRect();
-    const areaContainer = area.getBoundingClientRect();
+    // get the actual size of the context menu
+    const menuContainer = contextmenu.value?.getBoundingClientRect();
 
-    let left = event.pageX - rootBbox.left;
-    let top = event.pageY - rootBbox.top;
-    let menuHeight = contextmenu.value.offsetHeight;
-    let menuWidth = contextmenu.value.offsetWidth;
+    let menuHeight = menuContainer?.height ?? 0;
+    let menuWidth = menuContainer?.width ?? 0;
 
+    // check if the context menu is out of the container area
     left = (areaContainer.right - event.pageX + window.scrollX) < menuWidth ? left - menuWidth : left;
     top = (areaContainer.bottom - event.pageY + window.scrollY) < menuHeight ? top - menuHeight : top;
 
