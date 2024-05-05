@@ -68,13 +68,13 @@ const menuItems = {
   refresh: {
     title: () => t('Refresh'),
     action: () => {
-      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.data.adapter, path: app.data.dirname}});
+      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
     },
   },
   preview: {
     key: FEATURES.PREVIEW,
     title: () => t('Preview'),
-    action: () => app.modal.open(ModalPreview, {adapter: app.data.adapter, item: selectedItems.value[0]}),
+    action: () => app.modal.open(ModalPreview, {adapter: app.fs.adapter, item: selectedItems.value[0]}),
   },
   open: {
     title: () => t('Open'),
@@ -83,7 +83,7 @@ const menuItems = {
       app.emitter.emit('vf-fetch', {
         params: {
           q: 'index',
-          adapter: app.data.adapter,
+          adapter: app.fs.adapter,
           path: selectedItems.value[0].path
         }
       });
@@ -96,7 +96,7 @@ const menuItems = {
       app.emitter.emit('vf-fetch', {
         params: {
           q: 'index',
-          adapter: app.data.adapter,
+          adapter: app.fs.adapter,
           path: (selectedItems.value[0].dir)
         }
       });
@@ -104,7 +104,7 @@ const menuItems = {
   },
   download: {
     key: FEATURES.DOWNLOAD,
-    link: computed(() => app.requester.getDownloadUrl(app.data.adapter, selectedItems.value[0])),
+    link: computed(() => app.requester.getDownloadUrl(app.fs.adapter, selectedItems.value[0])),
     title: () => t('Download'),
     action: () => {
     },

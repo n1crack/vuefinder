@@ -45,8 +45,8 @@ const createFolder = () => {
       params: {
         q: 'newfolder',
         m: 'post',
-        adapter: app.adapter,
-        path: app.data.dirname,
+        adapter: app.fs.adapter,
+        path: app.fs.data.dirname,
       },
       body: {
         name: name.value

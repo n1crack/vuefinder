@@ -9,6 +9,7 @@ import { format as filesizeDefault, metricFormat as filesizeMetric } from './uti
 import useTheme from './composables/useTheme.js';
 import useModal from "./composables/useModal.js";
 import useDragSelect from "./composables/useDragSelect.js";
+import useData from "./composables/useData.js";
 
 export default (props, options) => {
     const storage = useStorage(props.id);
@@ -17,6 +18,7 @@ export default (props, options) => {
     const theme = useTheme(storage, props.theme);
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
+    const adapter = storage.getStore('adapter');
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
@@ -38,8 +40,6 @@ export default (props, options) => {
         version: version,
         // root element
         root: null,
-        // loading state
-        loading: false,
         // app id
         debug: props.debug,
         // Event Bus
@@ -82,15 +82,7 @@ export default (props, options) => {
         // show thumbnails
         showThumbnails: storage.getStore('show-thumbnails', props.showThumbnails),
 
-        /*
-        * Items
-        * */
-
-        // main storage adapter
-        adapter: storage.getStore('adapter'),
-        // current active path
-        path: path,
-        // fetched items
-        data: {adapter: storage.getStore('adapter'), storages: [], dirname: path, files: []},
+        // file system
+        fs: useData(adapter, path),
     });
 }

@@ -52,7 +52,7 @@
     <div class="flex text-center" v-else>
       <div class="pl-2"> {{ t('Search results for') }} <span
           class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ searchQuery }}</span></div>
-      <LoadingSVG v-if="app.loading"/>
+      <LoadingSVG v-if="app.fs.loading"/>
     </div>
 
     <div class="flex text-center items-center justify-end">

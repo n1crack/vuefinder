@@ -57,7 +57,7 @@
           <div class="relative">
             <img src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                  class="lazy h-10 md:h-12 m-auto" v-if="(item.mime_type ?? '').startsWith('image') && app.showThumbnails"
-                 :data-src="app.requester.getPreviewUrl(app.adapter, item)" :alt="item.basename" :key="item.path">
+                 :data-src="app.requester.getPreviewUrl(app.fs.adapter, item)" :alt="item.basename" :key="item.path">
             <ItemIcon :type="item.type" v-else/>
             <div class="absolute hidden md:block top-1/2 w-full text-center text-neutral-500"
                  v-if="!((item.mime_type ?? '').startsWith('image') && app.showThumbnails) && item.type !== 'dir'" >
@@ -108,8 +108,8 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
     app.emitter.emit('vf-fetch', {
       params: {
         q: 'search',
-        adapter: app.data.adapter,
-        path: app.data.dirname,
+        adapter: app.fs.adapter,
+        path: app.fs.data.dirname,
         filter: newQuery
       },
       onSuccess: (data) => {
@@ -119,7 +119,7 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
       }
     });
   } else {
-    app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.data.adapter, path: app.data.dirname}});
+    app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
   }
 });
 
@@ -145,7 +145,7 @@ const handleTouchStart = (event) => {
 const sort = reactive({active: false, column: '', order: ''});
 
 const getItems = (sorted = true) => {
-  let files = [...app.data.files],
+  let files = [...app.fs.data.files],
       column = sort.column,
       order = sort.order === 'asc' ? 1 : -1;
 

@@ -112,17 +112,16 @@ app.root = root;
 const ds = app.dragSelect;
 
 const updateItems = (data) => {
-  Object.assign(app.data, data);
+  Object.assign(app.fs.data, data);
   ds.clearSelection();
   ds.refreshSelection();
-  app.emitter.emit('vf-explorer-update');
 };
 
 /** @type {AbortController} */
 let controller;
 app.emitter.on('vf-fetch-abort', () => {
   controller.abort();
-  app.loading = false;
+  app.fs.loading = false;
 });
 
 // Fetch data
@@ -131,7 +130,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     if (controller) {
       controller.abort();
     }
-    app.loading = true;
+    app.fs.loading = true;
   }
 
   controller = new AbortController();
@@ -143,14 +142,14 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     body,
     abortSignal: signal,
   }).then(data => {
-    app.adapter = data.adapter;
+    app.fs.adapter = data.adapter;
     if (app.persist) {
-      app.path = data.dirname;
-      setStore('path', app.path);
+      app.fs.path = data.dirname;
+      setStore('path', app.fs.path);
     }
 
     if (['index', 'search'].includes(params.q)) {
-      app.loading = false;
+      app.fs.loading = false;
     }
     if (!noCloseModal) {
       app.modal.close();
@@ -169,19 +168,20 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
 
 // fetch initial data
 onMounted(() => {
-  // app.adapter can be null at first, until we get the adapter list it will be the first one from response
+  // app.fs.adapter can be null at first, until we get the adapter list it will be the first one from response
   // later we can set default adapter from a prop value
 
   // if there is a path coming from the prop, we should use it.
   let pathExists = {};
-  if (app.path.includes("://")) {
+
+  if (app.fs.path.includes("://")) {
     pathExists = {
-      adapter: app.path.split("://")[0],
-      path: app.path
+      adapter: app.fs.path.split("://")[0],
+      path: app.fs.path
     };
   }
 
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter, ...pathExists}});
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, ...pathExists}});
 
   // Emit select event
   ds.onSelect((items) => {

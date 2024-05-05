@@ -6,42 +6,42 @@
           @dragover="handleDragOver($event)"
           @dragleave="handleDragLeave($event)"
           @drop="handleDropZone($event)"
-          @click="!isGoUpAvailable() || app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:breadcrumb[breadcrumb.length-2]?.path ?? (app.adapter + '://')}} )"
-          :class="isGoUpAvailable() ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'"
+          @click="handleGoUp"
+          :class="app.fs.isGoUpAvailable() ? 'text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer' : 'text-gray-400 dark:text-neutral-500'"
       />
     </span>
-    <span :aria-label="t('Refresh')" data-microtip-position="bottom-right" role="tooltip" v-if="!app.loading">
-      <RefreshSVG
-          @click="app.emitter.emit('vf-fetch',{params:{q: 'index', adapter: app.data.adapter, path: app.data.dirname}} );"/>
+
+    <span :aria-label="t('Refresh')" data-microtip-position="bottom-right" role="tooltip" v-if="!app.fs.loading">
+      <RefreshSVG @click="handleRefresh"/>
     </span>
     <span :aria-label="t('Cancel')" data-microtip-position="bottom-right" role="tooltip" v-else>
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-if="!searchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full"
+    <div v-if="!app.fs.searchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full"
          @click.self="enterSearchMode">
       <HomeSVG
           @dragover="handleDragOver($event)"
           @dragleave="handleDragLeave($event)"
           @drop="handleDropZone($event, -1)"
-          @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter}})"/>
+          @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter}})"/>
 
       <div class="flex leading-6">
-        <div v-for="(item, index) in breadcrumb" :key="index">
+        <div v-for="(item, index) in app.fs.breadcrumbs" :key="index">
           <span class="text-neutral-300 dark:text-gray-600 mx-0.5">/</span>
           <span
-              @dragover="(index === breadcrumb.length - 1) || handleDragOver($event)"
-              @dragleave="(index === breadcrumb.length - 1) || handleDragLeave($event)"
-              @drop="(index === breadcrumb.length - 1) || handleDropZone($event, index)"
+              @dragover="(index === app.fs.breadcrumbs.length - 1) || handleDragOver($event)"
+              @dragleave="(index === app.fs.breadcrumbs.length - 1) || handleDragLeave($event)"
+              @drop="(index === app.fs.breadcrumbs.length - 1) || handleDropZone($event, index)"
               class="px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer"
               :title="item.basename"
-              @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.data.adapter, path:item.path}})">{{
+              @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter, path:item.path}})">{{
               item.name
             }}</span>
         </div>
       </div>
 
-      <LoadingSVG v-if="app.loading"/>
+      <LoadingSVG v-if="app.fs.loading"/>
     </div>
     <div v-else class="relative flex bg-white dark:bg-gray-700 justify-between items-center rounded p-1 ml-2 w-full">
       <div>
@@ -74,9 +74,6 @@ import SearchSVG from "./icons/search.svg";
 import LoadingSVG from "./icons/loading.svg";
 import ExitSVG from "./icons/exit.svg";
 
-const dirname = ref(null);
-const breadcrumb = ref([]);
-const searchMode = ref(false);
 const searchInput = ref(null);
 
 const app = inject('ServiceContainer');
@@ -84,38 +81,8 @@ const {t} = app.i18n;
 
 const ds = app.dragSelect;
 
-app.emitter.on('vf-explorer-update', () => {
-  let items = [], links = [];
-  dirname.value = app.data.dirname ?? (app.adapter + '://');
-
-  if (dirname.value.length === 0) {
-    breadcrumb.value = [];
-  }
-  dirname.value
-      .replace(app.adapter + '://', '')
-      .split('/')
-      .forEach(function (item) {
-        items.push(item);
-        if (items.join('/') !== '') {
-          links.push({
-            'basename': item,
-            'name': item,
-            'path': app.adapter + '://' + items.join('/'),
-            'type': 'dir'
-          });
-        }
-      });
-
-  if (links.length > 4) {
-    links = links.slice(-5);
-    links[0].name = '..';
-  }
-
-  breadcrumb.value = links;
-});
-
 const exitSearchMode = () => {
-  searchMode.value = false;
+  app.fs.searchMode = false;
   query.value = '';
 }
 
@@ -127,7 +94,7 @@ const enterSearchMode = () => {
   if (!app.features.includes(FEATURES.SEARCH)) {
     return;
   }
-  searchMode.value = true;
+  app.fs.searchMode = true;
   nextTick(() => searchInput.value.focus())
 }
 
@@ -138,32 +105,33 @@ watch(query, newQuery => {
   app.emitter.emit('vf-search-query', {newQuery});
 });
 
-const isGoUpAvailable = () => {
-  return breadcrumb.value.length && !searchMode.value;
-};
-
 const handleDropZone = (e, index = null) => {
   e.preventDefault();
 
   ds.isDraggingRef.value = false;
   handleDragLeave(e);
 
-  index ??= breadcrumb.value.length - 2;
+  index ??= app.fs.breadcrumbs.length - 2;
 
   let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
 
-  if (draggedItems.find(item => item.storage !== app.adapter)) {
+  if (draggedItems.find(item => item.storage !== app.fs.adapter)) {
     alert('Moving items between different storages is not supported yet.');
     return;
   }
 
-  app.modal.open(ModalMove, {items: {from: draggedItems, to: breadcrumb.value[index] ?? {path: (app.adapter + '://')}}})
+  app.modal.open(ModalMove, {
+    items: {
+      from: draggedItems,
+      to: app.fs.breadcrumbs[index] ?? {path: (app.fs.adapter + '://')}
+    }
+  })
 };
 
 const handleDragOver = (e) => {
   e.preventDefault();
 
-  if (isGoUpAvailable()) {
+  if (app.fs.isGoUpAvailable()) {
     e.dataTransfer.dropEffect = 'copy';
     e.currentTarget.classList.add('bg-blue-200', 'dark:bg-slate-500');
   } else {
@@ -171,15 +139,34 @@ const handleDragOver = (e) => {
     e.dataTransfer.effectAllowed = 'none';
   }
 };
+
 const handleDragLeave = (e) => {
   e.preventDefault();
 
   e.currentTarget.classList.remove('bg-blue-200', 'dark:bg-slate-500');
 
-  if (isGoUpAvailable()) {
+  if (app.fs.isGoUpAvailable()) {
     e.currentTarget.classList.remove('bg-blue-200', 'dark:bg-slate-500');
   }
 };
+
+const handleRefresh = () => {
+  exitSearchMode();
+  app.emitter.emit('vf-fetch',{params:{q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}} );
+}
+
+const handleGoUp = () => {
+  exitSearchMode();
+
+  !app.fs.isGoUpAvailable() || app.emitter.emit('vf-fetch', {
+    params: {
+      q: 'index',
+      adapter: app.fs.adapter,
+      path: app.fs.breadcrumbs[app.fs.breadcrumbs.length - 2]?.path ?? (app.fs.adapter + '://')
+    }
+  })
+}
+
 
 const handleBlur = () => {
   if (query.value === '') {

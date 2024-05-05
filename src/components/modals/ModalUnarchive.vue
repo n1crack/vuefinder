@@ -18,7 +18,7 @@
               </svg>
             <span class="ml-1.5">{{ item.basename }}</span>
           </p>
-          <p class="my-1 text-sm text-gray-500">{{ t('The archive will be unarchived at')}} ({{app.data.dirname}})</p>
+          <p class="my-1 text-sm text-gray-500">{{ t('The archive will be unarchived at')}} ({{app.fs.data.dirname}})</p>
 
           <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
@@ -51,8 +51,8 @@ const unarchive = () => {
     params: {
       q: 'unarchive',
       m: 'post',
-      adapter: app.adapter,
-      path: app.data.dirname,
+      adapter: app.fs.adapter,
+      path: app.fs.data.dirname,
     },
     body: {
       item: item.value.path

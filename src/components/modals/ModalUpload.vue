@@ -289,7 +289,7 @@ function buildReqParams() {
   return app.requester.transformRequestParams({
     url: '',
     method: 'post',
-    params: { q: 'upload', adapter: app.data.adapter, path: app.data.dirname },
+    params: { q: 'upload', adapter: app.fs.adapter, path: app.fs.data.dirname },
   });
 }
 
@@ -394,14 +394,14 @@ onMounted(async () => {
     message.value = error.message;
     uploading.value = false;
     app.emitter.emit('vf-fetch', {
-      params: { q: 'index', adapter: app.data.adapter, path: app.data.dirname },
+      params: { q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname },
       noCloseModal: true,
     });
   })
   uppy.on('complete', () => {
     uploading.value = false;
     app.emitter.emit('vf-fetch', {
-      params: { q: 'index', adapter: app.data.adapter, path: app.data.dirname },
+      params: { q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname },
       noCloseModal: true,
     });
   });

@@ -33,9 +33,9 @@ const props = defineProps({
 const openItem = (item) => {
   if (item.type === 'dir') {
     app.emitter.emit('vf-search-exit');
-    app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.data.adapter, path: item.path}});
+    app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: item.path}});
   } else {
-    app.modal.open(ModalPreview, {adapter: app.data.adapter, item})
+    app.modal.open(ModalPreview, {adapter: app.fs.adapter, item})
   }
 };
 
@@ -74,7 +74,7 @@ const handleDropZone = (e, item) => {
   ds.isDraggingRef.value = false;
   let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
 
-  if (draggedItems.find(item => item.storage !== app.adapter)) {
+  if (draggedItems.find(item => item.storage !== app.fs.adapter)) {
     alert('Moving items between different storages is not supported yet.');
     return;
   }

@@ -4,14 +4,14 @@
       <div class="mx-2" :aria-label="t('Storage')" data-microtip-position="top-right" role="tooltip">
         <StorageSVG/>
       </div>
-      <select v-model="app.adapter" @change="handleStorageSelect" class="py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8">
-        <option v-for="storage in app.data.storages" :value="storage">
+      <select v-model="app.fs.adapter" @change="handleStorageSelect" class="py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8">
+        <option v-for="storage in app.fs.data.storages" :value="storage">
           {{ storage }}
         </option>
       </select>
 
      <div class="ml-3">
-       <span v-if="searchQuery.length">{{ app.data.files.length }} items found. </span>
+       <span v-if="searchQuery.length">{{ app.fs.data.files.length }} items found. </span>
        <span class="ml-1">{{ app.dragSelect.getCount() > 0 ? t('%s item(s) selected.', app.dragSelect.getCount()) : '' }}</span>
      </div>
     </div>
@@ -42,8 +42,8 @@ const  ds = app.dragSelect;
 
 const handleStorageSelect = () => {
   app.emitter.emit('vf-search-exit');
-  app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.adapter}});
-  setStore('adapter', app.adapter);
+  app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter}});
+  setStore('adapter', app.fs.adapter);
 };
 
 const searchQuery = ref('');

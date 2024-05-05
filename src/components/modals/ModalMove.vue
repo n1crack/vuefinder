@@ -67,8 +67,8 @@ const move = () => {
       params: {
         q: 'move',
         m: 'post',
-        adapter: app.adapter,
-        path: app.data.dirname,
+        adapter: app.fs.adapter,
+        path: app.fs.data.dirname,
       },
       body: {
         items: items.value.map(({path, type}) => ({path, type})),

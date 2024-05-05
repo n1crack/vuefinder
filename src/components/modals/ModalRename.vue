@@ -51,8 +51,8 @@ const rename = () => {
       params: {
         q: 'rename',
         m: 'post',
-        adapter: app.adapter,
-        path: app.data.dirname,
+        adapter: app.fs.adapter,
+        path: app.fs.data.dirname,
       },
       body: {
         item: item.value.path,
