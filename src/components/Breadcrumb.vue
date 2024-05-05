@@ -74,36 +74,10 @@ import SearchSVG from "./icons/search.svg";
 import LoadingSVG from "./icons/loading.svg";
 import ExitSVG from "./icons/exit.svg";
 
-const searchInput = ref(null);
-
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
 const ds = app.dragSelect;
-
-const exitSearchMode = () => {
-  app.fs.searchMode = false;
-  query.value = '';
-}
-
-app.emitter.on('vf-search-exit', () => {
-  exitSearchMode();
-});
-
-const enterSearchMode = () => {
-  if (!app.features.includes(FEATURES.SEARCH)) {
-    return;
-  }
-  app.fs.searchMode = true;
-  nextTick(() => searchInput.value.focus())
-}
-
-const query = useDebouncedRef('', 400);
-
-watch(query, newQuery => {
-  app.emitter.emit('vf-toast-clear');
-  app.emitter.emit('vf-search-query', {newQuery});
-});
 
 const handleDropZone = (e, index = null) => {
   e.preventDefault();
@@ -166,6 +140,37 @@ const handleGoUp = () => {
     }
   })
 }
+
+/**
+ *
+ * Search
+ */
+
+const searchInput = ref(null);
+
+const enterSearchMode = () => {
+  if (!app.features.includes(FEATURES.SEARCH)) {
+    return;
+  }
+  app.fs.searchMode = true;
+  nextTick(() => searchInput.value.focus())
+}
+
+const query = useDebouncedRef('', 400);
+
+watch(query, newQuery => {
+  app.emitter.emit('vf-toast-clear');
+  app.emitter.emit('vf-search-query', {newQuery});
+});
+
+const exitSearchMode = () => {
+  app.fs.searchMode = false;
+  query.value = '';
+}
+
+app.emitter.on('vf-search-exit', () => {
+  exitSearchMode();
+});
 
 
 const handleBlur = () => {
