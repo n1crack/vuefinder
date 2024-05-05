@@ -27,6 +27,32 @@
           @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter}})"/>
 
       <div class="flex leading-6">
+
+        <div v-if="app.fs.hiddenBreadcrumbs.length" class="flex" v-click-outside="() => app.fs.toggleHiddenBreadcrumbs(false)">
+          <div class="text-neutral-300 dark:text-gray-600 mx-0.5">/</div>
+          <div class="relative">
+            <span @click="app.fs.toggleHiddenBreadcrumbs()"
+                   class="text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer">
+              <DotsSVG class="px-1" />
+            </span>
+
+            <div v-show="app.fs.showHiddenBreadcrumbs"
+                class="z-30 absolute rounded -mx-1.5 mt-1 bg-neutral-50 dark:bg-gray-800 max-w-80 max-h-40 shadow overflow-y-auto text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600">
+              <div
+                  v-for="(item, index) in app.fs.hiddenBreadcrumbs" :key="index"
+                  @dragover="handleDragOver($event)"
+                  @dragleave="handleDragLeave($event)"
+                  @drop="handleHiddenBreadcrumbDropZone($event, index)"
+                  @click="handleHiddenBreadcrumbsClick(item)"
+                  class="flex px-2 py-0.5 hover:bg-gray-400/20 cursor-pointer items-center whitespace-nowrap   " >
+                <span><FolderSVG class="h-5 w-5" /></span> <span class="inline-block w-full text-ellipsis overflow-hidden">{{ item.name}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex leading-6">
         <div v-for="(item, index) in app.fs.breadcrumbs" :key="index">
           <span class="text-neutral-300 dark:text-gray-600 mx-0.5">/</span>
           <span
@@ -73,11 +99,37 @@ import HomeSVG from "./icons/home.svg";
 import SearchSVG from "./icons/search.svg";
 import LoadingSVG from "./icons/loading.svg";
 import ExitSVG from "./icons/exit.svg";
+import FolderSVG from './icons/folder.svg';
+import DotsSVG from './icons/dots.svg';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
 const ds = app.dragSelect;
+
+
+const handleHiddenBreadcrumbDropZone = (e, index = null) => {
+  e.preventDefault();
+
+  ds.isDraggingRef.value = false;
+  handleDragLeave(e);
+
+  index ??= app.fs.hiddenBreadcrumbs.length - 1;
+
+  let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
+
+  if (draggedItems.find(item => item.storage !== app.fs.adapter)) {
+    alert('Moving items between different storages is not supported yet.');
+    return;
+  }
+
+  app.modal.open(ModalMove, {
+    items: {
+      from: draggedItems,
+      to: app.fs.hiddenBreadcrumbs[index] ?? {path: (app.fs.adapter + '://')}
+    }
+  })
+};
 
 const handleDropZone = (e, index = null) => {
   e.preventDefault();
@@ -107,7 +159,7 @@ const handleDragOver = (e) => {
 
   if (app.fs.isGoUpAvailable()) {
     e.dataTransfer.dropEffect = 'copy';
-    e.currentTarget.classList.add('bg-blue-200', 'dark:bg-slate-500');
+    e.currentTarget.classList.add('bg-blue-200', 'dark:bg-slate-600');
   } else {
     e.dataTransfer.dropEffect = 'none';
     e.dataTransfer.effectAllowed = 'none';
@@ -117,15 +169,16 @@ const handleDragOver = (e) => {
 const handleDragLeave = (e) => {
   e.preventDefault();
 
-  e.currentTarget.classList.remove('bg-blue-200', 'dark:bg-slate-500');
+  e.currentTarget.classList.remove('bg-blue-200', 'dark:bg-slate-600');
 
   if (app.fs.isGoUpAvailable()) {
-    e.currentTarget.classList.remove('bg-blue-200', 'dark:bg-slate-500');
+    e.currentTarget.classList.remove('bg-blue-200', 'dark:bg-slate-600');
   }
 };
 
 const handleRefresh = () => {
   exitSearchMode();
+
   app.emitter.emit('vf-fetch',{params:{q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}} );
 }
 
@@ -136,10 +189,31 @@ const handleGoUp = () => {
     params: {
       q: 'index',
       adapter: app.fs.adapter,
-      path: app.fs.breadcrumbs[app.fs.breadcrumbs.length - 2]?.path ?? (app.fs.adapter + '://')
+      path: app.fs.parentFolderPath
     }
   })
 }
+
+const handleHiddenBreadcrumbsClick = (item) => {
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: item.path}});
+  app.fs.toggleHiddenBreadcrumbs(false);
+}
+
+const vClickOutside = {
+  mounted(el, binding, vnode, prevVnode) {
+    el.clickOutsideEvent = function (event) {
+      // here I check that click was outside the el and his children
+      if (!(el === event.target || el.contains(event.target))) {
+        // and if it did, call method provided in attribute value
+        binding.value();
+      }
+    };
+    document.body.addEventListener('click', el.clickOutsideEvent)
+  },
+  beforeUnmount(el, binding, vnode, prevVnode) {
+    document.body.removeEventListener('click', el.clickOutsideEvent)
+  }
+};
 
 /**
  *
