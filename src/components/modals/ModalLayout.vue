@@ -24,12 +24,9 @@
 import {inject, onMounted} from 'vue';
 
 const app = inject('ServiceContainer')
-
 onMounted(() => {
   const inputElements = document.querySelector('.v-f-modal input')
-  if (inputElements) {
-    inputElements.focus();
-  }
+  setTimeout(() => inputElements && inputElements.focus(), 100)
 })
 </script>
 
