@@ -4,7 +4,7 @@
       <div
           :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded'"
           :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
-          class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
+          class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')">
         <Toolbar/>
