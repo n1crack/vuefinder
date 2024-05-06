@@ -25,6 +25,7 @@ export default function () {
             if (isDragging) {
                 dragSelectInstance.Interaction._reset(event);
             } else {
+                isDraggingRef.value = false;
                 // Prevent starting selection when start resizing the selectable area from the corner.
                 const offsetX = area.value.offsetWidth - event.offsetX;
                 const offsetY = area.value.offsetHeight - event.offsetY;
