@@ -1,5 +1,5 @@
 <template>
-  <v-f-modal-layout>
+  <ModalLayout>
     <div class="sm:flex sm:items-start">
       <div
           class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
@@ -32,6 +32,48 @@
                   <div class="flex-1 block text-sm">
                     <label for="metric_unit" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
                       {{ t('Use Metric Units') }} <action-message class="ms-3" on="vf-metric-units-saved">{{ t('Saved.') }}</action-message>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="flex relative gap-x-3">
+                  <div class="h-6 items-center">
+                    <input id="large_icons" name="large_icons" type="checkbox"
+                           v-model="app.compactListView"
+                           @click="handleCompactListView"
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
+                  </div>
+                  <div class="flex-1 block text-sm">
+                    <label for="large_icons" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
+                      {{ t('Compact list view') }} <action-message class="ms-3" on="vf-compact-view-saved">{{ t('Saved.') }}</action-message>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="flex relative gap-x-3">
+                  <div class="h-6 items-center">
+                    <input id="persist_path" name="persist_path" type="checkbox"
+                           v-model="app.persist"
+                           @click="handlePersistPath"
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
+                  </div>
+                  <div class="flex-1 block text-sm">
+                    <label for="persist_path" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
+                      {{ t('Persist path on reload') }} <action-message class="ms-3" on="vf-persist-path-saved">{{ t('Saved.') }}</action-message>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="flex relative gap-x-3">
+                  <div class="h-6 items-center">
+                    <input id="show_thumbnails" name="show_thumbnails" type="checkbox"
+                           v-model="app.showThumbnails"
+                           @click="handleShowThumbnails"
+                           class="h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600">
+                  </div>
+                  <div class="flex-1 block text-sm">
+                    <label for="show_thumbnails" class="flex w-full font-medium text-gray-900 dark:text-gray-400">
+                      {{ t('Show thumbnails') }} <action-message class="ms-3" on="vf-show-thumbnails-saved">{{ t('Saved.') }}</action-message>
                     </label>
                   </div>
                 </div>
@@ -80,21 +122,15 @@
       </div>
     </div>
     <template v-slot:buttons>
-      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
+      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">
         {{ t('Close') }}
       </button>
     </template>
-  </v-f-modal-layout>
+  </ModalLayout>
 </template>
 
-<script>
-export default {
-  name: 'VFModalAbout'
-};
-</script>
-
 <script setup>
-import VFModalLayout from './ModalLayout.vue';
+import ModalLayout from './ModalLayout.vue';
 import {computed, inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";
 import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize.js'
@@ -102,11 +138,8 @@ import { format as filesizeDefault, metricFormat as filesizeMetric } from '../..
 import { FEATURES } from '../features.js';
 
 const app = inject('ServiceContainer');
-const {getStore, setStore, clearStore} = app.storage;
+const {setStore, clearStore} = app.storage;
 const {t, changeLocale, locale} = app.i18n;
-
-const name = ref('');
-const message = ref('');
 
 const clearLocalStorage = async () => {
   clearStore();
@@ -125,6 +158,28 @@ const handleMetricUnits = () => {
   setStore('metricUnits', app.metricUnits);
   app.emitter.emit('vf-metric-units-saved');
 }
+
+const handleCompactListView = () => {
+  app.compactListView = !app.compactListView;
+
+  setStore('compactListView', app.compactListView);
+  app.emitter.emit('vf-compact-view-saved');
+}
+
+const handleShowThumbnails = () => {
+  app.showThumbnails = !app.showThumbnails;
+
+  setStore('show-thumbnails', app.showThumbnails);
+  app.emitter.emit('vf-show-thumbnails-saved');
+}
+
+const handlePersistPath = () => {
+  app.persist = !app.persist;
+
+  setStore('persist-path', app.persist);
+  app.emitter.emit('vf-persist-path-saved');
+}
+
 
 const {i18n} = inject('VueFinderOptions');
 

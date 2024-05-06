@@ -16,12 +16,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Message'
-};
-</script>
-
 <script setup>
 import {ref, watch, inject} from 'vue';
 

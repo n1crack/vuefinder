@@ -5,7 +5,7 @@ const postcss = require("postcss");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
+    "./src/**/*.{vue,js,ts,jsx,tsx,svg}",
   ],
   important: '.vuefinder',
   darkMode: 'class',

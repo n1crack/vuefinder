@@ -2,10 +2,12 @@ import {defineConfig} from 'vite'
 import {resolve} from 'path'
 import vue from '@vitejs/plugin-vue'
 import copy from 'rollup-plugin-copy'
+import svgLoader from 'vite-svg-loader'
 
 export default defineConfig({
     plugins: [
         vue(),
+        svgLoader(),
         copy({
             targets: [
                 {src: 'src/locales/*', dest: 'dist/locales'},

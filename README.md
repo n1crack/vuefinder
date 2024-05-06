@@ -132,7 +132,7 @@ when you set the select-button active to true, the select button will be visible
   :select-button="handleSelectButton"
 />
 
-<script>
+<script setup>
   // other codes
 
   const handleSelectButton = {
@@ -161,7 +161,7 @@ Alternatively, you can use the select event to get the selected items.
   @select="handleSelect"
 />
 
-<script>
+<script setup>
   // other codes
   
   // we can define a ref object to store the selected items
