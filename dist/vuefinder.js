@@ -186,7 +186,7 @@ const O = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, rt = Object.values(O), nt = "2.3.3";
+}, rt = Object.values(O), nt = "2.3.4";
 function De(l, e, a, r, o) {
   return (e = Math, a = e.log, r = 1024, o = a(l) / a(r) | 0, l / e.pow(r, o)).toFixed(0) + " " + (o ? "KMGTPEZY"[--o] + "iB" : "B");
 }
@@ -273,6 +273,7 @@ function ct() {
     l && l.Area.reset();
   }), {
     instance: l,
+    getInstance: () => l,
     area: e,
     explorerId: a,
     isDraggingRef: r,
@@ -2866,7 +2867,7 @@ const kn = { render: wn }, yn = { class: "absolute -z-50 -top-96" }, $n = { clas
       }) : e.emitter.emit("vf-fetch", { params: { q: "index", adapter: e.fs.adapter, path: e.fs.data.dirname } });
     });
     const d = x(!0), f = (h) => {
-      h.touches.length > 1 && (d.value ? (i.instance.stop(), e.emitter.emit("vf-toast-push", { label: a("Drag&Drop: off") })) : (i.instance.start(), e.emitter.emit("vf-toast-push", { label: a("Drag&Drop: on") }), i.refreshSelection()), d.value = !d.value);
+      h.touches.length > 1 && (d.value ? (i.getInstance().stop(), e.emitter.emit("vf-toast-push", { label: a("Drag&Drop: off") })) : (i.getInstance().start(), e.emitter.emit("vf-toast-push", { label: a("Drag&Drop: on") }), i.refreshSelection()), d.value = !d.value);
     }, g = de({ active: !1, column: "", order: "" }), b = (h = !0) => {
       let _ = [...e.fs.data.files], w = g.column, y = g.order === "asc" ? 1 : -1;
       if (!h)
