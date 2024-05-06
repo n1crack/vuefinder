@@ -102,23 +102,16 @@ app.emitter.on('vf-explorer-update', () => {
   let items = [], links = [];
   dirname.value = app.data.dirname ?? (app.adapter + '://');
 
-  if (dirname.value.length == 0) {
-    breadcrumb.value = [];
-  }
-  dirname.value
-      .replace(app.adapter + '://', '')
-      .split('/')
-      .forEach(function (item) {
-        items.push(item);
-        if (items.join('/') != '') {
-          links.push({
-            'basename': item,
-            'name': item,
-            'path': app.adapter + '://' + items.join('/'),
-            'type': 'dir'
-          });
-        }
-      });
+  app.fs.limitBreadcrumbItems(max_shown_items);
+  nextTick(() => {
+    console.log('width updated');
+    for (let i = children.length-1; i >= 0; i--) {
+      if (totalWidth + children[i].offsetWidth > breadcrumbContainerWidth.value - 40) {
+        break;
+      }
+      totalWidth += parseInt(children[i].offsetWidth, 10);
+      count++;
+    }
 
   if (links.length > 4) {
     links = links.slice(-5);
