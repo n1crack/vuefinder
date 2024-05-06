@@ -18,7 +18,7 @@
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-show="!app.fs.searchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full overflow-hidden">
+    <div v-show="!app.fs.searchMode" @click.self="enterSearchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full overflow-hidden">
       <div>
         <HomeSVG
           @dragover="handleDragOver($event)"
