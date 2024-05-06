@@ -269,7 +269,8 @@ const enterSearchMode = () => {
     return;
   }
   app.fs.searchMode = true;
-  nextTick(() => searchInput.value.focus())
+  searchInput.value.focus();
+  nextTick(() => searchInput.value.focus());
 }
 
 const query = useDebouncedRef('', 400);
