@@ -87,6 +87,7 @@ export default function () {
 
     return {
         instance: dragSelectInstance,
+        getInstance : () => dragSelectInstance,
         area,
         explorerId,
         isDraggingRef,
