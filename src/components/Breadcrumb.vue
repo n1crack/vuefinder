@@ -112,6 +112,40 @@ const {t} = app.i18n;
 
 const ds = app.dragSelect;
 
+// dynamic shown items calculation for breadcrumbs
+const breadcrumbContainer = ref(null);
+const breadcrumbContainerWidth = useDebouncedRef(0,100);
+watch(breadcrumbContainerWidth, newQuery => {
+  const children = breadcrumbContainer.value.children;
+  let totalWidth = 0;
+  let count = 0;
+  let max_shown_items = 5;
+  let min_shown_items = 1;
+
+  app.fs.limitBreadcrumbItems(max_shown_items);
+  nextTick(() => {
+    for (let i = 0; i < children.length; i++) {
+      if (totalWidth + children[i].offsetWidth > breadcrumbContainerWidth.value - 100) {
+        break;
+      }
+      totalWidth += parseInt(children[i].offsetWidth, 10);
+      count++;
+    }
+
+    if (count < min_shown_items) count = min_shown_items;
+    if (count > max_shown_items) count = max_shown_items;
+
+    app.fs.limitBreadcrumbItems(count);
+  });
+});
+
+const updateContainerWidth = () => {
+    breadcrumbContainerWidth.value = breadcrumbContainer.value.offsetWidth;
+}
+onMounted(() => {
+  new ResizeObserver(updateContainerWidth).observe(breadcrumbContainer.value);
+});
+
 
 const handleHiddenBreadcrumbDropZone = (e, index = null) => {
   e.preventDefault();
