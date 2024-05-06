@@ -131,11 +131,11 @@ const dragAndDrop = ref(true);
 const handleTouchStart = (event) => {
   if (event.touches.length > 1) {
     if (!dragAndDrop.value) {
-      ds.instance.start();
+      ds.getInstance().start();
       app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: on')});
       ds.refreshSelection();
     } else {
-      ds.instance.stop();
+      ds.getInstance().stop();
       app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: off')});
     }
     dragAndDrop.value = !dragAndDrop.value;
