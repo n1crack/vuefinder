@@ -87,5 +87,8 @@ export default {
   "Target Directory" : "پوشه مقصد",
   "Select": "انتخاب",
   "Compact list view": "نمایش لیست کوچک",
+  "Show thumbnails": "نمایش تصاویر کوچک",
+  "Persist path on reload": "مسیر را در هنگام بارگذاری مجدد ذخیره کن",
+  "Compact list view": "نمایش لیست کوچک",
   "uppy": uppyLocaleFa
 }

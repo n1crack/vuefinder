@@ -87,5 +87,8 @@ export default {
   "Target Directory" : "Hedef Klasör",
   "Select": "Seç",
   "Compact list view": "Kompakt liste görünümü",
+  "Show thumbnails": "Küçük resimleri göster",
+  "Persist path on reload": "Yeniden yüklemede yolu koru",
+  "Compact list view": "Kompakt liste görünümü",
   "uppy": uppyLocaleTr,
 }

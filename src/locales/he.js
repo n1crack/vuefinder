@@ -87,5 +87,8 @@ export default {
   "Target Directory" : "תיקיית יעד",
   "Select": "בחר",
   "Compact list view": "תצוגת רשימה קומפקטית",
+  "Show thumbnails": "הצג תמונות ממוזערות",
+  "Persist path on reload": "שמור נתיב בטעינה מחדש",
+  "Compact list view": "תצוגת רשימה קומפקטית",
   "uppy": uppyLocaleHe
 }

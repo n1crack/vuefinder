@@ -87,5 +87,8 @@ export default {
   "Target Directory": "目标目录",
   "Select": "选择",
   "Compact list view": "紧凑列表视图",
+  "Show thumbnails": "显示缩略图",
+  "Persist path on reload": "重新加载时保持路径",
+  "Compact list view": "紧凑列表视图",
   "uppy": uppyLocalezhCN
 }

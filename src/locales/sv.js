@@ -87,5 +87,8 @@ export default {
   "Target Directory" : "Mål katalog",
   "Select": "Välj",
   "Compact list view": "Kompakt listvy",
+  "Show thumbnails": "Visa miniatyrer",
+  "Persist path on reload": "Behåll sökväg vid omladdning",
+  "Compact list view": "Kompakt listvy",
   "uppy": uppyLocaleSv
 }

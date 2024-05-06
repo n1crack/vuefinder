@@ -87,5 +87,8 @@ export default {
   "Target Directory" : "Целевая директория",
   "Select": "Выбрать",
   "Compact list view": "Компактный вид списка",
+  "Show thumbnails": "Показать миниатюры",
+  "Persist path on reload": "Сохранить путь при перезагрузке",
+  "Compact list view": "Компактный вид списка",
   "uppy": uppyLocaleRu
 }
