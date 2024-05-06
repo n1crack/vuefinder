@@ -86,5 +86,9 @@ export default {
   "System": "系統",
   "Target Directory": "目標目錄",
   "Select": "選擇",
+  "Compact list view": "緊湊列表視圖",
+  "Show thumbnails": "顯示縮略圖",
+  "Persist path on reload": "重新加載時保持路徑",
+  "Compact list view": "緊湊列表視圖",
   "uppy": uppyLocalezhTW
 }

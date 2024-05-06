@@ -1,5 +1,5 @@
 <template>
-  <v-f-modal-layout>
+  <ModalLayout>
     <div class="sm:flex sm:items-start">
       <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div v-if="enabledPreview">
@@ -33,7 +33,7 @@
     </div>
 
     <template v-slot:buttons>
-      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">{{ t('Close') }}</button>
+      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">{{ t('Close') }}</button>
       <a
         target="_blank"
         class="vf-btn vf-btn-primary"
@@ -41,18 +41,12 @@
         :href="app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item)"
         v-if="app.features.includes(FEATURES.DOWNLOAD)">{{ t('Download') }}</a>
     </template>
-  </v-f-modal-layout>
+  </ModalLayout>
 </template>
-
-<script>
-export default {
-  name: 'VFModalPreview'
-};
-</script>
 
 <script setup>
 import {inject, ref} from 'vue';
-import VFModalLayout from './ModalLayout.vue';
+import ModalLayout from './ModalLayout.vue';
 import Text from '../previews/Text.vue';
 import Image from '../previews/Image.vue';
 import Default from '../previews/Default.vue';
@@ -66,11 +60,6 @@ const app = inject('ServiceContainer')
 const {t} = app.i18n
 const loaded = ref(false);
 const loadPreview = (type) => (app.modal.data.item.mime_type ?? '').startsWith(type)
-
-const download = () => {
-  const url = app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item);
-  app.emitter.emit('vf-download', url);
-}
 
 const enabledPreview = app.features.includes(FEATURES.PREVIEW)
 if (!enabledPreview) {

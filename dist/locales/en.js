@@ -86,5 +86,9 @@ export default {
   "System": "System",
   "Target Directory" : "Target Directory",
   "Select": "Select",
+  "Compact list view": "Compact list view",
+  "Show thumbnails": "Show thumbnails",
+  "Persist path on reload": "Persist path on reload",
+  "Compact list view": "Compact list view",
   "uppy": uppyLocaleEn
 }

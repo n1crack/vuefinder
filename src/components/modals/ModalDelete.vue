@@ -1,5 +1,5 @@
 <template>
-  <v-f-modal-layout>
+  <ModalLayout>
     <div class="sm:flex sm:items-start">
       <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
         <svg xmlns="http://www.w3.org/2000/svg"
@@ -30,27 +30,19 @@
     <template v-slot:buttons>
       <button type="button" @click="remove" class="vf-btn vf-btn-danger">
         {{ t('Yes, Delete!') }}</button>
-      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
+      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">
         {{ t('Cancel') }}</button>
       <div class="m-auto font-bold text-red-500 text-sm dark:text-red-200 text-center">{{ t('This action cannot be undone.') }}</div>
     </template>
-  </v-f-modal-layout>
+  </ModalLayout>
 </template>
 
-<script>
-export default {
-  name: 'VFModalDelete'
-};
-</script>
-
-
 <script setup>
-import VFModalLayout from './ModalLayout.vue';
+import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
 const app = inject('ServiceContainer');
-const {getStore} = app.storage;
 const {t} = app.i18n;
 
 const items = ref(app.modal.data.items);
@@ -63,8 +55,8 @@ const remove = () => {
       params: {
         q: 'delete',
         m: 'post',
-        adapter: app.adapter,
-        path: app.data.dirname,
+        adapter: app.fs.adapter,
+        path: app.fs.data.dirname,
       },
       body: {
         items: items.value.map(({path, type}) => ({path, type})),

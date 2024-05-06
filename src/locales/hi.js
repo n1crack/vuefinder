@@ -86,5 +86,9 @@ export default {
   "System": "सिस्टम",
   "Target Directory" : "लक्षित निर्देशिका",
   "Select": "चयन",
+  "Compact list view": "संक्षिप्त सूची दृश्य",
+  "Show thumbnails": "थंबनेल दिखाएं",
+  "Persist path on reload": "पुनः लोड पर पथ बनाए रखें",
+  "Compact list view": "संक्षिप्त सूची दृश्य",
   "uppy": uppyLocaleHi
 }

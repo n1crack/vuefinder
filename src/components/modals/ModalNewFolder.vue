@@ -1,5 +1,5 @@
 <template>
-  <v-f-modal-layout>
+  <ModalLayout>
     <div class="sm:flex sm:items-start">
       <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
          <svg xmlns="http://www.w3.org/2000/svg"
@@ -21,21 +21,14 @@
     <template v-slot:buttons>
       <button type="button" @click="createFolder" class="vf-btn vf-btn-primary">
         {{ t('Create') }}</button>
-      <button type="button" @click="app.emitter.emit('vf-modal-close')" class="vf-btn vf-btn-secondary">
+      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">
         {{ t('Cancel') }}</button>
     </template>
-  </v-f-modal-layout>
+  </ModalLayout>
 </template>
 
-<script>
-export default {
-  name: 'VFModalNewFolder'
-};
-</script>
-
-
 <script setup>
-import VFModalLayout from './ModalLayout.vue';
+import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 
@@ -47,13 +40,13 @@ const name = ref('');
 const message = ref('');
 
 const createFolder = () => {
-  if (name.value != '') {
+  if (name.value !== '') {
     app.emitter.emit('vf-fetch', {
       params: {
         q: 'newfolder',
         m: 'post',
-        adapter: app.adapter,
-        path: app.data.dirname,
+        adapter: app.fs.adapter,
+        path: app.fs.data.dirname,
       },
       body: {
         name: name.value

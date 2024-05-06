@@ -1,42 +1,36 @@
 <template>
   <div class="vuefinder" ref="root">
-    <div :class="app.theme.actualValue === 'dark' ? 'dark': ''">
+    <div :class="app.theme.actualValue">
       <div
-          :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded-md'"
+          :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded'"
           :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
-          class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 min-w-min select-none"
+          class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')">
-        <v-f-toolbar/>
-        <v-f-breadcrumb/>
-        <v-f-explorer/>
-        <v-f-statusbar/>
+        <Toolbar/>
+        <Breadcrumb/>
+        <Explorer/>
+        <Statusbar/>
       </div>
 
       <Transition name="fade">
-        <component v-if="app.modal.active" :is="'v-f-modal-'+ app.modal.type"/>
+        <Component v-if="app.modal.visible" :is="app.modal.type"/>
       </Transition>
 
-      <v-f-context-menu/>
+      <ContextMenu/>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'VueFinder'
-};
-</script>
 
 <script setup>
 import {inject, onMounted, provide, ref} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
 
-import VFToolbar from '../components/Toolbar.vue';
-import VFBreadcrumb from '../components/Breadcrumb.vue';
-import VFExplorer from '../components/Explorer.vue';
-import VFContextMenu from '../components/ContextMenu.vue';
-import VFStatusbar from '../components/Statusbar.vue';
+import Toolbar from '../components/Toolbar.vue';
+import Breadcrumb from '../components/Breadcrumb.vue';
+import Explorer from '../components/Explorer.vue';
+import ContextMenu from '../components/ContextMenu.vue';
+import Statusbar from '../components/Statusbar.vue';
 
 const emit = defineEmits(['select'])
 
@@ -85,6 +79,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  showThumbnails: {
+    type: Boolean,
+    default: true
+  },
   selectButton: {
     type: Object,
     default(rawProps) {
@@ -110,35 +108,20 @@ const {setStore} = app.storage;
 const root = ref(null);
 app.root = root;
 
-// Translator
-const {t} = app.i18n;
-
-app.emitter.on('vf-modal-close', () => {
-  app.modal.active = false;
-});
-
-app.emitter.on('vf-modal-show', (item) => {
-  app.modal.active = true;
-  app.modal.type = item.type;
-  app.modal.data = item;
-});
+// Define dragSelect object
+const ds = app.dragSelect;
 
 const updateItems = (data) => {
-  Object.assign(app.data, data);
-  app.emitter.emit('vf-nodes-selected', {});
-  app.emitter.emit('vf-explorer-update');
+  Object.assign(app.fs.data, data);
+  ds.clearSelection();
+  ds.refreshSelection();
 };
-
-app.emitter.on('vf-nodes-selected', (items) => {
-  app.selectedItems = items;
-  emit('select', items);
-})
 
 /** @type {AbortController} */
 let controller;
 app.emitter.on('vf-fetch-abort', () => {
   controller.abort();
-  app.loading = false;
+  app.fs.loading = false;
 });
 
 // Fetch data
@@ -147,7 +130,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     if (controller) {
       controller.abort();
     }
-    app.loading = true;
+    app.fs.loading = true;
   }
 
   controller = new AbortController();
@@ -159,17 +142,17 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     body,
     abortSignal: signal,
   }).then(data => {
-    app.adapter = data.adapter;
+    app.fs.adapter = data.adapter;
     if (app.persist) {
-      app.path = data.dirname;
-      setStore('path', app.path);
+      app.fs.path = data.dirname;
+      setStore('path', app.fs.path);
     }
 
     if (['index', 'search'].includes(params.q)) {
-      app.loading = false;
+      app.fs.loading = false;
     }
     if (!noCloseModal) {
-      app.emitter.emit('vf-modal-close');
+      app.modal.close();
     }
     updateItems(data);
     if (onSuccess) {
@@ -183,34 +166,28 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   });
 });
 
-// Download
-app.emitter.on('vf-download', (url) => {
-  const $a = document.createElement('a');
-  $a.style.display = 'none';
-  $a.target = '_blank';
-  $a.href = url;
-  // Cross-origin this doesn't work, but at least this does bring up a new window.
-  $a.download = url;
-  app.root.appendChild($a);
-  $a.click();
-  $a.remove();
-});
-
 // fetch initial data
 onMounted(() => {
-  // app.adapter can be null at first, until we get the adapter list it will be the first one from response
+  // app.fs.adapter can be null at first, until we get the adapter list it will be the first one from response
   // later we can set default adapter from a prop value
 
   // if there is a path coming from the prop, we should use it.
   let pathExists = {};
-  if (app.path.includes("://")) {
+
+  if (app.fs.path.includes("://")) {
     pathExists = {
-      adapter: app.path.split("://")[0],
-      path: app.path
+      adapter: app.fs.path.split("://")[0],
+      path: app.fs.path
     };
   }
 
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.adapter, ...pathExists}});
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, ...pathExists}});
+
+  // Emit select event
+  ds.onSelect((items) => {
+    emit('select', items);
+  });
+
 });
 
 </script>

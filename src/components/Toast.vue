@@ -1,7 +1,7 @@
 <template>
   <div
       :class="fullScreen.value ?  'fixed' : 'absolute'"
-      class=" bottom-0 max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2">
+      class="max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2">
     <transition-group
         name="vf-toast-item"
         leave-active-class="transition-all duration-1000"
@@ -15,12 +15,6 @@
     </transition-group>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'VFToast.vue'
-};
-</script>
 
 <script setup>
 import {inject, ref} from 'vue';

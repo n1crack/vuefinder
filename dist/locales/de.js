@@ -86,5 +86,9 @@ export default {
     "System": "System",
     "Target Directory" : "Zielverzeichnis",
     "Select": "Auswählen",
+    "Compact list view": "Kompakte Listenansicht",
+    "Show thumbnails": "Miniaturansichten anzeigen",
+    "Persist path on reload": "Pfad beim Neuladen beibehalten",
+    "Compact list view": "Kompakte Listenansicht",
     "uppy" : uppyLocaleDe,
 }
