@@ -22,7 +22,6 @@
     <div :ref="ds.area"
          :class="app.fullScreen ? '' : 'resize-y'"
          class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
-         @touchstart="handleTouchStart"
          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
     >
       <!-- Search View -->
@@ -133,6 +132,7 @@ const handleTouchStart = (event) => {
     if (!dragAndDrop.value) {
       ds.getInstance().start();
       app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: on')});
+      ds.clearSelection();
       ds.refreshSelection();
     } else {
       ds.getInstance().stop();

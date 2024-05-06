@@ -1,7 +1,7 @@
 var Fe = Object.defineProperty;
 var Oe = (l, e, a) => e in l ? Fe(l, e, { enumerable: !0, configurable: !0, writable: !0, value: a }) : l[e] = a;
 var we = (l, e, a) => (Oe(l, typeof e != "symbol" ? e + "" : e, a), a);
-import { reactive as de, watch as ne, ref as x, shallowRef as je, onMounted as W, onUnmounted as $e, onUpdated as Se, nextTick as le, computed as te, inject as U, openBlock as n, createElementBlock as u, withKeys as oe, unref as t, createElementVNode as s, withModifiers as ee, renderSlot as ie, normalizeClass as q, createCommentVNode as C, createBlock as A, withCtx as M, toDisplayString as c, withDirectives as j, vModelText as re, createTextVNode as V, Fragment as z, renderList as G, onBeforeUnmount as Ce, createVNode as L, customRef as qe, vShow as X, isRef as Ee, TransitionGroup as ze, normalizeStyle as xe, vModelCheckbox as ue, vModelSelect as ge, provide as Pe, Transition as Ge, resolveDynamicComponent as We } from "vue";
+import { reactive as de, watch as ne, ref as x, shallowRef as je, onMounted as W, onUnmounted as $e, onUpdated as Se, nextTick as le, computed as te, inject as U, openBlock as n, createElementBlock as u, withKeys as oe, unref as t, createElementVNode as s, withModifiers as Z, renderSlot as ie, normalizeClass as q, createCommentVNode as C, createBlock as A, withCtx as M, toDisplayString as c, withDirectives as j, vModelText as re, createTextVNode as V, Fragment as z, renderList as G, onBeforeUnmount as Ce, createVNode as L, customRef as qe, vShow as X, isRef as Ee, TransitionGroup as ze, normalizeStyle as xe, vModelCheckbox as ue, vModelSelect as ge, provide as Pe, Transition as Ge, resolveDynamicComponent as We } from "vue";
 import Ye from "mitt";
 import Ke from "dragselect";
 import Je from "@uppy/core";
@@ -186,7 +186,7 @@ const O = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, rt = Object.values(O), nt = "2.3.4";
+}, rt = Object.values(O), nt = "2.3.5";
 function De(l, e, a, r, o) {
   return (e = Math, a = e.log, r = 1024, o = a(l) / a(r) | 0, l / e.pow(r, o)).toFixed(0) + " " + (o ? "KMGTPEZY"[--o] + "iB" : "B");
 }
@@ -411,7 +411,7 @@ const mt = (l, e) => {
       s("div", pt, [
         s("div", {
           class: "flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0",
-          onMousedown: r[0] || (r[0] = ee((o) => t(e).modal.close(), ["self"]))
+          onMousedown: r[0] || (r[0] = Z((o) => t(e).modal.close(), ["self"]))
         }, [
           s("div", vt, [
             s("div", ht, [
@@ -1035,8 +1035,8 @@ const us = { class: "sm:flex sm:items-start" }, ms = /* @__PURE__ */ s("div", { 
         locale: r,
         onBeforeFileAdded(k, N) {
           if (N[k.id] != null) {
-            const Z = T(k.id);
-            p.value[Z].status === o.PENDING && (h.value = y.i18n("noDuplicates", { fileName: k.name })), p.value = p.value.filter((fe) => fe.id !== k.id);
+            const ee = T(k.id);
+            p.value[ee].status === o.PENDING && (h.value = y.i18n("noDuplicates", { fileName: k.name })), p.value = p.value.filter((fe) => fe.id !== k.id);
           }
           return p.value.push({
             id: k.id,
@@ -1101,8 +1101,8 @@ const us = { class: "sm:flex sm:items-start" }, ms = /* @__PURE__ */ s("div", { 
       });
       function H(k, N) {
         N.isFile && N.file((I) => k(N, I)), N.isDirectory && N.createReader().readEntries((I) => {
-          I.forEach((Z) => {
-            H(k, Z);
+          I.forEach((ee) => {
+            H(k, ee);
           });
         });
       }
@@ -1110,8 +1110,8 @@ const us = { class: "sm:flex sm:items-start" }, ms = /* @__PURE__ */ s("div", { 
         k.preventDefault(), w.value = !1;
         const N = /^[/\\](.+)/;
         [...k.dataTransfer.items].forEach((I) => {
-          I.kind === "file" && H((Z, fe) => {
-            const Re = N.exec(Z.fullPath);
+          I.kind === "file" && H((ee, fe) => {
+            const Re = N.exec(ee.fullPath);
             $(fe, Re[1]);
           }, I.webkitGetAsEntry());
         });
@@ -1131,18 +1131,18 @@ const us = { class: "sm:flex sm:items-start" }, ms = /* @__PURE__ */ s("div", { 
           type: "button",
           class: q(["vf-btn vf-btn-primary", _.value ? "bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500" : "bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500"]),
           disabled: _.value,
-          onClick: ee(E, ["prevent"])
+          onClick: Z(E, ["prevent"])
         }, c(t(a)("Upload")), 11, Ls),
         _.value ? (n(), u("button", {
           key: 0,
           type: "button",
           class: "vf-btn vf-btn-secondary",
-          onClick: ee(D, ["prevent"])
+          onClick: Z(D, ["prevent"])
         }, c(t(a)("Cancel")), 1)) : (n(), u("button", {
           key: 1,
           type: "button",
           class: "vf-btn vf-btn-secondary",
-          onClick: ee(ce, ["prevent"])
+          onClick: Z(ce, ["prevent"])
         }, c(t(a)("Close")), 1))
       ]),
       default: M(() => [
@@ -2189,7 +2189,7 @@ const Nr = { render: Tr }, Ur = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray
           ref_key: "breadcrumbContainer",
           ref: o,
           class: "flex leading-6 w-full overflow-hidden",
-          onClick: ee(T, ["self"])
+          onClick: Z(T, ["self"])
         }, [
           (n(!0), u(z, null, G(t(e).fs.breadcrumbs, (D, R) => (n(), u("div", { key: R }, [
             Pr,
@@ -2833,7 +2833,7 @@ const kn = { render: wn }, yn = { class: "absolute -z-50 -top-96" }, $n = { clas
       onDblclick: h[0] || (h[0] = (_) => o(l.item)),
       onTouchstart: h[1] || (h[1] = (_) => b(_)),
       onTouchend: h[2] || (h[2] = (_) => g()),
-      onContextmenu: h[3] || (h[3] = ee((_) => t(e).emitter.emit("vf-contextmenu-show", { event: _, items: t(a).getSelected(), target: l.item }), ["prevent"]))
+      onContextmenu: h[3] || (h[3] = Z((_) => t(e).emitter.emit("vf-contextmenu-show", { event: _, items: t(a).getSelected(), target: l.item }), ["prevent"]))
     }, [
       ie(p.$slots, "default")
     ], 46, fl)), [
@@ -2867,7 +2867,7 @@ const kn = { render: wn }, yn = { class: "absolute -z-50 -top-96" }, $n = { clas
       }) : e.emitter.emit("vf-fetch", { params: { q: "index", adapter: e.fs.adapter, path: e.fs.data.dirname } });
     });
     const d = x(!0), f = (h) => {
-      h.touches.length > 1 && (d.value ? (i.getInstance().stop(), e.emitter.emit("vf-toast-push", { label: a("Drag&Drop: off") })) : (i.getInstance().start(), e.emitter.emit("vf-toast-push", { label: a("Drag&Drop: on") }), i.refreshSelection()), d.value = !d.value);
+      h.touches.length >= 1 && (d.value ? (i.getInstance().stop(), e.emitter.emit("vf-toast-push", { label: a("Drag&Drop: off") })) : (i.getInstance().start(), e.emitter.emit("vf-toast-push", { label: a("Drag&Drop: on") }), i.clearSelection(), i.refreshSelection()), d.value = !d.value);
     }, g = de({ active: !1, column: "", order: "" }), b = (h = !0) => {
       let _ = [...e.fs.data.files], w = g.column, y = g.order === "asc" ? 1 : -1;
       if (!h)
@@ -2943,8 +2943,8 @@ const kn = { render: wn }, yn = { class: "absolute -z-50 -top-96" }, $n = { clas
       s("div", {
         ref: t(i).area,
         class: q([t(e).fullScreen ? "" : "resize-y", "h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"]),
-        onTouchstart: f,
-        onContextmenu: _[4] || (_[4] = ee((w) => t(e).emitter.emit("vf-contextmenu-show", { event: w, items: t(i).getSelected() }), ["self", "prevent"]))
+        onTouchstart: Z(f, ["alt"]),
+        onContextmenu: _[4] || (_[4] = Z((w) => t(e).emitter.emit("vf-contextmenu-show", { event: w, items: t(i).getSelected() }), ["self", "prevent"]))
       }, [
         v.value.length ? (n(!0), u(z, { key: 0 }, G(b(), (w, y) => (n(), A(he, {
           item: w,
