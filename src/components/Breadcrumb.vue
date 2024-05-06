@@ -91,7 +91,6 @@
 </template>
 
 <script setup>
-
 import {inject, nextTick, onMounted, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
 import {FEATURES} from "./features.js";
@@ -122,8 +121,8 @@ watch(breadcrumbContainerWidth, newQuery => {
 
   app.fs.limitBreadcrumbItems(max_shown_items);
   nextTick(() => {
-    for (let i = 0; i < children.length; i++) {
-      if (totalWidth + children[i].offsetWidth > breadcrumbContainerWidth.value - 100) {
+    for (let i = children.length-1; i >= 0; i--) {
+      if (totalWidth + children[i].offsetWidth > breadcrumbContainerWidth.value - 40) {
         break;
       }
       totalWidth += parseInt(children[i].offsetWidth, 10);
