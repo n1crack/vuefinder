@@ -269,7 +269,6 @@ const enterSearchMode = () => {
     return;
   }
   app.fs.searchMode = true;
-  searchInput.value.focus();
   nextTick(() => searchInput.value.focus());
 }
 
