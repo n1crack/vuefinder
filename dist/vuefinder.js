@@ -186,7 +186,7 @@ const O = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, rt = Object.values(O), nt = "2.3.0";
+}, rt = Object.values(O), nt = "2.3.1";
 function De(l, e, a, r, o) {
   return (e = Math, a = e.log, r = 1024, o = a(l) / a(r) | 0, l / e.pow(r, o)).toFixed(0) + " " + (o ? "KMGTPEZY"[--o] + "iB" : "B");
 }
@@ -2049,7 +2049,6 @@ const Nr = { render: Tr }, Ur = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray
       const E = o.value.children;
       let D = 0, R = 0, F = 5, ce = 1;
       e.fs.limitBreadcrumbItems(F), le(() => {
-        console.log("width updated");
         for (let se = E.length - 1; se >= 0 && !(D + E[se].offsetWidth > v.value - 40); se--)
           D += parseInt(E[se].offsetWidth, 10), R++;
         R < ce && (R = ce), R > F && (R = F), e.fs.limitBreadcrumbItems(R);
