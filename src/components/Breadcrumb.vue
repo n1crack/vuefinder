@@ -18,8 +18,7 @@
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-if="!app.fs.searchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full overflow-hidden"
-         @click.self="enterSearchMode">
+    <div v-show="!app.fs.searchMode" class="group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full overflow-hidden">
       <div>
         <HomeSVG
           @dragover="handleDragOver($event)"
@@ -29,19 +28,20 @@
       </div>
 
       <div class="flex leading-6">
-
         <div v-if="app.fs.hiddenBreadcrumbs.length" class="flex" v-click-outside="handleClickOutside">
           <div class="text-neutral-300 dark:text-gray-600 mx-0.5">/</div>
           <div class="relative">
-            <span @click="app.fs.toggleHiddenBreadcrumbs()"
+            <span 
+            @dragenter="app.fs.toggleHiddenBreadcrumbs(true)"
+            @click="app.fs.toggleHiddenBreadcrumbs()"
                    class="text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer">
-              <DotsSVG class="px-1" />
+              <DotsSVG class="px-1 pointer-events-none" />
             </span>
           </div>
         </div>
       </div>
 
-      <div class="flex leading-6">
+      <div ref="breadcrumbContainer" class="flex leading-6 w-full overflow-hidden"  @click.self="enterSearchMode">
         <div v-for="(item, index) in app.fs.breadcrumbs" :key="index">
           <span class="text-neutral-300 dark:text-gray-600 mx-0.5">/</span>
           <span
@@ -58,7 +58,7 @@
 
       <LoadingSVG v-if="app.fs.loading"/>
     </div>
-    <div v-else class="relative flex bg-white dark:bg-gray-700 justify-between items-center rounded p-1 ml-2 w-full">
+    <div  v-show="app.fs.searchMode"  class="relative flex bg-white dark:bg-gray-700 justify-between items-center rounded p-1 ml-2 w-full">
       <div>
         <SearchSVG />
       </div>
@@ -72,7 +72,6 @@
           type="text">
       <ExitSVG @click="exitSearchMode"/>
     </div>
-
 
     <div v-show="app.fs.showHiddenBreadcrumbs"
         class="z-30 absolute top-[65px] md:top-[75px] left-[90px] rounded -mx-1.5 mt-1 bg-neutral-50 dark:bg-gray-800 max-w-80 max-h-50 shadow overflow-y-auto text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600">
@@ -93,7 +92,7 @@
 
 <script setup>
 
-import {inject, nextTick, ref, watch} from 'vue';
+import {inject, nextTick, onMounted, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
 import {FEATURES} from "./features.js";
 import ModalMove from "./modals/ModalMove.vue";
@@ -109,7 +108,6 @@ import DotsSVG from './icons/dots.svg';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-
 const ds = app.dragSelect;
 
 // dynamic shown items calculation for breadcrumbs

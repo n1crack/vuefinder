@@ -5,8 +5,10 @@ export default function (initialAdapter, initialPath) {
     const adapter = ref(initialAdapter);
     const path = ref(initialPath);
     const breadcrumbs = ref([]);
+    const breadcrumbItems = ref([]);
     const hiddenBreadcrumbs = ref([]);
     const showHiddenBreadcrumbs = ref(false);
+    const breadcrumbItemLimit = ref(5);
 
     let loading = false; // loading state
 
@@ -45,10 +47,17 @@ export default function (initialAdapter, initialPath) {
                 }
             });
 
-        const [linksToDisplay, hiddenLinks ] = separateBreadcrumbs(links, 3);
+        breadcrumbItems.value = links;
+
+        const [linksToDisplay, hiddenLinks ] = separateBreadcrumbs(links, breadcrumbItemLimit.value);
 
         hiddenBreadcrumbs.value = hiddenLinks;
         breadcrumbs.value = linksToDisplay;
+    }
+
+    function limitBreadcrumbItems(count){
+        breadcrumbItemLimit.value = count;
+        updateBreadcrumbs();
     }
 
     function separateBreadcrumbs(links, show) {
@@ -80,14 +89,16 @@ export default function (initialAdapter, initialPath) {
 
     return {
         adapter,
-        breadcrumbs,
-        hiddenBreadcrumbs,
-        showHiddenBreadcrumbs,
-        toggleHiddenBreadcrumbs,
         path,
         loading,
         searchMode,
         data,
+        breadcrumbs,
+        breadcrumbItems,
+        limitBreadcrumbItems,
+        hiddenBreadcrumbs,
+        showHiddenBreadcrumbs,
+        toggleHiddenBreadcrumbs,
         isGoUpAvailable,
         parentFolderPath
     }
