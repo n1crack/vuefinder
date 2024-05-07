@@ -62,8 +62,6 @@ export default {
   "Are you sure you want to move these files?" : "Bu dosyaları taşımak istediğinize emin misiniz?",
   "File Size": "Dosya Boyutu",
   "Last Modified": "Son Değişiklik",
-  "Drag&Drop: on": "Sürükle&Bırak: etkin",
-  "Drag&Drop: off": "Sürükle&Bırak: devre dışı",
   "Select Folders": "Klasörleri Seç",
   "Clear all": "Hepsini Temizle",
   "Clear only successful": "Başarılı Olanları Temizle",
