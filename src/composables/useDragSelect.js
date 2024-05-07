@@ -44,24 +44,42 @@ export default function () {
             }
         });
 
+        // not working correctly, need to find a better way to scroll
+
+        //  const scrollElement = (element, directions, multiplier = 1) => {
+        //     if (!directions?.length || !element) return
+          
+        //     const docEl =
+        //       document &&
+        //       document.documentElement &&
+        //       document.documentElement.scrollTop &&
+        //       document.documentElement
+        //     const _element =
+        //       element instanceof Document ? docEl || document.body : element
+          
+        //     const scrollTop = directions.includes('top') && _element.scrollTop > 0
+        //     const scrollBot =
+        //       directions.includes('bottom') && _element.scrollTop < _element.scrollHeight
+        //     const scrollLeft = directions.includes('left') && _element.scrollLeft > 0
+        //     const scrollRight =
+        //       directions.includes('right') && _element.scrollLeft < _element.scrollWidth
+          
+        //     if (scrollTop) _element.scrollTop -= 1 * multiplier
+        //     if (scrollBot) _element.scrollTop += 1 * multiplier
+        //     if (scrollLeft) _element.scrollLeft -= 1 * multiplier
+        //     if (scrollRight) _element.scrollLeft += 1 * multiplier
+        //   }
+
         // dragSelectInstance.subscribe('DS:scroll', ({isDragging, scroll_multiplier, scroll_directions ,items}) => {
         //     if (!isDragging) {
         //         if (!osInstance.value) {
         //             return;
         //         }
-        //
-        //         const {overflowAmount} = osInstance.value.state();
         //         const {scrollOffsetElement} = osInstance.value.elements();
-        //         const {scrollTop} = scrollOffsetElement;
-        //         scroll_multiplier = scroll_multiplier * (scroll_directions.includes('top') ? -1 : 1);
-        //         scrollOffsetElement.scrollTo({
-        //             behavior: 'smooth',
-        //             left: 0,
-        //             top: scrollTop + (overflowAmount.y /scroll_multiplier),
-        //         });
-        //         console.log(overflowAmount.y /scroll_multiplier)
+        //         scrollElement(scrollOffsetElement, scroll_directions, scroll_multiplier);
         //     }
         // });
+
         // Immediately update the selection when dragging ends.
         document.addEventListener('dragleave', (e) => {
             if (!e.buttons && isDraggingRef.value) {
@@ -113,10 +131,11 @@ export default function () {
         }, {
             initialized: (instance) => {
                 osInstance.value = instance;
+
+                initDragSelect()
             }
         });
 
-        initDragSelect()
     });
 
     onUnmounted(() => {

@@ -21,7 +21,7 @@
 
     <div :ref="ds.area"
          :class="{'resize-y': !app.fullScreen}"
-         class="h-full w-full text-xs select-none vf-selector-area min-h-[150px] z-0"
+         class="h-full w-full text-xs select-none vf-selector-area min-h-[150px] z-0 overflow-y-auto"
          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
     >
       <!-- Search View -->
