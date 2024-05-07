@@ -44,6 +44,24 @@ export default function () {
             }
         });
 
+        // dragSelectInstance.subscribe('DS:scroll', ({isDragging, scroll_multiplier, scroll_directions ,items}) => {
+        //     if (!isDragging) {
+        //         if (!osInstance.value) {
+        //             return;
+        //         }
+        //
+        //         const {overflowAmount} = osInstance.value.state();
+        //         const {scrollOffsetElement} = osInstance.value.elements();
+        //         const {scrollTop} = scrollOffsetElement;
+        //         scroll_multiplier = scroll_multiplier * (scroll_directions.includes('top') ? -1 : 1);
+        //         scrollOffsetElement.scrollTo({
+        //             behavior: 'smooth',
+        //             left: 0,
+        //             top: scrollTop + (overflowAmount.y /scroll_multiplier),
+        //         });
+        //         console.log(overflowAmount.y /scroll_multiplier)
+        //     }
+        // });
         // Immediately update the selection when dragging ends.
         document.addEventListener('dragleave', (e) => {
             if (!e.buttons && isDraggingRef.value) {
