@@ -19,12 +19,12 @@
       <DragItem ref="dragImage" :count="ds.getCount()"/>
     </div>
 
-    <div :ref="ds.scrollBarContainer" class="vf-explorer-scrollbar-container">
-      <div :ref="ds.scrollBar" class="w-3"></div>
+    <div :ref="ds.scrollBarContainer" class="vf-explorer-scrollbar-container" :class="[{'grid-view': app.view === 'grid'}]">
+      <div :ref="ds.scrollBar" class="w-5 bg-transparent pointer-events-none"></div>
     </div>
 
     <div :ref="ds.area" :class="{'resize-y': !app.fullScreen}"
-         class="h-full w-full text-xs select-none vf-explorer-scrollbar vf-selector-area min-h-[150px] z-0 overflow-y-auto"
+         class="h-full w-full text-xs  vf-explorer-scrollbar vf-selector-area min-h-[150px] z-0 overflow-y-auto"
          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
     >
 
@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import {inject, nextTick, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch} from 'vue';
+import {inject, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch} from 'vue';
 import datetimestring from '../utils/datetimestring.js';
 import title_shorten from "../utils/title_shorten.js";
 import Toast from './Toast.vue';

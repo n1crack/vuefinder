@@ -151,7 +151,7 @@
       }
 
       &::-webkit-scrollbar-thumb, &::-webkit-scrollbar-thumb:hover, &::-webkit-scrollbar-corner {
-        @apply bg-transparent;
+        @apply bg-blue-50/10;
       }
     }
 
@@ -176,8 +176,26 @@
   }
 
   .vf-explorer-scrollbar-container {
-    height: calc(100% - 12px);
-    @apply z-[10] absolute right-0 top-0 pointer-events-none;
+    top: 33px;
+    height: calc(100% - 33px);
+    @apply z-[10] absolute right-0 pointer-events-none;
+
+    &.grid-view {
+      top: 0;
+      height: calc(100% - 12px);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .vf-explorer-scrollbar-container {
+      top: 33px;
+      height: calc(100% - 33px);
+
+     &.grid-view{
+        top: 0;
+        height: calc(100%);
+      }
+    }
   }
 }
 
