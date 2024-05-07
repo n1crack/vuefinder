@@ -62,8 +62,6 @@ export default {
   "Are you sure you want to move these files?" : "Are you sure you want to move these files?",
   "File Size": "File Size",
   "Last Modified": "Last Modified",
-  "Drag&Drop: on": "Drag&Drop: on",
-  "Drag&Drop: off": "Drag&Drop: off",
   "Select Folders": "Select Folders",
   "Clear all": "Clear all",
   "Clear only successful": "Clear only successful",

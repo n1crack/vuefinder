@@ -62,8 +62,6 @@ export default {
   "Are you sure you want to move these files?" : "您确定要移动这些文件吗？",
   "File Size": "文件大小",
   "Last Modified": "文件修改时间",
-  "Drag&Drop: on": "拖拽: 开",
-  "Drag&Drop: off": "拖拽: 关",
   "Select Folders": "选择文件夹",
   "Clear all": "清除全部",
   "Clear only successful": "清除已成功上传的",

@@ -62,8 +62,6 @@ export default {
   "Are you sure you want to move these files?" : "क्या आप वाकई इन फ़ाइलों को स्थानांतरित करना चाहते हैं?",
   "File Size": "फ़ाइल का आकार",
   "Last Modified": "अंतिम संशोधित",
-  "Drag&Drop: on": "ड्रैग और ड्रॉप: चालू",
-  "Drag&Drop: off": "ड्रैग और ड्रॉप: बंद",
   "Select Folders": "फ़ोल्डर चुनें",
   "Clear all": "सब कुछ साफ़ करें",
   "Clear only successful": "केवल सफल साफ़ करें",

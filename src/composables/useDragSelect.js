@@ -1,9 +1,15 @@
 import {ref, onMounted, onUpdated, onUnmounted, nextTick} from 'vue';
 import DragSelect from 'dragselect';
+import {
+    OverlayScrollbars,
+    ScrollbarsHidingPlugin,
+    SizeObserverPlugin,
+    ClickScrollPlugin,
+} from 'overlayscrollbars';
 
 export default function () {
     let dragSelectInstance;
-    const area = ref();
+    const area = ref(null);
     const explorerId = Math.floor(Math.random() * 2 ** 32);
     const isDraggingRef = ref(false);
     const selectedItems = ref([]);
@@ -12,6 +18,10 @@ export default function () {
     const getCount = () => selectedItems.value.length;
     const clearSelection = () => dragSelectInstance.clearSelection(true);
     const onSelectCallback = ref();
+    // ScrollBar
+    const osInstance = ref(null);
+    const scrollBar = ref(null);
+    const scrollBarContainer = ref(null);
 
     function initDragSelect() {
         dragSelectInstance = new DragSelect({
@@ -30,6 +40,9 @@ export default function () {
                 const offsetX = area.value.offsetWidth - event.offsetX;
                 const offsetY = area.value.offsetHeight - event.offsetY;
                 if (offsetX < 15 && offsetY < 15) {
+                    dragSelectInstance.Interaction._reset(event);
+                }
+                if (event.target.classList.contains('os-scrollbar-handle')) {
                     dragSelectInstance.Interaction._reset(event);
                 }
             }
@@ -73,24 +86,89 @@ export default function () {
         });
     }
 
+    const updateScrollbarHeight = () => {
+        if (!osInstance.value) {
+            return;
+        }
+        if (area.value.getBoundingClientRect().height < area.value.scrollHeight) {
+            scrollBar.value.style.height = (area.value.scrollHeight - 15) + 'px';
+            scrollBar.value.style.display = 'block';
+        } else {
+            scrollBar.value.style.height = '100%';
+            scrollBar.value.style.display = 'none';
+        }
+    }
+
+
+    const updateScrollBarPosition = (e) => {
+        if (!osInstance.value) {
+            return;
+        }
+        const {scrollOffsetElement} = osInstance.value.elements();
+
+        scrollOffsetElement.scrollTo(
+            {
+                top: area.value.scrollTop,
+                left: 0,
+            }
+        )
+    }
+
     onMounted(() => {
+        // Super hacky way to get to work the scrollbar element
+        OverlayScrollbars(scrollBarContainer.value, {
+            scrollbars: {
+                theme: 'vf-theme-dark dark:vf-theme-light',
+            },
+            plugins: {
+                OverlayScrollbars,
+                // ScrollbarsHidingPlugin,
+                // SizeObserverPlugin,
+                // ClickScrollPlugin
+            },
+        }, {
+            initialized: (instance) => {
+                osInstance.value = instance;
+            },
+            scroll: (instance, event) => {
+                // Update the file explorer area scroll position when the custom scroll bar is scrolled.
+                const {scrollOffsetElement} = instance.elements();
+                area.value.scrollTo({
+                    top: scrollOffsetElement.scrollTop,
+                    left: 0,
+                })
+            }
+        });
+
         initDragSelect()
+
+        // Update scrollbar height when the area is resized.
+        updateScrollbarHeight();
+        new ResizeObserver(updateScrollbarHeight).observe(area.value);
+
+        // Update scrollbar position when the area is scrolled.
+        area.value.addEventListener('scroll', updateScrollBarPosition);
+        dragSelectInstance.subscribe('DS:scroll', ({isDragging}) => isDragging || updateScrollBarPosition());
     });
 
     onUnmounted(() => {
-        if (dragSelectInstance) dragSelectInstance.stop();
+        if (dragSelectInstance) {
+            dragSelectInstance.stop();
+        }
     });
 
     onUpdated(() => {
-        if (dragSelectInstance) dragSelectInstance.Area.reset()
+        if (dragSelectInstance) {
+            dragSelectInstance.Area.reset()
+        }
     });
 
     return {
-        instance: dragSelectInstance,
-        getInstance : () => dragSelectInstance,
         area,
         explorerId,
         isDraggingRef,
+        scrollBar,
+        scrollBarContainer,
         getSelected,
         getSelection,
         clearSelection,

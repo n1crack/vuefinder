@@ -19,11 +19,15 @@
       <DragItem ref="dragImage" :count="ds.getCount()"/>
     </div>
 
-    <div :ref="ds.area"
-         :class="app.fullScreen ? '' : 'resize-y'"
-         class="h-full w-full text-xs vf-selector-area vf-scrollbar min-h-[150px] overflow-auto p-1 z-0"
+    <div :ref="ds.scrollBarContainer" class="vf-explorer-scrollbar-container">
+      <div :ref="ds.scrollBar" class="w-3"></div>
+    </div>
+
+    <div :ref="ds.area" :class="{'resize-y': !app.fullScreen}"
+         class="h-full w-full text-xs select-none vf-explorer-scrollbar vf-selector-area min-h-[150px] z-0 overflow-y-auto"
          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
     >
+
       <!-- Search View -->
       <Item v-if="searchQuery.length" v-for="(item, index) in getItems()"
             :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list">
@@ -84,6 +88,7 @@ import ItemIcon from "./ItemIcon.vue";
 import DragItem from "./DragItem.vue";
 import Item from "./Item.vue";
 
+
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
@@ -121,26 +126,6 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
     app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
   }
 });
-
-// on ios devices scrollbars are hidden as system level.
-// to be able to scroll, 2 finger tap needed.
-// this is the easiest way that I can think of.
-const dragAndDrop = ref(true);
-
-const handleTouchStart = (event) => {
-  if (event.touches.length > 1) {
-    if (!dragAndDrop.value) {
-      ds.getInstance().start();
-      app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: on')});
-      ds.clearSelection();
-      ds.refreshSelection();
-    } else {
-      ds.getInstance().stop();
-      app.emitter.emit('vf-toast-push', {label: t('Drag&Drop: off')});
-    }
-    dragAndDrop.value = !dragAndDrop.value;
-  }
-};
 
 const sort = reactive({active: false, column: '', order: ''});
 
