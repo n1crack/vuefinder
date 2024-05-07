@@ -1,9 +1,15 @@
 import {ref, onMounted, onUpdated, onUnmounted, nextTick} from 'vue';
 import DragSelect from 'dragselect';
+import {
+  OverlayScrollbars,
+  ScrollbarsHidingPlugin,
+  SizeObserverPlugin,
+  ClickScrollPlugin,
+} from 'overlayscrollbars';
 
 export default function () {
     let dragSelectInstance;
-    const area = ref();
+    const area = ref(null);
     const explorerId = Math.floor(Math.random() * 2 ** 32);
     const isDraggingRef = ref(false);
     const selectedItems = ref([]);
@@ -12,6 +18,7 @@ export default function () {
     const getCount = () => selectedItems.value.length;
     const clearSelection = () => dragSelectInstance.clearSelection(true);
     const onSelectCallback = ref();
+    const osInstance = ref(null);
 
     function initDragSelect() {
         dragSelectInstance = new DragSelect({
@@ -29,6 +36,9 @@ export default function () {
                 const offsetX = area.value.offsetWidth - event.offsetX;
                 const offsetY = area.value.offsetHeight - event.offsetY;
                 if (offsetX < 15 && offsetY < 15) {
+                    dragSelectInstance.Interaction._reset(event);
+                }
+                if (event.target.classList.contains('os-scrollbar-handle')) {
                     dragSelectInstance.Interaction._reset(event);
                 }
             }
@@ -73,6 +83,21 @@ export default function () {
     }
 
     onMounted(() => {
+        OverlayScrollbars(area.value, {
+            scrollbars: {
+                theme: 'vf-theme-dark dark:vf-theme-light',
+            },
+            plugins: {
+                ScrollbarsHidingPlugin,
+                SizeObserverPlugin,
+                ClickScrollPlugin
+            },
+        }, {
+            initialized: (instance) => {
+                osInstance.value = instance;
+            }
+        });
+
         initDragSelect()
     });
 
@@ -85,8 +110,6 @@ export default function () {
     });
 
     return {
-        instance: dragSelectInstance,
-        getInstance : () => dragSelectInstance,
         area,
         explorerId,
         isDraggingRef,
