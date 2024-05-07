@@ -1,7 +1,7 @@
 var En = Object.defineProperty;
 var An = (t, e, s) => e in t ? En(t, e, { enumerable: !0, configurable: !0, writable: !0, value: s }) : t[e] = s;
 var Zs = (t, e, s) => (An(t, typeof e != "symbol" ? e + "" : e, s), s);
-import { reactive as Ht, watch as Mt, ref as O, shallowRef as Dn, onMounted as Ee, onUnmounted as $o, onUpdated as So, nextTick as Lt, computed as at, inject as le, openBlock as h, createElementBlock as _, withKeys as St, unref as r, createElementVNode as a, withModifiers as Ze, renderSlot as Tt, normalizeClass as be, createCommentVNode as W, createBlock as J, withCtx as K, toDisplayString as b, withDirectives as he, vModelText as Ct, createTextVNode as se, Fragment as ke, renderList as Ce, onBeforeUnmount as Co, createVNode as Q, customRef as Mn, vShow as Xe, isRef as Eo, TransitionGroup as Ln, normalizeStyle as zs, vModelCheckbox as Ft, vModelSelect as $s, provide as Tn, Transition as On, resolveDynamicComponent as Vn } from "vue";
+import { reactive as Ht, watch as Mt, ref as O, shallowRef as Dn, onMounted as Ee, onUnmounted as $o, onUpdated as So, nextTick as Lt, computed as at, inject as le, openBlock as h, createElementBlock as _, withKeys as St, unref as r, createElementVNode as a, withModifiers as Ze, renderSlot as Tt, normalizeClass as he, createCommentVNode as W, createBlock as J, withCtx as K, toDisplayString as b, withDirectives as ge, vModelText as Ct, createTextVNode as se, Fragment as ke, renderList as Ce, onBeforeUnmount as Co, createVNode as Q, customRef as Mn, vShow as Xe, isRef as Eo, TransitionGroup as Ln, normalizeStyle as zs, vModelCheckbox as Ft, vModelSelect as $s, provide as Tn, Transition as On, resolveDynamicComponent as Vn } from "vue";
 import Hn from "mitt";
 import Bn from "dragselect";
 import Rn from "@uppy/core";
@@ -186,7 +186,7 @@ const ve = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, Gn = Object.values(ve), Wn = "2.4.0";
+}, Gn = Object.values(ve), Wn = "2.4.1";
 function Ao(t, e, s, n, o) {
   return (e = Math, s = e.log, n = 1024, o = s(t) / s(n) | 0, t / e.pow(n, o)).toFixed(0) + " " + (o ? "KMGTPEZY"[--o] + "iB" : "B");
 }
@@ -904,9 +904,9 @@ const Tr = () => {
         ct: Ye(V, q || []),
         lt: te,
         it: v,
-        dt: (Te, ge) => {
+        dt: (Te, be) => {
           const { target: Oe, attributeName: It } = Te;
-          return (!ge && It && !M ? rr(Oe, v, u) : !1) || !!vt(Oe, `.${Le}`) || !!Be(Te);
+          return (!be && It && !M ? rr(Oe, v, u) : !1) || !!vt(Oe, `.${Le}`) || !!Be(Te);
         }
       });
       d = re(), i = Se;
@@ -1152,7 +1152,7 @@ const Tr = () => {
     }), c(G), y();
   })];
   return [() => Y(Ve, me(de, T())), ({ Et: G, Tt: ie, Gt: ae, Qt: ce }) => {
-    const { tn: ye, nn: _e, sn: fe } = ce || {}, { Ct: C, _t: L } = ae || {}, { N: E } = s, { T: H } = He(), { k: j, en: q } = n, [ee, te] = G("showNativeOverlaidScrollbars"), [pe, xe] = G("scrollbars.theme"), [Z, we] = G("scrollbars.visibility"), [$e, Be] = G("scrollbars.autoHide"), [re, Se] = G("scrollbars.autoHideSuspend"), [Te] = G("scrollbars.autoHideDelay"), [ge, Oe] = G("scrollbars.dragScroll"), [It, Nt] = G("scrollbars.clickScroll"), [Ut, ze] = G("overflow"), ot = L && !ie, nt = q.x || q.y, ps = ye || _e || C || ie, Ke = fe || we || ze, vs = ee && H.x && H.y, dt = (ut, mt, At) => {
+    const { tn: ye, nn: _e, sn: fe } = ce || {}, { Ct: C, _t: L } = ae || {}, { N: E } = s, { T: H } = He(), { k: j, en: q } = n, [ee, te] = G("showNativeOverlaidScrollbars"), [pe, xe] = G("scrollbars.theme"), [Z, we] = G("scrollbars.visibility"), [$e, Be] = G("scrollbars.autoHide"), [re, Se] = G("scrollbars.autoHideSuspend"), [Te] = G("scrollbars.autoHideDelay"), [be, Oe] = G("scrollbars.dragScroll"), [It, Nt] = G("scrollbars.clickScroll"), [Ut, ze] = G("overflow"), ot = L && !ie, nt = q.x || q.y, ps = ye || _e || C || ie, Ke = fe || we || ze, vs = ee && H.x && H.y, dt = (ut, mt, At) => {
       const zt = ut.includes("scroll") && (Z === "visible" || Z === "auto" && mt === "scroll");
       return R(yr, zt, At), zt;
     };
@@ -1160,7 +1160,7 @@ const Tr = () => {
       v = ue(N, "scroll", Y(P, !0), {
         A: !0
       });
-    })) : P(!0)), te && R(br, vs), xe && (R(f), R(pe, !0), f = pe), Se && !re && P(!0), Be && (d = $e === "move", l = $e === "leave", m = $e === "never", U(m, !0)), Oe && R(Sr, ge), Nt && R($r, It), Ke) {
+    })) : P(!0)), te && R(br, vs), xe && (R(f), R(pe, !0), f = pe), Se && !re && P(!0), Be && (d = $e === "move", l = $e === "leave", m = $e === "never", U(m, !0)), Oe && R(Sr, be), Nt && R($r, It), Ke) {
       const ut = dt(Ut.x, j.x, !0), mt = dt(Ut.y, j.y, !1);
       R(kr, !(ut && mt));
     }
@@ -1194,9 +1194,9 @@ const Tr = () => {
   let ee = w ? fe : Ms([H, E, L, C, fe].find((Z) => Z && !ce(Z)));
   const te = y ? fe : H || E, pe = Y(Ve, j);
   return [_e, () => {
-    const Z = M(), we = Ls(), $e = (ge) => {
-      De(yt(ge), Ms(ge)), tt(ge);
-    }, Be = (ge) => ge ? ue(ge, "focusin focusout focus blur", (Oe) => {
+    const Z = M(), we = Ls(), $e = (be) => {
+      De(yt(be), Ms(be)), tt(be);
+    }, Be = (be) => be ? ue(be, "focusin focusout focus blur", (Oe) => {
       Ws(Oe), Oe.stopImmediatePropagation();
     }, {
       I: !0,
@@ -1205,8 +1205,8 @@ const Tr = () => {
     return Re(C, Ae, D ? "viewport" : "host"), Re(L, Rs, ""), Re(H, ho, ""), D || (Re(E, We, ""), Re(E, re, Se || "-1"), A && Vt(B, Ae, mr)), q && (oo(fe, C), me(j, () => {
       oo(C, fe), tt(C);
     })), De(te, ee), De(C, L), De(L || C, !D && E), De(E, H), me(j, [Te, () => {
-      const ge = Ls(), Oe = Be(ge);
-      Fe(L, Rs), Fe(H, ho), Fe(E, [nn, rn, We]), Se ? Re(E, re, Se) : Fe(E, re), ce(H) && $e(H), ce(E) && $e(E), ce(L) && $e(L), $(ge), Oe();
+      const be = Ls(), Oe = Be(be);
+      Fe(L, Rs), Fe(H, ho), Fe(E, [nn, rn, We]), Se ? Re(E, re, Se) : Fe(E, re), ce(H) && $e(H), ce(E) && $e(E), ce(L) && $e(L), $(be), Oe();
     }]), n && !D && (Vt(E, We, ln), me(j, Y(Fe, E, We))), $(!D && we === k && Z.top === Z ? E : we), Te(), ee = 0, pe;
   }, pe];
 }, jr = ({ wt: t }) => ({ Gt: e, an: s, Tt: n }) => {
@@ -1288,12 +1288,12 @@ const Tr = () => {
       };
       te = $(Qs), ee = B(S(zt, Qs), D);
     }
-    const [xe, Z] = te, [we, $e] = ee, [Be, re] = q, [Se, Te] = j, ge = {
+    const [xe, Z] = te, [we, $e] = ee, [Be, re] = q, [Se, Te] = j, be = {
       x: we.w > 0,
       y: we.h > 0
-    }, Oe = L && E && (ge.x || ge.y) || L && ge.x && !ge.y || E && ge.y && !ge.x;
+    }, Oe = L && E && (be.x || be.y) || L && be.x && !be.y || E && be.y && !be.x;
     if (y || P || X || Te || re || Z || $e || fe || ye || C) {
-      const ze = {}, ot = Mr(t, ge, _e, ze);
+      const ze = {}, ot = Mr(t, be, _e, ze);
       ae && ae(ot, V, !!G && G(ot, Be, Se), ze), i ? (Re(n, nn, ze[cs]), Re(n, rn, ze[ds])) : kt(c, ze);
     }
     Wt(n, Ae, an, Oe), Wt(o, Rs, pr, Oe), i || Wt(c, We, bt, H);
@@ -1308,7 +1308,7 @@ const Tr = () => {
         x: we.w,
         y: we.h
       },
-      en: ge
+      en: be
     }), {
       sn: Ut,
       tn: Z,
@@ -1547,7 +1547,7 @@ function Kr() {
       o.value = g.map(($) => JSON.parse($.dataset.item)), w(g.map(($) => JSON.parse($.dataset.item)));
     });
   }, k = () => {
-    f.value && (e.value.getBoundingClientRect().height < e.value.scrollHeight ? (v.value.style.height = e.value.scrollHeight - 15 + "px", v.value.style.display = "block") : (v.value.style.height = "100%", v.value.style.display = "none"));
+    f.value && (e.value.getBoundingClientRect().height < e.value.scrollHeight ? (v.value.style.height = e.value.scrollHeight + "px", v.value.style.display = "block") : (v.value.style.height = "100%", v.value.style.display = "none"));
   }, A = (w) => {
     if (!f.value)
       return;
@@ -1789,7 +1789,7 @@ const Xr = (t, e) => {
         key: 0,
         ref_key: "strMessage",
         ref: i,
-        class: be(["flex mt-2 p-1 px-2 rounded text-sm break-all dark:opacity-75", t.error ? "bg-red-100 text-red-600 " : "bg-emerald-100 text-emerald-600"])
+        class: he(["flex mt-2 p-1 px-2 rounded text-sm break-all dark:opacity-75", t.error ? "bg-red-100 text-red-600 " : "bg-emerald-100 text-emerald-600"])
       }, [
         Tt(f.$slots, "default"),
         a("div", {
@@ -1864,7 +1864,7 @@ const Xr = (t, e) => {
             a("h3", ia, b(r(s)("New Folder")), 1),
             a("div", ca, [
               a("p", da, b(r(s)("Create a new folder")), 1),
-              he(a("input", {
+              ge(a("input", {
                 "onUpdate:modelValue": d[0] || (d[0] = (l) => n.value = l),
                 onKeyup: St(c, ["enter"]),
                 class: "px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
@@ -1952,7 +1952,7 @@ const Xr = (t, e) => {
             a("h3", va, b(r(s)("New File")), 1),
             a("div", ha, [
               a("p", ga, b(r(s)("Create a new file")), 1),
-              he(a("input", {
+              ge(a("input", {
                 "onUpdate:modelValue": d[0] || (d[0] = (l) => n.value = l),
                 onKeyup: St(c, ["enter"]),
                 class: "px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
@@ -2070,7 +2070,7 @@ const Xr = (t, e) => {
                 n.value.type === "dir" ? (h(), _("svg", Ca, Aa)) : (h(), _("svg", Da, La)),
                 a("span", Ta, b(n.value.basename), 1)
               ]),
-              he(a("input", {
+              ge(a("input", {
                 "onUpdate:modelValue": l[0] || (l[0] = (m) => o.value = m),
                 onKeyup: St(i, ["enter"]),
                 class: "px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
@@ -2457,7 +2457,7 @@ const Ka = { class: "sm:flex sm:items-start" }, Ja = /* @__PURE__ */ a("div", { 
       buttons: K(() => [
         a("button", {
           type: "button",
-          class: be(["vf-btn vf-btn-primary", x.value ? "bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500" : "bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500"]),
+          class: he(["vf-btn vf-btn-primary", x.value ? "bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500" : "bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500"]),
           disabled: x.value,
           onClick: Ze($, ["prevent"])
         }, b(r(s)("Upload")), 11, vl),
@@ -2524,7 +2524,7 @@ const Ka = { class: "sm:flex sm:items-start" }, Ja = /* @__PURE__ */ a("div", { 
                 }, [
                   a("span", rl, [
                     a("span", {
-                      class: be(["text-base m-auto", g(y)]),
+                      class: he(["text-base m-auto", g(y)]),
                       textContent: b(B(y))
                     }, null, 10, al)
                   ]),
@@ -2532,7 +2532,7 @@ const Ka = { class: "sm:flex sm:items-start" }, Ja = /* @__PURE__ */ a("div", { 
                     a("div", il, b(r(Ns)(y.name, 40)) + " (" + b(y.size) + ")", 1),
                     a("div", cl, b(r(Ns)(y.name, 16)) + " (" + b(y.size) + ")", 1),
                     a("div", {
-                      class: be(["flex break-all text-left", g(y)])
+                      class: he(["flex break-all text-left", g(y)])
                     }, [
                       se(b(y.statusName) + " ", 1),
                       y.status === c.value.QUEUE_ENTRY_STATUS.UPLOADING ? (h(), _("b", dl, b(y.percent), 1)) : W("", !0)
@@ -2540,7 +2540,7 @@ const Ka = { class: "sm:flex sm:items-start" }, Ja = /* @__PURE__ */ a("div", { 
                   ]),
                   a("button", {
                     type: "button",
-                    class: be(["rounded w-5 h-5 border-1 text-base leading-none font-medium focus:outline-none dark:border-gray-200 dark:text-gray-400 dark:hover:text-gray-200 dark:bg-gray-600 ml-auto sm:text-xs hover:text-red-600", x.value ? "disabled:bg-gray-100 text-white text-opacity-50" : "bg-gray-100"]),
+                    class: he(["rounded w-5 h-5 border-1 text-base leading-none font-medium focus:outline-none dark:border-gray-200 dark:text-gray-400 dark:hover:text-gray-200 dark:bg-gray-600 ml-auto sm:text-xs hover:text-red-600", x.value ? "disabled:bg-gray-100 text-white text-opacity-50" : "bg-gray-100"]),
                     title: r(s)("Delete"),
                     disabled: x.value,
                     onClick: (U) => I(y)
@@ -2786,7 +2786,7 @@ const Ka = { class: "sm:flex sm:items-start" }, Ja = /* @__PURE__ */ a("div", { 
                   a("span", jl, b(m.basename), 1)
                 ]))), 256))
               ]),
-              he(a("input", {
+              ge(a("input", {
                 "onUpdate:modelValue": l[0] || (l[0] = (m) => n.value = m),
                 onKeyup: St(i, ["enter"]),
                 class: "my-1 px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full",
@@ -3022,7 +3022,7 @@ const Xi = { render: Ji }, Qi = { class: "border-neutral-300 flex justify-betwee
           onClick: m[2] || (m[2] = (f) => r(o).getCount() !== 1 || r(e).modal.open(_n, { items: r(o).getSelected() }))
         }, [
           Q(r(ai), {
-            class: be(r(o).getCount() === 1 ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
+            class: he(r(o).getCount() === 1 ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
           }, null, 8, ["class"])
         ], 8, sc)) : W("", !0),
         r(e).features.includes(r(ve).DELETE) ? (h(), _("div", {
@@ -3034,7 +3034,7 @@ const Xi = { render: Ji }, Qi = { class: "border-neutral-300 flex justify-betwee
           onClick: m[3] || (m[3] = (f) => !r(o).getCount() || r(e).modal.open(xn, { items: r(o).getSelected() }))
         }, [
           Q(r(ui), {
-            class: be(r(o).getCount() ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
+            class: he(r(o).getCount() ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
           }, null, 8, ["class"])
         ], 8, oc)) : W("", !0),
         r(e).features.includes(r(ve).UPLOAD) ? (h(), _("div", {
@@ -3056,7 +3056,7 @@ const Xi = { render: Ji }, Qi = { class: "border-neutral-300 flex justify-betwee
           onClick: m[5] || (m[5] = (f) => !r(o).getCount() || r(e).modal.open(wn, { items: r(o).getSelected() }))
         }, [
           Q(r(Ci), {
-            class: be(r(o).getCount() ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
+            class: he(r(o).getCount() ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
           }, null, 8, ["class"])
         ], 8, rc)) : W("", !0),
         r(e).features.includes(r(ve).ARCHIVE) ? (h(), _("div", {
@@ -3068,7 +3068,7 @@ const Xi = { render: Ji }, Qi = { class: "border-neutral-300 flex justify-betwee
           onClick: m[6] || (m[6] = (f) => !r(o).getCount() || r(e).modal.open(yn, { items: r(o).getSelected() }))
         }, [
           Q(r(wi), {
-            class: be(r(o).getCount() ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
+            class: he(r(o).getCount() ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
           }, null, 8, ["class"])
         ], 8, ac)) : W("", !0)
       ])),
@@ -3092,11 +3092,11 @@ const Xi = { render: Ji }, Qi = { class: "border-neutral-300 flex justify-betwee
         }, [
           r(e).view === "grid" ? (h(), J(r(Gi), {
             key: 0,
-            class: be(c.value.length ? "vf-toolbar-icon-disabled" : "vf-toolbar-icon")
+            class: he(c.value.length ? "vf-toolbar-icon-disabled" : "vf-toolbar-icon")
           }, null, 8, ["class"])) : W("", !0),
           r(e).view === "list" ? (h(), J(r(Xi), {
             key: 1,
-            class: be(c.value.length ? "vf-toolbar-icon-disabled" : "vf-toolbar-icon")
+            class: he(c.value.length ? "vf-toolbar-icon-disabled" : "vf-toolbar-icon")
           }, null, 8, ["class"])) : W("", !0)
         ], 8, mc)
       ])
@@ -3468,7 +3468,7 @@ const bd = { render: gd }, _d = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray
           onDragleave: $[1] || ($[1] = (T) => f(T)),
           onDrop: $[2] || ($[2] = (T) => l(T)),
           onClick: u,
-          class: be(r(e).fs.isGoUpAvailable() ? "text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer" : "text-gray-400 dark:text-neutral-500")
+          class: he(r(e).fs.isGoUpAvailable() ? "text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer" : "text-gray-400 dark:text-neutral-500")
         }, null, 8, ["class"])
       ], 8, xd),
       r(e).fs.loading ? (h(), _("span", {
@@ -3488,7 +3488,7 @@ const bd = { render: gd }, _d = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray
       }, [
         Q(r(Ic), { onClick: v })
       ], 8, wd)),
-      he(a("div", {
+      ge(a("div", {
         onClick: Ze(A, ["self"]),
         class: "group flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full overflow-hidden"
       }, [
@@ -3501,7 +3501,7 @@ const bd = { render: gd }, _d = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray
           })
         ]),
         a("div", kd, [
-          r(e).fs.hiddenBreadcrumbs.length ? he((h(), _("div", $d, [
+          r(e).fs.hiddenBreadcrumbs.length ? ge((h(), _("div", $d, [
             Sd,
             a("div", Cd, [
               a("span", {
@@ -3538,11 +3538,11 @@ const bd = { render: gd }, _d = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray
       ], 512), [
         [Xe, !r(e).fs.searchMode]
       ]),
-      he(a("div", Dd, [
+      ge(a("div", Dd, [
         a("div", null, [
           Q(r(nd))
         ]),
-        he(a("input", {
+        ge(a("input", {
           ref_key: "searchInput",
           ref: k,
           onKeydown: St(g, ["esc"]),
@@ -3558,7 +3558,7 @@ const bd = { render: gd }, _d = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray
       ], 512), [
         [Xe, r(e).fs.searchMode]
       ]),
-      he(a("div", Ld, [
+      ge(a("div", Ld, [
         (h(!0), _(ke, null, Ce(r(e).fs.hiddenBreadcrumbs, (T, I) => (h(), _("div", {
           key: I,
           onDragover: $[11] || ($[11] = (N) => m(N)),
@@ -3597,7 +3597,7 @@ const bd = { render: gd }, _d = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray
         d(m);
       }, 5e3);
     }), (l, m) => (h(), _("div", {
-      class: be([n.value.value ? "fixed" : "absolute", "max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2"])
+      class: he([n.value.value ? "fixed" : "absolute", "max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2"])
     }, [
       Q(Ln, {
         name: "vf-toast-item",
@@ -3608,7 +3608,7 @@ const bd = { render: gd }, _d = { class: "flex p-1.5 bg-neutral-100 dark:bg-gray
           (h(!0), _(ke, null, Ce(o.value, (f, v) => (h(), _("div", {
             onClick: (u) => i(v),
             key: f,
-            class: be([c(f.type), "inline-block mx-auto my-0.5 py-0.5 px-2 min-w-max bg-gray-50 dark:bg-gray-600 border text-xs sm:text-sm rounded cursor-pointer"])
+            class: he([c(f.type), "inline-block mx-auto my-0.5 py-0.5 px-2 min-w-max bg-gray-50 dark:bg-gray-600 border text-xs sm:text-sm rounded cursor-pointer"])
           }, b(f.label), 11, Bd))), 128))
         ]),
         _: 1
@@ -3686,10 +3686,10 @@ const Qd = { render: Xd }, ys = {
     return (e, s) => (h(), _("span", null, [
       t.type === "dir" ? (h(), J(r($n), {
         key: 0,
-        class: be({ "h-5 w-5": t.small, "h-10 w-10 md:h-12 md:w-12 m-auto": !t.small })
+        class: he({ "h-5 w-5": t.small, "h-10 w-10 md:h-12 md:w-12 m-auto": !t.small })
       }, null, 8, ["class"])) : (h(), J(r(Qd), {
         key: 1,
-        class: be({ "h-5 w-5": t.small, "h-10 w-10 md:h-12 md:w-12 m-auto": !t.small })
+        class: he({ "h-5 w-5": t.small, "h-10 w-10 md:h-12 md:w-12 m-auto": !t.small })
       }, null, 8, ["class"]))
     ]));
   }
@@ -3787,7 +3787,7 @@ const ou = { render: su }, nu = { class: "absolute -z-50 -top-96" }, ru = { clas
       ]),
       a("div", null, [
         i.value ? (h(), _("div", uu, [
-          he(a("textarea", {
+          ge(a("textarea", {
             ref_key: "editInput",
             ref: c,
             "onUpdate:modelValue": x[1] || (x[1] = (S) => o.value = S),
@@ -4152,9 +4152,9 @@ const ou = { render: su }, nu = { class: "absolute -z-50 -top-96" }, ru = { clas
         u.target.dispatchEvent(p);
       }, 500);
     };
-    return (u, p) => he((h(), _("div", {
+    return (u, p) => ge((h(), _("div", {
       style: zs({ opacity: r(s).isDraggingRef.value && r(s).getSelection().find((x) => u.$el === x) ? "0.5 !important" : "" }),
-      class: be(["vf-item-" + r(s).explorerId]),
+      class: he(["vf-item-" + r(s).explorerId]),
       "data-type": t.item.type,
       key: t.item.path,
       "data-item": JSON.stringify(t.item),
@@ -4217,7 +4217,7 @@ const ou = { render: su }, nu = { class: "absolute -z-50 -top-96" }, ru = { clas
           class: "col-span-7 vf-sort-button"
         }, [
           se(b(r(s)("Name")) + " ", 1),
-          he(Q(qt, {
+          ge(Q(qt, {
             direction: l.order
           }, null, 8, ["direction"]), [
             [Xe, l.active && l.column === "basename"]
@@ -4229,7 +4229,7 @@ const ou = { render: su }, nu = { class: "absolute -z-50 -top-96" }, ru = { clas
           class: "justify-center col-span-2 vf-sort-button"
         }, [
           se(b(r(s)("Size")) + " ", 1),
-          he(Q(qt, {
+          ge(Q(qt, {
             direction: l.order
           }, null, 8, ["direction"]), [
             [Xe, l.active && l.column === "file_size"]
@@ -4241,7 +4241,7 @@ const ou = { render: su }, nu = { class: "absolute -z-50 -top-96" }, ru = { clas
           class: "justify-center col-span-3 vf-sort-button"
         }, [
           se(b(r(s)("Date")) + " ", 1),
-          he(Q(qt, {
+          ge(Q(qt, {
             direction: l.order
           }, null, 8, ["direction"]), [
             [Xe, l.active && l.column === "last_modified"]
@@ -4253,7 +4253,7 @@ const ou = { render: su }, nu = { class: "absolute -z-50 -top-96" }, ru = { clas
           class: "justify-center col-span-5 vf-sort-button"
         }, [
           se(b(r(s)("Filepath")) + " ", 1),
-          he(Q(qt, {
+          ge(Q(qt, {
             direction: l.order
           }, null, 8, ["direction"]), [
             [Xe, l.active && l.column === "path"]
@@ -4269,16 +4269,16 @@ const ou = { render: su }, nu = { class: "absolute -z-50 -top-96" }, ru = { clas
       ]),
       a("div", {
         ref: r(i).scrollBarContainer,
-        class: "vf-explorer-scrollbar-container"
+        class: he(["vf-explorer-scrollbar-container", [{ "grid-view": r(e).view === "grid" }]])
       }, [
         a("div", {
           ref: r(i).scrollBar,
-          class: "w-3"
+          class: "w-5 bg-transparent pointer-events-none"
         }, null, 512)
-      ], 512),
+      ], 2),
       a("div", {
         ref: r(i).area,
-        class: be([{ "resize-y": !r(e).fullScreen }, "h-full w-full text-xs select-none vf-explorer-scrollbar vf-selector-area min-h-[150px] z-0 overflow-y-auto"]),
+        class: he([{ "resize-y": !r(e).fullScreen }, "h-full w-full text-xs vf-explorer-scrollbar vf-selector-area min-h-[150px] z-0 overflow-y-auto"]),
         onContextmenu: u[4] || (u[4] = Ze((p) => r(e).emitter.emit("vf-contextmenu-show", { event: p, items: r(i).getSelected() }), ["self", "prevent"]))
       }, [
         c.value.length ? (h(!0), _(ke, { key: 0 }, Ce(m(), (p, x) => (h(), J(ks, {
@@ -4468,7 +4468,7 @@ const ou = { render: su }, nu = { class: "absolute -z-50 -top-96" }, ru = { clas
         };
       });
     };
-    return (v, u) => he((h(), _("ul", {
+    return (v, u) => ge((h(), _("ul", {
       ref_key: "contextmenu",
       ref: n,
       style: zs(i.positions),
@@ -4528,7 +4528,7 @@ const ou = { render: su }, nu = { class: "absolute -z-50 -top-96" }, ru = { clas
 }, g0 = { key: 1 };
 function b0(t, e, s, n, o, c) {
   return h(), _("div", {
-    class: be(["text-sm text-green-600 dark:text-green-600 transition-opacity duration-500 ease-out", [{ "opacity-0": !n.shown }]])
+    class: he(["text-sm text-green-600 dark:text-green-600 transition-opacity duration-500 ease-out", [{ "opacity-0": !n.shown }]])
   }, [
     t.$slots.default ? Tt(t.$slots, "default", { key: 0 }) : (h(), _("span", g0, b(n.t("Saved.")), 1))
   ], 2);
@@ -4634,7 +4634,7 @@ const ft = /* @__PURE__ */ v0(h0, [["render", b0]]), _0 = { class: "sm:flex sm:i
                   a("div", E0, [
                     a("div", A0, [
                       a("div", D0, [
-                        he(a("input", {
+                        ge(a("input", {
                           id: "metric_unit",
                           name: "metric_unit",
                           type: "checkbox",
@@ -4662,7 +4662,7 @@ const ft = /* @__PURE__ */ v0(h0, [["render", b0]]), _0 = { class: "sm:flex sm:i
                     ]),
                     a("div", T0, [
                       a("div", O0, [
-                        he(a("input", {
+                        ge(a("input", {
                           id: "large_icons",
                           name: "large_icons",
                           type: "checkbox",
@@ -4690,7 +4690,7 @@ const ft = /* @__PURE__ */ v0(h0, [["render", b0]]), _0 = { class: "sm:flex sm:i
                     ]),
                     a("div", B0, [
                       a("div", R0, [
-                        he(a("input", {
+                        ge(a("input", {
                           id: "persist_path",
                           name: "persist_path",
                           type: "checkbox",
@@ -4718,7 +4718,7 @@ const ft = /* @__PURE__ */ v0(h0, [["render", b0]]), _0 = { class: "sm:flex sm:i
                     ]),
                     a("div", U0, [
                       a("div", z0, [
-                        he(a("input", {
+                        ge(a("input", {
                           id: "show_thumbnails",
                           name: "show_thumbnails",
                           type: "checkbox",
@@ -4749,7 +4749,7 @@ const ft = /* @__PURE__ */ v0(h0, [["render", b0]]), _0 = { class: "sm:flex sm:i
                         a("label", G0, b(r(o)("Theme")), 1)
                       ]),
                       a("div", W0, [
-                        he(a("select", {
+                        ge(a("select", {
                           id: "theme",
                           "onUpdate:modelValue": w[4] || (w[4] = (g) => r(e).theme.value = g),
                           onChange: w[5] || (w[5] = (g) => l(g.target.value)),
@@ -4779,7 +4779,7 @@ const ft = /* @__PURE__ */ v0(h0, [["render", b0]]), _0 = { class: "sm:flex sm:i
                         a("label", Q0, b(r(o)("Language")), 1)
                       ]),
                       a("div", Z0, [
-                        he(a("select", {
+                        ge(a("select", {
                           id: "language",
                           "onUpdate:modelValue": w[6] || (w[6] = (g) => Eo(i) ? i.value = g : null),
                           onChange: w[7] || (w[7] = (g) => r(c)(g.target.value)),
@@ -4875,7 +4875,7 @@ const mm = { render: um }, fm = { class: "p-1 text-xs border-t border-neutral-30
         }, [
           Q(r(lm))
         ], 8, vm),
-        he(a("select", {
+        ge(a("select", {
           "onUpdate:modelValue": m[0] || (m[0] = (f) => r(e).fs.adapter = f),
           onChange: c,
           class: "py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8"
@@ -4892,7 +4892,7 @@ const mm = { render: um }, fm = { class: "p-1 text-xs border-t border-neutral-30
       a("div", xm, [
         r(e).selectButton.active ? (h(), _("button", {
           key: 0,
-          class: be(["vf-btn py-0 vf-btn-primary", { disabled: !d.value }]),
+          class: he(["vf-btn py-0 vf-btn-primary", { disabled: !d.value }]),
           disabled: !d.value,
           onClick: m[1] || (m[1] = (f) => r(e).selectButton.click(r(o).getSelected(), f))
         }, b(r(s)("Select")), 11, wm)) : W("", !0),
@@ -5012,10 +5012,10 @@ const mm = { render: um }, fm = { class: "p-1 text-xs border-t border-neutral-30
       ref: i
     }, [
       a("div", {
-        class: be(r(o).theme.actualValue)
+        class: he(r(o).theme.actualValue)
       }, [
         a("div", {
-          class: be([r(o).fullScreen ? "fixed w-screen inset-0 z-20" : "relative rounded", "border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"]),
+          class: he([r(o).fullScreen ? "fixed w-screen inset-0 z-20" : "relative rounded", "border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"]),
           style: zs(r(o).fullScreen ? "" : "max-height: " + t.maxHeight),
           onMousedown: v[0] || (v[0] = (u) => r(o).emitter.emit("vf-contextmenu-hide")),
           onTouchstart: v[1] || (v[1] = (u) => r(o).emitter.emit("vf-contextmenu-hide"))
