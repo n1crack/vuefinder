@@ -62,8 +62,6 @@ export default {
   "Are you sure you want to move these files?": "Вы уверены, что хотите переместить эти файлы?",
   "File Size": "Размер файла",
   "Last Modified": "Последнее изменение",
-  "Drag&Drop: on": "Drag&Drop: on",
-  "Drag&Drop: off": "Drag&Drop: off",
   "Select Folders": "Выбрать папки",
   "Clear all": "Очистить все",
   "Clear only successful": "Очистить только успешные",

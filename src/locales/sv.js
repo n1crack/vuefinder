@@ -62,8 +62,6 @@ export default {
   "Are you sure you want to move these files?" : "Är du säker på att du vill flytta dessa filer?",
   "File Size": "Filstorlek",
   "Last Modified": "Senast ändrad",
-  "Drag&Drop: on": "Dra och släpp: på",
-  "Drag&Drop: off": "Dra och släpp: av",
   "Select Folders": "Välj mappar",
   "Clear all": "Rensa alla",
   "Clear only successful": "Rensa endast lyckade",

@@ -49,7 +49,7 @@ const props = defineProps({
   },
   path: {
     type: String,
-    default: '.',
+    default: '',
   },
   features: {
     type: [Array, Boolean],

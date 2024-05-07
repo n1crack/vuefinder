@@ -62,8 +62,6 @@ export default {
   "Are you sure you want to move these files?": "האם בטוח להעביר קבצים אלו?",
   "File Size": "גודל קובץ",
   "Last Modified": "תאריך שינוי",
-  "Drag&Drop: on": "מצב גרירה: פעיל",
-  "Drag&Drop: off": "מצב גרירה: כבוי",
   "Select Folders": "Select Folders",
   "Clear all": "נקה הכל",
   "Clear only successful": "נקה רק הצלחות",

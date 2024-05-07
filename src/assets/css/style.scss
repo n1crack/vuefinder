@@ -1,6 +1,30 @@
 @tailwind base;
 
 @tailwind components;
+@layer utilities {
+  .vf-theme-dark,
+  .vf-theme-light {
+    box-sizing: border-box;
+    --os-size: 10px;
+    --os-padding-perpendicular: 2px;
+    --os-padding-axis: 2px;
+    --os-track-border-radius: 10px;
+    --os-handle-interactive-area-offset: 4px;
+    --os-handle-border-radius: 10px;
+  }
+
+  .vf-theme-dark {
+    --os-handle-bg: rgba(0, 0, 0, 0.44);
+    --os-handle-bg-hover: rgba(0, 0, 0, 0.55);
+    --os-handle-bg-active: rgba(0, 0, 0, 0.66);
+  }
+
+  .vf-theme-light {
+    --os-handle-bg: rgba(255, 255, 255, 0.44);
+    --os-handle-bg-hover: rgba(255, 255, 255, 0.55);
+    --os-handle-bg-active: rgba(255, 255, 255, 0.66);
+  }
+}
 
 @layer components {
   .vuefinder {
@@ -67,7 +91,7 @@
       @apply p-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center dark:border-gray-700
     }
 
-    .vf-toolbar-icon{
+    .vf-toolbar-icon {
       @apply cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300;
     }
 
@@ -91,28 +115,44 @@
       color-scheme: dark;
     }
 
-    /* width */
-    .vf-scrollbar::-webkit-scrollbar {
-      width: 12px;
+    .vf-scrollbar {
+      /* width */
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track-piece {
+        @apply bg-gray-100 dark:bg-slate-900/50;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        @apply bg-gray-300 dark:bg-slate-700;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-400 dark:bg-slate-600;
+      }
+
+      &::-webkit-scrollbar-corner {
+        @apply bg-transparent;
+      }
     }
 
-    /* Track */
-    .vf-scrollbar::-webkit-scrollbar-track-piece {
-      @apply bg-gray-100 dark:bg-slate-900/50;
-    }
+    .vf-explorer-scrollbar {
+      &::-webkit-scrollbar {
+        width: 12px;
+      }
 
-    /* Handle */
-    .vf-scrollbar::-webkit-scrollbar-thumb {
-      @apply bg-gray-300 dark:bg-slate-700;
-    }
+      &::-webkit-scrollbar-track-piece {
+        @apply bg-gray-100 dark:bg-slate-900/50;
+      }
 
-    /* Handle on hover */
-    .vf-scrollbar::-webkit-scrollbar-thumb:hover {
-      @apply bg-gray-400 dark:bg-slate-600;
-    }
-
-    .vf-scrollbar::-webkit-scrollbar-corner {
-      @apply bg-transparent;
+      &::-webkit-scrollbar-thumb, &::-webkit-scrollbar-thumb:hover, &::-webkit-scrollbar-corner {
+        @apply bg-transparent;
+      }
     }
 
     /* modal fade effect */
@@ -135,7 +175,13 @@
     @apply border border-slate-500 bg-slate-300 opacity-50 #{!important};
   }
 
+  .vf-explorer-scrollbar-container {
+    height: calc(100% - 12px);
+    @apply z-[10] absolute right-0 top-0 pointer-events-none;
+  }
 }
 
 @tailwind utilities;
 
+
+@import "overlayscrollbars/styles/overlayscrollbars.css";
