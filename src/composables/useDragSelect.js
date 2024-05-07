@@ -75,6 +75,8 @@ export default function () {
         // update selection
         selectedItems.value = dragSelectInstance.getSelection().map((el) => JSON.parse(el.dataset.item));
         onSelectCallback.value(selectedItems.value);
+
+        updateScrollbarHeight();
     });
 
     const onSelect = (callback) => {

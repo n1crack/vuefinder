@@ -186,7 +186,7 @@ const ve = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, Gn = Object.values(ve), Wn = "2.4.1";
+}, Gn = Object.values(ve), Wn = "2.4.2";
 function Ao(t, e, s, n, o) {
   return (e = Math, s = e.log, n = 1024, o = s(t) / s(n) | 0, t / e.pow(n, o)).toFixed(0) + " " + (o ? "KMGTPEZY"[--o] + "iB" : "B");
 }
@@ -1541,7 +1541,7 @@ function Kr() {
       selectables: document.getElementsByClassName("vf-item-" + s)
     }), t.addSelection(
       t.getSelectables().filter((g) => w.includes(JSON.parse(g.dataset.item).path))
-    ), o.value = t.getSelection().map((g) => JSON.parse(g.dataset.item)), m.value(o.value);
+    ), o.value = t.getSelection().map((g) => JSON.parse(g.dataset.item)), m.value(o.value), k();
   }), S = (w) => {
     m.value = w, t.subscribe("DS:end", ({ items: g, event: B, isDragging: M }) => {
       o.value = g.map(($) => JSON.parse($.dataset.item)), w(g.map(($) => JSON.parse($.dataset.item)));
