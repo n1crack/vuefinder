@@ -19,11 +19,15 @@
       <DragItem ref="dragImage" :count="ds.getCount()"/>
     </div>
 
-    <div :ref="ds.area"
-         :class="{'resize-y': !app.fullScreen}"
-         class="h-full w-full text-xs select-none vf-selector-area min-h-[150px] z-0 overflow-y-auto"
+    <div :ref="ds.scrollBarContainer" class="vf-explorer-scrollbar-container">
+      <div :ref="ds.scrollBar" class="w-3"></div>
+    </div>
+
+    <div :ref="ds.area" :class="{'resize-y': !app.fullScreen}"
+         class="h-full w-full text-xs select-none vf-explorer-scrollbar vf-selector-area min-h-[150px] z-0 overflow-y-auto"
          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
     >
+
       <!-- Search View -->
       <Item v-if="searchQuery.length" v-for="(item, index) in getItems()"
             :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list">

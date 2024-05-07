@@ -1,10 +1,10 @@
 import {ref, onMounted, onUpdated, onUnmounted, nextTick} from 'vue';
 import DragSelect from 'dragselect';
 import {
-  OverlayScrollbars,
-  ScrollbarsHidingPlugin,
-  SizeObserverPlugin,
-  ClickScrollPlugin,
+    OverlayScrollbars,
+    ScrollbarsHidingPlugin,
+    SizeObserverPlugin,
+    ClickScrollPlugin,
 } from 'overlayscrollbars';
 
 export default function () {
@@ -18,7 +18,10 @@ export default function () {
     const getCount = () => selectedItems.value.length;
     const clearSelection = () => dragSelectInstance.clearSelection(true);
     const onSelectCallback = ref();
+    // ScrollBar
     const osInstance = ref(null);
+    const scrollBar = ref(null);
+    const scrollBarContainer = ref(null);
 
     function initDragSelect() {
         dragSelectInstance = new DragSelect({
@@ -43,42 +46,6 @@ export default function () {
                 }
             }
         });
-
-        // not working correctly, need to find a better way to scroll
-
-        //  const scrollElement = (element, directions, multiplier = 1) => {
-        //     if (!directions?.length || !element) return
-          
-        //     const docEl =
-        //       document &&
-        //       document.documentElement &&
-        //       document.documentElement.scrollTop &&
-        //       document.documentElement
-        //     const _element =
-        //       element instanceof Document ? docEl || document.body : element
-          
-        //     const scrollTop = directions.includes('top') && _element.scrollTop > 0
-        //     const scrollBot =
-        //       directions.includes('bottom') && _element.scrollTop < _element.scrollHeight
-        //     const scrollLeft = directions.includes('left') && _element.scrollLeft > 0
-        //     const scrollRight =
-        //       directions.includes('right') && _element.scrollLeft < _element.scrollWidth
-          
-        //     if (scrollTop) _element.scrollTop -= 1 * multiplier
-        //     if (scrollBot) _element.scrollTop += 1 * multiplier
-        //     if (scrollLeft) _element.scrollLeft -= 1 * multiplier
-        //     if (scrollRight) _element.scrollLeft += 1 * multiplier
-        //   }
-
-        // dragSelectInstance.subscribe('DS:scroll', ({isDragging, scroll_multiplier, scroll_directions ,items}) => {
-        //     if (!isDragging) {
-        //         if (!osInstance.value) {
-        //             return;
-        //         }
-        //         const {scrollOffsetElement} = osInstance.value.elements();
-        //         scrollElement(scrollOffsetElement, scroll_directions, scroll_multiplier);
-        //     }
-        // });
 
         // Immediately update the selection when dragging ends.
         document.addEventListener('dragleave', (e) => {
@@ -118,38 +85,89 @@ export default function () {
         });
     }
 
+    const updateScrollbarHeight = () => {
+        if (!osInstance.value) {
+            return;
+        }
+        if (area.value.getBoundingClientRect().height < area.value.scrollHeight) {
+            scrollBar.value.style.height = (area.value.scrollHeight - 15) + 'px';
+            scrollBar.value.style.display = 'block';
+        } else {
+            scrollBar.value.style.height = '100%';
+            scrollBar.value.style.display = 'none';
+        }
+    }
+
+
+    const updateScrollBarPosition = (e) => {
+        if (!osInstance.value) {
+            return;
+        }
+        const {scrollOffsetElement} = osInstance.value.elements();
+
+        scrollOffsetElement.scrollTo(
+            {
+                top: area.value.scrollTop,
+                left: 0,
+            }
+        )
+    }
+
     onMounted(() => {
-        OverlayScrollbars(area.value, {
+        // Super hacky way to get to work the scrollbar element
+        OverlayScrollbars(scrollBarContainer.value, {
             scrollbars: {
                 theme: 'vf-theme-dark dark:vf-theme-light',
             },
             plugins: {
-                ScrollbarsHidingPlugin,
-                SizeObserverPlugin,
-                ClickScrollPlugin
+                OverlayScrollbars,
+                // ScrollbarsHidingPlugin,
+                // SizeObserverPlugin,
+                // ClickScrollPlugin
             },
         }, {
             initialized: (instance) => {
                 osInstance.value = instance;
-
-                initDragSelect()
+            },
+            scroll: (instance, event) => {
+                // Update the file explorer area scroll position when the custom scroll bar is scrolled.
+                const {scrollOffsetElement} = instance.elements();
+                area.value.scrollTo({
+                    top: scrollOffsetElement.scrollTop,
+                    left: 0,
+                })
             }
         });
 
+        initDragSelect()
+
+        // Update scrollbar height when the area is resized.
+        updateScrollbarHeight();
+        new ResizeObserver(updateScrollbarHeight).observe(area.value);
+
+        // Update scrollbar position when the area is scrolled.
+        area.value.addEventListener('scroll', updateScrollBarPosition);
+        dragSelectInstance.subscribe('DS:scroll', ({isDragging}) => isDragging || updateScrollBarPosition());
     });
 
     onUnmounted(() => {
-        if (dragSelectInstance) dragSelectInstance.stop();
+        if (dragSelectInstance) {
+            dragSelectInstance.stop();
+        }
     });
 
     onUpdated(() => {
-        if (dragSelectInstance) dragSelectInstance.Area.reset()
+        if (dragSelectInstance) {
+            dragSelectInstance.Area.reset()
+        }
     });
 
     return {
         area,
         explorerId,
         isDraggingRef,
+        scrollBar,
+        scrollBarContainer,
         getSelected,
         getSelection,
         clearSelection,
