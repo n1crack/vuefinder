@@ -186,7 +186,7 @@ const ve = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, tr = Object.values(ve), sr = "2.4.3";
+}, tr = Object.values(ve), sr = "2.4.4";
 function Bo(t, e, s, n, o) {
   return (e = Math, s = e.log, n = 1024, o = s(t) / s(n) | 0, t / e.pow(n, o)).toFixed(0) + " " + (o ? "KMGTPEZY"[--o] + "iB" : "B");
 }
