@@ -357,6 +357,7 @@ onMounted(async () => {
     xhrPlugin.opts.method = reqParams.method;
     xhrPlugin.opts.endpoint = reqParams.url + '?' + new URLSearchParams(reqParams.params);
     xhrPlugin.opts.headers = reqParams.headers;
+    delete reqParams.headers['Content-Type'];
     uploading.value = true;
     queue.value.forEach(file => {
       if (file.status === QUEUE_ENTRY_STATUS.DONE) {
