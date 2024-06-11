@@ -32,6 +32,7 @@ import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
 import ModalDelete from "./modals/ModalDelete.vue";
+import ModalAbout from './modals/ModalAbout.vue';
 
 const emit = defineEmits(['select'])
 
@@ -114,6 +115,11 @@ const shortcutsListener = (e) => {
         (!app.dragSelect.getCount()) || app.modal.open(ModalDelete, { items: app.dragSelect.getSelected() })
     }
 
+    if (e.metaKey && e.code === 'Backslash') {
+        console.log('Open Settings');
+        app.modal.open(ModalAbout)
+    }
+
     if (e.key === 'Escape') {
         console.log('Escape key pressed');
         app.modal.close();
@@ -127,7 +133,7 @@ const shortcutsListener = (e) => {
     }
 
     if (e.metaKey && e.code === 'KeyA') {
-        console.log('Select All', e.target.tagName);
+        console.log('Select All');
         app.dragSelect.selectAll();
         e.preventDefault()
     }
