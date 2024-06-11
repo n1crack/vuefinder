@@ -88,5 +88,6 @@ export default {
   "Show thumbnails": "Küçük resimleri göster",
   "Persist path on reload": "Yeniden yüklemede yolu koru",
   "Compact list view": "Kompakt liste görünümü",
+  "Select All": "Hepsini Seç",
   "uppy": uppyLocaleTr,
 }

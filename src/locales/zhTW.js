@@ -88,5 +88,6 @@ export default {
   "Show thumbnails": "顯示縮略圖",
   "Persist path on reload": "重新加載時保持路徑",
   "Compact list view": "緊湊列表視圖",
+  "Select All": "全選",
   "uppy": uppyLocalezhTW
 }

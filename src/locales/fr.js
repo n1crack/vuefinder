@@ -89,5 +89,6 @@ export default {
   "Show thumbnails": "Afficher les miniatures",
   "Persist path on reload": "Conserver le chemin lors du rechargement",
   "Compact list view": "Vue en liste compacte",
+  "Select All": "Tout sélectionner",
   "uppy": uppyLocaleFr
 }

@@ -88,5 +88,6 @@ export default {
   "Show thumbnails": "نمایش تصاویر کوچک",
   "Persist path on reload": "مسیر را در هنگام بارگذاری مجدد ذخیره کن",
   "Compact list view": "نمایش لیست کوچک",
+  "Select All": "انتخاب همه",
   "uppy": uppyLocaleFa
 }

@@ -88,5 +88,6 @@ export default {
   "Show thumbnails": "הצג תמונות ממוזערות",
   "Persist path on reload": "שמור נתיב בטעינה מחדש",
   "Compact list view": "תצוגת רשימה קומפקטית",
+  "Select All": "בחר הכל",
   "uppy": uppyLocaleHe
 }

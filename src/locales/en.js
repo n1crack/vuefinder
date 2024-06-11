@@ -88,5 +88,6 @@ export default {
   "Show thumbnails": "Show thumbnails",
   "Persist path on reload": "Persist path on reload",
   "Compact list view": "Compact list view",
+  "Select All": "Select All",
   "uppy": uppyLocaleEn
 }

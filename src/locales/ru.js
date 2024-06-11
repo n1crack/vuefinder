@@ -88,5 +88,6 @@ export default {
   "Show thumbnails": "Показать миниатюры",
   "Persist path on reload": "Сохранить путь при перезагрузке",
   "Compact list view": "Компактный вид списка",
+  "Select All": "Выбрать все",
   "uppy": uppyLocaleRu
 }

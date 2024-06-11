@@ -88,5 +88,6 @@ export default {
   "Show thumbnails": "Visa miniatyrer",
   "Persist path on reload": "Behåll sökväg vid omladdning",
   "Compact list view": "Kompakt listvy",
+  "Select All": "Välj alla",
   "uppy": uppyLocaleSv
 }

@@ -88,5 +88,6 @@ export default {
   "Show thumbnails": "थंबनेल दिखाएं",
   "Persist path on reload": "पुनः लोड पर पथ बनाए रखें",
   "Compact list view": "संक्षिप्त सूची दृश्य",
+  "Select All": "सभी का चयन करें",
   "uppy": uppyLocaleHi
 }
