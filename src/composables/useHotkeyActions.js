@@ -17,7 +17,7 @@ const KEYBOARD_SHORTCUTS = {
 export function useHotkeyActions(app) {
     // This function is used to handle keyboard shortcuts in the application.
     const handleKeyboardShortcuts = (e) => {
-        if (e.key === KEYBOARD_SHORTCUTS.ESCAPE) {
+        if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) {
             app.modal.close();
             app.root.focus();
         }
@@ -26,15 +26,15 @@ export function useHotkeyActions(app) {
             return;
         }
 
-        if (e.key === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
+        if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
             (app.dragSelect.getCount() !== 1) || app.modal.open(ModalRename, {items: app.dragSelect.getSelected()})
         }
 
-        if (e.key === KEYBOARD_SHORTCUTS.F5) {
+        if (e.code === KEYBOARD_SHORTCUTS.F5) {
             app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
         }
 
-        if (e.key === KEYBOARD_SHORTCUTS.DELETE) {
+        if (e.code === KEYBOARD_SHORTCUTS.DELETE) {
             (!app.dragSelect.getCount()) || app.modal.open(ModalDelete, {items: app.dragSelect.getSelected()})
         }
 
