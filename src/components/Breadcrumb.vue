@@ -279,6 +279,12 @@ watch(query, newQuery => {
   app.emitter.emit('vf-search-query', {newQuery});
 });
 
+watch(() => app.fs.searchMode, (newSearchMode) => {
+  if (newSearchMode) {
+    nextTick(() => searchInput.value.focus());
+  }
+});
+
 const exitSearchMode = () => {
   app.fs.searchMode = false;
   query.value = '';

@@ -1,5 +1,5 @@
 <template>
-  <div class="vuefinder" ref="root">
+  <div class="vuefinder" ref="root" tabindex="0">
     <div :class="app.theme.actualValue">
       <div
           :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded'"
@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import {inject, onMounted, provide, ref} from 'vue';
+import {computed, inject, onMounted, onUnmounted, provide, ref} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
 
 import Toolbar from '../components/Toolbar.vue';
@@ -31,6 +31,7 @@ import Breadcrumb from '../components/Breadcrumb.vue';
 import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
+import ModalDelete from "./modals/ModalDelete.vue";
 
 const emit = defineEmits(['select'])
 
@@ -97,6 +98,47 @@ const props = defineProps({
       }
     },
   },
+});
+
+const shortcutsListener = (e) => {
+    if (app.modal.visible) {
+        return;
+    }
+    if (e.key === 'F5') {
+        console.log('F5 refresh');
+        app.emitter.emit('vf-fetch', { params: { q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname } });
+    }
+
+    if (e.key === 'Delete') {
+        console.log('Delete key pressed');
+        (!app.dragSelect.getCount()) || app.modal.open(ModalDelete, { items: app.dragSelect.getSelected() })
+    }
+
+    if (e.key === 'Escape') {
+        console.log('Escape key pressed');
+        app.modal.close();
+        root.value.focus();
+    }
+
+    if (e.metaKey && e.code === 'KeyF') {
+        console.log('Search mode');
+        app.fs.searchMode = true;
+        e.preventDefault();
+    }
+
+    if (e.metaKey && e.code === 'KeyA') {
+        console.log('Select All', e.target.tagName);
+        app.dragSelect.selectAll();
+        e.preventDefault()
+    }
+};
+
+onMounted(() => {
+    root.value.addEventListener("keydown", shortcutsListener);
+});
+
+onUnmounted(() => {
+    root.value.removeEventListener("keydown", shortcutsListener);
 });
 
 // the object is passed to all components as props
