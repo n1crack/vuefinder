@@ -58,6 +58,10 @@ const menuItems = {
     title: () => t('New Folder'),
     action: () => app.modal.open(ModalNewFolder),
   },
+  selectAll: {
+    title: () => t('Select All'),
+    action: () => app.dragSelect.selectAll(),
+  },
   delete: {
     key: FEATURES.DELETE,
     title: () => t('Delete'),
@@ -149,6 +153,7 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
     }
   } else if (!target && !searchQuery.value) {
     context.items.push(menuItems.refresh);
+    context.items.push(menuItems.selectAll);
     context.items.push(menuItems.newfolder);
     app.emitter.emit('vf-context-selected', []);
     // console.log('no files selected');
