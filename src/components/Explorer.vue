@@ -41,7 +41,7 @@
       </Item>
       <!-- List View -->
       <Item v-if="app.view==='list' && !searchQuery.length" v-for="(item, index) in getItems()"
-            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true">
+            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true" :key="item.path">
         <div class="grid grid-cols-12 items-center">
           <div class="flex col-span-7 items-center">
             <ItemIcon :type="item.type" :small="app.compactListView"/>
