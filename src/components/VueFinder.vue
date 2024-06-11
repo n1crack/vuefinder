@@ -102,6 +102,12 @@ const props = defineProps({
 });
 
 const shortcutsListener = (e) => {
+    if (e.key === 'Escape') {
+        console.log('Escape key pressed');
+        app.modal.close();
+        root.value.focus();
+    }
+
     if (app.modal.visible) {
         return;
     }
@@ -118,12 +124,6 @@ const shortcutsListener = (e) => {
     if (e.metaKey && e.code === 'Backslash') {
         console.log('Open Settings');
         app.modal.open(ModalAbout)
-    }
-
-    if (e.key === 'Escape') {
-        console.log('Escape key pressed');
-        app.modal.close();
-        root.value.focus();
     }
 
     if (e.metaKey && e.code === 'KeyF') {
