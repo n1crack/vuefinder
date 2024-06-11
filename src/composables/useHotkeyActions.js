@@ -1,9 +1,12 @@
 import {onMounted, onUnmounted} from 'vue';
 import ModalAbout from "../components/modals/ModalAbout.vue";
 import ModalDelete from "../components/modals/ModalDelete.vue";
+import {FEATURES} from "../components/features.js";
+import ModalRename from "../components/modals/ModalRename.vue";
 
 const KEYBOARD_SHORTCUTS = {
     ESCAPE: 'Escape',
+    F2: 'F2',
     F5: 'F5',
     DELETE: 'Delete',
     BACKSLASH: 'Backslash',
@@ -23,6 +26,11 @@ export function useHotkeyActions(app) {
         if (app.modal.visible) {
             return;
         }
+
+        if (e.key === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
+            (app.dragSelect.getCount() !== 1) || app.modal.open(ModalRename, {items: app.dragSelect.getSelected()})
+        }
+
         if (e.key === KEYBOARD_SHORTCUTS.F5) {
             app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
         }
