@@ -23,16 +23,15 @@
 </template>
 
 <script setup>
-import {computed, inject, onMounted, onUnmounted, provide, ref} from 'vue';
+import {inject, onMounted, provide, ref} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
+import {useHotkeyActions} from "../composables/useHotkeyActions.js";
 
 import Toolbar from '../components/Toolbar.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
 import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
-import ModalDelete from "./modals/ModalDelete.vue";
-import ModalAbout from './modals/ModalAbout.vue';
 
 const emit = defineEmits(['select'])
 
@@ -101,52 +100,6 @@ const props = defineProps({
   },
 });
 
-const shortcutsListener = (e) => {
-    if (e.key === 'Escape') {
-        console.log('Escape key pressed');
-        app.modal.close();
-        root.value.focus();
-    }
-
-    if (app.modal.visible) {
-        return;
-    }
-    if (e.key === 'F5') {
-        console.log('F5 refresh');
-        app.emitter.emit('vf-fetch', { params: { q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname } });
-    }
-
-    if (e.key === 'Delete') {
-        console.log('Delete key pressed');
-        (!app.dragSelect.getCount()) || app.modal.open(ModalDelete, { items: app.dragSelect.getSelected() })
-    }
-
-    if (e.metaKey && e.code === 'Backslash') {
-        console.log('Open Settings');
-        app.modal.open(ModalAbout)
-    }
-
-    if (e.metaKey && e.code === 'KeyF') {
-        console.log('Search mode');
-        app.fs.searchMode = true;
-        e.preventDefault();
-    }
-
-    if (e.metaKey && e.code === 'KeyA') {
-        console.log('Select All');
-        app.dragSelect.selectAll();
-        e.preventDefault()
-    }
-};
-
-onMounted(() => {
-    root.value.addEventListener("keydown", shortcutsListener);
-});
-
-onUnmounted(() => {
-    root.value.removeEventListener("keydown", shortcutsListener);
-});
-
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
@@ -158,6 +111,8 @@ app.root = root;
 
 // Define dragSelect object
 const ds = app.dragSelect;
+
+useHotkeyActions(app);
 
 const updateItems = (data) => {
   Object.assign(app.fs.data, data);
