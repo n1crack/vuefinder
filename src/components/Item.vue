@@ -93,6 +93,8 @@ const handleDragOver = (e, item) => {
 };
 
 let touchTimeOut = null;
+let doubleTapTimeOut = null;
+let tappedTwice = false;
 
 const clearTimeOut = () => {
   if (touchTimeOut) {
@@ -101,6 +103,15 @@ const clearTimeOut = () => {
 }
 
 const delayedOpenItem = ($event) => {
+    if(!tappedTwice) {
+        tappedTwice = true; 
+        doubleTapTimeOut = setTimeout(() => tappedTwice = false, 300)
+    } else {
+        tappedTwice = false; 
+        openItem(props.item);
+        clearTimeout(touchTimeOut);
+        return false;
+    }
   touchTimeOut = setTimeout(() => {
     const cmEvent = new MouseEvent("contextmenu", {
       bubbles: true,
