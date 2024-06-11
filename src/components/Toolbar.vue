@@ -74,7 +74,7 @@
 
 <script setup>
 import {inject, ref} from 'vue';
-import {FEATURES} from "./features.js";
+import {FEATURES} from "../features.js";
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalNewFile from "./modals/ModalNewFile.vue";
 import ModalRename from "./modals/ModalRename.vue";

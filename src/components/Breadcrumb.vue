@@ -93,7 +93,7 @@
 <script setup>
 import {inject, nextTick, onMounted, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
-import {FEATURES} from "./features.js";
+import {FEATURES} from "../features.js";
 import ModalMove from "./modals/ModalMove.vue";
 import RefreshSVG from "./icons/refresh.svg";
 import GoUpSVG from "./icons/go_up.svg";

@@ -135,7 +135,7 @@ import {computed, inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";
 import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize.js'
 
-import { FEATURES } from '../features.js';
+import { FEATURES } from '../../features.js';
 
 const app = inject('ServiceContainer');
 const {setStore, clearStore} = app.storage;

@@ -1,7 +1,7 @@
 import {onMounted, onUnmounted} from 'vue';
+import {FEATURES} from "../features.js";
 import ModalAbout from "../components/modals/ModalAbout.vue";
 import ModalDelete from "../components/modals/ModalDelete.vue";
-import {FEATURES} from "../components/features.js";
 import ModalRename from "../components/modals/ModalRename.vue";
 
 const KEYBOARD_SHORTCUTS = {
@@ -13,7 +13,6 @@ const KEYBOARD_SHORTCUTS = {
     KEY_F: 'KeyF',
     KEY_A: 'KeyA',
 };
-
 
 export function useHotkeyActions(app) {
     // This function is used to handle keyboard shortcuts in the application.
