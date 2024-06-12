@@ -26,6 +26,10 @@ export function useHotkeyActions(app) {
             return;
         }
 
+        if (app.fs.searchMode) {
+            return;
+        }
+
         if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
             (app.dragSelect.getCount() !== 1) || app.modal.open(ModalRename, {items: app.dragSelect.getSelected()})
         }

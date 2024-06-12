@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import {inject, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch} from 'vue';
+import {inject, onBeforeUnmount, onMounted, onUpdated, reactive, ref} from 'vue';
 import datetimestring from '../utils/datetimestring.js';
 import title_shorten from "../utils/title_shorten.js";
 import Toast from './Toast.vue';

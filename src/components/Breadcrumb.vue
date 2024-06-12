@@ -1,6 +1,14 @@
 <template>
   <div
       class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm">
+    <span :aria-label="t('Toggle Tree View')" data-microtip-position="bottom-right" role="tooltip">
+      <ListTreeSVG
+          @click="app.showTreeView = !app.showTreeView"
+          class="h-6 w-6 p-0.5 rounded cursor-pointer text-slate-700 "
+          :class="app.showTreeView ? 'bg-gray-300 dark:bg-gray-700' : ''"
+      />
+    </span>
+
     <span :aria-label="t('Go up a directory')" data-microtip-position="bottom-right" role="tooltip">
       <GoUpSVG
           @dragover="handleDragOver($event)"
@@ -103,6 +111,7 @@ import SearchSVG from "./icons/search.svg";
 import LoadingSVG from "./icons/loading.svg";
 import ExitSVG from "./icons/exit.svg";
 import FolderSVG from './icons/folder.svg';
+import ListTreeSVG from './icons/list_tree.svg';
 import DotsSVG from './icons/dots.svg';
 
 const app = inject('ServiceContainer');

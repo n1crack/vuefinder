@@ -102,6 +102,7 @@ export default function () {
         if (!osInstance.value) {
             return;
         }
+
         if (area.value.getBoundingClientRect().height < area.value.scrollHeight) {
             scrollBar.value.style.height = area.value.scrollHeight + 'px';
             scrollBar.value.style.display = 'block';
@@ -110,7 +111,6 @@ export default function () {
             scrollBar.value.style.display = 'none';
         }
     }
-
 
     const updateScrollBarPosition = (e) => {
         if (!osInstance.value) {
