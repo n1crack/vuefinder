@@ -1,49 +1,51 @@
 <template>
   <div @click="app.showTreeView = ! app.showTreeView" class=" w-full h-full bg-gray-300/10 dark:bg-gray-700/10 z-[1]" :class="app.showTreeView ? 'backdrop-blur-sm absolute md:hidden' : 'hidden'"></div>
   <div :style="app.showTreeView ? 'min-width:50px;max-width:75%; width: '+ treeViewWidth + 'px' : 'width: 0'"
-       class="h-full md:h-auto absolute md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] overflow-hidden ">
-    <ul
-        class="overflow-auto border-t border-r dark:border-gray-600/50 p-1 me-3 h-full w-full absolute  md:block bg-gray-50 dark:bg-gray-700">
+       class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
+    <div ref="treeViewScrollElement" class="h-full border-t border-r dark:border-gray-600/50 " >
 
-      <li v-for="a in 1"
-          class="flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
+      <ul
+          class="p-1 me-3 h-full w-full absolute  md:block ">
+        <li v-for="a in 1"
+            class="flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
 
-        <div>
-          <OpenFolderSVG class="h-5 w-5"/>
-        </div>
-        <div>public</div>
-      </li>
+          <div>
+            <OpenFolderSVG class="h-5 w-5"/>
+          </div>
+          <div>public</div>
+        </li>
 
-      <li v-for="a in 1"
-          class="ms-2 flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
-        <div>
-          <FolderSVG class="h-5 w-5"/>
-        </div>
-        <div>media</div>
-      </li>
+        <li v-for="a in 100"
+            class="ms-2 flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
+          <div>
+            <FolderSVG class="h-5 w-5"/>
+          </div>
+          <div>media</div>
+        </li>
+        <li
+            class="ms-2 flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
+          <div>
+            <FolderSVG class="h-5 w-5"/>
+          </div>
+          <div>wip</div>
+        </li>
+      </ul>
 
-
-      <li
-          class="ms-2 flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
-        <div>
-          <FolderSVG class="h-5 w-5"/>
-        </div>
-        <div>wip</div>
-      </li>
-
-    </ul>
+    </div>
     <div
         @mousedown="handleMouseDown"
         :class="app.showTreeView ? '' : '-right-3'"
-        class="transition-colors ease-in-out duration-200 hover:bg-slate-600/10 dark:hover:bg-slate-300/10 w-1 h-full absolute right-0 cursor-ew-resize"></div>
+        class="transition-colors ease-in-out duration-200  top-0 hover:bg-slate-600/10 dark:hover:bg-slate-300/10 w-1 h-full absolute -right-0.5 cursor-ew-resize">
+    </div>
   </div>
 </template>
 
 <script setup>
-import {inject, ref} from 'vue';
+import {inject, onMounted, ref} from 'vue';
 import FolderSVG from './icons/folder.svg';
 import OpenFolderSVG from './icons/open_folder.svg';
 
+import {OverlayScrollbars} from 'overlayscrollbars';
 const app = inject('ServiceContainer');
 
 const treeViewWidth = ref(176);
@@ -77,4 +79,9 @@ const handleMouseDown = (e) => {
   window.addEventListener('mouseup', handleMouseUp);
 
 }
+const treeViewScrollElement = ref(null);
+
+onMounted(() => {
+  OverlayScrollbars(treeViewScrollElement.value, {});
+});
 </script>

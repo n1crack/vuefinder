@@ -145,13 +145,11 @@
       &::-webkit-scrollbar {
         width: 12px;
       }
-
-      &::-webkit-scrollbar-track-piece {
-        @apply bg-gray-100 dark:bg-slate-900/50;
-      }
-
-      &::-webkit-scrollbar-thumb, &::-webkit-scrollbar-thumb:hover, &::-webkit-scrollbar-corner {
-        @apply bg-blue-50/10;
+      &::-webkit-scrollbar-track-piece,
+      &::-webkit-scrollbar-thumb,
+      &::-webkit-scrollbar-thumb:hover,
+      &::-webkit-scrollbar-corner {
+        @apply bg-transparent;
       }
     }
 
@@ -180,9 +178,9 @@
     height: calc(100% - 33px);
     @apply z-[10] absolute right-0 pointer-events-none;
 
-    &.grid-view {
+    &.grid-view:not(.search-active) {
       top: 0;
-      height: calc(100% - 12px);
+      height: calc(100%);
     }
   }
 
@@ -191,7 +189,7 @@
       top: 33px;
       height: calc(100% - 33px);
 
-     &.grid-view{
+     &.grid-view:not(.search-active){
         top: 0;
         height: calc(100%);
       }

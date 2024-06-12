@@ -1,9 +1,9 @@
 <template>
   <div
-      class="space-x-0.5 flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm">
+      class="space-x-0.5 flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm grow-0">
     <span :aria-label="t('Toggle Tree View')" data-microtip-position="bottom-right" role="tooltip">
       <ListTreeSVG
-          @click="app.showTreeView = !app.showTreeView"
+          @click="toggleTreeView"
           class="h-6 w-6 p-0.5 rounded cursor-pointer text-slate-700 "
           :class="app.showTreeView ? 'bg-gray-300 dark:bg-gray-700' : ''"
       />
@@ -117,6 +117,7 @@ import DotsSVG from './icons/dots.svg';
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const ds = app.dragSelect;
+const {setStore} = app.storage;
 
 // dynamic shown items calculation for breadcrumbs
 const breadcrumbContainer = ref(null);
@@ -265,6 +266,13 @@ const vClickOutside = {
     document.body.removeEventListener('click', el.clickOutsideEvent)
   }
 };
+/**
+ * Tree View
+ */
+const toggleTreeView = () => {
+  app.showTreeView = !app.showTreeView;
+  setStore('show-tree-view', app.showTreeView);
+}
 
 /**
  *

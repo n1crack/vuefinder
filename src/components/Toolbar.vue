@@ -1,5 +1,5 @@
 <template>
-  <div class="border-neutral-300 flex justify-between items-center py-1 text-sm">
+  <div class="border-neutral-300 flex justify-between items-center py-1 text-sm grow-0">
     <div class="flex text-center" v-if="!searchQuery.length">
       <div class="mx-1.5"
            :aria-label="t('New Folder')" data-microtip-position="bottom-right" role="tooltip"
@@ -108,6 +108,13 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
 
 const toggleFullScreen = () => {
   app.fullScreen = !app.fullScreen;
+  if (app.fullScreen) {
+    // add body over flow hidden
+    document.querySelector('body').style.overflow = 'hidden';
+  } else {
+    // remove body over flow hidden
+    document.querySelector('body').style.overflow = '';
+  }
   setStore('full-screen', app.fullScreen);
   app.emitter.emit('vf-fullscreen-toggle');
 }
