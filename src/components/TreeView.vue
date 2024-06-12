@@ -1,8 +1,9 @@
 <template>
+  <div @click="app.showTreeView = ! app.showTreeView" class=" w-full h-full bg-gray-300/10 dark:bg-gray-700/10 z-[1]" :class="app.showTreeView ? 'backdrop-blur-sm absolute md:hidden' : 'hidden'"></div>
   <div :style="app.showTreeView ? 'min-width:50px;max-width:75%; width: '+ treeViewWidth + 'px' : 'width: 0'"
-       class="h-full md:h-auto absolute md:relative shrink-0 transition-[width] ease-in-out duration-200 z-[1] overflow-hidden backdrop-blur-xl">
+       class="h-full md:h-auto absolute md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] overflow-hidden ">
     <ul
-        class="overflow-auto border-t border-r dark:border-gray-600/50 p-1 me-3 h-full w-full absolute  md:block bg-gray-100/10 dark:bg-gray-600/10">
+        class="overflow-auto border-t border-r dark:border-gray-600/50 p-1 me-3 h-full w-full absolute  md:block bg-gray-50 dark:bg-gray-700">
 
       <li v-for="a in 1"
           class="flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">

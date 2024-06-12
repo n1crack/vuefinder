@@ -1,6 +1,6 @@
 <template>
   <div
-      class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm">
+      class="space-x-0.5 flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm">
     <span :aria-label="t('Toggle Tree View')" data-microtip-position="bottom-right" role="tooltip">
       <ListTreeSVG
           @click="app.showTreeView = !app.showTreeView"
