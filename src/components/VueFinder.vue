@@ -2,9 +2,9 @@
   <div class="vuefinder" ref="root" tabindex="0">
     <div :class="app.theme.actualValue">
       <div
-          :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded'"
+          :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded resize-y '"
           :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
-          class="resize-y overflow-hidden min-h-44 border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"
+          class="overflow-hidden min-h-44 border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')">
         <Toolbar/>
