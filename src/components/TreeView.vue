@@ -26,10 +26,14 @@
       </div>
       <ul class="block ">
         <li v-for="(item, index) in treeViewData" @click="item.opened = !item.opened"
-            class="flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
-          <div>
-            <OpenFolderSVG v-if="item.opened" class="h-5 w-5"/>
-            <FolderSVG v-else class="h-5 w-5"/>
+            class="flex space-x-0.5 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
+          <div class="h-5 w-5 p-0.5 shrink-0">
+            <SquareMinusSVG v-if="item.opened" class="text-gray-500" />
+            <SquarePlusSVG v-else class="text-gray-400" />
+          </div>
+          <div class="h-5 w-5 shrink-0">
+            <OpenFolderSVG v-if="item.opened"/>
+            <FolderSVG v-else />
           </div>
           <div>{{ item.basename }}</div>
         </li>
@@ -50,6 +54,8 @@ import FolderSVG from './icons/folder.svg';
 import OpenFolderSVG from './icons/open_folder.svg';
 import StorageSVG from "./icons/storage.svg";
 import StarSVG from "./icons/star.svg";
+import SquarePlusSVG from "./icons/square_plus.svg";
+import SquareMinusSVG from "./icons/square_minus.svg";
 
 import {OverlayScrollbars} from 'overlayscrollbars';
 
