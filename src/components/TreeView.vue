@@ -2,7 +2,7 @@
   <div @click="app.showTreeView = ! app.showTreeView" class=" w-full h-full bg-gray-300/10 dark:bg-gray-700/10 z-[1]" :class="app.showTreeView ? 'backdrop-blur-sm absolute md:hidden' : 'hidden'"></div>
   <div :style="app.showTreeView ? 'min-width:50px;max-width:75%; width: '+ treeViewWidth + 'px' : 'width: 0'"
        class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
-    <div ref="treeViewScrollElement" class="h-full border-t border-r dark:border-gray-600/50 " >
+    <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 " >
 
       <ul
           class="p-1 me-3 h-full w-full absolute  md:block ">
@@ -34,7 +34,7 @@
     </div>
     <div
         @mousedown="handleMouseDown"
-        :class="app.showTreeView ? '' : '-right-3'"
+        :class="app.showTreeView ? '' : ''"
         class="transition-colors ease-in-out duration-200  top-0 hover:bg-slate-600/10 dark:hover:bg-slate-300/10 w-1 h-full absolute -right-0.5 cursor-ew-resize">
     </div>
   </div>
@@ -60,6 +60,13 @@ const handleMouseDown = (e) => {
 
   const handleMouseMove = (e) => {
     treeViewWidth.value = startWidth + e.clientX - startX;
+
+    if (treeViewWidth.value < 50) {
+        app.showTreeView = false;
+    }
+    if (treeViewWidth.value > 50) {
+        app.showTreeView = true;
+    }
   };
 
   const handleMouseUp = () => {

@@ -16,13 +16,13 @@
       </div>
     </div>
 
-    <div class="h-full ">
+    <div class="h-full">
       <div class="relative">
         <DragItem ref="dragImage" :count="ds.getCount()"/>
       </div>
 
       <div :ref="ds.area"
-           class="h-full w-full text-xs p-1 vf-selector-area min-h-[150px] z-0 overflow-y-auto"
+           class="h-full text-xs p-1 vf-selector-area z-0"
            @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
       >
 
