@@ -141,20 +141,6 @@
       }
     }
 
-    .vf-explorer-scrollbar {
-      &::-webkit-scrollbar {
-        width: 12px;
-      }
-
-      &::-webkit-scrollbar-track-piece {
-        @apply bg-gray-100 dark:bg-slate-900/50;
-      }
-
-      &::-webkit-scrollbar-thumb, &::-webkit-scrollbar-thumb:hover, &::-webkit-scrollbar-corner {
-        @apply bg-blue-50/10;
-      }
-    }
-
     /* modal fade effect */
     .fade-enter-active,
     .fade-leave-active {
@@ -175,28 +161,6 @@
     @apply border border-slate-500 bg-slate-300 opacity-50 #{!important};
   }
 
-  .vf-explorer-scrollbar-container {
-    top: 33px;
-    height: calc(100% - 33px);
-    @apply z-[10] absolute right-0 pointer-events-none;
-
-    &.grid-view {
-      top: 0;
-      height: calc(100% - 12px);
-    }
-  }
-
-  @media (max-width: 640px) {
-    .vf-explorer-scrollbar-container {
-      top: 33px;
-      height: calc(100% - 33px);
-
-     &.grid-view{
-        top: 0;
-        height: calc(100%);
-      }
-    }
-  }
 }
 
 @tailwind utilities;

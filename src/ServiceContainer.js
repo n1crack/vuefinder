@@ -3,7 +3,7 @@ import mitt from "mitt";
 import {buildRequester} from "./utils/ajax.js";
 import {useStorage} from "./composables/useStorage.js";
 import {useI18n} from "./composables/useI18n.js";
-import {FEATURE_ALL_NAMES, FEATURES} from "./components/features.js";
+import {FEATURE_ALL_NAMES, FEATURES} from "./features.js";
 import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
 import useTheme from './composables/useTheme.js';
@@ -60,6 +60,8 @@ export default (props, options) => {
         view: storage.getStore('viewport', 'grid'),
         // fullscreen state
         fullScreen: storage.getStore('full-screen', props.fullScreen),
+        // show tree view
+        showTreeView: storage.getStore('show-tree-view', props.showTreeView),
         // selectButton state
         selectButton: props.selectButton,
         // max file size

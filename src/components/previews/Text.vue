@@ -25,9 +25,9 @@
 
 <script setup>
 
-import {inject, nextTick, onMounted, ref} from 'vue';
+import {inject, onMounted, ref} from 'vue';
 import Message from '../Message.vue';
-import {FEATURES} from "../features.js";
+import {FEATURES} from "../../features.js";
 
 const emit = defineEmits(['success'])
 const content = ref('');

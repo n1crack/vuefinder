@@ -4,12 +4,15 @@
       <div
           :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded'"
           :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
-          class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"
+          class="resize-y overflow-hidden min-h-44 border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')">
         <Toolbar/>
         <Breadcrumb/>
-        <Explorer/>
+        <div class="relative flex overflow-hidden h-full">
+            <TreeView/>
+            <Explorer/>
+        </div>
         <Statusbar/>
       </div>
 
@@ -23,16 +26,17 @@
 </template>
 
 <script setup>
-import {computed, inject, onMounted, onUnmounted, provide, ref} from 'vue';
+import {inject, onMounted, provide, ref} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
+import {useHotkeyActions} from "../composables/useHotkeyActions.js";
 
 import Toolbar from '../components/Toolbar.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
 import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
-import ModalDelete from "./modals/ModalDelete.vue";
-import ModalAbout from './modals/ModalAbout.vue';
+import TreeView from '../components/TreeView.vue';
+
 
 const emit = defineEmits(['select'])
 
@@ -81,6 +85,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  showTreeView: {
+    type: Boolean,
+    default: false
+  },
   showThumbnails: {
     type: Boolean,
     default: true
@@ -101,52 +109,6 @@ const props = defineProps({
   },
 });
 
-const shortcutsListener = (e) => {
-    if (e.key === 'Escape') {
-        console.log('Escape key pressed');
-        app.modal.close();
-        root.value.focus();
-    }
-
-    if (app.modal.visible) {
-        return;
-    }
-    if (e.key === 'F5') {
-        console.log('F5 refresh');
-        app.emitter.emit('vf-fetch', { params: { q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname } });
-    }
-
-    if (e.key === 'Delete') {
-        console.log('Delete key pressed');
-        (!app.dragSelect.getCount()) || app.modal.open(ModalDelete, { items: app.dragSelect.getSelected() })
-    }
-
-    if (e.metaKey && e.code === 'Backslash') {
-        console.log('Open Settings');
-        app.modal.open(ModalAbout)
-    }
-
-    if (e.metaKey && e.code === 'KeyF') {
-        console.log('Search mode');
-        app.fs.searchMode = true;
-        e.preventDefault();
-    }
-
-    if (e.metaKey && e.code === 'KeyA') {
-        console.log('Select All');
-        app.dragSelect.selectAll();
-        e.preventDefault()
-    }
-};
-
-onMounted(() => {
-    root.value.addEventListener("keydown", shortcutsListener);
-});
-
-onUnmounted(() => {
-    root.value.removeEventListener("keydown", shortcutsListener);
-});
-
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
@@ -158,6 +120,8 @@ app.root = root;
 
 // Define dragSelect object
 const ds = app.dragSelect;
+
+useHotkeyActions(app);
 
 const updateItems = (data) => {
   Object.assign(app.fs.data, data);

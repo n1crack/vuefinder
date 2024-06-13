@@ -1,6 +1,14 @@
 <template>
   <div
-      class="flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm">
+      class="space-x-0.5 flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm grow-0">
+    <span :aria-label="t('Toggle Tree View')" data-microtip-position="bottom-right" role="tooltip">
+      <ListTreeSVG
+          @click="toggleTreeView"
+          class="h-6 w-6 p-0.5 rounded cursor-pointer text-slate-700 "
+          :class="app.showTreeView ? 'bg-gray-300 dark:bg-gray-700' : ''"
+      />
+    </span>
+
     <span :aria-label="t('Go up a directory')" data-microtip-position="bottom-right" role="tooltip">
       <GoUpSVG
           @dragover="handleDragOver($event)"
@@ -93,7 +101,7 @@
 <script setup>
 import {inject, nextTick, onMounted, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
-import {FEATURES} from "./features.js";
+import {FEATURES} from "../features.js";
 import ModalMove from "./modals/ModalMove.vue";
 import RefreshSVG from "./icons/refresh.svg";
 import GoUpSVG from "./icons/go_up.svg";
@@ -103,11 +111,13 @@ import SearchSVG from "./icons/search.svg";
 import LoadingSVG from "./icons/loading.svg";
 import ExitSVG from "./icons/exit.svg";
 import FolderSVG from './icons/folder.svg';
+import ListTreeSVG from './icons/list_tree.svg';
 import DotsSVG from './icons/dots.svg';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const ds = app.dragSelect;
+const {setStore} = app.storage;
 
 // dynamic shown items calculation for breadcrumbs
 const breadcrumbContainer = ref(null);
@@ -256,6 +266,13 @@ const vClickOutside = {
     document.body.removeEventListener('click', el.clickOutsideEvent)
   }
 };
+/**
+ * Tree View
+ */
+const toggleTreeView = () => {
+  app.showTreeView = !app.showTreeView;
+  setStore('show-tree-view', app.showTreeView);
+}
 
 /**
  *

@@ -18,10 +18,6 @@ export default function () {
     const getCount = () => selectedItems.value.length;
     const clearSelection = () => dragSelectInstance.clearSelection(true);
     const onSelectCallback = ref();
-    // ScrollBar
-    const osInstance = ref(null);
-    const scrollBar = ref(null);
-    const scrollBarContainer = ref(null);
 
     function initDragSelect() {
         dragSelectInstance = new DragSelect({
@@ -86,7 +82,6 @@ export default function () {
         );
 
         updateSelection();
-        updateScrollbarHeight();
     });
 
     const onSelect = (callback) => {
@@ -98,69 +93,26 @@ export default function () {
         });
     }
 
-    const updateScrollbarHeight = () => {
-        if (!osInstance.value) {
-            return;
-        }
-        if (area.value.getBoundingClientRect().height < area.value.scrollHeight) {
-            scrollBar.value.style.height = area.value.scrollHeight + 'px';
-            scrollBar.value.style.display = 'block';
-        } else {
-            scrollBar.value.style.height = '100%';
-            scrollBar.value.style.display = 'none';
-        }
-    }
-
-
-    const updateScrollBarPosition = (e) => {
-        if (!osInstance.value) {
-            return;
-        }
-        const {scrollOffsetElement} = osInstance.value.elements();
-
-        scrollOffsetElement.scrollTo(
-            {
-                top: area.value.scrollTop,
-                left: 0,
-            }
-        )
-    }
-
     onMounted(() => {
-        // Super hacky way to get to work the scrollbar element
-        OverlayScrollbars(scrollBarContainer.value, {
+        OverlayScrollbars({
+            target: area.value.parentElement,
+            elements: {
+                viewport: area.value,
+            },
+        }, {
             scrollbars: {
                 theme: 'vf-theme-dark dark:vf-theme-light',
             },
             plugins: {
                 OverlayScrollbars,
-                // ScrollbarsHidingPlugin,
-                // SizeObserverPlugin,
-                // ClickScrollPlugin
+                ScrollbarsHidingPlugin,
+                SizeObserverPlugin,
+                ClickScrollPlugin
             },
-        }, {
-            initialized: (instance) => {
-                osInstance.value = instance;
-            },
-            scroll: (instance, event) => {
-                // Update the file explorer area scroll position when the custom scroll bar is scrolled.
-                const {scrollOffsetElement} = instance.elements();
-                area.value.scrollTo({
-                    top: scrollOffsetElement.scrollTop,
-                    left: 0,
-                })
-            }
-        });
+        }, {});
 
         initDragSelect()
 
-        // Update scrollbar height when the area is resized.
-        updateScrollbarHeight();
-        new ResizeObserver(updateScrollbarHeight).observe(area.value);
-
-        // Update scrollbar position when the area is scrolled.
-        area.value.addEventListener('scroll', updateScrollBarPosition);
-        dragSelectInstance.subscribe('DS:scroll', ({isDragging}) => isDragging || updateScrollBarPosition());
     });
 
     onUnmounted(() => {
@@ -179,8 +131,6 @@ export default function () {
         area,
         explorerId,
         isDraggingRef,
-        scrollBar,
-        scrollBarContainer,
         getSelected,
         getSelection,
         selectAll,

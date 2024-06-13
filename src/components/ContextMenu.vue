@@ -20,7 +20,7 @@
 
 <script setup>
 import {computed, inject, nextTick, reactive, ref} from 'vue';
-import {FEATURES} from "./features.js";
+import {FEATURES} from "../features.js";
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalArchive from "./modals/ModalArchive.vue";
