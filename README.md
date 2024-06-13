@@ -227,6 +227,7 @@ If you want to contribute to the project, please feel free to fork the repositor
  - [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) : lightweight and flexible lazy loading for thumbnails
  - [microtip](https://github.com/ghosh/microtip) : Minimal, accessible, ultra lightweight css tooltip library
  - [mitt](https://github.com/developit/mitt) : Tiny 200 byte functional event emitter / pubsub
+ - [OverlayScrollbars](https://kingsora.github.io/OverlayScrollbars) : scrollbar plugin
 
 ### License
 Copyright (c) 2018 Yusuf ÖZDEMİR, released under [the MIT license](LICENSE)
