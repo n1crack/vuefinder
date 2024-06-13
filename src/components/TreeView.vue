@@ -1,33 +1,37 @@
 <template>
   <div @click="app.showTreeView = ! app.showTreeView" class=" w-full h-full bg-gray-300/10 dark:bg-gray-700/10 z-[1]" :class="app.showTreeView ? 'backdrop-blur-sm absolute md:hidden' : 'hidden'"></div>
   <div :style="app.showTreeView ? 'min-width:50px;max-width:75%; width: '+ treeViewWidth + 'px' : 'width: 0'"
-       class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
+       class="me-3 absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
     <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 " >
 
-      <ul
-          class="p-1 me-3 h-full w-full absolute  md:block ">
-        <li v-for="a in 1"
+      <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex items-center space-x-1">
+        <div><StarSVG class="text-yellow-600" /></div> <div>Favorites</div>
+      </div>
+      <ul class="block ">
+        <li class="flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
+          <div><FolderSVG class="h-5 w-5"/></div>
+          <div>Downloads</div>
+        </li>
+        <li class="flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
+          <div><FolderSVG class="h-5 w-5"/></div>
+          <div>Documents</div>
+        </li>
+        <li class="flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
+          <div><FolderSVG class="h-5 w-5"/></div>
+          <div>Desktop</div>
+        </li>
+      </ul>
+      <div class="pt-1 px-1 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex items-center space-x-1">
+        <div><StorageSVG /></div> <div>{{ app.fs.adapter }}</div>
+      </div>
+      <ul class="block ">
+        <li v-for="(item, index) in treeViewData" @click="item.opened = !item.opened"
             class="flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
-
           <div>
-            <OpenFolderSVG class="h-5 w-5"/>
+            <OpenFolderSVG v-if="item.opened" class="h-5 w-5"/>
+            <FolderSVG v-else class="h-5 w-5"/>
           </div>
-          <div>public</div>
-        </li>
-
-        <li v-for="a in 100"
-            class="ms-2 flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
-          <div>
-            <FolderSVG class="h-5 w-5"/>
-          </div>
-          <div>media</div>
-        </li>
-        <li
-            class="ms-2 flex space-x-1 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
-          <div>
-            <FolderSVG class="h-5 w-5"/>
-          </div>
-          <div>wip</div>
+          <div>{{ item.basename }}</div>
         </li>
       </ul>
 
@@ -41,27 +45,35 @@
 </template>
 
 <script setup>
-import {inject, onMounted, ref} from 'vue';
+import {inject, onMounted, ref, watch} from 'vue';
 import FolderSVG from './icons/folder.svg';
 import OpenFolderSVG from './icons/open_folder.svg';
+import StorageSVG from "./icons/storage.svg";
+import StarSVG from "./icons/star.svg";
 
 import {OverlayScrollbars} from 'overlayscrollbars';
+
 const app = inject('ServiceContainer');
 
 const treeViewWidth = ref(176);
 
+const treeViewData= ref([]);
+
 const handleMouseDown = (e) => {
   const startX = e.clientX;
-  const startWidth = treeViewWidth.value;
-  // start of event remove transition-[width] and add transition-none
   const element = e.target.parentElement;
+  const startWidth = element.getBoundingClientRect().width;
+
+  // start of event remove transition-[width] and add transition-none
   element.classList.remove('transition-[width]');
   element.classList.add('transition-none');
 
   const handleMouseMove = (e) => {
     treeViewWidth.value = startWidth + e.clientX - startX;
 
+    console.log(treeViewWidth.value);
     if (treeViewWidth.value < 50) {
+        treeViewWidth.value = 0;
         app.showTreeView = false;
     }
     if (treeViewWidth.value > 50) {
@@ -87,6 +99,10 @@ const handleMouseDown = (e) => {
 
 }
 const treeViewScrollElement = ref(null);
+
+watch(() => app.fs.data.rootDirs, (newVal) => {
+  treeViewData.value = newVal;
+});
 
 onMounted(() => {
   OverlayScrollbars(treeViewScrollElement.value, {});
