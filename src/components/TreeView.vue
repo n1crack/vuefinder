@@ -71,7 +71,6 @@ const handleMouseDown = (e) => {
   const handleMouseMove = (e) => {
     treeViewWidth.value = startWidth + e.clientX - startX;
 
-    console.log(treeViewWidth.value);
     if (treeViewWidth.value < 50) {
         treeViewWidth.value = 0;
         app.showTreeView = false;
