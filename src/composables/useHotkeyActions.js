@@ -46,7 +46,7 @@ export function useHotkeyActions(app) {
             app.modal.open(ModalAbout)
         }
 
-        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_F) {
+        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && app.features.includes(FEATURES.SEARCH)) {
             app.fs.searchMode = true;
             e.preventDefault();
         }
