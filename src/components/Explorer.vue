@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="h-full ">
       <div class="relative">
         <DragItem ref="dragImage" :count="ds.getCount()"/>
       </div>
