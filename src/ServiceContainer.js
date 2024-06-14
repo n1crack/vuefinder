@@ -62,6 +62,8 @@ export default (props, options) => {
         fullScreen: storage.getStore('full-screen', props.fullScreen),
         // show tree view
         showTreeView: storage.getStore('show-tree-view', props.showTreeView),
+        // treeViewData
+        treeViewData: [],
         // selectButton state
         selectButton: props.selectButton,
         // max file size

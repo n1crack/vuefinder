@@ -1,8 +1,8 @@
 <template>
   <div @click="app.showTreeView = ! app.showTreeView" class=" w-full h-full bg-gray-300/10 dark:bg-gray-700/10 z-[1]" :class="app.showTreeView ? 'backdrop-blur-sm absolute md:hidden' : 'hidden'"></div>
   <div :style="app.showTreeView ? 'min-width:50px;max-width:75%; width: '+ treeViewWidth + 'px' : 'width: 0'"
-       class="me-3 absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
-    <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 " >
+       class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
+    <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 pb-4" >
 
       <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex items-center space-x-1">
         <div><StarSVG class="text-yellow-600" /></div> <div>Favorites</div>
@@ -21,23 +21,9 @@
           <div>Desktop</div>
         </li>
       </ul>
-      <div class="pt-1 px-1 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex items-center space-x-1">
-        <div><StorageSVG /></div> <div>{{ app.fs.adapter }}</div>
-      </div>
-      <ul class="block ">
-        <li v-for="(item, index) in treeViewData" @click="item.opened = !item.opened"
-            class="flex space-x-0.5 pl-2 py-0.5 text-sm hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer">
-          <div class="h-5 w-5 p-0.5 shrink-0">
-            <SquareMinusSVG v-if="item.opened" class="text-gray-500" />
-            <SquarePlusSVG v-else class="text-gray-400" />
-          </div>
-          <div class="h-5 w-5 shrink-0">
-            <OpenFolderSVG v-if="item.opened"/>
-            <FolderSVG v-else />
-          </div>
-          <div>{{ item.basename }}</div>
-        </li>
-      </ul>
+      <template v-for="storage in app.fs.data.storages">
+        <TreeStorageItem :storage="storage"/>
+      </template>
 
     </div>
     <div
@@ -51,19 +37,14 @@
 <script setup>
 import {inject, onMounted, ref, watch} from 'vue';
 import FolderSVG from './icons/folder.svg';
-import OpenFolderSVG from './icons/open_folder.svg';
-import StorageSVG from "./icons/storage.svg";
 import StarSVG from "./icons/star.svg";
-import SquarePlusSVG from "./icons/square_plus.svg";
-import SquareMinusSVG from "./icons/square_minus.svg";
 
 import {OverlayScrollbars} from 'overlayscrollbars';
+import TreeStorageItem from "./TreeStorageItem.vue";
 
 const app = inject('ServiceContainer');
 
 const treeViewWidth = ref(176);
-
-const treeViewData= ref([]);
 
 const handleMouseDown = (e) => {
   const startX = e.clientX;
@@ -105,11 +86,15 @@ const handleMouseDown = (e) => {
 }
 const treeViewScrollElement = ref(null);
 
-watch(() => app.fs.data.rootDirs, (newVal) => {
-  treeViewData.value = newVal;
-});
-
 onMounted(() => {
   OverlayScrollbars(treeViewScrollElement.value, {});
 });
+
+
+// todo: update app.treeViewData on change
+watch(app.fs.data, (newValue, oldValue) => {
+    const folders = newValue.files.filter(e => e.type === 'dir');
+    console.log(folders)
+});
+
 </script>
