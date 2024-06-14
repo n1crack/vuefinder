@@ -1,6 +1,6 @@
 <template>
   <ModalLayout>
-    <div class="sm:flex sm:items-start">
+    <div class="sm:flex sm:items-start select-none">
       <div
           class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-blue-600 dark:stroke-blue-100" fill="none"
@@ -10,14 +10,31 @@
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
         </svg>
       </div>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">
-          {{ t('About %s', 'Vuefinder ' + app.version ) }}</h3>
-        <div class="mt-2">
 
-          <p class="text-sm text-gray-500">{{ t('Vuefinder is a file manager component for vue 3.') }}</p>
+      <div class="mt-3  sm:mt-0 sm:ml-4 sm:text-left w-full">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">
+          {{ 'Vuefinder ' + app.version }}
+        </h3>
+
+        <div>
           <div>
-            <h3 class="text-sm font-semibold mt-5 text-gray-900 dark:text-gray-400 tracking-wider">{{ t('Settings') }}</h3>
+            <nav class="flex" aria-label="Tabs">
+              <button v-for="tab in tabs" :key="tab.name"
+                 @click="selectedTab = tab.key "
+                 :class="[tab.key === selectedTab ? 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 border-sky-500' : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 border-gray-300 dark:border-gray-600', 'px-3 py-2 border-b font-medium text-sm']" :aria-current="tab.current ? 'page' : undefined">{{ tab.name }}</button>
+            </nav>
+          </div>
+        </div>
+
+        <div class="mt-4" v-if="selectedTab === TAB.ABOUT">
+          <div class="m-1 text-sm text-gray-500">{{ t('Vuefinder is a simple, lightweight, and fast file manager library for Vue.js applications') }}</div>
+          <a href="https://vuefinder.ozdemir.be" class="block mt-2 text-sm text-blue-500 dark:text-blue-400" target="_blank">{{ t('Project home') }}</a>
+          <a href="https://github.com/n1crack/vuefinder" class="block mt-2 text-sm text-blue-500 dark:text-blue-400" target="_blank">{{ t('Follow on GitHub') }}</a>
+        </div>
+
+        <div class="mt-2" v-if="selectedTab === TAB.SETTINGS">
+          <div class="m-1 text-sm text-gray-500">
+            {{ t('Customize your experience with the following settings.') }}
           </div>
           <div class="mt-3 text-left">
             <fieldset>
@@ -78,7 +95,7 @@
                   </div>
                 </div>
 
-                <div class="flex relative gap-x-3">
+                <div class="">
                   <div class="h-6 items-center">
                     <label for="theme" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm">
                       {{ t('Theme') }}
@@ -86,7 +103,7 @@
                   </div>
                   <div class="flex text-sm">
                     <select id="theme" v-model="app.theme.value" @change="handleTheme($event.target.value)"
-                            class="flex-shrink-0 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
+                            class="flex-shrink-0 sm:w-1/2 w-full  text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
                       <optgroup :label="t('Theme')">
                         <option v-for="(name, key) in themes" :value="key">{{ name }}</option>
                       </optgroup>
@@ -95,7 +112,7 @@
                   </div>
                 </div>
 
-                <div class="flex relative gap-x-3" v-if="app.features.includes(FEATURES.LANGUAGE) && Object.keys(supportedLanguages).length > 1">
+                <div class="" v-if="app.features.includes(FEATURES.LANGUAGE) && Object.keys(supportedLanguages).length > 1">
                   <div class="h-6 items-center">
                     <label for="language" class="flex w-full font-medium text-gray-900 dark:text-gray-400 text-sm text-nowrap">
                       {{ t('Language') }}
@@ -103,7 +120,7 @@
                   </div>
                   <div class="flex text-sm">
                     <select id="language" v-model="locale" @change="changeLocale($event.target.value)"
-                            class="flex-shrink-0 w-1/2 sm:w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
+                            class="flex-shrink-0 sm:w-1/2 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
                       <optgroup :label="t('Language')">
                         <option v-for="(language, code) in supportedLanguages" :value="code">{{ language }}</option>
                       </optgroup>
@@ -111,13 +128,65 @@
                     <action-message class="ms-3 flex-shrink-0 flex-grow basis-full" on="vf-language-saved">{{ t('Saved.') }}</action-message>
                   </div>
                 </div>
-
-                <button @click="clearLocalStorage" type="button" class="vf-btn vf-btn-secondary">
-                  {{ t('Reset Settings') }}
-                </button>
               </div>
             </fieldset>
           </div>
+        </div>
+
+        <div class="mt-3" v-if="selectedTab === TAB.SHORTCUTS">
+          <div class="space-y-2 sm:w-1/2">
+            <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              <div>{{ t('Rename') }}</div>
+              <kbd>F2</kbd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              <div>{{ t('Refresh') }}</div>
+              <kbd>F5</kbd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              {{ t('Delete') }}
+              <kbd>Del</kbd>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              {{ t('Escape') }}
+              <div>
+                <kbd>Esc</kbd>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              {{ t('Select All') }}
+              <div>
+                <kbd>Ctrl</kbd> + <kbd>A</kbd>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              {{ t('Search') }}
+              <div>
+                <kbd>Ctrl</kbd> + <kbd>F</kbd>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              {{ t('Toggle Sidebar') }}
+              <div>
+                <kbd>Ctrl</kbd> + <kbd>E</kbd>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              {{ t('Open Settings') }}
+              <div>
+                <kbd>Ctrl</kbd> + <kbd>,</kbd>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3" v-if="selectedTab === TAB.RESET">
+          <div class="m-1 text-sm text-gray-500">
+            {{ t('Reset all settings to default') }}
+          </div>
+          <button @click="clearLocalStorage" type="button" class="vf-btn vf-btn-secondary">
+            {{ t('Reset Settings') }}
+          </button>
         </div>
       </div>
     </div>
@@ -135,11 +204,28 @@ import {computed, inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";
 import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize.js'
 
-import { FEATURES } from '../features.js';
+import { FEATURES } from '../../features.js';
 
 const app = inject('ServiceContainer');
 const {setStore, clearStore} = app.storage;
 const {t, changeLocale, locale} = app.i18n;
+
+const TAB = {
+  ABOUT: 'about',
+  SETTINGS: 'settings',
+  SHORTCUTS: 'shortcuts',
+  RESET: 'reset',
+};
+
+const tabs = computed(() => [
+  {name: t('About'), key: TAB.ABOUT},
+  {name: t('Settings'), key: TAB.SETTINGS},
+  {name: t('Shortcuts'), key: TAB.SHORTCUTS},
+  {name: t('Reset'), key: TAB.RESET},
+]);
+
+const selectedTab = ref('about');
+
 
 const clearLocalStorage = async () => {
   clearStore();

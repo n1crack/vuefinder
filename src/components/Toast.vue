@@ -1,7 +1,7 @@
 <template>
   <div
       :class="fullScreen.value ?  'fixed' : 'absolute'"
-      class="max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2">
+      class="max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2 z-10">
     <transition-group
         name="vf-toast-item"
         leave-active-class="transition-all duration-1000"

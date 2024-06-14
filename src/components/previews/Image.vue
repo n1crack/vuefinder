@@ -22,7 +22,7 @@ import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
 import {inject, onMounted, ref} from 'vue';
 import Message from '../Message.vue';
-import {FEATURES} from "../features.js";
+import {FEATURES} from "../../features.js";
 
 const emit = defineEmits(['success']);
 

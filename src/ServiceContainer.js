@@ -3,7 +3,7 @@ import mitt from "mitt";
 import {buildRequester} from "./utils/ajax.js";
 import {useStorage} from "./composables/useStorage.js";
 import {useI18n} from "./composables/useI18n.js";
-import {FEATURE_ALL_NAMES, FEATURES} from "./components/features.js";
+import {FEATURE_ALL_NAMES, FEATURES} from "./features.js";
 import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
 import useTheme from './composables/useTheme.js';
@@ -32,7 +32,7 @@ export default (props, options) => {
     const path = persist ? storage.getStore('path', props.path) : props.path;
 
     return reactive({
-        /*
+        /** 
         * Core properties
         * */
 
@@ -60,12 +60,18 @@ export default (props, options) => {
         view: storage.getStore('viewport', 'grid'),
         // fullscreen state
         fullScreen: storage.getStore('full-screen', props.fullScreen),
+        // show tree view
+        showTreeView: storage.getStore('show-tree-view', props.showTreeView),
+        // pinnedFolders
+        pinnedFolders: storage.getStore('pinned-folders', props.pinnedFolders),
+        // treeViewData
+        treeViewData: [],
         // selectButton state
         selectButton: props.selectButton,
         // max file size
         maxFileSize: props.maxFileSize,
 
-        /*
+        /**
         * Settings
         * */
 

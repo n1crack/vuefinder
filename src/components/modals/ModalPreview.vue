@@ -54,7 +54,7 @@ import Video from '../previews/Video.vue';
 import Audio from '../previews/Audio.vue';
 import Pdf from '../previews/Pdf.vue';
 import datetimestring from '../../utils/datetimestring.js';
-import {FEATURES} from "../features.js";
+import {FEATURES} from "../../features.js";
 
 const app = inject('ServiceContainer')
 const {t} = app.i18n

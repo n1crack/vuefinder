@@ -1,15 +1,18 @@
 <template>
-  <div class="vuefinder" ref="root">
+  <div class="vuefinder" ref="root" tabindex="0">
     <div :class="app.theme.actualValue">
       <div
-          :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded'"
+          :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded resize-y '"
           :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
-          class="border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"
+          class="overflow-hidden min-h-44 border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')">
         <Toolbar/>
         <Breadcrumb/>
-        <Explorer/>
+        <div class="relative flex overflow-hidden h-full">
+            <TreeView/>
+            <Explorer/>
+        </div>
         <Statusbar/>
       </div>
 
@@ -25,12 +28,15 @@
 <script setup>
 import {inject, onMounted, provide, ref} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
+import {useHotkeyActions} from "../composables/useHotkeyActions.js";
 
 import Toolbar from '../components/Toolbar.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
 import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
+import TreeView from '../components/TreeView.vue';
+
 
 const emit = defineEmits(['select'])
 
@@ -79,6 +85,14 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  showTreeView: {
+    type: Boolean,
+    default: false
+  },
+  pinnedFolders: {
+    type: Array,
+    default: []
+  },
   showThumbnails: {
     type: Boolean,
     default: true
@@ -110,6 +124,8 @@ app.root = root;
 
 // Define dragSelect object
 const ds = app.dragSelect;
+
+useHotkeyActions(app);
 
 const updateItems = (data) => {
   Object.assign(app.fs.data, data);
