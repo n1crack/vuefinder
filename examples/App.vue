@@ -36,9 +36,10 @@
 
 <script setup>
 import { ref } from 'vue';
-import { FEATURES, FEATURE_ALL_NAMES } from '../src/components/features.js';
+import { FEATURES, FEATURE_ALL_NAMES } from '../src/features.js';
 
 /** @type {import('../src/utils/ajax.js').RequestConfig} */
+
 const request = {
   // ----- CHANGE ME! -----
   // [REQUIRED] Url for development server endpoint

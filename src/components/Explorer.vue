@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex-auto flex flex-col overflow-hidden">
+  <div class="relative flex-auto flex flex-col">
     <div v-if="app.view === 'list' || searchQuery.length" class="grid grid-cols-12 px-1 bg-neutral-50 dark:bg-gray-800 border-b border-neutral-300 dark:border-gray-700 text-xs select-none divide-x">
       <div @click="sortBy('basename')" class="col-span-7 vf-sort-button">
         {{ t('Name') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'"/>
@@ -19,12 +19,12 @@
       <DragItem ref="dragImage" :count="ds.getCount()"/>
     </div>
 
-    <div :ref="ds.scrollBarContainer" class="vf-explorer-scrollbar-container" :class="[{'grid-view': app.view === 'grid'}]">
+    <div :ref="ds.scrollBarContainer" class="vf-explorer-scrollbar-container" :class="[{'grid-view': app.view === 'grid'}, {'search-active': searchQuery.length}]">
       <div :ref="ds.scrollBar" class="w-5 bg-transparent pointer-events-none"></div>
     </div>
 
-    <div :ref="ds.area" :class="{'resize-y': !app.fullScreen}"
-         class="h-full w-full text-xs  vf-explorer-scrollbar vf-selector-area min-h-[150px] z-0 overflow-y-auto"
+    <div :ref="ds.area"
+         class="h-full w-full text-xs p-1 vf-explorer-scrollbar vf-selector-area min-h-[150px] z-0 overflow-y-auto"
          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
     >
 
@@ -41,7 +41,7 @@
       </Item>
       <!-- List View -->
       <Item v-if="app.view==='list' && !searchQuery.length" v-for="(item, index) in getItems()"
-            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true">
+            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true" :key="item.path">
         <div class="grid grid-cols-12 items-center">
           <div class="flex col-span-7 items-center">
             <ItemIcon :type="item.type" :small="app.compactListView"/>
@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import {inject, onBeforeUnmount, onMounted, onUpdated, reactive, ref, watch} from 'vue';
+import {inject, onBeforeUnmount, onMounted, onUpdated, reactive, ref} from 'vue';
 import datetimestring from '../utils/datetimestring.js';
 import title_shorten from "../utils/title_shorten.js";
 import Toast from './Toast.vue';

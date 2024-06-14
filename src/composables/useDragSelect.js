@@ -56,6 +56,19 @@ export default function () {
         });
     }
 
+    const selectAll = () => nextTick(() => {
+        dragSelectInstance.addSelection(
+            dragSelectInstance.getSelectables()
+        );
+        updateSelection();
+    });
+    
+    const updateSelection = () => { 
+        // update selection
+        selectedItems.value = dragSelectInstance.getSelection().map((el) => JSON.parse(el.dataset.item));
+        onSelectCallback.value(selectedItems.value);
+    }
+
     // Refresh selection after the list is updated.
     const refreshSelection = () => nextTick(() => {
         const currentSelectedItems = getSelected().map((item) => item.path);
@@ -72,10 +85,7 @@ export default function () {
                 .filter(el => currentSelectedItems.includes(JSON.parse(el.dataset.item).path))
         );
 
-        // update selection
-        selectedItems.value = dragSelectInstance.getSelection().map((el) => JSON.parse(el.dataset.item));
-        onSelectCallback.value(selectedItems.value);
-
+        updateSelection();
         updateScrollbarHeight();
     });
 
@@ -92,6 +102,7 @@ export default function () {
         if (!osInstance.value) {
             return;
         }
+
         if (area.value.getBoundingClientRect().height < area.value.scrollHeight) {
             scrollBar.value.style.height = area.value.scrollHeight + 'px';
             scrollBar.value.style.display = 'block';
@@ -100,7 +111,6 @@ export default function () {
             scrollBar.value.style.display = 'none';
         }
     }
-
 
     const updateScrollBarPosition = (e) => {
         if (!osInstance.value) {
@@ -173,6 +183,7 @@ export default function () {
         scrollBarContainer,
         getSelected,
         getSelection,
+        selectAll,
         clearSelection,
         refreshSelection,
         getCount,

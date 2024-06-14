@@ -20,7 +20,7 @@
 
 <script setup>
 import {computed, inject, nextTick, reactive, ref} from 'vue';
-import {FEATURES} from "./features.js";
+import {FEATURES} from "../features.js";
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalArchive from "./modals/ModalArchive.vue";
@@ -57,6 +57,25 @@ const menuItems = {
     key: FEATURES.NEW_FOLDER,
     title: () => t('New Folder'),
     action: () => app.modal.open(ModalNewFolder),
+  },
+  selectAll: {
+    title: () => t('Select All'),
+    action: () => app.dragSelect.selectAll(),
+  },
+  markFavorite: {
+    title: () => t('Pin Folder'),
+    action: () => {
+        app.pinnedFolders = app.pinnedFolders.concat(selectedItems.value);
+        app.storage.setStore('pinned-folders', app.pinnedFolders);
+    },
+  },
+
+  removeFavorite: {
+    title: () => t('Unpin Folder'),
+    action: () => {
+        app.pinnedFolders = app.pinnedFolders.filter(fav => !selectedItems.value.find(item => item.path === fav.path));
+        app.storage.setStore('pinned-folders', app.pinnedFolders);
+    },
   },
   delete: {
     key: FEATURES.DELETE,
@@ -149,6 +168,7 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
     }
   } else if (!target && !searchQuery.value) {
     context.items.push(menuItems.refresh);
+    context.items.push(menuItems.selectAll);
     context.items.push(menuItems.newfolder);
     app.emitter.emit('vf-context-selected', []);
     // console.log('no files selected');
@@ -161,6 +181,11 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
   } else {
     if (target.type === 'dir') {
       context.items.push(menuItems.open);
+      if (app.pinnedFolders.findIndex((item) => item.path === target.path) !== -1) {
+        context.items.push(menuItems.removeFavorite);
+      } else {
+        context.items.push(menuItems.markFavorite);
+      }
     } else {
       context.items.push(menuItems.preview);
       context.items.push(menuItems.download);

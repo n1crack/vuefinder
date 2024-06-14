@@ -11,6 +11,7 @@ export default defineConfig({
         copy({
             targets: [
                 {src: 'src/locales/*', dest: 'dist/locales'},
+                {src: 'src/features.js', dest: 'dist'},
             ],
             hook: "writeBundle",
         })

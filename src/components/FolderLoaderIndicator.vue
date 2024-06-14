@@ -1,0 +1,71 @@
+<template>
+  <div class="h-5 w-5 shrink-0"
+       @click=" (!opened || getLoadedFolder()?.folders.length) && toggleIndicator() && (getLoadedFolder() || fetchSubFolders())">
+
+    <LoadingSVG v-if="loading" class="p-1"/>
+    <div class=" cursor-pointer" v-else>
+      <SquareMinusSVG class="text-gray-600" v-if="opened && getLoadedFolder()?.folders.length" />
+      <SquarePlusSVG class="text-gray-400" v-if="!opened" />
+    </div>
+
+  </div>
+</template>
+
+
+<script setup>
+import {ref, inject, defineProps} from 'vue';
+
+import SquarePlusSVG from "./icons/plus.svg";
+import SquareMinusSVG from "./icons/minus.svg";
+import LoadingSVG from "./icons/loading.svg";
+import upsert from "../utils/upsert";
+
+const props = defineProps({
+  adapter: {
+    type: String,
+    required: true,
+  },
+  path: {
+    type: String,
+    required: true,
+  }
+});
+
+const app = inject('ServiceContainer');
+const {t} = app.i18n;
+const opened = defineModel();
+const loading = ref(false)
+
+// loading..
+
+function toggleIndicator() {
+  return opened.value = !opened.value;
+}
+
+function getLoadedFolder() {
+  return app.treeViewData.find(e => e.path === props.path) ;
+}
+
+const fetchSubFolders = () => {
+  loading.value = true;
+  app.requester.send({
+    url: '',
+    method: 'get',
+    params: {
+      q: 'subfolders',
+      adapter: props.adapter,
+      path: props.path,
+    },
+  })
+      .then(data => {
+        upsert(app.treeViewData, {path: props.path, ...data})
+      })
+      .catch((e) => {
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+
+}
+</script>
+

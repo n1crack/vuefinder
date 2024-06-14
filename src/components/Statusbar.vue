@@ -1,10 +1,10 @@
 <template>
-  <div class="p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none">
+  <div class="p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none grow-0">
     <div class="flex leading-5 items-center">
       <div class="mx-2" :aria-label="t('Storage')" data-microtip-position="top-right" role="tooltip">
         <StorageSVG/>
       </div>
-      <select v-model="app.fs.adapter" @change="handleStorageSelect" class="py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8">
+      <select v-model="app.fs.adapter" @change="handleStorageSelect" class="py-0.5 text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded pl-2 pr-8" tabindex="-1">
         <option v-for="storage in app.fs.data.storages" :value="storage">
           {{ storage }}
         </option>
