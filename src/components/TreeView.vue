@@ -41,6 +41,7 @@ import StarSVG from "./icons/star.svg";
 
 import {OverlayScrollbars} from 'overlayscrollbars';
 import TreeStorageItem from "./TreeStorageItem.vue";
+import upsert from "../utils/upsert";
 
 const app = inject('ServiceContainer');
 
@@ -90,12 +91,8 @@ onMounted(() => {
   OverlayScrollbars(treeViewScrollElement.value, {});
 });
 
-function upsert(array, element) { // (1)
-  const i = array.findIndex(e => e.path === element.path);
-  if (i > -1) array[i] = element; // (2)
-  else array.push(element);
-}
-
+// watch for changes in the fs.data
+// update the treeViewData
 watch(app.fs.data, (newValue, oldValue) => {
     const folders = newValue.files.filter(e => e.type === 'dir');
 
