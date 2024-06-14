@@ -1,6 +1,5 @@
 <template>
   <div class="pt-1 px-1 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex justify-between">
-
     <div class="flex flex-1 space-x-1 items-center cursor-pointer"
          :class="storage === app.fs.adapter ? 'text-gray-700 dark:text-gray-300 text-bold' : ''"
          @click="handleStorageSelect(storage)">

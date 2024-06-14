@@ -32,7 +32,7 @@ export default (props, options) => {
     const path = persist ? storage.getStore('path', props.path) : props.path;
 
     return reactive({
-        /*
+        /** 
         * Core properties
         * */
 
@@ -62,6 +62,8 @@ export default (props, options) => {
         fullScreen: storage.getStore('full-screen', props.fullScreen),
         // show tree view
         showTreeView: storage.getStore('show-tree-view', props.showTreeView),
+        // favorites
+        favorites: storage.getStore('favorites', props.favorites),
         // treeViewData
         treeViewData: [],
         // selectButton state
@@ -69,7 +71,7 @@ export default (props, options) => {
         // max file size
         maxFileSize: props.maxFileSize,
 
-        /*
+        /**
         * Settings
         * */
 

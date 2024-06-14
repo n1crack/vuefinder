@@ -89,6 +89,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  favorites: {
+    type: Array,
+    default: []
+  },
   showThumbnails: {
     type: Boolean,
     default: true

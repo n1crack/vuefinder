@@ -62,6 +62,21 @@ const menuItems = {
     title: () => t('Select All'),
     action: () => app.dragSelect.selectAll(),
   },
+  markFavorite: {
+    title: () => t('Mark as Favorite'),
+    action: () => {
+        app.favorites = app.favorites.concat(selectedItems.value);
+        app.storage.setStore('favorites', app.favorites);
+    },
+  },
+
+  removeFavorite: {
+    title: () => t('Remove Favorite'),
+    action: () => {
+        app.favorites = app.favorites.filter(fav => !selectedItems.value.find(item => item.path === fav.path));
+        app.storage.setStore('favorites', app.favorites);
+    },
+  },
   delete: {
     key: FEATURES.DELETE,
     title: () => t('Delete'),
@@ -166,6 +181,11 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
   } else {
     if (target.type === 'dir') {
       context.items.push(menuItems.open);
+      if (app.favorites.findIndex((item) => item.path === target.path) !== -1) {
+        context.items.push(menuItems.removeFavorite);
+      } else {
+        context.items.push(menuItems.markFavorite);
+      }
     } else {
       context.items.push(menuItems.preview);
       context.items.push(menuItems.download);
