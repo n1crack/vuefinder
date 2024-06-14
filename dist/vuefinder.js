@@ -186,7 +186,7 @@ const pe = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, dr = Object.values(pe), ur = "2.5.1";
+}, dr = Object.values(pe), ur = "2.5.2";
 function No(t, e, s, r, o) {
   return (e = Math, s = e.log, r = 1024, o = s(t) / s(r) | 0, t / e.pow(r, o)).toFixed(0) + " " + (o ? "KMGTPEZY"[--o] + "iB" : "B");
 }
@@ -5389,7 +5389,7 @@ const X1 = { render: Y1 }, J1 = { class: "block" }, Q1 = { class: "flex hover:te
 }, df = { class: "p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center space-x-1" }, uf = { class: "block" }, mf = { class: "flex pl-2 py-0.5 text-sm space-x-2" }, ff = ["onClick"], hf = ["title"], pf = ["onClick"], vf = { key: 0 }, gf = { class: "rounded-lg p-1 bg-gray-100 dark:bg-gray-700 text-xs text-center" }, _f = {
   __name: "TreeView",
   setup(t) {
-    const e = ae("ServiceContainer"), { t: s } = e.i18n, r = T(176), o = (d) => {
+    const e = ae("ServiceContainer"), { t: s } = e.i18n, r = T(190), o = (d) => {
       e.pinnedFolders = e.pinnedFolders.filter((l) => l.path !== d.path), e.storage.setStore("pinned-folders", e.pinnedFolders);
     }, c = (d) => {
       const l = d.clientX, u = d.target.parentElement, h = u.getBoundingClientRect().width;
@@ -5417,7 +5417,7 @@ const X1 = { render: Y1 }, J1 = { class: "block" }, Q1 = { class: "flex hover:te
         class: me(["w-full h-full bg-gray-300/10 dark:bg-gray-700/10 z-[1]", a(e).showTreeView ? "backdrop-blur-sm absolute md:hidden" : "hidden"])
       }, null, 2),
       n("div", {
-        style: ns(a(e).showTreeView ? "min-width:50px;max-width:75%; width: " + r.value + "px" : "width: 0"),
+        style: ns(a(e).showTreeView ? "min-width:100px;max-width:75%; width: " + r.value + "px" : "width: 0"),
         class: "absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]"
       }, [
         n("div", {

@@ -1,13 +1,13 @@
 <template>
   <div @click="app.showTreeView = ! app.showTreeView" class=" w-full h-full bg-gray-300/10 dark:bg-gray-700/10 z-[1]" :class="app.showTreeView ? 'backdrop-blur-sm absolute md:hidden' : 'hidden'"></div>
-  <div :style="app.showTreeView ? 'min-width:50px;max-width:75%; width: '+ treeViewWidth + 'px' : 'width: 0'"
+  <div :style="app.showTreeView ? 'min-width:100px;max-width:75%; width: '+ treeViewWidth + 'px' : 'width: 0'"
        class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
     <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 pb-4" >
 
       <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center space-x-1">
         <div><PinSVG class="text-amber-600" /></div><div>{{ t('Pinned Folders') }}</div>
       </div>
-      <ul class="block ">
+      <ul class="block">
         <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm space-x-2 ">
             <div class="flex hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer"
                   @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"   >
@@ -50,7 +50,7 @@ import upsert from "../utils/upsert";
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
-const treeViewWidth = ref(176);
+const treeViewWidth = ref(190);
 
 const removeFavorite = (item) => {
     app.pinnedFolders = app.pinnedFolders.filter(fav => fav.path !== item.path);
