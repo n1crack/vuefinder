@@ -63,18 +63,18 @@ const menuItems = {
     action: () => app.dragSelect.selectAll(),
   },
   markFavorite: {
-    title: () => t('Mark as Favorite'),
+    title: () => t('Pin Folder'),
     action: () => {
-        app.favorites = app.favorites.concat(selectedItems.value);
-        app.storage.setStore('favorites', app.favorites);
+        app.pinnedFolders = app.pinnedFolders.concat(selectedItems.value);
+        app.storage.setStore('pinned-folders', app.pinnedFolders);
     },
   },
 
   removeFavorite: {
-    title: () => t('Remove Favorite'),
+    title: () => t('Unpin Folder'),
     action: () => {
-        app.favorites = app.favorites.filter(fav => !selectedItems.value.find(item => item.path === fav.path));
-        app.storage.setStore('favorites', app.favorites);
+        app.pinnedFolders = app.pinnedFolders.filter(fav => !selectedItems.value.find(item => item.path === fav.path));
+        app.storage.setStore('pinned-folders', app.pinnedFolders);
     },
   },
   delete: {
@@ -181,7 +181,7 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
   } else {
     if (target.type === 'dir') {
       context.items.push(menuItems.open);
-      if (app.favorites.findIndex((item) => item.path === target.path) !== -1) {
+      if (app.pinnedFolders.findIndex((item) => item.path === target.path) !== -1) {
         context.items.push(menuItems.removeFavorite);
       } else {
         context.items.push(menuItems.markFavorite);

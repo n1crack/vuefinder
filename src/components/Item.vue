@@ -1,7 +1,7 @@
 <template>
   <div
       :style="{opacity:  ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el) ? '0.5 !important' : ''}"
-      :class="[ 'vf-item-' + ds.explorerId]"
+      :class="['vf-item-' + ds.explorerId, 'relative']"
       :data-type="item.type"
       :key="item.path"
       :data-item="JSON.stringify(item)"
@@ -13,6 +13,7 @@
       @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, items: ds.getSelected(), target: item })"
   >
     <slot/>
+    <PinSVG class="absolute top-0 right-0 text-amber-600" v-if="app.pinnedFolders.find(pin => pin.path === item.path)"/>
   </div>
 </template>
 
@@ -20,6 +21,7 @@
 import {defineProps, inject} from 'vue';
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalMove from "./modals/ModalMove.vue";
+import PinSVG from "./icons/pin.svg";
 
 const app = inject('ServiceContainer');
 const ds = app.dragSelect;

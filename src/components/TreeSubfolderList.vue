@@ -2,7 +2,7 @@
   <ul class="block">
     <li v-for="(item, index) in treeSubFolders"
         class="flex flex-col space-x-0.5 py-0.5 text-sm" :key="item.path">
-      <div class="flex hover:text-sky-500 dark:hover:text-sky-200/50 rounded ">
+      <div class="flex hover:text-sky-700 dark:hover:text-sky-200/50 rounded ">
         <div class="h-5 w-5 shrink-0">
           <FolderLoaderIndicator :adapter="adapter" :path="item.path" v-model="showSubFolders[item.path]" />
         </div>

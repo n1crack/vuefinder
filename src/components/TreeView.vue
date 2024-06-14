@@ -4,11 +4,11 @@
        class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
     <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 pb-4" >
 
-      <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex items-center space-x-1">
-        <div><StarSVG class="text-yellow-600" /></div> <div>Favorites</div>
+      <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center space-x-1">
+        <div><PinSVG class="text-amber-600" /></div><div>{{ t('Pinned Folders') }}</div>
       </div>
       <ul class="block ">
-        <li v-for="favorite in app.favorites" class="flex pl-2 py-0.5 text-sm space-x-2 ">
+        <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm space-x-2 ">
             <div class="flex hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer"
                   @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"   >
                 <FolderSVG class="h-5 w-5"/>
@@ -20,8 +20,8 @@
                 <XBoxSVG class="p-0.5 text-gray-200 hover:text-gray-400 dark:text-gray-600 hover:dark:text-gray-400" />
             </div>
         </li>
-        <li v-if="!app.favorites.length">
-           <div class="rounded-lg p-1 bg-gray-100 dark:bg-gray-700 text-xs text-center">No favorites</div>
+        <li v-if="!app.pinnedFolders.length">
+           <div class="rounded-lg p-1 bg-gray-100 dark:bg-gray-700 text-xs text-center">{{ t('No folders pinned') }}</div>
         </li>
       </ul>
 
@@ -40,7 +40,7 @@
 <script setup>
 import {inject, onMounted, ref, watch} from 'vue';
 import FolderSVG from './icons/folder.svg';
-import StarSVG from "./icons/star.svg";
+import PinSVG from "./icons/pin.svg";
 import XBoxSVG from "./icons/x_box.svg";
 
 import {OverlayScrollbars} from 'overlayscrollbars';
@@ -48,12 +48,13 @@ import TreeStorageItem from "./TreeStorageItem.vue";
 import upsert from "../utils/upsert";
 
 const app = inject('ServiceContainer');
+const {t} = app.i18n;
 
 const treeViewWidth = ref(176);
 
 const removeFavorite = (item) => {
-    app.favorites = app.favorites.filter(fav => fav.path !== item.path);
-    app.storage.setStore('favorites', app.favorites);
+    app.pinnedFolders = app.pinnedFolders.filter(fav => fav.path !== item.path);
+    app.storage.setStore('pinned-folders', app.pinnedFolders);
 }
 
 const handleMouseDown = (e) => {

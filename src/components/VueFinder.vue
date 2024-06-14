@@ -89,7 +89,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  favorites: {
+  pinnedFolders: {
     type: Array,
     default: []
   },

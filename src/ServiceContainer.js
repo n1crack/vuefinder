@@ -62,8 +62,8 @@ export default (props, options) => {
         fullScreen: storage.getStore('full-screen', props.fullScreen),
         // show tree view
         showTreeView: storage.getStore('show-tree-view', props.showTreeView),
-        // favorites
-        favorites: storage.getStore('favorites', props.favorites),
+        // pinnedFolders
+        pinnedFolders: storage.getStore('pinned-folders', props.pinnedFolders),
         // treeViewData
         treeViewData: [],
         // selectButton state
