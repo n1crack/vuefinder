@@ -12,7 +12,7 @@
             <div class="flex hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer"
                   @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"   >
                 <FolderSVG class="h-5 w-5"/>
-                <div>{{ favorite.basename }} </div>
+                <div :title="favorite.path">{{ favorite.basename }} </div>
             </div>
             <div class="cursor-pointer"
                 @click="removeFavorite(favorite)"
