@@ -62,7 +62,7 @@ const menuItems = {
     title: () => t('Select All'),
     action: () => app.dragSelect.selectAll(),
   },
-  markFavorite: {
+  pinFolder: {
     title: () => t('Pin Folder'),
     action: () => {
         app.pinnedFolders = app.pinnedFolders.concat(selectedItems.value);
@@ -70,7 +70,7 @@ const menuItems = {
     },
   },
 
-  removeFavorite: {
+  unpinFolder: {
     title: () => t('Unpin Folder'),
     action: () => {
         app.pinnedFolders = app.pinnedFolders.filter(fav => !selectedItems.value.find(item => item.path === fav.path));
@@ -182,9 +182,9 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
     if (target.type === 'dir') {
       context.items.push(menuItems.open);
       if (app.pinnedFolders.findIndex((item) => item.path === target.path) !== -1) {
-        context.items.push(menuItems.removeFavorite);
+        context.items.push(menuItems.unpinFolder);
       } else {
-        context.items.push(menuItems.markFavorite);
+        context.items.push(menuItems.pinFolder);
       }
     } else {
       context.items.push(menuItems.preview);
