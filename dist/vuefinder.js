@@ -1,6 +1,6 @@
 var Rn = Object.defineProperty;
 var Vn = (t, e, s) => e in t ? Rn(t, e, { enumerable: !0, configurable: !0, writable: !0, value: s }) : t[e] = s;
-var ro = (t, e, s) => (Vn(t, typeof e != "symbol" ? e + "" : e, s), s);
+var ro = (t, e, s) => Vn(t, typeof e != "symbol" ? e + "" : e, s);
 import { reactive as Ot, watch as At, ref as M, shallowRef as In, onMounted as Me, onUnmounted as To, onUpdated as Lo, nextTick as Mt, computed as dt, inject as ue, openBlock as h, createElementBlock as _, withKeys as yt, unref as r, createElementVNode as a, withModifiers as st, renderSlot as Dt, normalizeClass as he, createCommentVNode as Y, createBlock as ee, withCtx as Z, toDisplayString as b, withDirectives as ge, vModelText as wt, createTextVNode as ne, Fragment as ke, renderList as Ae, onBeforeUnmount as Oo, createVNode as te, customRef as Nn, vShow as tt, isRef as Ho, TransitionGroup as Un, normalizeStyle as Ps, vModelCheckbox as Ft, vModelSelect as ws, provide as zn, Transition as Pn, resolveDynamicComponent as Fn } from "vue";
 import jn from "mitt";
 import qn from "dragselect";
@@ -274,8 +274,7 @@ function ie(t, e) {
   if (as(t))
     for (let s = 0; s < t.length && e(t[s], s, t) !== !1; s++)
       ;
-  else
-    t && ie(Object.keys(t), (s) => e(t[s], s, t));
+  else t && ie(Object.keys(t), (s) => e(t[s], s, t));
   return t;
 }
 const qs = (t, e) => t.indexOf(e) >= 0, Ke = (t, e) => t.concat(e), be = (t, e, s) => (!rs(e) && as(e) ? Array.prototype.push.apply(t, e) : t.push(e), t), at = (t) => Array.from(t || []), Po = (t) => je(t) ? t : [t], Cs = (t) => !!t && !t.length, io = (t) => at(new Set(t)), Ne = (t, e, s) => {
@@ -910,8 +909,7 @@ const Ir = () => {
       if (H.S(), je(ye)) {
         const _e = ye[0], fe = ye[1];
         o = Fe(_e) && _e, c = Fe(fe) && fe;
-      } else
-        Fe(ye) ? (o = ye, c = !1) : (o = !1, c = !1);
+      } else Fe(ye) ? (o = ye, c = !1) : (o = !1, c = !1);
     if (we) {
       const _e = U(), fe = Q && Q(), Ce = i && i();
       _e && re(G, O(_e[0], _e[1], we)), fe && re(G, se(fe[0], we)), Ce && re(G, ae(Ce[0], we));
@@ -4477,8 +4475,7 @@ const vu = { render: pu }, hu = { class: "absolute -z-50 -top-96" }, gu = { clas
           i.items.push(l.openDir), e.emitter.emit("vf-context-selected", [v]);
         else
           return;
-      else
-        !v && !c.value ? (i.items.push(l.refresh), i.items.push(l.newfolder), e.emitter.emit("vf-context-selected", [])) : f.length > 1 && f.some((g) => g.path === v.path) ? (i.items.push(l.refresh), i.items.push(l.archive), i.items.push(l.delete), e.emitter.emit("vf-context-selected", f)) : (v.type === "dir" ? i.items.push(l.open) : (i.items.push(l.preview), i.items.push(l.download)), i.items.push(l.rename), v.mime_type === "application/zip" ? i.items.push(l.unarchive) : i.items.push(l.archive), i.items.push(l.delete), e.emitter.emit("vf-context-selected", [v]));
+      else !v && !c.value ? (i.items.push(l.refresh), i.items.push(l.newfolder), e.emitter.emit("vf-context-selected", [])) : f.length > 1 && f.some((g) => g.path === v.path) ? (i.items.push(l.refresh), i.items.push(l.archive), i.items.push(l.delete), e.emitter.emit("vf-context-selected", f)) : (v.type === "dir" ? i.items.push(l.open) : (i.items.push(l.preview), i.items.push(l.download)), i.items.push(l.rename), v.mime_type === "application/zip" ? i.items.push(l.unarchive) : i.items.push(l.archive), i.items.push(l.delete), e.emitter.emit("vf-context-selected", [v]));
       p(m);
     }), e.emitter.on("vf-contextmenu-hide", () => {
       i.active = !1;
