@@ -90,11 +90,22 @@ onMounted(() => {
   OverlayScrollbars(treeViewScrollElement.value, {});
 });
 
+function upsert(array, element) { // (1)
+  const i = array.findIndex(e => e.path === element.path);
+  if (i > -1) array[i] = element; // (2)
+  else array.push(element);
+}
 
-// todo: update app.treeViewData on change
 watch(app.fs.data, (newValue, oldValue) => {
     const folders = newValue.files.filter(e => e.type === 'dir');
-    console.log(folders)
+
+    upsert(app.treeViewData, {path: app.fs.path, folders: folders.map((item) => {
+        return {
+            adapter: item.storage, 
+            path: item.path, 
+            basename: item.basename
+        }
+    })})
 });
 
 </script>

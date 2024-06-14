@@ -2,7 +2,7 @@
   <div class="h-5 w-5 shrink-0"
        @click=" (!opened || isFolderLoaded()?.folders.length) && toggleIndicator() && (isFolderLoaded() || fetchSubFolders())">
 
-    <LoadingSVG v-if="loading"/>
+    <LoadingSVG v-if="loading" class="p-1"/>
     <div class=" cursor-pointer" v-else>
       <SquareMinusSVG class="text-gray-600" v-if="opened && isFolderLoaded()?.folders.length" />
       <SquarePlusSVG class="text-gray-400" v-if="!opened" />
