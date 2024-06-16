@@ -3,28 +3,26 @@
   <div :style="app.showTreeView ? 'min-width:100px;max-width:75%; width: '+ treeViewWidth + 'px' : 'width: 0'"
        class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
     <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 pb-4" >
-      <div class="sticky left-0 top-0 z-[1] bg-gray-100 dark:bg-[#2e3c51] border-b dark:border-gray-600">
+      <div class="sticky left-0 dark:border-gray-600">
         <div @click="pinnedFoldersOpened = !pinnedFoldersOpened"
-            class="p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center justify-between cursor-pointer">
+            class="bg-gray-100 dark:bg-[#2e3c51] dark:border-gray-600 border-b  p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center justify-between cursor-pointer">
           <div class="flex items-center space-x-1"><PinSVG class="text-amber-600" /><div class="text-nowrap">{{ t('Pinned Folders') }}</div></div>
           <FolderIndicator v-model="pinnedFoldersOpened" />
         </div>
         <ul class="block" v-if="pinnedFoldersOpened">
-          <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm space-x-2">
+          <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm justify-between pr-1">
               <div class="flex hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer"
                     @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"   >
                   <FolderSVG class="h-5 w-5" v-if="app.fs.path !== favorite.path"/>
                   <OpenFolderSVG class="h-5 w-5" v-if="app.fs.path === favorite.path"/>
                   <div :title="favorite.path" class="text-nowrap" :class="{'underline decoration-blue-300 dark:decoration-gray-400' : app.fs.path === favorite.path}">{{ favorite.basename }} </div>
               </div>
-              <div class="cursor-pointer"
-                  @click="removeFavorite(favorite)"
-                  >
+              <div class="cursor-pointer" @click="removeFavorite(favorite)" >
                   <XBoxSVG class="p-0.5 text-gray-300 hover:text-gray-400 dark:text-gray-600 hover:dark:text-gray-400" />
               </div>
           </li>
           <li v-if="!app.pinnedFolders.length">
-             <div class="rounded-lg p-1 bg-gray-100 dark:bg-gray-700 text-xs text-center">{{ t('No folders pinned') }}</div>
+             <div class="p-1 text-xs text-center">{{ t('No folders pinned') }}</div>
           </li>
         </ul>
       </div>
