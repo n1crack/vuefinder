@@ -18,7 +18,7 @@
 
         <div>
           <div>
-            <nav class="flex" aria-label="Tabs">
+            <nav class="flex overflow-auto" aria-label="Tabs">
               <button v-for="tab in tabs" :key="tab.name"
                  @click="selectedTab = tab.key "
                  :class="[tab.key === selectedTab ? 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 border-sky-500' : 'text-gray-500 dark:text-gray-500 hover:text-gray-700 border-gray-300 dark:border-gray-600', 'px-3 py-2 border-b font-medium text-sm']" :aria-current="tab.current ? 'page' : undefined">{{ tab.name }}</button>
@@ -175,6 +175,12 @@
               {{ t('Open Settings') }}
               <div>
                 <kbd>Ctrl</kbd> + <kbd>,</kbd>
+              </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+              {{ t('Toggle Full Screen') }}
+              <div>
+                <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
               </div>
             </div>
           </div>

@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import {inject, ref} from 'vue';
+import {inject, ref, watch} from 'vue';
 import {FEATURES} from "../features.js";
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalNewFile from "./modals/ModalNewFile.vue";
@@ -108,16 +108,19 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
 
 const toggleFullScreen = () => {
   app.fullScreen = !app.fullScreen;
+}
+
+watch(() => app.fullScreen, () => {
   if (app.fullScreen) {
-    // add body over flow hidden
+    // add body overflow hidden
     document.querySelector('body').style.overflow = 'hidden';
   } else {
-    // remove body over flow hidden
+    // remove body overflow hidden
     document.querySelector('body').style.overflow = '';
   }
   setStore('full-screen', app.fullScreen);
   app.emitter.emit('vf-fullscreen-toggle');
-}
+});
 
 // View Management
 const toggleView = () => {
