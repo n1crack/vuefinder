@@ -10,10 +10,10 @@
     </div>
 
     <div class="mr-3">
-      <FolderLoaderIndicator :adapter="storage" :path="storage + '://'"  v-model="showSubFolders" />
+      <FolderLoaderIndicator :adapter="storage" :path="storage + '://'" v-model="showSubFolders" />
     </div>
   </div>
-  <TreeSubfolderList :adapter="storage" :path="storage + '://'" v-show="showSubFolders" />
+  <TreeSubfolderList :adapter="storage" :path="storage + '://'" v-show="showSubFolders" class=" overflow-x-auto"/>
 </template>
 <script setup>
 import {inject, ref} from 'vue';
@@ -33,6 +33,7 @@ const props = defineProps({
 
 const handleStorageSelect = (adapter) => {
   app.fs.adapter = adapter;
+  showSubFolders.value = !showSubFolders.value;
   app.emitter.emit('vf-search-exit');
   app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: adapter}});
   app.storage.setStore('adapter', adapter);
