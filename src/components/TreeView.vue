@@ -6,7 +6,7 @@
 
       <div class="sticky left-0 z-[1] top-0 bg-gray-50 dark:bg-[#242f41] shadow">
         <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center space-x-1">
-          <div><PinSVG class="text-amber-600" /></div><div>{{ t('Pinned Folders') }}</div>
+          <div><PinSVG class="text-amber-600" /></div><div class="text-nowrap">{{ t('Pinned Folders') }}</div>
         </div>
         <ul class="block">
           <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm space-x-2 ">
