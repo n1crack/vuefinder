@@ -271,8 +271,12 @@ const vClickOutside = {
  */
 const toggleTreeView = () => {
   app.showTreeView = !app.showTreeView;
-  setStore('show-tree-view', app.showTreeView);
 }
+watch(() => app.showTreeView, (newShowTreeView, oldValue) => {
+  if (newShowTreeView !== oldValue) {
+    setStore('show-tree-view', newShowTreeView);
+  }
+});
 
 /**
  *
