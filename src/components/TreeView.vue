@@ -3,22 +3,24 @@
   <div :style="app.showTreeView ? 'min-width:100px;max-width:75%; width: '+ treeViewWidth + 'px' : 'width: 0'"
        class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
     <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 pb-4" >
-
-      <div class="sticky left-0 z-[1] top-0 bg-gray-50 dark:bg-[#242f41] border-b dark:border-gray-600">
-        <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center space-x-1">
-          <div><PinSVG class="text-amber-600" /></div><div class="text-nowrap">{{ t('Pinned Folders') }}</div>
+      <div class="sticky left-0 top-0 z-[1] bg-gray-100 dark:bg-[#2e3c51] border-b dark:border-gray-600">
+        <div @click="pinnedFoldersOpened = !pinnedFoldersOpened"
+            class="p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center justify-between cursor-pointer">
+          <div class="flex items-center space-x-1"><PinSVG class="text-amber-600" /><div class="text-nowrap">{{ t('Pinned Folders') }}</div></div>
+          <FolderIndicator v-model="pinnedFoldersOpened" />
         </div>
-        <ul class="block">
+        <ul class="block" v-if="pinnedFoldersOpened">
           <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm space-x-2 ">
               <div class="flex hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer"
                     @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"   >
-                  <FolderSVG class="h-5 w-5"/>
-                  <div :title="favorite.path">{{ favorite.basename }} </div>
+                  <FolderSVG class="h-5 w-5" v-if="app.fs.path !== favorite.path"/>
+                  <OpenFolderSVG class="h-5 w-5" v-if="app.fs.path === favorite.path"/>
+                  <div :title="favorite.path" class="text-nowrap" :class="{'underline decoration-blue-300 dark:decoration-gray-400' : app.fs.path === favorite.path}">{{ favorite.basename }} </div>
               </div>
               <div class="cursor-pointer"
                   @click="removeFavorite(favorite)"
                   >
-                  <XBoxSVG class="p-0.5 text-gray-200 hover:text-gray-400 dark:text-gray-600 hover:dark:text-gray-400" />
+                  <XBoxSVG class="p-0.5 text-gray-300 hover:text-gray-400 dark:text-gray-600 hover:dark:text-gray-400" />
               </div>
           </li>
           <li v-if="!app.pinnedFolders.length">
@@ -42,17 +44,22 @@
 <script setup>
 import {inject, onMounted, ref, watch} from 'vue';
 import FolderSVG from './icons/folder.svg';
+import OpenFolderSVG from './icons/open_folder.svg';
 import PinSVG from "./icons/pin.svg";
 import XBoxSVG from "./icons/x_box.svg";
 
 import {OverlayScrollbars} from 'overlayscrollbars';
 import TreeStorageItem from "./TreeStorageItem.vue";
 import upsert from "../utils/upsert";
+import FolderIndicator from "./FolderIndicator.vue";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
+const {getStore, setStore} = app.storage;
 
 const treeViewWidth = ref(190);
+const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
+watch(pinnedFoldersOpened, (value) => setStore('pinned-folders-opened', value));
 
 const removeFavorite = (item) => {
     app.pinnedFolders = app.pinnedFolders.filter(fav => fav.path !== item.path);

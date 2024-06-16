@@ -12,7 +12,7 @@
             <OpenFolderSVG v-if="app.fs.path === item.path"/>
             <FolderSVG v-else/>
           </div>
-          <div class="text-nowrap">{{ item.basename }}</div>
+          <div class="text-nowrap" :class="{'underline decoration-blue-300 dark:decoration-gray-400' : app.fs.path === item.path}">{{ item.basename }}</div>
         </div>
       </div>
       <div class="pl-4">
