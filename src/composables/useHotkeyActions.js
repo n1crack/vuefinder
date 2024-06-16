@@ -9,6 +9,7 @@ const KEYBOARD_SHORTCUTS = {
     F2: 'F2',
     F5: 'F5',
     DELETE: 'Delete',
+    ENTER: 'Enter',
     BACKSLASH: 'Backslash',
     KEY_A: 'KeyA',
     KEY_E: 'KeyE',
@@ -55,6 +56,11 @@ export function useHotkeyActions(app) {
         if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {
             app.showTreeView = !app.showTreeView;
             app.storage.setStore('show-tree-view', app.showTreeView);
+        }
+
+        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.ENTER) {
+            app.fullScreen = !app.fullScreen;
+            app.root.focus();
         }
 
         if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) {
