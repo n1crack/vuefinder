@@ -1,15 +1,17 @@
 <template>
   <div class="p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none grow-0">
     <div class="flex leading-5 items-center">
-      <div class="z-[1] pl-1 pointer-events-none" :title="t('Storage')">
-        <StorageSVG/>
+      <div class="flex leading-5 items-center rounded border dark:bg-gray-700 dark:border-gray-600" :title="t('Storage')">
+        <div class="z-[1] pointer-events-none">
+          <StorageSVG/>
+        </div>
+        <select v-model="app.fs.adapter" @change="handleStorageSelect"
+                class="border-0 py-0.5 text-xs text-slate-500 bg-white dark:text-neutral-50 dark:bg-gray-700 rounded uppercase focus:outline-0 cursor-pointer" tabindex="-1">
+          <option v-for="storage in app.fs.data.storages" :value="storage">
+            {{ storage }}
+          </option>
+        </select>
       </div>
-      <select v-model="app.fs.adapter" @change="handleStorageSelect"
-              class="-translate-x-5 pl-4 pr-2 py-0.5 text-xs text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded uppercase focus:outline-0" tabindex="-1">
-        <option v-for="storage in app.fs.data.storages" :value="storage">
-          {{ storage }}
-        </option>
-      </select>
 
      <div class="ml-3">
        <span v-if="searchQuery.length">{{ app.fs.data.files.length }} items found. </span>
@@ -17,7 +19,6 @@
      </div>
     </div>
     <div class="flex leading-5 items-center justify-end">
-
       <button class="vf-btn py-0 vf-btn-primary"
               :class="{disabled: !isSelectButtonActive}"
               :disabled="!isSelectButtonActive"

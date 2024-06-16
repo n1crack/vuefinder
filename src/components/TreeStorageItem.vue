@@ -9,7 +9,7 @@
       <div>{{ storage }}</div>
     </div>
 
-    <div class="mr-3">
+    <div >
       <FolderLoaderIndicator :adapter="storage" :path="storage + '://'" v-model="showSubFolders" />
     </div>
   </div>

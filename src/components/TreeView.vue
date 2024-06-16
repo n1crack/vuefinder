@@ -10,7 +10,7 @@
           <FolderIndicator v-model="pinnedFoldersOpened" />
         </div>
         <ul class="block" v-if="pinnedFoldersOpened">
-          <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm space-x-2 ">
+          <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm space-x-2">
               <div class="flex hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer"
                     @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"   >
                   <FolderSVG class="h-5 w-5" v-if="app.fs.path !== favorite.path"/>
