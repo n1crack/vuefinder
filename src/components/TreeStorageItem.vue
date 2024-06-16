@@ -1,6 +1,6 @@
 <template>
   <div
-      @click="handleStorageSelect"
+      @click="showSubFolders = !showSubFolders"
       class="pt-1 px-1 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex justify-between bg-gray-100 dark:bg-[#2e3c51] border-b dark:border-gray-600 cursor-pointer">
     <div
         class="flex flex-1 space-x-1 items-center "
@@ -32,16 +32,4 @@ const props = defineProps({
     required: true,
   },
 });
-
-const handleStorageSelect = (adapter) => {
-  console.log('ok')
-  // app.fs.adapter = adapter;
-  showSubFolders.value = !showSubFolders.value;
-  // app.emitter.emit('vf-search-exit');
-  // app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: adapter}});
-  // app.storage.setStore('adapter', adapter);
-};
-
-
-
 </script>
