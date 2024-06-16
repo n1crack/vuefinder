@@ -4,7 +4,7 @@
        class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
     <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 pb-4" >
 
-      <div class="sticky left-0 z-[1] top-0 bg-gray-50 dark:bg-[#242f41] shadow">
+      <div class="sticky left-0 z-[1] top-0 bg-gray-50 dark:bg-[#242f41] border-b dark:border-gray-600">
         <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center space-x-1">
           <div><PinSVG class="text-amber-600" /></div><div class="text-nowrap">{{ t('Pinned Folders') }}</div>
         </div>
