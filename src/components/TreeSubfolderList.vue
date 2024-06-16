@@ -3,7 +3,7 @@
     <li v-for="(item, index) in treeSubFolders"
         class="flex flex-col space-x-0.5 py-0.5 text-sm" :key="item.path">
       <div class="flex hover:text-sky-700 dark:hover:text-sky-200/50 rounded ">
-        <div class="h-5 w-5 shrink-0">
+        <div class="h-5 w-5 shrink-0"  @click="showSubFolders[item.path] = !showSubFolders[item.path]">
           <FolderLoaderIndicator :adapter="adapter" :path="item.path" v-model="showSubFolders[item.path]" />
         </div>
         <div class="flex cursor-pointer"
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="pl-4">
-      <TreeSubfolderList :adapter="props.adapter" :path="item.path" v-show="showSubFolders[item.path]" />
+        <TreeSubfolderList :adapter="props.adapter" :path="item.path" v-show="showSubFolders[item.path]" />
       </div>
     </li>
   </ul>

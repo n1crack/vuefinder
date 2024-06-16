@@ -1,6 +1,5 @@
 <template>
-  <div class="h-5 w-5 shrink-0"
-       @click=" (!opened || getLoadedFolder()?.folders.length) && toggleIndicator() && (getLoadedFolder() || fetchSubFolders())">
+  <div class="h-5 w-5 shrink-0">
 
     <LoadingSVG v-if="loading" class="p-1"/>
     <div class=" cursor-pointer" v-else>
@@ -13,7 +12,7 @@
 
 
 <script setup>
-import {ref, inject, defineProps} from 'vue';
+import {ref, inject, defineProps, watch} from 'vue';
 
 import SquarePlusSVG from "./icons/plus.svg";
 import SquareMinusSVG from "./icons/minus.svg";
@@ -37,6 +36,10 @@ const opened = defineModel();
 const loading = ref(false)
 
 // loading..
+
+watch(() => opened.value, () =>
+    getLoadedFolder()?.folders.length || fetchSubFolders()
+);
 
 function toggleIndicator() {
   return opened.value = !opened.value;
