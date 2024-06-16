@@ -4,26 +4,28 @@
        class="absolute h-full md:h-auto md:relative shadow-lg shrink-0 transition-[width] ease-in-out duration-200 z-[1] bg-gray-50 dark:bg-[#242f41]">
     <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 pb-4" >
 
-      <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center space-x-1">
-        <div><PinSVG class="text-amber-600" /></div><div>{{ t('Pinned Folders') }}</div>
+      <div class="sticky left-0 z-[1] top-0 bg-gray-50 dark:bg-[#242f41] shadow">
+        <div class="p-1 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center space-x-1">
+          <div><PinSVG class="text-amber-600" /></div><div>{{ t('Pinned Folders') }}</div>
+        </div>
+        <ul class="block">
+          <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm space-x-2 ">
+              <div class="flex hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer"
+                    @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"   >
+                  <FolderSVG class="h-5 w-5"/>
+                  <div :title="favorite.path">{{ favorite.basename }} </div>
+              </div>
+              <div class="cursor-pointer"
+                  @click="removeFavorite(favorite)"
+                  >
+                  <XBoxSVG class="p-0.5 text-gray-200 hover:text-gray-400 dark:text-gray-600 hover:dark:text-gray-400" />
+              </div>
+          </li>
+          <li v-if="!app.pinnedFolders.length">
+             <div class="rounded-lg p-1 bg-gray-100 dark:bg-gray-700 text-xs text-center">{{ t('No folders pinned') }}</div>
+          </li>
+        </ul>
       </div>
-      <ul class="block">
-        <li v-for="favorite in app.pinnedFolders" class="flex pl-2 py-0.5 text-sm space-x-2 ">
-            <div class="flex hover:text-sky-500 dark:hover:text-sky-200/50 rounded cursor-pointer"
-                  @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"   >
-                <FolderSVG class="h-5 w-5"/>
-                <div :title="favorite.path">{{ favorite.basename }} </div>
-            </div>
-            <div class="cursor-pointer"
-                @click="removeFavorite(favorite)"
-                >
-                <XBoxSVG class="p-0.5 text-gray-200 hover:text-gray-400 dark:text-gray-600 hover:dark:text-gray-400" />
-            </div>
-        </li>
-        <li v-if="!app.pinnedFolders.length">
-           <div class="rounded-lg p-1 bg-gray-100 dark:bg-gray-700 text-xs text-center">{{ t('No folders pinned') }}</div>
-        </li>
-      </ul>
 
       <div v-for="storage in app.fs.data.storages">
         <TreeStorageItem :storage="storage"/>

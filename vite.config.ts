@@ -29,7 +29,6 @@ export default defineConfig({
             // into your library
             external: [
                 'vue',
-                'microtip/microtip.css',
                 'mitt',
                 'vanilla-lazyload',
                 'dragselect',

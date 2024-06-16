@@ -1,7 +1,7 @@
 <template>
   <div
       class="space-x-0.5 flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm grow-0">
-    <span :aria-label="t('Toggle Tree View')" data-microtip-position="bottom-right" role="tooltip">
+    <span :title="t('Toggle Tree View')">
       <ListTreeSVG
           @click="toggleTreeView"
           class="h-6 w-6 p-0.5 rounded cursor-pointer text-slate-700 "
@@ -9,7 +9,7 @@
       />
     </span>
 
-    <span :aria-label="t('Go up a directory')" data-microtip-position="bottom-right" role="tooltip">
+    <span :title="t('Go up a directory')">
       <GoUpSVG
           @dragover="handleDragOver($event)"
           @dragleave="handleDragLeave($event)"
@@ -19,10 +19,10 @@
       />
     </span>
 
-    <span :aria-label="t('Refresh')" data-microtip-position="bottom-right" role="tooltip" v-if="!app.fs.loading">
+    <span :title="t('Refresh')" v-if="!app.fs.loading">
       <RefreshSVG @click="handleRefresh"/>
     </span>
-    <span :aria-label="t('Cancel')" data-microtip-position="bottom-right" role="tooltip" v-else>
+    <span :title="t('Cancel')" v-else>
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 

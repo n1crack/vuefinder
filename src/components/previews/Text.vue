@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <div class="mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title"
-         :aria-label="app.modal.data.item.path" data-microtip-position="bottom-right" role="tooltip">
+         :title="app.modal.data.item.path">
       {{ app.modal.data.item.basename }}
     </div>
     <div class="ml-auto mb-2">

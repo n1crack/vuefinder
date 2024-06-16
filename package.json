@@ -46,7 +46,6 @@
     "@uppy/xhr-upload": "^3.6.7",
     "cropperjs": "^1.5.12",
     "dragselect": "^3.0.5",
-    "microtip": "^0.2.2",
     "mitt": "^3.0.0",
     "overlayscrollbars": "^2.7.3",
     "sass": "^1.75.0",

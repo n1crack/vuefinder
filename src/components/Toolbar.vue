@@ -2,35 +2,35 @@
   <div class="border-neutral-300 flex justify-between items-center py-1 text-sm grow-0">
     <div class="flex text-center" v-if="!searchQuery.length">
       <div class="mx-1.5"
-           :aria-label="t('New Folder')" data-microtip-position="bottom-right" role="tooltip"
+           :title="t('New Folder')"
            v-if="app.features.includes(FEATURES.NEW_FOLDER)"
            @click="app.modal.open(ModalNewFolder, {items: ds.getSelected()})">
         <NewFolderSVG/>
       </div>
 
       <div class="mx-1.5"
-           :aria-label="t('New File')" data-microtip-position="bottom" role="tooltip"
+           :title="t('New File')"
            v-if="app.features.includes(FEATURES.NEW_FILE)"
            @click="app.modal.open(ModalNewFile, {items: ds.getSelected()})">
         <NewFileSVG/>
       </div>
 
       <div class="mx-1.5"
-           :aria-label="t('Rename')" data-microtip-position="bottom" role="tooltip"
+           :title="t('Rename')"
            v-if="app.features.includes(FEATURES.RENAME)"
            @click="(ds.getCount() !== 1) || app.modal.open(ModalRename, {items: ds.getSelected()})">
         <RenameSVG :class="(ds.getCount() === 1) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div class="mx-1.5"
-           :aria-label="t('Delete')" data-microtip-position="bottom" role="tooltip"
+           :title="t('Delete')"
            v-if="app.features.includes(FEATURES.DELETE)"
            @click="(!ds.getCount()) || app.modal.open(ModalDelete, {items: ds.getSelected()})">
         <DeleteSVG :class="(ds.getCount()) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div class="mx-1.5"
-           :aria-label="t('Upload')" data-microtip-position="bottom" role="tooltip"
+           :title="t('Upload')"
            v-if="app.features.includes(FEATURES.UPLOAD)"
            @click="app.modal.open(ModalUpload, {items: ds.getSelected()})">
         <UploadSVG/>
@@ -38,12 +38,12 @@
 
       <div class="mx-1.5"
            v-if="app.features.includes(FEATURES.UNARCHIVE) && ds.getCount() === 1 && ds.getSelected()[0].mime_type === 'application/zip'"
-           :aria-label="t('Unarchive')" data-microtip-position="bottom" role="tooltip"
+           :title="t('Unarchive')"
            @click="(!ds.getCount()) || app.modal.open(ModalUnarchive, {items: ds.getSelected()})">
         <UnarchiveSVG :class="(ds.getCount()) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
       <div class="mx-1.5" v-if="app.features.includes(FEATURES.ARCHIVE)"
-           :aria-label="t('Archive')" data-microtip-position="bottom" role="tooltip"
+           :title="t('Archive')"
            @click="(!ds.getCount()) || app.modal.open(ModalArchive, {items: ds.getSelected()})">
         <ArchiveSVG :class="(ds.getCount()) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
@@ -57,13 +57,13 @@
 
     <div class="flex text-center items-center justify-end">
       <div v-if="app.features.includes(FEATURES.FULL_SCREEN)" @click="toggleFullScreen"
-           class="mx-1.5" :aria-label="t('Toggle Full Screen')" data-microtip-position="bottom-left" role="tooltip">
+           class="mx-1.5" :title="t('Toggle Full Screen')">
         <MinimizeSVG v-if="app.fullScreen"/>
         <FullscreenSVG v-else/>
       </div>
 
       <div class="mx-1.5"
-           :aria-label="t('Change View')" data-microtip-position="bottom-left" role="tooltip"
+           :title="t('Change View')"
            @click="searchQuery.length || toggleView()">
           <GridViewSVG v-if="app.view === 'grid'" :class="(!searchQuery.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
           <ListViewSVG v-if="app.view === 'list'" :class="(!searchQuery.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
