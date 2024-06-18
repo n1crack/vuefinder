@@ -1,7 +1,7 @@
 <template>
   <ModalLayout>
-    <div class="sm:flex sm:items-start">
-      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+    <div>
+      <div class="mt-3 sm:mt-0 sm:text-left w-full">
         <div v-if="enabledPreview">
           <Text v-if="loadPreview('text')" @success="loaded = true"/>
           <Image v-else-if="loadPreview('image')" @success="loaded = true"/>
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="py-2 flex font-normal break-all dark:text-gray-200 rounded text-xs">
+    <div class="py-2 flex font-normal break-all text-gray-800 dark:text-gray-200 rounded text-xs">
       <div><span class="font-bold">{{ t('File Size') }}: </span>{{ app.filesize(app.modal.data.item.file_size) }}</div>
       <div><span class="font-bold pl-2">{{ t('Last Modified') }}: </span> {{ datetimestring(app.modal.data.item.last_modified) }}</div>
     </div>

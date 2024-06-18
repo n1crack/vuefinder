@@ -1,13 +1,8 @@
 <template>
   <ModalLayout>
-    <div class="sm:flex sm:items-start">
-      <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
-         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-blue-600 dark:stroke-blue-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-          </svg>
-      </div>
+    <div>
+      <ModalHeader :icon="UploadSVG" :title="t('Upload Files')"></ModalHeader>
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{ t('Upload Files') }}</h3>
         <div class="mt-2">
           <div
             ref="dropArea"
@@ -98,6 +93,8 @@ import { inject, onBeforeUnmount, onMounted, ref } from 'vue';
 import Message from '../Message.vue';
 import { parse } from '../../utils/filesize.js';
 import title_shorten from "../../utils/title_shorten.js";
+import ModalHeader from "./ModalHeader.vue";
+import UploadSVG from "../icons/upload.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
