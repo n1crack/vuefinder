@@ -107,7 +107,7 @@
                     </label>
                   </div>
                   <div class="flex text-sm">
-                    <select id="language" v-model="locale" @change="changeLocale($event.target.value)"
+                    <select id="language" v-model="app.i18n.locale"
                             class="flex-shrink-0 sm:w-1/2 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
                       <optgroup :label="t('Language')">
                         <option v-for="(language, code) in supportedLanguages" :value="code">{{ language }}</option>
@@ -204,7 +204,7 @@ import ModalHeader from "./ModalHeader.vue";
 
 const app = inject('ServiceContainer');
 const {setStore, clearStore} = app.storage;
-const {t, changeLocale, locale} = app.i18n;
+const {t} = app.i18n;
 
 const TAB = {
   ABOUT: 'about',
