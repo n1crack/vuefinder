@@ -185,7 +185,7 @@ const he = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, xr = Object.values(he), wr = "2.5.10";
+}, xr = Object.values(he), wr = "2.5.11";
 function zn(t, e, s, r, n) {
   return (e = Math, s = e.log, r = 1024, n = s(t) / s(r) | 0, t / e.pow(r, n)).toFixed(0) + " " + (n ? "KMGTPEZY"[--n] + "iB" : "B");
 }
@@ -5249,7 +5249,7 @@ const Pm = { class: "h-5 w-5 shrink-0" }, zm = {
     return (r, n) => (m(), g(pe, null, [
       a("div", {
         onClick: n[1] || (n[1] = (c) => s.value = !s.value),
-        class: "p-1 py-1.5 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex justify-between bg-gray-100 dark:bg-[#2e3c51] border-b dark:border-gray-600 cursor-pointer"
+        class: "p-1 py-1.5 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex justify-between bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700 cursor-pointer"
       }, [
         a("div", {
           class: de(["flex flex-1 space-x-1 items-center", t.storage === o(e).fs.adapter ? "text-gray-700/80 dark:text-gray-300/80 text-bold" : ""])
@@ -5348,7 +5348,7 @@ const Pm = { class: "h-5 w-5 shrink-0" }, zm = {
           a("div", sp, [
             a("div", {
               onClick: f[2] || (f[2] = (v) => i.value = !i.value),
-              class: "pr-2 bg-gray-100 dark:bg-[#2e3c51] dark:border-gray-600 border-b p-1 py-1.5 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center justify-between cursor-pointer"
+              class: "pr-2 bg-gray-100 dark:bg-gray-800 dark:border-gray-700 border-b p-1 py-1.5 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center justify-between cursor-pointer"
             }, [
               a("div", np, [
                 q(o(jo), { class: "text-amber-600" }),
