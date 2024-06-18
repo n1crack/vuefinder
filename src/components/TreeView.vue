@@ -105,7 +105,11 @@ const handleMouseDown = (e) => {
 const treeViewScrollElement = ref(null);
 
 onMounted(() => {
-  OverlayScrollbars(treeViewScrollElement.value, {});
+  OverlayScrollbars(treeViewScrollElement.value, {
+      scrollbars: {
+          theme: 'vf-theme-dark dark:vf-theme-light',
+      },
+  });
 });
 
 // watch for changes in the fs.data

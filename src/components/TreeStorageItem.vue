@@ -15,7 +15,7 @@
       <FolderLoaderIndicator :adapter="storage" :path="storage + '://'" v-model="showSubFolders" />
     </div>
   </div>
-  <TreeSubfolderList :adapter="storage" :path="storage + '://'" v-show="showSubFolders" class=" overflow-x-auto my-1"/>
+  <TreeSubfolderList :adapter="storage" :path="storage + '://'" v-show="showSubFolders" class="overflow-x-auto my-1"/>
 </template>
 <script setup>
 import {inject, ref} from 'vue';
