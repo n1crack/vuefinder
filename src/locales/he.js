@@ -100,5 +100,6 @@ export default {
     "Unpin Folder": "בטל מוצמד תיקייה",
     "Project home": "דף הבית של הפרויקט",
     "Follow on GitHub": "עקוב ב-GitHub",
+    "Customize your experience with the following settings": "התאמת חוויתך עם ההגדרות הבאות",
     "uppy": uppyLocaleHe
 }

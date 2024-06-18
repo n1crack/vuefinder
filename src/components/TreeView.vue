@@ -27,7 +27,7 @@
         </ul>
       </div>
 
-      <div v-for="storage in app.fs.data.storages">
+      <div class="sticky left-0" v-for="storage in app.fs.data.storages">
         <TreeStorageItem :storage="storage"/>
       </div>
     </div>
@@ -106,6 +106,9 @@ const treeViewScrollElement = ref(null);
 
 onMounted(() => {
   OverlayScrollbars(treeViewScrollElement.value, {
+      overflow: {
+        x: 'hidden',
+      },
       scrollbars: {
           theme: 'vf-theme-dark dark:vf-theme-light',
       },

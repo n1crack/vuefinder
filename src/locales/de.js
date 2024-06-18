@@ -100,5 +100,6 @@ export default {
     "Unpin Folder": "Ordner lösen",
     "Project home": "Projekt-Startseite",
     "Follow on GitHub": "Folgen Sie auf GitHub",
+    "Customize your experience with the following settings": "Passen Sie Ihr Erlebnis mit den folgenden Einstellungen an",
     "uppy": uppyLocaleDe,
 }

@@ -100,5 +100,6 @@ export default {
     "Unpin Folder": "Sabitlemeyi Kaldır",
     "Project home": "Proje ana sayfası",
     "Follow on GitHub": "GitHub'da takip et",
+    "Customize your experience with the following settings": "Aşağıdaki ayarlarla deneyiminizi özelleştirin",
     "uppy": uppyLocaleTr,
 }

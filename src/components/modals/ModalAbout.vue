@@ -22,7 +22,7 @@
 
         <div class="mt-2" v-if="selectedTab === TAB.SETTINGS">
           <div class="m-1 text-sm text-gray-500">
-            {{ t('Customize your experience with the following settings.') }}
+            {{ t('Customize your experience with the following settings') }}
           </div>
           <div class="mt-3 text-left">
             <fieldset>

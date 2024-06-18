@@ -100,5 +100,6 @@ export default {
     "Unpin Folder": "Unpin Folder",
     "Project home": "Project home",
     "Follow on GitHub": "Follow on GitHub",
+    "Customize your experience with the following settings": "Customize your experience with the following settings",
     "uppy": uppyLocaleEn
 }
