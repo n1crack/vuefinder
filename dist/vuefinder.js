@@ -187,7 +187,7 @@ const pe = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, xr = Object.values(pe), wr = "2.5.13";
+}, xr = Object.values(pe), wr = "2.5.14";
 function Pn(t, e, s, r, n) {
   return (e = Math, s = e.log, r = 1024, n = s(t) / s(r) | 0, t / e.pow(r, n)).toFixed(0) + " " + (n ? "KMGTPEZY"[--n] + "iB" : "B");
 }
@@ -1872,7 +1872,7 @@ const za = { render: Pa }, qa = { class: "flex items-center my-1 space-x-2" }, j
       a("h3", Ga, y(t.title), 1)
     ]));
   }
-}, Ka = { class: "sm:items-start select-none" }, Wa = { class: "mt-3 sm:mt-0 sm:ml-4 sm:text-left w-full" }, Ya = {
+}, Ka = { class: "sm:items-start select-none" }, Wa = { class: "mt-3 sm:mt-0 sm:text-left w-full" }, Ya = {
   class: "flex overflow-auto",
   "aria-label": "Tabs"
 }, Xa = ["onClick", "aria-current"], Ja = {
@@ -2307,7 +2307,7 @@ const za = { render: Pa }, qa = { class: "flex items-center my-1 space-x-2" }, j
 function li(t, e) {
   return m(), g("svg", oi, [...ai]);
 }
-const Vo = { render: li }, ii = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, ci = { class: "mt-2" }, di = { class: "text-sm text-gray-500" }, ui = {
+const Vo = { render: li }, ii = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, ci = { class: "mt-2" }, di = { class: "text-sm text-gray-500" }, ui = {
   class: "text-gray-500 text-sm mb-1 overflow-auto vf-scrollbar",
   style: { "max-height": "200px" }
 }, fi = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, mi = {
@@ -2418,7 +2418,7 @@ const Vo = { render: li }, ii = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:te
 function $i(t, e) {
   return m(), g("svg", xi, [...ki]);
 }
-const Lo = { render: $i }, Si = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Ci = { class: "mt-2" }, Ei = { class: "flex text-sm text-gray-800 dark:text-gray-400 py-2" }, Ti = {
+const Lo = { render: $i }, Si = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, Ci = { class: "mt-2" }, Ei = { class: "flex text-sm text-gray-800 dark:text-gray-400 py-2" }, Ti = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -2553,7 +2553,7 @@ const Fi = {
 function Ii(t, e) {
   return m(), g("svg", Fi, [...Bi]);
 }
-const Oo = { render: Ii }, Ni = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Ui = { class: "mt-2" }, Pi = { class: "text-sm text-gray-500" }, zi = ["placeholder"], Ro = {
+const Oo = { render: Ii }, Ni = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, Ui = { class: "mt-2" }, Pi = { class: "text-sm text-gray-500" }, zi = ["placeholder"], Ro = {
   __name: "ModalNewFolder",
   setup(t) {
     const e = ae("ServiceContainer");
@@ -2637,7 +2637,7 @@ const Oo = { render: Ii }, Ni = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:te
 function Ki(t, e) {
   return m(), g("svg", qi, [...Gi]);
 }
-const Fo = { render: Ki }, Wi = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Yi = { class: "mt-2" }, Xi = { class: "text-sm text-gray-500" }, Ji = ["placeholder"], Qi = {
+const Fo = { render: Ki }, Wi = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, Yi = { class: "mt-2" }, Xi = { class: "text-sm text-gray-500" }, Ji = ["placeholder"], Qi = {
   __name: "ModalNewFile",
   setup(t) {
     const e = ae("ServiceContainer");
@@ -2726,7 +2726,7 @@ const Zi = {
 function sc(t, e) {
   return m(), g("svg", Zi, [...tc]);
 }
-const Ho = { render: sc }, nc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, oc = { class: "mt-2" }, rc = {
+const Ho = { render: sc }, nc = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, oc = { class: "mt-2" }, rc = {
   key: 0,
   class: "pointer-events-none"
 }, ac = {
@@ -3086,7 +3086,7 @@ const Ho = { render: sc }, nc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:te
 function Sc(t, e) {
   return m(), g("svg", wc, [...$c]);
 }
-const Bo = { render: Sc }, Cc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Ec = { class: "mt-2" }, Tc = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Ac = {
+const Bo = { render: Sc }, Cc = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, Ec = { class: "mt-2" }, Tc = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Ac = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
@@ -3191,7 +3191,7 @@ const Bo = { render: Sc }, Cc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:te
 function Nc(t, e) {
   return m(), g("svg", Hc, [...Ic]);
 }
-const No = { render: Nc }, Uc = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Pc = { class: "mt-2" }, zc = {
+const No = { render: Nc }, Uc = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, Pc = { class: "mt-2" }, zc = {
   class: "text-gray-500 text-sm mb-1 overflow-auto vf-scrollbar",
   style: { "max-height": "200px" }
 }, qc = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, jc = {
@@ -3529,7 +3529,7 @@ const kd = { render: wd }, $d = { class: "border-neutral-300 flex justify-betwee
 function qd(t, e) {
   return m(), g("svg", Ud, [...zd]);
 }
-const jd = { render: qd }, Gd = { class: "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full" }, Kd = { class: "text-sm text-gray-500 pb-1" }, Wd = { class: "max-h-[200px] overflow-y-auto vf-scrollbar text-left" }, Yd = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Xd = {
+const jd = { render: qd }, Gd = { class: "mt-3 text-center sm:mt-0 sm:text-left w-full" }, Kd = { class: "text-sm text-gray-500 pb-1" }, Wd = { class: "max-h-[200px] overflow-y-auto vf-scrollbar text-left" }, Yd = { class: "flex text-sm text-gray-800 dark:text-gray-400" }, Xd = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   class: "h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500",
