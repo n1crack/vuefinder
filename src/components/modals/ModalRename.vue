@@ -2,7 +2,7 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="RenameSVG" :title="t('Rename')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div class="mt-2">
           <p class="flex text-sm text-gray-800 dark:text-gray-400 py-2">
             <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">

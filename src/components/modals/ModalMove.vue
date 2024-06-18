@@ -2,7 +2,7 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="MoveSVG" :title="t('Move files')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full ">
+      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full ">
         <p class="text-sm text-gray-500 pb-1">{{ t('Are you sure you want to move these files?') }}</p>
         <div class="max-h-[200px] overflow-y-auto vf-scrollbar text-left">
           <div v-for="node in items" class="flex text-sm text-gray-800 dark:text-gray-400">

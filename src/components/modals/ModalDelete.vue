@@ -2,7 +2,7 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="DeleteSVG" :title="t('Delete files')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div class="mt-2">
           <p class="text-sm text-gray-500">{{ t('Are you sure you want to delete these files?') }}</p>
           <div class="text-gray-500 text-sm mb-1 overflow-auto vf-scrollbar" style="max-height: 200px;">
