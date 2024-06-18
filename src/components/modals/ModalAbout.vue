@@ -3,7 +3,7 @@
     <div class="sm:items-start select-none">
       <ModalHeader :icon="AboutSVG" :title="'Vuefinder ' + app.version"></ModalHeader>
 
-      <div class="mt-3  sm:mt-0 sm:ml-4 sm:text-left w-full">
+      <div class="mt-3 sm:mt-0 sm:text-left w-full">
         <div>
           <div>
             <nav class="flex overflow-auto" aria-label="Tabs">
