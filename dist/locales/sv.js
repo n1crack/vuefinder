@@ -100,5 +100,6 @@ export default {
     "Unpin Folder": "Avfäst mapp",
     "Project home": "Projekthemsida",
     "Follow on GitHub": "Följ på GitHub",
+    "Customize your experience with the following settings": "Anpassa din upplevelse med följande inställningar",
     "uppy": uppyLocaleSv
 }
