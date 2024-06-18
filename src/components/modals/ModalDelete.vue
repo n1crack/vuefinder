@@ -1,14 +1,8 @@
 <template>
   <ModalLayout>
-    <div class="sm:flex sm:items-start">
-      <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
-        <svg xmlns="http://www.w3.org/2000/svg"
-                 class="h-6 w-6 stroke-red-600 dark:stroke-red-200" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-      </div>
+    <div>
+      <ModalHeader :icon="DeleteSVG" :title="t('Delete files')"></ModalHeader>
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{ t('Delete files') }}</h3>
         <div class="mt-2">
           <p class="text-sm text-gray-500">{{ t('Are you sure you want to delete these files?') }}</p>
           <div class="text-gray-500 text-sm mb-1 overflow-auto vf-scrollbar" style="max-height: 200px;">
@@ -41,6 +35,8 @@
 import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
+import ModalHeader from "./ModalHeader.vue";
+import DeleteSVG from "../icons/delete.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

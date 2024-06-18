@@ -1,15 +1,8 @@
 <template>
   <ModalLayout>
-    <div class="sm:flex sm:items-start">
-      <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
-        <svg class="h-6 w-6 stroke-blue-600 dark:stroke-blue-100" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-             stroke-width="2" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-        </svg>
-      </div>
+    <div>
+      <ModalHeader :icon="MoveSVG" :title="t('Move files')"></ModalHeader>
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full ">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{ t('Move files') }}</h3>
         <p class="text-sm text-gray-500 pb-1">{{ t('Are you sure you want to move these files?') }}</p>
         <div class="max-h-[200px] overflow-y-auto vf-scrollbar text-left">
           <div v-for="node in items" class="flex text-sm text-gray-800 dark:text-gray-400">
@@ -53,6 +46,8 @@
 import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
+import ModalHeader from "./ModalHeader.vue";
+import MoveSVG from "../icons/move.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

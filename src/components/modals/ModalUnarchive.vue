@@ -1,13 +1,8 @@
 <template>
   <ModalLayout>
-    <div class="sm:flex sm:items-start">
-      <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-blue-600 dark:stroke-blue-100" fill="none" viewBox="0 0 24 24" stroke="none" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-        </svg>
-      </div>
+    <div>
+      <ModalHeader :icon="UnarchiveSVG" :title="t('Unarchive')"></ModalHeader>
       <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title">{{ t('Unarchive') }}</h3>
         <div class="mt-2">
           <p v-for="item in items" class="flex text-sm text-gray-800 dark:text-gray-400">
             <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
@@ -36,6 +31,8 @@
 import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
+import ModalHeader from "./ModalHeader.vue";
+import UnarchiveSVG from "../icons/unarchive.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

@@ -24,7 +24,7 @@
     </div>
 
     <div :ref="ds.area"
-         class="h-full w-full text-xs p-1 vf-explorer-scrollbar vf-selector-area min-h-[150px] z-0 overflow-y-auto"
+         class="h-full w-full text-xs p-1 vf-explorer-scrollbar vf-selector-area z-0 overflow-y-auto"
          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
     >
 
