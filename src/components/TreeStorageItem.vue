@@ -1,7 +1,7 @@
 <template>
   <div
       @click="showSubFolders = !showSubFolders"
-      class="p-1 py-1.5 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex justify-between bg-gray-100 dark:bg-[#2e3c51] border-b dark:border-gray-600 cursor-pointer">
+      class="p-1 py-1.5 uppercase font-bold text-gray-400 dark:text-gray-500 text-xs flex justify-between bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700 cursor-pointer">
     <div
         class="flex flex-1 space-x-1 items-center "
         :class="storage === app.fs.adapter ? 'text-gray-700/80 dark:text-gray-300/80 text-bold' : ''">

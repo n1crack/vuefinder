@@ -5,7 +5,7 @@
     <div ref="treeViewScrollElement" class="h-full border-r dark:border-gray-600/50 pb-4" >
       <div class="sticky left-0 dark:border-gray-600">
         <div @click="pinnedFoldersOpened = !pinnedFoldersOpened"
-            class="pr-2 bg-gray-100 dark:bg-[#2e3c51] dark:border-gray-600 border-b p-1 py-1.5 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center justify-between cursor-pointer">
+            class="pr-2 bg-gray-100 dark:bg-gray-800 dark:border-gray-700 border-b p-1 py-1.5 uppercase font-bold text-gray-400 dark:text-gray-400 text-xs flex items-center justify-between cursor-pointer">
           <div class="flex items-center space-x-1"><PinSVG class="text-amber-600" /><div class="text-nowrap">{{ t('Pinned Folders') }}</div></div>
           <FolderIndicator v-model="pinnedFoldersOpened" />
         </div>
