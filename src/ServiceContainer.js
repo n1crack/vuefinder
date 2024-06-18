@@ -1,4 +1,4 @@
-import {computed, reactive} from "vue";
+import {computed, reactive, ref} from "vue";
 import mitt from "mitt";
 import {buildRequester} from "./utils/ajax.js";
 import {useStorage} from "./composables/useStorage.js";
@@ -47,7 +47,7 @@ export default (props, options) => {
         // storage
         storage: storage,
         // localization object
-        i18n : computed(() => useI18n(storage, initialLang, emitter, supportedLocales)),
+        i18n: useI18n(storage, initialLang, emitter, supportedLocales),
         // modal state
         modal: useModal(),
         // dragSelect object, it is responsible for selecting items
