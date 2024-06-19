@@ -1,4 +1,4 @@
-import {reactive, ref} from 'vue';
+import {reactive, ref, watch} from 'vue';
 
 export async function loadLocale(locale, supportedLocales) {
     const localeData = supportedLocales[locale];
@@ -30,6 +30,10 @@ export function useI18n(storage, initialLocale, emitter, supportedLocales) {
         });
     };
 
+    watch(locale, (newLocale) => {
+        changeLocale(newLocale);
+    });
+
     if (!getStore('locale') && !supportedLocales.length) {
         changeLocale(initialLocale);
     } else {
@@ -45,6 +49,6 @@ export function useI18n(storage, initialLocale, emitter, supportedLocales) {
     };
 
 
-    return reactive({t, changeLocale, locale});
+    return reactive({t, locale});
 }
 

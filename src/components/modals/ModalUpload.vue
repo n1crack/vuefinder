@@ -2,7 +2,7 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="UploadSVG" :title="t('Upload Files')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div class="mt-2">
           <div
             ref="dropArea"

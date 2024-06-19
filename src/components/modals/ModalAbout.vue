@@ -3,7 +3,7 @@
     <div class="sm:items-start select-none">
       <ModalHeader :icon="AboutSVG" :title="'Vuefinder ' + app.version"></ModalHeader>
 
-      <div class="mt-3  sm:mt-0 sm:ml-4 sm:text-left w-full">
+      <div class="mt-3 sm:mt-0 sm:text-left w-full">
         <div>
           <div>
             <nav class="flex overflow-auto" aria-label="Tabs">
@@ -15,13 +15,13 @@
         </div>
 
         <div class="mt-4" v-if="selectedTab === TAB.ABOUT">
-          <div class="text-sm text-gray-500">{{ t('Vuefinder is a simple, lightweight, and fast file manager library for Vue.js applications') }}</div>
+          <div class="m-1 text-sm text-gray-500">{{ t('Vuefinder is a simple, lightweight, and fast file manager library for Vue.js applications') }}</div>
           <a href="https://vuefinder.ozdemir.be" class="block mt-2 text-sm text-blue-500 dark:text-blue-400" target="_blank">{{ t('Project home') }}</a>
           <a href="https://github.com/n1crack/vuefinder" class="block mt-2 text-sm text-blue-500 dark:text-blue-400" target="_blank">{{ t('Follow on GitHub') }}</a>
         </div>
 
         <div class="mt-2" v-if="selectedTab === TAB.SETTINGS">
-          <div class="text-sm text-gray-500">
+          <div class="m-1 text-sm text-gray-500">
             {{ t('Customize your experience with the following settings') }}
           </div>
           <div class="mt-3 text-left">
@@ -107,7 +107,7 @@
                     </label>
                   </div>
                   <div class="flex text-sm">
-                    <select id="language" v-model="locale" @change="changeLocale($event.target.value)"
+                    <select id="language" v-model="app.i18n.locale"
                             class="flex-shrink-0 sm:w-1/2 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded">
                       <optgroup :label="t('Language')">
                         <option v-for="(language, code) in supportedLanguages" :value="code">{{ language }}</option>
@@ -175,7 +175,7 @@
         </div>
 
         <div class="mt-3" v-if="selectedTab === TAB.RESET">
-          <div class="text-sm text-gray-500">
+          <div class="m-1 text-sm text-gray-500">
             {{ t('Reset all settings to default') }}
           </div>
           <button @click="clearLocalStorage" type="button" class="vf-btn vf-btn-secondary">
@@ -204,7 +204,7 @@ import ModalHeader from "./ModalHeader.vue";
 
 const app = inject('ServiceContainer');
 const {setStore, clearStore} = app.storage;
-const {t, changeLocale, locale} = app.i18n;
+const {t} = app.i18n;
 
 const TAB = {
   ABOUT: 'about',

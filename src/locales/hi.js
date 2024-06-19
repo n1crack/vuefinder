@@ -100,5 +100,6 @@ export default {
     "Unpin Folder": "फ़ोल्डर को अनस्थापित करें",
     "Project home": "परियोजना होम",
     "Follow on GitHub": "GitHub पर फॉलो करें",
+    "Customize your experience with the following settings": "निम्नलिखित सेटिंग्स के साथ अपने अनुभव को अनुकूलित करें",
     "uppy": uppyLocaleHi
 }

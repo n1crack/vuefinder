@@ -100,5 +100,6 @@ export default {
     "Unpin Folder": "حذف سنجاق پوشه",
     "Project home": "صفحه پروژه",
     "Follow on GitHub": "دنبال کردن در گیت هاب",
+    "Customize your experience with the following settings": "تجربه خود را با تنظیمات زیر سفارشی کنید",
     "uppy": uppyLocaleFa
 }

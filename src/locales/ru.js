@@ -100,5 +100,6 @@ export default {
     "Unpin Folder": "Открепить папку",
     "Project home": "Домашняя страница проекта",
     "Follow on GitHub": "Следить на GitHub",
+    "Customize your experience with the following settings": "Настройте свой опыт с помощью следующих настроек",
     "uppy": uppyLocaleRu
 }

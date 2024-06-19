@@ -100,5 +100,6 @@ export default {
     "Unpin Folder": "取消固定資料夾",
     "Project home": "項目主頁",
     "Follow on GitHub": "在 GitHub 上關注",
+    "Customize your experience with the following settings": "使用以下設定自定義您的體驗",
     "uppy": uppyLocalezhTW
 }

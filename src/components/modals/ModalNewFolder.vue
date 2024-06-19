@@ -2,7 +2,7 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="NewFolderSVG" :title="t('New Folder')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
         <div class="mt-2">
           <p class="text-sm text-gray-500">{{ t('Create a new folder') }}</p>
           <input v-model="name" @keyup.enter="createFolder"
