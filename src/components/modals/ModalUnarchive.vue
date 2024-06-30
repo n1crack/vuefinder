@@ -2,18 +2,18 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="UnarchiveSVG" :title="t('Unarchive')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-        <div class="mt-2">
-          <p v-for="item in items" class="flex text-sm text-gray-800 dark:text-gray-400">
-            <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-            <span class="ml-1.5">{{ item.basename }}</span>
+      <div class="vuefinder__unarchive-modal__content">
+        <div class="vuefinder__unarchive-modal__items">
+          <p v-for="item in items" class="vuefinder__unarchive-modal__item">
+            <svg v-if="item.type === 'dir'" class="vuefinder__unarchive-modal__icon vuefinder__unarchive-modal__icon--dir" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+            </svg>
+            <svg v-else class="vuefinder__unarchive-modal__icon vuefinder__unarchive-modal__icon--file" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            <span class="vuefinder__unarchive-modal__item-name">{{ item.basename }}</span>
           </p>
-          <p class="my-1 text-sm text-gray-500">{{ t('The archive will be unarchived at')}} ({{app.fs.data.dirname}})</p>
+          <p class="vuefinder__unarchive-modal__info">{{ t('The archive will be unarchived at')}} ({{app.fs.data.dirname}})</p>
 
           <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
@@ -26,6 +26,40 @@
     </template>
   </ModalLayout>
 </template>
+
+<style>
+.vuefinder__unarchive-modal__content {
+  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+}
+
+.vuefinder__unarchive-modal__items {
+  @apply mt-2;
+}
+
+.vuefinder__unarchive-modal__item {
+  @apply flex text-sm text-gray-800 dark:text-gray-400;
+}
+
+.vuefinder__unarchive-modal__icon {
+  @apply h-5 w-5 text-neutral-500;
+}
+
+.vuefinder .vuefinder__unarchive-modal__icon--dir {
+  @apply fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500;
+}
+
+.vuefinder .vuefinder__unarchive-modal__icon--file {
+  @apply h-5 w-5 text-neutral-500;
+}
+
+.vuefinder__unarchive-modal__item-name {
+  @apply ml-1.5;
+}
+
+.vuefinder__unarchive-modal__info {
+  @apply my-1 text-sm text-gray-500;
+}
+</style>
 
 <script setup>
 import ModalLayout from './ModalLayout.vue';
