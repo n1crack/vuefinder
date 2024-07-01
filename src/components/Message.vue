@@ -1,20 +1,41 @@
 <template>
   <div>
     <div
-        v-if="!hidden"
-        ref="strMessage" class="flex mt-2 p-1 px-2 rounded text-sm break-all dark:opacity-75"
-        :class="error ? 'bg-red-100 text-red-600 ' : 'bg-emerald-100 text-emerald-600'">
-<!--        :class="error ? 'bg-red-100 text-red-600 dark:bg-red-950' : 'bg-emerald-100 text-emerald-600 dark:bg-emerald-950'">-->
+      v-if="!hidden"
+      ref="strMessage"
+      class="vuefinder__message"
+      :class="error ? 'vuefinder__message--error' : 'vuefinder__message--success'">
       <slot></slot>
-      <div class="ml-auto cursor-pointer" @click="hide"
-      :title="t('Close')">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+      <div class="vuefinder__message__close" @click="hide" :title="t('Close')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="vuefinder__message__icon">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.vuefinder__message {
+  @apply flex mt-2 p-1 px-2 rounded text-sm break-all dark:opacity-75;
+}
+
+.vuefinder__message--error {
+  @apply bg-red-100 text-red-600;
+}
+
+.vuefinder__message--success {
+  @apply bg-emerald-100 text-emerald-600;
+}
+
+.vuefinder__message__close {
+  @apply ml-auto cursor-pointer;
+}
+
+.vuefinder__message__icon {
+  @apply w-5 h-5;
+}
+</style>
 
 <script setup>
 import {ref, watch, inject} from 'vue';
