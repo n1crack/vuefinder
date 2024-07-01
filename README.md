@@ -98,6 +98,11 @@ app.use(VueFinder, {
 </script>
 ```
 
+### Styling
+Vuefinder uses the BEM (Block Element Modifier) convention for its CSS classes, with default styles applied using TailwindCSS. This structured approach helps maintain a clear and consistent naming convention for CSS classes, making it easier to understand and manage styles across the project.
+
+To customize or update the styles, simply find the appropriate BEM class in the component’s style section and override the styles as needed.
+
 ### Props
 
 | Prop          |     Value     | Default  | Description                                                |
