@@ -51,7 +51,7 @@
     <input ref="internalFolderInput" type="file" multiple webkitdirectory class="hidden">
 
     <template v-slot:buttons>
-      <button type="button" class="vuefinder__upload-modal__upload-button" :disabled="uploading" @click.prevent="upload">
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="uploading" @click.prevent="upload">
         {{ t('Upload') }}
       </button>
       <button type="button" class="vf-btn vf-btn-secondary" v-if="uploading" @click.prevent="cancel">{{ t('Cancel') }}</button>
@@ -111,18 +111,6 @@
 
 .vuefinder .vuefinder__upload-modal__file-remove-icon {
   @apply w-5 h-5;
-}
-
-.vuefinder__upload-modal__upload-button {
-  @apply vf-btn vf-btn-primary;
-}
-
-.vuefinder .vuefinder__upload-modal__upload-button.disabled {
-  @apply bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500;
-}
-
-.vuefinder .vuefinder__upload-modal__upload-button.enabled {
-  @apply bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500;
 }
 </style>
 

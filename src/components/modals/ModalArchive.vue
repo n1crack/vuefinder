@@ -61,7 +61,7 @@
 }
 
 .vuefinder .vuefinder__archive-modal__input {
-  @apply my-1 px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full;
+  @apply my-1 px-2 py-1 border rounded dark:bg-gray-700/25 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full;
 }
 </style>
 

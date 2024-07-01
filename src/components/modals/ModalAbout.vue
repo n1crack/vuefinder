@@ -26,7 +26,7 @@
           </div>
           <div class="vuefinder__about-modal__settings">
             <fieldset>
-              <div class="vuefinder__about-modal__setting">
+              <div class="vuefinder__about-modal__setting flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="metric_unit" name="metric_unit" type="checkbox"
                          v-model="app.metricUnits"
@@ -40,7 +40,7 @@
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting">
+              <div class="vuefinder__about-modal__setting flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="large_icons" name="large_icons" type="checkbox"
                          v-model="app.compactListView"
@@ -54,7 +54,7 @@
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting">
+              <div class="vuefinder__about-modal__setting flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="persist_path" name="persist_path" type="checkbox"
                          v-model="app.persist"
@@ -68,7 +68,7 @@
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting">
+              <div class="vuefinder__about-modal__setting flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="show_thumbnails" name="show_thumbnails" type="checkbox"
                          v-model="app.showThumbnails"
@@ -82,7 +82,7 @@
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting">
+              <div class="vuefinder__about-modal__setting ">
                 <div class="vuefinder__about-modal__setting-input">
                   <label for="theme" class="vuefinder__about-modal__label">
                     {{ t('Theme') }}
@@ -95,7 +95,7 @@
                       <option v-for="(name, key) in themes" :value="key">{{ name }}</option>
                     </optgroup>
                   </select>
-                  <action-message class="ms-3 flex-shrink-0 flex-grow basis-full" on="vf-theme-saved">{{ t('Saved.') }}</action-message>
+                  <action-message class="ms-3" on="vf-theme-saved">{{ t('Saved.') }}</action-message>
                 </div>
               </div>
 
@@ -112,7 +112,7 @@
                       <option v-for="(language, code) in supportedLanguages" :value="code">{{ language }}</option>
                     </optgroup>
                   </select>
-                  <action-message class="ms-3 flex-shrink-0 flex-grow basis-full" on="vf-language-saved">{{ t('Saved.') }}</action-message>
+                  <action-message class="ms-3" on="vf-language-saved">{{ t('Saved.') }}</action-message>
                 </div>
               </div>
             </fieldset>
@@ -233,7 +233,7 @@
 }
 
 .vuefinder__about-modal__setting {
-  @apply flex relative gap-x-3 items-center;
+  @apply block relative gap-x-3 items-center;
 }
 
 .vuefinder__about-modal__setting-input {
@@ -241,11 +241,11 @@
 }
 
 .vuefinder__about-modal__setting-label {
-  @apply flex-1 block text-sm;
+  @apply flex flex-1 block text-sm;
 }
 
 .vuefinder .vuefinder__about-modal__label {
-  @apply flex w-full font-medium text-gray-900 dark:text-gray-400;
+  @apply flex w-full text-sm text-gray-900 dark:text-gray-400;
 }
 
 .vuefinder .vuefinder__about-modal__checkbox {

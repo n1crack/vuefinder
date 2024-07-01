@@ -4,7 +4,7 @@
       <ModalHeader :icon="MoveSVG" :title="t('Move files')"></ModalHeader>
       <div class="vuefinder__move-modal__content">
         <p class="vuefinder__move-modal__description">{{ t('Are you sure you want to move these files?') }}</p>
-        <div class="vuefinder__move-modal__files">
+        <div class="vuefinder__move-modal__files vf-scrollbar">
           <div v-for="node in items" class="vuefinder__move-modal__file">
             <div>
               <svg v-if="node.type === 'dir'" class="vuefinder__move-modal__icon vuefinder__move-modal__icon--dir" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
@@ -46,7 +46,7 @@
 }
 
 .vuefinder__move-modal__files {
-  @apply max-h-[200px] overflow-y-auto vf-scrollbar text-left;
+  @apply max-h-[200px] overflow-y-auto text-left;
 }
 
 .vuefinder__move-modal__file {
