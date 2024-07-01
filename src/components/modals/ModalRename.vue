@@ -2,19 +2,18 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="RenameSVG" :title="t('Rename')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-        <div class="mt-2">
-          <p class="flex text-sm text-gray-800 dark:text-gray-400 py-2">
-            <svg v-if="item.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-            <span class="ml-1.5">{{ item.basename }}</span>
+      <div class="vuefinder__rename-modal__content">
+        <div class="vuefinder__rename-modal__item">
+          <p class="vuefinder__rename-modal__item-info">
+            <svg v-if="item.type === 'dir'" class="vuefinder__rename-modal__icon vuefinder__rename-modal__icon--dir" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+            </svg>
+            <svg v-else class="vuefinder__rename-modal__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            <span class="vuefinder__rename-modal__item-name">{{ item.basename }}</span>
           </p>
-          <input v-model="name" @keyup.enter="rename"
-                 class="px-2 py-1 border rounded  dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" placeholder="Name" type="text">
+          <input v-model="name" @keyup.enter="rename" class="vuefinder__rename-modal__input" placeholder="Name" type="text">
           <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>
@@ -26,6 +25,36 @@
     </template>
   </ModalLayout>
 </template>
+
+<style>
+.vuefinder__rename-modal__content {
+  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+}
+
+.vuefinder__rename-modal__item {
+  @apply mt-2;
+}
+
+.vuefinder__rename-modal__item-info {
+  @apply flex text-sm text-gray-800 dark:text-gray-400 py-2;
+}
+
+.vuefinder__rename-modal__icon {
+  @apply h-5 w-5 text-neutral-500;
+}
+
+.vuefinder .vuefinder__rename-modal__icon--dir {
+  @apply fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500;
+}
+
+.vuefinder__rename-modal__item-name {
+  @apply ml-1.5;
+}
+
+.vuefinder .vuefinder__rename-modal__input {
+  @apply px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full;
+}
+</style>
 
 <script setup>
 import ModalLayout from './ModalLayout.vue';
