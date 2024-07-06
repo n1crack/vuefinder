@@ -1,0 +1,20 @@
+
+.vuefinder__folder-loader-indicator {
+  @apply h-5 w-5 shrink-0;
+}
+
+.vuefinder__folder-loader-indicator--loading {
+  @apply p-1;
+}
+
+.vuefinder__folder-loader-indicator--icon {
+  @apply cursor-pointer;
+}
+
+.vuefinder__folder-loader-indicator--minus {
+  @apply text-gray-600;
+}
+
+.vuefinder__folder-loader-indicator--plus {
+  @apply text-gray-400;
+}

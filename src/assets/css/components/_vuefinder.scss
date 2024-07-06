@@ -1,0 +1,15 @@
+.vuefinder__main__fixed {
+  @apply fixed w-screen inset-0 z-20;
+}
+
+.vuefinder__main__relative {
+  @apply relative rounded resize-y;
+}
+
+.vuefinder .vuefinder__main__container {
+  @apply overflow-hidden min-h-44 border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none;
+}
+
+.vuefinder__main__content {
+  @apply relative flex overflow-hidden h-full;
+}

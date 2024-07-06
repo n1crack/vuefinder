@@ -1,20 +1,25 @@
 <template>
-  <div class="flex">
-    <h3 class="mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400" id="modal-title"
-         :title="app.modal.data.item.path">{{ app.modal.data.item.basename }}</h3>
-    <div class="ml-auto mb-2">
-      <button @click="crop" class="ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50  text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm" v-if="showEdit">
-        {{ t('Crop') }}</button>
-      <button class="ml-1 px-2 py-1  text-blue-500" @click="editMode()" v-if="app.features.includes(FEATURES.EDIT)">{{ showEdit ? t('Cancel'): t('Edit') }}</button>
+  <div class="vuefinder__image-preview">
+    <div class="vuefinder__image-preview__header">
+      <h3 class="vuefinder__image-preview__title" id="modal-title" :title="app.modal.data.item.path">
+        {{ app.modal.data.item.basename }}
+      </h3>
+      <div class="vuefinder__image-preview__actions">
+        <button @click="crop" class="vuefinder__image-preview__crop-button" v-if="showEdit">
+          {{ t('Crop') }}
+        </button>
+        <button class="vuefinder__image-preview__edit-button" @click="editMode()" v-if="app.features.includes(FEATURES.EDIT)">
+          {{ showEdit ? t('Cancel') : t('Edit') }}
+        </button>
+      </div>
     </div>
+
+    <div class="vuefinder__image-preview__image-container">
+      <img ref="image" class="vuefinder__image-preview__image" :src="app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)" alt="">
+    </div>
+
+    <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
   </div>
-
-  <div class="w-full flex justify-center">
-    <img ref="image" class="max-w-[50vh] max-h-[50vh]" :src="app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)" alt="">
-  </div>
-
-  <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
-
 </template>
 
 <script setup>

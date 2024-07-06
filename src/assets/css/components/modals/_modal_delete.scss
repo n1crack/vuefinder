@@ -1,0 +1,37 @@
+
+.vuefinder__delete-modal__content {
+  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+}
+
+.vuefinder__delete-modal__form {
+  @apply mt-2;
+}
+
+.vuefinder__delete-modal__description {
+  @apply text-sm text-gray-500;
+}
+
+.vuefinder__delete-modal__files {
+  @apply text-gray-500 text-sm mb-1 overflow-auto;
+  max-height: 200px;
+}
+
+.vuefinder__delete-modal__file {
+  @apply flex text-sm text-gray-800 dark:text-gray-400;
+}
+
+.vuefinder__delete-modal__icon {
+  @apply h-5 w-5 text-neutral-500;
+}
+
+.vuefinder .vuefinder__delete-modal__icon--dir {
+  @apply fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500;
+}
+
+.vuefinder__delete-modal__file-name {
+  @apply ml-1.5;
+}
+
+.vuefinder__delete-modal__warning {
+  @apply m-auto font-bold text-red-500 text-sm dark:text-red-200 text-center;
+}

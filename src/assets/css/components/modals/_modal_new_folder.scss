@@ -1,0 +1,16 @@
+
+.vuefinder__new-folder-modal__content {
+  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+}
+
+.vuefinder__new-folder-modal__form {
+  @apply mt-2;
+}
+
+.vuefinder__new-folder-modal__description {
+  @apply text-sm text-gray-500;
+}
+
+.vuefinder .vuefinder__new-folder-modal__input {
+  @apply px-2 py-1 border rounded dark:bg-gray-700/25 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full;
+}

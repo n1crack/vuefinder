@@ -1,0 +1,38 @@
+.vf-scrollbar {
+  /* width */
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track-piece {
+    @apply bg-gray-100 dark:bg-slate-900/50;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-slate-700;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-slate-600;
+  }
+
+  &::-webkit-scrollbar-corner {
+    @apply bg-transparent;
+  }
+}
+
+.vf-explorer-scrollbar {
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track-piece,
+  &::-webkit-scrollbar-thumb,
+  &::-webkit-scrollbar-thumb:hover,
+  &::-webkit-scrollbar-corner {
+    @apply bg-transparent;
+  }
+}

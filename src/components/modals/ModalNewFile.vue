@@ -2,24 +2,19 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="NewFileSVG" :title="t('New File')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-        <div class="mt-2">
-          <p class="text-sm text-gray-500">{{ t('Create a new file') }}</p>
+      <div class="vuefinder__new-file-modal__content">
+        <div class="vuefinder__new-file-modal__form">
+          <p class="vuefinder__new-file-modal__description">{{ t('Create a new file') }}</p>
           <input v-model="name" @keyup.enter="createFile"
-                 class="px-2 py-1 border rounded dark:bg-gray-700/25 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full" :placeholder="t('File Name')" type="text">
+                 class="vuefinder__new-file-modal__input" :placeholder="t('File Name')" type="text">
           <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
-
         </div>
       </div>
     </div>
 
     <template v-slot:buttons>
-      <button type="button" @click="createFile" class="vf-btn vf-btn-primary">
-        {{ t('Create') }}
-      </button>
-      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">
-        {{ t('Cancel') }}
-      </button>
+      <button type="button" @click="createFile" class="vf-btn vf-btn-primary">{{ t('Create') }}</button>
+      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
     </template>
   </ModalLayout>
 </template>

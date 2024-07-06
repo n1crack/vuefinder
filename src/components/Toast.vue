@@ -1,15 +1,15 @@
 <template>
-  <div
-      :class="fullScreen.value ?  'fixed' : 'absolute'"
-      class="max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2 z-10">
+  <div :class="['vuefinder__toast', fullScreen.value ? 'vuefinder__toast--fixed' : 'vuefinder__toast--absolute']">
     <transition-group
-        name="vf-toast-item"
-        leave-active-class="transition-all duration-1000"
-        leave-to-class="opacity-0"
+        name="vuefinder__toast-item"
+        enter-active-class="vuefinder__toast-item--enter-active"
+        leave-active-class="vuefinder__toast-item--leave-active"
+        leave-to-class="vuefinder__toast-item--leave-to"
     >
-      <div v-for="(message, index) in messageQueue" @click="removeItem(index)" :key="message"
-           :class="getTypeClass(message.type)"
-           class="inline-block mx-auto my-0.5 py-0.5 px-2 min-w-max bg-gray-50 dark:bg-gray-600 border text-xs sm:text-sm rounded cursor-pointer ">
+      <div v-for="(message, index) in messageQueue"
+           :key="index"
+           @click="removeItem(index)"
+           :class="['vuefinder__toast__message', getTypeClass(message.type)]">
          {{ message.label }}
       </div>
     </transition-group>

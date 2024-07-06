@@ -1,26 +1,43 @@
 <template>
-  <ul ref="parentSubfolderList" class="block">
-    <li v-for="(item, index) in treeSubFolders"
-        class="flex flex-col space-x-0.5 py-0.5 text-sm" :key="item.path">
-      <div class="flex hover:text-sky-700 dark:hover:text-sky-200/50 rounded ">
-        <div class="h-5 w-5 shrink-0"  @click="showSubFolders[item.path] = !showSubFolders[item.path]">
+  <ul ref="parentSubfolderList" class="vuefinder__treesubfolderlist__container">
+    <li
+      v-for="(item, index) in treeSubFolders"
+      :key="item.path"
+      class="vuefinder__treesubfolderlist__item"
+    >
+      <div class="vuefinder__treesubfolderlist__item-content">
+        <div
+          class="vuefinder__treesubfolderlist__item-toggle"
+          @click="showSubFolders[item.path] = !showSubFolders[item.path]"
+        >
           <FolderLoaderIndicator :adapter="adapter" :path="item.path" v-model="showSubFolders[item.path]" />
         </div>
-        <div class="flex cursor-pointer" :title="item.path"
-            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.adapter, path:item.path}})">
-          <div class="h-5 w-5 shrink-0">
-            <OpenFolderSVG v-if="app.fs.path === item.path"/>
-            <FolderSVG v-else/>
+        <div
+          class="vuefinder__treesubfolderlist__item-link"
+          :title="item.path"
+          @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.adapter, path:item.path}})"
+        >
+          <div class="vuefinder__treesubfolderlist__item-icon">
+            <OpenFolderSVG v-if="app.fs.path === item.path" />
+            <FolderSVG v-else />
           </div>
-          <div class="text-nowrap pr-4" :class="{'underline decoration-blue-300 dark:decoration-gray-400' : app.fs.path === item.path}">{{ item.basename }}</div>
+          <div
+            class="vuefinder__treesubfolderlist__item-text"
+            :class="{
+              'vuefinder__treesubfolderlist__item-text--active': app.fs.path === item.path,
+            }"
+          >
+            {{ item.basename }}
+          </div>
         </div>
       </div>
-      <div class="pl-4">
+      <div class="vuefinder__treesubfolderlist__subfolder">
         <TreeSubfolderList :adapter="props.adapter" :path="item.path" v-show="showSubFolders[item.path]" />
       </div>
     </li>
   </ul>
 </template>
+
 <script setup>
 import {computed, inject, onMounted, ref} from 'vue';
 

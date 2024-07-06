@@ -1,0 +1,28 @@
+
+ .vuefinder__message-modal__content {
+   @apply sm:flex sm:items-start;
+ }
+
+ .vuefinder__message-modal__icon-container {
+   @apply mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10;
+ }
+
+ .vuefinder .vuefinder__message-modal__icon {
+   @apply h-6 w-6 stroke-blue-600 dark:stroke-blue-100;
+ }
+
+ .vuefinder__message-modal__text {
+   @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+ }
+
+ .vuefinder__message-modal__title {
+   @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
+ }
+
+ .vuefinder__message-modal__message {
+   @apply mt-2;
+ }
+
+ .vuefinder__message-modal__description {
+   @apply text-sm text-gray-500;
+ }

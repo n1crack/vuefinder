@@ -1,30 +1,28 @@
 <template>
-  <div class="p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none grow-0">
-    <div class="flex leading-5 items-center">
-      <div class="flex leading-5 items-center rounded border dark:bg-gray-700 dark:border-gray-600" :title="t('Storage')">
-        <div class="z-[1] pointer-events-none">
+  <div class="vuefinder__status-bar__wrapper">
+    <div class="vuefinder__status-bar__storage">
+      <div class="vuefinder__status-bar__storage-container" :title="t('Storage')">
+        <div class="vuefinder__status-bar__storage-icon">
           <StorageSVG/>
         </div>
         <select v-model="app.fs.adapter" @change="handleStorageSelect"
-                class="border-0 py-0.5 text-xs text-slate-500 bg-white dark:text-neutral-50 dark:bg-gray-700 rounded uppercase focus:outline-0 cursor-pointer" tabindex="-1">
+                class="vuefinder__status-bar__storage-select" tabindex="-1">
           <option v-for="storage in app.fs.data.storages" :value="storage">
             {{ storage }}
           </option>
         </select>
       </div>
-
-     <div class="ml-3">
-       <span v-if="searchQuery.length">{{ app.fs.data.files.length }} items found. </span>
-       <span class="ml-1">{{ app.dragSelect.getCount() > 0 ? t('%s item(s) selected.', app.dragSelect.getCount()) : '' }}</span>
-     </div>
+      <div class="vuefinder__status-bar__info">
+        <span v-if="searchQuery.length">{{ app.fs.data.files.length }} items found. </span>
+        <span class="vuefinder__status-bar__selected-count">{{ app.dragSelect.getCount() > 0 ? t('%s item(s) selected.', app.dragSelect.getCount()) : '' }}</span>
+      </div>
     </div>
-    <div class="flex leading-5 items-center justify-end">
+    <div class="vuefinder__status-bar__actions">
       <button class="vf-btn py-0 vf-btn-primary"
               :class="{disabled: !isSelectButtonActive}"
               :disabled="!isSelectButtonActive"
               v-if="app.selectButton.active" @click="app.selectButton.click(ds.getSelected(), $event)">{{ t("Select") }}</button>
-
-      <span class="mr-1" :title="t('About')" @click="app.modal.open(ModalAbout)">
+      <span class="vuefinder__status-bar__about" :title="t('About')" @click="app.modal.open(ModalAbout)">
         <AboutSVG />
       </span>
     </div>

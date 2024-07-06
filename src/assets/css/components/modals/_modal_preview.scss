@@ -1,0 +1,32 @@
+
+.vuefinder__preview-modal__content {
+  @apply mt-3 sm:mt-0 sm:text-left w-full;
+}
+
+.vuefinder__preview-modal__loading {
+  @apply text-gray-700 dark:text-gray-200 text-sm;
+}
+
+.vuefinder__preview-modal__loading-indicator {
+  @apply flex leading-5;
+}
+
+.vuefinder .vuefinder__preview-modal__spinner {
+  @apply animate-spin -ml-1 mr-3 h-5 w-5 text-white;
+}
+
+.vuefinder__preview-modal__spinner-circle {
+  @apply opacity-25 stroke-blue-900 dark:stroke-blue-100;
+}
+
+.vuefinder__preview-modal__spinner-path {
+  @apply opacity-75;
+}
+
+.vuefinder__preview-modal__details {
+  @apply py-2 flex font-normal break-all text-gray-800 dark:text-gray-200 rounded text-xs;
+}
+
+.vuefinder__preview-modal__note {
+  @apply text-xs text-gray-600 dark:text-gray-400;
+}

@@ -1,0 +1,20 @@
+
+.vuefinder__message {
+  @apply flex mt-2 p-1 px-2 rounded text-sm break-all dark:opacity-75;
+}
+
+.vuefinder__message--error {
+  @apply bg-red-100 text-red-600;
+}
+
+.vuefinder__message--success {
+  @apply bg-emerald-100 text-emerald-600;
+}
+
+.vuefinder__message__close {
+  @apply ml-auto cursor-pointer;
+}
+
+.vuefinder__message__icon {
+  @apply w-5 h-5;
+}

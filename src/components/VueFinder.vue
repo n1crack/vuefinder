@@ -2,16 +2,17 @@
   <div class="vuefinder" ref="root" tabindex="0">
     <div :class="app.theme.actualValue">
       <div
-          :class="app.fullScreen ? 'fixed w-screen inset-0 z-20' : 'relative rounded resize-y '"
-          :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
-          class="overflow-hidden min-h-44 border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none"
-          @mousedown="app.emitter.emit('vf-contextmenu-hide')"
-          @touchstart="app.emitter.emit('vf-contextmenu-hide')">
+        :class="app.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
+        :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
+        class="vuefinder__main__container"
+        @mousedown="app.emitter.emit('vf-contextmenu-hide')"
+        @touchstart="app.emitter.emit('vf-contextmenu-hide')"
+      >
         <Toolbar/>
         <Breadcrumb/>
-        <div class="relative flex overflow-hidden h-full">
-            <TreeView/>
-            <Explorer/>
+        <div class="vuefinder__main__content">
+          <TreeView/>
+          <Explorer/>
         </div>
         <Statusbar/>
       </div>

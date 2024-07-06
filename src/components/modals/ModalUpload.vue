@@ -2,81 +2,56 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="UploadSVG" :title="t('Upload Files')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-        <div class="mt-2">
-          <div
-            ref="dropArea"
-            class="flex items-center justify-center text-lg mb-4 text-gray-500 border-2 border-gray-300 rounded border-dashed select-none cursor-pointer
-              dark:border-gray-600 h-[120px]"
-            @click="openFileSelector">
-            <div class="pointer-events-none" v-if="hasFilesInDropArea">
-              {{ t('Release to drop these files.') }}
-            </div>
-            <div class="pointer-events-none" v-else>
-              <!--
-              We can use uppy's localization here..
-              {{ uppy.i18n('dropPasteFiles', {browseFiles: uppy.i18n('browseFiles')}) }}
-              -->
-              {{ t('Drag and drop the files/folders to here or click here.') }}
-            </div>
+      <div class="vuefinder__upload-modal__content">
+        <div class="vuefinder__upload-modal__drop-area" ref="dropArea" @click="openFileSelector">
+          <div class="pointer-events-none" v-if="hasFilesInDropArea">
+            {{ t('Release to drop these files.') }}
           </div>
-          <div ref="container" class="text-gray-500 mb-1">
-            <button ref="pickFiles" type="button" class="vf-btn vf-btn-secondary">
-              {{ t('Select Files') }}
-            </button>
-            <button ref="pickFolders" type="button" class="vf-btn vf-btn-secondary">
-              {{ t('Select Folders') }}
-            </button>
-            <button type="button" class="vf-btn vf-btn-secondary" :disabled="uploading" @click="clear(false)">
-              {{ t('Clear all') }}
-            </button>
-            <button type="button" class="vf-btn vf-btn-secondary" :disabled="uploading" @click="clear(true)">
-              {{ t('Clear only successful') }}
-            </button>
+          <div class="pointer-events-none" v-else>
+            {{ t('Drag and drop the files/folders to here or click here.') }}
           </div>
-          <div class="text-gray-500 text-sm mb-1 pr-1 max-h-[200px] overflow-y-auto vf-scrollbar">
-            <div class="flex   hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300" :key="entry.id" v-for="entry in queue">
-              <span class="rounded flex flex-shrink-0 w-6 h-6 border bg-gray-50 text-xs cursor-default
-                  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-50
-                  ">
-                <span class="text-base m-auto"
-                      :class="getClassNameForEntry(entry)"
-                      v-text="getIconForEntry(entry)"></span>
-              </span>
-              <div class="ml-1 w-full h-fit">
-                <div class="text-left hidden md:block">{{ title_shorten(entry.name, 40) }} ({{ entry.size }})</div>
-                <div class="text-left md:hidden">{{ title_shorten(entry.name, 16) }} ({{ entry.size }})</div>
-                <div class="flex break-all text-left" :class="getClassNameForEntry(entry)"> {{ entry.statusName }}
-                  <b class="ml-auto" v-if="entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING">{{ entry.percent }}</b>
-                </div>
-              </div>
-              <button
-                type="button"
-                class="rounded w-5 h-5 border-1 text-base leading-none font-medium
-                  focus:outline-none dark:border-gray-200 dark:text-gray-400 dark:hover:text-gray-200 dark:bg-gray-600
-                    ml-auto sm:text-xs hover:text-red-600"
-                :class="uploading ? 'disabled:bg-gray-100 text-white text-opacity-50' : 'bg-gray-100'"
-                :title="t('Delete')"
-                :disabled="uploading"
-                @click="remove(entry)">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
-              </button>
-            </div>
-
-            <div class="py-2" v-if="!queue.length">{{ t('No files selected!') }}</div>
-          </div>
-<!-- No need this ? -->
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
+        <div ref="container" class="vuefinder__upload-modal__buttons">
+          <button ref="pickFiles" type="button" class="vf-btn vf-btn-secondary">
+            {{ t('Select Files') }}
+          </button>
+          <button ref="pickFolders" type="button" class="vf-btn vf-btn-secondary">
+            {{ t('Select Folders') }}
+          </button>
+          <button type="button" class="vf-btn vf-btn-secondary" :disabled="uploading" @click="clear(false)">
+            {{ t('Clear all') }}
+          </button>
+          <button type="button" class="vf-btn vf-btn-secondary" :disabled="uploading" @click="clear(true)">
+            {{ t('Clear only successful') }}
+          </button>
+        </div>
+        <div class="vuefinder__upload-modal__file-list vf-scrollbar">
+          <div class="vuefinder__upload-modal__file-entry" :key="entry.id" v-for="entry in queue">
+            <span class="vuefinder__upload-modal__file-icon" :class="getClassNameForEntry(entry)">
+              <span class="vuefinder__upload-modal__file-icon-text" v-text="getIconForEntry(entry)"></span>
+            </span>
+            <div class="vuefinder__upload-modal__file-info">
+              <div class="vuefinder__upload-modal__file-name hidden md:block">{{ title_shorten(entry.name, 40) }} ({{ entry.size }})</div>
+              <div class="vuefinder__upload-modal__file-name md:hidden">{{ title_shorten(entry.name, 16) }} ({{ entry.size }})</div>
+              <div class="vuefinder__upload-modal__file-status" :class="getClassNameForEntry(entry)">
+                {{ entry.statusName }}
+                <b class="ml-auto" v-if="entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING">{{ entry.percent }}</b>
+              </div>
+            </div>
+            <button type="button" class="vuefinder__upload-modal__file-remove" :class="uploading ? 'disabled' : ''" :title="t('Delete')" :disabled="uploading" @click="remove(entry)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="vuefinder__upload-modal__file-remove-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
+          <div class="py-2" v-if="!queue.length">{{ t('No files selected!') }}</div>
+        </div>
+        <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
       </div>
     </div>
     <input ref="internalFileInput" type="file" multiple class="hidden">
-    <!--suppress HtmlUnknownAttribute -->
     <input ref="internalFolderInput" type="file" multiple webkitdirectory class="hidden">
 
     <template v-slot:buttons>
-      <button type="button" class="vf-btn vf-btn-primary" :disabled="uploading" @click.prevent="upload"
-        :class="uploading ? 'bg-blue-200 hover:bg-blue-200 dark:bg-gray-700/50 dark:hover:bg-gray-700/50 dark:text-gray-500' : 'bg-blue-600 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-500'">
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="uploading" @click.prevent="upload">
         {{ t('Upload') }}
       </button>
       <button type="button" class="vf-btn vf-btn-secondary" v-if="uploading" @click.prevent="cancel">{{ t('Cancel') }}</button>

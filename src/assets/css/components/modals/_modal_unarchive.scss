@@ -1,0 +1,32 @@
+
+.vuefinder__unarchive-modal__content {
+  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+}
+
+.vuefinder__unarchive-modal__items {
+  @apply mt-2;
+}
+
+.vuefinder__unarchive-modal__item {
+  @apply flex text-sm text-gray-800 dark:text-gray-400;
+}
+
+.vuefinder__unarchive-modal__icon {
+  @apply h-5 w-5 text-neutral-500;
+}
+
+.vuefinder .vuefinder__unarchive-modal__icon--dir {
+  @apply fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500;
+}
+
+.vuefinder .vuefinder__unarchive-modal__icon--file {
+  @apply h-5 w-5 text-neutral-500;
+}
+
+.vuefinder__unarchive-modal__item-name {
+  @apply ml-1.5;
+}
+
+.vuefinder__unarchive-modal__info {
+  @apply my-1 text-sm text-gray-500;
+}

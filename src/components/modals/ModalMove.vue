@@ -2,42 +2,36 @@
   <ModalLayout>
     <div>
       <ModalHeader :icon="MoveSVG" :title="t('Move files')"></ModalHeader>
-      <div class="mt-3 text-center sm:mt-0 sm:text-left w-full ">
-        <p class="text-sm text-gray-500 pb-1">{{ t('Are you sure you want to move these files?') }}</p>
-        <div class="max-h-[200px] overflow-y-auto vf-scrollbar text-left">
-          <div v-for="node in items" class="flex text-sm text-gray-800 dark:text-gray-400">
+      <div class="vuefinder__move-modal__content">
+        <p class="vuefinder__move-modal__description">{{ t('Are you sure you want to move these files?') }}</p>
+        <div class="vuefinder__move-modal__files vf-scrollbar">
+          <div v-for="node in items" class="vuefinder__move-modal__file">
             <div>
-             <svg v-if="node.type === 'dir'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <svg v-if="node.type === 'dir'" class="vuefinder__move-modal__icon vuefinder__move-modal__icon--dir" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
               </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <svg v-else class="vuefinder__move-modal__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
             </div>
-            <div class="ml-1.5">{{ node.path }}</div>
+            <div class="vuefinder__move-modal__file-name">{{ node.path }}</div>
           </div>
         </div>
-          <h4 class="font-bold text-xs text-gray-700 dark:text-gray-500 mt-3 tracking-wider">{{ t('Target Directory') }}</h4>
-          <p class="flex text-sm text-gray-800 dark:text-gray-400 border dark:border-gray-700 p-1 rounded">
-             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500 fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-              </svg>
-            <span class="ml-1.5 overflow-auto">{{ app.modal.data.items.to.path }}</span>
-          </p>
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
+        <h4 class="vuefinder__move-modal__target-title">{{ t('Target Directory') }}</h4>
+        <p class="vuefinder__move-modal__target-directory">
+          <svg xmlns="http://www.w3.org/2000/svg" class="vuefinder__move-modal__icon vuefinder__move-modal__icon--dir" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+          </svg>
+          <span class="vuefinder__move-modal__target-path">{{ app.modal.data.items.to.path }}</span>
+        </p>
+        <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
       </div>
     </div>
 
-
     <template v-slot:buttons>
-      <button type="button" @click="move" class="vf-btn vf-btn-primary">
-        {{ t('Yes, Move!') }}</button>
-      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">
-        {{ t('Cancel') }}</button>
-
-      <div class="m-1 mr-auto font-bold text-gray-500 text-sm dark:text-gray-200 self-center">
-        {{ t('%s item(s) selected.', items.length) }}
-      </div>
+      <button type="button" @click="move" class="vf-btn vf-btn-primary">{{ t('Yes, Move!') }}</button>
+      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
+      <div class="vuefinder__move-modal__selected-items">{{ t('%s item(s) selected.', items.length) }}</div>
     </template>
   </ModalLayout>
 </template>

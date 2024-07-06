@@ -1,0 +1,44 @@
+
+.vuefinder__move-modal__content {
+  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+}
+
+.vuefinder__move-modal__description {
+  @apply text-sm text-gray-500 pb-1;
+}
+
+.vuefinder__move-modal__files {
+  @apply max-h-[200px] overflow-y-auto text-left;
+}
+
+.vuefinder__move-modal__file {
+  @apply flex text-sm text-gray-800 dark:text-gray-400;
+}
+
+.vuefinder__move-modal__icon {
+  @apply h-5 w-5 text-neutral-500;
+}
+
+.vuefinder .vuefinder__move-modal__icon--dir {
+  @apply fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500;
+}
+
+.vuefinder__move-modal__file-name {
+  @apply ml-1.5;
+}
+
+.vuefinder__move-modal__target-title {
+  @apply font-bold text-xs text-gray-700 dark:text-gray-500 mt-3 tracking-wider;
+}
+
+.vuefinder__move-modal__target-directory {
+  @apply flex text-sm text-gray-800 dark:text-gray-400 border dark:border-gray-700 p-1 rounded;
+}
+
+.vuefinder__move-modal__target-path {
+  @apply ml-1.5 overflow-auto;
+}
+
+.vuefinder__move-modal__selected-items {
+  @apply m-1 mr-auto font-bold text-gray-500 text-sm dark:text-gray-200 self-center;
+}

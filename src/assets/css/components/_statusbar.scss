@@ -1,0 +1,36 @@
+
+.vuefinder__status-bar__wrapper {
+  @apply p-1 text-xs border-t border-neutral-300 dark:border-gray-700/50 flex justify-between select-none grow-0;
+}
+
+.vuefinder__status-bar__storage {
+  @apply flex leading-5 items-center;
+}
+
+.vuefinder__status-bar__storage-container {
+  @apply flex leading-5 items-center rounded border dark:bg-gray-700 dark:border-gray-600;
+}
+
+.vuefinder__status-bar__storage-icon {
+  @apply z-[1] pointer-events-none;
+}
+
+.vuefinder__status-bar__storage-select {
+  @apply border-0 py-0.5 text-xs text-slate-500 bg-white dark:text-neutral-50 dark:bg-gray-700 rounded uppercase focus:outline-0 cursor-pointer;
+}
+
+.vuefinder__status-bar__info {
+  @apply ml-3;
+}
+
+.vuefinder__status-bar__selected-count {
+  @apply ml-1;
+}
+
+.vuefinder__status-bar__actions {
+  @apply flex leading-5 items-center justify-end;
+}
+
+.vuefinder .vuefinder__status-bar__about {
+  @apply mr-1;
+}

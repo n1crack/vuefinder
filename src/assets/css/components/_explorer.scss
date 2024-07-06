@@ -1,0 +1,117 @@
+
+.vuefinder__explorer__container {
+  @apply relative flex-auto flex flex-col;
+}
+
+.vuefinder__explorer__header {
+  @apply grid grid-cols-12 px-1 bg-neutral-50 dark:bg-gray-800 border-b border-neutral-300 dark:border-gray-700 text-xs select-none divide-x;
+}
+
+.vuefinder__explorer__sort-button {
+  @apply cursor-pointer;
+}
+
+.vuefinder__explorer__sort-button--name {
+  @apply col-span-7;
+}
+
+.vuefinder__explorer__sort-button--size {
+  @apply justify-center col-span-2;
+}
+
+.vuefinder__explorer__sort-button--date {
+  @apply justify-center col-span-3;
+}
+
+.vuefinder__explorer__sort-button--path {
+  @apply justify-center col-span-5;
+}
+
+.vuefinder__explorer__drag-item {
+  @apply relative;
+}
+
+.vuefinder__explorer__scrollbar-container {
+  @apply relative;
+}
+
+.vuefinder__explorer__scrollbar {
+  @apply w-5 bg-transparent pointer-events-none;
+}
+
+.vuefinder__explorer__selector-area {
+  @apply h-full w-full text-xs p-1 z-0 overflow-y-auto;
+}
+
+.vuefinder__explorer__item-list-content {
+  @apply grid grid-cols-12 items-center;
+}
+
+.vuefinder__explorer__item-list-name {
+  @apply flex col-span-7 items-center;
+}
+
+.vuefinder__explorer__item-name,
+.vuefinder__explorer__item-path {
+  @apply overflow-ellipsis overflow-hidden whitespace-nowrap;
+}
+
+.vuefinder__explorer__item-size {
+  @apply col-span-2 text-center;
+}
+
+.vuefinder__explorer__item-date {
+  @apply col-span-3 overflow-ellipsis overflow-hidden whitespace-nowrap px-1 md:px-3;
+}
+
+.vuefinder__explorer__item-grid-content {
+  @apply relative;
+}
+
+.vuefinder .vuefinder__explorer__item-thumbnail {
+  @apply h-10 md:h-12 m-auto;
+}
+
+.vuefinder .vuefinder__explorer__item-extension {
+  @apply absolute hidden md:block top-1/2 w-full text-center text-neutral-500;
+}
+
+.vuefinder__explorer__item-title {
+  @apply break-all;
+}
+
+.vf-explorer-selected {
+  @apply bg-neutral-100 border border-neutral-300 dark:bg-slate-700 dark:border-gray-900 dark:border-slate-800 #{!important};
+}
+
+.vf-item-list {
+  @apply grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none;
+}
+
+.vf-item-grid {
+  @apply border border-transparent hover:bg-neutral-50 m-1 dark:hover:bg-gray-700 inline-flex w-[5.5rem] h-20 md:w-24 text-center justify-center select-none
+}
+
+
+.vf-explorer-scrollbar-container {
+  top: 33px;
+  height: calc(100% - 33px);
+  @apply z-[10] absolute right-0 pointer-events-none;
+
+  &.grid-view:not(.search-active) {
+    top: 0;
+    height: calc(100%);
+  }
+}
+
+@media (max-width: 640px) {
+  .vf-explorer-scrollbar-container {
+    top: 33px;
+    height: calc(100% - 33px);
+
+    &.grid-view:not(.search-active) {
+      top: 0;
+      height: calc(100%);
+    }
+  }
+}

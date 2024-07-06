@@ -1,6 +1,5 @@
 <template>
-  <div class="text-sm text-green-600 dark:text-green-600 transition-opacity duration-500 ease-out"
-       :class="[{ 'opacity-0': !shown }]">
+  <div class="vuefinder__action-message" :class="{ 'vuefinder__action-message--hidden': !shown }">
     <slot v-if="$slots.default"/>
     <span v-else>{{ t('Saved.') }}</span>
   </div>

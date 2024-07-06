@@ -1,19 +1,19 @@
 <template>
   <div
-      :style="{opacity:  ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el) ? '0.5 !important' : ''}"
-      :class="['vf-item-' + ds.explorerId, 'relative']"
-      :data-type="item.type"
-      :key="item.path"
-      :data-item="JSON.stringify(item)"
-      :data-index="index"
-      v-draggable="item"
-      @dblclick="openItem(item)"
-      @touchstart="delayedOpenItem($event)"
-      @touchend="clearTimeOut()"
-      @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', {event: $event, items: ds.getSelected(), target: item })"
+    :style="{opacity: ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el) ? '0.5 !important' : ''}"
+    :class="['vuefinder__item', 'vf-item-' + ds.explorerId]"
+    :data-type="item.type"
+    :key="item.path"
+    :data-item="JSON.stringify(item)"
+    :data-index="index"
+    v-draggable="item"
+    @dblclick="openItem(item)"
+    @touchstart="delayedOpenItem($event)"
+    @touchend="clearTimeOut()"
+    @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', { event: $event, items: ds.getSelected(), target: item })"
   >
     <slot/>
-    <PinSVG class="absolute top-0 right-0 text-amber-600" v-if="app.pinnedFolders.find(pin => pin.path === item.path)"/>
+    <PinSVG class="vuefinder__item--pinned" v-if="app.pinnedFolders.find(pin => pin.path === item.path)"/>
   </div>
 </template>
 
