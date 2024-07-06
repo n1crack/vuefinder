@@ -1,0 +1,71 @@
+.vuefinder__about-modal__content {
+  @apply sm:items-start select-none;
+}
+
+.vuefinder__about-modal__main {
+  @apply mt-3 sm:mt-0 sm:text-left w-full;
+}
+
+.vuefinder__about-modal__tabs {
+  @apply flex overflow-auto;
+}
+
+.vuefinder .vuefinder__about-modal__tab {
+  @apply px-3 py-2 font-medium text-sm;
+}
+
+.vuefinder .vuefinder__about-modal__tab--active {
+  @apply bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 border-b-2 border-sky-500;
+}
+
+.vuefinder .vuefinder__about-modal__tab--inactive {
+  @apply text-gray-500 dark:text-gray-500 hover:text-gray-700 border-b-2 border-gray-300 dark:border-gray-600;
+}
+
+.vuefinder__about-modal__tab-content {
+  @apply mt-4;
+}
+
+.vuefinder__about-modal__description {
+  @apply m-1 text-sm text-gray-500;
+}
+
+.vuefinder__about-modal__link {
+  @apply block mt-2 text-sm text-blue-500 dark:text-blue-400;
+}
+
+.vuefinder__about-modal__settings {
+  @apply mt-3 text-left;
+}
+
+.vuefinder__about-modal__setting {
+  @apply block relative gap-x-3 items-center;
+}
+
+.vuefinder__about-modal__setting-input {
+  @apply h-6 flex items-center;
+}
+
+.vuefinder__about-modal__setting-label {
+  @apply flex flex-1 block text-sm;
+}
+
+.vuefinder .vuefinder__about-modal__label {
+  @apply flex w-full text-sm text-gray-900 dark:text-gray-400;
+}
+
+.vuefinder .vuefinder__about-modal__checkbox {
+  @apply h-4 w-4 rounded border-gray-300 text-indigo-600 dark:accent-slate-400 focus:ring-indigo-600;
+}
+
+.vuefinder .vuefinder__about-modal__select {
+  @apply flex-shrink-0 sm:w-1/2 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded;
+}
+
+.vuefinder__about-modal__shortcuts {
+  @apply space-y-2 sm:w-1/2;
+}
+
+.vuefinder__about-modal__shortcut {
+  @apply flex justify-between text-sm text-gray-500 dark:text-gray-400;
+}

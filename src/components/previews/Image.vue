@@ -22,40 +22,6 @@
   </div>
 </template>
 
-<style>
-.vuefinder__image-preview {
-  @apply flex flex-col;
-}
-
-.vuefinder__image-preview__header {
-  @apply flex items-center mb-2;
-}
-
-.vuefinder__image-preview__title {
-  @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
-}
-
-.vuefinder__image-preview__actions {
-  @apply ml-auto flex items-center;
-}
-
-.vuefinder .vuefinder__image-preview__crop-button {
-  @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm;
-}
-
-.vuefinder .vuefinder__image-preview__edit-button {
-  @apply ml-1 px-2 py-1 text-blue-500;
-}
-
-.vuefinder__image-preview__image-container {
-  @apply w-full flex justify-center;
-}
-
-.vuefinder .vuefinder__image-preview__image {
-  @apply max-w-[50vh] max-h-[50vh];
-}
-</style>
-
 <script setup>
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';

@@ -9,20 +9,6 @@
   </div>
 </template>
 
-<style>
-.vuefinder__default-preview {
-  @apply flex flex-col;
-}
-
-.vuefinder__default-preview__header {
-  @apply flex mb-2;
-}
-
-.vuefinder__default-preview__title {
-  @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
-}
-</style>
-
 <script setup>
 
 import {onMounted, inject} from 'vue';

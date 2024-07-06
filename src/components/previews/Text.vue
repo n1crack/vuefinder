@@ -30,40 +30,6 @@
   </div>
 </template>
 
-<style>
-.vuefinder__text-preview {
-  @apply flex flex-col;
-}
-
-.vuefinder__text-preview__header {
-  @apply flex items-center mb-2;
-}
-
-.vuefinder__text-preview__title {
-  @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
-}
-
-.vuefinder__text-preview__actions {
-  @apply ml-auto flex items-center;
-}
-
-.vuefinder .vuefinder__text-preview__save-button {
-  @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm;
-}
-
-.vuefinder .vuefinder__text-preview__edit-button {
-  @apply ml-1 px-2 py-1 text-blue-500;
-}
-
-.vuefinder__text-preview__content {
-  @apply p-2 border font-normal whitespace-pre-wrap border-gray-200 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto;
-}
-
-.vuefinder .vuefinder__text-preview__textarea {
-  @apply w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] max-h-[60vh];
-}
-</style>
-
 <script setup>
 
 import {inject, onMounted, ref} from 'vue';

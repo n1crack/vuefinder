@@ -38,45 +38,6 @@
   </ul>
 </template>
 
-<style>
-.vuefinder__treesubfolderlist__container {
-  @apply block;
-}
-
-.vuefinder__treesubfolderlist__item {
-  @apply flex flex-col space-x-0.5 py-0.5 text-sm;
-}
-
-.vuefinder__treesubfolderlist__item-content {
-  @apply flex hover:text-sky-700 dark:hover:text-sky-200/50 rounded;
-}
-
-.vuefinder__treesubfolderlist__item-toggle {
-  @apply h-5 w-5 shrink-0;
-}
-
-.vuefinder__treesubfolderlist__item-link {
-  @apply flex cursor-pointer;
-}
-
-.vuefinder__treesubfolderlist__item-icon {
-  @apply h-5 w-5 shrink-0;
-}
-
-.vuefinder__treesubfolderlist__item-text {
-  @apply text-nowrap pr-4;
-}
-
-.vuefinder__treesubfolderlist__item-text--active {
-  @apply underline decoration-blue-300 dark:decoration-gray-400;
-}
-
-.vuefinder__treesubfolderlist__subfolder {
-  @apply pl-4;
-}
-</style>
-
-
 <script setup>
 import {computed, inject, onMounted, ref} from 'vue';
 

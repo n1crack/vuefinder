@@ -17,16 +17,6 @@
   </div>
 </template>
 
-<style>
-.vuefinder__item {
-  position: relative;
-}
-
-.vuefinder__item--pinned {
-  @apply absolute top-0 right-0 text-amber-600;
-}
-</style>
-
 <script setup>
 import {defineProps, inject} from 'vue';
 import ModalPreview from "./modals/ModalPreview.vue";

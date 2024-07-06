@@ -1,0 +1,8 @@
+
+.vuefinder__item-icon--small {
+  @apply h-5 w-5;
+}
+
+.vuefinder__item-icon--large {
+  @apply h-10 w-10 md:h-12 md:w-12 m-auto;
+}

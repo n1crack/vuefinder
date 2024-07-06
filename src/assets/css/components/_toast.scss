@@ -1,0 +1,29 @@
+
+.vuefinder__toast {
+  @apply max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2 z-10;
+}
+
+.vuefinder__toast--fixed {
+  @apply fixed;
+}
+
+.vuefinder__toast--absolute {
+  @apply absolute;
+}
+
+.vuefinder__toast__message {
+  @apply inline-block mx-auto my-0.5 py-0.5 px-2 min-w-max bg-gray-50 dark:bg-gray-600 border text-xs sm:text-sm rounded cursor-pointer;
+}
+
+/* Transition classes */
+.vuefinder__toast-item--enter-active {
+  @apply transition-all duration-1000;
+}
+
+.vuefinder__toast-item--leave-active {
+  @apply transition-all duration-1000 opacity-0;
+}
+
+.vuefinder__toast-item--leave-to {
+  @apply opacity-0;
+}

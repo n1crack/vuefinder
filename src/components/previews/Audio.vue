@@ -12,16 +12,6 @@
   </div>
 </template>
 
-<style>
-.vuefinder__audio-preview__title {
-  @apply mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
-}
-
-.vuefinder .vuefinder__audio-preview__audio {
-  @apply w-full;
-}
-</style>
-
 <script setup>
 
 import {inject, onMounted} from 'vue';

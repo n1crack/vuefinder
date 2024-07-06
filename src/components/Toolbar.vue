@@ -96,44 +96,6 @@
   </div>
 </template>
 
-<style>
-.vuefinder__toolbar {
-  @apply border-neutral-300 flex justify-between items-center py-1 text-sm grow-0;
-}
-
-.vuefinder__toolbar__actions {
-  @apply flex text-center;
-}
-
-.vuefinder__toolbar__search-results {
-  @apply flex text-center;
-}
-
-.vuefinder__toolbar__search-text {
-  @apply pl-2;
-}
-
-.vuefinder__toolbar__search-query {
-  @apply dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded;
-}
-
-.vuefinder__toolbar__controls {
-  @apply flex text-center items-center justify-end;
-}
-
-.vuefinder__toolbar__control {
-  @apply mx-1.5;
-}
-
-.vuefinder__toolbar__icon {
-  /* Leave empty intentionally as it's applied inline */
-}
-
-.vuefinder__toolbar__icon--disabled {
-  /* Leave empty intentionally as it's applied inline */
-}
-</style>
-
 <script setup>
 import {inject, ref, watch} from 'vue';
 import {FEATURES} from "../features.js";

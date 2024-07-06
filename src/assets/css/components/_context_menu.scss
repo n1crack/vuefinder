@@ -1,0 +1,16 @@
+
+.vuefinder__context-menu {
+  @apply z-30 absolute text-xs bg-neutral-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-neutral-400 dark:border-gray-600 shadow rounded-sm select-none;
+}
+
+.vuefinder__context-menu__item {
+  @apply cursor-pointer hover:bg-neutral-200 dark:hover:bg-gray-700;
+}
+
+.vuefinder__context-menu__link {
+  @apply block pl-2 pr-3 py-2;
+}
+
+.vuefinder__context-menu__action {
+  @apply pl-2 pr-3 py-1.5;
+}

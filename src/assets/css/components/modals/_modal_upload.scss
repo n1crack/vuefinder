@@ -1,0 +1,52 @@
+
+.vuefinder__upload-modal__content {
+  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+}
+
+.vuefinder .vuefinder__upload-modal__drop-area {
+  @apply flex items-center justify-center text-lg mb-4 text-gray-500 border-2 border-gray-300 rounded border-dashed select-none cursor-pointer dark:border-gray-600 h-[120px] mt-2;
+}
+
+.vuefinder__upload-modal__buttons {
+  @apply text-gray-500 mb-1;
+}
+
+.vuefinder__upload-modal__file-list {
+  @apply text-gray-500 text-sm mb-1 pr-1 max-h-[200px] overflow-y-auto;
+}
+
+.vuefinder__upload-modal__file-entry {
+  @apply flex hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300;
+}
+
+.vuefinder__upload-modal__file-icon {
+  @apply rounded flex flex-shrink-0 w-6 h-6 border bg-gray-50 text-xs cursor-default dark:border-gray-700 dark:bg-gray-800 dark:text-gray-50;
+}
+
+.vuefinder__upload-modal__file-icon-text {
+  @apply text-base m-auto;
+}
+
+.vuefinder__upload-modal__file-info {
+  @apply ml-1 w-full h-fit;
+}
+
+.vuefinder__upload-modal__file-name {
+  @apply text-left;
+}
+
+.vuefinder__upload-modal__file-status {
+  @apply flex break-all text-left;
+}
+
+.vuefinder .vuefinder__upload-modal__file-remove {
+  @apply rounded w-5 h-5 border text-base leading-none font-medium focus:outline-none dark:border-gray-200 dark:text-gray-400 dark:hover:text-gray-200 dark:bg-gray-600 ml-auto sm:text-xs hover:text-red-600;
+}
+
+.vuefinder .vuefinder__upload-modal__file-remove.disabled {
+  @apply disabled:bg-gray-100 text-white text-opacity-50;
+}
+
+.vuefinder .vuefinder__upload-modal__file-remove-icon {
+  @apply w-5 h-5;
+}
