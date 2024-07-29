@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import {inject, onMounted, provide, ref} from 'vue';
+import {inject, onMounted, provide, ref, watch} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
 import {useHotkeyActions} from "../composables/useHotkeyActions.js";
 
@@ -39,7 +39,7 @@ import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
 
 
-const emit = defineEmits(['select'])
+const emit = defineEmits(['select', 'update:path'])
 
 const props = defineProps({
   id: {
@@ -183,27 +183,48 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   });
 });
 
+/**
+ * fetchPath fetches the items of the given path
+ * if no path is given, the backend should return the root of the current adapter
+ * @param path {string | undefined} example: 'media://public'
+ */
+function fetchPath(path) {
+  let pathExists = {};
+
+  if (path && path.includes("://")) {
+    pathExists = {
+      adapter: path.split("://")[0],
+      path: path
+    };
+  }
+
+  app.emitter.emit('vf-fetch', {
+    params: {q: 'index', adapter: app.fs.adapter, ...pathExists},
+  });
+}
+
 // fetch initial data
 onMounted(() => {
   // app.fs.adapter can be null at first, until we get the adapter list it will be the first one from response
   // later we can set default adapter from a prop value
 
   // if there is a path coming from the prop, we should use it.
-  let pathExists = {};
+  fetchPath(app.fs.path)
 
-  if (app.fs.path.includes("://")) {
-    pathExists = {
-      adapter: app.fs.path.split("://")[0],
-      path: app.fs.path
-    };
-  }
-
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, ...pathExists}});
+  // We re-fetch the data if the path prop is updated
+  watch(() => props.path, (path) => {
+    fetchPath(path)
+  }) 
 
   // Emit select event
   ds.onSelect((items) => {
     emit('select', items);
   });
+
+  // Emit update:path event
+  watch(() => app.fs.data.dirname, (path) => {
+    emit('update:path', path)
+  })
 
 });
 
