@@ -18,7 +18,6 @@ export default (props, options) => {
     const theme = useTheme(storage, props.theme);
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
-    const adapter = storage.getStore('adapter');
 
     const setFeatures = (features) => {
         if (Array.isArray(features)) {
@@ -30,6 +29,7 @@ export default (props, options) => {
     const persist = storage.getStore('persist-path', props.persist);
 
     const path = persist ? storage.getStore('path', props.path) : props.path;
+    const adapter = persist ? storage.getStore('adapter') : null;
 
     return reactive({
         /** 
