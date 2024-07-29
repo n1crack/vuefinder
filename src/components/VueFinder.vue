@@ -112,6 +112,10 @@ const props = defineProps({
       }
     },
   },
+  onError: {
+    type: Function,
+    default: null,
+  }
 });
 
 // the object is passed to all components as props
@@ -190,7 +194,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
  * if no path is given, the backend should return the root of the current adapter
  * @param path {string | undefined} example: 'media://public'
  */
-function fetchPath(path) {
+ function fetchPath(path) {
   let pathExists = {};
 
   if (path && path.includes("://")) {
@@ -201,7 +205,12 @@ function fetchPath(path) {
   }
 
   app.emitter.emit('vf-fetch', {
-    params: {q: 'index', adapter: app.fs.adapter, ...pathExists},
+    params: {q: 'index', adapter: app.fs.adapter, ...pathExists}, 
+    onError: props.onError ?? ((e) => {
+      if (e.message) {
+        app.emitter.emit('vf-toast-push', {label: e.message, type: 'error'})
+      }
+    })
   });
 }
 

@@ -105,19 +105,20 @@ To customize or update the styles, simply find the appropriate BEM class in the 
 
 ### Props
 
-| Prop          |     Value     | Default  | Description                                                |
-|---------------|:-------------:|----------|:-----------------------------------------------------------|
-| id            |    string     | _null_   | required                                                   |
-| request       | string/object | _object_ | required - backend url or request object, see above        |
-| locale        |    string     | en       | optional - default language code                           |
-| theme         |    string     | system   | optional - default theme, options: "system","light","dark" |
-| max-file-size |    string     | 10mb     | optional - client side max file upload                     |
-| max-height    |    string     | 600px    | optional - max height of the component                     |
-| features      |     array     | _null_   | optional - array of the enabled features                   |
-| path          |    string     | _null_   | optional - initial directory, example: 'media://public'    |
-| persist       |    boolean    | false    | optional - keep current directory on page refresh          |
-| full-screen   |    boolean    | false    | optional - start in full screen mode                       |
-| select-button |    object     | _object_ | optional - adds select button in status bar, see example   |
+| Prop          |     Value     | Default    | Description                                                |
+|---------------|:-------------:|------------|:-----------------------------------------------------------|
+| id            |    string     | _null_     | required                                                   |
+| request       | string/object | _object_   | required - backend url or request object, see above        |
+| locale        |    string     | en         | optional - default language code                           |
+| theme         |    string     | system     | optional - default theme, options: "system","light","dark" |
+| max-file-size |    string     | 10mb       | optional - client side max file upload                     |
+| max-height    |    string     | 600px      | optional - max height of the component                     |
+| features      |     array     | _null_     | optional - array of the enabled features                   |
+| path          |    string     | _null_     | optional - initial directory, example: 'media://public'    |
+| persist       |    boolean    | false      | optional - keep current directory on page refresh          |
+| full-screen   |    boolean    | false      | optional - start in full screen mode                       |
+| select-button |    object     | _object_   | optional - adds select button in status bar, see example   |
+| onError       |    function   | _function_ | optional - a callback to implement custom error handling   |
 
 
 ### Events
