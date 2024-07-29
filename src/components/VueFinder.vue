@@ -165,9 +165,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
       setStore('path', app.fs.path);
     }
 
-    if (['index', 'search'].includes(params.q)) {
-      app.fs.loading = false;
-    }
+    
     if (!noCloseModal) {
       app.modal.close();
     }
@@ -179,6 +177,10 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     console.error(e)
     if (onError) {
       onError(e);
+    }
+  }).finally(() => {
+    if (['index', 'search'].includes(params.q)) {
+      app.fs.loading = false;
     }
   });
 });
