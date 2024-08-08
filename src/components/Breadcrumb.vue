@@ -96,7 +96,7 @@
 </template>
 
 <script setup>
-import {inject, nextTick, onMounted, ref, watch} from 'vue';
+import {inject, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef.js';
 import {FEATURES} from "../features.js";
 import ModalMove from "./modals/ModalMove.vue";
@@ -146,10 +146,15 @@ watch(breadcrumbContainerWidth, newQuery => {
 const updateContainerWidth = () => {
     breadcrumbContainerWidth.value = breadcrumbContainer.value.offsetWidth;
 }
-onMounted(() => {
-  new ResizeObserver(updateContainerWidth).observe(breadcrumbContainer.value);
-});
+let resizeObserver = ref(null);
 
+onMounted(() => {
+    resizeObserver.value = new ResizeObserver(updateContainerWidth);
+    resizeObserver.value.observe(breadcrumbContainer.value);
+});
+onUnmounted(() => {
+    resizeObserver.value.disconnect();
+});
 
 const handleHiddenBreadcrumbDropZone = (e, index = null) => {
   e.preventDefault();
