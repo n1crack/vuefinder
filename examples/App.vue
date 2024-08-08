@@ -1,11 +1,7 @@
 <template>
   <div class="wrapper">
-
-    <button @click="test = !test">toggle</button>
-
     <div style="font-weight: bold;padding: 10px">Inline select button example</div>
     <vue-finder
-        v-if="test"
       id='my_vuefinder'
       :request="request"
       :max-file-size="maxFileSize"
@@ -43,7 +39,7 @@ import { ref } from 'vue';
 import { FEATURES, FEATURE_ALL_NAMES } from '../src/features.js';
 
 /** @type {import('../src/utils/ajax.js').RequestConfig} */
-const test = ref(true);
+
 const request = {
   // ----- CHANGE ME! -----
   // [REQUIRED] Url for development server endpoint
