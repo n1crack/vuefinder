@@ -10,6 +10,7 @@ app.use(VueFinder,
         // if if you set a locale prop of the vuefinder elements, it will override this default locale
         locale: 'en',
         i18n: {
+            ar: async () => await import ("../src/locales/ar.js"),
             en: async () => await import ("../src/locales/en.js"),
             fr: async () => await import ("../src/locales/fr.js"),
             de: async () => await import ("../src/locales/de.js"),
