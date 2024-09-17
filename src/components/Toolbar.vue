@@ -70,7 +70,7 @@
         {{ t('Search results for') }}
         <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ searchQuery }}</span>
       </div>
-      <LoadingSVG v-if="app.fs.loading" />
+      <LoadingSVG v-if="app.loadingIndicator === 'circular' && app.fs.loading" />
     </div>
 
     <div class="vuefinder__toolbar__controls">

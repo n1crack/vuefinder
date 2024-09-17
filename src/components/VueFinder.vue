@@ -112,6 +112,10 @@ const props = defineProps({
       }
     },
   },
+  loadingIndicator: {
+    type: String,
+    default: 'circular'
+  }
 });
 
 // the object is passed to all components as props

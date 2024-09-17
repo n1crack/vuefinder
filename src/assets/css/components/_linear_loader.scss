@@ -1,0 +1,26 @@
+.dark .vuefinder__linear-loader {
+  --vuefinder__linear-loader-primary: theme(colors.slate.300);
+  --vuefinder__linear-loader-bg: theme(colors.slate.700);
+}
+
+// CREDIT: https://css-loaders.com/progress/
+.vuefinder__linear-loader {
+  --vuefinder__linear-loader-primary: theme(colors.sky.600);
+  --vuefinder__linear-loader-bg: theme(colors.sky.300);
+
+  position: absolute;
+  top: 0;
+  left: 0; 
+  right: 0;
+
+  height: 4px;
+  --vuefinder__linear-loader-gradient: no-repeat linear-gradient(var(--vuefinder__linear-loader-primary) 0 0);
+  background: var(--vuefinder__linear-loader-gradient),var(--vuefinder__linear-loader-gradient),var(--vuefinder__linear-loader-bg);
+  background-size: 60% 100%;
+  animation: vuefinder__linear-loader_keyframes 3s infinite;
+}
+@keyframes vuefinder__linear-loader_keyframes {
+  0%   {background-position:-150% 0,-150% 0}
+  66%  {background-position: 250% 0,-150% 0}
+  100% {background-position: 250% 0, 250% 0}
+}
