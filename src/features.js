@@ -11,6 +11,7 @@ export const FEATURES = {
     DELETE: 'delete',
     FULL_SCREEN: 'fullscreen',
     DOWNLOAD: 'download',
+    DOWNLOAD_ARCHIVE: 'download_archive',
     LANGUAGE: 'language',
 }
 

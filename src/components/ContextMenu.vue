@@ -23,6 +23,7 @@ import {FEATURES} from "../features.js";
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalArchive from "./modals/ModalArchive.vue";
+import ModalDownloadArchive from "./modals/ModalDownloadArchive.vue";
 import ModalUnarchive from "./modals/ModalUnarchive.vue";
 import ModalRename from "./modals/ModalRename.vue";
 import ModalDelete from "./modals/ModalDelete.vue";
@@ -127,6 +128,11 @@ const menuItems = {
     action: () => {
     },
   },
+  download_archive: {
+    key: FEATURES.DOWNLOAD_ARCHIVE,
+    title: () => t('Download archive'),
+    action: () => app.modal.open(ModalDownloadArchive, {items: selectedItems}),
+  },
   archive: {
     key: FEATURES.ARCHIVE,
     title: () => t('Archive'),
@@ -174,6 +180,7 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
   } else if (items.length > 1 && items.some(el => el.path === target.path)) {
     context.items.push(menuItems.refresh);
     context.items.push(menuItems.archive);
+    context.items.push(menuItems.download_archive);
     context.items.push(menuItems.delete);
     app.emitter.emit('vf-context-selected', items);
     // console.log(items.length + ' selected (more than 1 item.)');
@@ -195,6 +202,7 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
       context.items.push(menuItems.unarchive);
     } else {
       context.items.push(menuItems.archive);
+      context.items.push(menuItems.download_archive);
     }
     context.items.push(menuItems.delete);
     app.emitter.emit('vf-context-selected', [target]);
