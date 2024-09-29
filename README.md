@@ -119,12 +119,14 @@ To customize or update the styles, simply find the appropriate BEM class in the 
 | full-screen       |    boolean    | false      | optional - start in full screen mode                        |
 | select-button     |    object     | _object_   | optional - adds select button in status bar, see example    |
 | loading-indicator |    string     | circular   | optional - style of loading indicator: "circular", "linear" |
+| onError           |    function   | _function_ | optional - a callback to implement custom error handling   |
 
 
 ### Events
-| Event              | Description                                                                                                                |
-|--------------------|:---------------------------------------------------------------------------------------------------------------------------|
-| @select="callback" | The callback function is invoked when the user selects a file or folder, and the selected elements are passed as arguments |
+| Event                                   | Description                                                                                                                |
+|-----------------------------------------|:---------------------------------------------------------------------------------------------------------------------------|
+| `'select': (items: any[]) => void`      | The callback function is invoked when the user selects a file or folder, and the selected elements are passed as arguments |
+| `'update:path': (path: string) => void` | The callback function is invoked when the user opens another folder.                                                       |
 
 ### Selection
 There are 2 ways to select files and folders.
