@@ -23,6 +23,8 @@ export default function () {
     const scrollBar = ref(null);
     const scrollBarContainer = ref(null);
 
+    const resizeObserver = ref(null);
+
     function initDragSelect() {
         dragSelectInstance = new DragSelect({
             area: area.value,
@@ -156,7 +158,8 @@ export default function () {
 
         // Update scrollbar height when the area is resized.
         updateScrollbarHeight();
-        new ResizeObserver(updateScrollbarHeight).observe(area.value);
+        resizeObserver.value = new ResizeObserver(updateScrollbarHeight);
+        resizeObserver.value.observe(area.value);
 
         // Update scrollbar position when the area is scrolled.
         area.value.addEventListener('scroll', updateScrollBarPosition);
@@ -166,6 +169,9 @@ export default function () {
     onUnmounted(() => {
         if (dragSelectInstance) {
             dragSelectInstance.stop();
+        }
+        if (resizeObserver.value) {
+            resizeObserver.value.disconnect();
         }
     });
 

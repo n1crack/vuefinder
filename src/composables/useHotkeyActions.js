@@ -72,8 +72,4 @@ export function useHotkeyActions(app) {
     onMounted(() => {
         app.root.addEventListener("keydown", handleKeyboardShortcuts);
     });
-
-    onUnmounted(() => {
-        app.root.removeEventListener("keydown", handleKeyboardShortcuts);
-    });
 }

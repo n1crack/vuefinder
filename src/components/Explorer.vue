@@ -28,6 +28,8 @@
          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
     >
 
+      <div class="vuefinder__linear-loader absolute" v-if="app.loadingIndicator === 'linear' && app.fs.loading"></div>
+
       <!-- Search View -->
       <Item v-if="searchQuery.length" v-for="(item, index) in getItems()"
             :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list">

@@ -87,6 +87,8 @@ export default (props, options) => {
         persist: persist,
         // show thumbnails
         showThumbnails: storage.getStore('show-thumbnails', props.showThumbnails),
+        // type of progress indicator
+        loadingIndicator: props.loadingIndicator,
 
         // file system
         fs: useData(adapter, path),
