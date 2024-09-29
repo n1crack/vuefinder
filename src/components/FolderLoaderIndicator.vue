@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import {ref, inject, defineProps, watch} from 'vue';
+import {ref, inject, watch} from 'vue';
 
 import SquarePlusSVG from "./icons/plus.svg";
 import SquareMinusSVG from "./icons/minus.svg";

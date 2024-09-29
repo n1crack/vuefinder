@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import {defineProps, inject} from 'vue';
+import {inject} from 'vue';
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalMove from "./modals/ModalMove.vue";
 import PinSVG from "./icons/pin.svg";

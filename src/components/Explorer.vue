@@ -24,7 +24,7 @@
     </div>
 
     <div :ref="ds.area"
-         class="vuefinder__explorer__selector-area vf-explorer-scrollbar vf-selector-area"
+         class="vuefinder__explorer__selector-area vf-explorer-scrollbar vf-selector-area min-h-32"
          @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
     >
 

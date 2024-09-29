@@ -6,10 +6,7 @@
     <div>
       <object class="vuefinder__pdf-preview__object" :data="getPDFUrl()" type="application/pdf" width="100%" height="100%">
         <iframe class="vuefinder__pdf-preview__iframe" :src="getPDFUrl()" width="100%" height="100%">
-          <p>
-            Your browser does not support PDFs.
-            <a href="https://example.com/test.pdf">Download the PDF</a>.
-          </p>
+             Your browser does not support PDFs
         </iframe>
       </object>
     </div>

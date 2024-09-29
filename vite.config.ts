@@ -16,6 +16,13 @@ export default defineConfig({
             hook: "writeBundle",
         })
     ],
+   css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler', // or 'modern'
+            },
+        },
+    },
     build: {
         lib: {
             entry: resolve(__dirname, 'src/index.js'),

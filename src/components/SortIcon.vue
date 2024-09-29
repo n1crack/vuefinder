@@ -6,7 +6,6 @@
 </template>
 
 <script setup>
-import {defineProps} from 'vue';
 import AscSVG from './icons/asc.svg';
 import DescSVG from './icons/desc.svg';
 

@@ -6,7 +6,6 @@
 </template>
 
 <script setup>
-import {defineProps} from "vue";
 import FileSVG from './icons/file.svg';
 import FolderSVG from './icons/folder.svg';
 
