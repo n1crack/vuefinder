@@ -264,6 +264,7 @@ const handlePersistPath = () => {
 const {i18n} = inject('VueFinderOptions');
 
 const languageList = {
+  ar: 'Arabic (العربيّة)',
   en: 'English',
   fr: 'French (Français)',
   de: 'German (Deutsch)',
