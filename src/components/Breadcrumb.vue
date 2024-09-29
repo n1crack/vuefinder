@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <LoadingSVG v-if="app.fs.loading"/>
+      <LoadingSVG v-if="app.loadingIndicator === 'circular' && app.fs.loading"/>
     </div>
     <div v-show="app.fs.searchMode" class="vuefinder__breadcrumb__search-mode">
       <div>
