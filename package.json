@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "description": "Vuefinder is a file manager component for vuejs.",
   "type": "module",
   "files": [
@@ -50,6 +50,6 @@
     "mitt": "^3.0.0",
     "overlayscrollbars": "^2.10.0",
     "vanilla-lazyload": "^17.8.3",
-    "vue": "3.4.38"
+    "vue": "3.5.10"
   }
 }

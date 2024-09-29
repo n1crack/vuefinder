@@ -31,6 +31,8 @@ export default (props, options) => {
     const path = persist ? storage.getStore('path', props.path) : props.path;
     const adapter = persist ? storage.getStore('adapter') : null;
 
+    const dragSelect = useDragSelect();
+
     return reactive({
         /** 
         * Core properties
@@ -51,7 +53,7 @@ export default (props, options) => {
         // modal state
         modal: useModal(),
         // dragSelect object, it is responsible for selecting items
-        dragSelect: computed(() => useDragSelect()),
+        dragSelect: computed(() => dragSelect),
         // http object
         requester : buildRequester(props.request),
         // active features
