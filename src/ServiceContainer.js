@@ -91,6 +91,8 @@ export default (props, options) => {
         showThumbnails: storage.getStore('show-thumbnails', props.showThumbnails),
         // type of progress indicator
         loadingIndicator: props.loadingIndicator,
+        // possible items of the context menu
+        contextMenuItems: props.contextMenuItems,
 
         // file system
         fs: useData(adapter, path),
