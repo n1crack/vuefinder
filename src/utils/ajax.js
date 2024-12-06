@@ -9,6 +9,8 @@ export const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttrib
  * @property {RequestTransformer=} transformRequest Transform request callback
  * @property {String=} xsrfHeaderName The http header that carries the xsrf token value
  * @property {Record<String,*>=} fetchParams Additional options for fetch request
+ * @property {Function=} fetchRequestInterceptor Request Interceptor for fetch request
+ * @property {Function=} fetchResponseInterceptor Response Interceptor for fetch request
  */
 /**
  * @typedef RequestTransformParams
@@ -56,6 +58,22 @@ export class Requester {
     /** @type {RequestConfig} */
     get config() {
         return this.config;
+    }
+
+    customFetch = async (...args) => {
+        let [resource, options] = args;
+
+        if (this.config.fetchRequestInterceptor) {
+            options = this.config.fetchRequestInterceptor(options);
+        }
+
+        let response = await fetch(resource, options);
+
+        if (this.config.fetchResponseInterceptor) {
+            response = await this.config.fetchResponseInterceptor(response);
+        }
+
+        return response;
     }
 
     /**
@@ -174,6 +192,7 @@ export class Requester {
         return transform.url + '?' + new URLSearchParams(transform.params).toString()
     }
 
+
     /**
      * Send request
      * @param {Object} input
@@ -215,7 +234,7 @@ export class Requester {
             Object.assign(init, this.config.fetchParams);
         }
 
-        const response = await fetch(url, init);
+        const response = await this.customFetch(url, init);
         if (response.ok) {
             return await response[responseType]();
         }
