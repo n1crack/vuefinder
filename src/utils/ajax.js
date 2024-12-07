@@ -8,6 +8,9 @@ export const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttrib
  * @property {Record<String,*>=} body Additional body key pairs
  * @property {RequestTransformer=} transformRequest Transform request callback
  * @property {String=} xsrfHeaderName The http header that carries the xsrf token value
+ * @property {Record<String,*>=} fetchParams Additional options for fetch request
+ * @property {Function=} fetchRequestInterceptor Request Interceptor for fetch request
+ * @property {Function=} fetchResponseInterceptor Response Interceptor for fetch request
  */
 /**
  * @typedef RequestTransformParams
@@ -33,6 +36,7 @@ export const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttrib
  * @property {Record<String, ?String>} params
  * @property {Record<String,?String>|FormData=} body
  */
+
 /**
  * @callback RequestTransformer
  * @param {RequestTransformParams} request
@@ -56,6 +60,22 @@ export class Requester {
         return this.config;
     }
 
+    customFetch = async (...args) => {
+        let [resource, options] = args;
+
+        if (this.config.fetchRequestInterceptor) {
+            options = this.config.fetchRequestInterceptor(options);
+        }
+
+        let response = await fetch(resource, options);
+
+        if (this.config.fetchResponseInterceptor) {
+            response = await this.config.fetchResponseInterceptor(response);
+        }
+
+        return response;
+    }
+
     /**
      * Transform request params
      * @param {Object} input
@@ -66,7 +86,7 @@ export class Requester {
      * @param {Record<String,?String>|FormData=} input.body
      * @return {RequestTransformResultInternal}
      */
-    transformRequestParams(input ) {
+    transformRequestParams(input) {
         const config = this.config;
         const ourHeaders = {};
         if (csrf != null && csrf !== '') {
@@ -83,7 +103,7 @@ export class Requester {
             /** @type {Record<String,*>|FormData} */
             if (!(body instanceof FormData)) {
                 // JSON
-                newBody = { ...body };
+                newBody = {...body};
                 if (config.body != null) {
                     Object.assign(newBody, this.config.body);
                 }
@@ -147,7 +167,7 @@ export class Requester {
         const transform = this.transformRequestParams({
             url: '',
             method: 'get',
-            params: { q: 'download', adapter, path: node.path }
+            params: {q: 'download', adapter, path: node.path}
         });
         return transform.url + '?' + new URLSearchParams(transform.params).toString()
     }
@@ -167,10 +187,11 @@ export class Requester {
         const transform = this.transformRequestParams({
             url: '',
             method: 'get',
-            params: { q: 'preview', adapter, path: node.path }
+            params: {q: 'preview', adapter, path: node.path}
         });
         return transform.url + '?' + new URLSearchParams(transform.params).toString()
     }
+
 
     /**
      * Send request
@@ -208,7 +229,12 @@ export class Requester {
             }
             init.body = newBody;
         }
-        const response = await fetch(url, init);
+
+        if (this.config.fetchParams) {
+            Object.assign(init, this.config.fetchParams);
+        }
+
+        const response = await this.customFetch(url, init);
         if (response.ok) {
             return await response[responseType]();
         }
@@ -229,12 +255,14 @@ export function buildRequester(userConfig) {
         params: {},
         body: {},
         xsrfHeaderName: 'X-CSRF-Token',
+        fetchParams: {}
     };
     if (typeof userConfig === 'string') {
-        Object.assign(config, { baseUrl: userConfig });
+        Object.assign(config, {baseUrl: userConfig});
     } else {
         Object.assign(config, userConfig);
     }
+
     return new Requester(config);
 }
 
