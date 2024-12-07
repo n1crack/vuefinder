@@ -37,6 +37,7 @@ import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
+import { menuItems as contextMenuItems } from '../utils/contextmenu.js';
 
 
 const emit = defineEmits(['select', 'update:path'])
@@ -119,8 +120,11 @@ const props = defineProps({
   loadingIndicator: {
     type: String,
     default: 'circular'
-
-  }
+  },
+  contextMenuItems: {
+    type: Array,
+    default: () => contextMenuItems
+  },
 });
 
 // the object is passed to all components as props

@@ -1,7 +1,18 @@
 <template>
   <div class="wrapper">
-    <div style="font-weight: bold;padding: 10px">Inline select button example</div>
+    
+    <label for="example">
+      Example
+    </label>
+    <div>
+      <select id="example" v-model="example">
+        <option v-for="(name, key) in examples" :value="key">{{ name }}</option>
+      </select>
+    </div>
+
+    <div style="font-weight: bold;padding: 10px">{{ examples[example] }}</div>
     <vue-finder
+      v-if="example === 'default'"
       id='my_vuefinder'
       :request="request"
       :max-file-size="maxFileSize"
@@ -9,27 +20,37 @@
       :select-button="handleSelectButton"
     />
 
-    <br>
-    <br>
-    <div style="font-weight: bold;padding: 10px">External select example</div>
+    <div v-if="example === 'externalSelect'">
+      <vue-finder
+        id='my_vuefinder2'
+        :request="request"
+        :max-file-size="maxFileSize"
+        :features="features"
+        loadingIndicator="linear"
+        @select="handleSelect"
+      />
+
+      <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">Show Selected  ({{ selectedFiles.length ?? 0 }} selected)</button>
+
+      <div v-show="selectedFiles.length">
+        <h3>Selected Files ({{ selectedFiles.length }} selected)</h3>
+        <ul>
+          <li v-for="file in selectedFiles" :key="file.path">
+            {{ file.path }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <vue-finder
-      id='my_vuefinder2'
+      v-if="example === 'contextmenu'"
+      id='my_vuefinder3'
       :request="request"
       :max-file-size="maxFileSize"
       :features="features"
-      @select="handleSelect"
+      :select-button="handleSelectButton"
+      :context-menu-items="customContextMenuItems"
     />
-
-    <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">Show Selected  ({{ selectedFiles.length ?? 0 }} selected)</button>
-
-    <div v-show="selectedFiles.length">
-      <h3>Selected Files ({{ selectedFiles.length }} selected)</h3>
-      <ul>
-        <li v-for="file in selectedFiles" :key="file.path">
-          {{ file.path }}
-        </li>
-      </ul>
-    </div>
 
   </div>
 </template>
@@ -37,6 +58,14 @@
 <script setup>
 import { ref } from 'vue';
 import { FEATURES, FEATURE_ALL_NAMES } from '../src/features.js';
+import { contextMenuItems, SimpleContextMenuItem } from '../src/index.js';
+
+const example = ref('default')
+const examples = {
+  default: "Inline select button example",
+  externalSelect: "External select example",
+  contextmenu: "Custom context menu example",
+}
 
 /** @type {import('../src/utils/ajax.js').RequestConfig} */
 
@@ -99,6 +128,17 @@ const handleSelectButton = {
     console.log(items, event);
   }
 }
+
+const customContextMenuItems = [
+  ...contextMenuItems,
+  new SimpleContextMenuItem(() => 'Log Info', (app, selectedItems) => {
+    const info = selectedItems.value.map((i) => `Name: ${i.basename}, Type: ${i.type}, Path: ${i.path}`)
+    console.log(selectedItems.value.length + " item(s) selected:\n", info.join('\n'))
+    console.log(selectedItems.value)
+  }, undefined, {
+    target: undefined
+  })
+]
 
 </script>
 
