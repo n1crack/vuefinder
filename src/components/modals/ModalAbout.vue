@@ -271,6 +271,7 @@ const languageList = {
   fa: 'Persian (فارسی)',
   he: 'Hebrew (עִברִית)',
   hi: 'Hindi (हिंदी)',
+  pl: 'Polish (Polski)',
   ru: 'Russian (Pусский)',
   sv: 'Swedish (Svenska)',
   tr: 'Turkish (Türkçe)',
