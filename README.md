@@ -221,6 +221,7 @@ Alternatively, you can use the select event to get the selected items.
 ### Backend
 - PHP: [VueFinder Php Library](https://github.com/n1crack/vuefinder-php)
 - Python: [Python WSGI](https://github.com/abichinger/vuefinder-wsgi)
+- Go: [vuefinder-go](https://github.com/Duke1616/vuefinder-go)
 
 You can use any backend language. Just be sure, the response should be compatible.
 If you develop a backend library for another language, please let me know to add it here.
