@@ -21,6 +21,7 @@ app.use(VueFinder,
             ru: async () => await import ("../src/locales/ru.js"),
             sv: async () => await import ("../src/locales/sv.js"),
             tr: async () => await import ("../src/locales/tr.js"),
+            nl: async () => await import ("../src/locales/nl.js"),
             zhCN: async () => await import ("../src/locales/zhCN.js"),
             zhTW: async () => await import ("../src/locales/zhTW.js"),
         }

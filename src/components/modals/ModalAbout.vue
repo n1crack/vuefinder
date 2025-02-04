@@ -275,6 +275,7 @@ const languageList = {
   ru: 'Russian (Pусский)',
   sv: 'Swedish (Svenska)',
   tr: 'Turkish (Türkçe)',
+  nl: 'Dutch (Nederlands)',
   zhCN: 'Simplified Chinese (简体中文)',
   zhTW: 'Traditional Chinese (繁體中文)',
 };
