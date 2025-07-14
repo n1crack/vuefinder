@@ -149,7 +149,7 @@ export const menuItems = [
         params: {
           q: 'index',
           adapter: app.fs.adapter,
-          path: (selectedItems.value[0].dir)
+          path: (selectedItems[0].dir)
         }
       });
     },
@@ -190,7 +190,7 @@ export const menuItems = [
         params: {
           q: 'index',
           adapter: app.fs.adapter,
-          path: selectedItems.value[0].path
+          path: selectedItems[0].path
         }
       });
     },
@@ -200,7 +200,7 @@ export const menuItems = [
     id: ContextMenuIds.pinFolder,
     title: ({t}) => t('Pin Folder'),
     action: (app, selectedItems) => {
-        app.pinnedFolders = app.pinnedFolders.concat(selectedItems.value);
+        app.pinnedFolders = app.pinnedFolders.concat(selectedItems);
         app.storage.setStore('pinned-folders', app.pinnedFolders);
     },
     show: showIfAll(
@@ -212,7 +212,7 @@ export const menuItems = [
     id: ContextMenuIds.unpinFolder,
     title: ({t}) => t('Unpin Folder'),
     action: (app, selectedItems) => {
-        app.pinnedFolders = app.pinnedFolders.filter(fav => !selectedItems.value.find(item => item.path === fav.path));
+        app.pinnedFolders = app.pinnedFolders.filter(fav => !selectedItems.find(item => item.path === fav.path));
         app.storage.setStore('pinned-folders', app.pinnedFolders);
     },
     show: showIfAll(
@@ -223,7 +223,7 @@ export const menuItems = [
   {
     id: ContextMenuIds.preview,
     title: ({t}) => t('Preview'),
-    action: (app, selectedItems) => app.modal.open(ModalPreview, {adapter: app.fs.adapter, item: selectedItems.value[0]}),
+    action: (app, selectedItems) => app.modal.open(ModalPreview, {adapter: app.fs.adapter, item: selectedItems[0]}),
     show: showIfAll(
       showIf({target: 'one', feature: FEATURES.PREVIEW}), 
       (app, ctx) => ctx.target?.type !== 'dir'
@@ -231,7 +231,7 @@ export const menuItems = [
   },
   {
     id: ContextMenuIds.download,
-    link: (app, selectedItems) => app.requester.getDownloadUrl(app.fs.adapter, selectedItems.value[0]),
+    link: (app, selectedItems) => app.requester.getDownloadUrl(app.fs.adapter, selectedItems[0]),
     title: ({t}) => t('Download'),
     action: () => {},
     show: showIfAll(

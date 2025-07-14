@@ -33,12 +33,14 @@ const props = defineProps({
 })
 
 const openItem = (item) => {
-  if (item.type === 'dir') {
-    app.emitter.emit('vf-search-exit');
-    app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: item.path}});
-  } else {
-    app.modal.open(ModalPreview, {adapter: app.fs.adapter, item})
-  }
+  const contextMenuItem = app.contextMenuItems.find((cmi) => {
+    return cmi.show(app, {
+      searchQuery: '', 
+      items: [item], 
+      target: item,
+    })
+  })
+  contextMenuItem.action(app, [item]);
 };
 
 const vDraggable = {
