@@ -42,12 +42,12 @@ app.emitter.on('vf-context-selected', (items) => {
 })
 
 const link = (item) => {
-  return item.link(app, selectedItems)
+  return item.link(app, selectedItems.value)
 }
 
 const run = (item) => {
   app.emitter.emit('vf-contextmenu-hide');
-  item.action(app, selectedItems);
+  item.action(app, selectedItems.value);
 };
 
 app.emitter.on('vf-search-query', ({newQuery}) => {

@@ -1,6 +1,6 @@
 import VueFinder from './components/VueFinder.vue';
 import './assets/css/style.scss';
-import { menuItems, SimpleItem } from './utils/contextmenu';
+import { menuItems, ContextMenuIds } from './utils/contextmenu';
 
 export default {
     /**
@@ -23,5 +23,5 @@ export default {
 
 export {
     menuItems as contextMenuItems,
-    SimpleItem as SimpleContextMenuItem,
+    ContextMenuIds,
 }

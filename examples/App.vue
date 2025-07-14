@@ -58,7 +58,7 @@
 <script setup>
 import { ref } from 'vue';
 import { FEATURES, FEATURE_ALL_NAMES } from '../src/features.js';
-import { contextMenuItems, SimpleContextMenuItem } from '../src/index.js';
+import { contextMenuItems } from '../src/index.js';
 
 const example = ref('default')
 const examples = {
@@ -131,13 +131,16 @@ const handleSelectButton = {
 
 const customContextMenuItems = [
   ...contextMenuItems,
-  new SimpleContextMenuItem(() => 'Log Info', (app, selectedItems) => {
+  {
+    id: 'loginfo',
+    title: () => 'Log Info',
+    action: (app, selectedItems) => {
     const info = selectedItems.value.map((i) => `Name: ${i.basename}, Type: ${i.type}, Path: ${i.path}`)
     console.log(selectedItems.value.length + " item(s) selected:\n", info.join('\n'))
     console.log(selectedItems.value)
-  }, undefined, {
-    target: undefined
-  })
+    },
+    show: () => true,
+  }
 ]
 
 </script>
