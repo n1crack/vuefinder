@@ -190,6 +190,10 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     console.error(e)
     if (onError) {
       onError(e);
+    } else {
+      if (e.message) {
+        app.emitter.emit('vf-toast-push', {label: e.message, type: 'error'})
+      }
     }
   }).finally(() => {
     if (['index', 'search'].includes(params.q)) {
