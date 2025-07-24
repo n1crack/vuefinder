@@ -39,6 +39,11 @@ import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
 import { menuItems as contextMenuItems } from '../utils/contextmenu.js';
 
+/** @template T; @typedef {import("vue").PropType<T>} PropType<T> */
+/** @typedef {import('../utils/ajax.js').RequestConfig} RequestConfig */
+
+/** @typedef {(items: import('../types').DirEntry[]) => void} SelectEvent */
+/** @typedef {(path: string) => void} UpdatePathEvent */
 
 const emit = defineEmits(['select', 'update:path'])
 
@@ -48,6 +53,7 @@ const props = defineProps({
     default: 'vf'
   },
   request: {
+    /** @type {PropType<string | RequestConfig>} */
     type: [String, Object],
     required: true,
   },
@@ -60,6 +66,7 @@ const props = defineProps({
     default: '',
   },
   features: {
+    /** @type {PropType<string[] | boolean>} */
     type: [Array, Boolean],
     default: true,
   },
@@ -68,6 +75,7 @@ const props = defineProps({
     default: false,
   },
   theme: {
+    /** @type {PropType<'system' | 'light' | 'dark'>} */
     type: String,
     default: 'system',
   },
@@ -100,6 +108,7 @@ const props = defineProps({
     default: true
   },
   selectButton: {
+    /** @type {PropType<(import('../types').SelectButton)>} */
     type: Object,
     default(rawProps) {
       return {
@@ -113,18 +122,33 @@ const props = defineProps({
       }
     },
   },
-  onError: {
-    type: Function,
-    default: null,
-  },
   loadingIndicator: {
+    /** @type {PropType<'circular' | 'linear'>} */
     type: String,
     default: 'circular'
   },
   contextMenuItems: {
+    /** @type {PropType<(import('../types').ContextMenuItem)[]>} */
     type: Array,
     default: () => contextMenuItems
   },
+
+  // Events
+  onError: {
+    /** @type {PropType<(error: any) => void>} */
+    type: Function,
+    default: null,
+  },
+  onSelect: {
+    /** @type {PropType<SelectEvent>} */
+    type: Function,
+    default: null,
+  },
+  'onUpdate:path': {
+    /** @type {PropType<UpdatePathEvent>} */
+    type: Function,
+    default: null,
+  }
 });
 
 // the object is passed to all components as props

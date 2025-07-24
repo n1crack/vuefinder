@@ -218,6 +218,21 @@ Alternatively, you can use the select event to get the selected items.
   - Move items (to a folder or up one folder) with drag and drop
   - Mouse selection
 
+### Typescript
+
+Vuefinder ships with built-in type declarations. You can enable type hints for the global Vuefinder component.
+
+```ts
+// src/global-components.d.ts
+import { VueFinder } from 'vuefinder'
+
+declare module 'vue' {
+  export interface GlobalComponents {
+    VueFinder: typeof VueFinder,
+  }
+}
+```
+
 ### Backend
 - PHP: [VueFinder Php Library](https://github.com/n1crack/vuefinder-php)
 - Python: [Python WSGI](https://github.com/abichinger/vuefinder-wsgi)

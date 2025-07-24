@@ -8,10 +8,12 @@
   ],
   "main": "./dist/vuefinder.cjs",
   "module": "./dist/vuefinder.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit"
   },
   "homepage": "https://github.com/n1crack/vuefinder#readme",
   "keywords": [
@@ -33,13 +35,16 @@
   "devDependencies": {
     "@types/node": "^18.7.1",
     "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.8",
     "postcss": "^8.4.16",
     "rollup-plugin-copy": "^3.5.0",
     "sass": "^1.75.0",
     "tailwindcss": "^3.1.8",
     "vite": "^5.0.12",
-    "vite-svg-loader": "^5.1.0"
+    "vite-plugin-dts": "^4.5.4",
+    "vite-svg-loader": "^5.1.0",
+    "vue-tsc": "^3.0.3"
   },
   "dependencies": {
     "@uppy/core": "^3.12.0",
