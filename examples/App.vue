@@ -135,9 +135,9 @@ const customContextMenuItems = [
     id: 'loginfo',
     title: () => 'Log Info',
     action: (app, selectedItems) => {
-    const info = selectedItems.value.map((i) => `Name: ${i.basename}, Type: ${i.type}, Path: ${i.path}`)
-    console.log(selectedItems.value.length + " item(s) selected:\n", info.join('\n'))
-    console.log(selectedItems.value)
+    const info = selectedItems.map((i) => `Name: ${i.basename}, Type: ${i.type}, Path: ${i.path}`)
+    console.log(selectedItems.length + " item(s) selected:\n", info.join('\n'))
+    console.log(selectedItems)
     },
     show: () => true,
   }
