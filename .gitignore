@@ -1,3 +1,4 @@
+playground
 /public
 /node_modules
 /resources
@@ -11,5 +12,4 @@ mix-manifest.json
 .DS_Store
 _ide_helper.php
 webpack.mix.js
-package-lock.json
 dist
