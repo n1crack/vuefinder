@@ -72,10 +72,6 @@
   @apply h-10 md:h-12 m-auto;
 }
 
-.vuefinder .vuefinder__explorer__item-extension {
-  @apply absolute hidden md:block top-1/2 w-full text-center text-neutral-500;
-}
-
 .vuefinder__explorer__item-title {
   @apply break-all;
 }

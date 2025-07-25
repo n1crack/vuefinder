@@ -52,6 +52,15 @@
       :context-menu-items="customContextMenuItems"
     />
 
+    <vue-finder
+      v-if="example === 'customIcons'"
+      id='my_vuefinder4'
+      :request="request"
+      :max-file-size="maxFileSize"
+      :features="features"
+      :icon="customIcon"
+    />
+
   </div>
 </template>
 
@@ -59,12 +68,15 @@
 import { ref } from 'vue';
 import { FEATURES, FEATURE_ALL_NAMES } from '../src/features.js';
 import { contextMenuItems } from '../src/index.js';
+import PDFIcon from './icons/pdf_file.svg'
+import TextIcon from './icons/text_file.svg'
 
 const example = ref('default')
 const examples = {
   default: "Inline select button example",
   externalSelect: "External select example",
   contextmenu: "Custom context menu example",
+  customIcons: "Custom Icons"
 }
 
 /** @type {import('../src/utils/ajax.js').RequestConfig} */
@@ -142,6 +154,31 @@ const customContextMenuItems = [
     show: () => true,
   }
 ]
+
+const customIconMap = {
+  'pdf': PDFIcon,
+  'txt': TextIcon
+}
+/**
+ * @param {import('../src/types.js').App} app
+ * @param {import('../src/types.js').DirEntry} item 
+ */
+const customIcon = (app, item) => {
+  const props = {
+    style: {
+      padding: app.view === 'grid' || !app.compactListView ? '6px' : '1px',
+      height: '100%',
+      width: 'auto',
+      margin: 'auto',
+    }
+  }
+
+  const icon = customIconMap[item.extension]
+  if (icon) {
+    return { is: icon, props }
+  }
+  return undefined
+}
 
 </script>
 

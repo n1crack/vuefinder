@@ -11,6 +11,10 @@ import useModal from "./composables/useModal.js";
 import useDragSelect from "./composables/useDragSelect.js";
 import useData from "./composables/useData.js";
 
+/**
+ * @param {import('./types.js').VueFinderProps} props
+ * @param options
+ */
 export default (props, options) => {
     const storage = useStorage(props.id);
     const emitter = mitt();
@@ -93,6 +97,8 @@ export default (props, options) => {
         loadingIndicator: props.loadingIndicator,
         // possible items of the context menu
         contextMenuItems: props.contextMenuItems,
+        // custom icon
+        customIcon: props.icon,
 
         // file system
         fs: useData(adapter, path),

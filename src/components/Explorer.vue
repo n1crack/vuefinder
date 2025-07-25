@@ -35,7 +35,7 @@
             :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list">
         <div class="vuefinder__explorer__item-list-content">
           <div class="vuefinder__explorer__item-list-name">
-            <ItemIcon :type="item.type" :small="app.compactListView"/>
+            <ItemIcon :item="item" :small="app.compactListView"/>
             <span class="vuefinder__explorer__item-name">{{ item.basename }}</span>
           </div>
           <div class="vuefinder__explorer__item-path">{{ item.path }}</div>
@@ -46,7 +46,7 @@
             :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true" :key="item.path">
         <div class="vuefinder__explorer__item-list-content">
           <div class="vuefinder__explorer__item-list-name">
-            <ItemIcon :type="item.type" :small="app.compactListView"/>
+            <ItemIcon :item="item" :small="app.compactListView"/>
             <span class="vuefinder__explorer__item-name">{{ item.basename }}</span>
           </div>
           <div class="vuefinder__explorer__item-size">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
@@ -63,13 +63,8 @@
             <img src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                  class="vuefinder__explorer__item-thumbnail lazy" v-if="(item.mime_type ?? '').startsWith('image') && app.showThumbnails"
                  :data-src="app.requester.getPreviewUrl(app.fs.adapter, item)" :alt="item.basename" :key="item.path">
-            <ItemIcon :type="item.type" v-else/>
-            <div class="vuefinder__explorer__item-extension"
-                 v-if="!((item.mime_type ?? '').startsWith('image') && app.showThumbnails) && item.type !== 'dir'" >
-              {{ ext(item.extension) }}
-            </div>
+            <ItemIcon :item="item" :ext="true" v-else/>
           </div>
-
           <span class="vuefinder__explorer__item-title break-all">{{ title_shorten(item.basename) }}</span>
         </div>
       </Item>
@@ -94,7 +89,6 @@ import Item from "./Item.vue";
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
-const ext = (item) => item?.substring(0, 3)
 const dragImage = ref(null);
 
 const searchQuery = ref('');
