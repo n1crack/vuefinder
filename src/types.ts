@@ -37,15 +37,15 @@ export type CustomIcon = (app: App, item: DirEntry) => {is: string | Component, 
 export type DirEntryType = 'file' | 'dir'
 
 export interface DirEntry {
-    basename: string;
-    extension: string;
-    path: string;
-    storage: string;
-    type: DirEntryType;
-    file_size: number | null;
-    last_modified: number | null;
-    mime_type: string | null;
-    visibility: string;
+  basename: string;
+  extension: string;
+  path: string;
+  storage: string;
+  type: DirEntryType;
+  file_size: number | null;
+  last_modified: number | null;
+  mime_type: string | null;
+  visibility: string;
 }
 
 export type SelectButton = {
@@ -62,3 +62,7 @@ export type SelectButton = {
    */
   click: (items: DirEntry[], event: any) => void;
 };
+
+export interface StorageInfo {
+  filesystem?: string
+}
