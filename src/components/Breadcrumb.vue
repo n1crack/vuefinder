@@ -10,9 +10,7 @@
 
     <span :title="t('Go up a directory')">
       <GoUpSVG
-          @dragover="handleDragOver($event)"
-          @dragleave="handleDragLeave($event)"
-          @drop="handleDropZone($event)"
+          v-on="app.fs.isGoUpAvailable() ? dragNDrop.events(getBreadcrumb()) : {}"
           @click="handleGoUp"
           :class="app.fs.isGoUpAvailable() ? 'vuefinder__breadcrumb__go-up--active' : 'vuefinder__breadcrumb__go-up--inactive'"
       />
@@ -28,9 +26,7 @@
     <div v-show="!app.fs.searchMode" @click.self="enterSearchMode" class="group vuefinder__breadcrumb__search-container">
       <div>
         <HomeSVG
-          @dragover="handleDragOver($event)"
-          @dragleave="handleDragLeave($event)"
-          @drop="handleDropZone($event, -1)"
+          v-on="dragNDrop.events(getBreadcrumb(-1))"
           @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter}})"/>
       </div>
 
@@ -52,9 +48,7 @@
         <div v-for="(item, index) in app.fs.breadcrumbs" :key="index">
           <span class="vuefinder__breadcrumb__separator">/</span>
           <span
-              @dragover="(index === app.fs.breadcrumbs.length - 1) || handleDragOver($event)"
-              @dragleave="(index === app.fs.breadcrumbs.length - 1) || handleDragLeave($event)"
-              @drop="(index === app.fs.breadcrumbs.length - 1) || handleDropZone($event, index)"
+              v-on="dragNDrop.events(item)"
               class="vuefinder__breadcrumb__item"
               :title="item.basename"
               @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter, path:item.path}})">{{ item.name }}</span>
@@ -82,9 +76,7 @@
         class="vuefinder__breadcrumb__hidden-dropdown">
       <div
           v-for="(item, index) in app.fs.hiddenBreadcrumbs" :key="index"
-          @dragover="handleDragOver($event)"
-          @dragleave="handleDragLeave($event)"
-          @drop="handleHiddenBreadcrumbDropZone($event, index)"
+          v-on="dragNDrop.events(item)"
           @click="handleHiddenBreadcrumbsClick(item)"
           class="vuefinder__breadcrumb__hidden-item">
         <div class="vuefinder__breadcrumb__hidden-item-content">
@@ -110,6 +102,7 @@ import ExitSVG from "./icons/exit.svg";
 import FolderSVG from './icons/folder.svg';
 import ListTreeSVG from './icons/list_tree.svg';
 import DotsSVG from './icons/dots.svg';
+import {useDragNDrop} from '../composables/useDragNDrop.js';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -156,73 +149,12 @@ onUnmounted(() => {
     resizeObserver.value.disconnect();
 });
 
-const handleHiddenBreadcrumbDropZone = (e, index = null) => {
-  e.preventDefault();
+const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
-  ds.isDraggingRef.value = false;
-  handleDragLeave(e);
-
-  index ??= app.fs.hiddenBreadcrumbs.length - 1;
-
-  let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
-
-  if (draggedItems.find(item => item.storage !== app.fs.adapter)) {
-    alert('Moving items between different storages is not supported yet.');
-    return;
-  }
-
-  app.modal.open(ModalMove, {
-    items: {
-      from: draggedItems,
-      to: app.fs.hiddenBreadcrumbs[index] ?? {path: (app.fs.adapter + '://')}
-    }
-  })
-};
-
-const handleDropZone = (e, index = null) => {
-  e.preventDefault();
-
-  ds.isDraggingRef.value = false;
-  handleDragLeave(e);
-
+function getBreadcrumb(index = null) {
   index ??= app.fs.breadcrumbs.length - 2;
-
-  let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
-
-  if (draggedItems.find(item => item.storage !== app.fs.adapter)) {
-    alert('Moving items between different storages is not supported yet.');
-    return;
-  }
-
-  app.modal.open(ModalMove, {
-    items: {
-      from: draggedItems,
-      to: app.fs.breadcrumbs[index] ?? {path: (app.fs.adapter + '://')}
-    }
-  })
-};
-
-const handleDragOver = (e) => {
-  e.preventDefault();
-
-  if (app.fs.isGoUpAvailable()) {
-    e.dataTransfer.dropEffect = 'copy';
-    e.currentTarget.classList.add('bg-blue-200', 'dark:bg-slate-600');
-  } else {
-    e.dataTransfer.dropEffect = 'none';
-    e.dataTransfer.effectAllowed = 'none';
-  }
-};
-
-const handleDragLeave = (e) => {
-  e.preventDefault();
-
-  e.currentTarget.classList.remove('bg-blue-200', 'dark:bg-slate-600');
-
-  if (app.fs.isGoUpAvailable()) {
-    e.currentTarget.classList.remove('bg-blue-200', 'dark:bg-slate-600');
-  }
-};
+  return app.fs.breadcrumbs[index] ?? {storage: app.fs.adapter, path: (app.fs.adapter + '://'), type: 'dir'}
+}
 
 const handleRefresh = () => {
   exitSearchMode();

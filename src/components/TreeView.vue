@@ -21,7 +21,11 @@
           <FolderIndicator v-model="pinnedFoldersOpened" />
         </div>
         <ul class="vuefinder__treeview__pinned-list" v-if="pinnedFoldersOpened">
-          <li v-for="favorite in app.pinnedFolders" class="vuefinder__treeview__pinned-item">
+          <li 
+            v-for="favorite in app.pinnedFolders" 
+            class="vuefinder__treeview__pinned-item"
+            v-on="dragNDrop.events(favorite)"
+          >
             <div
               class="vuefinder__treeview__pinned-folder"
               @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"
@@ -71,10 +75,13 @@ import {OverlayScrollbars} from 'overlayscrollbars';
 import TreeStorageItem from "./TreeStorageItem.vue";
 import upsert from "../utils/upsert";
 import FolderIndicator from "./FolderIndicator.vue";
+import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {getStore, setStore} = app.storage;
+
+const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
 const treeViewWidth = ref(190);
 const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
@@ -145,7 +152,8 @@ watch(app.fs.data, (newValue, oldValue) => {
         return {
             adapter: item.storage, 
             path: item.path, 
-            basename: item.basename
+            basename: item.basename,
+            type: 'dir'
         }
     })})
 });

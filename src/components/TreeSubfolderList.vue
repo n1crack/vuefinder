@@ -4,6 +4,7 @@
       v-for="(item, index) in treeSubFolders"
       :key="item.path"
       class="vuefinder__treesubfolderlist__item"
+      v-on="dragNDrop.events(item)"
     >
       <div class="vuefinder__treesubfolderlist__item-content">
         <div
@@ -45,9 +46,10 @@ import FolderSVG from "./icons/folder.svg";
 import OpenFolderSVG from "./icons/open_folder.svg";
 import FolderLoaderIndicator from "./FolderLoaderIndicator.vue";
 import {OverlayScrollbars} from "overlayscrollbars";
+import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
-
+const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const showSubFolders = ref([]);
 
 const props = defineProps({

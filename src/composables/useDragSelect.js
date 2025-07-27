@@ -12,6 +12,7 @@ export default function () {
     const area = ref(null);
     const explorerId = Math.floor(Math.random() * 2 ** 32);
     const isDraggingRef = ref(false);
+    /** @type {import('vue').Ref<import('../types.ts').DirEntry[]>} */
     const selectedItems = ref([]);
     const getSelected = () => selectedItems.value;
     const getSelection = () => dragSelectInstance.getSelection();

@@ -1,9 +1,11 @@
 <template>
   <div 
+    v-on="dragNDrop.events(item)"
     @click="selectOrToggle(storage)"
     class="vuefinder__treestorageitem__header"
   >
     <div
+      
       class="vuefinder__treestorageitem__info"
       :class="storage === app.fs.adapter ? 'vuefinder__treestorageitem__info--active' : ''"
     >
@@ -29,6 +31,7 @@ import {inject, ref} from 'vue';
 import StorageSVG from "./icons/storage.svg";
 import FolderLoaderIndicator from "./FolderLoaderIndicator.vue";
 import TreeSubfolderList from "./TreeSubfolderList.vue";
+import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
 const {setStore} = app.storage;
@@ -39,6 +42,14 @@ const props = defineProps({
     required: true,
   },
 });
+
+const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+
+const item = {
+  storage: props.storage, 
+  path: (props.storage + '://'), 
+  type: 'dir',
+}
 
 /**
  * If the storage is active the visibilty of the subfolders gets toggled, otherwise the storage will become active 
