@@ -1,6 +1,6 @@
 <template>
   <div
-    :style="{opacity: ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el) ? '0.5 !important' : ''}"
+    :style="{opacity: isDragging($el) || isCut() ? '0.5 !important' : ''}"
     :class="['vuefinder__item', 'vf-item-' + ds.explorerId]"
     :data-type="item.type"
     :key="item.path"
@@ -22,15 +22,28 @@
 import {inject} from 'vue';
 import PinSVG from "./icons/pin.svg";
 import {useDragNDrop} from '../composables/useDragNDrop';
+import { useCopyPaste } from '../composables/useCopyPaste';
 
 const app = inject('ServiceContainer');
 const ds = app.dragSelect;
+const copyPaste = useCopyPaste(app)
 
 const props = defineProps({
   item: {type: Object},
   index: {type: Number},
-  dragImage: {type: Object}
+  dragImage: {type: Object},
 })
+
+function isDragging($el) {
+  return ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el)
+}
+
+function isCut() {
+  return (
+    copyPaste.isCut.value && 
+    copyPaste.copiedItems.value.find((item) => item.path === props.item.path)
+  )
+}
 
 const openItem = (item) => {
   const contextMenuItem = app.contextMenuItems.find((cmi) => {

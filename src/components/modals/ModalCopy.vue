@@ -1,9 +1,10 @@
 <template>
   <ModalTransfer
-    :title="t('Move files')"
-    :body="t('Are you sure you want to move these files')"
-    :success-btn="t('Yes, Move!')"
-    :success-text="t('Files moved.')"
+    q="copy"
+    :title="t('Copy files')"
+    :body="t('Are you sure you want to copy these files')"
+    :success-btn="t('Yes, Copy!')"
+    :success-text="t('Files copied.')"
   />
 </template>
 

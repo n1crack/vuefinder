@@ -39,6 +39,7 @@ import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
 import { menuItems as contextMenuItems } from '../utils/contextmenu.js';
 import type { VueFinderProps } from '../types';
+import { useCopyPaste } from '../composables/useCopyPaste.js';
 
 const emit = defineEmits(['select', 'update:path'])
 
@@ -83,6 +84,7 @@ app.root = root;
 const ds = app.dragSelect;
 
 useHotkeyActions(app);
+useCopyPaste(app);
 
 const updateItems = (data) => {
   Object.assign(app.fs.data, data);

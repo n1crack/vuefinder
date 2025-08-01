@@ -27,7 +27,6 @@ import ModalHeader from "./ModalHeader.vue";
 import NewFileSVG from "../icons/new_file.svg";
 
 const app = inject('ServiceContainer');
-const {getStore} = app.storage;
 const {t} = app.i18n;
 
 const name = ref('');
