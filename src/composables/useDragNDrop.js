@@ -11,10 +11,29 @@ export function useDragNDrop(app, classList = []) {
   
   // Keep track of dragenter and dragleave events to avoid flicker
   // CREDIT: https://stackoverflow.com/a/21002544/3140799
-  let counter = 0;
+  let counterKey = 'data-drag-counter';
 
   /**
-   * @param {DragEvent} e
+   * @param {HTMLElement} el
+   * @returns {number} 
+   */
+  function getCounter(el) {
+    if(!el.hasAttribute(counterKey)) {
+      return 0
+    }
+    return parseInt(el.getAttribute(counterKey))
+  }
+
+  /**
+   * @param {HTMLElement} el 
+   * @param {number} value 
+   */
+  function setCounter(el, value) {
+    el.setAttribute(counterKey, value+"")
+  }
+
+  /**
+   * @param {DragEvent & { currentTarget: HTMLElement }} e
    * @param {import('../types').DirEntry} target
    */
   function handleDragOver(e, target) {
@@ -40,26 +59,26 @@ export function useDragNDrop(app, classList = []) {
   }
 
   /**
-   * @param {DragEvent} e
+   * @param {DragEvent & { currentTarget: HTMLElement }} e
    */
   function handleDragEnter(e) {
     e.preventDefault();
-    counter++
+    setCounter(e.currentTarget, getCounter(e.currentTarget) + 1)
   }
 
   /**
-   * @param {DragEvent} e
+   * @param {DragEvent & { currentTarget: HTMLElement }} e
    */
   function handleDragLeave(e) {
     e.preventDefault();
-    counter--
-    if (counter == 0) {
+    setCounter(e.currentTarget, getCounter(e.currentTarget) - 1)
+    if (getCounter(e.currentTarget) == 0) {
         e.currentTarget.classList.remove(...classList);
     }
   }
 
   /**
-   * @param {DragEvent} e
+   * @param {DragEvent & { currentTarget: HTMLElement }} e
    * @param {import('../types').DirEntry} target
    */
   function handleDropZone(e, target) {
