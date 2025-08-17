@@ -4,9 +4,10 @@
       v-for="(item, index) in treeSubFolders"
       :key="item.path"
       class="vuefinder__treesubfolderlist__item"
-      v-on="dragNDrop.events(item)"
     >
-      <div class="vuefinder__treesubfolderlist__item-content">
+      <div
+          v-on="dragNDrop.events({...item, type: 'dir'})"
+          class="vuefinder__treesubfolderlist__item-content">
         <div
           class="vuefinder__treesubfolderlist__item-toggle"
           @click="showSubFolders[item.path] = !showSubFolders[item.path]"

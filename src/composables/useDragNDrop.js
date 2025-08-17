@@ -9,29 +9,6 @@ import { dirname } from "../utils/path";
 export function useDragNDrop(app, classList = []) {
   const ds = app.dragSelect;
   
-  // Keep track of dragenter and dragleave events to avoid flicker
-  // CREDIT: https://stackoverflow.com/a/21002544/3140799
-  let counterKey = 'data-drag-counter';
-
-  /**
-   * @param {HTMLElement} el
-   * @returns {number} 
-   */
-  function getCounter(el) {
-    if(!el.hasAttribute(counterKey)) {
-      return 0
-    }
-    return parseInt(el.getAttribute(counterKey))
-  }
-
-  /**
-   * @param {HTMLElement} el 
-   * @param {number} value 
-   */
-  function setCounter(el, value) {
-    el.setAttribute(counterKey, value+"")
-  }
-
   /**
    * @param {DragEvent & { currentTarget: HTMLElement }} e
    * @param {import('../types').DirEntry} target
@@ -45,8 +22,7 @@ export function useDragNDrop(app, classList = []) {
       ds
         .getSelected()
         .find(
-          (item) =>
-            item.path === target.path || dirname(item.path) === target.path
+          (item) => item.path === target.path || dirname(item.path) === target.path
         ) ||
       ds.getSelection().find((el) => el === e.currentTarget)
     ) {
@@ -63,18 +39,14 @@ export function useDragNDrop(app, classList = []) {
    */
   function handleDragEnter(e) {
     e.preventDefault();
-    setCounter(e.currentTarget, getCounter(e.currentTarget) + 1)
-  }
+   }
 
   /**
    * @param {DragEvent & { currentTarget: HTMLElement }} e
    */
   function handleDragLeave(e) {
     e.preventDefault();
-    setCounter(e.currentTarget, getCounter(e.currentTarget) - 1)
-    if (getCounter(e.currentTarget) == 0) {
-        e.currentTarget.classList.remove(...classList);
-    }
+     e.currentTarget.classList.remove(...classList);
   }
 
   /**

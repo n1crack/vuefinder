@@ -24,17 +24,18 @@
           <li 
             v-for="favorite in app.pinnedFolders" 
             class="vuefinder__treeview__pinned-item"
-            v-on="dragNDrop.events(favorite)"
           >
             <div
+              v-on="dragNDrop.events(favorite)"
               class="vuefinder__treeview__pinned-folder"
               @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"
             >
               <FolderSVG class="vuefinder__treeview__folder-icon" v-if="app.fs.path !== favorite.path" />
               <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="app.fs.path === favorite.path" />
               <div
+
                 :title="favorite.path"
-                class="vuefinder__treeview__folder-name text-nowrap"
+                class="vuefinder__treeview__folder-name"
                 :class="{
                   'vuefinder__treeview__folder-name--active': app.fs.path === favorite.path,
                 }"
@@ -147,7 +148,6 @@ onMounted(() => {
 // update the treeViewData
 watch(app.fs.data, (newValue, oldValue) => {
     const folders = newValue.files.filter(e => e.type === 'dir');
-
     upsert(app.treeViewData, {path: app.fs.path, folders: folders.map((item) => {
         return {
             adapter: item.storage, 

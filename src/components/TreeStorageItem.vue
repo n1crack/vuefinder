@@ -1,11 +1,10 @@
 <template>
-  <div 
-    v-on="dragNDrop.events(item)"
+  <div
     @click="selectOrToggle(storage)"
     class="vuefinder__treestorageitem__header"
   >
     <div
-      
+      v-on="dragNDrop.events(item)"
       class="vuefinder__treestorageitem__info"
       :class="storage === app.fs.adapter ? 'vuefinder__treestorageitem__info--active' : ''"
     >
