@@ -1,12 +1,13 @@
 <template>
   <div
-    :style="{opacity: ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el) ? '0.5 !important' : ''}"
+    :style="{opacity: isDragging($el) || isCut() ? '0.5 !important' : ''}"
     :class="['vuefinder__item', 'vf-item-' + ds.explorerId]"
     :data-type="item.type"
     :key="item.path"
     :data-item="JSON.stringify(item)"
     :data-index="index"
-    v-draggable="item"
+    @dragstart="handleDragStart($event, item)"
+    v-on="dragNDrop.events(item)"
     @dblclick="openItem(item)"
     @touchstart="delayedOpenItem($event)"
     @touchend="clearTimeOut()"
@@ -19,18 +20,30 @@
 
 <script setup>
 import {inject} from 'vue';
-import ModalPreview from "./modals/ModalPreview.vue";
-import ModalMove from "./modals/ModalMove.vue";
 import PinSVG from "./icons/pin.svg";
+import {useDragNDrop} from '../composables/useDragNDrop';
+import { useCopyPaste } from '../composables/useCopyPaste';
 
 const app = inject('ServiceContainer');
 const ds = app.dragSelect;
+const copyPaste = useCopyPaste(app)
 
 const props = defineProps({
   item: {type: Object},
   index: {type: Number},
-  dragImage: {type: Object}
+  dragImage: {type: Object},
 })
+
+function isDragging($el) {
+  return ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el)
+}
+
+function isCut() {
+  return (
+    copyPaste.isCut.value && 
+    copyPaste.copiedItems.value.find((item) => item.path === props.item.path)
+  )
+}
 
 const openItem = (item) => {
   const contextMenuItem = app.contextMenuItems.find((cmi) => {
@@ -43,22 +56,7 @@ const openItem = (item) => {
   contextMenuItem.action(app, [item]);
 };
 
-const vDraggable = {
-  mounted(el, binding, vnode, prevVnode) {
-    if (!!vnode.props.draggable) {
-      el.addEventListener('dragstart', (event) => handleDragStart(event, binding.value));
-      el.addEventListener('dragover', (event) => handleDragOver(event, binding.value));
-      el.addEventListener('drop', (event) => handleDropZone(event, binding.value));
-    }
-  },
-  beforeUnmount(el, binding, vnode, prevVnode) {
-    if (!!vnode.props.draggable) {
-      el.removeEventListener('dragstart', handleDragStart);
-      el.removeEventListener('dragover', handleDragOver);
-      el.removeEventListener('drop', handleDropZone);
-    }
-  }
-}
+const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
 const handleDragStart = (e, item) => {
   if (e.altKey || e.ctrlKey || e.metaKey) {
@@ -71,29 +69,6 @@ const handleDragStart = (e, item) => {
   e.dataTransfer.effectAllowed = 'all';
   e.dataTransfer.dropEffect = 'copy';
   e.dataTransfer.setData('items', JSON.stringify(ds.getSelected()))
-};
-
-const handleDropZone = (e, item) => {
-  e.preventDefault();
-  ds.isDraggingRef.value = false;
-  let draggedItems = JSON.parse(e.dataTransfer.getData('items'));
-
-  if (draggedItems.find(item => item.storage !== app.fs.adapter)) {
-    alert('Moving items between different storages is not supported yet.');
-    return;
-  }
-
-  app.modal.open(ModalMove, {items: {from: draggedItems, to: item}})
-};
-
-const handleDragOver = (e, item) => {
-  e.preventDefault();
-  if (!item || item.type !== 'dir' || ds.getSelection().find(el => el === e.currentTarget)) {
-    e.dataTransfer.dropEffect = 'none';
-    e.dataTransfer.effectAllowed = 'none';
-  } else {
-    e.dataTransfer.dropEffect = 'copy';
-  }
 };
 
 let touchTimeOut = null;

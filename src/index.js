@@ -2,7 +2,7 @@ import VueFinder from './components/VueFinder.vue';
 import './assets/css/style.scss';
 import { menuItems, ContextMenuIds } from './utils/contextmenu';
 
-export default {
+export const VueFinderPlugin = {
     /**
      * @param {import('vue').App} app
      * @param options
@@ -21,7 +21,10 @@ export default {
     }
 };
 
+export default VueFinderPlugin;
+
 export {
+    VueFinder,
     menuItems as contextMenuItems,
     ContextMenuIds,
 }

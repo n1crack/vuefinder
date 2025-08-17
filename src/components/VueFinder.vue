@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {inject, onMounted, provide, ref, watch} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
 import {useHotkeyActions} from "../composables/useHotkeyActions.js";
@@ -38,94 +38,38 @@ import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
 import { menuItems as contextMenuItems } from '../utils/contextmenu.js';
-
+import type { VueFinderProps } from '../types';
+import { useCopyPaste } from '../composables/useCopyPaste.js';
 
 const emit = defineEmits(['select', 'update:path'])
 
-const props = defineProps({
-  id: {
-    type: String,
-    default: 'vf'
+const props = withDefaults(defineProps<VueFinderProps>(), {
+  id: 'vf',
+  persist: false,
+  path: '',
+  features: true,
+  debug: false,
+  theme: 'system',
+  locale: null,
+  maxHeight: '600px',
+  maxFileSize: '10mb',
+  fullScreen: false,
+  showTreeView: false,
+  pinnedFolders: () => [],
+  showThumbnails: true,
+  selectButton: () => {
+    return {
+      active: false,
+      multiple: false,
+      click: (items) => {
+        // items is an array of selected items
+        // 
+      },
+    }
   },
-  request: {
-    type: [String, Object],
-    required: true,
-  },
-  persist: {
-    type: Boolean,
-    default: false,
-  },
-  path: {
-    type: String,
-    default: '',
-  },
-  features: {
-    type: [Array, Boolean],
-    default: true,
-  },
-  debug: {
-    type: Boolean,
-    default: false,
-  },
-  theme: {
-    type: String,
-    default: 'system',
-  },
-  locale: {
-    type: String,
-    default: null
-  },
-  maxHeight: {
-    type: String,
-    default: '600px'
-  },
-  maxFileSize: {
-    type: String,
-    default: '10mb'
-  },
-  fullScreen: {
-    type: Boolean,
-    default: false
-  },
-  showTreeView: {
-    type: Boolean,
-    default: false
-  },
-  pinnedFolders: {
-    type: Array,
-    default: []
-  },
-  showThumbnails: {
-    type: Boolean,
-    default: true
-  },
-  selectButton: {
-    type: Object,
-    default(rawProps) {
-      return {
-        active: false,
-        multiple: false,
-        click: (items) => {
-          // items is an array of selected items
-          // 
-        },
-        ...rawProps,
-      }
-    },
-  },
-  onError: {
-    type: Function,
-    default: null,
-  },
-  loadingIndicator: {
-    type: String,
-    default: 'circular'
-  },
-  contextMenuItems: {
-    type: Array,
-    default: () => contextMenuItems
-  },
-});
+  loadingIndicator: 'circular',
+  contextMenuItems: () => contextMenuItems,
+})
 
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions'));
@@ -140,6 +84,7 @@ app.root = root;
 const ds = app.dragSelect;
 
 useHotkeyActions(app);
+useCopyPaste(app);
 
 const updateItems = (data) => {
   Object.assign(app.fs.data, data);

@@ -31,10 +31,9 @@ export const ContextMenuIds = {
 }
 
 /**
- * @typedef {typeof import('../ServiceContainer.js')['default']} ServiceContainer
- * @typedef {ReturnType<ServiceContainer>} App
+ * @typedef {import('../types.js').App} App
  * 
- * @typedef {any} DirEntry
+ * @typedef {import('../types.js').DirEntry} DirEntry
  * 
  * @typedef MenuContext
  * @prop {string} searchQuery
@@ -149,7 +148,7 @@ export const menuItems = [
         params: {
           q: 'index',
           adapter: app.fs.adapter,
-          path: (selectedItems[0].dir)
+          path: (selectedItems[0].path)
         }
       });
     },

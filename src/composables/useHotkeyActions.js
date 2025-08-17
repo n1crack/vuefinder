@@ -16,8 +16,14 @@ const KEYBOARD_SHORTCUTS = {
     KEY_F: 'KeyF',
 };
 
+/**
+ * @param {import('../types.ts').App} app 
+ */
 export function useHotkeyActions(app) {
     // This function is used to handle keyboard shortcuts in the application.
+    /**
+     * @param {KeyboardEvent} e  
+     */
     const handleKeyboardShortcuts = (e) => {
         if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) {
             app.modal.close();
@@ -44,26 +50,27 @@ export function useHotkeyActions(app) {
             (!app.dragSelect.getCount()) || app.modal.open(ModalDelete, {items: app.dragSelect.getSelected()})
         }
 
-        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) {
+        if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) {
             app.modal.open(ModalAbout)
         }
 
-        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && app.features.includes(FEATURES.SEARCH)) {
+        if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && app.features.includes(FEATURES.SEARCH)) {
             app.fs.searchMode = true;
             e.preventDefault();
         }
 
-        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {
+        if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {
             app.showTreeView = !app.showTreeView;
             app.storage.setStore('show-tree-view', app.showTreeView);
+            e.preventDefault();
         }
-
-        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.ENTER) {
+        
+        if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.ENTER) {
             app.fullScreen = !app.fullScreen;
             app.root.focus();
         }
 
-        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) {
+        if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) {
             app.dragSelect.selectAll();
             e.preventDefault()
         }

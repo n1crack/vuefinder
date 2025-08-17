@@ -3,9 +3,11 @@ import {resolve} from 'path'
 import vue from '@vitejs/plugin-vue'
 import copy from 'rollup-plugin-copy'
 import svgLoader from 'vite-svg-loader'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
     plugins: [
+        dts({ outDir: 'dist/types', entryRoot: 'src' }),
         vue(),
         svgLoader(),
         copy({
@@ -16,7 +18,7 @@ export default defineConfig({
             hook: "writeBundle",
         })
     ],
-   css: {
+    css: {
         preprocessorOptions: {
             scss: {
                 api: 'modern-compiler', // or 'modern'
@@ -45,7 +47,7 @@ export default defineConfig({
                 '@uppy/xhr-upload',
             ],
             output: {
-
+                exports: 'named',
                 // Provide global variables to use in the UMD build
                 // for externalized deps
                 globals: {

@@ -60,7 +60,7 @@ const fetchSubFolders = () => {
     },
   })
       .then(data => {
-        upsert(app.treeViewData, {path: props.path, ...data})
+        upsert(app.treeViewData, {path: props.path, type:'dir', ...data})
       })
       .catch((e) => {
       })

@@ -21,16 +21,21 @@
           <FolderIndicator v-model="pinnedFoldersOpened" />
         </div>
         <ul class="vuefinder__treeview__pinned-list" v-if="pinnedFoldersOpened">
-          <li v-for="favorite in app.pinnedFolders" class="vuefinder__treeview__pinned-item">
+          <li 
+            v-for="favorite in app.pinnedFolders" 
+            class="vuefinder__treeview__pinned-item"
+          >
             <div
+              v-on="dragNDrop.events(favorite)"
               class="vuefinder__treeview__pinned-folder"
               @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"
             >
               <FolderSVG class="vuefinder__treeview__folder-icon" v-if="app.fs.path !== favorite.path" />
               <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="app.fs.path === favorite.path" />
               <div
+
                 :title="favorite.path"
-                class="vuefinder__treeview__folder-name text-nowrap"
+                class="vuefinder__treeview__folder-name"
                 :class="{
                   'vuefinder__treeview__folder-name--active': app.fs.path === favorite.path,
                 }"
@@ -71,10 +76,13 @@ import {OverlayScrollbars} from 'overlayscrollbars';
 import TreeStorageItem from "./TreeStorageItem.vue";
 import upsert from "../utils/upsert";
 import FolderIndicator from "./FolderIndicator.vue";
+import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {getStore, setStore} = app.storage;
+
+const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
 const treeViewWidth = ref(190);
 const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
@@ -140,12 +148,12 @@ onMounted(() => {
 // update the treeViewData
 watch(app.fs.data, (newValue, oldValue) => {
     const folders = newValue.files.filter(e => e.type === 'dir');
-
     upsert(app.treeViewData, {path: app.fs.path, folders: folders.map((item) => {
         return {
             adapter: item.storage, 
             path: item.path, 
-            basename: item.basename
+            basename: item.basename,
+            type: 'dir'
         }
     })})
 });

@@ -1,5 +1,9 @@
 import {computed, onMounted, reactive, ref, watch} from "vue";
 
+/**
+ * @param {string} initialAdapter 
+ * @param {string} initialPath 
+ */
 export default function (initialAdapter, initialPath) {
 
     const adapter = ref(initialAdapter);
@@ -17,8 +21,12 @@ export default function (initialAdapter, initialPath) {
     // fetched items
     const data = reactive({
         adapter: adapter,
+        /** @type {string[]} */
         storages: [],
+        /** @type {Record<string, import('../types.ts').StorageInfo>} */
+        storage_info: {},
         dirname: path,
+        /** @type {import('../types.ts').DirEntry[]} */
         files: []
     });
 
