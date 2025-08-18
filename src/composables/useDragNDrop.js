@@ -1,3 +1,4 @@
+// @ts-ignore - Vue SFC import for JS with checkJs
 import ModalMove from "../components/modals/ModalMove.vue";
 import { dirname } from "../utils/path";
 
@@ -8,6 +9,7 @@ import { dirname } from "../utils/path";
  */
 export function useDragNDrop(app, classList = []) {
   const ds = app.dragSelect;
+  const DATASET_COUNTER_KEY = "vfDragEnterCounter";
   
   /**
    * @param {DragEvent & { currentTarget: HTMLElement }} e
@@ -39,14 +41,25 @@ export function useDragNDrop(app, classList = []) {
    */
   function handleDragEnter(e) {
     e.preventDefault();
-   }
+    const el = e.currentTarget;
+    const currentCount = Number(el.dataset[DATASET_COUNTER_KEY] || 0);
+    el.dataset[DATASET_COUNTER_KEY] = String(currentCount + 1);
+  }
 
   /**
    * @param {DragEvent & { currentTarget: HTMLElement }} e
    */
   function handleDragLeave(e) {
     e.preventDefault();
-     e.currentTarget.classList.remove(...classList);
+    const el = e.currentTarget;
+    const currentCount = Number(el.dataset[DATASET_COUNTER_KEY] || 0);
+    const nextCount = currentCount - 1;
+    if (nextCount <= 0) {
+      delete el.dataset[DATASET_COUNTER_KEY];
+      el.classList.remove(...classList);
+    } else {
+      el.dataset[DATASET_COUNTER_KEY] = String(nextCount);
+    }
   }
 
   /**
@@ -60,9 +73,10 @@ export function useDragNDrop(app, classList = []) {
 
     e.preventDefault();
     ds.isDraggingRef.value = false;
-    handleDragLeave(e);
+    const el = e.currentTarget;
+    delete el.dataset[DATASET_COUNTER_KEY];
+    el.classList.remove(...classList);
     let draggedItems = JSON.parse(e.dataTransfer.getData("items"));
-
     app.modal.open(ModalMove, { items: { from: draggedItems, to: target } });
   }
 
