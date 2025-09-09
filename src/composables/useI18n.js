@@ -5,10 +5,13 @@ export async function loadLocale(locale, supportedLocales) {
     return typeof localeData === 'function' ? (await localeData()).default : localeData;
 }
 
-export function useI18n(storage, initialLocale, emitter, supportedLocales) {
+export function useI18n(storage, localeProp, emitter, supportedLocales) {
+    const [initialLocale, overrideStorage] = [localeProp.replace('!', ''), localeProp.includes('!')]
     const {getStore, setStore} = storage;
     const translations = ref({});
-    const locale = ref(getStore('locale', initialLocale));
+    const locale = overrideStorage 
+        ? ref(supportedLocales[initialLocale] === undefined ? 'en' : initialLocale) 
+        : ref(getStore('locale', initialLocale));
 
     const changeLocale = (newLocale, defaultLocale = initialLocale) => {
         loadLocale(newLocale, supportedLocales).then((i18n) => {
@@ -34,7 +37,7 @@ export function useI18n(storage, initialLocale, emitter, supportedLocales) {
         changeLocale(newLocale);
     });
 
-    if (!getStore('locale') && !supportedLocales.length) {
+    if (!getStore('locale') || getStore('locale') !== locale.value) {
         changeLocale(initialLocale);
     } else {
         translations.value = getStore('translations');
