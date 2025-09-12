@@ -1,8 +1,42 @@
 import {reactive, ref, watch} from 'vue';
 
+/**
+ * @param {string} locale 
+ * @returns 
+ */
+export function sanitizeLocale(locale) {
+    return locale.toLowerCase().replace("_", "-")
+}
+
+/**
+ * @param {string} locale 
+ * @param {Record<string, any>} supportedLocales 
+ * @param {false | string} fallback
+ * @returns 
+ */
+function findLocale(locale, supportedLocales, fallback=false) {
+    const exactMatch = Object.keys(supportedLocales).find(
+        (supported) => sanitizeLocale(supported) === sanitizeLocale(locale)
+    );
+    if (exactMatch) {
+        return supportedLocales[exactMatch];
+    }
+    const sameLanguage = Object.keys(supportedLocales).find(
+        (supported) =>
+            sanitizeLocale(supported).split("-")[0] ===
+            sanitizeLocale(locale).split("-")[0]
+    );
+
+    if(!sameLanguage && fallback) {
+        return findLocale(fallback, supportedLocales)
+    }
+
+    return supportedLocales[sameLanguage];
+}
+
 export async function loadLocale(locale, supportedLocales) {
-    const localeData = supportedLocales[locale];
-    return typeof localeData === 'function' ? (await localeData()).default : localeData;
+    const localeLoader = findLocale(locale, supportedLocales);
+    return typeof localeLoader === 'function' ? (await localeLoader()).default : localeLoader;
 }
 
 export function useI18n(storage, localeProp, emitter, supportedLocales) {
@@ -24,6 +58,7 @@ export function useI18n(storage, localeProp, emitter, supportedLocales) {
                 emitter.emit('vf-language-saved');
             }
         }).catch(e => {
+            console.error(e)
             if (defaultLocale) {
                 emitter.emit('vf-toast-push', {label: 'The selected locale is not yet supported!', type: 'error'});
                 changeLocale(defaultLocale, null);
@@ -54,4 +89,3 @@ export function useI18n(storage, localeProp, emitter, supportedLocales) {
 
     return reactive({t, locale});
 }
-

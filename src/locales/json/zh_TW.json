@@ -1,6 +1,4 @@
-import uppyLocalezhTW from '@uppy/locales/lib/zh_TW.js';
-
-export default {
+{
     "Language": "語言",
     "Create": "建立",
     "Close": "關閉",
@@ -75,15 +73,15 @@ export default {
     "Settings": "設定",
     "Shortcuts": "快捷鍵",
     "Reset": "重置",
-    'Escape': '退出',
-    'Search': '搜尋',
-    'Toggle Sidebar': '切換側邊欄',
-    'Open Settings': '打開設定',
+    "Escape": "退出",
+    "Search": "搜尋",
+    "Toggle Sidebar": "切換側邊欄",
+    "Open Settings": "打開設定",
     "Reset all settings to default": "重置所有設定為默認",
     "Use Metric Units": "使用公制單位",
     "Saved.": "已儲存。",
     "Reset Settings": "重置設定",
-    "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "下載不管用？您可以嘗試右鍵點擊“下載”按鈕，選擇“另存連結為...”。",
+    "Download doesn't work? You can try right-click \"Download\" button, select \"Save link as...\".": "下載不管用？您可以嘗試右鍵點擊“下載”按鈕，選擇“另存連結為...”。",
     "Theme": "主題",
     "Dark": "深色",
     "Light": "淺色",
@@ -100,6 +98,5 @@ export default {
     "Unpin Folder": "取消固定資料夾",
     "Project home": "項目主頁",
     "Follow on GitHub": "在 GitHub 上關注",
-    "Customize your experience with the following settings": "使用以下設定自定義您的體驗",
-    "uppy": uppyLocalezhTW
+    "Customize your experience with the following settings": "使用以下設定自定義您的體驗"
 }
