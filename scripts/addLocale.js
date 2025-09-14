@@ -1,13 +1,17 @@
-const fs = require('fs');
-const path = require('path');
-const { parseArgs } = require('node:util');
+import fs from 'fs'
+import path from 'path'
+import { parseArgs } from 'node:util';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+    
+export const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
  * Generates a JavaScript and JSON file for a given locale.
  * @param {string} locale - The locale code (e.g., "en", "fr").
  * @param {string} uppyLocale - the uppy locale code
  */
-function addLocale(locale, uppyLocale) {
+export function addLocale(locale, uppyLocale) {
     const jsFilePath = path.resolve(__dirname, `../src/locales/${locale}.js`);
     const jsonFilePath = path.resolve(__dirname, `../src/locales/json/${locale}.json`);
     const uppyLocalePath = path.resolve(__dirname, `../node_modules/@uppy/locales/lib/${uppyLocale}.js`)

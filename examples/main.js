@@ -4,12 +4,19 @@ import VueFinder from '../src/index.js'
 
 const app = createApp(App);
 
+const supportedLocales = Object.fromEntries(
+    Object.entries(import.meta.glob(["../src/locales/*.js"])).map(([path, locale]) => {
+        return [path.slice(path.lastIndexOf("/") + 1, -3), locale];
+    })
+);
+
 app.use(VueFinder,
     {
         // you can set the default locale, if you don't set the locale key, it will be the first locale in the i18n object (en in this case)
         // if if you set a locale prop of the vuefinder elements, it will override this default locale
         locale: 'en',
         i18n: {
+            ...supportedLocales,
             ar: async () => await import ("../src/locales/ar.js"),
             en: async () => await import ("../src/locales/en.js"),
             fr: async () => await import ("../src/locales/fr.js"),
