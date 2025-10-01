@@ -24,7 +24,7 @@ import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 import ModalHeader from "./ModalHeader.vue";
-import NewFileSVG from "../icons/new_file.svg";
+import NewFileSVG from "@/assets/icons/new_file.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

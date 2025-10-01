@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import {inject, onMounted, provide, ref, watch} from 'vue';
 import ServiceContainer from "../ServiceContainer.js";
-import {useHotkeyActions} from "../composables/useHotkeyActions.js";
+import {useHotkeyActions} from "../composables/useHotkeyActions";
 
 import Toolbar from '../components/Toolbar.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
@@ -39,7 +39,7 @@ import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
 import { menuItems as contextMenuItems } from '../utils/contextmenu';
 import type { VueFinderProps } from '../types';
-import { useCopyPaste } from '../composables/useCopyPaste.js';
+import { useCopyPaste } from '../composables/useCopyPaste';
 
 const emit = defineEmits(['select', 'update:path'])
 

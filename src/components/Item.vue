@@ -20,7 +20,7 @@
 
 <script setup>
 import {inject} from 'vue';
-import PinSVG from "./icons/pin.svg";
+import PinSVG from "@/assets/icons/pin.svg";
 import {useDragNDrop} from '../composables/useDragNDrop';
 import { useCopyPaste } from '../composables/useCopyPaste';
 

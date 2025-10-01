@@ -8,8 +8,8 @@
 </template>
 
 <script setup>
-import SquarePlusSVG from "./icons/plus.svg";
-import SquareMinusSVG from "./icons/minus.svg";
+import SquarePlusSVG from "@/assets/icons/plus.svg";
+import SquareMinusSVG from "@/assets/icons/minus.svg";
 
 const model = defineModel();
 

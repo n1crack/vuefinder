@@ -4,7 +4,7 @@ import {inject} from 'vue';
 import Message from '../Message.vue';
 import title_shorten from "../../utils/title_shorten";
 import ModalHeader from "./ModalHeader.vue";
-import UploadSVG from "../icons/upload.svg";
+import UploadSVG from "@/assets/icons/upload.svg";
 import useUpload from '@/composables/useUpload';
 
 const app = inject('ServiceContainer');

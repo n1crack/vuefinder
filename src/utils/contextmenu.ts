@@ -117,6 +117,9 @@ export const menuItems: Item[] = [
     title: ({t}) => t('Open'),
     action: (app, selectedItems) => {
       app.emitter.emit('vf-search-exit');
+      if (!selectedItems[0]) {
+          return;
+      }
       app.emitter.emit('vf-fetch', {
         params: { q: 'index', adapter: app.fs.adapter, path: selectedItems[0].path }
       });

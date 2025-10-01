@@ -32,8 +32,8 @@
 <script setup>
 import {computed, inject, ref} from 'vue';
 import ModalAbout from "./modals/ModalAbout.vue";
-import StorageSVG from "./icons/storage.svg";
-import AboutSVG from "./icons/about.svg";
+import StorageSVG from "@/assets/icons/storage.svg";
+import AboutSVG from "@/assets/icons/about.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

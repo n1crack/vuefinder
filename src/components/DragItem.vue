@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import DragSVG from './icons/drag.svg';
+import DragSVG from '@/assets/icons/drag.svg';
 const props = defineProps({
   count: {
     type: Number,

@@ -36,7 +36,7 @@ import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-import ArchiveSVG from "../icons/archive.svg";
+import ArchiveSVG from "@/assets/icons/archive.svg";
 import ModalHeader from "./ModalHeader.vue";
 
 const name = ref('');

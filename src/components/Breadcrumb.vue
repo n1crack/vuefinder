@@ -89,20 +89,20 @@
 
 <script setup>
 import {inject, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
-import useDebouncedRef from '../composables/useDebouncedRef.js';
+import useDebouncedRef from '../composables/useDebouncedRef';
 import {FEATURES} from "../features.js";
 import ModalMove from "./modals/ModalMove.vue";
-import RefreshSVG from "./icons/refresh.svg";
-import GoUpSVG from "./icons/go_up.svg";
-import CloseSVG from "./icons/close.svg";
-import HomeSVG from "./icons/home.svg";
-import SearchSVG from "./icons/search.svg";
-import LoadingSVG from "./icons/loading.svg";
-import ExitSVG from "./icons/exit.svg";
-import FolderSVG from './icons/folder.svg';
-import ListTreeSVG from './icons/list_tree.svg';
-import DotsSVG from './icons/dots.svg';
-import {useDragNDrop} from '../composables/useDragNDrop.js';
+import RefreshSVG from "@/assets/icons/refresh.svg";
+import GoUpSVG from "@/assets/icons/go_up.svg";
+import CloseSVG from "@/assets/icons/close.svg";
+import HomeSVG from "@/assets/icons/home.svg";
+import SearchSVG from "@/assets/icons/search.svg";
+import LoadingSVG from "@/assets/icons/loading.svg";
+import ExitSVG from "@/assets/icons/exit.svg";
+import FolderSVG from '@/assets/icons/folder.svg';
+import ListTreeSVG from '@/assets/icons/list_tree.svg';
+import DotsSVG from '@/assets/icons/dots.svg';
+import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

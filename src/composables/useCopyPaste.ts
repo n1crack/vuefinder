@@ -1,0 +1,66 @@
+import { inject, onBeforeUnmount, onMounted, provide, ref } from "vue";
+import { splitPath } from "../utils/path";
+import ModalCopy from "../components/modals/ModalCopy.vue";
+import ModalMove from "../components/modals/ModalMove.vue";
+import type { App, DirEntry } from "../types";
+
+function initCopyPaste(app: App) {
+  const ds = app.dragSelect;
+  const { t } = app.i18n;
+
+  const isCut = ref(false)
+  const copiedItems = ref<DirEntry[]>([])
+
+  function handleCopy(e: ClipboardEvent, cut = false) {
+    isCut.value = cut;
+    const items = ds.getSelected();
+    if (items.length === 0) return;
+    e.preventDefault();
+    copiedItems.value = items
+    e.clipboardData?.setData("text/plain", JSON.stringify(items));
+    app.emitter.emit("vf-toast-push", { label: items.length === 1 ? t("Item copied to clipboard") : t("%s items copied to clipboard", items.length) });
+  }
+
+  function handleCut(e: ClipboardEvent) { return handleCopy(e, true) }
+
+  function handlePaste(e: ClipboardEvent) {
+    const data = e.clipboardData?.getData("text/plain") || ''
+    let items: DirEntry[] = []
+    try {
+      items = (JSON.parse(data) as DirEntry[]).filter((item) => {
+        const [storage] = splitPath(item.path)
+        return app.fs.data.storages.includes(storage as string)
+      })
+    } catch {
+      console.error("Failed to parse pasted data")
+    }
+    if (items.length === 0) return
+    e.preventDefault();
+    const target = { storage: app.fs.data.adapter, path: app.fs.data.dirname, type: 'dir' as const }
+    app.modal.open(isCut.value ? ModalMove : ModalCopy, { items: { from: items, to: target } });
+  }
+
+  onMounted(() => {
+    app.root.addEventListener("copy", handleCopy as any);
+    app.root.addEventListener("paste", handlePaste as any);
+    app.root.addEventListener("cut", handleCut as any)
+  });
+
+  onBeforeUnmount(() => {
+    app.root.removeEventListener("copy", handleCopy as any);
+    app.root.removeEventListener("paste", handlePaste as any);
+    app.root.removeEventListener("cut", handleCut as any)
+  });
+
+  return { isCut, copiedItems }
+}
+
+export function useCopyPaste(app: App) {
+  return inject('useCopyPaste', () => {
+    const instance = initCopyPaste(app)
+    provide('useCopyPaste', instance)
+    return instance
+  }, true)
+}
+
+

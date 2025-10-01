@@ -67,10 +67,10 @@
 
 <script setup>
 import {inject, onMounted, ref, watch} from 'vue';
-import FolderSVG from './icons/folder.svg';
-import OpenFolderSVG from './icons/open_folder.svg';
-import PinSVG from "./icons/pin.svg";
-import XBoxSVG from "./icons/x_box.svg";
+import FolderSVG from '@/assets/icons/folder.svg';
+import OpenFolderSVG from '@/assets/icons/open_folder.svg';
+import PinSVG from "@/assets/icons/pin.svg";
+import XBoxSVG from "@/assets/icons/x_box.svg";
 
 import {OverlayScrollbars} from 'overlayscrollbars';
 import TreeStorageItem from "./TreeStorageItem.vue";

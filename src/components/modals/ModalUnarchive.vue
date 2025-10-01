@@ -32,7 +32,7 @@ import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 import ModalHeader from "./ModalHeader.vue";
-import UnarchiveSVG from "../icons/unarchive.svg";
+import UnarchiveSVG from "@/assets/icons/unarchive.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

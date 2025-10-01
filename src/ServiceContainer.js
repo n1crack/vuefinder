@@ -1,15 +1,15 @@
 import {computed, reactive, ref} from "vue";
 import mitt from "mitt";
 import {buildRequester} from "./utils/ajax";
-import {useStorage} from "./composables/useStorage.js";
-import {useI18n} from "./composables/useI18n.js";
+import {useStorage} from "./composables/useStorage";
+import {useI18n} from "./composables/useI18n";
 import {FEATURE_ALL_NAMES, FEATURES} from "./features.js";
 import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize'
-import useTheme from './composables/useTheme.js';
-import useModal from "./composables/useModal.js";
-import useDragSelect from "./composables/useDragSelect.js";
-import useData from "./composables/useData.js";
+import useTheme from './composables/useTheme';
+import useModal from "./composables/useModal";
+import useDragSelect from "./composables/useDragSelect";
+import useData from "./composables/useData";
 
 /**
  * @param {import('./types.js').VueFinderProps} props

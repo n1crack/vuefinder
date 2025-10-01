@@ -12,8 +12,8 @@
 
 <script setup>
 import { inject } from 'vue';
-import FileSVG from './icons/file.svg';
-import FolderSVG from './icons/folder.svg';
+import FileSVG from '@/assets/icons/file.svg';
+import FolderSVG from '@/assets/icons/folder.svg';
 
 /** @template T; @typedef {import("vue").PropType<T>} PropType<T> */
 

@@ -13,9 +13,9 @@
 <script setup>
 import {ref, inject, watch} from 'vue';
 
-import SquarePlusSVG from "./icons/plus.svg";
-import SquareMinusSVG from "./icons/minus.svg";
-import LoadingSVG from "./icons/loading.svg";
+import SquarePlusSVG from "@/assets/icons/plus.svg";
+import SquareMinusSVG from "@/assets/icons/minus.svg";
+import LoadingSVG from "@/assets/icons/loading.svg";
 import upsert from "../utils/upsert";
 
 const props = defineProps({

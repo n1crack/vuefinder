@@ -24,7 +24,7 @@ import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
 import ModalHeader from "./ModalHeader.vue";
-import NewFolderSVG from "../icons/new_folder.svg";
+import NewFolderSVG from "@/assets/icons/new_folder.svg";
 
 const app = inject('ServiceContainer');
 const {getStore} = app.storage;

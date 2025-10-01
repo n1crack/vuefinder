@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import AscSVG from './icons/asc.svg';
-import DescSVG from './icons/desc.svg';
+import AscSVG from '@/assets/icons/asc.svg';
+import DescSVG from '@/assets/icons/desc.svg';
 
 defineProps({direction: String});
 </script>
