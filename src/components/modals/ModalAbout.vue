@@ -169,6 +169,12 @@
                 <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
               </div>
             </div>
+            <div class="vuefinder__about-modal__shortcut">
+              {{ t('Preview') }}
+              <div>
+                <kbd>Space</kbd>
+              </div>
+            </div>
           </div>
         </div>
 

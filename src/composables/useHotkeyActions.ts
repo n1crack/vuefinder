@@ -4,10 +4,12 @@ import ModalAbout from "../components/modals/ModalAbout.vue";
 import ModalDelete from "../components/modals/ModalDelete.vue";
 import ModalRename from "../components/modals/ModalRename.vue";
 import type { App } from "../types";
+import ModalPreview from "@/components/modals/ModalPreview.vue";
 
 const KEYBOARD_SHORTCUTS = {
     ESCAPE: 'Escape', F2: 'F2', F5: 'F5', DELETE: 'Delete', ENTER: 'Enter',
     BACKSLASH: 'Backslash', KEY_A: 'KeyA', KEY_E: 'KeyE', KEY_F: 'KeyF',
+    SPACE: 'Space',
 } as const;
 
 export function useHotkeyActions(app: App) {
@@ -33,6 +35,10 @@ export function useHotkeyActions(app: App) {
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.ENTER) { app.fullScreen = !app.fullScreen; (app.root as HTMLElement).focus(); }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) { app.dragSelect.selectAll(); e.preventDefault() }
+        if (e.code === KEYBOARD_SHORTCUTS.SPACE) {
+            (app.dragSelect.getCount() !== 1) || app.modal.open(ModalPreview, {adapter: app.fs.adapter, item: app.dragSelect.getSelected()[0]})
+
+        }
     };
 
     onMounted(() => { (app.root as HTMLElement).addEventListener("keydown", handleKeyboardShortcuts); });
