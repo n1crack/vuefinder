@@ -50,3 +50,7 @@
   @apply
   opacity-50 cursor-not-allowed
 }
+
+.vf-btn-small {
+  @apply py-0
+}

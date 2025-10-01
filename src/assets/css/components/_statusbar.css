@@ -8,7 +8,7 @@
 }
 
 .vuefinder__status-bar__storage-container {
-  @apply flex leading-5 items-center rounded border dark:bg-gray-700 dark:border-gray-600;
+  @apply flex leading-5 items-center rounded border dark:bg-gray-700 border-gray-300 dark:border-gray-600;
 }
 
 .vuefinder__status-bar__storage-icon {

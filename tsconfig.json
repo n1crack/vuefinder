@@ -12,6 +12,8 @@
     }
   ],
   "compilerOptions": {
-    "module": "NodeNext"
+    "module": "NodeNext",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   }
 }

@@ -41,6 +41,7 @@
   "license": "MIT",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
+    "@types/overlayscrollbars": "^1.12.5",
     "@uppy/core": "^5.0.2",
     "@uppy/xhr-upload": "^5.0.1",
     "cropperjs": "^2.0.1",

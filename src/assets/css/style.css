@@ -1,5 +1,5 @@
 @import "tailwindcss";
-/* Scoped preflight styles */
+
 @import "./preflight.css";
 
 @import "./_effects.css";
@@ -8,6 +8,8 @@
 
 /** Previews */
 @import "./_previews.css";
+
+@import "overlayscrollbars/styles/overlayscrollbars.css";
 
 /** Components */
 @import "./components/_action_message.css";
@@ -42,38 +44,46 @@
 @import "./components/modals/_modal_unarchive.css";
 @import "./components/modals/_modal_upload.css";
 
-@import "overlayscrollbars/styles/overlayscrollbars.css";
-
 @source './src/**/*.{vue,js,ts,jsx,tsx,svg}';
 
 @custom-variant dark (&:is(.dark *));
 
-@layer utilities {
-    .vf-theme-dark,
-    .vf-theme-light {
-        box-sizing: border-box;
-        --os-size: 10px;
-        --os-padding-perpendicular: 2px;
-        --os-padding-axis: 2px;
-        --os-track-border-radius: 10px;
-        --os-handle-interactive-area-offset: 4px;
-        --os-handle-border-radius: 10px;
-    }
+@theme {
 
-    .vf-theme-dark {
-        --os-handle-bg: rgba(0, 0, 0, 0.44);
-        --os-handle-bg-hover: rgba(0, 0, 0, 0.55);
-        --os-handle-bg-active: rgba(0, 0, 0, 0.66);
-    }
-
-    .vf-theme-light {
-        --os-handle-bg: rgba(255, 255, 255, 0.44);
-        --os-handle-bg-hover: rgba(255, 255, 255, 0.55);
-        --os-handle-bg-active: rgba(255, 255, 255, 0.66);
-    }
 }
 
-@layer components {
+/*.vf-theme-dark,*/
+/*.vf-theme-light {*/
+/*    box-sizing: border-box;*/
+/*    --os-size: 10px;*/
+/*    --os-padding-perpendicular: 2px;*/
+/*    --os-padding-axis: 2px;*/
+/*    --os-track-border-radius: 10px;*/
+/*    --os-handle-interactive-area-offset: 4px;*/
+/*    --os-handle-border-radius: 10px;*/
+/*}*/
+
+/*.vf-theme-dark {*/
+/*    --os-handle-bg: rgba(0, 0, 0, 0.44);*/
+/*    --os-handle-bg-hover: rgba(0, 0, 0, 0.55);*/
+/*    --os-handle-bg-active: rgba(0, 0, 0, 0.66);*/
+/*}*/
+
+/*.vf-theme-light {*/
+/*    --os-handle-bg: rgba(255, 255, 255, 0.44);*/
+/*    --os-handle-bg-hover: rgba(255, 255, 255, 0.55);*/
+/*    --os-handle-bg-active: rgba(255, 255, 255, 0.66);*/
+/*}*/
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
     .vuefinder {
         position: relative;
 
@@ -90,7 +100,7 @@
       DragSelect selector appends to body
      */
     .vf-explorer-selector {
-        @apply border border-slate-500 bg-slate-300 opacity-50;
+        @apply border !border-slate-500  !bg-slate-300 opacity-50;
     }
 
     kbd {

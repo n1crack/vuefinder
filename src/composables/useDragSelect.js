@@ -133,7 +133,7 @@ export default function () {
         // Super hacky way to get to work the scrollbar element
         OverlayScrollbars(scrollBarContainer.value, {
             scrollbars: {
-                theme: 'vf-theme-dark dark:vf-theme-light',
+               // theme: 'vf-theme-dark dark:vf-theme-light',
             },
             plugins: {
                 OverlayScrollbars,

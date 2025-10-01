@@ -5,7 +5,7 @@
         <div class="vuefinder__status-bar__storage-icon">
           <StorageSVG/>
         </div>
-        <select v-model="app.fs.adapter" @change="handleStorageSelect"
+        <select name="vuefinder-media-selector" v-model="app.fs.adapter" @change="handleStorageSelect"
                 class="vuefinder__status-bar__storage-select" tabindex="-1">
           <option v-for="storage in app.fs.data.storages" :value="storage">
             {{ storage }}
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="vuefinder__status-bar__actions">
-      <button class="vf-btn py-0 vf-btn-primary"
+      <button class="vf-btn vf-btn-primary vf-btn-small"
               :class="{disabled: !isSelectButtonActive}"
               :disabled="!isSelectButtonActive"
               v-if="app.selectButton.active" @click="app.selectButton.click(ds.getSelected(), $event)">{{ t("Select") }}</button>
