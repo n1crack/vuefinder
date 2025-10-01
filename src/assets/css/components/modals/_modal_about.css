@@ -59,7 +59,7 @@
 }
 
 .vuefinder .vuefinder__about-modal__select {
-  @apply flex-shrink-0 sm:w-1/2 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded;
+  @apply shrink-0 sm:w-1/2 w-full text-sm text-slate-500 border dark:border-gray-600 dark:text-neutral-50 dark:bg-gray-700 rounded;
 }
 
 .vuefinder__about-modal__shortcuts {
