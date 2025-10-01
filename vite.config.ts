@@ -1,61 +1,25 @@
-import {defineConfig} from 'vite'
-import {resolve} from 'path'
+import { fileURLToPath, URL } from 'node:url'
+
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import copy from 'rollup-plugin-copy'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import vueDevTools from 'vite-plugin-vue-devtools'
+import tailwindcss from '@tailwindcss/vite'
 import svgLoader from 'vite-svg-loader'
-import dts from 'vite-plugin-dts'
 
+
+// https://vite.dev/config/
 export default defineConfig({
-    plugins: [
-        dts({ outDir: 'dist/types', entryRoot: 'src' }),
-        vue(),
-        svgLoader(),
-        copy({
-            targets: [
-                {src: 'src/locales/*', dest: 'dist/locales'},
-                {src: 'src/features.js', dest: 'dist'},
-            ],
-            hook: "writeBundle",
-        })
-    ],
-    css: {
-        preprocessorOptions: {
-            scss: {
-                api: 'modern-compiler', // or 'modern'
-            },
-        },
+  plugins: [
+    vue(),
+    vueJsx(),
+    vueDevTools(),
+    tailwindcss(),
+    svgLoader(),
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-    build: {
-        lib: {
-            entry: resolve(__dirname, 'src/index.js'),
-            formats: ['es', 'cjs'],
-            name: 'VueFinder',
-            // the proper extensions will be added
-            fileName: 'vuefinder',
-        },
-        rollupOptions: {
-            // make sure to externalize deps that shouldn't be bundled
-            // into your library
-            external: [
-                'vue',
-                'mitt',
-                'vanilla-lazyload',
-                'dragselect',
-                'cropperjs/dist/cropper.css',
-                'cropperjs',
-                '@uppy/core',
-                '@uppy/xhr-upload',
-            ],
-            output: {
-                exports: 'named',
-                // Provide global variables to use in the UMD build
-                // for externalized deps
-                globals: {
-                    vue: 'Vue'
-                }
-            }
-        }
-    },
-});
-
-
+  },
+})

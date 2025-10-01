@@ -1,4 +1,4 @@
-// Default Previews
+/** Default Previews */
 
 .vuefinder__default-preview {
   @apply flex flex-col;
@@ -12,7 +12,7 @@
   @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
 }
 
-// Image Preview
+/** Image Preview */
 
 .vuefinder__image-preview {
   @apply flex flex-col;
@@ -46,7 +46,7 @@
   @apply max-w-[50vh] max-h-[50vh];
 }
 
-// Auido Preview
+/** Auido Preview */
 .vuefinder__audio-preview__title {
   @apply mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
 }
@@ -55,7 +55,7 @@
   @apply w-full;
 }
 
-// PDF Preview
+/** PDF Preview */
 
 .vuefinder__pdf-preview__title {
   @apply mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
@@ -69,7 +69,7 @@
   @apply border-0;
 }
 
-// Text Preview
+/** Text Preview */
 
 .vuefinder__text-preview {
   @apply flex flex-col;
@@ -103,7 +103,7 @@
   @apply w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] max-h-[60vh];
 }
 
-// Video Preview
+/** Video Preview */
 
 .vuefinder__video-preview__title {
   @apply mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;

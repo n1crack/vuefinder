@@ -1,12 +1,12 @@
 .dark .vuefinder__linear-loader {
-  --vuefinder__linear-loader-primary: theme(colors.slate.300);
-  --vuefinder__linear-loader-bg: theme(colors.slate.700);
+  --vuefinder__linear-loader-primary: var(--color-slate-300);
+  --vuefinder__linear-loader-bg: var(--color-slate-700);
 }
 
-// CREDIT: https://css-loaders.com/progress/
+/** CREDIT: https://css-loaders.com/progress/ */
 .vuefinder__linear-loader {
-  --vuefinder__linear-loader-primary: theme(colors.sky.600);
-  --vuefinder__linear-loader-bg: theme(colors.sky.300);
+  --vuefinder__linear-loader-primary: var(--color-sky-600);
+  --vuefinder__linear-loader-bg: var(--color-sky-300);
 
   position: absolute;
   top: 0;

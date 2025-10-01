@@ -44,7 +44,7 @@
 }
 
 .vuefinder .vuefinder__upload-modal__file-remove.disabled {
-  @apply disabled:bg-gray-100 text-white text-opacity-50;
+  @apply disabled:bg-gray-100 text-white/50;
 }
 
 .vuefinder .vuefinder__upload-modal__file-remove-icon {

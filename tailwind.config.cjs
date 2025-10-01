@@ -8,10 +8,6 @@ module.exports = {
     "./src/**/*.{vue,js,ts,jsx,tsx,svg}",
   ],
   important: '.vuefinder',
-  darkMode: 'class',
-  theme: {
-    extend: {},
-  },
   plugins: [
     /* Preflight but limit to only apply our components */
     // https://github.com/tailwindlabs/tailwindcss/discussions/10332#discussioncomment-4699227

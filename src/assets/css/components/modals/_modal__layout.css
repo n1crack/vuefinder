@@ -4,7 +4,7 @@
 }
 
 .vuefinder__modal-layout__overlay {
-  @apply fixed inset-0 bg-gray-500 dark:bg-gray-600 dark:bg-opacity-75 bg-opacity-75 transition-opacity;
+  @apply fixed inset-0 bg-gray-500/75 dark:bg-gray-600/75 transition-opacity;
 }
 
 .vuefinder__modal-layout__container {

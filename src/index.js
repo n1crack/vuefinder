@@ -1,5 +1,5 @@
 import VueFinder from './components/VueFinder.vue';
-import './assets/css/style.scss';
+import './assets/css/style.css';
 import { menuItems, ContextMenuIds } from './utils/contextmenu';
 
 export const VueFinderPlugin = {

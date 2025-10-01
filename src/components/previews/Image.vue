@@ -23,7 +23,6 @@
 </template>
 
 <script setup>
-import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
 import {inject, onMounted, ref} from 'vue';
 import Message from '../Message.vue';
