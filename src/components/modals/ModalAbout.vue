@@ -196,7 +196,7 @@
   </ModalLayout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ModalLayout from './ModalLayout.vue';
 import {computed, inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";

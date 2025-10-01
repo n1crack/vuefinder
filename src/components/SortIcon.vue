@@ -5,9 +5,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AscSVG from '@/assets/icons/asc.svg';
 import DescSVG from '@/assets/icons/desc.svg';
 
-defineProps({direction: String});
+defineProps<{
+  direction?: string
+}>()
 </script>

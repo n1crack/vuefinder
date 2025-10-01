@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {inject, onMounted, ref, watch} from 'vue';
 import FolderSVG from '@/assets/icons/folder.svg';
 import OpenFolderSVG from '@/assets/icons/open_folder.svg';

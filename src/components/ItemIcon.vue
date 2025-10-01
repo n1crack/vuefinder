@@ -10,30 +10,18 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { inject } from 'vue';
 import FileSVG from '@/assets/icons/file.svg';
 import FolderSVG from '@/assets/icons/folder.svg';
 
-/** @template T; @typedef {import("vue").PropType<T>} PropType<T> */
+import type { DirEntry } from '../types'
 
-const props = defineProps({
-  item: {
-    /** @type {PropType<import('../types').DirEntry>} */
-    type: Object,
-    required: true
-  },
-
-  ext: {
-    type: Boolean,
-    default: false
-  },
-
-  small: {
-    type: Boolean,
-    default: false
-  }
-})
+const props = defineProps<{
+  item: DirEntry
+  ext?: boolean
+  small?: boolean
+}>()
 
 const app = inject('ServiceContainer')
 const comp = app.customIcon?.(app, props.item)

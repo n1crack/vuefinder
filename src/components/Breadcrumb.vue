@@ -87,7 +87,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {inject, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef';
 import {FEATURES} from "../features.js";

@@ -15,16 +15,16 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {ref, watch, inject} from 'vue';
 
-const emit = defineEmits(['hidden']);
-const props = defineProps({
-  error: {
-    type: Boolean,
-    default: false
-  }
-});
+const emit = defineEmits<{
+  hidden: []
+}>()
+
+const props = defineProps<{
+  error?: boolean
+}>()
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

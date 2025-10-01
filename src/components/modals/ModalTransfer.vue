@@ -36,7 +36,7 @@
   </ModalLayout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
 import Message from '../Message.vue';
@@ -46,28 +46,13 @@ import MoveSVG from "@/assets/icons/move.svg";
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
-const props = defineProps({
-  q: {
-    type: String,
-    default: 'move'
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  body: {
-    type: String,
-    required: true,
-  },
-  successBtn: {
-    type: String,
-    required: true,
-  },
-  successText: {
-    type: String,
-    required: true,
-  }
-})
+const props = defineProps<{
+  q?: string
+  title: string
+  body: string
+  successBtn: string
+  successText: string
+}>()
 
 const items = ref(app.modal.data.items.from);
 const target = app.modal.data.items.to

@@ -74,7 +74,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {inject, onBeforeUnmount, onMounted, onUpdated, reactive, ref} from 'vue';
 import datetimestring from '../utils/datetimestring';
 import title_shorten from "../utils/title_shorten";

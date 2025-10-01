@@ -17,7 +17,7 @@
   </ul>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { inject, nextTick, reactive, ref} from 'vue';
 
 const app = inject('ServiceContainer');

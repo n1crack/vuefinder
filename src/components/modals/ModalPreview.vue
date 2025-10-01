@@ -44,7 +44,7 @@
   </ModalLayout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {inject, ref} from 'vue';
 import ModalLayout from './ModalLayout.vue';
 import Text from '../previews/Text.vue';

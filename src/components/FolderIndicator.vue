@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import SquarePlusSVG from "@/assets/icons/plus.svg";
 import SquareMinusSVG from "@/assets/icons/minus.svg";
 

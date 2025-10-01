@@ -21,7 +21,7 @@
    </ModalLayout>
  </template>
 
-<script setup>
+<script setup lang="ts">
 import ModalLayout from './ModalLayout.vue';
 import {inject} from 'vue';
 const app = inject('ServiceContainer');

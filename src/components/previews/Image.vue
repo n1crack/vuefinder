@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Cropper from 'cropperjs';
 import {inject, onMounted, ref} from 'vue';
 import Message from '../Message.vue';

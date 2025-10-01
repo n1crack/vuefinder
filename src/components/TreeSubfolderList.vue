@@ -40,7 +40,7 @@
   </ul>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {computed, inject, onMounted, ref} from 'vue';
 
 import FolderSVG from "@/assets/icons/folder.svg";
@@ -53,16 +53,10 @@ const app = inject('ServiceContainer');
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const showSubFolders = ref([]);
 
-const props = defineProps({
-  adapter: {
-    type: String,
-    required: true,
-  },
-  path: {
-    type: String,
-    required: true,
-  }
-});
+const props = defineProps<{
+  adapter: string
+  path: string
+}>()
 const parentSubfolderList = ref(null)
 
 onMounted(() => {

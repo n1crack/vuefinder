@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {inject, onMounted} from 'vue';
 
 const app = inject("ServiceContainer");

@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {ref, inject, watch} from 'vue';
 
 import SquarePlusSVG from "@/assets/icons/plus.svg";
@@ -18,16 +18,10 @@ import SquareMinusSVG from "@/assets/icons/minus.svg";
 import LoadingSVG from "@/assets/icons/loading.svg";
 import upsert from "../utils/upsert";
 
-const props = defineProps({
-  adapter: {
-    type: String,
-    required: true,
-  },
-  path: {
-    type: String,
-    required: true,
-  }
-});
+const props = defineProps<{
+  adapter: string
+  path: string
+}>()
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

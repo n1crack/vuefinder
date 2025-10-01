@@ -5,12 +5,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import DragSVG from '@/assets/icons/drag.svg';
-const props = defineProps({
-  count: {
-    type: Number,
-    default: 0
-  }
-});
+const props = defineProps<{
+  count?: number
+}>()
 </script>

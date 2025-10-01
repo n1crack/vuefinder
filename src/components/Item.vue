@@ -18,21 +18,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {inject} from 'vue';
 import PinSVG from "@/assets/icons/pin.svg";
 import {useDragNDrop} from '../composables/useDragNDrop';
 import { useCopyPaste } from '../composables/useCopyPaste';
+import type { DirEntry } from '../types'
 
 const app = inject('ServiceContainer');
 const ds = app.dragSelect;
 const copyPaste = useCopyPaste(app)
 
-const props = defineProps({
-  item: {type: Object},
-  index: {type: Number},
-  dragImage: {type: Object},
-})
+const props = defineProps<{
+  item: DirEntry
+  index: number
+  dragImage: any
+}>()
 
 function isDragging($el) {
   return ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el)

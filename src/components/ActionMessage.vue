@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {ref, onMounted, onUnmounted, inject} from 'vue';
 
 export default {

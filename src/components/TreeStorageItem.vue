@@ -24,7 +24,7 @@
   <TreeSubfolderList :adapter="storage" :path="storage + '://'" v-show="showSubFolders" class="vuefinder__treestorageitem__subfolder" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {inject, ref} from 'vue';
 
 import StorageSVG from "@/assets/icons/storage.svg";
@@ -35,12 +35,9 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 const app = inject('ServiceContainer');
 const {setStore} = app.storage;
 const showSubFolders = ref(false);
-const props = defineProps({
-  storage: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps<{
+  storage: string
+}>()
 
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 

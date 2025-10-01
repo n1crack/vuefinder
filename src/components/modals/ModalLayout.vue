@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {inject, nextTick, onMounted, ref} from 'vue';
 
 const modalBody = ref(null);

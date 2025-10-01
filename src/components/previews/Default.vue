@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 import {onMounted, inject} from 'vue';
 
