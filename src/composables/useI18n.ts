@@ -41,7 +41,7 @@ export function useI18n(storage: {getStore: (k: string, d?: any) => any; setStor
 
     function t(key: string, ...params: any[]): string {
         if (translations.value && Object.prototype.hasOwnProperty.call(translations.value, key)) {
-            return sprintf(translations.value[key], ...params);
+            return sprintf(translations.value[key] || key, ...params);
         }
         return sprintf(key, ...params);
     };

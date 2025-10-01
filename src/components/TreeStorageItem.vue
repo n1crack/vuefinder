@@ -44,14 +44,20 @@ const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const item = {
   storage: props.storage, 
   path: (props.storage + '://'), 
-  type: 'dir',
+  type: 'dir' as const,
+  basename: props.storage,
+  extension: '',
+  file_size: null,
+  last_modified: null,
+  mime_type: null,
+  visibility: 'public'
 }
 
 /**
  * If the storage is active the visibilty of the subfolders gets toggled, otherwise the storage will become active 
  * @param storage {string}
  */
-function selectOrToggle(storage) {
+function selectOrToggle(storage: string) {
   if (storage === app.fs.adapter) {
     // toggle list of subfolders
     showSubFolders.value = !showSubFolders.value

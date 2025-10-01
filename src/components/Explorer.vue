@@ -95,13 +95,13 @@ const searchQuery = ref('');
 const ds = app.dragSelect;
 
 /** @type {import('vanilla-lazyload').ILazyLoadInstance} */
-let vfLazyLoad
+let vfLazyLoad: any
 
 app.emitter.on('vf-fullscreen-toggle', () => {
   ds.area.value.style.height = null;
 });
 
-app.emitter.on('vf-search-query', ({newQuery}) => {
+app.emitter.on('vf-search-query', ({newQuery}: {newQuery: string}) => {
   searchQuery.value = newQuery;
 
   if (newQuery) {
@@ -112,7 +112,7 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
         path: app.fs.data.dirname,
         filter: newQuery
       },
-      onSuccess: (data) => {
+      onSuccess: (data: any) => {
         if (!data.files.length) {
           app.emitter.emit('vf-toast-push', {label: t('No search result found.')});
         }
@@ -126,15 +126,15 @@ app.emitter.on('vf-search-query', ({newQuery}) => {
 const sort = reactive({active: false, column: '', order: ''});
 
 const getItems = (sorted = true) => {
-  let files = [...app.fs.data.files],
-      column = sort.column,
-      order = sort.order === 'asc' ? 1 : -1;
+  let files = [...app.fs.data.files];
+  const column = sort.column;
+  const order = sort.order === 'asc' ? 1 : -1;
 
   if (!sorted) {
     return files;
   }
 
-  const compare = (a, b) => {
+  const compare = (a: any, b: any) => {
     if (typeof a === 'string' && typeof b === 'string') {
       return a.toLowerCase().localeCompare(b.toLowerCase());
     }
@@ -150,7 +150,7 @@ const getItems = (sorted = true) => {
   return files;
 };
 
-const sortBy = (column) => {
+const sortBy = (column: string) => {
   if (sort.active && sort.column === column) {
     sort.active = sort.order === 'asc'
     sort.column = column

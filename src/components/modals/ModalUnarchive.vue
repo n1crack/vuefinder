@@ -41,7 +41,7 @@ const item = ref(app.modal.data.items[0]);
 const message = ref('');
 
 // todo: get zip folder content
-const items = ref([]);
+const items = ref<any[]>([]);
 
 const unarchive = () => {
   app.emitter.emit('vf-fetch', {
@@ -57,7 +57,7 @@ const unarchive = () => {
     onSuccess: () => {
       app.emitter.emit('vf-toast-push', {label: t('The file unarchived.')});
     },
-    onError: (e) => {
+    onError: (e: any) => {
       message.value = t(e.message);
     }
   });

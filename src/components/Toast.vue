@@ -23,20 +23,20 @@ const app = inject('ServiceContainer');
 const {getStore} = app.storage;
 
 const fullScreen = ref(getStore('full-screen', false));
-const messageQueue = ref([]);
+const messageQueue = ref<any[]>([]);
 
-const getTypeClass = (type) => {
+const getTypeClass = (type: any) => {
   if (type === 'error') {
     return 'text-red-400 border-red-400 dark:text-red-300 dark:border-red-300';
   }
   return 'text-lime-600 border-lime-600 dark:text-lime-300 dark:border-lime-1300';
 };
 
-const removeItem = (index) => {
+const removeItem = (index: any) => {
   messageQueue.value.splice(index, 1);
 };
 
-const removeItemByID = (uid) => {
+const removeItemByID = (uid: any) => {
   let index = messageQueue.value.findIndex(x => x.id === uid);
   if (index !== -1) {
     removeItem(index);
@@ -47,7 +47,7 @@ app.emitter.on('vf-toast-clear', () => {
   messageQueue.value = []
 });
 
-app.emitter.on('vf-toast-push', (data) => {
+app.emitter.on('vf-toast-push', (data: any) => {
   let uid = new Date().getTime().toString(36).concat(performance.now().toString(), Math.random().toString()).replace(/\./g, "");
   data.id = uid;
   messageQueue.value.push(data);

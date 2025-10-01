@@ -22,12 +22,12 @@
 <script setup lang="ts">
 import {inject, nextTick, onMounted, ref} from 'vue';
 
-const modalBody = ref(null);
+const modalBody = ref<HTMLElement | null>(null);
 const app = inject('ServiceContainer')
 
 onMounted(() => {
   // Select the first input element in the modal
-  const inputElements = document.querySelector('.v-f-modal input')
+  const inputElements = document.querySelector('.v-f-modal input') as HTMLInputElement
 
   // If there is an input element, focus it
   inputElements && inputElements.focus();
@@ -39,13 +39,15 @@ onMounted(() => {
       if (window.innerWidth < 768) {
 
         // Get the height of the modal body
-        const scrollY = modalBody.value.getBoundingClientRect().bottom + 16;
-        // Scroll to the top of the modal
-        window.scrollTo({
-          top: scrollY,
-          left: 0,
-          behavior: "smooth",
-        });
+        if (modalBody.value) {
+          const scrollY = modalBody.value.getBoundingClientRect().bottom + 16;
+          // Scroll to the top of the modal
+          window.scrollTo({
+            top: scrollY,
+            left: 0,
+            behavior: "smooth",
+          });
+        }
       }
     }
   });

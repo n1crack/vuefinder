@@ -143,7 +143,9 @@ export default function useUpload(): UseUploadReturn {
             const total = progress.bytesTotal ?? 1;
             const p = Math.floor(progress.bytesUploaded / total * 100);
             const idx = findQueueEntryIndexById(upFile.id);
-            if (idx !== -1) queue.value[idx].percent = `${p}%`;
+            if (idx !== -1 && queue.value[idx]) {
+                queue.value[idx].percent = `${p}%`;
+            }
         });
 
         uppy.on('upload-success', (upFile: any) => {

@@ -68,13 +68,13 @@ const transfer = () => {
         path: app.fs.data.dirname,
       },
       body: {
-        items: items.value.map(({path, type}) => ({path, type})),
+        items: items.value.map(({path, type}: {path: string, type: string}) => ({path, type})),
         item: target.path
       },
       onSuccess: () => {
         app.emitter.emit('vf-toast-push', {label: props.successText});
       },
-      onError: (e) => {
+      onError: (e: any) => {
         message.value = t(e.message);
       }
     });

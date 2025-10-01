@@ -34,8 +34,8 @@ const app = inject('ServiceContainer');
 
 const {t} = app.i18n;
 
-const image = ref(null);
-const cropper = ref(null);
+const image = ref<HTMLImageElement | null>(null);
+const cropper = ref<any>(null);
 const showEdit = ref(false);
 const message = ref('');
 const isError = ref(false);
@@ -43,24 +43,26 @@ const isError = ref(false);
 const editMode = () => {
   showEdit.value = !showEdit.value;
 
-  if (showEdit.value) {
+  if (showEdit.value && image.value) {
     cropper.value = new Cropper(image.value, {
-      crop(event) {
+      crop(event: any) {
       },
     });
-  } else {
+  } else if (cropper.value) {
     cropper.value.destroy();
   }
 };
 
 const crop = () => {
+  if (!cropper.value) return;
+  
   cropper.value
       .getCroppedCanvas({
         width: 795,
         height: 341
       })
       .toBlob(
-          blob => {
+          (blob: any) => {
             message.value = '';
             isError.value = false;
             const body = new FormData();
@@ -75,13 +77,15 @@ const crop = () => {
               },
               body,
             })
-                .then(data => {
+                .then((data: any) => {
                   message.value = t('Updated.');
-                  image.value.src = app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item);
+                  if (image.value) {
+                    image.value.src = app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item);
+                  }
                   editMode();
                   emit('success');
                 })
-                .catch((e) => {
+                .catch((e: any) => {
                   message.value = t(e.message);
                   isError.value = true;
                 });

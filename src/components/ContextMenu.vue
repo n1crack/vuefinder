@@ -22,40 +22,40 @@ import { inject, nextTick, reactive, ref} from 'vue';
 
 const app = inject('ServiceContainer');
 
-const contextmenu = ref(null);
+const contextmenu = ref<HTMLElement | null>(null);
 const selectedItems = ref([]);
 const searchQuery = ref('');
 
 const context = reactive({
   active: false,
-  items: [],
+  items: [] as any[],
   positions: {
-    left: 0,
-    top: 0
+    left: '0px' as string,
+    top: '0px' as string
   }
 });
 
 
 
-app.emitter.on('vf-context-selected', (items) => {
+app.emitter.on('vf-context-selected', (items: any) => {
   selectedItems.value = items;
 })
 
-const link = (item) => {
+const link = (item: any) => {
   return item.link(app, selectedItems.value)
 }
 
-const run = (item) => {
+const run = (item: any) => {
   app.emitter.emit('vf-contextmenu-hide');
   item.action(app, selectedItems.value);
 };
 
-app.emitter.on('vf-search-query', ({newQuery}) => {
+app.emitter.on('vf-search-query', ({newQuery}: {newQuery: string}) => {
   searchQuery.value = newQuery;
 });
 
-app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
-  context.items = app.contextMenuItems.filter((item) => {
+app.emitter.on('vf-contextmenu-show', ({event, items, target = null}: {event: any, items: any, target?: any}) => {
+  context.items = app.contextMenuItems.filter((item: any) => {
     return item.show(app, {
       searchQuery: searchQuery.value, 
       items, 
@@ -73,7 +73,7 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}) => {
   } else if (!target && !searchQuery.value) {
     app.emitter.emit('vf-context-selected', []);
     // console.log('no files selected');
-  } else if (items.length > 1 && items.some(el => el.path === target.path)) {
+  } else if (items.length > 1 && items.some((el: any) => el.path === target.path)) {
     app.emitter.emit('vf-context-selected', items);
     // console.log(items.length + ' selected (more than 1 item.)');
   } else {
@@ -87,7 +87,7 @@ app.emitter.on('vf-contextmenu-hide', () => {
   context.active = false;
 })
 
-const showContextMenu = (event) => {
+const showContextMenu = (event: any) => {
   const area = app.dragSelect.area.value
   const rootContainer = app.root.getBoundingClientRect();
   const areaContainer = area.getBoundingClientRect();
@@ -109,8 +109,8 @@ const showContextMenu = (event) => {
     top = (areaContainer.bottom - event.pageY + window.scrollY) < menuHeight ? top - menuHeight : top;
 
     context.positions = {
-      left: left + 'px',
-      top: top + 'px'
+      left: String(left) + 'px',
+      top: String(top) + 'px'
     };
   });
 };

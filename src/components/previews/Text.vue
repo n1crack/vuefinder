@@ -56,7 +56,7 @@ onMounted(() => {
     params: {q: 'preview', adapter: app.modal.data.adapter, path: app.modal.data.item.path},
     responseType: 'text',
   })
-      .then(data => {
+      .then((data: any) => {
         content.value = data;
         emit('success');
       });
@@ -84,13 +84,13 @@ const save = () => {
     },
     responseType: 'text',
   })
-      .then(data => {
+      .then((data: any) => {
         message.value = t('Updated.');
         content.value = data;
         emit('success');
         showEdit.value = !showEdit.value;
       })
-      .catch((e) => {
+      .catch((e: any) => {
         message.value = t(e.message);
         isError.value = true;
       });

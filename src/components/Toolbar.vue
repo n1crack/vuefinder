@@ -126,7 +126,7 @@ const {t} = app.i18n;
 const ds = app.dragSelect;
 const searchQuery = ref('');
 
-app.emitter.on('vf-search-query', ({newQuery}) => {
+app.emitter.on('vf-search-query', ({newQuery}: {newQuery: string}) => {
   searchQuery.value = newQuery;
 });
 
@@ -137,10 +137,12 @@ const toggleFullScreen = () => {
 watch(() => app.fullScreen, () => {
   if (app.fullScreen) {
     // add body overflow hidden
-    document.querySelector('body').style.overflow = 'hidden';
+    const body = document.querySelector('body');
+    if (body) body.style.overflow = 'hidden';
   } else {
     // remove body overflow hidden
-    document.querySelector('body').style.overflow = '';
+    const body = document.querySelector('body');
+    if (body) body.style.overflow = '';
   }
   setStore('full-screen', app.fullScreen);
   app.emitter.emit('vf-fullscreen-toggle');

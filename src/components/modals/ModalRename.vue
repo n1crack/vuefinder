@@ -56,7 +56,7 @@ const rename = () => {
       onSuccess: () => {
         app.emitter.emit('vf-toast-push', {label: t('%s is renamed.', name.value)});
       },
-      onError: (e) => {
+      onError: (e: any) => {
         message.value = t(e.message);
       }
     });

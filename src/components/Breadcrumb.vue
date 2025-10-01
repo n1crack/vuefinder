@@ -110,9 +110,11 @@ const ds = app.dragSelect;
 const {setStore} = app.storage;
 
 // dynamic shown items calculation for breadcrumbs
-const breadcrumbContainer = ref(null);
+const breadcrumbContainer = ref<HTMLElement | null>(null);
 const breadcrumbContainerWidth = useDebouncedRef(0,100);
 watch(breadcrumbContainerWidth, newQuery => {
+  if (!breadcrumbContainer.value) return;
+  
   const children = breadcrumbContainer.value.children;
   let totalWidth = 0;
   let count = 0;
@@ -122,10 +124,11 @@ watch(breadcrumbContainerWidth, newQuery => {
   app.fs.limitBreadcrumbItems(max_shown_items);
   nextTick(() => {
     for (let i = children.length-1; i >= 0; i--) {
-      if (totalWidth + children[i].offsetWidth > breadcrumbContainerWidth.value - 40) {
+      const child = children[i] as HTMLElement;
+      if (totalWidth + child.offsetWidth > breadcrumbContainerWidth.value - 40) {
         break;
       }
-      totalWidth += parseInt(children[i].offsetWidth, 10);
+      totalWidth += parseInt(child.offsetWidth.toString(), 10);
       count++;
     }
 
@@ -137,21 +140,27 @@ watch(breadcrumbContainerWidth, newQuery => {
 });
 
 const updateContainerWidth = () => {
-    breadcrumbContainerWidth.value = breadcrumbContainer.value.offsetWidth;
+    if (breadcrumbContainer.value) {
+      breadcrumbContainerWidth.value = breadcrumbContainer.value.offsetWidth;
+    }
 }
-let resizeObserver = ref(null);
+let resizeObserver = ref<ResizeObserver | null>(null);
 
 onMounted(() => {
     resizeObserver.value = new ResizeObserver(updateContainerWidth);
-    resizeObserver.value.observe(breadcrumbContainer.value);
+    if (breadcrumbContainer.value) {
+      resizeObserver.value.observe(breadcrumbContainer.value);
+    }
 });
 onUnmounted(() => {
-    resizeObserver.value.disconnect();
+    if (resizeObserver.value) {
+      resizeObserver.value.disconnect();
+    }
 });
 
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
-function getBreadcrumb(index = null) {
+function getBreadcrumb(index: number | null = null) {
   index ??= app.fs.breadcrumbs.length - 2;
   return app.fs.breadcrumbs[index] ?? {storage: app.fs.adapter, path: (app.fs.adapter + '://'), type: 'dir'}
 }
@@ -174,7 +183,7 @@ const handleGoUp = () => {
   })
 }
 
-const handleHiddenBreadcrumbsClick = (item) => {
+const handleHiddenBreadcrumbsClick = (item: any) => {
   app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: item.path}});
   app.fs.toggleHiddenBreadcrumbs(false);
 }
@@ -186,8 +195,8 @@ const handleClickOutside = () => {
 }
 
 const vClickOutside = {
-  mounted(el, binding, vnode, prevVnode) {
-    el.clickOutsideEvent = function (event) {
+  mounted(el: any, binding: any, vnode: any, prevVnode: any) {
+    el.clickOutsideEvent = function (event: any) {
       // here I check that click was outside the el and his children
       if (!(el === event.target || el.contains(event.target))) {
         // and if it did, call method provided in attribute value
@@ -196,7 +205,7 @@ const vClickOutside = {
     };
     document.body.addEventListener('click', el.clickOutsideEvent)
   },
-  beforeUnmount(el, binding, vnode, prevVnode) {
+  beforeUnmount(el: any, binding: any, vnode: any, prevVnode: any) {
     document.body.removeEventListener('click', el.clickOutsideEvent)
   }
 };
@@ -217,14 +226,18 @@ watch(() => app.showTreeView, (newShowTreeView, oldValue) => {
  * Search
  */
 
-const searchInput = ref(null);
+const searchInput = ref<HTMLInputElement | null>(null);
 
 const enterSearchMode = () => {
   if (!app.features.includes(FEATURES.SEARCH)) {
     return;
   }
   app.fs.searchMode = true;
-  nextTick(() => searchInput.value.focus());
+  nextTick(() => {
+    if (searchInput.value) {
+      searchInput.value.focus();
+    }
+  });
 }
 
 const query = useDebouncedRef('', 400);
@@ -236,7 +249,11 @@ watch(query, newQuery => {
 
 watch(() => app.fs.searchMode, (newSearchMode) => {
   if (newSearchMode) {
-    nextTick(() => searchInput.value.focus());
+    nextTick(() => {
+      if (searchInput.value) {
+        searchInput.value.focus();
+      }
+    });
   }
 });
 

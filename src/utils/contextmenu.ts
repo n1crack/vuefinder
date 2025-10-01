@@ -87,7 +87,7 @@ export const menuItems: Item[] = [
     action: (app, selectedItems) => {
       app.emitter.emit('vf-search-exit');
       app.emitter.emit('vf-fetch', {
-        params: { q: 'index', adapter: app.fs.adapter, path: (selectedItems[0].path) }
+        params: { q: 'index', adapter: app.fs.adapter, path: (selectedItems[0]?.path) }
       });
     },
     show: showIf({ target: 'one', needsSearchQuery: true })
@@ -135,19 +135,19 @@ export const menuItems: Item[] = [
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
-      (app, ctx) => app.pinnedFolders.findIndex((item) => item.path === ctx.target?.path) === -1,
+      (app, ctx) => app.pinnedFolders.findIndex((item: any) => item.path === ctx.target?.path) === -1,
     )
   },
   {
     id: ContextMenuIds.unpinFolder,
     title: ({t}) => t('Unpin Folder'),
     action: (app, selectedItems) => {
-        app.pinnedFolders = app.pinnedFolders.filter(fav => !selectedItems.find(item => item.path === fav.path));
+        app.pinnedFolders = app.pinnedFolders.filter((fav: any) => !selectedItems.find((item: any) => item.path === fav.path));
         app.storage.setStore('pinned-folders', app.pinnedFolders);
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
-      (app, ctx) => app.pinnedFolders.findIndex((item) => item.path === ctx.target?.path) !== -1,
+      (app, ctx) => app.pinnedFolders.findIndex((item: any) => item.path === ctx.target?.path) !== -1,
     )
   },
   {

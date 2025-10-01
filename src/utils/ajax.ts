@@ -121,7 +121,7 @@ export class Requester {
         method: 'get'|'post'|'put'|'patch'|'delete'
         headers?: Record<string, string>
         params?: Record<string, string | null | undefined>
-        body?: Record<string, string | null | undefined> | FormData | null
+        body?: Record<string, string | null | undefined> | FormData | undefined
         responseType?: 'arrayBuffer'|'blob'|'json'|'text'
         abortSignal?: AbortSignal
     }): Promise<ArrayBuffer|Blob|Record<string, unknown>|string|null> {

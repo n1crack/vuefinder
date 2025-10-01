@@ -47,7 +47,7 @@ const createFile = () => {
       onSuccess: () => {
         app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
       },
-      onError: (e) => {
+      onError: (e: any) => {
         message.value = t(e.message);
       }
     });

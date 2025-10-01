@@ -4,7 +4,7 @@
       {{ app.modal.data.item.basename }}
     </h3>
     <div>
-      <video class="vuefinder__video-preview__video" preload controls>
+      <video class="vuefinder__video-preview__video" preload="metadata" controls>
         <source :src="getVideoUrl()" type="video/mp4">
         Your browser does not support the video tag.
       </video>

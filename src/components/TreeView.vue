@@ -88,12 +88,12 @@ const treeViewWidth = ref(190);
 const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
 watch(pinnedFoldersOpened, (value) => setStore('pinned-folders-opened', value));
 
-const removeFavorite = (item) => {
-    app.pinnedFolders = app.pinnedFolders.filter(fav => fav.path !== item.path);
+const removeFavorite = (item: any) => {
+    app.pinnedFolders = app.pinnedFolders.filter((fav: any) => fav.path !== item.path);
     app.storage.setStore('pinned-folders', app.pinnedFolders);
 }
 
-const handleMouseDown = (e) => {
+const handleMouseDown = (e: any) => {
   const startX = e.clientX;
   const element = e.target.parentElement;
   const startWidth = element.getBoundingClientRect().width;
@@ -102,7 +102,7 @@ const handleMouseDown = (e) => {
   element.classList.remove('transition-[width]');
   element.classList.add('transition-none');
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: any) => {
     treeViewWidth.value = startWidth + e.clientX - startX;
 
     if (treeViewWidth.value < 50) {
@@ -134,21 +134,23 @@ const handleMouseDown = (e) => {
 const treeViewScrollElement = ref(null);
 
 onMounted(() => {
-  OverlayScrollbars(treeViewScrollElement.value, {
-      overflow: {
-        x: 'hidden',
-      },
-      scrollbars: {
-          theme: 'vf-theme-dark dark:vf-theme-light',
-      },
-  });
+  if (treeViewScrollElement.value) {
+    OverlayScrollbars(treeViewScrollElement.value, {
+        overflow: {
+          x: 'hidden',
+        },
+        scrollbars: {
+            theme: 'vf-theme-dark dark:vf-theme-light',
+        },
+    });
+  }
 });
 
 // watch for changes in the fs.data
 // update the treeViewData
-watch(app.fs.data, (newValue, oldValue) => {
-    const folders = newValue.files.filter(e => e.type === 'dir');
-    upsert(app.treeViewData, {path: app.fs.path, folders: folders.map((item) => {
+watch(app.fs.data, (newValue: any, oldValue: any) => {
+    const folders = newValue.files.filter((e: any) => e.type === 'dir');
+    upsert(app.treeViewData, {path: app.fs.path, folders: folders.map((item: any) => {
         return {
             adapter: item.storage, 
             path: item.path, 

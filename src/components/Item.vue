@@ -14,7 +14,7 @@
     @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', { event: $event, items: ds.getSelected(), target: item })"
   >
     <slot/>
-    <PinSVG class="vuefinder__item--pinned" v-if="app.pinnedFolders.find(pin => pin.path === item.path)"/>
+    <PinSVG class="vuefinder__item--pinned" v-if="app.pinnedFolders.find((pin: any) => pin.path === item.path)"/>
   </div>
 </template>
 
@@ -35,19 +35,19 @@ const props = defineProps<{
   dragImage: any
 }>()
 
-function isDragging($el) {
-  return ds.isDraggingRef.value && ds.getSelection().find((el) => $el === el)
+function isDragging($el: any) {
+  return ds.isDraggingRef.value && ds.getSelection().find((el: any) => $el === el)
 }
 
 function isCut() {
   return (
     copyPaste.isCut.value && 
-    copyPaste.copiedItems.value.find((item) => item.path === props.item.path)
+    copyPaste.copiedItems.value.find((item: any) => item.path === props.item.path)
   )
 }
 
-const openItem = (item) => {
-  const contextMenuItem = app.contextMenuItems.find((cmi) => {
+const openItem = (item: any) => {
+  const contextMenuItem = app.contextMenuItems.find((cmi: any) => {
     return cmi.show(app, {
       searchQuery: '', 
       items: [item], 
@@ -59,7 +59,7 @@ const openItem = (item) => {
 
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
-const handleDragStart = (e, item) => {
+const handleDragStart = (e: any, item: any) => {
   if (e.altKey || e.ctrlKey || e.metaKey) {
     e.preventDefault();
     return false;
@@ -72,8 +72,8 @@ const handleDragStart = (e, item) => {
   e.dataTransfer.setData('items', JSON.stringify(ds.getSelected()))
 };
 
-let touchTimeOut = null;
-let doubleTapTimeOut = null;
+let touchTimeOut: NodeJS.Timeout | null = null;
+let doubleTapTimeOut: NodeJS.Timeout | null = null;
 let tappedTwice = false;
 
 const clearTimeOut = () => {
@@ -82,14 +82,16 @@ const clearTimeOut = () => {
   }
 }
 
-const delayedOpenItem = ($event) => {
+const delayedOpenItem = ($event: any) => {
     if(!tappedTwice) {
         tappedTwice = true; 
         doubleTapTimeOut = setTimeout(() => tappedTwice = false, 300)
     } else {
         tappedTwice = false; 
         openItem(props.item);
-        clearTimeout(touchTimeOut);
+        if (touchTimeOut) {
+          clearTimeout(touchTimeOut);
+        }
         return false;
     }
   touchTimeOut = setTimeout(() => {

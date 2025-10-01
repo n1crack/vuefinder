@@ -48,7 +48,7 @@ const handleStorageSelect = () => {
 
 const searchQuery = ref('');
 
-app.emitter.on('vf-search-query', ({newQuery}) => {
+app.emitter.on('vf-search-query', ({newQuery}: {newQuery: string}) => {
   searchQuery.value = newQuery;
 });
 

@@ -30,8 +30,8 @@ const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
 const hidden = ref(false);
-const strMessage = ref(null);
-const strSlot = ref(strMessage.value?.strMessage);
+const strMessage = ref<HTMLElement | null>(null);
+const strSlot = ref(strMessage.value?.innerHTML);
 
 watch(strSlot, () => hidden.value = false);
 

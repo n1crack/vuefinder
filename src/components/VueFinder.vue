@@ -28,6 +28,7 @@
 
 <script setup lang="ts">
 import {inject, onMounted, provide, ref, watch} from 'vue';
+// @ts-ignore
 import ServiceContainer from "../ServiceContainer.js";
 import {useHotkeyActions} from "../composables/useHotkeyActions";
 
@@ -50,7 +51,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   features: true,
   debug: false,
   theme: 'system',
-  locale: null,
+  locale: undefined as string | undefined,
   maxHeight: '600px',
   maxFileSize: '10mb',
   fullScreen: false,
@@ -86,21 +87,23 @@ const ds = app.dragSelect;
 useHotkeyActions(app);
 useCopyPaste(app);
 
-const updateItems = (data) => {
+const updateItems = (data: any) => {
   Object.assign(app.fs.data, data);
   ds.clearSelection();
   ds.refreshSelection();
 };
 
 /** @type {AbortController} */
-let controller;
+let controller: AbortController | null = null;
 app.emitter.on('vf-fetch-abort', () => {
-  controller.abort();
+  if (controller) {
+    controller.abort();
+  }
   app.fs.loading = false;
 });
 
 // Fetch data
-app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}) => {
+app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}: {params: any, body?: any, onSuccess?: any, onError?: any, noCloseModal?: boolean}) => {
   if (['index', 'search'].includes(params.q)) {
     if (controller) {
       controller.abort();
@@ -116,7 +119,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     params,
     body,
     abortSignal: signal,
-  }).then(data => {
+  }).then((data: any) => {
     app.fs.adapter = data.adapter;
     if (app.persist) {
       app.fs.path = data.dirname;
@@ -131,7 +134,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     if (onSuccess) {
       onSuccess(data);
     }
-  }).catch((e) => {
+  }).catch((e: any) => {
     console.error(e)
     if (onError) {
       onError(e);
@@ -152,8 +155,8 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
  * if no path is given, the backend should return the root of the current adapter
  * @param path {string | undefined} example: 'media://public'
  */
- function fetchPath(path) {
-  let pathExists = {};
+ function fetchPath(path: string | undefined) {
+  let pathExists: any = {};
 
   if (path && path.includes("://")) {
     pathExists = {
@@ -164,7 +167,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
 
   app.emitter.emit('vf-fetch', {
     params: {q: 'index', adapter: app.fs.adapter, ...pathExists}, 
-    onError: props.onError ?? ((e) => {
+    onError: props.onError ?? ((e: any) => {
       if (e.message) {
         app.emitter.emit('vf-toast-push', {label: e.message, type: 'error'})
       }
@@ -186,7 +189,7 @@ onMounted(() => {
   }) 
 
   // Emit select event
-  ds.onSelect((items) => {
+  ds.onSelect((items: any) => {
     emit('select', items);
   });
 

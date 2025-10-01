@@ -53,12 +53,12 @@ const remove = () => {
         path: app.fs.data.dirname,
       },
       body: {
-        items: items.value.map(({path, type}) => ({path, type})),
+        items: items.value.map(({path, type}: {path: string, type: string}) => ({path, type})),
       },
       onSuccess: () => {
         app.emitter.emit('vf-toast-push', {label: t('Files deleted.')});
       },
-      onError: (e) => {
+      onError: (e: any) => {
         message.value = t(e.message);
       }
     });

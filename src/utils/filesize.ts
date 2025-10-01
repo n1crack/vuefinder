@@ -32,8 +32,8 @@ export function parse(text: string | number): number {
     const regex = /(\d+(?:\.\d+)?)\s?(k|m|g|t)?b?/i;
     const res = regex.exec(text);
     if (!res) return 0;
-    const value = parseFloat(res[1]);
-    const unit = (res[2] ?? '').toLowerCase();
+    const value = parseFloat(res[1] || '0');
+    const unit = (res[2] || '').toLowerCase();
     const power = powers[unit] ?? 0;
     return Math.round(value * Math.pow(1024, power));
 }

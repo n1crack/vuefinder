@@ -51,7 +51,7 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
-const showSubFolders = ref([]);
+const showSubFolders = ref<Record<string, boolean>>({});
 
 const props = defineProps<{
   adapter: string
@@ -61,7 +61,7 @@ const parentSubfolderList = ref(null)
 
 onMounted(() => {
   // only initialize overlay scrollbars for the root folder
-  if (props.path === props.adapter + '://') {
+  if (props.path === props.adapter + '://' && parentSubfolderList.value) {
     OverlayScrollbars(parentSubfolderList.value, {
       scrollbars: {
         theme: 'vf-theme-dark dark:vf-theme-light',
@@ -70,6 +70,6 @@ onMounted(() => {
   }
 });
 const treeSubFolders = computed(() => {
-  return app.treeViewData.find(e => e.path === props.path)?.folders || [];
+  return app.treeViewData.find((e: any) => e.path === props.path)?.folders || [];
 })
 </script>

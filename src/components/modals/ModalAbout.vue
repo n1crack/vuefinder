@@ -89,7 +89,7 @@
                   </label>
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
-                  <select id="theme" v-model="app.theme.value" @change="handleTheme($event.target.value)"
+                  <select id="theme" v-model="app.theme.value" @change="(event) => handleTheme((event.target as HTMLSelectElement)?.value || '')"
                           class="vuefinder__about-modal__select">
                     <optgroup :label="t('Theme')">
                       <option v-for="(name, key) in themes" :value="key">{{ name }}</option>
@@ -218,10 +218,10 @@ const TAB = {
 };
 
 const tabs = computed(() => [
-  {name: t('About'), key: TAB.ABOUT},
-  {name: t('Settings'), key: TAB.SETTINGS},
-  {name: t('Shortcuts'), key: TAB.SHORTCUTS},
-  {name: t('Reset'), key: TAB.RESET},
+  {name: t('About'), key: TAB.ABOUT, current: false},
+  {name: t('Settings'), key: TAB.SETTINGS, current: false},
+  {name: t('Shortcuts'), key: TAB.SHORTCUTS, current: false},
+  {name: t('Reset'), key: TAB.RESET, current: false},
 ]);
 
 const selectedTab = ref('about');
@@ -232,7 +232,7 @@ const clearLocalStorage = async () => {
   location.reload();
 };
 
-const handleTheme = (key) => {
+const handleTheme = (key: string) => {
   app.theme.set(key);
   app.emitter.emit('vf-theme-saved');
 }
@@ -267,7 +267,7 @@ const handlePersistPath = () => {
 }
 
 
-const {i18n} = inject('VueFinderOptions');
+const {i18n} = inject('VueFinderOptions') as any;
 
 const languageList = {
   ar: 'Arabic (العربيّة)',

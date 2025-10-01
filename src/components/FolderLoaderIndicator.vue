@@ -39,7 +39,7 @@ function toggleIndicator() {
 }
 
 function getLoadedFolder() {
-  return app.treeViewData.find(e => e.path === props.path) ;
+  return app.treeViewData.find((e: any) => e.path === props.path) ;
 }
 
 const fetchSubFolders = () => {
@@ -53,10 +53,10 @@ const fetchSubFolders = () => {
       path: props.path,
     },
   })
-      .then(data => {
+      .then((data: any) => {
         upsert(app.treeViewData, {path: props.path, type:'dir', ...data})
       })
-      .catch((e) => {
+      .catch((e: any) => {
       })
       .finally(() => {
         loading.value = false;

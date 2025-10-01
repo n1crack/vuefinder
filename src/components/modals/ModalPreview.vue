@@ -59,7 +59,7 @@ import {FEATURES} from "../../features.js";
 const app = inject('ServiceContainer')
 const {t} = app.i18n
 const loaded = ref(false);
-const loadPreview = (type) => (app.modal.data.item.mime_type ?? '').startsWith(type)
+const loadPreview = (type: string) => (app.modal.data.item.mime_type ?? '').startsWith(type)
 
 const enabledPreview = app.features.includes(FEATURES.PREVIEW)
 if (!enabledPreview) {
