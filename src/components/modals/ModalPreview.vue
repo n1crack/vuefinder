@@ -53,7 +53,7 @@ import Default from '../previews/Default.vue';
 import Video from '../previews/Video.vue';
 import Audio from '../previews/Audio.vue';
 import Pdf from '../previews/Pdf.vue';
-import datetimestring from '../../utils/datetimestring.js';
+import datetimestring from '../../utils/datetimestring';
 import {FEATURES} from "../../features.js";
 
 const app = inject('ServiceContainer')

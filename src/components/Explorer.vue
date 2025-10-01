@@ -76,8 +76,8 @@
 
 <script setup>
 import {inject, onBeforeUnmount, onMounted, onUpdated, reactive, ref} from 'vue';
-import datetimestring from '../utils/datetimestring.js';
-import title_shorten from "../utils/title_shorten.js";
+import datetimestring from '../utils/datetimestring';
+import title_shorten from "../utils/title_shorten";
 import Toast from './Toast.vue';
 import LazyLoad from 'vanilla-lazyload';
 import SortIcon from "./SortIcon.vue";

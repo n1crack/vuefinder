@@ -37,7 +37,7 @@ import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
-import { menuItems as contextMenuItems } from '../utils/contextmenu.js';
+import { menuItems as contextMenuItems } from '../utils/contextmenu';
 import type { VueFinderProps } from '../types';
 import { useCopyPaste } from '../composables/useCopyPaste.js';
 

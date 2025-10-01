@@ -194,7 +194,7 @@
 import ModalLayout from './ModalLayout.vue';
 import {computed, inject, ref} from 'vue';
 import ActionMessage from "../ActionMessage.vue";
-import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize.js'
+import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize'
 import AboutSVG from "../icons/gear.svg";
 
 import { FEATURES } from '../../features.js';

@@ -1,11 +1,11 @@
 import {computed, reactive, ref} from "vue";
 import mitt from "mitt";
-import {buildRequester} from "./utils/ajax.js";
+import {buildRequester} from "./utils/ajax";
 import {useStorage} from "./composables/useStorage.js";
 import {useI18n} from "./composables/useI18n.js";
 import {FEATURE_ALL_NAMES, FEATURES} from "./features.js";
 import {version} from './../package.json';
-import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize.js'
+import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize'
 import useTheme from './composables/useTheme.js';
 import useModal from "./composables/useModal.js";
 import useDragSelect from "./composables/useDragSelect.js";

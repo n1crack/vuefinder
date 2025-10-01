@@ -1,10 +1,12 @@
 import type { Component } from "vue";
+// Using value-less import type to avoid bundler resolution for SFC type
 import type VueFinder from "./components/VueFinder.vue"
-import type ServiceContainer from "./ServiceContainer";
-import type { RequestConfig } from "./utils/ajax.js";
-import type { Item as ContextMenuItem } from "./utils/contextmenu.js";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ServiceContainer = any;
+import type { RequestConfig } from "./utils/ajax";
+import type { Item as ContextMenuItem } from "./utils/contextmenu";
 
-export type App = ReturnType<typeof ServiceContainer>
+export type App = ReturnType<any>
 
 export interface VueFinderProps {
   id?: string;
