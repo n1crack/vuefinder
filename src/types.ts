@@ -68,3 +68,30 @@ export type SelectButton = {
 export interface StorageInfo {
   filesystem?: string
 }
+
+export interface PinnedFolder {
+  path: string;
+  storage: string;
+  basename: string;
+  type: 'dir';
+}
+
+export interface TreeViewFolder {
+  adapter: string;
+  path: string;
+  basename: string;
+  type: 'dir';
+}
+
+export interface TreeViewData {
+  path: string;
+  folders: TreeViewFolder[];
+}
+
+export interface FsData {
+  adapter: string;
+  storages: string[];
+  storage_info: Record<string, StorageInfo>;
+  dirname: string;
+  files: DirEntry[];
+}

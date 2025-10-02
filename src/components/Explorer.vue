@@ -31,7 +31,8 @@
       <div class="vuefinder__linear-loader absolute" v-if="app.loadingIndicator === 'linear' && app.fs.loading"></div>
 
       <!-- Search View -->
-      <Item v-if="searchQuery.length" v-for="(item, index) in getItems()"
+      <template v-if="searchQuery.length">
+      <Item v-for="(item, index) in getItems()" :key="item.path"
             :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list">
         <div class="vuefinder__explorer__item-list-content">
           <div class="vuefinder__explorer__item-list-name">
@@ -41,9 +42,11 @@
           <div class="vuefinder__explorer__item-path">{{ item.path }}</div>
         </div>
       </Item>
+      </template>
       <!-- List View -->
-      <Item v-if="app.view==='list' && !searchQuery.length" v-for="(item, index) in getItems()"
-            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true" :key="item.path">
+      <template v-if="app.view==='list' && !searchQuery.length">
+      <Item v-for="(item, index) in getItems()" :key="item.path"
+            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true">
         <div class="vuefinder__explorer__item-list-content">
           <div class="vuefinder__explorer__item-list-name">
             <ItemIcon :item="item" :small="app.compactListView"/>
@@ -55,8 +58,10 @@
           </div>
         </div>
       </Item>
+      </template>
       <!-- Grid View -->
-      <Item v-if="app.view==='grid' && !searchQuery.length" v-for="(item, index) in getItems(false)"
+      <template v-if="app.view==='grid' && !searchQuery.length">
+      <Item v-for="(item, index) in getItems(false)" :key="item.path"
             :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-grid" draggable="true">
         <div>
           <div class="vuefinder__explorer__item-grid-content">
@@ -68,6 +73,7 @@
           <span class="vuefinder__explorer__item-title break-all">{{ title_shorten(item.basename) }}</span>
         </div>
       </Item>
+      </template>
     </div>
 
     <Toast/>
@@ -76,6 +82,8 @@
 
 <script setup lang="ts">
 import {inject, onBeforeUnmount, onMounted, onUpdated, reactive, ref} from 'vue';
+import type { ILazyLoadInstance } from 'vanilla-lazyload';
+import type { App, DirEntry } from '../types';
 import datetimestring from '../utils/datetimestring';
 import title_shorten from "../utils/title_shorten";
 import Toast from './Toast.vue';
@@ -86,16 +94,17 @@ import DragItem from "./DragItem.vue";
 import Item from "./Item.vue";
 
 
-const app = inject('ServiceContainer');
+defineOptions({ name: 'VuefinderExplorer' });
+
+const app = inject('ServiceContainer') as App;
 const {t} = app.i18n;
 
-const dragImage = ref(null);
+const dragImage = ref<HTMLElement | null>(null);
 
 const searchQuery = ref('');
 const ds = app.dragSelect;
 
-/** @type {import('vanilla-lazyload').ILazyLoadInstance} */
-let vfLazyLoad: any
+let vfLazyLoad: ILazyLoadInstance
 
 app.emitter.on('vf-fullscreen-toggle', () => {
   ds.area.value.style.height = null;
@@ -112,7 +121,7 @@ app.emitter.on('vf-search-query', ({newQuery}: {newQuery: string}) => {
         path: app.fs.data.dirname,
         filter: newQuery
       },
-      onSuccess: (data: any) => {
+      onSuccess: (data: { files: DirEntry[] }) => {
         if (!data.files.length) {
           app.emitter.emit('vf-toast-push', {label: t('No search result found.')});
         }
@@ -123,10 +132,12 @@ app.emitter.on('vf-search-query', ({newQuery}: {newQuery: string}) => {
   }
 });
 
-const sort = reactive({active: false, column: '', order: ''});
+type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
+type SortOrder = 'asc' | 'desc' | '';
+const sort = reactive<{ active: boolean; column: SortColumn; order: SortOrder }>({active: false, column: '', order: ''});
 
 const getItems = (sorted = true) => {
-  let files = [...app.fs.data.files];
+  let files: DirEntry[] = [...app.fs.data.files];
   const column = sort.column;
   const order = sort.order === 'asc' ? 1 : -1;
 
@@ -134,23 +145,23 @@ const getItems = (sorted = true) => {
     return files;
   }
 
-  const compare = (a: any, b: any) => {
+  const compare = (a: string | number | null | undefined, b: string | number | null | undefined) => {
     if (typeof a === 'string' && typeof b === 'string') {
       return a.toLowerCase().localeCompare(b.toLowerCase());
     }
-    if (a < b) return -1;
-    if (a > b) return 1;
+    if ((a ?? 0) < (b ?? 0)) return -1;
+    if ((a ?? 0) > (b ?? 0)) return 1;
     return 0;
   };
 
-  if (sort.active) {
+  if (sort.active && column) {
     files = files.slice().sort((a, b) => compare(a[column], b[column]) * order);
   }
 
   return files;
 };
 
-const sortBy = (column: string) => {
+const sortBy = (column: Exclude<SortColumn, ''>) => {
   if (sort.active && sort.column === column) {
     sort.active = sort.order === 'asc'
     sort.column = column

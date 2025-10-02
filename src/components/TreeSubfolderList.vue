@@ -17,6 +17,7 @@
         <div
           class="vuefinder__treesubfolderlist__item-link"
           :title="item.path"
+          @dblclick="showSubFolders[item.path] = !showSubFolders[item.path]"
           @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.adapter, path:item.path}})"
         >
           <div class="vuefinder__treesubfolderlist__item-icon">

@@ -23,6 +23,7 @@
         <ul class="vuefinder__treeview__pinned-list" v-if="pinnedFoldersOpened">
           <li 
             v-for="favorite in app.pinnedFolders" 
+            :key="favorite.path"
             class="vuefinder__treeview__pinned-item"
           >
             <div
@@ -53,7 +54,7 @@
         </ul>
       </div>
 
-      <div class="vuefinder__treeview__storage" v-for="storage in app.fs.data.storages">
+      <div class="vuefinder__treeview__storage" v-for="storage in app.fs.data.storages" :key="storage">
         <TreeStorageItem :storage="storage" />
       </div>
     </div>
@@ -77,8 +78,9 @@ import TreeStorageItem from "./TreeStorageItem.vue";
 import upsert from "../utils/upsert";
 import FolderIndicator from "./FolderIndicator.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
+import type { App, PinnedFolder, FsData } from '../types';
 
-const app = inject('ServiceContainer');
+const app = inject('ServiceContainer') as App;
 const {t} = app.i18n;
 const {getStore, setStore} = app.storage;
 
@@ -88,21 +90,23 @@ const treeViewWidth = ref(190);
 const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
 watch(pinnedFoldersOpened, (value) => setStore('pinned-folders-opened', value));
 
-const removeFavorite = (item: any) => {
-    app.pinnedFolders = app.pinnedFolders.filter((fav: any) => fav.path !== item.path);
+const removeFavorite = (item: PinnedFolder) => {
+    app.pinnedFolders = app.pinnedFolders.filter((fav: PinnedFolder) => fav.path !== item.path);
     app.storage.setStore('pinned-folders', app.pinnedFolders);
 }
 
-const handleMouseDown = (e: any) => {
+const handleMouseDown = (e: MouseEvent) => {
   const startX = e.clientX;
-  const element = e.target.parentElement;
+  const element = (e.target as HTMLElement).parentElement;
+  if (!element) return;
+  
   const startWidth = element.getBoundingClientRect().width;
 
   // start of event remove transition-[width] and add transition-none
   element.classList.remove('transition-[width]');
   element.classList.add('transition-none');
 
-  const handleMouseMove = (e: any) => {
+  const handleMouseMove = (e: MouseEvent) => {
     treeViewWidth.value = startWidth + e.clientX - startX;
 
     if (treeViewWidth.value < 50) {
@@ -148,14 +152,14 @@ onMounted(() => {
 
 // watch for changes in the fs.data
 // update the treeViewData
-watch(app.fs.data, (newValue: any, oldValue: any) => {
-    const folders = newValue.files.filter((e: any) => e.type === 'dir');
-    upsert(app.treeViewData, {path: app.fs.path, folders: folders.map((item: any) => {
+watch(app.fs.data, (newValue: FsData) => {
+    const folders = newValue.files.filter((e) => e.type === 'dir');
+    upsert(app.treeViewData, {path: app.fs.path, folders: folders.map((item) => {
         return {
             adapter: item.storage, 
             path: item.path, 
             basename: item.basename,
-            type: 'dir'
+            type: 'dir' as const
         }
     })})
 });
