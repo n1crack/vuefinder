@@ -8,6 +8,7 @@ import {useCopyPaste} from '@/composables/useCopyPaste';
 import Toolbar from '@/components/Toolbar.vue';
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import Explorer from '@/components/Explorer.vue';
+import NewExplorer from '@/components/NewExplorer.vue';
 import ContextMenu from '@/components/ContextMenu.vue';
 import Statusbar from '@/components/Statusbar.vue';
 import TreeView from '@/components/TreeView.vue';

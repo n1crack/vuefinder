@@ -92,7 +92,11 @@ export default function useDragSelect() {
     }
 
     onMounted(() => {
-        OverlayScrollbars(scrollBarContainer.value as HTMLElement, {scrollbars: {}}, {
+        OverlayScrollbars(scrollBarContainer.value as HTMLElement, {
+            scrollbars: {
+                theme: 'vf-theme-dark dark:vf-theme-light',
+            },
+        }, {
             initialized: (instance) => {
                 osInstance.value = instance;
             },
