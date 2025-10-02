@@ -1,19 +1,18 @@
-
 <script setup lang="ts">
 import {inject, onMounted, provide, ref, watch} from 'vue';
 // @ts-ignore
-import ServiceContainer from "../ServiceContainer.js";
-import {useHotkeyActions} from "../composables/useHotkeyActions";
+import ServiceContainer from '@/ServiceContainer.js';
+import {useHotkeyActions} from '@/composables/useHotkeyActions';
+import {useCopyPaste} from '@/composables/useCopyPaste';
 
-import Toolbar from '../components/Toolbar.vue';
-import Breadcrumb from '../components/Breadcrumb.vue';
-import Explorer from '../components/Explorer.vue';
-import ContextMenu from '../components/ContextMenu.vue';
-import Statusbar from '../components/Statusbar.vue';
-import TreeView from '../components/TreeView.vue';
-import { menuItems as contextMenuItems } from '../utils/contextmenu';
-import type { VueFinderProps } from '../types';
-import { useCopyPaste } from '../composables/useCopyPaste';
+import Toolbar from '@/components/Toolbar.vue';
+import Breadcrumb from '@/components/Breadcrumb.vue';
+import Explorer from '@/components/Explorer.vue';
+import ContextMenu from '@/components/ContextMenu.vue';
+import Statusbar from '@/components/Statusbar.vue';
+import TreeView from '@/components/TreeView.vue';
+import {menuItems as contextMenuItems} from '@/utils/contextmenu';
+import type {VueFinderProps} from '@/types';
 
 const emit = defineEmits(['select', 'update:path'])
 
@@ -76,7 +75,13 @@ app.emitter.on('vf-fetch-abort', () => {
 });
 
 // Fetch data
-app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}: {params: any, body?: any, onSuccess?: any, onError?: any, noCloseModal?: boolean}) => {
+app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}: {
+  params: any,
+  body?: any,
+  onSuccess?: any,
+  onError?: any,
+  noCloseModal?: boolean
+}) => {
   if (['index', 'search'].includes(params.q)) {
     if (controller) {
       controller.abort();
@@ -128,7 +133,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
  * if no path is given, the backend should return the root of the current adapter
  * @param path {string | undefined} example: 'media://public'
  */
- function fetchPath(path: string | undefined) {
+function fetchPath(path: string | undefined) {
   let pathExists: any = {};
 
   if (path && path.includes("://")) {
@@ -175,16 +180,15 @@ onMounted(() => {
 
 </script>
 
-
 <template>
   <div class="vuefinder" ref="root" tabindex="0">
     <div :class="app.theme.actualValue">
       <div
-        :class="app.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
-        :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
-        class="vuefinder__main__container"
-        @mousedown="app.emitter.emit('vf-contextmenu-hide')"
-        @touchstart="app.emitter.emit('vf-contextmenu-hide')"
+          :class="app.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
+          :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
+          class="vuefinder__main__container"
+          @mousedown="app.emitter.emit('vf-contextmenu-hide')"
+          @touchstart="app.emitter.emit('vf-contextmenu-hide')"
       >
         <Toolbar/>
         <Breadcrumb/>
