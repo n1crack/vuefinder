@@ -1,30 +1,3 @@
-<template>
-  <div class="vuefinder" ref="root" tabindex="0">
-    <div :class="app.theme.actualValue">
-      <div
-        :class="app.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
-        :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
-        class="vuefinder__main__container"
-        @mousedown="app.emitter.emit('vf-contextmenu-hide')"
-        @touchstart="app.emitter.emit('vf-contextmenu-hide')"
-      >
-        <Toolbar/>
-        <Breadcrumb/>
-        <div class="vuefinder__main__content">
-          <TreeView/>
-          <Explorer/>
-        </div>
-        <Statusbar/>
-      </div>
-
-      <Transition name="fade">
-        <Component v-if="app.modal.visible" :is="app.modal.type"/>
-      </Transition>
-
-      <ContextMenu/>
-    </div>
-  </div>
-</template>
 
 <script setup lang="ts">
 import {inject, onMounted, provide, ref, watch} from 'vue';
@@ -64,7 +37,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
       multiple: false,
       click: (items) => {
         // items is an array of selected items
-        // 
+        //
       },
     }
   },
@@ -126,7 +99,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
       setStore('path', app.fs.path);
     }
 
-    
+
     if (!noCloseModal) {
       app.modal.close();
     }
@@ -166,7 +139,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   }
 
   app.emitter.emit('vf-fetch', {
-    params: {q: 'index', adapter: app.fs.adapter, ...pathExists}, 
+    params: {q: 'index', adapter: app.fs.adapter, ...pathExists},
     onError: props.onError ?? ((e: any) => {
       if (e.message) {
         app.emitter.emit('vf-toast-push', {label: e.message, type: 'error'})
@@ -186,7 +159,7 @@ onMounted(() => {
   // We re-fetch the data if the path prop is updated
   watch(() => props.path, (path) => {
     fetchPath(path)
-  }) 
+  })
 
   // Emit select event
   ds.onSelect((items: any) => {
@@ -201,3 +174,32 @@ onMounted(() => {
 });
 
 </script>
+
+
+<template>
+  <div class="vuefinder" ref="root" tabindex="0">
+    <div :class="app.theme.actualValue">
+      <div
+        :class="app.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
+        :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
+        class="vuefinder__main__container"
+        @mousedown="app.emitter.emit('vf-contextmenu-hide')"
+        @touchstart="app.emitter.emit('vf-contextmenu-hide')"
+      >
+        <Toolbar/>
+        <Breadcrumb/>
+        <div class="vuefinder__main__content">
+          <TreeView/>
+          <Explorer/>
+        </div>
+        <Statusbar/>
+      </div>
+
+      <Transition name="fade">
+        <Component v-if="app.modal.visible" :is="app.modal.type"/>
+      </Transition>
+
+      <ContextMenu/>
+    </div>
+  </div>
+</template>

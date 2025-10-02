@@ -1,35 +1,10 @@
-<template>
-  <div class="vuefinder__image-preview">
-    <div class="vuefinder__image-preview__header">
-      <h3 class="vuefinder__image-preview__title" id="modal-title" :title="app.modal.data.item.path">
-        {{ app.modal.data.item.basename }}
-      </h3>
-      <div class="vuefinder__image-preview__actions">
-        <button @click="crop" class="vuefinder__image-preview__crop-button" v-if="showEdit">
-          {{ t('Crop') }}
-        </button>
-        <button class="vuefinder__image-preview__edit-button" @click="editMode()" v-if="app.features.includes(FEATURES.EDIT)">
-          {{ showEdit ? t('Cancel') : t('Edit') }}
-        </button>
-      </div>
-    </div>
-
-    <div class="vuefinder__image-preview__image-container">
-      <img ref="image" class="vuefinder__image-preview__image" :src="app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)" alt="">
-    </div>
-
-    <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
-  </div>
-</template>
-
 <script setup lang="ts">
 import Cropper from 'cropperjs';
 import {inject, onMounted, ref} from 'vue';
-import Message from '../Message.vue';
-import {FEATURES} from "../../features.js";
+import Message from '@/components/Message.vue';
+import {FEATURES} from "@/features";
 
 const emit = defineEmits(['success']);
-
 const app = inject('ServiceContainer');
 
 const {t} = app.i18n;
@@ -55,7 +30,7 @@ const editMode = () => {
 
 const crop = () => {
   if (!cropper.value) return;
-  
+
   cropper.value
       .getCroppedCanvas({
         width: 795,
@@ -97,3 +72,29 @@ onMounted(() => {
 });
 
 </script>
+
+<template>
+  <div class="vuefinder__image-preview">
+    <div class="vuefinder__image-preview__header">
+      <h3 class="vuefinder__image-preview__title" id="modal-title" :title="app.modal.data.item.path">
+        {{ app.modal.data.item.basename }}
+      </h3>
+      <div class="vuefinder__image-preview__actions">
+        <button @click="crop" class="vuefinder__image-preview__crop-button" v-if="showEdit">
+          {{ t('Crop') }}
+        </button>
+        <button class="vuefinder__image-preview__edit-button" @click="editMode()"
+                v-if="app.features.includes(FEATURES.EDIT)">
+          {{ showEdit ? t('Cancel') : t('Edit') }}
+        </button>
+      </div>
+    </div>
+
+    <div class="vuefinder__image-preview__image-container">
+      <img ref="image" class="vuefinder__image-preview__image"
+           :src="app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)" alt="">
+    </div>
+
+    <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
+  </div>
+</template>

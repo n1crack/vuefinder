@@ -1,46 +1,3 @@
-<template>
-  <ul ref="parentSubfolderList" class="vuefinder__treesubfolderlist__container">
-    <li
-      v-for="(item, index) in treeSubFolders"
-      :key="item.path"
-      class="vuefinder__treesubfolderlist__item"
-    >
-      <div
-          v-on="dragNDrop.events({...item, type: 'dir'})"
-          class="vuefinder__treesubfolderlist__item-content">
-        <div
-          class="vuefinder__treesubfolderlist__item-toggle"
-          @click="showSubFolders[item.path] = !showSubFolders[item.path]"
-        >
-          <FolderLoaderIndicator :adapter="adapter" :path="item.path" v-model="showSubFolders[item.path]" />
-        </div>
-        <div
-          class="vuefinder__treesubfolderlist__item-link"
-          :title="item.path"
-          @dblclick="showSubFolders[item.path] = !showSubFolders[item.path]"
-          @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.adapter, path:item.path}})"
-        >
-          <div class="vuefinder__treesubfolderlist__item-icon">
-            <OpenFolderSVG v-if="app.fs.path === item.path" />
-            <FolderSVG v-else />
-          </div>
-          <div
-            class="vuefinder__treesubfolderlist__item-text"
-            :class="{
-              'vuefinder__treesubfolderlist__item-text--active': app.fs.path === item.path,
-            }"
-          >
-            {{ item.basename }}
-          </div>
-        </div>
-      </div>
-      <div class="vuefinder__treesubfolderlist__subfolder">
-        <TreeSubfolderList :adapter="props.adapter" :path="item.path" v-show="showSubFolders[item.path]" />
-      </div>
-    </li>
-  </ul>
-</template>
-
 <script setup lang="ts">
 import {computed, inject, onMounted, ref} from 'vue';
 
@@ -74,3 +31,47 @@ const treeSubFolders = computed(() => {
   return app.treeViewData.find((e: any) => e.path === props.path)?.folders || [];
 })
 </script>
+
+<template>
+  <ul ref="parentSubfolderList" class="vuefinder__treesubfolderlist__container">
+    <li
+        v-for="(item, index) in treeSubFolders"
+        :key="item.path"
+        class="vuefinder__treesubfolderlist__item"
+    >
+      <div
+          v-on="dragNDrop.events({...item, type: 'dir'})"
+          class="vuefinder__treesubfolderlist__item-content">
+        <div
+            class="vuefinder__treesubfolderlist__item-toggle"
+            @click="showSubFolders[item.path] = !showSubFolders[item.path]"
+        >
+          <FolderLoaderIndicator :adapter="adapter" :path="item.path" v-model="showSubFolders[item.path]"/>
+        </div>
+        <div
+            class="vuefinder__treesubfolderlist__item-link"
+            :title="item.path"
+            @dblclick="showSubFolders[item.path] = !showSubFolders[item.path]"
+            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.adapter, path:item.path}})"
+        >
+          <div class="vuefinder__treesubfolderlist__item-icon">
+            <OpenFolderSVG v-if="app.fs.path === item.path"/>
+            <FolderSVG v-else/>
+          </div>
+          <div
+              class="vuefinder__treesubfolderlist__item-text"
+              :class="{
+              'vuefinder__treesubfolderlist__item-text--active': app.fs.path === item.path,
+            }"
+          >
+            {{ item.basename }}
+          </div>
+        </div>
+      </div>
+      <div class="vuefinder__treesubfolderlist__subfolder">
+        <TreeSubfolderList :adapter="props.adapter" :path="item.path" v-show="showSubFolders[item.path]"/>
+      </div>
+    </li>
+  </ul>
+</template>
+

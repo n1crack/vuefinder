@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import {inject, onMounted} from 'vue';
+
+const emit = defineEmits(['success']);
+const app = inject('ServiceContainer');
+
+const getAudioUrl = () => {
+  return app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)
+}
+
+onMounted(() => {
+  emit('success');
+});
+
+</script>
+
 <template>
   <div class="vuefinder__audio-preview">
     <h3 class="vuefinder__audio-preview__title" id="modal-title" :title="app.modal.data.item.path">
@@ -11,21 +27,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-
-import {inject, onMounted} from 'vue';
-
-const emit = defineEmits(['success']);
-
-const app = inject('ServiceContainer');
-
-const getAudioUrl = () => {
-  return app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)
-}
-
-onMounted(() => {
-  emit('success');
-});
-
-</script>

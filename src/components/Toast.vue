@@ -1,21 +1,3 @@
-<template>
-  <div :class="['vuefinder__toast', fullScreen.value ? 'vuefinder__toast--fixed' : 'vuefinder__toast--absolute']">
-    <transition-group
-        name="vuefinder__toast-item"
-        enter-active-class="vuefinder__toast-item--enter-active"
-        leave-active-class="vuefinder__toast-item--leave-active"
-        leave-to-class="vuefinder__toast-item--leave-to"
-    >
-      <div v-for="(message, index) in messageQueue"
-           :key="index"
-           @click="removeItem(index)"
-           :class="['vuefinder__toast__message', getTypeClass(message.type)]">
-         {{ message.label }}
-      </div>
-    </transition-group>
-  </div>
-</template>
-
 <script setup lang="ts">
 import {inject, ref} from 'vue';
 
@@ -57,3 +39,21 @@ app.emitter.on('vf-toast-push', (data: any) => {
   }, 5000)
 })
 </script>
+
+<template>
+  <div :class="['vuefinder__toast', fullScreen.value ? 'vuefinder__toast--fixed' : 'vuefinder__toast--absolute']">
+    <transition-group
+        name="vuefinder__toast-item"
+        enter-active-class="vuefinder__toast-item--enter-active"
+        leave-active-class="vuefinder__toast-item--leave-active"
+        leave-to-class="vuefinder__toast-item--leave-to"
+    >
+      <div v-for="(message, index) in messageQueue"
+           :key="index"
+           @click="removeItem(index)"
+           :class="['vuefinder__toast__message', getTypeClass(message.type)]">
+        {{ message.label }}
+      </div>
+    </transition-group>
+  </div>
+</template>

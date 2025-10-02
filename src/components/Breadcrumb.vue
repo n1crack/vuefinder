@@ -1,92 +1,3 @@
-<template>
-  <div class="vuefinder__breadcrumb__container">
-    <span :title="t('Toggle Tree View')">
-      <ListTreeSVG
-          @click="toggleTreeView"
-          class="vuefinder__breadcrumb__toggle-tree"
-          :class="app.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
-      />
-    </span>
-
-    <span :title="t('Go up a directory')">
-      <GoUpSVG
-          v-on="app.fs.isGoUpAvailable() ? dragNDrop.events(getBreadcrumb()) : {}"
-          @click="handleGoUp"
-          :class="app.fs.isGoUpAvailable() ? 'vuefinder__breadcrumb__go-up--active' : 'vuefinder__breadcrumb__go-up--inactive'"
-      />
-    </span>
-
-    <span :title="t('Refresh')" v-if="!app.fs.loading">
-      <RefreshSVG @click="handleRefresh"/>
-    </span>
-    <span :title="t('Cancel')" v-else>
-      <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
-    </span>
-
-    <div v-show="!app.fs.searchMode" @click.self="enterSearchMode" class="group vuefinder__breadcrumb__search-container">
-      <div>
-        <HomeSVG
-          v-on="dragNDrop.events(getBreadcrumb(-1))"
-          @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter}})"/>
-      </div>
-
-      <div class="vuefinder__breadcrumb__list">
-        <div v-if="app.fs.hiddenBreadcrumbs.length" class="vuefinder__breadcrumb__hidden-list" v-click-outside="handleClickOutside">
-          <div class="vuefinder__breadcrumb__separator">/</div>
-          <div class="relative">
-            <span 
-            @dragenter="app.fs.toggleHiddenBreadcrumbs(true)"
-            @click="app.fs.toggleHiddenBreadcrumbs()"
-                   class="vuefinder__breadcrumb__hidden-toggle">
-              <DotsSVG class="vuefinder__breadcrumb__hidden-toggle-icon" />
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div ref="breadcrumbContainer" class="vuefinder__breadcrumb__visible-list" @click.self="enterSearchMode">
-        <div v-for="(item, index) in app.fs.breadcrumbs" :key="index">
-          <span class="vuefinder__breadcrumb__separator">/</span>
-          <span
-              v-on="dragNDrop.events(item)"
-              class="vuefinder__breadcrumb__item"
-              :title="item.basename"
-              @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter, path:item.path}})">{{ item.name }}</span>
-        </div>
-      </div>
-
-      <LoadingSVG v-if="app.loadingIndicator === 'circular' && app.fs.loading"/>
-    </div>
-    <div v-show="app.fs.searchMode" class="vuefinder__breadcrumb__search-mode">
-      <div>
-        <SearchSVG />
-      </div>
-      <input
-          ref="searchInput"
-          @keydown.esc="exitSearchMode"
-          @blur="handleBlur"
-          v-model="query"
-          :placeholder="t('Search anything..')"
-          class="vuefinder__breadcrumb__search-input"
-          type="text">
-      <ExitSVG @click="exitSearchMode"/>
-    </div>
-
-    <div v-show="app.fs.showHiddenBreadcrumbs"
-        class="vuefinder__breadcrumb__hidden-dropdown">
-      <div
-          v-for="(item, index) in app.fs.hiddenBreadcrumbs" :key="index"
-          v-on="dragNDrop.events(item)"
-          @click="handleHiddenBreadcrumbsClick(item)"
-          class="vuefinder__breadcrumb__hidden-item">
-        <div class="vuefinder__breadcrumb__hidden-item-content">
-          <span><FolderSVG class="vuefinder__breadcrumb__hidden-item-icon" /></span> <span class="vuefinder__breadcrumb__hidden-item-text">{{ item.name}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import {inject, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef';
@@ -111,10 +22,10 @@ const {setStore} = app.storage;
 
 // dynamic shown items calculation for breadcrumbs
 const breadcrumbContainer = ref<HTMLElement | null>(null);
-const breadcrumbContainerWidth = useDebouncedRef(0,100);
+const breadcrumbContainerWidth = useDebouncedRef(0, 100);
 watch(breadcrumbContainerWidth, newQuery => {
   if (!breadcrumbContainer.value) return;
-  
+
   const children = breadcrumbContainer.value.children;
   let totalWidth = 0;
   let count = 0;
@@ -123,7 +34,7 @@ watch(breadcrumbContainerWidth, newQuery => {
 
   app.fs.limitBreadcrumbItems(max_shown_items);
   nextTick(() => {
-    for (let i = children.length-1; i >= 0; i--) {
+    for (let i = children.length - 1; i >= 0; i--) {
       const child = children[i] as HTMLElement;
       if (totalWidth + child.offsetWidth > breadcrumbContainerWidth.value - 40) {
         break;
@@ -140,22 +51,22 @@ watch(breadcrumbContainerWidth, newQuery => {
 });
 
 const updateContainerWidth = () => {
-    if (breadcrumbContainer.value) {
-      breadcrumbContainerWidth.value = breadcrumbContainer.value.offsetWidth;
-    }
+  if (breadcrumbContainer.value) {
+    breadcrumbContainerWidth.value = breadcrumbContainer.value.offsetWidth;
+  }
 }
 let resizeObserver = ref<ResizeObserver | null>(null);
 
 onMounted(() => {
-    resizeObserver.value = new ResizeObserver(updateContainerWidth);
-    if (breadcrumbContainer.value) {
-      resizeObserver.value.observe(breadcrumbContainer.value);
-    }
+  resizeObserver.value = new ResizeObserver(updateContainerWidth);
+  if (breadcrumbContainer.value) {
+    resizeObserver.value.observe(breadcrumbContainer.value);
+  }
 });
 onUnmounted(() => {
-    if (resizeObserver.value) {
-      resizeObserver.value.disconnect();
-    }
+  if (resizeObserver.value) {
+    resizeObserver.value.disconnect();
+  }
 });
 
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
@@ -168,7 +79,7 @@ function getBreadcrumb(index: number | null = null) {
 const handleRefresh = () => {
   exitSearchMode();
 
-  app.emitter.emit('vf-fetch',{params:{q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}} );
+  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
 }
 
 const handleGoUp = () => {
@@ -275,3 +186,96 @@ const handleBlur = () => {
 </script>
 
 
+<template>
+  <div class="vuefinder__breadcrumb__container">
+    <span :title="t('Toggle Tree View')">
+      <ListTreeSVG
+          @click="toggleTreeView"
+          class="vuefinder__breadcrumb__toggle-tree"
+          :class="app.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
+      />
+    </span>
+
+    <span :title="t('Go up a directory')">
+      <GoUpSVG
+          v-on="app.fs.isGoUpAvailable() ? dragNDrop.events(getBreadcrumb()) : {}"
+          @click="handleGoUp"
+          :class="app.fs.isGoUpAvailable() ? 'vuefinder__breadcrumb__go-up--active' : 'vuefinder__breadcrumb__go-up--inactive'"
+      />
+    </span>
+
+    <span :title="t('Refresh')" v-if="!app.fs.loading">
+      <RefreshSVG @click="handleRefresh"/>
+    </span>
+    <span :title="t('Cancel')" v-else>
+      <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
+    </span>
+
+    <div v-show="!app.fs.searchMode" @click.self="enterSearchMode"
+         class="group vuefinder__breadcrumb__search-container">
+      <div>
+        <HomeSVG
+            v-on="dragNDrop.events(getBreadcrumb(-1))"
+            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter}})"/>
+      </div>
+
+      <div class="vuefinder__breadcrumb__list">
+        <div v-if="app.fs.hiddenBreadcrumbs.length" class="vuefinder__breadcrumb__hidden-list"
+             v-click-outside="handleClickOutside">
+          <div class="vuefinder__breadcrumb__separator">/</div>
+          <div class="relative">
+            <span
+                @dragenter="app.fs.toggleHiddenBreadcrumbs(true)"
+                @click="app.fs.toggleHiddenBreadcrumbs()"
+                class="vuefinder__breadcrumb__hidden-toggle">
+              <DotsSVG class="vuefinder__breadcrumb__hidden-toggle-icon"/>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div ref="breadcrumbContainer" class="vuefinder__breadcrumb__visible-list" @click.self="enterSearchMode">
+        <div v-for="(item, index) in app.fs.breadcrumbs" :key="index">
+          <span class="vuefinder__breadcrumb__separator">/</span>
+          <span
+              v-on="dragNDrop.events(item)"
+              class="vuefinder__breadcrumb__item"
+              :title="item.basename"
+              @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter, path:item.path}})">{{
+              item.name
+            }}</span>
+        </div>
+      </div>
+
+      <LoadingSVG v-if="app.loadingIndicator === 'circular' && app.fs.loading"/>
+    </div>
+    <div v-show="app.fs.searchMode" class="vuefinder__breadcrumb__search-mode">
+      <div>
+        <SearchSVG/>
+      </div>
+      <input
+          ref="searchInput"
+          @keydown.esc="exitSearchMode"
+          @blur="handleBlur"
+          v-model="query"
+          :placeholder="t('Search anything..')"
+          class="vuefinder__breadcrumb__search-input"
+          type="text">
+      <ExitSVG @click="exitSearchMode"/>
+    </div>
+
+    <div v-show="app.fs.showHiddenBreadcrumbs"
+         class="vuefinder__breadcrumb__hidden-dropdown">
+      <div
+          v-for="(item, index) in app.fs.hiddenBreadcrumbs" :key="index"
+          v-on="dragNDrop.events(item)"
+          @click="handleHiddenBreadcrumbsClick(item)"
+          class="vuefinder__breadcrumb__hidden-item">
+        <div class="vuefinder__breadcrumb__hidden-item-content">
+          <span><FolderSVG class="vuefinder__breadcrumb__hidden-item-icon"/></span> <span
+            class="vuefinder__breadcrumb__hidden-item-text">{{ item.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

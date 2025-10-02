@@ -1,29 +1,9 @@
-<template>
-  <div
-    :style="{opacity: isDragging($el) || isCut() ? '0.5 !important' : ''}"
-    :class="['vuefinder__item', 'vf-item-' + ds.explorerId]"
-    :data-type="item.type"
-    :key="item.path"
-    :data-item="JSON.stringify(item)"
-    :data-index="index"
-    @dragstart="handleDragStart($event, item)"
-    v-on="dragNDrop.events(item)"
-    @dblclick="openItem(item)"
-    @touchstart="delayedOpenItem($event)"
-    @touchend="clearTimeOut()"
-    @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', { event: $event, items: ds.getSelected(), target: item })"
-  >
-    <slot/>
-    <PinSVG class="vuefinder__item--pinned" v-if="app.pinnedFolders.find((pin: any) => pin.path === item.path)"/>
-  </div>
-</template>
-
 <script setup lang="ts">
 import {inject} from 'vue';
 import PinSVG from "@/assets/icons/pin.svg";
-import {useDragNDrop} from '../composables/useDragNDrop';
-import { useCopyPaste } from '../composables/useCopyPaste';
-import type { DirEntry } from '../types'
+import {useDragNDrop} from '@/composables/useDragNDrop';
+import {useCopyPaste} from '@/composables/useCopyPaste';
+import type {DirEntry} from '@/types'
 
 const app = inject('ServiceContainer');
 const ds = app.dragSelect;
@@ -41,16 +21,16 @@ function isDragging($el: any) {
 
 function isCut() {
   return (
-    copyPaste.isCut.value && 
-    copyPaste.copiedItems.value.find((item: any) => item.path === props.item.path)
+      copyPaste.isCut.value &&
+      copyPaste.copiedItems.value.find((item: any) => item.path === props.item.path)
   )
 }
 
 const openItem = (item: any) => {
   const contextMenuItem = app.contextMenuItems.find((cmi: any) => {
     return cmi.show(app, {
-      searchQuery: '', 
-      items: [item], 
+      searchQuery: '',
+      items: [item],
       target: item,
     })
   })
@@ -83,17 +63,17 @@ const clearTimeOut = () => {
 }
 
 const delayedOpenItem = ($event: any) => {
-    if(!tappedTwice) {
-        tappedTwice = true; 
-        doubleTapTimeOut = setTimeout(() => tappedTwice = false, 300)
-    } else {
-        tappedTwice = false; 
-        openItem(props.item);
-        if (touchTimeOut) {
-          clearTimeout(touchTimeOut);
-        }
-        return false;
+  if (!tappedTwice) {
+    tappedTwice = true;
+    doubleTapTimeOut = setTimeout(() => tappedTwice = false, 300)
+  } else {
+    tappedTwice = false;
+    openItem(props.item);
+    if (touchTimeOut) {
+      clearTimeout(touchTimeOut);
     }
+    return false;
+  }
   touchTimeOut = setTimeout(() => {
     const cmEvent = new MouseEvent("contextmenu", {
       bubbles: true,
@@ -110,3 +90,23 @@ const delayedOpenItem = ($event: any) => {
 }
 
 </script>
+
+<template>
+  <div
+      :style="{opacity: isDragging($el) || isCut() ? '0.5 !important' : ''}"
+      :class="['vuefinder__item', 'vf-item-' + ds.explorerId]"
+      :data-type="item.type"
+      :key="item.path"
+      :data-item="JSON.stringify(item)"
+      :data-index="index"
+      @dragstart="handleDragStart($event, item)"
+      v-on="dragNDrop.events(item)"
+      @dblclick="openItem(item)"
+      @touchstart="delayedOpenItem($event)"
+      @touchend="clearTimeOut()"
+      @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', { event: $event, items: ds.getSelected(), target: item })"
+  >
+    <slot/>
+    <PinSVG class="vuefinder__item--pinned" v-if="app.pinnedFolders.find((pin: any) => pin.path === item.path)"/>
+  </div>
+</template>

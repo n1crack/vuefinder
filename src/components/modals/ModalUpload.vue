@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import ModalLayout from './ModalLayout.vue';
 import {inject} from 'vue';
-import Message from '../Message.vue';
-import title_shorten from "../../utils/title_shorten";
-import ModalHeader from "./ModalHeader.vue";
-import UploadSVG from "@/assets/icons/upload.svg";
+import Message from '@/components/Message.vue';
+import ModalHeader from "@/components/modals/ModalHeader.vue";
+import ModalLayout from '@/components/modals/ModalLayout.vue';
 import useUpload from '@/composables/useUpload';
+import title_shorten from "@/utils/title_shorten";
+import UploadSVG from "@/assets/icons/upload.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;

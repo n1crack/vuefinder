@@ -1,29 +1,8 @@
-<template>
-  <ModalLayout>
-    <div>
-      <ModalHeader :icon="NewFolderSVG" :title="t('New Folder')"></ModalHeader>
-      <div class="vuefinder__new-folder-modal__content">
-        <div class="vuefinder__new-folder-modal__form">
-          <p class="vuefinder__new-folder-modal__description">{{ t('Create a new folder') }}</p>
-          <input v-model="name" @keyup.enter="createFolder"
-                 class="vuefinder__new-folder-modal__input" :placeholder="t('Folder Name')" type="text">
-          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
-        </div>
-      </div>
-    </div>
-
-    <template v-slot:buttons>
-      <button type="button" @click="createFolder" class="vf-btn vf-btn-primary">{{ t('Create') }}</button>
-      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
-    </template>
-  </ModalLayout>
-</template>
-
 <script setup lang="ts">
-import ModalLayout from './ModalLayout.vue';
 import {inject, ref} from 'vue';
-import Message from '../Message.vue';
-import ModalHeader from "./ModalHeader.vue";
+import Message from '@/components/Message.vue';
+import ModalLayout from '@/components/modals/ModalLayout.vue';
+import ModalHeader from "@/components/modals/ModalHeader.vue";
 import NewFolderSVG from "@/assets/icons/new_folder.svg";
 
 const app = inject('ServiceContainer');
@@ -56,3 +35,24 @@ const createFolder = () => {
 };
 
 </script>
+
+<template>
+  <ModalLayout>
+    <div>
+      <ModalHeader :icon="NewFolderSVG" :title="t('New Folder')"></ModalHeader>
+      <div class="vuefinder__new-folder-modal__content">
+        <div class="vuefinder__new-folder-modal__form">
+          <p class="vuefinder__new-folder-modal__description">{{ t('Create a new folder') }}</p>
+          <input v-model="name" @keyup.enter="createFolder"
+                 class="vuefinder__new-folder-modal__input" :placeholder="t('Folder Name')" type="text">
+          <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
+        </div>
+      </div>
+    </div>
+
+    <template v-slot:buttons>
+      <button type="button" @click="createFolder" class="vf-btn vf-btn-primary">{{ t('Create') }}</button>
+      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
+    </template>
+  </ModalLayout>
+</template>

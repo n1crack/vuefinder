@@ -1,24 +1,5 @@
-<template>
-  <ul ref="contextmenu" v-show="context.active" :style="context.positions"
-      class="vuefinder__context-menu">
-    <li class="vuefinder__context-menu__item" v-for="(item) in context.items" :key="item.title">
-      <template v-if="item.link">
-        <a class="vuefinder__context-menu__link" target="_blank" :href="link(item)" :download="link(item)"
-           @click="app.emitter.emit('vf-contextmenu-hide')">
-          <span>{{ item.title(app.i18n) }}</span>
-        </a>
-      </template>
-      <template v-else>
-        <div class="vuefinder__context-menu__action" @click="run(item)">
-          <span>{{ item.title(app.i18n) }}</span>
-        </div>
-      </template>
-    </li>
-  </ul>
-</template>
-
 <script setup lang="ts">
-import { inject, nextTick, reactive, ref} from 'vue';
+import {inject, nextTick, reactive, ref} from 'vue';
 
 const app = inject('ServiceContainer');
 
@@ -36,7 +17,6 @@ const context = reactive({
 });
 
 
-
 app.emitter.on('vf-context-selected', (items: any) => {
   selectedItems.value = items;
 })
@@ -50,15 +30,15 @@ const run = (item: any) => {
   item.action(app, selectedItems.value);
 };
 
-app.emitter.on('vf-search-query', ({newQuery}: {newQuery: string}) => {
+app.emitter.on('vf-search-query', ({newQuery}: { newQuery: string }) => {
   searchQuery.value = newQuery;
 });
 
-app.emitter.on('vf-contextmenu-show', ({event, items, target = null}: {event: any, items: any, target?: any}) => {
+app.emitter.on('vf-contextmenu-show', ({event, items, target = null}: { event: any, items: any, target?: any }) => {
   context.items = app.contextMenuItems.filter((item: any) => {
     return item.show(app, {
-      searchQuery: searchQuery.value, 
-      items, 
+      searchQuery: searchQuery.value,
+      items,
       target
     })
   });
@@ -116,3 +96,22 @@ const showContextMenu = (event: any) => {
 };
 
 </script>
+
+<template>
+  <ul ref="contextmenu" v-show="context.active" :style="context.positions"
+      class="vuefinder__context-menu">
+    <li class="vuefinder__context-menu__item" v-for="(item) in context.items" :key="item.title">
+      <template v-if="item.link">
+        <a class="vuefinder__context-menu__link" target="_blank" :href="link(item)" :download="link(item)"
+           @click="app.emitter.emit('vf-contextmenu-hide')">
+          <span>{{ item.title(app.i18n) }}</span>
+        </a>
+      </template>
+      <template v-else>
+        <div class="vuefinder__context-menu__action" @click="run(item)">
+          <span>{{ item.title(app.i18n) }}</span>
+        </div>
+      </template>
+    </li>
+  </ul>
+</template>

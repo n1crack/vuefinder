@@ -1,3 +1,12 @@
+<script setup lang="ts">
+
+defineProps<{
+  title: string
+  icon: any
+}>()
+
+</script>
+
 <template>
   <div class="vuefinder__modal-header">
     <div class="vuefinder__modal-header__icon-container">
@@ -7,11 +16,3 @@
   </div>
 </template>
 
-<script setup lang="ts">
-
-defineProps<{
-  title: string
-  icon: any
-}>()
-
-</script>
