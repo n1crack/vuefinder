@@ -16,15 +16,15 @@
 }
 
 .vuefinder__upload-modal__file-entry {
-  @apply flex hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300;
+  @apply flex p-0.5 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-300;
 }
 
 .vuefinder__upload-modal__file-icon {
-  @apply rounded flex shrink-0 w-6 h-6 border bg-gray-50 text-xs cursor-default dark:border-gray-700 dark:bg-gray-800 dark:text-gray-50;
+  @apply rounded flex shrink-0 w-6 h-6 border  bg-gray-50 text-xs cursor-default border-neutral-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-50;
 }
 
 .vuefinder__upload-modal__file-icon-text {
-  @apply text-base m-auto;
+  @apply text-base m-auto ;
 }
 
 .vuefinder__upload-modal__file-info {
@@ -36,11 +36,11 @@
 }
 
 .vuefinder__upload-modal__file-status {
-  @apply flex break-all text-left;
+  @apply flex break-all text-left ;
 }
 
 .vuefinder .vuefinder__upload-modal__file-remove {
-  @apply rounded w-5 h-5 border text-base leading-none font-medium focus:outline-none dark:border-gray-200 dark:text-gray-400 dark:hover:text-gray-200 dark:bg-gray-600 ml-auto sm:text-xs hover:text-red-600;
+  @apply rounded w-5 h-5 border border-neutral-400 dark:border-gray-200 justify-center items-center text-base leading-none font-medium focus:outline-none dark:text-gray-400 dark:hover:text-gray-200 dark:bg-gray-600 ml-auto sm:text-xs hover:text-red-600;
 }
 
 .vuefinder .vuefinder__upload-modal__file-remove.disabled {
