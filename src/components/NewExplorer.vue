@@ -1,8 +1,6 @@
 <script setup lang="ts">
-  import { ref, onMounted, onUnmounted, h } from 'vue';
+  import { ref, onMounted, onUnmounted, h, computed } from 'vue';
   import Selecto from 'selecto';
-  import { OverlayScrollbars } from 'overlayscrollbars';
-  import 'overlayscrollbars/overlayscrollbars.css';
   
   // Icon Components
   const FolderIcon = () => h('svg', { 
@@ -57,9 +55,11 @@
   const scrollContainer = ref(null);
   const files = ref([]);
   const selectedIds = ref(new Set());
+  const itemsPerRow = ref(6);
+  const scrollTop = ref(0);
+  const containerHeight = ref(600);
   
   let selecto = null;
-  let overlayScrollbars = null;
   
   // Generate files
   const generateFiles = () => {
@@ -97,6 +97,40 @@
     return icons[type] || DocumentIcon;
   };
   
+  // Custom virtualizer
+  const rowHeight = 100; // Height of each row
+  const overscan = 2; // Extra rows to render
+  
+  const totalRows = computed(() => Math.ceil(files.value.length / itemsPerRow.value));
+  const totalHeight = computed(() => totalRows.value * rowHeight);
+  
+  const visibleRange = computed(() => {
+    const start = Math.max(0, Math.floor(scrollTop.value / rowHeight) - overscan);
+    const end = Math.min(totalRows.value, Math.ceil((scrollTop.value + containerHeight.value) / rowHeight) + overscan);
+    return { start, end };
+  });
+  
+  const visibleRows = computed(() => {
+    const { start, end } = visibleRange.value;
+    return Array.from({ length: end - start }, (_, i) => start + i);
+  });
+  
+  const getRowFiles = (rowIndex) => {
+    const startIndex = rowIndex * itemsPerRow.value;
+    return files.value.slice(startIndex, startIndex + itemsPerRow.value);
+  };
+  
+  const updateItemsPerRow = () => {
+    if (scrollContainer.value) {
+      const width = scrollContainer.value.clientWidth - 48;
+      const itemWidth = 120; // w-28 = 112px + gap
+      itemsPerRow.value = Math.max(Math.floor(width / itemWidth), 2);
+    }
+  };
+  
+  const handleScroll = (event) => {
+    scrollTop.value = event.target.scrollTop;
+  };
   
   const handleClearSelection = () => {
     selectedIds.value = new Set();
@@ -114,20 +148,14 @@
   
   onMounted(() => {
     files.value = generateFiles();
+    updateItemsPerRow();
     
     // Debug: Log to console to verify component is working
     console.log('NewExplorer mounted with', files.value.length, 'files');
-  
-    // Initialize OverlayScrollbars
-    if (scrollContainer.value) {
-      overlayScrollbars = OverlayScrollbars(scrollContainer.value, {
-        scrollbars: {
-          autoHide: 'scroll',
-          autoHideDelay: 800,
-        },
-      });
-    }
-  
+    console.log('Items per row:', itemsPerRow.value);
+    console.log('Total rows:', totalRows.value);
+    console.log('Visible rows:', visibleRows.value);
+
     // Initialize Selecto
     selecto = new Selecto({
       container: scrollContainer.value,
@@ -159,20 +187,16 @@
       selectedIds.value = newSelectedIds;
     });
   
+    window.addEventListener('resize', updateItemsPerRow);
   });
 
   onUnmounted(() => {
     if (selecto) selecto.destroy();
-    if (overlayScrollbars) overlayScrollbars.destroy();
+    window.removeEventListener('resize', updateItemsPerRow);
   });
   </script>
   
   <style scoped>
-  .os-scrollbar {
-    --os-handle-bg: rgba(59, 130, 246, 0.5);
-    --os-handle-bg-hover: rgba(59, 130, 246, 0.7);
-    --os-handle-bg-active: rgba(59, 130, 246, 0.9);
-  }
   </style>
 
 <template>
@@ -210,44 +234,59 @@
       </div>
   
       <!-- File Grid -->
-      <div ref="scrollContainer" class="flex-1 overflow-auto p-6">
-        <div class="grid grid-cols-6 gap-4">
+      <div ref="scrollContainer" class="flex-1 overflow-auto p-6" style="height: 600px;" @scroll="handleScroll">
+        <div :style="{ height: `${totalHeight}px`, position: 'relative' }">
           <div
-            v-for="file in files"
-            :key="file.id"
-            :data-id="file.id"
-            :class="[
-              'file-item flex-shrink-0 w-28 p-2 rounded-lg cursor-pointer transition-all',
-              selectedIds.has(file.id) 
-                ? 'selected bg-blue-600 shadow-lg scale-105' 
-                : 'bg-gray-800 hover:bg-gray-700 hover:shadow-md'
-            ]"
+            v-for="rowIndex in visibleRows"
+            :key="rowIndex"
+            :style="{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: `${rowHeight}px`,
+              transform: `translateY(${rowIndex * rowHeight}px)`,
+            }"
           >
-            <div class="flex flex-col items-center gap-1 relative">
-              <div :class="[
-                'w-10 h-10 rounded-lg flex items-center justify-center',
-                selectedIds.has(file.id) ? 'bg-blue-700' : 'bg-gray-700'
-              ]">
-                <component :is="getFileIcon(file.type)" class="w-6 h-6" />
-              </div>
-              <div class="w-full text-center">
-                <p :class="[
-                  'text-xs font-medium truncate leading-tight',
-                  selectedIds.has(file.id) ? 'text-white' : 'text-gray-200'
-                ]">
-                  {{ file.name }}
-                </p>
-                <p :class="[
-                  'text-xs leading-tight',
-                  selectedIds.has(file.id) ? 'text-blue-200' : 'text-gray-500'
-                ]">
-                  {{ file.size }}
-                </p>
-              </div>
-              <div v-if="selectedIds.has(file.id)" class="absolute top-0 right-0 w-4 h-4 bg-white rounded-full flex items-center justify-center">
-                <svg class="w-2 h-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
+            <div class="grid grid-cols-6 gap-4">
+              <div
+                v-for="file in getRowFiles(rowIndex)"
+                :key="file.id"
+                :data-id="file.id"
+                :class="[
+                  'file-item flex-shrink-0 w-28 p-2 rounded-lg cursor-pointer transition-all',
+                  selectedIds.has(file.id) 
+                    ? 'selected bg-blue-600 shadow-lg scale-105' 
+                    : 'bg-gray-800 hover:bg-gray-700 hover:shadow-md'
+                ]"
+              >
+                <div class="flex flex-col items-center gap-1 relative">
+                  <div :class="[
+                    'w-10 h-10 rounded-lg flex items-center justify-center',
+                    selectedIds.has(file.id) ? 'bg-blue-700' : 'bg-gray-700'
+                  ]">
+                    <component :is="getFileIcon(file.type)" class="w-6 h-6" />
+                  </div>
+                  <div class="w-full text-center">
+                    <p :class="[
+                      'text-xs font-medium truncate leading-tight',
+                      selectedIds.has(file.id) ? 'text-white' : 'text-gray-200'
+                    ]">
+                      {{ file.name }}
+                    </p>
+                    <p :class="[
+                      'text-xs leading-tight',
+                      selectedIds.has(file.id) ? 'text-blue-200' : 'text-gray-500'
+                    ]">
+                      {{ file.size }}
+                    </p>
+                  </div>
+                  <div v-if="selectedIds.has(file.id)" class="absolute top-0 right-0 w-4 h-4 bg-white rounded-full flex items-center justify-center">
+                    <svg class="w-2 h-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
