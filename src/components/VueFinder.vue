@@ -206,5 +206,6 @@ onMounted(() => {
 
       <ContextMenu/>
     </div>
+    <NewExplorer/>
   </div>
 </template>
