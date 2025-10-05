@@ -28,6 +28,7 @@ const {
 
 // Constants for template
 const rowHeight = 100;
+const totalSelectedItem = ref(0);
 
 // Use getRowItems from composable instead of getRowFiles
 const getRowFiles = (rowIndex: number): FileItem[] => {
@@ -139,7 +140,17 @@ const onMove = (event: SelectionEvent) => {
 };
 
 const onStop = (event: SelectionEvent) => {
+  selectSelectionRange(event);
+  cleanupSelection(event)
+  refreshSelection(event)
+  totalSelectedItem.value = selectedIds.size;
+}
 
+const onInit = (selection: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+  selectionObject.value = selection
+}
+
+const selectSelectionRange = (event: SelectionEvent) => {
   if (event.event && selectionData.current.size > 0) {
     const minMaxIds = getSelectionRange(new Set(
         [
@@ -161,12 +172,6 @@ const onStop = (event: SelectionEvent) => {
       });
     }
   }
-  cleanupSelection(event)
-  refreshSelection(event)
-}
-
-const onInit = (selection: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
-  selectionObject.value = selection
 }
 
 onMounted(() => {
@@ -185,7 +190,7 @@ const containerHeight = ref(400)
 
 
 <template>
-  <div class="w-full  bg-gray-900 flex flex-col" >
+  <div class="w-full bg-gray-900 flex flex-col" >
     <!-- Toolbar -->
     <div class="bg-gray-800 border-b border-gray-700 px-6 py-4">
       <div class="flex items-center justify-between">
@@ -193,9 +198,9 @@ const containerHeight = ref(400)
           <h1 class="text-xl font-bold text-white">File Manager</h1>
           <div class="flex items-center gap-2 text-sm text-gray-400">
             <span>{{ files.length }} items</span>
-            <template v-if="selectedIds.size > 0">
+            <template v-if="totalSelectedItem > 0">
               <span>•</span>
-              <span class="text-blue-400">{{ selectedIds.size }} selected</span>
+              <span class="text-blue-400">{{ totalSelectedItem }} selected</span>
               <template v-if="getSelectionRange(selectionData.current)">
                 <span>•</span>
                 <span class="text-green-400">
