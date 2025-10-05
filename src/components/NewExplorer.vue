@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref, onMounted, onUnmounted, reactive, shallowRef} from 'vue';
-import SelectionArea from '@viselect/vanilla';
+import SelectionArea, {SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import {generateFiles, getFileIcon, type FileItem} from './temp/NewExplorerUtils';
 // Refs
@@ -8,28 +8,9 @@ const scrollContent = ref<HTMLElement | null>(null);
 const files = ref<FileItem[]>([]);
 const selectedIds = reactive(new Set<number>());
 // Minimal typing for vanilla viselect instance and events we use
-type SelectionInstance = {
-  getSelection(): Element[];
-  select(el: Element, silent?: boolean): void;
-  deselect(el: Element, silent?: boolean): void;
-  clearSelection(silent?: boolean, keepStore?: boolean): void;
-  resolveSelectables(): void;
-  on(event: string, cb: (evt: SelectionEventPayload) => void): SelectionInstance;
-  destroy(): void;
-};
 
-type SelectionStore = {
-  changed: { added: Element[]; removed: Element[] };
-  stored: Element[];
-};
 
-type SelectionEventPayload = {
-  selection: SelectionInstance;
-  store: SelectionStore;
-  event: MouseEvent | TouchEvent | KeyboardEvent | null;
-};
-
-const selectionObject = shallowRef<SelectionInstance | null>(null);
+const selectionObject = shallowRef<SelectionArea | null>(null);
 
 // Use virtual columns composable
 const {
@@ -95,13 +76,14 @@ const extractIds = (els: Element[]): number[] => {
 
 const selectionData = ref(new Set([]));
 
-const cleanupSelection = (event: SelectionEventPayload) => {
+
+const cleanupSelection = (event: SelectionEvent) => {
   event.selection.getSelection().forEach((item: Element) => {
     event.selection.deselect(item, true);
   })
 }
 
-const refreshSelection = (event: SelectionEventPayload) => {
+const refreshSelection = (event: SelectionEvent) => {
   selectedIds.forEach(id => {
     const el = document.querySelector(`[data-key="${id}"]`);
     if (el) {
@@ -109,22 +91,23 @@ const refreshSelection = (event: SelectionEventPayload) => {
     }
   });
 }
-const onBeforeDrag = (event: SelectionEventPayload) => {
 
+const onBeforeDrag = (event: SelectionEvent) => {
   console.log('onBeforeDrag', event)
 }
 
-const onBeforeStart = (event: SelectionEventPayload) => {
-
+const onBeforeStart = (event: SelectionEvent) => {
+ 
   event.selection.resolveSelectables();
   cleanupSelection(event)
   refreshSelection(event)
 }
 
-const onStart = ({event, selection}: SelectionEventPayload) => {
+const onStart = ({event, selection}: SelectionEvent) => {
   if (event && 'type' in event && event.type === 'touchend') {
-    (event as TouchEvent).preventDefault();
+    event.preventDefault();
   }
+  
   const mouse = event as MouseEvent | null;
   if (!mouse?.ctrlKey && !mouse?.metaKey) {
     selectedIds.clear();
@@ -133,7 +116,7 @@ const onStart = ({event, selection}: SelectionEventPayload) => {
   selectionData.value.clear()
 };
 
-const onMove = (event: SelectionEventPayload) => {
+const onMove = (event: SelectionEvent) => {
 
   const selection = event.selection;
 
@@ -161,7 +144,7 @@ const onMove = (event: SelectionEventPayload) => {
   refreshSelection(event)
 };
 
-const onStop = (event: SelectionEventPayload) => {
+const onStop = (event: SelectionEvent) => {
   selectSelectionRange(event);
   cleanupSelection(event)
   refreshSelection(event)
@@ -170,7 +153,7 @@ const onStop = (event: SelectionEventPayload) => {
 
 // Vanilla init happens in onMounted
 
-const selectSelectionRange = (event: SelectionEventPayload) => {
+const selectSelectionRange = (event: SelectionEvent) => {
   if (event.event && selectionData.value.size > 0) {
     const minMaxIds = getSelectionRange(new Set(
         [
