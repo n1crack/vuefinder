@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import {ref, onMounted, onUnmounted, reactive, shallowRef} from 'vue';
-import SelectionArea, {SelectionEvent} from '@viselect/vanilla';
 import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef, type TemplateRef} from 'vue';
-import SelectionArea, { type SelectionEvent} from '@viselect/vanilla';
+import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import {generateFiles, getFileIcon, type FileItem} from './temp/NewExplorerUtils';
-// Refs
-const scrollContent = ref<HTMLElement | null>(null);
+import {useAutoResetRef} from '@/composables/useAutoResetRef';
+
+
+const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
 const files = ref<FileItem[]>([]);
 const selectedIds = reactive(new Set<number>());
-// Minimal typing for vanilla viselect instance and events we use
-
+const [dblClickAwaiting, setDblClickAwaiting, onReleaseDblClickAwaiting] = useAutoResetRef(300);
 
 const selectionObject = shallowRef<SelectionArea | null>(null);
-const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer') ;
+const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 
-// Use virtual columns composable
+
 const {
   itemsPerRow,
   totalHeight,
@@ -64,8 +63,6 @@ const getSelectionRange = (selectionParam: Set<number>) => {
   return {minRow, maxRow, minCol, maxCol};
 };
 
-// updateItemsPerRow and handleScroll are now provided by the composable
-
 const handleSelectAll = () => {
   selectedIds.clear();
   files.value.forEach(f => selectedIds.add(f.id));
@@ -77,8 +74,7 @@ const extractIds = (els: Element[]): number[] => {
       .map(Number);
 };
 
-const selectionData = ref(new Set([]));
-
+const selectionData = ref(new Set<number>([]));
 
 const cleanupSelection = (event: SelectionEvent) => {
   event.selection.getSelection().forEach((item: Element) => {
@@ -96,21 +92,23 @@ const refreshSelection = (event: SelectionEvent) => {
 }
 
 const onBeforeDrag = (event: SelectionEvent) => {
-  console.log('onBeforeDrag', event)
+  console.log('onBeforeDrag')
 }
 
 const onBeforeStart = (event: SelectionEvent) => {
- 
+  console.log('onBeforeStart')
+
   event.selection.resolveSelectables();
   cleanupSelection(event)
   refreshSelection(event)
 }
 
 const onStart = ({event, selection}: SelectionEvent) => {
+
   if (event && 'type' in event && event.type === 'touchend') {
     event.preventDefault();
   }
-  
+
   const mouse = event as MouseEvent | null;
   if (!mouse?.ctrlKey && !mouse?.metaKey) {
     selectedIds.clear();
@@ -120,7 +118,7 @@ const onStart = ({event, selection}: SelectionEvent) => {
 };
 
 const onMove = (event: SelectionEvent) => {
-
+  console.log('onMove')
   const selection = event.selection;
 
   const addedData = extractIds(event.store.changed.added);
@@ -148,6 +146,8 @@ const onMove = (event: SelectionEvent) => {
 };
 
 const onStop = (event: SelectionEvent) => {
+  console.log('onStop')
+
   selectSelectionRange(event);
   cleanupSelection(event)
   refreshSelection(event)
@@ -182,11 +182,32 @@ const selectSelectionRange = (event: SelectionEvent) => {
 
 onMounted(() => {
   files.value = generateFiles();
- 
+
   selectionObject.value = new SelectionArea({
     selectables: ['.file-item'],
-    boundaries: ['.scroller']
-  }); 
+    boundaries: ['.scroller'],
+
+    behaviour: {
+      overlap: 'invert',
+      intersect: 'touch',
+      startThreshold: 8,
+      triggers: [0],
+      scrolling: {
+        speedDivider: 10,
+        manualSpeed: 750,
+        startScrollMargins: {x: 0, y: 170}
+      }
+    },
+    features: {
+      touch: true,
+      range: true,
+      deselectOnBlur: true,
+      singleTap: {
+        allow: false,
+        intersect: 'native'
+      }
+    }
+  });
 
   selectionObject.value.on('beforestart', onBeforeStart);
   selectionObject.value.on('start', onStart);
@@ -209,13 +230,48 @@ defineExpose({
   selectedIds,
   files
 });
-const containerHeight = ref(400)
 const containerHeight = ref(500)
+
+const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
+  console.log('handleItemClick')
+  const el = event.target?.closest(".file-item");
+  const mouse = event as MouseEvent | null;
+  if (!mouse?.ctrlKey && !mouse?.metaKey) {
+    selectedIds.clear();
+    selectionObject.value?.clearSelection(true, true);
+  }
+  if (el) {
+    const id = Number(el.getAttribute('data-key'));
+    if (selectedIds.has(id)) {
+      selectedIds.delete(id);
+    } else {
+      selectedIds.add(id);
+    }
+    if (selectedIds.size === 0) {
+
+    }
+  }
+}
+
+const handleItemDblClick = (event: MouseEvent) => {
+  console.log('handleItemDblClick')
+}
+
+const handleItemContextMenu = (event: MouseEvent) => {
+  console.log('handleItemContextMenu')
+  event.preventDefault();
+}
+
+const handleContentContextMenu = (event: MouseEvent) => {
+  console.log('handleContentContextMenu')
+  event.preventDefault();
+}
 </script>
 
 
 <template>
-  <div class="w-full bg-gray-900 flex flex-col" >
+  <div class="w-full bg-gray-900 flex flex-col">
+    {{ dblClickAwaiting ? 'true' : 'false' }}
     <!-- Toolbar -->
     <div class="bg-gray-800 border-b border-gray-700 px-6 py-4">
       <div class="flex items-center justify-between">
@@ -256,9 +312,12 @@ const containerHeight = ref(500)
     </div>
 
     <!-- File Grid -->
-    <div :ref="scrollContainer as unknown as TemplateRef<HTMLElement>" class="scroller select-none flex-1 overflow-auto p-4 relative" :style="`max-height: ${containerHeight}px`" @scroll="handleScroll">
-      <div class="scrollContent" ref="scrollContent" :style="{ height: `${totalHeight}px`, position: 'relative' }">
+    <div :ref="scrollContainer as unknown as TemplateRef<HTMLElement>"
+         class="scroller select-none flex-1 overflow-auto p-4 relative" :style="`max-height: ${containerHeight}px`"
+         @scroll="handleScroll">
+      <div @contextmenu.self.prevent="handleContentContextMenu" class="scrollContent" ref="scrollContent" :style="{ height: `${totalHeight}px`, position: 'relative' }">
         <div
+            class="pointer-events-none"
             v-for="rowIndex in visibleRows"
             :key="rowIndex"
             :style="{
@@ -276,15 +335,18 @@ const containerHeight = ref(500)
                 :key="file.id"
                 :data-key="file.id"
                 :data-row="rowIndex"
-                :data-col="colIndex" 
+                :data-col="colIndex"
+                @click="handleItemClick"
+                @dblclick="handleItemDblClick"
+                @contextmenu.self.prevent="handleItemContextMenu"
                 :class="[
-                'file-item flex-shrink-0 w-28 p-2 rounded-lg cursor-pointer transition-all',
+                'file-item flex-shrink-0 w-28 p-2 rounded-lg cursor-pointer transition-all pointer-events-auto',
                 selectedIds.has(file.id) 
                   ? 'selected bg-blue-600 shadow-lg scale-105' 
                   : 'bg-gray-800 hover:bg-gray-700 hover:shadow-md'
               ]"
             >
-              <div class="flex flex-col items-center gap-1 relative">
+              <div class="flex flex-col items-center gap-1 relative pointer-events-none ">
                 <div :class="[
                   'w-10 h-10 rounded-lg flex items-center justify-center',
                   selectedIds.has(file.id) ? 'bg-blue-700' : 'bg-gray-700'
