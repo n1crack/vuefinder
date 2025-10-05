@@ -78,14 +78,11 @@ const selectionData = reactive({
 
 const cleanupSelection = (event: SelectionEvent) => {
   event.selection.getSelection().forEach((item: Element) => {
-    if (!item.isConnected) {
-      event.selection.deselect(item, true);
-    }
+    event.selection.deselect(item, true);
   })
 }
 
 const refreshSelection = (event: SelectionEvent) => {
-  console.log(selectedIds.size)
   selectedIds.forEach(id => {
     const el = document.querySelector(`[data-key="${id}"]`);
     if (el) {
@@ -97,13 +94,17 @@ const refreshSelection = (event: SelectionEvent) => {
 const onBeforeStart = (event: SelectionEvent) => {
   event.selection.resolveSelectables();
   cleanupSelection(event)
-//   refreshSelection(selection)
+  refreshSelection(event)
 }
 
 const onStart = ({event, selection}: SelectionEvent) => {
+  if (event?.type === 'touchend') {
+    console.log('touch')
+    event.preventDefault();
+  }
   if (!event?.ctrlKey && !event?.metaKey) {
-    selection.clearSelection();
     selectedIds.clear();
+    selection.clearSelection(true, true);
   }
   selectionData.current.clear()
 };
@@ -160,6 +161,8 @@ const onStop = (event: SelectionEvent) => {
       });
     }
   }
+  cleanupSelection(event)
+  refreshSelection(event)
 }
 
 const onInit = (selection: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
