@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {ref, onMounted, onUnmounted, reactive, shallowRef} from 'vue';
 import SelectionArea, {SelectionEvent} from '@viselect/vanilla';
+import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef, type TemplateRef} from 'vue';
+import SelectionArea, { type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import {generateFiles, getFileIcon, type FileItem} from './temp/NewExplorerUtils';
 // Refs
@@ -11,10 +13,10 @@ const selectedIds = reactive(new Set<number>());
 
 
 const selectionObject = shallowRef<SelectionArea | null>(null);
+const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer') ;
 
 // Use virtual columns composable
 const {
-  scrollContainer,
   itemsPerRow,
   totalHeight,
   visibleRows,
@@ -23,6 +25,7 @@ const {
   getItemsInRange,
   getItemPosition
 } = useVirtualColumns(files, {
+  scrollContainer,
   itemWidth: 120,
   rowHeight: 100,
   overscan: 2,
@@ -207,6 +210,7 @@ defineExpose({
   files
 });
 const containerHeight = ref(400)
+const containerHeight = ref(500)
 </script>
 
 
@@ -252,7 +256,7 @@ const containerHeight = ref(400)
     </div>
 
     <!-- File Grid -->
-    <div :ref="scrollContainer" class="scroller select-none flex-1 overflow-auto p-4 relative" :style="`max-height: ${containerHeight}px`" @scroll="handleScroll">
+    <div :ref="scrollContainer as unknown as TemplateRef<HTMLElement>" class="scroller select-none flex-1 overflow-auto p-4 relative" :style="`max-height: ${containerHeight}px`" @scroll="handleScroll">
       <div class="scrollContent" ref="scrollContent" :style="{ height: `${totalHeight}px`, position: 'relative' }">
         <div
             v-for="rowIndex in visibleRows"
