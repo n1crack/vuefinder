@@ -1,13 +1,35 @@
 <script setup lang="ts">
-import {ref, onMounted, reactive, shallowRef} from 'vue';
-import {SelectionArea, type SelectionEvent} from '@viselect/vue';
+import {ref, onMounted, onUnmounted, reactive, shallowRef} from 'vue';
+import SelectionArea from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import {generateFiles, getFileIcon, type FileItem} from './temp/NewExplorerUtils';
 // Refs
-const scrollContent = ref(null);
+const scrollContent = ref<HTMLElement | null>(null);
 const files = ref<FileItem[]>([]);
 const selectedIds = reactive(new Set<number>());
-const selectionObject = shallowRef<typeof SelectionArea>();
+// Minimal typing for vanilla viselect instance and events we use
+type SelectionInstance = {
+  getSelection(): Element[];
+  select(el: Element, silent?: boolean): void;
+  deselect(el: Element, silent?: boolean): void;
+  clearSelection(silent?: boolean, keepStore?: boolean): void;
+  resolveSelectables(): void;
+  on(event: string, cb: (evt: SelectionEventPayload) => void): SelectionInstance;
+  destroy(): void;
+};
+
+type SelectionStore = {
+  changed: { added: Element[]; removed: Element[] };
+  stored: Element[];
+};
+
+type SelectionEventPayload = {
+  selection: SelectionInstance;
+  store: SelectionStore;
+  event: MouseEvent | TouchEvent | KeyboardEvent | null;
+};
+
+const selectionObject = shallowRef<SelectionInstance | null>(null);
 
 // Use virtual columns composable
 const {
@@ -71,19 +93,15 @@ const extractIds = (els: Element[]): number[] => {
       .map(Number);
 };
 
-const selectionData = reactive({
-  current: new Set([]),
-} as {
-  current: Set<number>
-});
+const selectionData = ref(new Set([]));
 
-const cleanupSelection = (event: SelectionEvent) => {
+const cleanupSelection = (event: SelectionEventPayload) => {
   event.selection.getSelection().forEach((item: Element) => {
     event.selection.deselect(item, true);
   })
 }
 
-const refreshSelection = (event: SelectionEvent) => {
+const refreshSelection = (event: SelectionEventPayload) => {
   selectedIds.forEach(id => {
     const el = document.querySelector(`[data-key="${id}"]`);
     if (el) {
@@ -91,29 +109,31 @@ const refreshSelection = (event: SelectionEvent) => {
     }
   });
 }
-const onBeforeDrag = (event: SelectionEvent) => {
-    // 
+const onBeforeDrag = (event: SelectionEventPayload) => {
+
+  console.log('onBeforeDrag', event)
 }
 
-const onBeforeStart = (event: SelectionEvent) => {
+const onBeforeStart = (event: SelectionEventPayload) => {
 
   event.selection.resolveSelectables();
   cleanupSelection(event)
   refreshSelection(event)
 }
 
-const onStart = ({event, selection}: SelectionEvent) => {
-  if (event?.type === 'touchend') { 
-    event.preventDefault();
+const onStart = ({event, selection}: SelectionEventPayload) => {
+  if (event && 'type' in event && event.type === 'touchend') {
+    (event as TouchEvent).preventDefault();
   }
-  if (!event?.ctrlKey && !event?.metaKey) {
+  const mouse = event as MouseEvent | null;
+  if (!mouse?.ctrlKey && !mouse?.metaKey) {
     selectedIds.clear();
     selection.clearSelection(true, true);
   }
-  selectionData.current.clear()
+  selectionData.value.clear()
 };
 
-const onMove = (event: SelectionEvent) => {
+const onMove = (event: SelectionEventPayload) => {
 
   const selection = event.selection;
 
@@ -122,17 +142,16 @@ const onMove = (event: SelectionEvent) => {
 
   addedData.forEach(id => {
     if (!selectedIds.has(id)) {
-      selectionData.current.add(id)
+      selectionData.value.add(id)
     }
 
     selectedIds.add(id)
   });
 
-
   removedData.forEach(id => {
     const el = document.querySelector(`[data-key="${id}"]`);
     if (el && files.value.find(file => file.id === id)) {
-      selectionData.current.delete(id)
+      selectionData.value.delete(id)
     }
 
     selectedIds.delete(id);
@@ -142,23 +161,21 @@ const onMove = (event: SelectionEvent) => {
   refreshSelection(event)
 };
 
-const onStop = (event: SelectionEvent) => {
+const onStop = (event: SelectionEventPayload) => {
   selectSelectionRange(event);
   cleanupSelection(event)
   refreshSelection(event)
   totalSelectedItem.value = selectedIds.size;
 }
 
-const onInit = (selection: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
-  selectionObject.value = selection
-}
+// Vanilla init happens in onMounted
 
-const selectSelectionRange = (event: SelectionEvent) => {
-  if (event.event && selectionData.current.size > 0) {
+const selectSelectionRange = (event: SelectionEventPayload) => {
+  if (event.event && selectionData.value.size > 0) {
     const minMaxIds = getSelectionRange(new Set(
         [
-          Math.min(...Array.from(selectionData.current)),
-          Math.max(...Array.from(selectionData.current))
+          Math.min(...Array.from(selectionData.value)),
+          Math.max(...Array.from(selectionData.value))
         ]
     ));
 
@@ -179,6 +196,24 @@ const selectSelectionRange = (event: SelectionEvent) => {
 
 onMounted(() => {
   files.value = generateFiles();
+ 
+  selectionObject.value = new SelectionArea({
+    selectables: ['.file-item'],
+    boundaries: ['.scroller']
+  }); 
+
+  selectionObject.value.on('beforestart', onBeforeStart);
+  selectionObject.value.on('start', onStart);
+  selectionObject.value.on('move', onMove);
+  selectionObject.value.on('stop', onStop);
+  selectionObject.value.on('beforedrag', onBeforeDrag);
+});
+
+onUnmounted(() => {
+  if (selectionObject.value) {
+    selectionObject.value.destroy();
+    selectionObject.value = null;
+  }
 });
 
 // Export functions for external use
@@ -204,15 +239,15 @@ const containerHeight = ref(400)
             <template v-if="totalSelectedItem > 0">
               <span>•</span>
               <span class="text-blue-400">{{ totalSelectedItem }} selected</span>
-              <template v-if="getSelectionRange(selectionData.current)">
+              <template v-if="getSelectionRange(selectionData)">
                 <span>•</span>
                 <span class="text-green-400">
                    Row {{
-                    getSelectionRange(selectionData.current)?.minRow! + 1
-                  }}-{{ getSelectionRange(selectionData.current)?.maxRow! + 1 }},
+                    getSelectionRange(selectionData)?.minRow! + 1
+                  }}-{{ getSelectionRange(selectionData)?.maxRow! + 1 }},
                    Col {{
-                    getSelectionRange(selectionData.current)?.minCol! + 1
-                  }}-{{ getSelectionRange(selectionData.current)?.maxCol! + 1 }}
+                    getSelectionRange(selectionData)?.minCol! + 1
+                  }}-{{ getSelectionRange(selectionData)?.maxCol! + 1 }}
                  </span>
               </template>
             </template>
@@ -235,77 +270,67 @@ const containerHeight = ref(400)
 
     <!-- File Grid -->
     <div :ref="scrollContainer" class="scroller select-none flex-1 overflow-auto p-4 relative" :style="`max-height: ${containerHeight}px`" @scroll="handleScroll">
-      <SelectionArea
-          :options="{ selectables: '.file-item', boundaries: ['.scroller'] }"
-          @init="onInit"
-          @start="onStart"
-          @move="onMove"
-          @stop="onStop"
-          @beforeStart="onBeforeStart"
-          @beforeDrag="onBeforeDrag"
-      >
-        <div class="scrollContent" ref="scrollContent" :style="{ height: `${totalHeight}px`, position: 'relative' }">
-          <div
-              v-for="rowIndex in visibleRows"
-              :key="rowIndex"
-              :style="{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: `${rowHeight}px`,
-              transform: `translateY(${rowIndex * rowHeight}px)`,
-            }"
-          >
-            <div :class="`grid gap-4`" :style="{ gridTemplateColumns: `repeat(${itemsPerRow}, 1fr)` }">
-              <div
-                  v-for="(file, colIndex) in getRowFiles(rowIndex)"
-                  :key="file.id"
-                  :data-key="file.id"
-                  :data-row="rowIndex"
-                  :data-col="colIndex" 
-                  :class="[
-                  'file-item flex-shrink-0 w-28 p-2 rounded-lg cursor-pointer transition-all',
-                  selectedIds.has(file.id) 
-                    ? 'selected bg-blue-600 shadow-lg scale-105' 
-                    : 'bg-gray-800 hover:bg-gray-700 hover:shadow-md'
-                ]"
-              >
-                <div class="flex flex-col items-center gap-1 relative">
-                  <div :class="[
-                    'w-10 h-10 rounded-lg flex items-center justify-center',
-                    selectedIds.has(file.id) ? 'bg-blue-700' : 'bg-gray-700'
+      <div class="scrollContent" ref="scrollContent" :style="{ height: `${totalHeight}px`, position: 'relative' }">
+        <div
+            v-for="rowIndex in visibleRows"
+            :key="rowIndex"
+            :style="{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: `${rowHeight}px`,
+            transform: `translateY(${rowIndex * rowHeight}px)`,
+          }"
+        >
+          <div :class="`grid gap-4`" :style="{ gridTemplateColumns: `repeat(${itemsPerRow}, 1fr)` }">
+            <div
+                v-for="(file, colIndex) in getRowFiles(rowIndex)"
+                :key="file.id"
+                :data-key="file.id"
+                :data-row="rowIndex"
+                :data-col="colIndex" 
+                :class="[
+                'file-item flex-shrink-0 w-28 p-2 rounded-lg cursor-pointer transition-all',
+                selectedIds.has(file.id) 
+                  ? 'selected bg-blue-600 shadow-lg scale-105' 
+                  : 'bg-gray-800 hover:bg-gray-700 hover:shadow-md'
+              ]"
+            >
+              <div class="flex flex-col items-center gap-1 relative">
+                <div :class="[
+                  'w-10 h-10 rounded-lg flex items-center justify-center',
+                  selectedIds.has(file.id) ? 'bg-blue-700' : 'bg-gray-700'
+                ]">
+                  <component :is="getFileIcon(file.type)" class="w-6 h-6"/>
+                </div>
+                <div class="w-full text-center">
+                  <p :class="[
+                    'text-xs font-medium truncate leading-tight',
+                    selectedIds.has(file.id) ? 'text-white' : 'text-gray-200'
                   ]">
-                    <component :is="getFileIcon(file.type)" class="w-6 h-6"/>
-                  </div>
-                  <div class="w-full text-center">
-                    <p :class="[
-                      'text-xs font-medium truncate leading-tight',
-                      selectedIds.has(file.id) ? 'text-white' : 'text-gray-200'
-                    ]">
-                      {{ file.name }}
-                    </p>
-                    <p :class="[
-                      'text-xs leading-tight',
-                      selectedIds.has(file.id) ? 'text-blue-200' : 'text-gray-500'
-                    ]">
-                      {{ file.size }}
-                    </p>
-                  </div>
-                  <div v-if="selectedIds.has(file.id)"
-                       class="absolute top-0 right-0 w-4 h-4 bg-white rounded-full flex items-center justify-center">
-                    <svg class="w-2 h-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clip-rule="evenodd"/>
-                    </svg>
-                  </div>
+                    {{ file.name }}
+                  </p>
+                  <p :class="[
+                    'text-xs leading-tight',
+                    selectedIds.has(file.id) ? 'text-blue-200' : 'text-gray-500'
+                  ]">
+                    {{ file.size }}
+                  </p>
+                </div>
+                <div v-if="selectedIds.has(file.id)"
+                     class="absolute top-0 right-0 w-4 h-4 bg-white rounded-full flex items-center justify-center">
+                  <svg class="w-2 h-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clip-rule="evenodd"/>
+                  </svg>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </SelectionArea>
+      </div>
     </div>
   </div>
 </template>
