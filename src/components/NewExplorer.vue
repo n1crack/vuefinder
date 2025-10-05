@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef, type TemplateRef} from 'vue';
+import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef} from 'vue';
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import {generateFiles, getFileIcon, type FileItem} from './temp/NewExplorerUtils';
@@ -286,7 +286,7 @@ const handleItemDragStart = (event: MouseEvent) => {
 
 
 <template>
-  <div class="w-full bg-gray-900 flex flex-col">
+  <div class="w-full  bg-gray-900 flex flex-col" :class="`h-[${containerHeight}px]`">
     <!-- Toolbar -->
     <div class="bg-gray-800 border-b border-gray-700 px-6 py-4">
       <div class="flex items-center justify-between">
@@ -327,9 +327,7 @@ const handleItemDragStart = (event: MouseEvent) => {
     </div>
 
     <!-- File Grid -->
-    <div :ref="scrollContainer as unknown as TemplateRef<HTMLElement>"
-         class="scroller select-none flex-1 overflow-auto p-4 relative" :style="`max-height: ${containerHeight}px`"
-         @scroll="handleScroll">
+    <div ref="scrollContainer" class="scroller select-none flex-1 overflow-y-auto p-4 relative"  @scroll="handleScroll">
       <div 
             ref="scrollContent" 
             class="scrollContent" 
