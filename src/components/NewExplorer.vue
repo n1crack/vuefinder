@@ -180,12 +180,12 @@ defineExpose({
   selectedIds,
   files
 });
-
+const containerHeight = ref(400)
 </script>
 
 
 <template>
-  <div class="w-full max-h-[400px] bg-gray-900 flex flex-col ">
+  <div class="w-full  bg-gray-900 flex flex-col" >
     <!-- Toolbar -->
     <div class="bg-gray-800 border-b border-gray-700 px-6 py-4">
       <div class="flex items-center justify-between">
@@ -226,7 +226,7 @@ defineExpose({
     </div>
 
     <!-- File Grid -->
-    <div ref="scrollContainer" class="scroller select-none flex-1 overflow-auto p-6 relative  " @scroll="handleScroll">
+    <div :ref="scrollContainer" class="scroller select-none flex-1 overflow-auto p-4 relative" :style="`max-height: ${containerHeight}px`" @scroll="handleScroll">
       <SelectionArea
           :options="{ selectables: '.file-item', boundaries: ['.scroller'] }"
           @init="onInit"
@@ -299,8 +299,6 @@ defineExpose({
       </SelectionArea>
     </div>
   </div>
-  <div class="text-xs">{{ selectionData.current }}</div>
-  <div class="text-xs">{{ selectedIds }}</div>
 </template>
 
 
