@@ -3,13 +3,11 @@ import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef, type 
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import {generateFiles, getFileIcon, type FileItem} from './temp/NewExplorerUtils';
-import {useAutoResetRef} from '@/composables/useAutoResetRef';
 
 
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
 const files = ref<FileItem[]>([]);
 const selectedIds = reactive(new Set<number>());
-const [dblClickAwaiting, setDblClickAwaiting, onReleaseDblClickAwaiting] = useAutoResetRef(300);
 
 const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
@@ -271,7 +269,6 @@ const handleContentContextMenu = (event: MouseEvent) => {
 
 <template>
   <div class="w-full bg-gray-900 flex flex-col">
-    {{ dblClickAwaiting ? 'true' : 'false' }}
     <!-- Toolbar -->
     <div class="bg-gray-800 border-b border-gray-700 px-6 py-4">
       <div class="flex items-center justify-between">
