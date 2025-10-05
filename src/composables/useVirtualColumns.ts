@@ -1,6 +1,7 @@
-import {computed, onMounted, onUnmounted, ref, type Ref} from 'vue';
+import {computed, onMounted, onUnmounted, ref, type Ref, type TemplateRef} from 'vue';
 
 export interface VirtualColumnsOptions {
+    scrollContainer: TemplateRef<HTMLElement>;
     itemWidth?: number;
     rowHeight?: number;
     overscan?: number;
@@ -8,7 +9,6 @@ export interface VirtualColumnsOptions {
 }
 
 export interface VirtualColumnsReturn {
-    scrollContainer: Ref<HTMLElement | null>;
     scrollTop: Ref<number>;
     itemsPerRow: Ref<number>;
     totalRows: Ref<number>;
@@ -22,19 +22,19 @@ export interface VirtualColumnsReturn {
     getItemPosition: (itemIndex: number) => { row: number; col: number };
 }
 
-export default function useVirtualColumns<T = any>(
+export default function useVirtualColumns<T = unknown>(
     items: Ref<T[]>,
-    options: VirtualColumnsOptions = {}
+    options: VirtualColumnsOptions
 ): VirtualColumnsReturn {
-    const {
+    const { 
+        scrollContainer,
         itemWidth = 120,
         rowHeight = 100,
         overscan = 2,
-        containerPadding = 48
+        containerPadding = 48,
     } = options;
 
     // Refs
-    const scrollContainer = ref<HTMLElement | null>(null);
     const scrollTop = ref(0);
     const itemsPerRow = ref(6);
 
@@ -114,7 +114,6 @@ export default function useVirtualColumns<T = any>(
     });
 
     return {
-        scrollContainer,
         scrollTop,
         itemsPerRow,
         totalRows,
