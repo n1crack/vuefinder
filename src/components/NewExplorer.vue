@@ -3,6 +3,7 @@ import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef, type 
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import {generateFiles, getFileIcon, type FileItem} from './temp/NewExplorerUtils';
+import { useAutoResetRef } from '@/composables/useAutoResetRef';
 
 
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
@@ -11,7 +12,7 @@ const selectedIds = reactive(new Set<number>());
 
 const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
-
+const [awaitingDrag, setAwaitingDrag] = useAutoResetRef(300);
 
 const {
   itemsPerRow,
@@ -90,11 +91,17 @@ const refreshSelection = (event: SelectionEvent) => {
 }
 
 const onBeforeDrag = (event: SelectionEvent) => {
+  if (!awaitingDrag.value) {
+    // we can drag and drop items now..
+    return false;
+  }
   console.log('onBeforeDrag')
 }
 
 const onBeforeStart = (event: SelectionEvent) => {
   console.log('onBeforeStart')
+
+  setAwaitingDrag(true);
 
   event.selection.resolveSelectables();
   cleanupSelection(event)
@@ -151,8 +158,6 @@ const onStop = (event: SelectionEvent) => {
   refreshSelection(event)
   totalSelectedItem.value = selectedIds.size;
 }
-
-// Vanilla init happens in onMounted
 
 const selectSelectionRange = (event: SelectionEvent) => {
   if (event.event && selectionData.value.size > 0) {
@@ -264,6 +269,19 @@ const handleContentContextMenu = (event: MouseEvent) => {
   console.log('handleContentContextMenu')
   event.preventDefault();
 }
+
+const handleItemDragStart = (event: MouseEvent) => {
+  if (awaitingDrag.value) {
+    event.preventDefault();
+    return false;
+  } 
+  event.dataTransfer.setDragImage(event.target, 0, 15);
+  event.dataTransfer.effectAllowed = 'all';
+  event.dataTransfer.dropEffect = 'copy';
+  event.dataTransfer.setData('items', JSON.stringify(selectedIds.value))
+  console.log('handleItemDragStart', selectedIds.value)
+};
+
 </script>
 
 
@@ -312,7 +330,12 @@ const handleContentContextMenu = (event: MouseEvent) => {
     <div :ref="scrollContainer as unknown as TemplateRef<HTMLElement>"
          class="scroller select-none flex-1 overflow-auto p-4 relative" :style="`max-height: ${containerHeight}px`"
          @scroll="handleScroll">
-      <div @contextmenu.self.prevent="handleContentContextMenu" class="scrollContent" ref="scrollContent" :style="{ height: `${totalHeight}px`, position: 'relative' }">
+      <div 
+            ref="scrollContent" 
+            class="scrollContent" 
+            :style="{ height: `${totalHeight}px`, position: 'relative' }"
+            @contextmenu.self.prevent="handleContentContextMenu" 
+      >
         <div
             class="pointer-events-none"
             v-for="rowIndex in visibleRows"
@@ -333,6 +356,8 @@ const handleContentContextMenu = (event: MouseEvent) => {
                 :data-key="file.id"
                 :data-row="rowIndex"
                 :data-col="colIndex"
+                draggable="true"
+                @dragstart="handleItemDragStart"
                 @click="handleItemClick"
                 @dblclick="handleItemDblClick"
                 @contextmenu.self.prevent="handleItemContextMenu"
