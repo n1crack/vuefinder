@@ -91,16 +91,19 @@ const refreshSelection = (event: SelectionEvent) => {
     }
   });
 }
+const onBeforeDrag = (event: SelectionEvent) => {
+    // 
+}
 
 const onBeforeStart = (event: SelectionEvent) => {
+
   event.selection.resolveSelectables();
   cleanupSelection(event)
   refreshSelection(event)
 }
 
 const onStart = ({event, selection}: SelectionEvent) => {
-  if (event?.type === 'touchend') {
-    console.log('touch')
+  if (event?.type === 'touchend') { 
     event.preventDefault();
   }
   if (!event?.ctrlKey && !event?.metaKey) {
@@ -239,6 +242,7 @@ const containerHeight = ref(400)
           @move="onMove"
           @stop="onStop"
           @beforeStart="onBeforeStart"
+          @beforeDrag="onBeforeDrag"
       >
         <div class="scrollContent" ref="scrollContent" :style="{ height: `${totalHeight}px`, position: 'relative' }">
           <div
@@ -259,7 +263,7 @@ const containerHeight = ref(400)
                   :key="file.id"
                   :data-key="file.id"
                   :data-row="rowIndex"
-                  :data-col="colIndex"
+                  :data-col="colIndex" 
                   :class="[
                   'file-item flex-shrink-0 w-28 p-2 rounded-lg cursor-pointer transition-all',
                   selectedIds.has(file.id) 
