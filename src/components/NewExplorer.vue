@@ -45,8 +45,25 @@ const {
 });
 
 // Selection composable
-const selectionApi = useSelection<DirEntry>({ files, getItemPosition, getItemsInRange });
-const { selectedIds, totalSelectedItem } = selectionApi;
+const selectionApi = useSelection<DirEntry>({ files, getItemPosition, getItemsInRange, getKey: (f) => f.path });
+const { selectedIds, totalSelectedItem, isDragging } = selectionApi;
+const copyPaste = app.copyPaste ?? null as unknown as { isCut: { value: boolean }, copiedItems: { value: Array<{ path: string }> } } | null;
+
+const currentDragKey = ref<string | null>(null);
+
+const isDraggingItem = (key?: string | null) => {
+  if (!key || !currentDragKey.value) return false;
+  const draggingSelected = selectedIds.has(currentDragKey.value as never);
+  return isDragging.value && (draggingSelected ? selectedIds.has(key as never) : key === currentDragKey.value);
+};
+
+const isCut = (key?: string | null) => {
+  if (!key || !copyPaste) return false;
+  return (
+    copyPaste.isCut.value && !!copyPaste.copiedItems.value.find((item: { path: string }) => item.path === key)
+  );
+};
+
 
 // Sorting (similar concept to Explorer)
 type SortColumn = 'basename' | 'file_size' | 'last_modified' | '';
@@ -293,6 +310,7 @@ const handleItemDragStart = (event: DragEvent) => {
     event.preventDefault();
     return false;
   }
+  isDragging.value = true;
   
   if (event.dataTransfer) {
     event.dataTransfer.setDragImage(dragImage.value as Element, 0, 15);
@@ -300,7 +318,13 @@ const handleItemDragStart = (event: DragEvent) => {
     event.dataTransfer.dropEffect = 'copy';
     event.dataTransfer.setData('items', JSON.stringify(Array.from(selectedIds)));
   }
+  const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
+  currentDragKey.value = el ? String(el.dataset.key) : null;
   //console.log('handleItemDragStart', Array.from(selectedIds))
+};
+
+const handleItemDragEnd = () => {
+  currentDragKey.value = null;
 };
 
 </script>
@@ -357,12 +381,14 @@ const handleItemDragStart = (event: DragEvent) => {
             <div class="grid justify-self-start" :style="{ gridTemplateColumns: `repeat(${itemsPerRow}, 1fr)` }">
               <div
                   v-for="(file, colIndex) in getRowFiles(rowIndex)"
+                  :style="{ opacity: (isDraggingItem(file.path) || isCut(file.path)) ? 0.5 : '' }"
                   :key="file.path"
                   :data-key="file.path"
                   :data-row="rowIndex"
                   :data-col="colIndex"
                   draggable="true"
                   @dragstart="handleItemDragStart"
+                  @dragend="handleItemDragEnd"
                   @click="handleItemClick"
                   @dblclick="handleItemDblClick"
                   @contextmenu.prevent="handleItemContextMenu"
@@ -405,6 +431,7 @@ const handleItemDragStart = (event: DragEvent) => {
           >
             <div class="grid justify-self-start w-full" :style="{ gridTemplateColumns: '1fr' }">
               <div
+                  :style="{ opacity: (isDraggingItem(getItemAtRow(rowIndex)?.path || null) || isCut(getItemAtRow(rowIndex)?.path || null)) ? 0.5 : '' }"
                   v-if="getItemAtRow(rowIndex)"
                   :key="getItemAtRow(rowIndex)?.path || rowIndex"
                   :data-key="getItemAtRow(rowIndex)?.path"
@@ -412,6 +439,7 @@ const handleItemDragStart = (event: DragEvent) => {
                   data-col="0"
                   draggable="true"
                   @dragstart="handleItemDragStart"
+                  @dragend="handleItemDragEnd"
                   @click="handleItemClick"
                   @dblclick="handleItemDblClick"
                   @contextmenu.prevent="handleItemContextMenu"
