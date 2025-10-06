@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef, computed, inject, watch} from 'vue';
+import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef, computed, inject, watch, onUpdated} from 'vue';
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import { useAutoResetRef } from '@/composables/useAutoResetRef';
@@ -9,6 +9,7 @@ import ItemIcon from './ItemIcon.vue';
 import DragItem from './DragItem.vue';
 import title_shorten from '@/utils/title_shorten';
 import type { App, DirEntry } from '@/types';
+import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
 
 
 const app = inject('ServiceContainer') as App;
@@ -21,6 +22,9 @@ const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const [awaitingDrag, setAwaitingDrag] = useAutoResetRef(300);
 const selectionStarted = ref(false);
+const searchQuery = ref('');
+
+let vfLazyLoad: ILazyLoadInstance | null = null;
 
 // Constants for template
 const rowHeight = computed(() => app.view === 'list' ? 24 : 88);
@@ -66,7 +70,7 @@ const isCut = (key?: string | null) => {
 
 
 // Sorting (similar concept to Explorer)
-type SortColumn = 'basename' | 'file_size' | 'last_modified' | '';
+type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
 type SortOrder = 'asc' | 'desc' | '';
 const sort = reactive<{ active: boolean; column: SortColumn; order: SortOrder }>({
   active: false,
@@ -95,6 +99,8 @@ const sortedFiles = computed<DirEntry[]>(() => {
       av = a.file_size ?? 0; bv = b.file_size ?? 0;
     } else if (sort.column === 'last_modified') {
       av = a.last_modified ?? 0; bv = b.last_modified ?? 0;
+    } else if (sort.column === 'path') {
+      av = a.path; bv = b.path;
     }
     return compareValues(av, bv) * order;
   });
@@ -233,17 +239,59 @@ onMounted(() => {
   selectionObject.value.on('move', _onMove);
   selectionObject.value.on('stop', _onStop);
   selectionObject.value.on('beforedrag', onBeforeDrag);
+  
+  // Initialize LazyLoad for thumbnails
+  if (scrollContainer.value) {
+    vfLazyLoad = new LazyLoad({
+      elements_selector: '.lazy',
+      container: scrollContainer.value
+    });
+  }
+  
   // Emit selected items on change
   watch(() => Array.from(selectedIds), (ids) => {
     const selected = new Set(ids as string[]);
     app.emitter.emit('vf-select', sortedFiles.value.filter(f => selected.has(f.path)));
   }, { deep: false });
+
+  // Handle search queries
+  app.emitter.on('vf-search-query', ({newQuery}: { newQuery: string }) => {
+    searchQuery.value = newQuery;
+
+    if (newQuery) {
+      app.emitter.emit('vf-fetch', {
+        params: {
+          q: 'search',
+          adapter: app.fs.adapter,
+          path: app.fs.data.dirname,
+          filter: newQuery
+        },
+        onSuccess: (data: { files: DirEntry[] }) => {
+          if (!data.files.length) {
+            app.emitter.emit('vf-toast-push', {label: t('No search result found.')});
+          }
+        }
+      });
+    } else {
+      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
+    }
+  });
+});
+
+onUpdated(() => {
+  if (vfLazyLoad) {
+    vfLazyLoad.update();
+  }
 });
 
 onUnmounted(() => {
   if (selectionObject.value) {
     selectionObject.value.destroy();
     selectionObject.value = null;
+  }
+  if (vfLazyLoad) {
+    vfLazyLoad.destroy();
+    vfLazyLoad = null;
   }
 });
 
@@ -357,23 +405,29 @@ const handleItemDragEnd = () => {
 <template>
   <div class="vuefinder__new_explorer__container">
     <!-- List header like Explorer (shown only in list view) -->
-    <div v-if="app.view === 'list'" class="vuefinder__new_explorer__header">
+    <div v-if="app.view === 'list' || searchQuery.length" class="vuefinder__new_explorer__header">
       <div @click="sortBy('basename')"
            class="vuefinder__new_explorer__sort-button vuefinder__new_explorer__sort-button--name vf-sort-button">
            {{ t('Name') }}
         <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'"/>
       </div>
-      <div @click="sortBy('file_size')"
+      <div v-if="!searchQuery.length" @click="sortBy('file_size')"
            class="vuefinder__new_explorer__sort-button vuefinder__new_explorer__sort-button--size vf-sort-button">
            {{ t('Size') }}
         <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'file_size'"/>
       </div>
-      <div @click="sortBy('last_modified')"
+      <div v-if="searchQuery.length" @click="sortBy('path')"
+           class="vuefinder__new_explorer__sort-button vuefinder__new_explorer__sort-button--path vf-sort-button">
+           {{ t('Filepath') }}
+        <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'path'"/>
+      </div>
+      <div v-if="!searchQuery.length" @click="sortBy('last_modified')"
            class="vuefinder__new_explorer__sort-button vuefinder__new_explorer__sort-button--date vf-sort-button">
            {{ t('Date') }}
         <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'last_modified'"/>
       </div>
     </div>
+    <div class="vuefinder__linear-loader absolute" v-if="app.loadingIndicator === 'linear' && app.fs.loading"></div>
 
     <!-- Content -->
     <div ref="scrollContainer" class="vuefinder__new_explorer__selector-area scroller"  @scroll="handleScroll">
@@ -387,8 +441,57 @@ const handleItemDragEnd = () => {
         <div ref="dragImage" class="vuefinder__explorer__drag-item">
           <DragItem :count="selectedIds.size"/>
         </div>
+        
+        <!-- Search View -->
+        <template v-if="searchQuery.length">
+          <div
+              class="pointer-events-none"
+              v-for="rowIndex in visibleRows"
+              :key="rowIndex"
+              :style="{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: `${rowHeight}px`,
+              transform: `translateY(${rowIndex * rowHeight}px)`,
+            }"
+          >
+            <div class="grid justify-self-start w-full" :style="{ gridTemplateColumns: '1fr' }">
+              <div
+                  :style="{ opacity: (isDraggingItem(getItemAtRow(rowIndex)?.path || null) || isCut(getItemAtRow(rowIndex)?.path || null)) ? 0.5 : '' }"
+                  v-if="getItemAtRow(rowIndex)"
+                  :key="getItemAtRow(rowIndex)?.path || rowIndex"
+                  :data-key="getItemAtRow(rowIndex)?.path"
+                  :data-row="rowIndex"
+                  data-col="0"
+                  draggable="true"
+                  @dragstart="handleItemDragStart"
+                  @dragend="handleItemDragEnd"
+                  @click="handleItemClick"
+                  @dblclick="handleItemDblClick"
+                  @contextmenu.prevent="handleItemContextMenu"
+                  :class="[
+                    'file-item vf-new-explorer-item-list pointer-events-auto',
+                    selectedIds.has(getItemAtRow(rowIndex)?.path as never) ? 'vf-new-explorer-selected' : ''
+                  ]"
+              >
+                <div class="vuefinder__new_explorer__item-list-content">
+                  <div class="vuefinder__new_explorer__item-list-name">
+                    <div class="vuefinder__new_explorer__item-list-icon">
+                        <ItemIcon :item="getItemAtRow(rowIndex)!" :small="app.compactListView"/>
+                    </div>
+                    <span class="vuefinder__new_explorer__item-name">{{ getItemAtRow(rowIndex)?.basename }}</span>
+                  </div>
+                  <div class="vuefinder__new_explorer__item-path">{{ getItemAtRow(rowIndex)?.path }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+        
         <!-- Grid View -->
-        <template v-if="app.view === 'grid'">
+        <template v-else-if="app.view === 'grid'">
           <div
               class="pointer-events-none"
               v-for="rowIndex in visibleRows"
@@ -425,6 +528,7 @@ const handleItemDragEnd = () => {
                   <div class="vuefinder__new_explorer__item-grid-content">
                     <img
                       v-if="(file.mime_type ?? '').startsWith('image') && app.showThumbnails"
+                      src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                       class="vuefinder__new_explorer__item-thumbnail lazy"
                       :data-src="app.requester.getPreviewUrl(app.fs.adapter, file)"
                       :alt="file.basename"

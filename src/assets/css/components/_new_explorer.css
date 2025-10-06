@@ -52,7 +52,7 @@
 
 .vuefinder__new_explorer__item-name,
 .vuefinder__new_explorer__item-path {
-    @apply text-ellipsis overflow-hidden whitespace-nowrap;
+    @apply text-ellipsis overflow-hidden whitespace-nowrap col-span-5;
 }
 
 .vuefinder__new_explorer__item-size {
