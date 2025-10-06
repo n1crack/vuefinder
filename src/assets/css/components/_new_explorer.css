@@ -56,7 +56,7 @@
 }
 
 .vuefinder__new_explorer__item-size {
-    @apply col-span-2 text-center;
+    @apply col-span-2 text-center whitespace-nowrap;
 }
 
 .vuefinder__new_explorer__item-date {

@@ -5,12 +5,14 @@ import useVirtualColumns from '@/composables/useVirtualColumns';
 import { useAutoResetRef } from '@/composables/useAutoResetRef';
 import SortIcon from './SortIcon.vue';
 import ItemIcon from './ItemIcon.vue';
+import DragItem from './DragItem.vue';
 import title_shorten from '@/utils/title_shorten';
 import type { App, DirEntry } from '@/types';
 
 
 const app = inject('ServiceContainer') as App;
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
+const dragImage = useTemplateRef<HTMLElement>('dragImage');
 const files = computed<DirEntry[]>(() => app?.fs?.data?.files ?? []);
 const selectedIds = reactive(new Set<string>());
 
@@ -268,7 +270,7 @@ onMounted(() => {
       scrolling: {
         speedDivider: 10,
         manualSpeed: 750,
-        startScrollMargins: {x: 0, y: 170}
+        startScrollMargins: {x: 0, y: 10}
       }
     },
     features: {
@@ -330,28 +332,40 @@ const handleItemDblClick = () => {
   console.log('handleItemDblClick')
 }
 
+const getSelectedItems = () => {
+  const selected = new Set(selectedIds);
+  return sortedFiles.value.filter(f => selected.has(f.path));
+};
+
 const handleItemContextMenu = (event: MouseEvent) => {
-  console.log('handleItemContextMenu')
   event.preventDefault();
+  const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
+  if (el) {
+    const key = String(el.getAttribute('data-key'));
+    console.log(  key)
+  }
+  console.log('handleItemContextMenu')
+  app.emitter.emit('vf-contextmenu-show', {event, items: getSelectedItems()});
 }
 
 const handleContentContextMenu = (event: MouseEvent) => {
-  console.log('handleContentContextMenu')
   event.preventDefault();
+  app.emitter.emit('vf-contextmenu-show', {event, items: getSelectedItems()});
 }
 
 const handleItemDragStart = (event: DragEvent) => {
   if (awaitingDrag.value) {
     event.preventDefault();
     return false;
-  } 
+  }
+  
   if (event.dataTransfer) {
-    event.dataTransfer.setDragImage(event.target as Element, 0, 15);
+    event.dataTransfer.setDragImage(dragImage.value as Element, 0, 15);
     event.dataTransfer.effectAllowed = 'all';
     event.dataTransfer.dropEffect = 'copy';
     event.dataTransfer.setData('items', JSON.stringify(Array.from(selectedIds)));
   }
-  console.log('handleItemDragStart', Array.from(selectedIds))
+  //console.log('handleItemDragStart', Array.from(selectedIds))
 };
 
 </script>
@@ -382,10 +396,13 @@ const handleItemDragStart = (event: DragEvent) => {
     <div ref="scrollContainer" class="vuefinder__new_explorer__selector-area scroller"  @scroll="handleScroll">
       <div 
             ref="scrollContent" 
-            class="scrollContent" 
+            class="scrollContent min-h-full" 
             :style="{ height: `${totalHeight}px`, position: 'relative', width: '100%' }"
             @contextmenu.self.prevent="handleContentContextMenu" 
       >
+        <div ref="dragImage" class="vuefinder__explorer__drag-item">
+          <DragItem :count="selectedIds.size"/>
+        </div>
         <!-- Grid View -->
         <template v-if="app.view === 'grid'">
           <div

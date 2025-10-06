@@ -27,7 +27,7 @@
 }
 
 .vuefinder__explorer__drag-item {
-    @apply relative;
+    @apply relative z-1 pointer-events-none;
 }
 
 .vuefinder__explorer__scrollbar-container {
