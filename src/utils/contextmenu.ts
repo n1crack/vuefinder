@@ -103,7 +103,7 @@ export const menuItems: Item[] = [
   {
     id: ContextMenuIds.selectAll,
     title: ({t}) => t('Select All'),
-    action: (app) => app.dragSelect.selectAll(),
+    action: (app) => app.emitter.emit('vf-select-all'),
     show: showIf({target: 'none'})
   },
   {

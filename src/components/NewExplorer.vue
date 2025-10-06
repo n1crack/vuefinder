@@ -233,6 +233,11 @@ onMounted(() => {
   selectionObject.value.on('move', _onMove);
   selectionObject.value.on('stop', _onStop);
   selectionObject.value.on('beforedrag', onBeforeDrag);
+  // Emit selected items on change
+  watch(() => Array.from(selectedIds), (ids) => {
+    const selected = new Set(ids as string[]);
+    app.emitter.emit('vf-select', sortedFiles.value.filter(f => selected.has(f.path)));
+  }, { deep: false });
 });
 
 onUnmounted(() => {

@@ -17,7 +17,6 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const ds = app.dragSelect;
 const {setStore} = app.storage;
 
 // dynamic shown items calculation for breadcrumbs

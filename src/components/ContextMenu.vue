@@ -68,7 +68,7 @@ app.emitter.on('vf-contextmenu-hide', () => {
 })
 
 const showContextMenu = (event: any) => {
-  const area = app.dragSelect.area.value
+  const area = app.root
   const rootContainer = app.root.getBoundingClientRect();
   const areaContainer = area.getBoundingClientRect();
 

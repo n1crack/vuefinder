@@ -5,7 +5,7 @@ import ModalMove from "../components/modals/ModalMove.vue";
 import type { App, DirEntry } from "../types";
 
 function initCopyPaste(app: App) {
-  const ds = app.dragSelect;
+  const ds = { getSelected: () => app.selected } as any;
   const { t } = app.i18n;
 
   const isCut = ref(false)

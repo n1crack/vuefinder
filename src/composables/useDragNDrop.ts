@@ -3,14 +3,17 @@ import { dirname } from "../utils/path";
 import type { App, DirEntry } from "../types";
 
 export function useDragNDrop(app: App, classList: string[] = []) {
-  const ds = app.dragSelect;
+  const ds = {
+    getSelected: () => app.selected,
+    getSelection: () => [],
+    isDraggingRef: { value: false },
+  } as any;
   const DATASET_COUNTER_KEY = "vfDragEnterCounter";
 
   function handleDragOver(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
     e.preventDefault();
     if (!target || target.type !== "dir" ||
-        ds.getSelected().find((item: DirEntry) => item.path === target.path || dirname(item.path) === target.path) ||
-        ds.getSelection().find((el: HTMLElement) => el === e.currentTarget)) {
+        ds.getSelected().find((item: DirEntry) => item.path === target.path || dirname(item.path) === target.path)) {
       if (e.dataTransfer) {
         e.dataTransfer.dropEffect = "none";
         e.dataTransfer.effectAllowed = "none";

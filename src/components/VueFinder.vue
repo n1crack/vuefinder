@@ -7,7 +7,6 @@ import {useCopyPaste} from '@/composables/useCopyPaste';
 
 import Toolbar from '@/components/Toolbar.vue';
 import Breadcrumb from '@/components/Breadcrumb.vue';
-import Explorer from '@/components/Explorer.vue';
 import NewExplorer from '@/components/NewExplorer.vue';
 import ContextMenu from '@/components/ContextMenu.vue';
 import Statusbar from '@/components/Statusbar.vue';
@@ -54,16 +53,14 @@ const {setStore} = app.storage;
 const root = ref(null);
 app.root = root;
 
-// Define dragSelect object
-const ds = app.dragSelect;
+// Listen to selection events from components and expose via app.selected
 
 useHotkeyActions(app);
 useCopyPaste(app);
 
 const updateItems = (data: any) => {
   Object.assign(app.fs.data, data);
-  ds.clearSelection();
-  ds.refreshSelection();
+  // selection handled inside components now
 };
 
 /** @type {AbortController} */
@@ -167,8 +164,9 @@ onMounted(() => {
     fetchPath(path)
   })
 
-  // Emit select event
-  ds.onSelect((items: any) => {
+  // Selection events from NewExplorer
+  app.emitter.on('vf-select', (items: any[]) => {
+    (app as any).selectedItems = items;
     emit('select', items);
   });
 
@@ -195,7 +193,6 @@ onMounted(() => {
         <Breadcrumb/>
         <div class="vuefinder__main__content">
           <TreeView/>
-          <Explorer/>
           <NewExplorer/>
         </div>
         <Statusbar/>

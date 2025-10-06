@@ -25,7 +25,7 @@ const app = inject('ServiceContainer');
 const {setStore} = app.storage;
 const {t} = app.i18n;
 
-const ds = app.dragSelect;
+// selection provided by NewExplorer via app.selected
 const searchQuery = ref('');
 
 app.emitter.on('vf-search-query', ({newQuery}: { newQuery: string }) => {
@@ -54,7 +54,7 @@ watch(() => app.fullScreen, () => {
 const toggleView = () => {
   app.view = app.view === 'list' ? 'grid' : 'list';
 
-  ds.refreshSelection();
+  // selection refresh handled by NewExplorer
   setStore('viewport', app.view)
 };
 
@@ -67,7 +67,7 @@ const toggleView = () => {
           class="mx-1.5"
           :title="t('New Folder')"
           v-if="app.features.includes(FEATURES.NEW_FOLDER)"
-          @click="app.modal.open(ModalNewFolder, {items: ds.getSelected()})"
+          @click="app.modal.open(ModalNewFolder, {items: app.selected})"
       >
         <NewFolderSVG/>
       </div>
@@ -76,7 +76,7 @@ const toggleView = () => {
           class="mx-1.5"
           :title="t('New File')"
           v-if="app.features.includes(FEATURES.NEW_FILE)"
-          @click="app.modal.open(ModalNewFile, {items: ds.getSelected()})"
+          @click="app.modal.open(ModalNewFile, {items: app.selected})"
       >
         <NewFileSVG/>
       </div>
@@ -85,45 +85,45 @@ const toggleView = () => {
           class="mx-1.5"
           :title="t('Rename')"
           v-if="app.features.includes(FEATURES.RENAME)"
-          @click="(ds.getCount() !== 1) || app.modal.open(ModalRename, {items: ds.getSelected()})"
+          @click="(app.selected.length !== 1) || app.modal.open(ModalRename, {items: app.selected})"
       >
-        <RenameSVG :class="(ds.getCount() === 1) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <RenameSVG :class="(app.selected.length === 1) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div
           class="mx-1.5"
           :title="t('Delete')"
           v-if="app.features.includes(FEATURES.DELETE)"
-          @click="(!ds.getCount()) || app.modal.open(ModalDelete, {items: ds.getSelected()})"
+          @click="(!app.selected.length) || app.modal.open(ModalDelete, {items: app.selected})"
       >
-        <DeleteSVG :class="(ds.getCount()) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <DeleteSVG :class="(app.selected.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div
           class="mx-1.5"
           :title="t('Upload')"
           v-if="app.features.includes(FEATURES.UPLOAD)"
-          @click="app.modal.open(ModalUpload, {items: ds.getSelected()})"
+          @click="app.modal.open(ModalUpload, {items: app.selected})"
       >
         <UploadSVG/>
       </div>
 
       <div
           class="mx-1.5"
-          v-if="app.features.includes(FEATURES.UNARCHIVE) && ds.getCount() === 1 && ds.getSelected()[0].mime_type === 'application/zip'"
+          v-if="app.features.includes(FEATURES.UNARCHIVE) && app.selected.length === 1 && app.selected[0].mime_type === 'application/zip'"
           :title="t('Unarchive')"
-          @click="(!ds.getCount()) || app.modal.open(ModalUnarchive, {items: ds.getSelected()})"
+          @click="(!app.selected.length) || app.modal.open(ModalUnarchive, {items: app.selected})"
       >
-        <UnarchiveSVG :class="(ds.getCount()) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <UnarchiveSVG :class="(app.selected.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div
           class="mx-1.5"
           v-if="app.features.includes(FEATURES.ARCHIVE)"
           :title="t('Archive')"
-          @click="(!ds.getCount()) || app.modal.open(ModalArchive, {items: ds.getSelected()})"
+          @click="(!app.selected.length) || app.modal.open(ModalArchive, {items: app.selected})"
       >
-        <ArchiveSVG :class="(ds.getCount()) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <ArchiveSVG :class="(app.selected.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
     </div>
 

@@ -6,7 +6,6 @@ import {useCopyPaste} from '@/composables/useCopyPaste';
 import type {DirEntry} from '@/types'
 
 const app = inject('ServiceContainer');
-const ds = app.dragSelect;
 const copyPaste = useCopyPaste(app)
 
 const props = defineProps<{
@@ -16,7 +15,7 @@ const props = defineProps<{
 }>()
 
 function isDragging($el: any) {
-  return ds.isDraggingRef.value && ds.getSelection().find((el: any) => $el === el)
+  return false
 }
 
 function isCut() {
@@ -45,11 +44,11 @@ const handleDragStart = (e: any, item: any) => {
     return false;
   }
 
-  ds.isDraggingRef.value = true;
+  // handled by NewExplorer
   e.dataTransfer.setDragImage(props.dragImage.$el, 0, 15);
   e.dataTransfer.effectAllowed = 'all';
   e.dataTransfer.dropEffect = 'copy';
-  e.dataTransfer.setData('items', JSON.stringify(ds.getSelected()))
+  // selection data is provided by NewExplorer now
 };
 
 let touchTimeOut: NodeJS.Timeout | null = null;
@@ -94,7 +93,7 @@ const delayedOpenItem = ($event: any) => {
 <template>
   <div
       :style="{opacity: isDragging($el) || isCut() ? '0.5 !important' : ''}"
-      :class="['vuefinder__item', 'vf-item-' + ds.explorerId]"
+      :class="['vuefinder__item']"
       :data-type="item.type"
       :key="item.path"
       :data-item="JSON.stringify(item)"
@@ -104,7 +103,7 @@ const delayedOpenItem = ($event: any) => {
       @dblclick="openItem(item)"
       @touchstart="delayedOpenItem($event)"
       @touchend="clearTimeOut()"
-      @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', { event: $event, items: ds.getSelected(), target: item })"
+      @contextmenu.prevent="app.emitter.emit('vf-contextmenu-show', { event: $event, items: [item], target: item })"
   >
     <slot/>
     <PinSVG class="vuefinder__item--pinned" v-if="app.pinnedFolders.find((pin: any) => pin.path === item.path)"/>

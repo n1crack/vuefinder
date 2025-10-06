@@ -8,7 +8,6 @@ import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize'
 import useTheme from './composables/useTheme';
 import useModal from "./composables/useModal";
-import useDragSelect from "./composables/useDragSelect";
 import useData from "./composables/useData";
 
 /**
@@ -35,7 +34,7 @@ export default (props, options) => {
     const path = persist ? storage.getStore('path', props.path) : props.path;
     const adapter = persist ? storage.getStore('adapter') : null;
 
-    const dragSelect = useDragSelect();
+    const selectedItems = ref([]);
 
     return reactive({
         /** 
@@ -56,8 +55,8 @@ export default (props, options) => {
         i18n: useI18n(storage, initialLang, emitter, supportedLocales),
         // modal state
         modal: useModal(),
-        // dragSelect object, it is responsible for selecting items
-        dragSelect: computed(() => dragSelect),
+        // selected items managed by components (NewExplorer)
+        selected: computed(() => selectedItems.value),
         // http object
         requester : buildRequester(props.request),
         // active features

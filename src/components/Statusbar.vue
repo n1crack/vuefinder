@@ -7,7 +7,7 @@ import AboutSVG from "@/assets/icons/about.svg";
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {setStore} = app.storage;
-const ds = app.dragSelect;
+// selection provided by NewExplorer via app.selected
 
 const handleStorageSelect = () => {
   app.emitter.emit('vf-search-exit');
@@ -22,7 +22,7 @@ app.emitter.on('vf-search-query', ({newQuery}: { newQuery: string }) => {
 });
 
 const isSelectButtonActive = computed(() => {
-  const selectionAllowed = app.selectButton.multiple ? ds.getSelected().length > 0 : ds.getSelected().length === 1;
+  const selectionAllowed = app.selectButton.multiple ? app.selected.length > 0 : app.selected.length === 1;
   return app.selectButton.active && selectionAllowed;
 });
 
@@ -46,7 +46,7 @@ const isSelectButtonActive = computed(() => {
       <div class="vuefinder__status-bar__info">
         <span v-if="searchQuery.length">{{ app.fs.data.files.length }} items found. </span>
         <span class="vuefinder__status-bar__selected-count">{{
-            app.dragSelect.getCount() > 0 ? t('%s item(s) selected.', app.dragSelect.getCount()) : ''
+            app.selected.length > 0 ? t('%s item(s) selected.', app.selected.length) : ''
           }}</span>
       </div>
     </div>
@@ -54,7 +54,7 @@ const isSelectButtonActive = computed(() => {
       <button class="vf-btn vf-btn-primary vf-btn-small"
               :class="{disabled: !isSelectButtonActive}"
               :disabled="!isSelectButtonActive"
-              v-if="app.selectButton.active" @click="app.selectButton.click(ds.getSelected(), $event)">{{ t("Select") }}
+              v-if="app.selectButton.active" @click="app.selectButton.click(app.selected, $event)">{{ t("Select") }}
       </button>
       <span class="vuefinder__status-bar__about" :title="t('About')" @click="app.modal.open(ModalAbout)">
         <AboutSVG/>
