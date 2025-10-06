@@ -19,6 +19,7 @@ const selectedIds = reactive(new Set<string>());
 const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const [awaitingDrag, setAwaitingDrag] = useAutoResetRef(300);
+const selectionStarted = ref(false);
 
 // Constants for template
 const rowHeight = computed(() => app.view === 'list' ? 24 : 88);
@@ -176,7 +177,9 @@ const onBeforeDrag = () => {
 
 const onBeforeStart = (event: SelectionEvent) => {
   console.log('onBeforeStart')
-
+  if(!event.event?.metaKey && !event.event?.ctrlKey) { 
+    selectionStarted.value = true;
+  }
   setAwaitingDrag(true);
 
   event.selection.resolveSelectables();
@@ -200,6 +203,7 @@ const onStart = ({event, selection}: SelectionEvent) => {
 
 const onMove = (event: SelectionEvent) => {
   console.log('onMove')
+  selectionStarted.value = false;
   const selection = event.selection;
 
   const addedData = extractIds(event.store.changed.added);
@@ -267,7 +271,7 @@ onMounted(() => {
     behaviour: {
       overlap: 'invert',
       intersect: 'touch',
-      startThreshold: 8,
+      startThreshold: 5,
       triggers: [0],
       scrolling: {
         speedDivider: 10,
@@ -307,6 +311,15 @@ defineExpose({
   selectedIds,
   files
 });
+
+const handleContentClick = (event: Event | MouseEvent | TouchEvent) => {
+  if (selectionStarted.value) {
+     selectionObject.value?.clearSelection();
+     selectionStarted.value = false;
+  }
+}
+
+
 const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   console.log('handleItemClick')
   const el = (event.target as Element | null)?.closest(".file-item");
@@ -401,6 +414,7 @@ const handleItemDragStart = (event: DragEvent) => {
             class="scrollContent min-h-full" 
             :style="{ height: `${totalHeight}px`, position: 'relative', width: '100%' }"
             @contextmenu.self.prevent="handleContentContextMenu" 
+            @click.self="handleContentClick"
       >
         <div ref="dragImage" class="vuefinder__explorer__drag-item">
           <DragItem :count="selectedIds.size"/>
