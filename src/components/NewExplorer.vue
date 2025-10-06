@@ -23,6 +23,8 @@ const [awaitingDrag, setAwaitingDrag] = useAutoResetRef(300);
 // Constants for template
 const rowHeight = computed(() => app.view === 'list' ? 24 : 88);
 
+const {t} = app.i18n;
+
 const {
   itemsPerRow,
   totalHeight,
@@ -377,17 +379,17 @@ const handleItemDragStart = (event: DragEvent) => {
     <div v-if="app.view === 'list'" class="vuefinder__new_explorer__header">
       <div @click="sortBy('basename')"
            class="vuefinder__new_explorer__sort-button vuefinder__new_explorer__sort-button--name vf-sort-button">
-        Name
+           {{ t('Name') }}
         <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'"/>
       </div>
       <div @click="sortBy('file_size')"
            class="vuefinder__new_explorer__sort-button vuefinder__new_explorer__sort-button--size vf-sort-button">
-        Size
+           {{ t('Size') }}
         <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'file_size'"/>
       </div>
       <div @click="sortBy('last_modified')"
            class="vuefinder__new_explorer__sort-button vuefinder__new_explorer__sort-button--date vf-sort-button">
-        Date
+           {{ t('Date') }}
         <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'last_modified'"/>
       </div>
     </div>
