@@ -3,7 +3,7 @@ import {computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref, type T
 export interface VirtualColumnsOptions {
     scrollContainer: TemplateRef<HTMLElement>;
     itemWidth?: number;
-    rowHeight?: number;
+    rowHeight?: number | Ref<number>;
     overscan?: number;
     containerPadding?: number;
 }
@@ -35,6 +35,10 @@ export default function useVirtualColumns<T = unknown>(
         containerPadding = 48,
     } = options;
 
+    const getRowHeight = (): number => {
+        return typeof rowHeight === 'number' ? rowHeight : (rowHeight as Ref<number>).value;
+    };
+
     // Refs
     const scrollTop = ref(0);
     const itemsPerRow = ref(6);
@@ -43,11 +47,12 @@ export default function useVirtualColumns<T = unknown>(
 
     // Computed properties
     const totalRows = computed(() => Math.ceil(items.value.length / itemsPerRow.value));
-    const totalHeight = computed(() => totalRows.value * rowHeight);
+    const totalHeight = computed(() => totalRows.value * getRowHeight());
 
     const visibleRange = computed(() => {
-        const start = Math.max(0, Math.floor(scrollTop.value / rowHeight) - overscan);
-        const end = Math.min(totalRows.value, Math.ceil((scrollTop.value + containerHeightRef.value) / rowHeight) + overscan);
+        const rh = getRowHeight();
+        const start = Math.max(0, Math.floor(scrollTop.value / rh) - overscan);
+        const end = Math.min(totalRows.value, Math.ceil((scrollTop.value + containerHeightRef.value) / rh) + overscan);
         return {start, end};
     });
 

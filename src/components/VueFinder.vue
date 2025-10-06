@@ -196,6 +196,7 @@ onMounted(() => {
         <div class="vuefinder__main__content">
           <TreeView/>
           <Explorer/>
+          <NewExplorer/>
         </div>
         <Statusbar/>
       </div>
@@ -206,6 +207,5 @@ onMounted(() => {
 
       <ContextMenu/>
     </div>
-    <NewExplorer/>
   </div>
 </template>

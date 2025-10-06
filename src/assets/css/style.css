@@ -16,6 +16,7 @@
 @import "./components/_breadcrumb.css";
 @import "./components/_context_menu.css";
 @import "./components/_explorer.css";
+@import "./components/_new_explorer.css";
 @import "./components/_drag_item.css";
 @import "./components/_folder_indicator.css";
 @import "./components/_folder_loader_indicator.css";
