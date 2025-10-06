@@ -1,4 +1,4 @@
-import {computed, onMounted, onUnmounted, ref, type Ref, type TemplateRef} from 'vue';
+import {computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref, type TemplateRef} from 'vue';
 
 export interface VirtualColumnsOptions {
     scrollContainer: TemplateRef<HTMLElement>;
@@ -20,6 +20,7 @@ export interface VirtualColumnsReturn {
     getRowItems: <T>(items: T[], rowIndex: number) => T[];
     getItemsInRange: <T>(items: T[], minRow: number, maxRow: number, minCol: number, maxCol: number) => T[];
     getItemPosition: (itemIndex: number) => { row: number; col: number };
+    getContainerHeight: () => number;
 }
 
 export default function useVirtualColumns<T = unknown>(
@@ -37,6 +38,8 @@ export default function useVirtualColumns<T = unknown>(
     // Refs
     const scrollTop = ref(0);
     const itemsPerRow = ref(6);
+    const containerHeightRef = ref(600);
+    let resizeObserver: ResizeObserver | null = null;
 
     // Computed properties
     const totalRows = computed(() => Math.ceil(items.value.length / itemsPerRow.value));
@@ -44,7 +47,7 @@ export default function useVirtualColumns<T = unknown>(
 
     const visibleRange = computed(() => {
         const start = Math.max(0, Math.floor(scrollTop.value / rowHeight) - overscan);
-        const end = Math.min(totalRows.value, Math.ceil((scrollTop.value + getContainerHeight()) / rowHeight) + overscan);
+        const end = Math.min(totalRows.value, Math.ceil((scrollTop.value + containerHeightRef.value) / rowHeight) + overscan);
         return {start, end};
     });
 
@@ -55,7 +58,7 @@ export default function useVirtualColumns<T = unknown>(
 
     // Helper functions
     const getContainerHeight = (): number => {
-        return scrollContainer.value?.clientHeight || 600;
+        return containerHeightRef.value;
     };
 
     const updateItemsPerRow = () => {
@@ -69,6 +72,11 @@ export default function useVirtualColumns<T = unknown>(
         const target = event.target as HTMLElement;
         scrollTop.value = target.scrollTop;
     };
+
+    // React to items change (e.g., data loaded or filtered)
+    watch(() => items.value.length, () => {
+        updateItemsPerRow();
+    });
 
     const getRowItems = <T>(items: T[], rowIndex: number): T[] => {
         const startIndex = rowIndex * itemsPerRow.value;
@@ -104,13 +112,36 @@ export default function useVirtualColumns<T = unknown>(
     };
 
     // Lifecycle
-    onMounted(() => {
+    onMounted(async () => {
+        await nextTick();
+        if (scrollContainer.value) {
+            containerHeightRef.value = scrollContainer.value.clientHeight || 600;
+        }
         updateItemsPerRow();
-        window.addEventListener('resize', updateItemsPerRow);
+        window.addEventListener('resize', () => {
+            if (scrollContainer.value) {
+                containerHeightRef.value = scrollContainer.value.clientHeight || 600;
+            }
+            updateItemsPerRow();
+        });
+        if (scrollContainer.value && 'ResizeObserver' in window) {
+            resizeObserver = new ResizeObserver((entries) => {
+                const entry = entries[0];
+                if (entry) {
+                    containerHeightRef.value = Math.round(entry.contentRect.height);
+                }
+                updateItemsPerRow();
+            });
+            resizeObserver.observe(scrollContainer.value);
+        }
     });
 
     onUnmounted(() => {
         window.removeEventListener('resize', updateItemsPerRow);
+        if (resizeObserver) {
+            resizeObserver.disconnect();
+            resizeObserver = null;
+        }
     });
 
     return {
@@ -124,6 +155,7 @@ export default function useVirtualColumns<T = unknown>(
         handleScroll,
         getRowItems,
         getItemsInRange,
-        getItemPosition
+        getItemPosition,
+        getContainerHeight
     };
 }

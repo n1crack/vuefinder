@@ -184,7 +184,7 @@ const selectSelectionRange = (event: SelectionEvent) => {
 }
 
 onMounted(() => {
-  files.value = generateFiles();
+   files.value = generateFiles();
 
   selectionObject.value = new SelectionArea({
     selectables: ['.file-item'],
@@ -286,7 +286,7 @@ const handleItemDragStart = (event: MouseEvent) => {
 
 
 <template>
-  <div class="w-full  bg-gray-900 flex flex-col" :class="`h-[${containerHeight}px]`">
+  <div class="w-full  bg-gray-900 flex flex-col max-h-screen" >
     <!-- Toolbar -->
     <div class="bg-gray-800 border-b border-gray-700 px-6 py-4">
       <div class="flex items-center justify-between">
@@ -327,7 +327,7 @@ const handleItemDragStart = (event: MouseEvent) => {
     </div>
 
     <!-- File Grid -->
-    <div ref="scrollContainer" class="scroller select-none flex-1 overflow-y-auto p-4 relative"  @scroll="handleScroll">
+    <div ref="scrollContainer" class="scroller select-none flex-1 overflow-y-auto p-4 relative max-h-screen"  @scroll="handleScroll">
       <div 
             ref="scrollContent" 
             class="scrollContent" 
@@ -347,7 +347,7 @@ const handleItemDragStart = (event: MouseEvent) => {
             transform: `translateY(${rowIndex * rowHeight}px)`,
           }"
         >
-          <div :class="`grid gap-4`" :style="{ gridTemplateColumns: `repeat(${itemsPerRow}, 1fr)` }">
+          <div :class="`grid gap-4 justify-self-start`" :style="{ gridTemplateColumns: `repeat(${itemsPerRow}, 1fr)` }">
             <div
                 v-for="(file, colIndex) in getRowFiles(rowIndex)"
                 :key="file.id"
@@ -406,7 +406,7 @@ const handleItemDragStart = (event: MouseEvent) => {
 
 
 <style>
-.selection-area {
+.selection-area { 
   background: rgba(46, 115, 252, 0.11);
   border: 1px solid rgba(98, 155, 255, 0.85);
   border-radius: 0.15em;
