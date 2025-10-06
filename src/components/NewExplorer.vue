@@ -3,6 +3,7 @@ import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef, compu
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import { useAutoResetRef } from '@/composables/useAutoResetRef';
+import { useSelection } from '@/composables/useSelection';
 import SortIcon from './SortIcon.vue';
 import ItemIcon from './ItemIcon.vue';
 import DragItem from './DragItem.vue';
@@ -14,7 +15,7 @@ const app = inject('ServiceContainer') as App;
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
 const files = computed<DirEntry[]>(() => app?.fs?.data?.files ?? []);
-const selectedIds = reactive(new Set<string>());
+// Selection state is managed by useSelection
 
 const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
@@ -43,7 +44,9 @@ const {
   containerPadding: 48
 });
 
-const totalSelectedItem = ref(0);
+// Selection composable
+const selectionApi = useSelection<DirEntry>({ files, getItemPosition, getItemsInRange });
+const { selectedIds, totalSelectedItem } = selectionApi;
 
 // Sorting (similar concept to Explorer)
 type SortColumn = 'basename' | 'file_size' | 'last_modified' | '';
@@ -145,27 +148,7 @@ const getSelectionRange = (selectionParam: Set<string>) => {
 
 // Removed unused handleSelectAll (toolbar select all removed)
 
-const extractIds = (els: Element[]): string[] => {
-  return els.map(v => v.getAttribute('data-key'))
-      .filter((v): v is string => Boolean(v));
-};
-
-const selectionData = ref(new Set<string>([]));
-
-const cleanupSelection = (event: SelectionEvent) => {
-  event.selection.getSelection().forEach((item: Element) => {
-    event.selection.deselect(item, true);
-  })
-}
-
-const refreshSelection = (event: SelectionEvent) => {
-  selectedIds.forEach(id => {
-    const el = document.querySelector(`[data-key="${id}"]`);
-    if (el) {
-      event.selection.select(el, true);
-    }
-  });
-}
+// handlers moved to useSelection
 
 const onBeforeDrag = () => {
   if (!awaitingDrag.value) {
@@ -175,93 +158,31 @@ const onBeforeDrag = () => {
   console.log('onBeforeDrag')
 }
 
-const onBeforeStart = (event: SelectionEvent) => {
+const _onBeforeStart = (event: SelectionEvent) => {
   console.log('onBeforeStart')
   if(!event.event?.metaKey && !event.event?.ctrlKey) { 
     selectionStarted.value = true;
   }
   setAwaitingDrag(true);
-
-  event.selection.resolveSelectables();
-  cleanupSelection(event)
-  refreshSelection(event)
+  selectionApi.onBeforeStart(event);
 }
 
-const onStart = ({event, selection}: SelectionEvent) => {
-
-  if (event && 'type' in event && event.type === 'touchend') {
-    event.preventDefault();
-  }
-
-  const mouse = event as MouseEvent | null;
-  if (!mouse?.ctrlKey && !mouse?.metaKey) {
-    selectedIds.clear();
-    selection.clearSelection(true, true);
-  }
-  selectionData.value.clear()
+const _onStart = (evt: SelectionEvent) => {
+  selectionApi.onStart(evt);
 };
 
-const onMove = (event: SelectionEvent) => {
+const _onMove = (event: SelectionEvent) => {
   console.log('onMove')
   selectionStarted.value = false;
-  const selection = event.selection;
-
-  const addedData = extractIds(event.store.changed.added);
-  const removedData = extractIds(event.store.changed.removed);
-
-  addedData.forEach(id => {
-    if (!selectedIds.has(id)) {
-      selectionData.value.add(id)
-    }
-
-    selectedIds.add(id)
-  });
-
-  removedData.forEach(id => {
-    const el = document.querySelector(`[data-key="${id}"]`);
-    if (el && files.value.find(file => file.path === id)) {
-      selectionData.value.delete(id)
-    }
-
-    selectedIds.delete(id);
-
-  });
-  selection.resolveSelectables();
-  refreshSelection(event)
+  selectionApi.onMove(event);
 };
 
-const onStop = (event: SelectionEvent) => {
+const _onStop = (evt: SelectionEvent) => {
   console.log('onStop')
-
-  selectSelectionRange(event);
-  cleanupSelection(event)
-  refreshSelection(event)
-  totalSelectedItem.value = selectedIds.size;
+  selectionApi.onStop(evt);
 }
 
-const selectSelectionRange = (event: SelectionEvent) => {
-  if (event.event && selectionData.value.size > 0) {
-    const keys = Array.from(selectionData.value);
-    const minIndex = Math.min(...keys.map(key => sortedFiles.value.findIndex(f => f.path === key)).filter(i => i >= 0));
-    const maxIndex = Math.max(...keys.map(key => sortedFiles.value.findIndex(f => f.path === key)).filter(i => i >= 0));
-    const minPos = getItemPosition(minIndex);
-    const maxPos = getItemPosition(maxIndex);
-    const minMaxIds = { minRow: Math.min(minPos.row, maxPos.row), maxRow: Math.max(minPos.row, maxPos.row), minCol: Math.min(minPos.col, maxPos.col), maxCol: Math.max(minPos.col, maxPos.col) };
-
-    if (minMaxIds) {
-      getItemsInRangeWrapper(minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(item => {
-        const el = document.querySelector(`[data-key="${item.path}"]`);
-        if (!el) {
-          if (!selectedIds.has(item.path)) {
-            selectedIds.add(item.path);
-          } else {
-            selectedIds.delete(item.path);
-          }
-        }
-      });
-    }
-  }
-}
+// selectSelectionRange moved into composable
 
 onMounted(() => {
   selectionObject.value = new SelectionArea({
@@ -290,10 +211,10 @@ onMounted(() => {
     }
   });
 
-  selectionObject.value.on('beforestart', onBeforeStart);
-  selectionObject.value.on('start', onStart);
-  selectionObject.value.on('move', onMove);
-  selectionObject.value.on('stop', onStop);
+  selectionObject.value.on('beforestart', _onBeforeStart);
+  selectionObject.value.on('start', _onStart);
+  selectionObject.value.on('move', _onMove);
+  selectionObject.value.on('stop', _onStop);
   selectionObject.value.on('beforedrag', onBeforeDrag);
 });
 
@@ -312,13 +233,12 @@ defineExpose({
   files
 });
 
-const handleContentClick = (event: Event | MouseEvent | TouchEvent) => {
+const handleContentClick = () => {
   if (selectionStarted.value) {
      selectionObject.value?.clearSelection();
      selectionStarted.value = false;
   }
 }
-
 
 const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   console.log('handleItemClick')
