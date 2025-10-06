@@ -280,8 +280,27 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   totalSelectedItem.value = selectedIds.size;
 }
 
-const handleItemDblClick = () => {
-  console.log('handleItemDblClick')
+const openItem = (item: DirEntry) => {
+  const contextMenuItem = app.contextMenuItems.find((cmi: { show: (app: App, args: { searchQuery: string; items: DirEntry[]; target: DirEntry }) => boolean; action: (app: App, items: DirEntry[]) => void }) => {
+    return cmi.show(app, {
+      searchQuery: '',
+      items: [item],
+      target: item,
+    })
+  })
+  if (contextMenuItem) {
+    contextMenuItem.action(app, [item]);
+  }
+};
+
+const handleItemDblClick = (event: MouseEvent) => {
+  const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
+  const key = el ? String(el.getAttribute('data-key')) : null;
+  if (!key) return;
+  const item = sortedFiles.value.find(f => f.path === key);
+  if (item) {
+    openItem(item);
+  }
 }
 
 const getSelectedItems = () => {
