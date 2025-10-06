@@ -7,7 +7,7 @@ import {useCopyPaste} from '@/composables/useCopyPaste';
 
 import Toolbar from '@/components/Toolbar.vue';
 import Breadcrumb from '@/components/Breadcrumb.vue';
-import NewExplorer from '@/components/NewExplorer.vue';
+import Explorer from '@/components/Explorer.vue';
 import ContextMenu from '@/components/ContextMenu.vue';
 import Statusbar from '@/components/Statusbar.vue';
 import TreeView from '@/components/TreeView.vue';
@@ -164,7 +164,7 @@ onMounted(() => {
     fetchPath(path)
   })
 
-  // Selection events from NewExplorer
+  // Selection events from Explorer
   app.emitter.on('vf-select', (items: any[]) => {
     (app as any).selectedItems = items;
     emit('select', items);
@@ -193,7 +193,7 @@ onMounted(() => {
         <Breadcrumb/>
         <div class="vuefinder__main__content">
           <TreeView/>
-          <NewExplorer/>
+          <Explorer/>
         </div>
         <Statusbar/>
       </div>

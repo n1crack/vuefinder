@@ -27,7 +27,7 @@
 }
 
 .vuefinder__explorer__drag-item {
-    @apply relative z-1 pointer-events-none;
+    @apply relative z-1;
 }
 
 .vuefinder__explorer__scrollbar-container {
@@ -52,11 +52,11 @@
 
 .vuefinder__explorer__item-name,
 .vuefinder__explorer__item-path {
-    @apply text-ellipsis overflow-hidden whitespace-nowrap;
+    @apply text-ellipsis overflow-hidden whitespace-nowrap col-span-5;
 }
 
 .vuefinder__explorer__item-size {
-    @apply col-span-2 text-center;
+    @apply col-span-2 text-center whitespace-nowrap;
 }
 
 .vuefinder__explorer__item-date {
@@ -75,26 +75,19 @@
     @apply break-all;
 }
 
-.vf-item-list {
-    @apply grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none;
+.vf-new-explorer-item-list {
+    @apply grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none pointer-events-auto;
 }
 
-.vf-item-grid {
-    @apply
-    m-1 w-[5.5rem] h-20 md:w-24
-    border border-transparent
-    hover:bg-neutral-50
-    dark:hover:bg-gray-700
-    inline-flex text-center justify-center select-none
+.vf-new-explorer-item-grid {
+    @apply m-1 w-[5.5rem] h-20 md:w-24 border border-transparent hover:bg-neutral-50 dark:hover:bg-gray-700 inline-flex text-center justify-center select-none pointer-events-auto;
 }
 
-.vf-explorer-selected {
-    @apply bg-neutral-100 border
-    border-neutral-300
-    dark:bg-slate-700 dark:border-slate-800;
+.vf-new-explorer-selected {
+    @apply bg-neutral-100 border border-neutral-300 dark:bg-slate-700 dark:border-slate-800;
 }
 
-.vf-explorer-scrollbar-container {
+.vf-new-explorer-scrollbar-container {
     top: 33px;
     height: calc(100% - 33px);
     @apply z-[10] !absolute right-0 pointer-events-none;
@@ -106,7 +99,7 @@
 }
 
 @media (max-width: 640px) {
-    .vf-explorer-scrollbar-container {
+    .vf-new-explorer-scrollbar-container {
         top: 33px;
         height: calc(100% - 33px);
 
@@ -116,3 +109,5 @@
         }
     }
 }
+
+
