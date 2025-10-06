@@ -10,6 +10,7 @@ import DragItem from './DragItem.vue';
 import title_shorten from '@/utils/title_shorten';
 import type { App, DirEntry } from '@/types';
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
+import Toast from './Toast.vue';
 
 
 const app = inject('ServiceContainer') as App;
@@ -594,6 +595,7 @@ const handleItemDragEnd = () => {
         </template>
       </div>
     </div>
+    <Toast/>
   </div>
 </template>
 

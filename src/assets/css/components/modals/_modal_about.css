@@ -42,6 +42,10 @@
   @apply block relative gap-x-3 items-center;
 }
 
+.vuefinder__about-modal__setting--flex {
+  @apply flex;
+}
+
 .vuefinder__about-modal__setting-input {
   @apply h-6 flex items-center;
 }

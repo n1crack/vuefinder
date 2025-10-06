@@ -135,7 +135,7 @@ const themes = computed(() => ({
           </div>
           <div class="vuefinder__about-modal__settings">
             <fieldset>
-              <div class="vuefinder__about-modal__setting flex">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="metric_unit" name="metric_unit" type="checkbox"
                          v-model="app.metricUnits"
@@ -150,7 +150,7 @@ const themes = computed(() => ({
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting flex">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="large_icons" name="large_icons" type="checkbox"
                          v-model="app.compactListView"
@@ -165,7 +165,7 @@ const themes = computed(() => ({
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting flex">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="persist_path" name="persist_path" type="checkbox"
                          v-model="app.persist"
@@ -180,7 +180,7 @@ const themes = computed(() => ({
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting flex">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="show_thumbnails" name="show_thumbnails" type="checkbox"
                          v-model="app.showThumbnails"
@@ -195,7 +195,7 @@ const themes = computed(() => ({
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting ">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <label for="theme" class="vuefinder__about-modal__label">
                     {{ t('Theme') }}
