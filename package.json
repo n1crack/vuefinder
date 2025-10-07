@@ -41,6 +41,7 @@
   "license": "MIT",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
+    "@tanstack/vue-query": "^5.90.2",
     "@types/overlayscrollbars": "^1.12.5",
     "@uppy/core": "^5.0.2",
     "@uppy/locales": "^5.0.1",

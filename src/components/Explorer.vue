@@ -30,7 +30,7 @@ const searchQuery = ref('');
 let vfLazyLoad: ILazyLoadInstance | null = null;
 
 // Constants for template
-const rowHeight = computed(() => app.view === 'list' ? 24 : 88);
+const rowHeight = computed(() => app.view === 'grid' ? 88 : 24);
 
 const {t} = app.i18n;
 
