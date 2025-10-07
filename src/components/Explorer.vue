@@ -137,7 +137,6 @@ watch(itemsPerRow, (n) => {
   }
 });
 
-// Helper: get single item for a given virtual row (list view)
 const getItemAtRow = (rowIndex: number): DirEntry | undefined => {
   return sortedFiles.value[rowIndex];
 };

@@ -77,9 +77,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		const addedData = extractIds(event.store.changed.added);
 		const removedData = extractIds(event.store.changed.removed);
 
-        if (!isDragging.value && (addedData.length > 0 || removedData.length > 0)) {
-            isDragging.value = true;
-        }
+        isDragging.value = true;
 
 		addedData.forEach((id) => {
 			if (!selectedIds.has(id)) {
