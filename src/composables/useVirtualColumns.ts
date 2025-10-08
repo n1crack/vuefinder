@@ -29,7 +29,7 @@ export default function useVirtualColumns<T = unknown>(
 ): VirtualColumnsReturn {
     const { 
         scrollContainer,
-        itemWidth  ,
+        itemWidth= 100  ,
         rowHeight ,
         overscan = 2,
         containerPadding = 48,

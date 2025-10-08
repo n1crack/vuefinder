@@ -47,7 +47,7 @@ const {
   updateItemsPerRow
 } = useVirtualColumns<DirEntry>(files, {
   scrollContainer,
-  itemWidth: 120,
+  itemWidth: 90,
   rowHeight,
   overscan: 2,
   containerPadding: 48
