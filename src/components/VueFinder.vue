@@ -13,6 +13,7 @@ import Statusbar from '@/components/Statusbar.vue';
 import TreeView from '@/components/TreeView.vue';
 import {menuItems as contextMenuItems} from '@/utils/contextmenu';
 import type {VueFinderProps} from '@/types';
+import { useFilesStore } from '@/stores/files';
 
 const emit = defineEmits(['select', 'update:path'])
 
@@ -48,6 +49,8 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
 const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
 const {setStore} = app.storage;
+
+const fs = useFilesStore(); 
 
 //  Define root element
 const root = ref(null);
@@ -107,6 +110,9 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
       app.modal.close();
     }
     updateItems(data);
+    fs.setPath(app.fs.path)
+    fs.setFiles(data.files);
+    fs.setStorages(data.storages);
     if (onSuccess) {
       onSuccess(data);
     }
@@ -197,7 +203,16 @@ onMounted(() => {
         </div>
         <Statusbar/>
       </div>
-
+<div class="text-xs">
+    {{ fs.path }}
+</div>
+<pre>
+<div class="text-xs">
+    <div>{{ fs.selectedKeys }}</div>
+    <div>{{ fs.files }}</div>
+    <div>{{ fs.storages }}</div>
+</div>
+</pre>
       <Transition name="fade">
         <Component v-if="app.modal.visible" :is="app.modal.type"/>
       </Transition>

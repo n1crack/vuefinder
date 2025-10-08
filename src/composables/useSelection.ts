@@ -1,5 +1,6 @@
 import { reactive, ref, onMounted, onUnmounted, type Ref } from 'vue';
 import type { SelectionEvent } from '@viselect/vanilla';
+import { useFilesStore } from '@/stores/files';
 
 export interface UseSelectionDeps<T> {
     files: Ref<T[]>;
@@ -9,9 +10,10 @@ export interface UseSelectionDeps<T> {
 }
 
 export function useSelection<T>(deps: UseSelectionDeps<T>) {
-    const { files, getItemPosition, getItemsInRange, getKey } = deps;
+    const {  getItemPosition, getItemsInRange, getKey } = deps;
 
-	const selectedIds = reactive(new Set<string>());
+    const fs = useFilesStore();
+    
 	const selectionData = ref(new Set<string>());
 	const totalSelectedItem = ref(0);
     const isDragging = ref(false);
@@ -29,7 +31,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	};
 
 	const refreshSelection = (event: SelectionEvent) => {
-		selectedIds.forEach((id) => {
+		fs.selectedKeys.forEach((id) => {
 			const el = document.querySelector(`[data-key="${id}"]`);
 			if (el) {
 				event.selection.select(el, true);
@@ -41,7 +43,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		if (selectionParam.size === 0) return null;
 		const ids = Array.from(selectionParam);
         const positions = ids.map((key) => {
-            const index = files.value.findIndex((f) => getKey(f) === key);
+            const index = fs.files.findIndex((f) => getKey(f) === key);
 			return getItemPosition(index >= 0 ? index : 0);
 		});
 		const minRow = Math.min(...positions.map((p) => p.row));
@@ -66,7 +68,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		}
         const mouse = event as MouseEvent | null;
 		if (!mouse?.ctrlKey && !mouse?.metaKey) {
-			selectedIds.clear();
+			fs.selectedKeys.clear();
 			selection.clearSelection(true, true);
 		}
 		selectionData.value.clear();
@@ -80,18 +82,18 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         isDragging.value = true;
 
 		addedData.forEach((id) => {
-			if (!selectedIds.has(id)) {
+			if (!fs.selectedKeys.has(id)) {
 				selectionData.value.add(id);
 			}
-			selectedIds.add(id);
+			fs.selectedKeys.add(id);
 		});
 
         removedData.forEach((id) => {
 			const el = document.querySelector(`[data-key="${id}"]`);
-            if (el && files.value.find((file) => getKey(file) === id)) {
+            if (el && fs.files.find((file) => getKey(file) === id)) {
 				selectionData.value.delete(id);
 			}
-			selectedIds.delete(id);
+			fs.selectedKeys.delete(id);
 		});
 		selection.resolveSelectables();
 		refreshSelection(event);
@@ -101,7 +103,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		if (event.event && selectionData.value.size > 0) {
 			const keys = Array.from(selectionData.value);
             const indices = keys
-                .map((key) => files.value.findIndex((f) => getKey(f) === key))
+                .map((key) => fs.files.findIndex((f) => getKey(f) === key))
                 .filter((i) => i >= 0);
 			if (indices.length === 0) return;
 			const minIndex = Math.min(...indices);
@@ -114,15 +116,15 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 				minCol: Math.min(minPos.col, maxPos.col),
 				maxCol: Math.max(minPos.col, maxPos.col),
 			};
-            getItemsInRange(files.value, minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
+            getItemsInRange(fs.files, minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
                 (item) => {
                     const key = getKey(item as T);
 					const el = document.querySelector(`[data-key="${key}"]`);
 					if (!el) {
-						if (!selectedIds.has(key)) {
-							selectedIds.add(key);
+						if (!fs.selectedKeys.has(key)) {
+							fs.selectedKeys.add(key);
 						} else {
-							selectedIds.delete(key);
+							fs.selectedKeys.delete(key);
 						}
 					}
 				}
@@ -134,7 +136,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		selectSelectionRange(event);
 		cleanupSelection(event);
 		refreshSelection(event);
-		totalSelectedItem.value = selectedIds.size;
+		totalSelectedItem.value = fs.selectedKeys.size;
         isDragging.value = false;
 	};
 
@@ -153,7 +155,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	});
 
 	return {
-		selectedIds,
+		selectedKeys: fs.selectedKeys,
 		selectionData,
 		totalSelectedItem,
         isDragging,

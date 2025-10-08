@@ -3,11 +3,12 @@ import {computed, inject, ref} from 'vue';
 import ModalAbout from "./modals/ModalAbout.vue";
 import StorageSVG from "@/assets/icons/storage.svg";
 import AboutSVG from "@/assets/icons/about.svg";
+import { useFilesStore } from '@/stores/files';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {setStore} = app.storage;
-// selection provided by NewExplorer via app.selected
+const fs = useFilesStore();
 
 const handleStorageSelect = () => {
   app.emitter.emit('vf-search-exit');
@@ -44,9 +45,9 @@ const isSelectButtonActive = computed(() => {
         </select>
       </div>
       <div class="vuefinder__status-bar__info">
-        <span v-if="searchQuery.length">{{ app.fs.data.files.length }} items found. </span>
+        <span v-if="searchQuery.length">{{ fs.files.length }} items found. </span>
         <span class="vuefinder__status-bar__selected-count">{{
-            app.selected.length > 0 ? t('%s item(s) selected.', app.selected.length) : ''
+            fs.selectedKeys.size > 0 ? t('%s item(s) selected.', fs.selectedKeys.size) : ''
           }}</span>
       </div>
     </div>

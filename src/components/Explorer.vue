@@ -13,6 +13,7 @@ import title_shorten from '@/utils/title_shorten';
 import type { App, DirEntry } from '@/types';
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
 import Toast from './Toast.vue';
+import { useFilesStore } from '@/stores/files';
 
 
 const app = inject('ServiceContainer') as App;
@@ -26,11 +27,12 @@ const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const [awaitingDrag, setAwaitingDrag] = useAutoResetRef(200);
 const selectionStarted = ref(false);
 const searchQuery = ref('');
+const fs = useFilesStore();
 
 let vfLazyLoad: ILazyLoadInstance | null = null;
 
 // Constants for template
-const rowHeight = computed(() => app.view === 'grid' ? 88 : 24);
+const rowHeight = computed(() => app.view === 'grid' && !app.fs.searchMode ? 88 : 24);
 
 const {t} = app.i18n;
 
@@ -53,15 +55,15 @@ const {
 
 // Selection composable
 const selectionApi = useSelection<DirEntry>({ files, getItemPosition, getItemsInRange, getKey: (f) => f.path });
-const { selectedIds, totalSelectedItem, isDragging } = selectionApi;
+const { totalSelectedItem, isDragging } = selectionApi;
 const copyPaste = app.copyPaste ?? null as unknown as { isCut: { value: boolean }, copiedItems: { value: Array<{ path: string }> } } | null;
 
 const currentDragKey = ref<string | null>(null);
 
 const isDraggingItem = (key?: string | null) => {
   if (!key || !currentDragKey.value) return false;
-  const draggingSelected = selectedIds.has(currentDragKey.value as never);
-  return isDragging.value && (draggingSelected ? selectedIds.has(key as never) : key === currentDragKey.value);
+  const draggingSelected = fs.selectedKeys.has(currentDragKey.value as never);
+  return isDragging.value && (draggingSelected ? fs.selectedKeys.has(key as never) : key === currentDragKey.value);
 };
 
 const isCut = (key?: string | null) => {
@@ -249,13 +251,7 @@ onMounted(() => {
       container: scrollContainer.value
     });
   }
-  
-  // Emit selected items on change
-  watch(() => Array.from(selectedIds), (ids) => {
-    const selected = new Set(ids as string[]);
-    app.emitter.emit('vf-select', sortedFiles.value.filter(f => selected.has(f.path)));
-  }, { deep: false });
-
+   
   // Handle search queries
   app.emitter.on('vf-search-query', ({newQuery}: { newQuery: string }) => {
     searchQuery.value = newQuery;
@@ -301,7 +297,6 @@ onUnmounted(() => {
 defineExpose({
   getItemsInRange: getItemsInRangeWrapper,
   getSelectionRange,
-  selectedIds,
   files
 });
 
@@ -317,22 +312,22 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   const el = (event.target as Element | null)?.closest(".file-item");
   const mouse = event as MouseEvent | null;
   if (!mouse?.ctrlKey && !mouse?.metaKey) {
-    selectedIds.clear();
+    fs.selectedKeys.clear();
     selectionObject.value?.clearSelection(true, true);
   }
   if (el) {
     const key = String(el.getAttribute('data-key'));
     selectionObject.value?.resolveSelectables();
-    if (selectedIds.has(key)) {
-      selectedIds.delete(key);
+    if (fs.selectedKeys.has(key)) {
+      fs.selectedKeys.delete(key);
     } else {
-      selectedIds.add(key);
+      fs.selectedKeys.add(key);
     }
-    if (selectedIds.size === 0) {
+    if (fs.selectedKeys.size === 0) {
 
     }
   }
-  totalSelectedItem.value = selectedIds.size;
+  totalSelectedItem.value = fs.selectedKeys.size;
 }
 
 const openItem = (item: DirEntry) => {
@@ -359,7 +354,7 @@ const handleItemDblClick = (event: MouseEvent) => {
 }
 
 const getSelectedItems = () => {
-  const selected = new Set(selectedIds);
+  const selected = new Set(fs.selectedKeys);
   return sortedFiles.value.filter(f => selected.has(f.path));
 };
 
@@ -368,7 +363,7 @@ const handleItemContextMenu = (event: MouseEvent) => {
   const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
   if (el) {
     const key = String(el.getAttribute('data-key'));
-    console.log(  key)
+    console.log(key)
   }
   console.log('handleItemContextMenu')
   app.emitter.emit('vf-contextmenu-show', {event, items: getSelectedItems()});
@@ -390,11 +385,11 @@ const handleItemDragStart = (event: DragEvent) => {
     event.dataTransfer.setDragImage(dragImage.value as Element, 0, 15);
     event.dataTransfer.effectAllowed = 'all';
     event.dataTransfer.dropEffect = 'copy';
-    event.dataTransfer.setData('items', JSON.stringify(Array.from(selectedIds)));
+    event.dataTransfer.setData('items', JSON.stringify(Array.from(fs.selectedKeys)));
   }
   const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
   currentDragKey.value = el ? String(el.dataset.key) : null;
-  //console.log('handleItemDragStart', Array.from(selectedIds))
+  //console.log('handleItemDragStart', Array.from(fs.selectedKeys))
 };
 
 const handleItemDragEnd = () => {
@@ -441,7 +436,7 @@ const handleItemDragEnd = () => {
             @click.self="handleContentClick"
       >
         <div ref="dragImage" class="vuefinder__explorer__drag-item">
-          <DragItem :count="selectedIds.size"/>
+          <DragItem :count="fs.selectedKeys.size"/>
         </div>
         
         <!-- Search View -->
@@ -475,7 +470,7 @@ const handleItemDragEnd = () => {
                   @contextmenu.prevent="handleItemContextMenu"
                   :class="[
                     'file-item vf-new-explorer-item-list pointer-events-auto',
-                    selectedIds.has(getItemAtRow(rowIndex)?.path as never) ? 'vf-new-explorer-selected' : ''
+                    fs.selectedKeys.has(getItemAtRow(rowIndex)?.path as never) ? 'vf-new-explorer-selected' : ''
                   ]"
               >
                 <div class="vuefinder__explorer__item-list-content">
@@ -523,7 +518,7 @@ const handleItemDragEnd = () => {
                   @contextmenu.prevent="handleItemContextMenu"
                   :class="[
                     'file-item vf-new-explorer-item-grid pointer-events-auto',
-                    selectedIds.has(file.path as never) ? 'vf-new-explorer-selected' : ''
+                    fs.selectedKeys.has(file.path as never) ? 'vf-new-explorer-selected' : ''
                   ]"
               >
                 <div>
@@ -575,7 +570,7 @@ const handleItemDragEnd = () => {
                   @contextmenu.prevent="handleItemContextMenu"
                   :class="[
                     'file-item vf-new-explorer-item-list pointer-events-auto',
-                    selectedIds.has(getItemAtRow(rowIndex)?.path as never) ? 'vf-new-explorer-selected' : ''
+                    fs.selectedKeys.has(getItemAtRow(rowIndex)?.path as never) ? 'vf-new-explorer-selected' : ''
                   ]"
               >
                 <div class="vuefinder__explorer__item-list-content">
