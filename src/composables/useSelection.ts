@@ -13,7 +13,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     const fs = useFilesStore();
     
-	const selectionData = ref(new Set<string>());
+	const tempSelection = ref(new Set<string>());
     const isDragging = ref(false);
 
 	const extractIds = (els: Element[]): string[] => {
@@ -69,7 +69,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 			fs.selectedKeys.clear();
 			selection.clearSelection(true, true);
 		}
-		selectionData.value.clear();
+		tempSelection.value.clear();
 	};
 
     const onMove = (event: SelectionEvent) => {
@@ -81,7 +81,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
 		addedData.forEach((id) => {
 			if (!fs.selectedKeys.has(id)) {
-				selectionData.value.add(id);
+				tempSelection.value.add(id);
 			}
 			fs.selectedKeys.add(id);
 		});
@@ -89,7 +89,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         removedData.forEach((id) => {
 			const el = document.querySelector(`[data-key="${id}"]`);
             if (el && fs.sortedFiles.find((file) => getKey(file as T) === id)) {
-				selectionData.value.delete(id);
+				tempSelection.value.delete(id);
 			}
 			fs.selectedKeys.delete(id);
 		});
@@ -98,8 +98,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	};
 
     const selectSelectionRange = (event: SelectionEvent) => {
-		if (event.event && selectionData.value.size > 0) {
-			const keys = Array.from(selectionData.value);
+		if (event.event && tempSelection.value.size > 0) {
+			const keys = Array.from(tempSelection.value);
             const indices = keys
                 .map((key) => fs.sortedFiles.findIndex((f) => getKey(f as T) === key))
                 .filter((i) => i >= 0);
@@ -150,7 +150,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	});
 
 	return {
-		selectionData,
         isDragging,
 		extractIds,
 		cleanupSelection,
