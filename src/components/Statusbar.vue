@@ -47,7 +47,7 @@ const isSelectButtonActive = computed(() => {
       <div class="vuefinder__status-bar__info">
         <span v-if="searchQuery.length">{{ fs.files.length }} items found. </span>
         <span class="vuefinder__status-bar__selected-count">{{
-            fs.selectedKeys.size > 0 ? t('%s item(s) selected.', fs.selectedKeys.size) : ''
+            fs.selectedCount > 0 ? t('%s item(s) selected.', fs.selectedCount) : ''
           }}</span>
       </div>
     </div>

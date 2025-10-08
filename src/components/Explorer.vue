@@ -327,7 +327,7 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
 
     }
   }
-  totalSelectedItem.value = fs.selectedKeys.size;
+  fs.setSelectedCount(fs.selectedKeys.size);
 }
 
 const openItem = (item: DirEntry) => {

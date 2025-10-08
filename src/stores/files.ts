@@ -106,7 +106,7 @@ export const useFilesStore = defineStore('files', () => {
     return files.value.filter(f => keys.has(f.path));
   });
 
-  const selectedCount = computed<number>(() => selectedKeys.value.size);
+  const selectedCount = ref<number>(0);
 
   function select(key: string) {
     selectedKeys.value.add(key);
@@ -132,6 +132,10 @@ export const useFilesStore = defineStore('files', () => {
     selectedKeys.value = new Set(keys ?? []);
   }
 
+  function setSelectedCount(count: number) {
+    selectedCount.value = count;
+  }
+
   return {
     // State
     files,
@@ -148,6 +152,7 @@ export const useFilesStore = defineStore('files', () => {
     setFiles, // set the files
     setStorages, // set the storages
     setSort, // set the sort
+    setSelectedCount, // set the selected count
     toggleSort, // toggle the sort
     clearSort, // clear the sort
     select, // select an item

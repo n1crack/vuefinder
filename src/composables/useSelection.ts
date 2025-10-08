@@ -15,7 +15,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const fs = useFilesStore();
     
 	const selectionData = ref(new Set<string>());
-	const totalSelectedItem = ref(0);
     const isDragging = ref(false);
 
 	const extractIds = (els: Element[]): string[] => {
@@ -136,7 +135,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		selectSelectionRange(event);
 		cleanupSelection(event);
 		refreshSelection(event);
-		totalSelectedItem.value = fs.selectedKeys.size;
+        fs.setSelectedCount(fs.selectedKeys.size); 
+
         isDragging.value = false;
 	};
 
@@ -157,7 +157,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	return {
 		selectedKeys: fs.selectedKeys,
 		selectionData,
-		totalSelectedItem,
         isDragging,
 		extractIds,
 		cleanupSelection,
