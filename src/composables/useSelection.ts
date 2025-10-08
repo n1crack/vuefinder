@@ -1,4 +1,4 @@
-import { reactive, ref, onMounted, onUnmounted, type Ref } from 'vue';
+import { ref, onMounted, onUnmounted, type Ref } from 'vue';
 import type { SelectionEvent } from '@viselect/vanilla';
 import { useFilesStore } from '@/stores/files';
 
@@ -155,7 +155,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	});
 
 	return {
-		selectedKeys: fs.selectedKeys,
 		selectionData,
         isDragging,
 		extractIds,
