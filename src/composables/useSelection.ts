@@ -119,11 +119,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
                     const key = getKey(item as T);
 					const el = document.querySelector(`[data-key="${key}"]`);
 					if (!el) {
-						if (!fs.selectedKeys.has(key)) {
-							fs.selectedKeys.add(key);
-						} else {
-							fs.selectedKeys.delete(key);
-						}
+                        fs.toggleSelect(key);
 					}
 				}
 			);
