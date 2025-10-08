@@ -1,9 +1,8 @@
-import { ref, onMounted, onUnmounted, type Ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import type { SelectionEvent } from '@viselect/vanilla';
 import { useFilesStore } from '@/stores/files';
 
 export interface UseSelectionDeps<T> {
-    files: Ref<T[]>;
     getItemPosition: (itemIndex: number) => { row: number; col: number };
     getItemsInRange: <U>(items: U[], minRow: number, maxRow: number, minCol: number, maxCol: number) => U[];
     getKey: (item: T) => string;
@@ -42,7 +41,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		if (selectionParam.size === 0) return null;
 		const ids = Array.from(selectionParam);
         const positions = ids.map((key) => {
-            const index = fs.files.findIndex((f) => getKey(f) === key);
+            const index = fs.sortedFiles.findIndex((f) => getKey(f as T) === key);
 			return getItemPosition(index >= 0 ? index : 0);
 		});
 		const minRow = Math.min(...positions.map((p) => p.row));
@@ -89,7 +88,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
         removedData.forEach((id) => {
 			const el = document.querySelector(`[data-key="${id}"]`);
-            if (el && fs.files.find((file) => getKey(file) === id)) {
+            if (el && fs.sortedFiles.find((file) => getKey(file as T) === id)) {
 				selectionData.value.delete(id);
 			}
 			fs.selectedKeys.delete(id);
@@ -102,7 +101,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		if (event.event && selectionData.value.size > 0) {
 			const keys = Array.from(selectionData.value);
             const indices = keys
-                .map((key) => fs.files.findIndex((f) => getKey(f) === key))
+                .map((key) => fs.sortedFiles.findIndex((f) => getKey(f as T) === key))
                 .filter((i) => i >= 0);
 			if (indices.length === 0) return;
 			const minIndex = Math.min(...indices);
@@ -115,7 +114,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 				minCol: Math.min(minPos.col, maxPos.col),
 				maxCol: Math.max(minPos.col, maxPos.col),
 			};
-            getItemsInRange(fs.files, minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
+            getItemsInRange(fs.sortedFiles, minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
                 (item) => {
                     const key = getKey(item as T);
 					const el = document.querySelector(`[data-key="${key}"]`);

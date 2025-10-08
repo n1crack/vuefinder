@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {inject, onMounted, provide, ref, watch} from 'vue';
-// @ts-ignore
+// @ts-expect-error - ServiceContainer is a legacy JS module
 import ServiceContainer from '@/ServiceContainer.js';
 import {useHotkeyActions} from '@/composables/useHotkeyActions';
 import {useCopyPaste} from '@/composables/useCopyPaste';
@@ -12,7 +12,7 @@ import ContextMenu from '@/components/ContextMenu.vue';
 import Statusbar from '@/components/Statusbar.vue';
 import TreeView from '@/components/TreeView.vue';
 import {menuItems as contextMenuItems} from '@/utils/contextmenu';
-import type {VueFinderProps} from '@/types';
+import type {VueFinderProps, DirEntry} from '@/types';
 import { useFilesStore } from '@/stores/files';
 
 const emit = defineEmits(['select', 'update:path'])
@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
     return {
       active: false,
       multiple: false,
-      click: (items) => {
+      click: () => {
         // items is an array of selected items
         //
       },
@@ -61,7 +61,7 @@ app.root = root;
 useHotkeyActions(app);
 useCopyPaste(app);
 
-const updateItems = (data: any) => {
+const updateItems = (data: Record<string, unknown>) => {
   Object.assign(app.fs.data, data);
   // selection handled inside components now
 };
@@ -77,13 +77,13 @@ app.emitter.on('vf-fetch-abort', () => {
 
 // Fetch data
 app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}: {
-  params: any,
-  body?: any,
-  onSuccess?: any,
-  onError?: any,
+  params: Record<string, unknown>,
+  body?: unknown,
+  onSuccess?: ((data: unknown) => void) | null,
+  onError?: ((error: unknown) => void) | null,
   noCloseModal?: boolean
 }) => {
-  if (['index', 'search'].includes(params.q)) {
+  if (['index', 'search'].includes(params.q as string)) {
     if (controller) {
       controller.abort();
     }
@@ -98,7 +98,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     params,
     body,
     abortSignal: signal,
-  }).then((data: any) => {
+  }).then((data: Record<string, unknown>) => {
     app.fs.adapter = data.adapter;
     if (app.persist) {
       app.fs.path = data.dirname;
@@ -111,22 +111,22 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     }
     updateItems(data);
     fs.setPath(app.fs.path)
-    fs.setFiles(data.files);
-    fs.setStorages(data.storages);
+    fs.setFiles(data.files as DirEntry[]);
+    fs.setStorages(data.storages as string[]);
     if (onSuccess) {
       onSuccess(data);
     }
-  }).catch((e: any) => {
+  }).catch((e: unknown) => {
     console.error(e)
     if (onError) {
       onError(e);
     } else {
-      if (e.message) {
-        app.emitter.emit('vf-toast-push', {label: e.message, type: 'error'})
+      if (e && typeof e === 'object' && 'message' in e) {
+        app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
       }
     }
   }).finally(() => {
-    if (['index', 'search'].includes(params.q)) {
+    if (['index', 'search'].includes(params.q as string)) {
       app.fs.loading = false;
     }
   });
@@ -138,7 +138,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
  * @param path {string | undefined} example: 'media://public'
  */
 function fetchPath(path: string | undefined) {
-  let pathExists: any = {};
+  let pathExists: Record<string, unknown> = {};
 
   if (path && path.includes("://")) {
     pathExists = {
@@ -149,9 +149,9 @@ function fetchPath(path: string | undefined) {
 
   app.emitter.emit('vf-fetch', {
     params: {q: 'index', adapter: app.fs.adapter, ...pathExists},
-    onError: props.onError ?? ((e: any) => {
-      if (e.message) {
-        app.emitter.emit('vf-toast-push', {label: e.message, type: 'error'})
+    onError: props.onError ?? ((e: unknown) => {
+      if (e && typeof e === 'object' && 'message' in e) {
+        app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
       }
     })
   });
@@ -171,8 +171,8 @@ onMounted(() => {
   })
 
   // Selection events from Explorer
-  app.emitter.on('vf-select', (items: any[]) => {
-    (app as any).selectedItems = items;
+  app.emitter.on('vf-select', (items: unknown[]) => {
+    (app as Record<string, unknown>).selectedItems = items;
     emit('select', items);
   });
 
@@ -203,16 +203,6 @@ onMounted(() => {
         </div>
         <Statusbar/>
       </div>
-<div class="text-xs">
-    {{ fs.path }}
-</div>
-<pre>
-<div class="text-xs">
-    <div>{{ fs.selectedKeys }}</div>
-    <div>{{ fs.files }}</div>
-    <div>{{ fs.storages }}</div>
-</div>
-</pre>
       <Transition name="fade">
         <Component v-if="app.modal.visible" :is="app.modal.type"/>
       </Transition>

@@ -1,7 +1,7 @@
 defineOptions({name: 'VuefinderExplorer'});
 
 <script setup lang="ts">
-import {ref, onMounted, onUnmounted, reactive, shallowRef, useTemplateRef, computed, inject, watch, onUpdated} from 'vue';
+import {ref, onMounted, onUnmounted, shallowRef, useTemplateRef, computed, inject, watch, onUpdated} from 'vue';
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import { useAutoResetRef } from '@/composables/useAutoResetRef';
@@ -54,8 +54,8 @@ const {
 });
 
 // Selection composable
-const selectionApi = useSelection<DirEntry>({ files, getItemPosition, getItemsInRange, getKey: (f) => f.path });
-const { totalSelectedItem, isDragging } = selectionApi;
+const selectionApi = useSelection<DirEntry>({ getItemPosition, getItemsInRange, getKey: (f) => f.path });
+const { isDragging } = selectionApi;
 const copyPaste = app.copyPaste ?? null as unknown as { isCut: { value: boolean }, copiedItems: { value: Array<{ path: string }> } } | null;
 
 const currentDragKey = ref<string | null>(null);
@@ -74,54 +74,7 @@ const isCut = (key?: string | null) => {
 };
 
 
-// Sorting (similar concept to Explorer)
-type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
-type SortOrder = 'asc' | 'desc' | '';
-const sort = reactive<{ active: boolean; column: SortColumn; order: SortOrder }>({
-  active: false,
-  column: '',
-  order: ''
-});
-
-const compareValues = (a: unknown, b: unknown): number => {
-  if (typeof a === 'string' && typeof b === 'string') {
-    return a.toLowerCase().localeCompare(b.toLowerCase());
-  }
-  const an = Number(a) || 0;
-  const bn = Number(b) || 0;
-  return an === bn ? 0 : an < bn ? -1 : 1;
-};
-
-const sortedFiles = computed<DirEntry[]>(() => {
-  if (!sort.active || !sort.column) return files.value;
-  const order = sort.order === 'asc' ? 1 : -1;
-  return files.value.slice().sort((a, b) => {
-    let av: unknown;
-    let bv: unknown;
-    if (sort.column === 'basename') {
-      av = a.basename; bv = b.basename;
-    } else if (sort.column === 'file_size') {
-      av = a.file_size ?? 0; bv = b.file_size ?? 0;
-    } else if (sort.column === 'last_modified') {
-      av = a.last_modified ?? 0; bv = b.last_modified ?? 0;
-    } else if (sort.column === 'path') {
-      av = a.path; bv = b.path;
-    }
-    return compareValues(av, bv) * order;
-  });
-});
-
-const sortBy = (column: Exclude<SortColumn, ''>) => {
-  if (sort.active && sort.column === column) {
-    sort.active = sort.order === 'asc';
-    sort.column = column;
-    sort.order = 'desc';
-  } else {
-    sort.active = true;
-    sort.column = column;
-    sort.order = 'asc';
-  }
-};
+// Use sorting from store
 
 // Ensure list view renders 1 item per row and grid recalculates
 watch(() => app.view, (view) => {
@@ -140,17 +93,17 @@ watch(itemsPerRow, (n) => {
 });
 
 const getItemAtRow = (rowIndex: number): DirEntry | undefined => {
-  return sortedFiles.value[rowIndex];
+  return fs.sortedFiles[rowIndex];
 };
 
 // Use getRowItems from composable using sorted files
 const getRowFiles = (rowIndex: number): DirEntry[] => {
-  return getRowItems(sortedFiles.value, rowIndex);
+  return getRowItems(fs.sortedFiles, rowIndex);
 };
 
 // Use getItemsInRange from composable
 const getItemsInRangeWrapper = (minRow: number, maxRow: number, minCol: number, maxCol: number) => {
-  return getItemsInRange(sortedFiles.value, minRow, maxRow, minCol, maxCol);
+  return getItemsInRange(fs.sortedFiles, minRow, maxRow, minCol, maxCol);
 };
 
 // Get selection range
@@ -161,7 +114,7 @@ const getSelectionRange = (selectionParam: Set<string>) => {
 
   const ids = Array.from(selectionParam);
   const positions = ids.map(key => {
-    const index = sortedFiles.value.findIndex(f => f.path === key);
+    const index = fs.sortedFiles.findIndex(f => f.path === key);
     return getItemPosition(index >= 0 ? index : 0);
   });
 
@@ -182,11 +135,9 @@ const onBeforeDrag = () => {
     // we can drag and drop items now..
     return false;
   }
-  console.log('onBeforeDrag')
 }
 
 const _onBeforeStart = (event: SelectionEvent) => {
-  console.log('onBeforeStart')
   if(!event.event?.metaKey && !event.event?.ctrlKey) { 
     selectionStarted.value = true;
   }
@@ -199,13 +150,11 @@ const _onStart = (evt: SelectionEvent) => {
 };
 
 const _onMove = (event: SelectionEvent) => {
-  console.log('onMove')
   selectionStarted.value = false;
   selectionApi.onMove(event);
 };
 
 const _onStop = (evt: SelectionEvent) => {
-  console.log('onStop')
   selectionApi.onStop(evt);
 }
 
@@ -308,24 +257,16 @@ const handleContentClick = () => {
 }
 
 const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
-  console.log('handleItemClick')
   const el = (event.target as Element | null)?.closest(".file-item");
   const mouse = event as MouseEvent | null;
   if (!mouse?.ctrlKey && !mouse?.metaKey) {
-    fs.selectedKeys.clear();
+    fs.clearSelection();
     selectionObject.value?.clearSelection(true, true);
   }
   if (el) {
     const key = String(el.getAttribute('data-key'));
     selectionObject.value?.resolveSelectables();
-    if (fs.selectedKeys.has(key)) {
-      fs.selectedKeys.delete(key);
-    } else {
-      fs.selectedKeys.add(key);
-    }
-    if (fs.selectedKeys.size === 0) {
-
-    }
+    fs.toggleSelect(key);
   }
   fs.setSelectedCount(fs.selectedKeys.size);
 }
@@ -347,7 +288,7 @@ const handleItemDblClick = (event: MouseEvent) => {
   const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
   const key = el ? String(el.getAttribute('data-key')) : null;
   if (!key) return;
-  const item = sortedFiles.value.find(f => f.path === key);
+  const item = fs.sortedFiles.find(f => f.path === key);
   if (item) {
     openItem(item);
   }
@@ -355,7 +296,7 @@ const handleItemDblClick = (event: MouseEvent) => {
 
 const getSelectedItems = () => {
   const selected = new Set(fs.selectedKeys);
-  return sortedFiles.value.filter(f => selected.has(f.path));
+  return fs.sortedFiles.filter(f => selected.has(f.path));
 };
 
 const handleItemContextMenu = (event: MouseEvent) => {
@@ -363,9 +304,12 @@ const handleItemContextMenu = (event: MouseEvent) => {
   const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
   if (el) {
     const key = String(el.getAttribute('data-key'));
-    console.log(key)
+    // Ensure the clicked item is selected if not already
+    if (!fs.selectedKeys.has(key)) {
+      fs.clearSelection();
+      fs.select(key);
+    }
   }
-  console.log('handleItemContextMenu')
   app.emitter.emit('vf-contextmenu-show', {event, items: getSelectedItems()});
 }
 
@@ -389,7 +333,6 @@ const handleItemDragStart = (event: DragEvent) => {
   }
   const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
   currentDragKey.value = el ? String(el.dataset.key) : null;
-  //console.log('handleItemDragStart', Array.from(fs.selectedKeys))
 };
 
 const handleItemDragEnd = () => {
@@ -403,25 +346,25 @@ const handleItemDragEnd = () => {
   <div class="vuefinder__explorer__container">
     <!-- List header like Explorer (shown only in list view) -->
     <div v-if="app.view === 'list' || searchQuery.length" class="vuefinder__explorer__header">
-      <div @click="sortBy('basename')"
+      <div @click="fs.toggleSort('basename')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button">
            {{ t('Name') }}
-        <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'"/>
+        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'basename'"/>
       </div>
-      <div v-if="!searchQuery.length" @click="sortBy('file_size')"
+      <div v-if="!searchQuery.length" @click="fs.toggleSort('file_size')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button">
            {{ t('Size') }}
-        <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'file_size'"/>
+        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'file_size'"/>
       </div>
-      <div v-if="searchQuery.length" @click="sortBy('path')"
+      <div v-if="searchQuery.length" @click="fs.toggleSort('path')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--path vf-sort-button">
            {{ t('Filepath') }}
-        <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'path'"/>
+        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'path'"/>
       </div>
-      <div v-if="!searchQuery.length" @click="sortBy('last_modified')"
+      <div v-if="!searchQuery.length" @click="fs.toggleSort('last_modified')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button">
            {{ t('Date') }}
-        <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'last_modified'"/>
+        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'last_modified'"/>
       </div>
     </div>
     <div class="vuefinder__linear-loader absolute" v-if="app.loadingIndicator === 'linear' && app.fs.loading"></div>
