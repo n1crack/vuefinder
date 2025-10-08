@@ -96,11 +96,8 @@
         }
     }
 
-    /*
-      DragSelect selector appends to body
-     */
-    .vf-explorer-selector {
-        @apply border !border-slate-500  !bg-slate-300 opacity-50;
+    .selection-area { 
+        @apply bg-slate-300 opacity-50 !border !border-slate-500 rounded-sm;
     }
 
     kbd {

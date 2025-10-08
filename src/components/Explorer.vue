@@ -219,7 +219,7 @@ onMounted(() => {
     behaviour: {
       overlap: 'invert',
       intersect: 'touch',
-      startThreshold: 5,
+      startThreshold: 0,
       triggers: [0],
       scrolling: {
         speedDivider: 10,
@@ -594,12 +594,3 @@ const handleItemDragEnd = () => {
     <Toast/>
   </div>
 </template>
-
-
-<style>
-.selection-area { 
-  background: rgba(46, 115, 252, 0.11);
-  border: 1px solid rgba(98, 155, 255, 0.85);
-  border-radius: 0.15em;
-}
-</style>
