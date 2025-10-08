@@ -68,7 +68,7 @@ export default function useVirtualColumns<T = unknown>(
 
     const updateItemsPerRow = () => {
         if (scrollContainer.value) {
-            const width = scrollContainer.value.clientWidth - containerPadding;
+        const width = scrollContainer.value.clientWidth - containerPadding;
             itemsPerRow.value = Math.max(Math.floor(width / itemWidth), 2);
         }
     }

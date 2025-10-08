@@ -47,10 +47,10 @@ const {
   updateItemsPerRow
 } = useVirtualColumns<DirEntry>(files, {
   scrollContainer,
-  itemWidth: 90,
+  itemWidth: 104,
   rowHeight,
   overscan: 2,
-  containerPadding: 48
+  containerPadding: 0
 });
 
 // Selection composable
