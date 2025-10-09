@@ -8,6 +8,8 @@ import {OverlayScrollbars} from "overlayscrollbars";
 import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
+import { useFilesStore } from '@/stores/files';
+const fs = useFilesStore();
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const showSubFolders = ref<Record<string, boolean>>({});
 
@@ -55,13 +57,13 @@ const treeSubFolders = computed(() => {
             @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.adapter, path:item.path}})"
         >
           <div class="vuefinder__treesubfolderlist__item-icon">
-            <OpenFolderSVG v-if="app.fs.path === item.path"/>
+            <OpenFolderSVG v-if="fs.path.path === item.path"/>
             <FolderSVG v-else/>
           </div>
           <div
               class="vuefinder__treesubfolderlist__item-text"
               :class="{
-              'vuefinder__treesubfolderlist__item-text--active': app.fs.path === item.path,
+              'vuefinder__treesubfolderlist__item-text--active': fs.path.path === item.path,
             }"
           >
             {{ item.basename }}

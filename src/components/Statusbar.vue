@@ -53,7 +53,7 @@ const isSelectButtonActive = computed(() => {
       <button class="vf-btn vf-btn-primary vf-btn-small"
               :class="{disabled: !isSelectButtonActive}"
               :disabled="!isSelectButtonActive"
-              v-if="app.selectButton.active" @click="app.selectButton.click(app.selected, $event)">{{ t("Select") }}
+              v-if="app.selectButton.active" @click="app.selectButton.click(fs.selectedItems, $event)">{{ t("Select") }}
       </button>
       <span class="vuefinder__status-bar__about" :title="t('About')" @click="app.modal.open(ModalAbout)">
         <AboutSVG/>
