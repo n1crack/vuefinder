@@ -179,19 +179,19 @@ export const menuItems: Item[] = [
     action: (app, selectedItems) => app.modal.open(ModalRename, {items: selectedItems}),
     show: showIf({target: 'one', feature: FEATURES.RENAME})
   },
-  {
-    id: ContextMenuIds.move,
-    title: ({t}) => t('Move'),
-    action: (app, selectedItems) => {
-      const fs = useFilesStore();
-      const target = { storage: fs.path.storage || '', path: fs.path.path || '', type: 'dir' as const };
-      app.modal.open(ModalMove, { items: { from: selectedItems, to: target } });
-    },
-    show: showIfAny(
-      showIf({target: 'one', feature: FEATURES.MOVE}),
-      showIf({target: 'many', feature: FEATURES.MOVE})
-    )
-  },
+//   {
+//     id: ContextMenuIds.move,
+//     title: ({t}) => t('Move'),
+//     action: (app, selectedItems) => {
+//       const fs = useFilesStore();
+//       const target = { storage: fs.path.storage || '', path: fs.path.path || '', type: 'dir' as const };
+//       app.modal.open(ModalMove, { items: { from: selectedItems, to: target } });
+//     },
+//     show: showIfAny(
+//       showIf({target: 'one', feature: FEATURES.MOVE}),
+//       showIf({target: 'many', feature: FEATURES.MOVE})
+//     )
+//   },
   {
     id: ContextMenuIds.archive,
     title: ({t}) => t('Archive'),
