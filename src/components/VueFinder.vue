@@ -56,12 +56,8 @@ const fs = useFilesStore();
 const root = ref(null);
 app.root = root;
 
-// Listen to selection events from components and expose via app.selected
-
 useHotkeyActions(app);
 useCopyPaste(app);
-
-
 
 /** @type {AbortController} */
 let controller: AbortController | null = null;
@@ -80,6 +76,13 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   onError?: ((error: unknown) => void) | null,
   noCloseModal?: boolean
 }) => {
+  // Fill missing adapter/path for common queries
+  const finalParams: Record<string, unknown> = { ...params };
+  const q = String(finalParams.q ?? '');
+  if (q === 'index' || q === 'search') {
+    if (!('adapter' in finalParams) && fs.path.storage) finalParams.adapter = fs.path.storage;
+    if (!('path' in finalParams) && fs.path.path) finalParams.path = fs.path.path;
+  }
   if (['index', 'search'].includes(params.q as string)) {
     if (controller) {
       controller.abort();
@@ -92,7 +95,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   app.requester.send({
     url: '',
     method: params.m || 'get',
-    params,
+    params: finalParams,
     body,
     abortSignal: signal,
   }).then((data: Record<string, unknown>) => {
@@ -143,16 +146,10 @@ function fetchPath(path: string | undefined) {
       adapter: path.split("://")[0],
       path: path
     };
-  }
-
-  const baseParams: Record<string, unknown> = { q: 'index', ...pathExists };
-  // Only include adapter if we have one explicitly (from path) or already known
-  if (!('adapter' in baseParams) && fs.path.storage) {
-    baseParams.adapter = fs.path.storage;
-  }
+  } 
 
   app.emitter.emit('vf-fetch', {
-    params: baseParams,
+    params: {q: 'index', adapter: fs.path.storage, ...pathExists},
     onError: props.onError ?? ((e: unknown) => {
       if (e && typeof e === 'object' && 'message' in e) {
         app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})

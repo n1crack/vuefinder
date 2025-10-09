@@ -1,19 +1,18 @@
 import { inject, onBeforeUnmount, onMounted, provide, ref } from "vue";
-import { splitPath } from "../utils/path";
 import ModalCopy from "../components/modals/ModalCopy.vue";
 import ModalMove from "../components/modals/ModalMove.vue";
 import type { App, DirEntry } from "../types";
+import { useFilesStore } from "@/stores/files";
 
 function initCopyPaste(app: App) {
-  const ds = { getSelected: () => app.selected } as any;
   const { t } = app.i18n;
-
+  const fs = useFilesStore();
   const isCut = ref(false)
   const copiedItems = ref<DirEntry[]>([])
 
   function handleCopy(e: ClipboardEvent, cut = false) {
     isCut.value = cut;
-    const items = ds.getSelected();
+    const items = fs.selectedItems;
     if (items.length === 0) return;
     e.preventDefault();
     copiedItems.value = items
@@ -27,16 +26,13 @@ function initCopyPaste(app: App) {
     const data = e.clipboardData?.getData("text/plain") || ''
     let items: DirEntry[] = []
     try {
-      items = (JSON.parse(data) as DirEntry[]).filter((item) => {
-        const [storage] = splitPath(item.path)
-        return app.fs.data.storages.includes(storage as string)
-      })
+      items = (JSON.parse(data) as DirEntry[])
     } catch {
       console.error("Failed to parse pasted data")
     }
     if (items.length === 0) return
     e.preventDefault();
-    const target = { storage: app.fs.data.adapter, path: app.fs.data.dirname, type: 'dir' as const }
+    const target = { storage: fs.path.storage, path: fs.path.path, type: 'dir' as const }
     app.modal.open(isCut.value ? ModalMove : ModalCopy, { items: { from: items, to: target } });
   }
 

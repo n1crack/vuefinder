@@ -4,7 +4,7 @@ import type { App, DirEntry } from "../types";
 
 export function useDragNDrop(app: App, classList: string[] = []) {
   const ds = {
-    getSelected: () => app.selected,
+    getSelected: () => (app as any).selected || [],
     getSelection: () => [],
     isDraggingRef: { value: false },
   } as any;

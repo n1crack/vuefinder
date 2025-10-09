@@ -163,12 +163,12 @@ export default function useUpload(): UseUploadReturn {
 
         uppy.on('error', (error: any) => {
             message.value = error.message; uploading.value = false;
-            app.emitter.emit('vf-fetch', { params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}, noCloseModal: true });
+            app.emitter.emit('vf-fetch', { params: {q: 'index'}, noCloseModal: true });
         });
 
         uppy.on('complete', () => {
             uploading.value = false;
-            app.emitter.emit('vf-fetch', { params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}, noCloseModal: true });
+            app.emitter.emit('vf-fetch', { params: {q: 'index'}, noCloseModal: true });
         });
 
         // Event listeners
