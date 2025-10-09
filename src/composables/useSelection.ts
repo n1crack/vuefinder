@@ -100,19 +100,20 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const selectSelectionRange = (event: SelectionEvent) => {
 		if (event.event && tempSelection.value.size > 0) {
 			const keys = Array.from(tempSelection.value);
-            const indices = keys
-                .map((key) => fs.sortedFiles.findIndex((f) => getKey(f as T) === key))
-                .filter((i) => i >= 0);
-			if (indices.length === 0) return;
-			const minIndex = Math.min(...indices);
-			const maxIndex = Math.max(...indices);
-			const minPos = getItemPosition(minIndex);
-			const maxPos = getItemPosition(maxIndex);
+            const positions = keys
+                .map((key) => {
+                    const index = fs.sortedFiles.findIndex((f) => getKey(f as T) === key);
+                    return index >= 0 ? getItemPosition(index) : null;
+                })
+                .filter((pos): pos is { row: number; col: number } => pos !== null);
+			if (positions.length === 0) return;
+			
+			// Calculate the actual min/max row and column from all selected positions
 			const minMaxIds = {
-				minRow: Math.min(minPos.row, maxPos.row),
-				maxRow: Math.max(minPos.row, maxPos.row),
-				minCol: Math.min(minPos.col, maxPos.col),
-				maxCol: Math.max(minPos.col, maxPos.col),
+				minRow: Math.min(...positions.map(p => p.row)),
+				maxRow: Math.max(...positions.map(p => p.row)),
+				minCol: Math.min(...positions.map(p => p.col)),
+				maxCol: Math.max(...positions.map(p => p.col)),
 			};
             getItemsInRange(fs.sortedFiles, minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
                 (item) => {
