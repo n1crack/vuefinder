@@ -106,9 +106,13 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     if (!noCloseModal) {
       app.modal.close();
     }
+
     // Sync store path from backend dirname so breadcrumbs render correctly
     fs.setPath(String((data as any).dirname ?? ''))
     fs.setFiles(data.files as DirEntry[]);
+
+    fs.clearSelection();
+    fs.setSelectedCount(0);
     fs.setStorages(data.storages as string[]);
     if (onSuccess) {
       onSuccess(data);
