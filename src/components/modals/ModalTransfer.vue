@@ -4,9 +4,11 @@ import Message from '@/components/Message.vue';
 import ModalLayout from '@/components/modals/ModalLayout.vue';
 import ModalHeader from "@/components/modals/ModalHeader.vue";
 import MoveSVG from "@/assets/icons/move.svg";
+import { useFilesStore } from '@/stores/files';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
+const fs = useFilesStore();
 
 const props = defineProps<{
   q?: string
@@ -26,8 +28,8 @@ const transfer = () => {
       params: {
         q: props.q,
         m: 'post',
-        adapter: app.fs.adapter,
-        path: app.fs.data.dirname,
+        adapter: fs.path.storage,
+        path: fs.path.path,
       },
       body: {
         items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),

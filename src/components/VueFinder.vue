@@ -77,12 +77,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   noCloseModal?: boolean
 }) => {
   // Fill missing adapter/path for common queries
-  const finalParams: Record<string, unknown> = { ...params };
-  const q = String(finalParams.q ?? '');
-  if (q === 'index' || q === 'search') {
-    if (!('adapter' in finalParams) && fs.path.storage) finalParams.adapter = fs.path.storage;
-    if (!('path' in finalParams) && fs.path.path) finalParams.path = fs.path.path;
-  }
+ 
   if (['index', 'search'].includes(params.q as string)) {
     if (controller) {
       controller.abort();
@@ -95,7 +90,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   app.requester.send({
     url: '',
     method: params.m || 'get',
-    params: finalParams,
+    params,
     body,
     abortSignal: signal,
   }).then((data: Record<string, unknown>) => {

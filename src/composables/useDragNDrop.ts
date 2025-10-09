@@ -1,19 +1,16 @@
 import ModalMove from "../components/modals/ModalMove.vue";
 import { dirname } from "../utils/path";
 import type { App, DirEntry } from "../types";
+import { useFilesStore } from "@/stores/files";
 
 export function useDragNDrop(app: App, classList: string[] = []) {
-  const ds = {
-    getSelected: () => (app as any).selected || [],
-    getSelection: () => [],
-    isDraggingRef: { value: false },
-  } as any;
   const DATASET_COUNTER_KEY = "vfDragEnterCounter";
+  const fs = useFilesStore();
 
   function handleDragOver(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
     e.preventDefault();
     if (!target || target.type !== "dir" ||
-        ds.getSelected().find((item: DirEntry) => item.path === target.path || dirname(item.path) === target.path)) {
+        fs.selectedItems.find((item: DirEntry) => item.path === target.path || dirname(item.path) === target.path)) {
       if (e.dataTransfer) {
         e.dataTransfer.dropEffect = "none";
         e.dataTransfer.effectAllowed = "none";
@@ -47,12 +44,13 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   function handleDropZone(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
     if (!target) return;
     e.preventDefault();
-    ds.isDraggingRef.value = false;
+    // fs.setIsDragging(false);
     const el = e.currentTarget;
     delete (el as any).dataset[DATASET_COUNTER_KEY];
     el.classList.remove(...classList);
     const data = e.dataTransfer?.getData("items") || '[]';
-    const draggedItems: DirEntry[] = JSON.parse(data);
+    const draggedItemKeys: string[] = JSON.parse(data);
+    const draggedItems: DirEntry[] = draggedItemKeys.map((key) => fs.sortedFiles.find((f) => f.path === key) as DirEntry);
     app.modal.open(ModalMove, { items: { from: draggedItems, to: target } });
   }
 

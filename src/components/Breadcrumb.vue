@@ -8,7 +8,7 @@ import GoUpSVG from "@/assets/icons/go_up.svg";
 // CloseSVG removed
 import HomeSVG from "@/assets/icons/home.svg";
 import SearchSVG from "@/assets/icons/search.svg";
-// LoadingSVG removed
+import LoadingSVG from "@/assets/icons/loading.svg";
 import ExitSVG from "@/assets/icons/exit.svg";
 import FolderSVG from '@/assets/icons/folder.svg';
 import ListTreeSVG from '@/assets/icons/list_tree.svg';

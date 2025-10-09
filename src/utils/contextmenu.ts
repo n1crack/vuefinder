@@ -5,6 +5,8 @@ import ModalArchive from "@/components/modals/ModalArchive.vue";
 import ModalUnarchive from "@/components/modals/ModalUnarchive.vue";
 import ModalRename from "@/components/modals/ModalRename.vue";
 import ModalDelete from "@/components/modals/ModalDelete.vue";
+import ModalMove from "@/components/modals/ModalMove.vue";
+import { useFilesStore } from '@/stores/files';
 import type { App, DirEntry } from '../types'
 
 type TargetKey = 'none' | 'one' | 'many'
@@ -24,6 +26,7 @@ export const ContextMenuIds = {
   archive: "archive",
   unarchive: "unarchive",
   rename: "rename",
+  move: "move",
 } as const
 
 export type MenuContext = {
@@ -96,7 +99,8 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.refresh,
     title: ({t}) => t('Refresh'),
     action: (app) => {
-      app.emitter.emit('vf-fetch', {params: {q: 'index'}});
+      const fs = useFilesStore();
+      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: fs.path.storage, path: fs.path.path}});
     },
     show: showIfAny(showIf({target: 'none'}), showIf({target: 'many'}))
   },
@@ -135,25 +139,25 @@ export const menuItems: Item[] = [
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
-      (app, ctx) => app.pinnedFolders.findIndex((item: any) => item.path === ctx.target?.path) === -1,
+      (app, ctx) => app.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1,
     )
   },
   {
     id: ContextMenuIds.unpinFolder,
     title: ({t}) => t('Unpin Folder'),
     action: (app, selectedItems) => {
-        app.pinnedFolders = app.pinnedFolders.filter((fav: any) => !selectedItems.find((item: any) => item.path === fav.path));
+        app.pinnedFolders = app.pinnedFolders.filter((fav: DirEntry) => !selectedItems.find((item: DirEntry) => item.path === fav.path));
         app.storage.setStore('pinned-folders', app.pinnedFolders);
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
-      (app, ctx) => app.pinnedFolders.findIndex((item: any) => item.path === ctx.target?.path) !== -1,
+      (app, ctx) => app.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1,
     )
   },
   {
     id: ContextMenuIds.preview,
     title: ({t}) => t('Preview'),
-    action: (app, selectedItems) => app.modal.open(ModalPreview, {adapter: selectedItems[0].storage, item: selectedItems[0]}),
+    action: (app, selectedItems) => app.modal.open(ModalPreview, {adapter: selectedItems[0]?.storage, item: selectedItems[0]}),
     show: showIfAll(
       showIf({target: 'one', feature: FEATURES.PREVIEW}),
       (app, ctx) => ctx.target?.type !== 'dir'
@@ -161,7 +165,7 @@ export const menuItems: Item[] = [
   },
   {
     id: ContextMenuIds.download,
-    link: (app, selectedItems) => app.requester.getDownloadUrl(selectedItems[0].storage, selectedItems[0]),
+    link: (app, selectedItems) => app.requester.getDownloadUrl(selectedItems[0]?.storage, selectedItems[0]),
     title: ({t}) => t('Download'),
     action: () => {},
     show: showIfAll(
@@ -174,6 +178,19 @@ export const menuItems: Item[] = [
     title: ({t}) => t('Rename'),
     action: (app, selectedItems) => app.modal.open(ModalRename, {items: selectedItems}),
     show: showIf({target: 'one', feature: FEATURES.RENAME})
+  },
+  {
+    id: ContextMenuIds.move,
+    title: ({t}) => t('Move'),
+    action: (app, selectedItems) => {
+      const fs = useFilesStore();
+      const target = { storage: fs.path.storage || '', path: fs.path.path || '', type: 'dir' as const };
+      app.modal.open(ModalMove, { items: { from: selectedItems, to: target } });
+    },
+    show: showIfAny(
+      showIf({target: 'one', feature: FEATURES.MOVE}),
+      showIf({target: 'many', feature: FEATURES.MOVE})
+    )
   },
   {
     id: ContextMenuIds.archive,

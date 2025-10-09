@@ -1,5 +1,3 @@
-defineOptions({name: 'VuefinderExplorer'});
-
 <script setup lang="ts">
 import {ref, onMounted, onUnmounted, shallowRef, useTemplateRef, computed, inject, watch, onUpdated} from 'vue';
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
@@ -15,9 +13,11 @@ import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
 import Toast from './Toast.vue';
 import { useFilesStore } from '@/stores/files';
 import { useSearchStore } from '@/stores/search';
+import {useDragNDrop} from '@/composables/useDragNDrop';
 
 
 const app = inject('ServiceContainer') as App;
+const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
 const files = computed<DirEntry[]>(() => fs.files);
@@ -409,6 +409,7 @@ const handleItemDragEnd = () => {
                   :data-row="rowIndex"
                   data-col="0"
                   draggable="true"
+                  v-on="dragNDrop.events(getItemAtRow(rowIndex) as DirEntry)"
                   @dragstart="handleItemDragStart"
                   @dragend="handleItemDragEnd"
                   @click="handleItemClick"
@@ -457,6 +458,7 @@ const handleItemDragEnd = () => {
                   :data-row="rowIndex"
                   :data-col="colIndex"
                   draggable="true"
+                  v-on="dragNDrop.events(getItemAtRow(rowIndex) as DirEntry)"
                   @dragstart="handleItemDragStart"
                   @dragend="handleItemDragEnd"
                   @click="handleItemClick"
@@ -509,6 +511,7 @@ const handleItemDragEnd = () => {
                   :data-row="rowIndex"
                   data-col="0"
                   draggable="true"
+                  v-on="dragNDrop.events(getItemAtRow(rowIndex) as DirEntry)"
                   @dragstart="handleItemDragStart"
                   @dragend="handleItemDragEnd"
                   @click="handleItemClick"
