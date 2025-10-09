@@ -304,13 +304,14 @@ const handleItemContextMenu = (event: MouseEvent) => {
   const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
   if (el) {
     const key = String(el.getAttribute('data-key'));
+    const targetItem = fs.sortedFiles.find(f => f.path === key);
     // Ensure the clicked item is selected if not already
     if (!fs.selectedKeys.has(key)) {
       fs.clearSelection();
       fs.select(key);
     }
+    app.emitter.emit('vf-contextmenu-show', {event, items: getSelectedItems(), target: targetItem});
   }
-  app.emitter.emit('vf-contextmenu-show', {event, items: getSelectedItems()});
 }
 
 const handleContentContextMenu = (event: MouseEvent) => {
