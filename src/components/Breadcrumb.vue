@@ -240,7 +240,7 @@ const handleBlur = () => {
       <div>
         <HomeSVG
             v-on="dragNDrop.events(getBreadcrumb(-1))"
-            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter}})"/>
+            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: fs.path.storage}})"/>
       </div>
 
       <div class="vuefinder__breadcrumb__list">

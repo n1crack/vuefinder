@@ -96,19 +96,16 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     body,
     abortSignal: signal,
   }).then((data: Record<string, unknown>) => {
-    fs.setPath(data.path as string);
+    fs.setPath(data.dirname as string);
     if (app.persist) {
         // will persist
-        setStore('path', data.path as string);
+        setStore('path', data.dirname as string);
     }
-
 
     if (!noCloseModal) {
       app.modal.close();
     }
-
     // Sync store path from backend dirname so breadcrumbs render correctly
-    fs.setPath(String((data as any).dirname ?? ''))
     fs.setFiles(data.files as DirEntry[]);
 
     fs.clearSelection();
