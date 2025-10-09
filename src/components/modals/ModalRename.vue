@@ -4,9 +4,11 @@ import Message from '@/components/Message.vue';
 import ModalLayout from '@/components/modals/ModalLayout.vue';
 import ModalHeader from "@/components/modals/ModalHeader.vue";
 import RenameSVG from "@/assets/icons/rename.svg";
+import { useFilesStore } from '@/stores/files';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
+const fs = useFilesStore();
 
 const item = ref(app.modal.data.items[0]);
 const name = ref(app.modal.data.items[0].basename);
@@ -18,8 +20,8 @@ const rename = () => {
       params: {
         q: 'rename',
         m: 'post',
-        adapter: app.fs.adapter,
-        path: app.fs.data.dirname,
+        adapter: fs.path.storage,
+        path: fs.path.path,
       },
       body: {
         item: item.value.path,

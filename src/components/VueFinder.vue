@@ -161,9 +161,9 @@ onMounted(() => {
   // if there is a path coming from the prop, we should use it.
 
   // We re-fetch the data if the path prop is updated
-  watch(() => props.path, (path) => {
-    fetchPath(path)
-  })
+ //  watch(() => props.path, (path) => {
+ //    fetchPath(path)
+ //  })
 
   // Selection events from Explorer
   app.emitter.on('vf-select', (items: unknown[]) => {

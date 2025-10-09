@@ -4,9 +4,10 @@ import ModalLayout from '@/components/modals/ModalLayout.vue';
 import Message from '@/components/Message.vue';
 import ModalHeader from "@/components/modals/ModalHeader.vue";
 import NewFileSVG from "@/assets/icons/new_file.svg";
-
+import { useFilesStore } from '@/stores/files';
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
+const fs = useFilesStore();
 
 const name = ref('');
 const message = ref('');
@@ -17,8 +18,8 @@ const createFile = () => {
       params: {
         q: 'newfile',
         m: 'post',
-        adapter: app.fs.adapter,
-        path: app.fs.data.dirname,
+        adapter: fs.path.storage,
+        path: fs.path.path,
       },
       body: {
         name: name.value

@@ -3,11 +3,12 @@ import {inject, ref} from 'vue';
 import ModalLayout from '@/components/modals/ModalLayout.vue';
 import ModalHeader from "@/components/modals/ModalHeader.vue";
 import Message from '@/components/Message.vue';
-
+import { useFilesStore } from '@/stores/files';
 import ArchiveSVG from "@/assets/icons/archive.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
+const fs = useFilesStore();
 
 const name = ref('');
 const message = ref('');
@@ -20,8 +21,8 @@ const archive = () => {
       params: {
         q: 'archive',
         m: 'post',
-        adapter: app.fs.adapter,
-        path: app.fs.data.dirname,
+        adapter: fs.path.storage,
+        path: fs.path.path,
       },
       body: {
         items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),

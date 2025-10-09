@@ -2,6 +2,7 @@ import {inject, onMounted, ref, type Ref} from 'vue';
 import Uppy from '@uppy/core';
 import XHR from '@uppy/xhr-upload';
 import {parse} from '@/utils/filesize';
+import { useFilesStore } from '@/stores/files';
 
 export const QUEUE_ENTRY_STATUS = { PENDING: 0, CANCELED: 1, UPLOADING: 2, ERROR: 3, DONE: 10 } as const;
 export type QueueEntryStatus = typeof QUEUE_ENTRY_STATUS[keyof typeof QUEUE_ENTRY_STATUS];
@@ -24,6 +25,7 @@ export default function useUpload(): UseUploadReturn {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const app: any = inject('ServiceContainer');
     const {t} = app.i18n;
+    const fs = useFilesStore();
 
     const definitions = ref({QUEUE_ENTRY_STATUS});
     const container = ref<HTMLElement | null>(null);
@@ -122,7 +124,7 @@ export default function useUpload(): UseUploadReturn {
 
         uppy.on('upload', () => {
             const reqParams = app.requester.transformRequestParams({
-                url: '', method: 'post', params: {q: 'upload', adapter: app.fs.adapter, path: app.fs.data.dirname},
+                url: '', method: 'post', params: {q: 'upload', adapter: fs.path.storage, path: fs.path.path},
             });
             uppy.setMeta({...reqParams.body});
             const xhrPlugin = uppy.getPlugin('XHRUpload');

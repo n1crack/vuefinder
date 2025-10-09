@@ -4,10 +4,11 @@ import Message from '@/components/Message.vue';
 import ModalLayout from '@/components/modals/ModalLayout.vue';
 import ModalHeader from "@/components/modals/ModalHeader.vue";
 import NewFolderSVG from "@/assets/icons/new_folder.svg";
+import { useFilesStore } from '@/stores/files';
 
 const app = inject('ServiceContainer');
-const {getStore} = app.storage;
 const {t} = app.i18n;
+const fs = useFilesStore();
 
 const name = ref('');
 const message = ref('');
@@ -18,8 +19,8 @@ const createFolder = () => {
       params: {
         q: 'newfolder',
         m: 'post',
-        adapter: app.fs.adapter,
-        path: app.fs.data.dirname,
+        adapter: fs.path.storage,
+        path: fs.path.path,
       },
       body: {
         name: name.value

@@ -4,8 +4,11 @@ import Message from '@/components/Message.vue';
 import ModalLayout from '@/components/modals/ModalLayout.vue';
 import ModalHeader from "@/components/modals/ModalHeader.vue";
 import UnarchiveSVG from "@/assets/icons/unarchive.svg";
+import { useFilesStore } from '@/stores/files';
 
 const app = inject('ServiceContainer');
+const fs = useFilesStore();
+
 const {t} = app.i18n;
 
 const item = ref(app.modal.data.items[0]);
@@ -19,8 +22,8 @@ const unarchive = () => {
     params: {
       q: 'unarchive',
       m: 'post',
-      adapter: app.fs.adapter,
-      path: app.fs.data.dirname,
+      adapter: fs.path.storage,
+      path: fs.path.path,
     },
     body: {
       item: item.value.path
@@ -42,7 +45,7 @@ const unarchive = () => {
       <ModalHeader :icon="UnarchiveSVG" :title="t('Unarchive')"></ModalHeader>
       <div class="vuefinder__unarchive-modal__content">
         <div class="vuefinder__unarchive-modal__items">
-          <p v-for="item in items" class="vuefinder__unarchive-modal__item">
+          <p v-for="item in items" class="vuefinder__unarchive-modal__item" :key="item.path">
             <svg v-if="item.type === 'dir'"
                  class="vuefinder__unarchive-modal__icon vuefinder__unarchive-modal__icon--dir"
                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -59,7 +62,7 @@ const unarchive = () => {
             <span class="vuefinder__unarchive-modal__item-name">{{ item.basename }}</span>
           </p>
           <p class="vuefinder__unarchive-modal__info">{{ t('The archive will be unarchived at') }}
-            ({{ app.fs.data.dirname }})</p>
+            ({{ fs.path.path }})</p>
 
           <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
