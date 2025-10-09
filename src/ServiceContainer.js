@@ -1,14 +1,13 @@
-import {computed, reactive, ref} from "vue";
+import {reactive} from "vue";
 import mitt from "mitt";
 import {buildRequester} from "./utils/ajax";
 import {useStorage} from "./composables/useStorage";
 import {useI18n} from "./composables/useI18n";
-import {FEATURE_ALL_NAMES, FEATURES} from "./features.js";
+import {FEATURE_ALL_NAMES} from "./features.js";
 import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize'
 import useTheme from './composables/useTheme';
 import useModal from "./composables/useModal";
-import useData from "./composables/useData";
 
 /**
  * @param {import('./types.js').VueFinderProps} props
@@ -31,11 +30,6 @@ export default (props, options) => {
 
     const persist = storage.getStore('persist-path', props.persist);
 
-    const path = persist ? storage.getStore('path', props.path) : props.path;
-    const adapter = persist ? storage.getStore('adapter') : null;
-
-    const selectedItems = ref([]);
-
     return reactive({
         /** 
         * Core properties
@@ -55,8 +49,6 @@ export default (props, options) => {
         i18n: useI18n(storage, initialLang, emitter, supportedLocales),
         // modal state
         modal: useModal(),
-        // selected items managed by components (NewExplorer)
-        selected: computed(() => selectedItems.value),
         // http object
         requester : buildRequester(props.request),
         // active features
@@ -98,8 +90,5 @@ export default (props, options) => {
         contextMenuItems: props.contextMenuItems,
         // custom icon
         customIcon: props.icon,
-
-        // file system
-        fs: useData(adapter, path),
     });
 }

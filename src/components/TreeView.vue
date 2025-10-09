@@ -10,11 +10,14 @@ import TreeStorageItem from "./TreeStorageItem.vue";
 import upsert from "../utils/upsert";
 import FolderIndicator from "./FolderIndicator.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
-import type {App, PinnedFolder, FsData} from '../types';
+import type {App, PinnedFolder} from '../types';
+import { useFilesStore } from '@/stores/files';
 
 const app = inject('ServiceContainer') as App;
 const {t} = app.i18n;
 const {getStore, setStore} = app.storage;
+
+const fs = useFilesStore();
 
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
@@ -84,10 +87,10 @@ onMounted(() => {
 
 // watch for changes in the fs.data
 // update the treeViewData
-watch(app.fs.data, (newValue: FsData) => {
-  const folders = newValue.files.filter((e) => e.type === 'dir');
+watch(fs.files, (newFiles) => {
+  const folders = newFiles.filter((e) => e.type === 'dir');
   upsert(app.treeViewData, {
-    path: app.fs.path, folders: folders.map((item) => {
+    path: fs.path.path, folders: folders.map((item) => {
       return {
         adapter: item.storage,
         path: item.path,
@@ -134,14 +137,14 @@ watch(app.fs.data, (newValue: FsData) => {
                 class="vuefinder__treeview__pinned-folder"
                 @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"
             >
-              <FolderSVG class="vuefinder__treeview__folder-icon" v-if="app.fs.path !== favorite.path"/>
-              <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="app.fs.path === favorite.path"/>
+              <FolderSVG class="vuefinder__treeview__folder-icon" v-if="fs.path.path !== favorite.path"/>
+              <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="fs.path.path === favorite.path"/>
               <div
 
                   :title="favorite.path"
                   class="vuefinder__treeview__folder-name"
                   :class="{
-                  'vuefinder__treeview__folder-name--active': app.fs.path === favorite.path,
+                  'vuefinder__treeview__folder-name--active': fs.path.path === favorite.path,
                 }"
               >
                 {{ favorite.basename }}
@@ -157,7 +160,7 @@ watch(app.fs.data, (newValue: FsData) => {
         </ul>
       </div>
 
-      <div class="vuefinder__treeview__storage" v-for="storage in app.fs.data.storages" :key="storage">
+      <div class="vuefinder__treeview__storage" v-for="storage in fs.storages" :key="storage">
         <TreeStorageItem :storage="storage"/>
       </div>
     </div>

@@ -87,7 +87,7 @@ export const menuItems: Item[] = [
     action: (app, selectedItems) => {
       app.emitter.emit('vf-search-exit');
       app.emitter.emit('vf-fetch', {
-        params: { q: 'index', adapter: app.fs.adapter, path: (selectedItems[0]?.path) }
+        params: { q: 'index', adapter: selectedItems[0]?.storage, path: (selectedItems[0]?.path) }
       });
     },
     show: showIf({ target: 'one', needsSearchQuery: true })
@@ -96,7 +96,7 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.refresh,
     title: ({t}) => t('Refresh'),
     action: (app) => {
-      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
+      app.emitter.emit('vf-fetch', {params: {q: 'index'}});
     },
     show: showIfAny(showIf({target: 'none'}), showIf({target: 'many'}))
   },
@@ -121,7 +121,7 @@ export const menuItems: Item[] = [
           return;
       }
       app.emitter.emit('vf-fetch', {
-        params: { q: 'index', adapter: app.fs.adapter, path: selectedItems[0].path }
+        params: { q: 'index', adapter: selectedItems[0].storage, path: selectedItems[0].path }
       });
     },
     show: showIf({target: 'one', targetType: 'dir'})
@@ -153,7 +153,7 @@ export const menuItems: Item[] = [
   {
     id: ContextMenuIds.preview,
     title: ({t}) => t('Preview'),
-    action: (app, selectedItems) => app.modal.open(ModalPreview, {adapter: app.fs.adapter, item: selectedItems[0]}),
+    action: (app, selectedItems) => app.modal.open(ModalPreview, {adapter: selectedItems[0].storage, item: selectedItems[0]}),
     show: showIfAll(
       showIf({target: 'one', feature: FEATURES.PREVIEW}),
       (app, ctx) => ctx.target?.type !== 'dir'
@@ -161,7 +161,7 @@ export const menuItems: Item[] = [
   },
   {
     id: ContextMenuIds.download,
-    link: (app, selectedItems) => app.requester.getDownloadUrl(app.fs.adapter, selectedItems[0]),
+    link: (app, selectedItems) => app.requester.getDownloadUrl(selectedItems[0].storage, selectedItems[0]),
     title: ({t}) => t('Download'),
     action: () => {},
     show: showIfAll(

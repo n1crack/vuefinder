@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {inject, nextTick, reactive, ref} from 'vue';
+import { useSearchStore } from '@/stores/search';
 
 const app = inject('ServiceContainer');
 
 const contextmenu = ref<HTMLElement | null>(null);
 const selectedItems = ref([]);
-const searchQuery = ref('');
+const search = useSearchStore();
 
 const context = reactive({
   active: false,
@@ -30,27 +31,24 @@ const run = (item: any) => {
   item.action(app, selectedItems.value);
 };
 
-app.emitter.on('vf-search-query', ({newQuery}: { newQuery: string }) => {
-  searchQuery.value = newQuery;
-});
 
 app.emitter.on('vf-contextmenu-show', ({event, items, target = null}: { event: any, items: any, target?: any }) => {
   context.items = app.contextMenuItems.filter((item: any) => {
     return item.show(app, {
-      searchQuery: searchQuery.value,
+      searchQuery: search.query,
       items,
       target
     })
   });
 
-  if (searchQuery.value) {
+  if (search.query) {
     if (target) {
       app.emitter.emit('vf-context-selected', [target]);
       // console.log('search item selected');
     } else {
       return;
     }
-  } else if (!target && !searchQuery.value) {
+  } else if (!target && !search.query) {
     app.emitter.emit('vf-context-selected', []);
     // console.log('no files selected');
   } else if (items.length > 1 && items.some((el: any) => el.path === target.path)) {

@@ -14,25 +14,26 @@ import type { App, DirEntry } from '@/types';
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
 import Toast from './Toast.vue';
 import { useFilesStore } from '@/stores/files';
+import { useSearchStore } from '@/stores/search';
 
 
 const app = inject('ServiceContainer') as App;
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
-const files = computed<DirEntry[]>(() => app?.fs?.data?.files ?? []);
+const files = computed<DirEntry[]>(() => fs.files);
 // Selection state is managed by useSelection
 
 const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const [awaitingDrag, setAwaitingDrag] = useAutoResetRef(200);
 const selectionStarted = ref(false);
-const searchQuery = ref('');
+const search = useSearchStore();
 const fs = useFilesStore();
 
 let vfLazyLoad: ILazyLoadInstance | null = null;
 
 // Constants for template
-const rowHeight = computed(() => app.view === 'grid' && !app.fs.searchMode ? 88 : 24);
+const rowHeight = computed(() => app.view === 'grid' && !search.searchMode ? 88 : 24);
 
 const {t} = app.i18n;
 
@@ -201,16 +202,17 @@ onMounted(() => {
     });
   }
    
-  // Handle search queries
-  app.emitter.on('vf-search-query', ({newQuery}: { newQuery: string }) => {
-    searchQuery.value = newQuery;
-
+  // Handle search queries via store
+  watch(() => search.query, (newQuery) => {
+    const adapter = fs.path.storage;
+    const currentPath = fs.path.path;
+    if (!adapter || !currentPath) return;
     if (newQuery) {
       app.emitter.emit('vf-fetch', {
         params: {
           q: 'search',
-          adapter: app.fs.adapter,
-          path: app.fs.data.dirname,
+          adapter,
+          path: currentPath,
           filter: newQuery
         },
         onSuccess: (data: { files: DirEntry[] }) => {
@@ -220,9 +222,9 @@ onMounted(() => {
         }
       });
     } else {
-      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
+      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter, path: currentPath}});
     }
-  });
+  }, { immediate: true });
 });
 
 onUpdated(() => {
@@ -346,29 +348,29 @@ const handleItemDragEnd = () => {
 <template>
   <div class="vuefinder__explorer__container">
     <!-- List header like Explorer (shown only in list view) -->
-    <div v-if="app.view === 'list' || searchQuery.length" class="vuefinder__explorer__header">
+    <div v-if="app.view === 'list' || search.query.length" class="vuefinder__explorer__header">
       <div @click="fs.toggleSort('basename')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button">
            {{ t('Name') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'basename'"/>
       </div>
-      <div v-if="!searchQuery.length" @click="fs.toggleSort('file_size')"
+      <div v-if="!search.query.length" @click="fs.toggleSort('file_size')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button">
            {{ t('Size') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'file_size'"/>
       </div>
-      <div v-if="searchQuery.length" @click="fs.toggleSort('path')"
+      <div v-if="search.query.length" @click="fs.toggleSort('path')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--path vf-sort-button">
            {{ t('Filepath') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'path'"/>
       </div>
-      <div v-if="!searchQuery.length" @click="fs.toggleSort('last_modified')"
+      <div v-if="!search.query.length" @click="fs.toggleSort('last_modified')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button">
            {{ t('Date') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'last_modified'"/>
       </div>
     </div>
-    <div class="vuefinder__linear-loader absolute" v-if="app.loadingIndicator === 'linear' && app.fs.loading"></div>
+    <div class="vuefinder__linear-loader absolute" v-if="app.loadingIndicator === 'linear' && fs.isLoading()"></div>
 
     <!-- Content -->
     <div ref="scrollContainer" class="vuefinder__explorer__selector-area scroller"  @scroll="handleScroll">
@@ -384,7 +386,7 @@ const handleItemDragEnd = () => {
         </div>
         
         <!-- Search View -->
-        <template v-if="searchQuery.length">
+        <template v-if="search.query.length">
           <div
               class="pointer-events-none"
               v-for="rowIndex in visibleRows"
@@ -471,7 +473,7 @@ const handleItemDragEnd = () => {
                       v-if="(file.mime_type ?? '').startsWith('image') && app.showThumbnails"
                       src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                       class="vuefinder__explorer__item-thumbnail lazy"
-                      :data-src="app.requester.getPreviewUrl(app.fs.adapter, file)"
+                      :data-src="app.requester.getPreviewUrl(file.storage, file)"
                       :alt="file.basename"
                     />
                     <ItemIcon v-else :item="file" :ext="true"/>

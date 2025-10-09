@@ -61,10 +61,7 @@ app.root = root;
 useHotkeyActions(app);
 useCopyPaste(app);
 
-const updateItems = (data: Record<string, unknown>) => {
-  Object.assign(app.fs.data, data);
-  // selection handled inside components now
-};
+
 
 /** @type {AbortController} */
 let controller: AbortController | null = null;
@@ -72,7 +69,7 @@ app.emitter.on('vf-fetch-abort', () => {
   if (controller) {
     controller.abort();
   }
-  app.fs.loading = false;
+  fs.setLoading(false);
 });
 
 // Fetch data
@@ -87,7 +84,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     if (controller) {
       controller.abort();
     }
-    app.fs.loading = true;
+    fs.setLoading(true);
   }
 
   controller = new AbortController();
@@ -99,18 +96,18 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     body,
     abortSignal: signal,
   }).then((data: Record<string, unknown>) => {
-    app.fs.adapter = data.adapter;
+    fs.setPath(data.path as string);
     if (app.persist) {
-      app.fs.path = data.dirname;
-      setStore('path', app.fs.path);
+        // will persist
+        setStore('path', data.path as string);
     }
 
 
     if (!noCloseModal) {
       app.modal.close();
     }
-    updateItems(data);
-    fs.setPath(app.fs.path)
+    // Sync store path from backend dirname so breadcrumbs render correctly
+    fs.setPath(String((data as any).dirname ?? ''))
     fs.setFiles(data.files as DirEntry[]);
     fs.setStorages(data.storages as string[]);
     if (onSuccess) {
@@ -127,7 +124,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     }
   }).finally(() => {
     if (['index', 'search'].includes(params.q as string)) {
-      app.fs.loading = false;
+      fs.setLoading(false);
     }
   });
 });
@@ -147,8 +144,14 @@ function fetchPath(path: string | undefined) {
     };
   }
 
+  const baseParams: Record<string, unknown> = { q: 'index', ...pathExists };
+  // Only include adapter if we have one explicitly (from path) or already known
+  if (!('adapter' in baseParams) && fs.path.storage) {
+    baseParams.adapter = fs.path.storage;
+  }
+
   app.emitter.emit('vf-fetch', {
-    params: {q: 'index', adapter: app.fs.adapter, ...pathExists},
+    params: baseParams,
     onError: props.onError ?? ((e: unknown) => {
       if (e && typeof e === 'object' && 'message' in e) {
         app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
@@ -163,7 +166,6 @@ onMounted(() => {
   // later we can set default adapter from a prop value
 
   // if there is a path coming from the prop, we should use it.
-  fetchPath(app.fs.path)
 
   // We re-fetch the data if the path prop is updated
   watch(() => props.path, (path) => {
@@ -176,8 +178,8 @@ onMounted(() => {
     emit('select', items);
   });
 
-  // Emit update:path event
-  watch(() => app.fs.data.dirname, (path) => {
+  // Emit update:path event based on store path
+  watch(() => fs.path.path, (path) => {
     emit('update:path', path)
   })
 

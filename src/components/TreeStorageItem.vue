@@ -6,9 +6,11 @@ import StorageSVG from "@/assets/icons/storage.svg";
 import FolderLoaderIndicator from "./FolderLoaderIndicator.vue";
 import TreeSubfolderList from "./TreeSubfolderList.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
+import { useFilesStore } from '@/stores/files';
 
 const app = inject('ServiceContainer');
 const {setStore} = app.storage;
+const fs = useFilesStore();
 const showSubFolders = ref(false);
 const props = defineProps<{
   storage: string
@@ -33,7 +35,7 @@ const item = {
  * @param storage {string}
  */
 function selectOrToggle(storage: string) {
-  if (storage === app.fs.adapter) {
+  if (storage === fs.path.storage) {
     // toggle list of subfolders
     showSubFolders.value = !showSubFolders.value
   } else {
@@ -53,11 +55,11 @@ function selectOrToggle(storage: string) {
     <div
       v-on="dragNDrop.events(item)"
       class="vuefinder__treestorageitem__info"
-      :class="storage === app.fs.adapter ? 'vuefinder__treestorageitem__info--active' : ''"
+        :class="storage === fs.path.storage ? 'vuefinder__treestorageitem__info--active' : ''"
     >
       <div
         class="vuefinder__treestorageitem__icon"
-        :class="storage === app.fs.adapter ? 'vuefinder__treestorageitem__icon--active' : ''"
+          :class="storage === fs.path.storage ? 'vuefinder__treestorageitem__icon--active' : ''"
       >
         <StorageSVG />
       </div>

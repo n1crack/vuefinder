@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {inject, ref, watch} from 'vue';
+import {inject, watch} from 'vue';
 import {FEATURES} from "../features.js";
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalNewFile from "./modals/ModalNewFile.vue";
@@ -20,17 +20,17 @@ import FullscreenSVG from "@/assets/icons/full_screen.svg";
 import MinimizeSVG from "@/assets/icons/minimize.svg";
 import GridViewSVG from "@/assets/icons/grid_view.svg";
 import ListViewSVG from "@/assets/icons/list_view.svg";
+import { useFilesStore } from '@/stores/files';
+import { useSearchStore } from '@/stores/search';
 
 const app = inject('ServiceContainer');
 const {setStore} = app.storage;
 const {t} = app.i18n;
 
-// selection provided by NewExplorer via app.selected
-const searchQuery = ref('');
+const fs = useFilesStore();
+const search = useSearchStore();
 
-app.emitter.on('vf-search-query', ({newQuery}: { newQuery: string }) => {
-  searchQuery.value = newQuery;
-});
+// selection provided by NewExplorer via fs.selectedItems
 
 const toggleFullScreen = () => {
   app.fullScreen = !app.fullScreen;
@@ -62,12 +62,12 @@ const toggleView = () => {
 
 <template>
   <div class="vuefinder__toolbar">
-    <div class="vuefinder__toolbar__actions" v-if="!searchQuery.length">
+    <div class="vuefinder__toolbar__actions" v-if="!search.query.length">
       <div
           class="mx-1.5"
           :title="t('New Folder')"
           v-if="app.features.includes(FEATURES.NEW_FOLDER)"
-          @click="app.modal.open(ModalNewFolder, {items: app.selected})"
+          @click="app.modal.open(ModalNewFolder, {items: fs.selectedItems})"
       >
         <NewFolderSVG/>
       </div>
@@ -76,7 +76,7 @@ const toggleView = () => {
           class="mx-1.5"
           :title="t('New File')"
           v-if="app.features.includes(FEATURES.NEW_FILE)"
-          @click="app.modal.open(ModalNewFile, {items: app.selected})"
+          @click="app.modal.open(ModalNewFile, {items: fs.selectedItems})"
       >
         <NewFileSVG/>
       </div>
@@ -85,54 +85,54 @@ const toggleView = () => {
           class="mx-1.5"
           :title="t('Rename')"
           v-if="app.features.includes(FEATURES.RENAME)"
-          @click="(app.selected.length !== 1) || app.modal.open(ModalRename, {items: app.selected})"
+          @click="(fs.selectedItems.length !== 1) || app.modal.open(ModalRename, {items: fs.selectedItems})"
       >
-        <RenameSVG :class="(app.selected.length === 1) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <RenameSVG :class="(fs.selectedItems.length === 1) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div
           class="mx-1.5"
           :title="t('Delete')"
           v-if="app.features.includes(FEATURES.DELETE)"
-          @click="(!app.selected.length) || app.modal.open(ModalDelete, {items: app.selected})"
+          @click="(!fs.selectedItems.length) || app.modal.open(ModalDelete, {items: fs.selectedItems})"
       >
-        <DeleteSVG :class="(app.selected.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <DeleteSVG :class="(fs.selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div
           class="mx-1.5"
           :title="t('Upload')"
           v-if="app.features.includes(FEATURES.UPLOAD)"
-          @click="app.modal.open(ModalUpload, {items: app.selected})"
+          @click="app.modal.open(ModalUpload, {items: fs.selectedItems})"
       >
         <UploadSVG/>
       </div>
 
       <div
           class="mx-1.5"
-          v-if="app.features.includes(FEATURES.UNARCHIVE) && app.selected.length === 1 && app.selected[0].mime_type === 'application/zip'"
+          v-if="app.features.includes(FEATURES.UNARCHIVE) && fs.selectedItems.length === 1 && fs.selectedItems[0].mime_type === 'application/zip'"
           :title="t('Unarchive')"
-          @click="(!app.selected.length) || app.modal.open(ModalUnarchive, {items: app.selected})"
+          @click="(!fs.selectedItems.length) || app.modal.open(ModalUnarchive, {items: fs.selectedItems})"
       >
-        <UnarchiveSVG :class="(app.selected.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <UnarchiveSVG :class="(fs.selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div
           class="mx-1.5"
           v-if="app.features.includes(FEATURES.ARCHIVE)"
           :title="t('Archive')"
-          @click="(!app.selected.length) || app.modal.open(ModalArchive, {items: app.selected})"
+          @click="(!fs.selectedItems.length) || app.modal.open(ModalArchive, {items: fs.selectedItems})"
       >
-        <ArchiveSVG :class="(app.selected.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <ArchiveSVG :class="(fs.selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
     </div>
 
     <div class="vuefinder__toolbar__search-results" v-else>
       <div class="pl-2">
         {{ t('Search results for') }}
-        <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ searchQuery }}</span>
+        <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ search.query }}</span>
       </div>
-      <LoadingSVG v-if="app.loadingIndicator === 'circular' && app.fs.loading"/>
+      <LoadingSVG v-if="app.loadingIndicator === 'circular' && fs.isLoading()"/>
     </div>
 
     <div class="vuefinder__toolbar__controls">
@@ -149,12 +149,12 @@ const toggleView = () => {
       <div
           class="mx-1.5"
           :title="t('Change View')"
-          @click="searchQuery.length || toggleView()"
+          @click="search.query.length || toggleView()"
       >
         <GridViewSVG v-if="app.view === 'grid'" class="vf-toolbar-icon"
-                     :class="(!searchQuery.length) ? '' : 'vf-toolbar-icon-disabled'"/>
+                     :class="(!search.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
         <ListViewSVG v-if="app.view === 'list'" class="vf-toolbar-icon"
-                     :class="(!searchQuery.length) ? '' : 'vf-toolbar-icon-disabled'"/>
+                     :class="(!search.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
       </div>
     </div>
   </div>

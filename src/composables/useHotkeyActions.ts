@@ -5,6 +5,7 @@ import ModalDelete from "@/components/modals/ModalDelete.vue";
 import ModalRename from "@/components/modals/ModalRename.vue";
 import type { App } from "../types";
 import ModalPreview from "@/components/modals/ModalPreview.vue";
+import { useSearchStore } from '@/stores/search';
 
 const KEYBOARD_SHORTCUTS = {
     ESCAPE: 'Escape', F2: 'F2', F5: 'F5', DELETE: 'Delete', ENTER: 'Enter',
@@ -13,10 +14,11 @@ const KEYBOARD_SHORTCUTS = {
 } as const;
 
 export function useHotkeyActions(app: App) {
+    const search = useSearchStore();
     const handleKeyboardShortcuts = (e: KeyboardEvent) => {
         if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) { app.modal.close(); (app.root as HTMLElement).focus(); }
         if (app.modal.visible) return;
-        if (app.fs.searchMode) return;
+        if (search.searchMode) return;
         if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
             (app.selected.length !== 1) || app.modal.open(ModalRename, {items: app.selected})
         }
@@ -28,7 +30,7 @@ export function useHotkeyActions(app: App) {
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout)
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && app.features.includes(FEATURES.SEARCH)) {
-            app.fs.searchMode = true; e.preventDefault();
+            search.enterSearchMode(); e.preventDefault();
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {
             app.showTreeView = !app.showTreeView; app.storage.setStore('show-tree-view', app.showTreeView); e.preventDefault();

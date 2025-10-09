@@ -29,7 +29,7 @@ export const useFilesStore = defineStore('files', () => {
 
   // Path info (simple and robust)
   const path = computed(() => {
-    const raw = (currentPath.value || '').trim();
+    const raw = (currentPath.value || 'local://').trim();
     const idx = raw.indexOf('://');
     const storage = idx >= 0 ? raw.slice(0, idx) : '';
     const remainder = idx >= 0 ? raw.slice(idx + 3) : raw;
@@ -107,6 +107,7 @@ export const useFilesStore = defineStore('files', () => {
   });
 
   const selectedCount = ref<number>(0);
+  const loading = ref<boolean>(false);
 
   function select(key: string) {
     selectedKeys.value.add(key);
@@ -136,6 +137,14 @@ export const useFilesStore = defineStore('files', () => {
     selectedCount.value = count;
   }
 
+  function setLoading(value: boolean) {
+    loading.value = !!value;
+  }
+
+  function isLoading(): boolean {
+    return loading.value;
+  }
+
   return {
     // State
     files,
@@ -147,12 +156,15 @@ export const useFilesStore = defineStore('files', () => {
     sortedFiles, // filtered and sorted files
     selectedItems, // selected items
     selectedCount, // count of selected items
+    loading, // loading state
     // Mutations
     setPath, // set the current path
     setFiles, // set the files
     setStorages, // set the storages
     setSort, // set the sort
     setSelectedCount, // set the selected count
+    setLoading, // set loading
+    isLoading, // check loading
     toggleSort, // toggle the sort
     clearSort, // clear the sort
     select, // select an item
