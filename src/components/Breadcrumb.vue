@@ -5,7 +5,7 @@ import useDebouncedRef from '@/composables/useDebouncedRef';
 import {FEATURES} from "@/features.js";
 import RefreshSVG from "@/assets/icons/refresh.svg";
 import GoUpSVG from "@/assets/icons/go_up.svg";
-// CloseSVG removed
+import CloseSVG from "@/assets/icons/close.svg";
 import HomeSVG from "@/assets/icons/home.svg";
 import SearchSVG from "@/assets/icons/search.svg";
 import LoadingSVG from "@/assets/icons/loading.svg";
@@ -231,8 +231,11 @@ const handleBlur = () => {
       />
     </span>
 
-    <span :title="t('Refresh')">
+    <span :title="t('Refresh')" v-if="!fs.isLoading()">
       <RefreshSVG @click="handleRefresh"/>
+    </span>
+    <span :title="t('Cancel')" v-else>
+      <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
     <div v-show="!search.searchMode" @click.self="enterSearchMode"
@@ -271,7 +274,7 @@ const handleBlur = () => {
         </div>
       </div>
 
-      
+      <LoadingSVG v-if="app.loadingIndicator === 'circular' && fs.isLoading()"/>
     </div>
     <div v-show="search.searchMode" class="vuefinder__breadcrumb__search-mode">
       <div>
