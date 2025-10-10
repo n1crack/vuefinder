@@ -11,14 +11,14 @@ export const VueFinderPlugin = {
      * @param options
      */
     install(app, options = {}) {
-        // Reuse existing Pinia if present; otherwise create and install a new one
-        let pinia = app.config?.globalProperties?.$pinia || app._context?.provides?.pinia || null;
-    
-        if (!pinia) {
-            pinia = createPinia();
+        // Reuse pinia if present, otherwise create it
+        const existing = app.config && app.config.globalProperties ? app.config.globalProperties.$pinia : null;
+        const pinia = existing || createPinia();
+        if (!pinia.__vf_persisted) {
             pinia.use(piniaPluginPersistedstate);
-            app.use(pinia);
+            pinia.__vf_persisted = true;
         }
+        if (!existing) app.use(pinia);
  
         // define global properties with 'options'
         options.i18n = options.i18n ?? {};
