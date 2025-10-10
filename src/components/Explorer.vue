@@ -18,19 +18,19 @@ import {useDragNDrop} from '@/composables/useDragNDrop';
 
 const app = inject('ServiceContainer') as ServiceContainer;
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
-const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
 const files = computed<DirEntry[]>(() => fs.files);
 // Selection state is managed by useSelection
 const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
+const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
+
 const [awaitingDrag, setAwaitingDrag] = useAutoResetRef(200);
 const search = useSearchStore();
 const fs = useFilesStore();
 
 let vfLazyLoad: ILazyLoadInstance | null = null;
 
-// Constants for template
 const rowHeight = computed(() => app.view === 'grid' && !(search.searchMode && search.query.length) ? 88 : (app.compactListView ? 24 : 50));
 
 const {t} = app.i18n;
@@ -52,7 +52,6 @@ const {
   containerPadding: 0
 });
 
-// Selection composable
 const { 
     isDragging, 
     initializeSelectionArea, 
@@ -81,10 +80,6 @@ const isCut = (key?: string | null) => {
   );
 };
 
-
-// Use sorting from store
-
-// Ensure list view renders 1 item per row and grid recalculates
 watch(() => app.view, (view) => {
   if (view === 'list') {
     itemsPerRow.value = 1;
@@ -93,7 +88,6 @@ watch(() => app.view, (view) => {
   }
 }, { immediate: true });
 
-// Guard against ResizeObserver resetting itemsPerRow in list view
 watch(itemsPerRow, (n) => {
   if (app.view === 'list' && n !== 1) {
     itemsPerRow.value = 1;
@@ -133,33 +127,20 @@ const getSelectionRange = (selectionParam: Set<string>) => {
 
   return {minRow, maxRow, minCol, maxCol};
 };
-
-// Removed unused handleSelectAll (toolbar select all removed)
-
-// handlers moved to useSelection
-
-const onBeforeDrag = () => {
-  if (!awaitingDrag.value) {
-    // we can drag and drop items now..
-    return false;
-  }
-}
-
-// Event handlers are now managed by the useSelection composable
-
-// selectSelectionRange moved into composable
-
+ 
 onMounted(() => {
   // Initialize SelectionArea
   initializeSelectionArea();
   
-  // Add beforedrag handler
   if (selectionObject.value) {
-    // ensure drag waits briefly after selection starts
     selectionObject.value.on('beforestart', () => {
-      setAwaitingDrag(true);
+        setAwaitingDrag(true);
     });
-    selectionObject.value.on('beforedrag', onBeforeDrag);
+    selectionObject.value.on('beforedrag', () => {
+        if (!awaitingDrag.value) {
+            return false;
+        }
+    });
   }
   
   // Initialize LazyLoad for thumbnails
@@ -215,8 +196,6 @@ defineExpose({
   getSelectionRange,
   files
 });
-
-// handleContentClick is now provided by useSelection composable
 
 const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   const el = (event.target as Element | null)?.closest(".file-item");
