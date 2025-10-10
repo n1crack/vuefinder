@@ -7,8 +7,10 @@ import {format as filesizeDefault, metricFormat as filesizeMetric} from '@/utils
 
 import AboutSVG from "@/assets/icons/gear.svg";
 import {FEATURES} from '@/features';
+import { useConfigStore } from '@/stores/config';
 
 const app = inject('ServiceContainer');
+const config = useConfigStore();
 const {setStore, clearStore} = app.storage;
 const {t} = app.i18n;
 
@@ -40,31 +42,27 @@ const handleTheme = (key: string) => {
 }
 
 const handleMetricUnits = () => {
-  app.metricUnits = !app.metricUnits;
-  app.filesize = app.metricUnits ? filesizeMetric : filesizeDefault
+  config.toggle('metricUnits');
+  app.filesize = config.metricUnits ? filesizeMetric : filesizeDefault
 
-  setStore('metricUnits', app.metricUnits);
   app.emitter.emit('vf-metric-units-saved');
 }
 
 const handleCompactListView = () => {
-  app.compactListView = !app.compactListView;
+  config.toggle('compactListView');
 
-  setStore('compactListView', app.compactListView);
   app.emitter.emit('vf-compact-view-saved');
 }
 
 const handleShowThumbnails = () => {
-  app.showThumbnails = !app.showThumbnails;
+  config.toggle('showThumbnails');
 
-  setStore('show-thumbnails', app.showThumbnails);
   app.emitter.emit('vf-show-thumbnails-saved');
 }
 
 const handlePersistPath = () => {
-  app.persist = !app.persist;
+  config.toggle('persist');
 
-  setStore('persist-path', app.persist);
   app.emitter.emit('vf-persist-path-saved');
 }
 
@@ -138,7 +136,7 @@ const themes = computed(() => ({
               <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="metric_unit" name="metric_unit" type="checkbox"
-                         v-model="app.metricUnits"
+                         v-model="config.metricUnits"
                          @click="handleMetricUnits"
                          class="vuefinder__about-modal__checkbox">
                 </div>
@@ -153,7 +151,7 @@ const themes = computed(() => ({
               <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="large_icons" name="large_icons" type="checkbox"
-                         v-model="app.compactListView"
+                         v-model="config.compactListView"
                          @click="handleCompactListView"
                          class="vuefinder__about-modal__checkbox">
                 </div>
@@ -168,7 +166,7 @@ const themes = computed(() => ({
               <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="persist_path" name="persist_path" type="checkbox"
-                         v-model="app.persist"
+                         v-model="config.persist"
                          @click="handlePersistPath"
                          class="vuefinder__about-modal__checkbox">
                 </div>
@@ -183,7 +181,7 @@ const themes = computed(() => ({
               <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="show_thumbnails" name="show_thumbnails" type="checkbox"
-                         v-model="app.showThumbnails"
+                         v-model="config.showThumbnails"
                          @click="handleShowThumbnails"
                          class="vuefinder__about-modal__checkbox">
                 </div>

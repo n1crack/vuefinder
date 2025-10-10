@@ -3,6 +3,7 @@ import Uppy from '@uppy/core';
 import XHR from '@uppy/xhr-upload';
 import {parse} from '@/utils/filesize';
 import { useFilesStore } from '@/stores/files';
+import { useConfigStore } from '@/stores/config';
 
 export const QUEUE_ENTRY_STATUS = { PENDING: 0, CANCELED: 1, UPLOADING: 2, ERROR: 3, DONE: 10 } as const;
 export type QueueEntryStatus = typeof QUEUE_ENTRY_STATUS[keyof typeof QUEUE_ENTRY_STATUS];
@@ -26,7 +27,7 @@ export default function useUpload(): UseUploadReturn {
     const app: any = inject('ServiceContainer');
     const {t} = app.i18n;
     const fs = useFilesStore();
-
+    const config = useConfigStore();
     const definitions = ref({QUEUE_ENTRY_STATUS});
     const container = ref<HTMLElement | null>(null);
     const internalFileInput = ref<HTMLInputElement | null>(null);
@@ -90,7 +91,7 @@ export default function useUpload(): UseUploadReturn {
     onMounted(() => {
         uppy = new Uppy({
             debug: app.debug,
-            restrictions: { maxFileSize: parse(app.maxFileSize) },
+            restrictions: { maxFileSize: parse(config.maxFileSize ?? '10mb') },
             locale: app.i18n.t("uppy"),
             onBeforeFileAdded: (file: any, files: any) => {
                 const duplicated = files[file.id] != null;

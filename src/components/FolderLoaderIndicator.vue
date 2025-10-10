@@ -20,11 +20,7 @@ const loading = ref(false)
 
 watch(() => opened.value, () =>
     getLoadedFolder()?.folders.length || fetchSubFolders()
-);
-
-function toggleIndicator() {
-  return opened.value = !opened.value;
-}
+); 
 
 function getLoadedFolder() {
   return app.treeViewData.find((e: any) => e.path === props.path);

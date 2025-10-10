@@ -15,12 +15,14 @@ import ListTreeSVG from '@/assets/icons/list_tree.svg';
 import DotsSVG from '@/assets/icons/dots.svg';
 import {useDragNDrop} from '../composables/useDragNDrop';
 import { useFilesStore } from '@/stores/files';
+import { useConfigStore } from '@/stores/config';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {setStore} = app.storage;
 const search = useSearchStore();
 const fs = useFilesStore();
+const config = useConfigStore();
 
 // dynamic shown items calculation for breadcrumbs
 const breadcrumbContainer = ref<HTMLElement | null>(null);
@@ -151,9 +153,9 @@ const vClickOutside = {
  * Tree View
  */
 const toggleTreeView = () => {
-  app.showTreeView = !app.showTreeView;
+  config.toggle('showTreeView');
 }
-watch(() => app.showTreeView, (newShowTreeView, oldValue) => {
+watch(() => config.showTreeView, (newShowTreeView, oldValue) => {
   if (newShowTreeView !== oldValue) {
     setStore('show-tree-view', newShowTreeView);
   }
@@ -219,7 +221,7 @@ const handleBlur = () => {
       <ListTreeSVG
           @click="toggleTreeView"
           class="vuefinder__breadcrumb__toggle-tree"
-          :class="app.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
+          :class="config.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
       />
     </span>
 
@@ -274,7 +276,7 @@ const handleBlur = () => {
         </div>
       </div>
 
-      <LoadingSVG v-if="app.loadingIndicator === 'circular' && fs.isLoading()"/>
+      <LoadingSVG v-if="config.loadingIndicator === 'circular' && fs.isLoading()"/>
     </div>
     <div v-show="search.searchMode" class="vuefinder__breadcrumb__search-mode">
       <div>

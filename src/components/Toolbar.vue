@@ -22,22 +22,18 @@ import GridViewSVG from "@/assets/icons/grid_view.svg";
 import ListViewSVG from "@/assets/icons/list_view.svg";
 import { useFilesStore } from '@/stores/files';
 import { useSearchStore } from '@/stores/search';
+import { useConfigStore } from '@/stores/config';
 
 const app = inject('ServiceContainer');
 const {setStore} = app.storage;
 const {t} = app.i18n;
 
 const fs = useFilesStore();
+const config = useConfigStore();
 const search = useSearchStore();
 
-// selection provided by NewExplorer via fs.selectedItems
-
-const toggleFullScreen = () => {
-  app.fullScreen = !app.fullScreen;
-}
-
-watch(() => app.fullScreen, () => {
-  if (app.fullScreen) {
+watch(() => config.fullScreen, () => {
+  if (config.fullScreen) {
     // add body overflow hidden
     const body = document.querySelector('body');
     if (body) body.style.overflow = 'hidden';
@@ -46,16 +42,13 @@ watch(() => app.fullScreen, () => {
     const body = document.querySelector('body');
     if (body) body.style.overflow = '';
   }
-  setStore('full-screen', app.fullScreen);
+  setStore('full-screen', config.fullScreen);
   app.emitter.emit('vf-fullscreen-toggle');
 });
 
 // View Management
 const toggleView = () => {
-  app.view = app.view === 'list' ? 'grid' : 'list';
-
-  // selection refresh handled by NewExplorer
-  setStore('viewport', app.view)
+  config.set('view', config.view === 'list' ? 'grid' : 'list');
 };
 
 </script>
@@ -132,17 +125,17 @@ const toggleView = () => {
         {{ t('Search results for') }}
         <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ search.query }}</span>
       </div>
-      <LoadingSVG v-if="app.loadingIndicator === 'circular' && fs.isLoading()"/>
+      <LoadingSVG v-if="config.loadingIndicator === 'circular' && fs.isLoading()"/>
     </div>
 
     <div class="vuefinder__toolbar__controls">
       <div
           v-if="app.features.includes(FEATURES.FULL_SCREEN)"
-          @click="toggleFullScreen"
+          @click="config.toggle('fullScreen')"
           class="mx-1.5"
           :title="t('Toggle Full Screen')"
       >
-        <MinimizeSVG v-if="app.fullScreen"/>
+        <MinimizeSVG v-if="config.fullScreen"/>
         <FullscreenSVG v-else/>
       </div>
 
@@ -151,9 +144,9 @@ const toggleView = () => {
           :title="t('Change View')"
           @click="search.query.length || toggleView()"
       >
-        <GridViewSVG v-if="app.view === 'grid'" class="vf-toolbar-icon"
+        <GridViewSVG v-if="config.view === 'grid'" class="vf-toolbar-icon"
                      :class="(!search.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
-        <ListViewSVG v-if="app.view === 'list'" class="vf-toolbar-icon"
+        <ListViewSVG v-if="config.view === 'list'" class="vf-toolbar-icon"
                      :class="(!search.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
       </div>
     </div>

@@ -163,10 +163,10 @@ const customIconMap = {
  * @param {import('../src/types.js').App} app
  * @param {import('../src/types.js').DirEntry} item 
  */
-const customIcon = (app, item) => {
+const customIcon = (app, config, item) => {
   const props = {
     style: {
-      padding: app.view === 'grid' || !app.compactListView ? '6px' : '1px',
+      padding: config.view === 'grid' || !config.compactListView ? '6px' : '1px',
       height: '100%',
       width: 'auto',
       margin: 'auto',

@@ -12,12 +12,14 @@ import FolderIndicator from "./FolderIndicator.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
 import type {App, PinnedFolder} from '../types';
 import { useFilesStore } from '@/stores/files';
+import { useConfigStore } from '@/stores/config';
 
 const app = inject('ServiceContainer') as App;
 const {t} = app.i18n;
 const {getStore, setStore} = app.storage;
 
 const fs = useFilesStore();
+const config = useConfigStore();
 
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
@@ -46,10 +48,10 @@ const handleMouseDown = (e: MouseEvent) => {
 
     if (treeViewWidth.value < 50) {
       treeViewWidth.value = 0;
-      app.showTreeView = false;
+      config.set('showTreeView', false);
     }
     if (treeViewWidth.value > 50) {
-      app.showTreeView = true;
+      config.set('showTreeView', true);
     }
   };
 
@@ -106,12 +108,12 @@ watch(fs.files, (newFiles) => {
 
 <template>
   <div
-      @click="app.showTreeView = !app.showTreeView"
+      @click="config.toggle('showTreeView')"
       class="vuefinder__treeview__overlay"
-      :class="app.showTreeView ? 'vuefinder__treeview__backdrop' : 'hidden'"
+      :class="config.showTreeView ? 'vuefinder__treeview__backdrop' : 'hidden'"
   ></div>
   <div
-      :style="app.showTreeView ? 'min-width:100px;max-width:75%; width: ' + treeViewWidth + 'px' : 'width: 0'"
+      :style="config.showTreeView ? 'min-width:100px;max-width:75%; width: ' + treeViewWidth + 'px' : 'width: 0'"
       class="vuefinder__treeview__container"
   >
     <div ref="treeViewScrollElement" class="vuefinder__treeview__scroll">
@@ -166,7 +168,6 @@ watch(fs.files, (newFiles) => {
     </div>
     <div
         @mousedown="handleMouseDown"
-        :class="app.showTreeView ? '' : ''"
         class="vuefinder__treeview__resize-handle"
     ></div>
   </div>

@@ -8,6 +8,7 @@ import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize'
 import useTheme from './composables/useTheme';
 import useModal from "./composables/useModal";
+import { useConfigStore } from "./stores/config";
 
 /**
  * @param {import('./types.js').VueFinderProps} props
@@ -16,7 +17,7 @@ import useModal from "./composables/useModal";
 export default (props, options) => {
     const storage = useStorage(props.id);
     const emitter = mitt();
-    const metricUnits = storage.getStore('metricUnits', false);
+    const config = useConfigStore();
     const theme = useTheme(storage, props.theme);
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
@@ -27,8 +28,6 @@ export default (props, options) => {
         }
         return FEATURE_ALL_NAMES;
     }
-
-    const persist = storage.getStore('persist-path', props.persist);
 
     return reactive({
         /** 
@@ -53,20 +52,10 @@ export default (props, options) => {
         requester : buildRequester(props.request),
         // active features
         features: setFeatures(props.features),
-        // view state
-        view: storage.getStore('viewport', 'grid'),
-        // fullscreen state
-        fullScreen: storage.getStore('full-screen', props.fullScreen),
-        // show tree view
-        showTreeView: storage.getStore('show-tree-view', props.showTreeView),
         // pinnedFolders
         pinnedFolders: storage.getStore('pinned-folders', props.pinnedFolders),
         // treeViewData
-        treeViewData: [],
-        // selectButton state
-        selectButton: props.selectButton,
-        // max file size
-        maxFileSize: props.maxFileSize,
+        treeViewData: [], 
 
         /**
         * Settings
@@ -74,21 +63,13 @@ export default (props, options) => {
 
         // theme state
         theme: theme,
-        // unit state - for example: GB or GiB
-        metricUnits: metricUnits,
         // human readable file sizes
-        filesize: metricUnits ? filesizeMetric : filesizeDefault,
-        // show large icons in list view
-        compactListView: storage.getStore('compact-list-view', true),
-        // persist state
-        persist: persist,
-        // show thumbnails
-        showThumbnails: storage.getStore('show-thumbnails', props.showThumbnails),
-        // type of progress indicator
-        loadingIndicator: props.loadingIndicator,
+        filesize: config.metricUnits ? filesizeMetric : filesizeDefault,
         // possible items of the context menu
         contextMenuItems: props.contextMenuItems,
         // custom icon
         customIcon: props.icon,
+        // selectButton state
+        selectButton: props.selectButton,
     });
 }

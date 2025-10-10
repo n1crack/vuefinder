@@ -16,6 +16,7 @@ import { useSearchStore } from '@/stores/search';
 import {useDragNDrop} from '@/composables/useDragNDrop';
 import { OverlayScrollbars } from 'overlayscrollbars';
 import 'overlayscrollbars/overlayscrollbars.css';
+import { useConfigStore } from '@/stores/config';
 
 
 const app = inject('ServiceContainer') as ServiceContainer;
@@ -30,6 +31,7 @@ const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
 const [awaitingDrag, setAwaitingDrag] = useAutoResetRef(200);
 const search = useSearchStore();
 const fs = useFilesStore();
+const config = useConfigStore();
 
 let vfLazyLoad: ILazyLoadInstance | null = null;
 
@@ -38,7 +40,7 @@ const osInstance = ref<ReturnType<typeof OverlayScrollbars> | null>(null);
 const scrollBar = useTemplateRef<HTMLElement>('customScrollBar');
 const scrollBarContainer = useTemplateRef<HTMLElement>('customScrollBarContainer');
 
-const rowHeight = computed(() => app.view === 'grid' && !(search.searchMode && search.query.length) ? 88 : (app.compactListView ? 24 : 50));
+const rowHeight = computed(() => config.view === 'grid' && !(search.searchMode && search.query.length) ? 88 : (config.compactListView ? 24 : 50));
 
 const {t} = app.i18n;
 
@@ -87,7 +89,7 @@ const isCut = (key?: string | null) => {
   );
 };
 
-watch(() => app.view, (view) => {
+watch(() => config.view, (view) => {
   if (view === 'list') {
     itemsPerRow.value = 1;
   } else {
@@ -96,7 +98,7 @@ watch(() => app.view, (view) => {
 }, { immediate: true });
 
 watch(itemsPerRow, (n) => {
-  if (app.view === 'list' && n !== 1) {
+  if (config.view === 'list' && n !== 1) {
     itemsPerRow.value = 1;
   }
 });
@@ -336,13 +338,13 @@ const handleItemDragEnd = () => {
     <!-- Custom Scrollbar Container (OverlayScrollbars) -->
     <div ref="customScrollBarContainer" 
         class="vuefinder__explorer__scrollbar-container" 
-        :class="[{'grid-view': app.view === 'grid'}, {'search-active': search.hasQuery}]"
+        :class="[{'grid-view': config.view === 'grid'}, {'search-active': search.hasQuery}]"
     >
       <div ref="customScrollBar" class="vuefinder__explorer__scrollbar"></div>
     </div>
 
     <!-- List header like Explorer (shown only in list view) -->
-    <div v-if="app.view === 'list' || search.query.length" class="vuefinder__explorer__header">
+    <div v-if="config.view === 'list' || search.query.length" class="vuefinder__explorer__header">
       <div @click="fs.toggleSort('basename')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button">
            {{ t('Name') }}
@@ -364,7 +366,7 @@ const handleItemDragEnd = () => {
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'last_modified'"/>
       </div>
     </div>
-    <div class="vuefinder__linear-loader absolute" v-if="app.loadingIndicator === 'linear' && fs.isLoading()"></div>
+    <div class="vuefinder__linear-loader absolute" v-if="app.config === 'linear' && fs.isLoading()"></div>
 
     <!-- Content -->
     <div ref="scrollContainer" class="vuefinder__explorer__selector-area scroller"  @scroll="handleScroll">
@@ -417,7 +419,7 @@ const handleItemDragEnd = () => {
                 <div class="vuefinder__explorer__item-list-content">
                   <div class="vuefinder__explorer__item-list-name">
                     <div class="vuefinder__explorer__item-list-icon">
-                        <ItemIcon :item="getItemAtRow(rowIndex)!" :small="app.compactListView"/>
+                        <ItemIcon :item="getItemAtRow(rowIndex)!" :small="config.compactListView"/>
                     </div>
                     <span class="vuefinder__explorer__item-name">{{ getItemAtRow(rowIndex)?.basename }}</span>
                   </div>
@@ -429,7 +431,7 @@ const handleItemDragEnd = () => {
         </template>
         
         <!-- Grid View -->
-        <template v-else-if="app.view === 'grid'">
+        <template v-else-if="config.view === 'grid'">
           <div
               class="pointer-events-none"
               v-for="rowIndex in visibleRows"
@@ -466,7 +468,7 @@ const handleItemDragEnd = () => {
                 <div>
                   <div class="vuefinder__explorer__item-grid-content">
                     <img
-                      v-if="(file.mime_type ?? '').startsWith('image') && app.showThumbnails"
+                      v-if="(file.mime_type ?? '').startsWith('image') && config.showThumbnails"
                       src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                       class="vuefinder__explorer__item-thumbnail lazy"
                       :data-src="app.requester.getPreviewUrl(file.storage, file)"
@@ -519,7 +521,7 @@ const handleItemDragEnd = () => {
                 <div class="vuefinder__explorer__item-list-content">
                   <div class="vuefinder__explorer__item-list-name">
                     <div class="vuefinder__explorer__item-list-icon">
-                        <ItemIcon :item="getItemAtRow(rowIndex)!" :small="app.compactListView"/>
+                        <ItemIcon :item="getItemAtRow(rowIndex)!" :small="config.compactListView"/>
                     </div>
                     <span class="vuefinder__explorer__item-name">{{ getItemAtRow(rowIndex)?.basename }}</span>
                   </div>

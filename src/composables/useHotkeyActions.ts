@@ -6,6 +6,7 @@ import ModalRename from "@/components/modals/ModalRename.vue";
 import ModalPreview from "@/components/modals/ModalPreview.vue";
 import { useSearchStore } from '@/stores/search';
 import { useFilesStore } from '@/stores/files';
+import { useConfigStore } from '@/stores/config';
 
 const KEYBOARD_SHORTCUTS = {
     ESCAPE: 'Escape', F2: 'F2', F5: 'F5', DELETE: 'Delete', ENTER: 'Enter',
@@ -16,6 +17,7 @@ const KEYBOARD_SHORTCUTS = {
 export function useHotkeyActions(app: any) {
     const search = useSearchStore();
     const fs = useFilesStore();
+    const config = useConfigStore();
     const handleKeyboardShortcuts = (e: KeyboardEvent) => {
         if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) { app.modal.close(); (app.root as HTMLElement).focus(); }
         if (app.modal.visible) return;
@@ -38,9 +40,13 @@ export function useHotkeyActions(app: any) {
             search.enterSearchMode(); e.preventDefault();
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {
-            app.showTreeView = !app.showTreeView; app.storage.setStore('show-tree-view', app.showTreeView); e.preventDefault();
+            config.toggle('showTreeView'); 
+            e.preventDefault();
         }
-        if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.ENTER) { app.fullScreen = !app.fullScreen; (app.root as HTMLElement).focus(); }
+        if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.ENTER) { 
+            config.toggle('fullScreen');
+            (app.root as HTMLElement).focus(); 
+        }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) { app.emitter.emit('vf-select-all'); e.preventDefault() }
         if (e.code === KEYBOARD_SHORTCUTS.SPACE) {
             if (fs.selectedItems.length === 1 && fs.selectedItems[0]?.type !== 'dir') {

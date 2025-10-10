@@ -7,42 +7,51 @@ export interface ConfigState {
   view: Viewport
   fullScreen: boolean
   showTreeView: boolean
-  pinnedFolders: string[]
   compactListView: boolean
   metricUnits: boolean
   showThumbnails: boolean
   persist: boolean
   loadingIndicator: 'bar' | 'spinner' | string
+  maxFileSize: number | string | null
+  pinnedFolders: string[]
   customIcon: unknown
   selectButton: boolean
-  maxFileSize: number | string | null
 }
 
 export type ConfigDefaults = Partial<ConfigState>
 
 export const useConfigStore = defineStore('config', () => {
-  // 🧠 1. reactive state (Pinia persist ile tam uyumlu)
   const state = reactive<ConfigState>({
+    // view state
     view: 'grid',
+    // full screen state
     fullScreen: false,
+    // show tree view state
     showTreeView: false,
+    // compact list view state
     compactListView: true,
+    // metric units state
     metricUnits: false,
+    // show thumbnails state
     showThumbnails: true,
+    // persist state
     persist: false,
+    // loading indicator state
     loadingIndicator: 'spinner',
-    selectButton: false,
+    // max file size state
     maxFileSize: null,
+    // pinned folders state
     pinnedFolders: [],
+    // custom icon state
     customIcon: undefined,
+    // select button state
+    selectButton: false,
   })
 
-  // ⚙️ 2. Varsayılan ayarları başlat
   function init(defaults: ConfigDefaults = {}) {
     Object.assign(state, defaults)
   }
 
-  // 🎯 3. Tip güvenli getter
   function get<K extends keyof ConfigState>(key: K): ConfigState[K] {
     return state[key]
   }
@@ -51,7 +60,6 @@ export const useConfigStore = defineStore('config', () => {
     return state
   }
 
-  // 🧩 4. Tip güvenli setter (tek anahtar veya patch)
   function set<K extends keyof ConfigState>(key: K, value: ConfigState[K]): void
   function set(patch: Partial<ConfigState>): void
   function set<K extends keyof ConfigState>(
@@ -61,17 +69,23 @@ export const useConfigStore = defineStore('config', () => {
     if (typeof keyOrPatch === 'object' && keyOrPatch !== null) {
       Object.assign(state, keyOrPatch)
     } else {
-      // Type-safe assignment for a specific config key
       ;(state as ConfigState)[keyOrPatch] = value as ConfigState[K]
     }
   }
-      return {
+
+
+  function toggle(key: keyof ConfigState) {
+    set(key, !state[key])
+  }
+
+    return {
         ...toRefs(state),
         init,
         get,
         set,
+        toggle,
         all
-      }
+    }
 }, {
   persist: true,
 })

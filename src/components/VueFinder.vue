@@ -14,8 +14,12 @@ import TreeView from '@/components/TreeView.vue';
 import {menuItems as contextMenuItems} from '@/utils/contextmenu';
 import type {VueFinderProps, DirEntry} from '@/types';
 import { useFilesStore } from '@/stores/files';
+import { useConfigStore } from '@/stores/config';
 
 const emit = defineEmits(['select', 'update:path'])
+
+const config = useConfigStore();
+
 
 const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
@@ -95,7 +99,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     abortSignal: signal,
   }).then((data: Record<string, unknown>) => {
     fs.setPath(data.dirname as string);
-    if (app.persist) {
+    if (config.persist) {
         // will persist
         setStore('path', data.dirname as string);
     }
@@ -159,7 +163,7 @@ onMounted(() => {
         fetchPath(path)
     })
 
-    const path = app.persist ? getStore('path', props.path) : props.path;
+    const path = config.persist ? getStore('path', props.path) : props.path;
     fs.setPath(path); 
     fetchPath(path);
 
@@ -182,8 +186,8 @@ onMounted(() => {
   <div class="vuefinder" ref="root" tabindex="0">
     <div :class="app.theme.actualValue">
       <div
-          :class="app.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
-          :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
+          :class="config.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
+          :style="!config.fullScreen ? 'max-height: ' + maxHeight : ''"
           class="vuefinder__main__container"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')"
@@ -202,5 +206,6 @@ onMounted(() => {
 
       <ContextMenu/>
     </div>
+
   </div>
 </template>
