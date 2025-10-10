@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
-const {setStore} = app.storage;
+const {setStore, getStore} = app.storage;
 
 const fs = useFilesStore(); 
 
@@ -155,15 +155,13 @@ function fetchPath(path: string | undefined) {
 
 // fetch initial data
 onMounted(() => {
-  // app.fs.adapter can be null at first, until we get the adapter list it will be the first one from response
-  // later we can set default adapter from a prop value
+    watch(() => props.path, (path) => {
+        fetchPath(path)
+    })
 
-  // if there is a path coming from the prop, we should use it.
-
-  // We re-fetch the data if the path prop is updated
- //  watch(() => props.path, (path) => {
- //    fetchPath(path)
- //  })
+    const path = app.persist ? getStore('path', props.path) : props.path;
+    fs.setPath(path); 
+    fetchPath(path);
 
   // Selection events from Explorer
   app.emitter.on('vf-select', (items: unknown[]) => {

@@ -14,6 +14,7 @@ import Toast from './Toast.vue';
 import { useFilesStore } from '@/stores/files';
 import { useSearchStore } from '@/stores/search';
 import {useDragNDrop} from '@/composables/useDragNDrop';
+import { OverlayScrollbars } from 'overlayscrollbars';
 
 
 const app = inject('ServiceContainer') as ServiceContainer;
@@ -30,6 +31,11 @@ const search = useSearchStore();
 const fs = useFilesStore();
 
 let vfLazyLoad: ILazyLoadInstance | null = null;
+
+// OverlayScrollbars custom bar refs/state
+const osInstance = ref<ReturnType<typeof OverlayScrollbars> | null>(null);
+const scrollBar = useTemplateRef<HTMLElement>('customScrollBar');
+const scrollBarContainer = useTemplateRef<HTMLElement>('customScrollBarContainer');
 
 const rowHeight = computed(() => app.view === 'grid' && !(search.searchMode && search.query.length) ? 88 : (app.compactListView ? 24 : 50));
 
@@ -173,12 +179,48 @@ onMounted(() => {
     } else {
       app.emitter.emit('vf-fetch', {params: {q: 'index', adapter, path: currentPath}});
     }
-  }, { immediate: true });
+  });
+
+  // Initialize OverlayScrollbars custom track
+  if (scrollBarContainer.value) {
+    const instance = OverlayScrollbars(scrollBarContainer.value, {
+      scrollbars: { theme: 'vf-theme-dark dark:vf-theme-light' },
+    }, {
+      initialized: (inst: ReturnType<typeof OverlayScrollbars>) => {
+        osInstance.value = inst;
+      },
+      scroll: (inst: ReturnType<typeof OverlayScrollbars>) => {
+        const { scrollOffsetElement } = inst.elements();
+        if (scrollContainer.value) {
+          scrollContainer.value.scrollTo({ top: (scrollOffsetElement as HTMLElement).scrollTop, left: 0 });
+        }
+      }
+    });
+    osInstance.value = instance as unknown as ReturnType<typeof OverlayScrollbars>;
+  }
+
+  // Sync custom bar when content scrolls
+  if (scrollContainer.value) {
+    scrollContainer.value.addEventListener('scroll', () => {
+      const inst = osInstance.value;
+      if (!inst) return;
+      const { scrollOffsetElement } = inst.elements();
+      (scrollOffsetElement as HTMLElement).scrollTo({ top: scrollContainer.value!.scrollTop, left: 0 });
+    });
+  }
 });
 
 onUpdated(() => {
   if (vfLazyLoad) {
     vfLazyLoad.update();
+  }
+  // Update custom scrollbar height/visibility
+  const inst = osInstance.value;
+  if (inst && scrollBar.value && scrollContainer.value) {
+    const needsBar = scrollContainer.value.scrollHeight > scrollContainer.value.clientHeight;
+    const barEl = scrollBar.value;
+    barEl.style.display = needsBar ? 'block' : 'none';
+    barEl.style.height = `${totalHeight.value}px`;
   }
 });
 
@@ -187,6 +229,10 @@ onUnmounted(() => {
   if (vfLazyLoad) {
     vfLazyLoad.destroy();
     vfLazyLoad = null;
+  }
+  if (osInstance.value) {
+    osInstance.value.destroy();
+    osInstance.value = null;
   }
 });
 
@@ -286,6 +332,11 @@ const handleItemDragEnd = () => {
 
 <template>
   <div class="vuefinder__explorer__container">
+    <!-- Custom Scrollbar Container (OverlayScrollbars) -->
+    <div ref="customScrollBarContainer" class="vuefinder__explorer__scrollbar-container">
+      <div ref="customScrollBar" class="vuefinder__explorer__scrollbar"></div>
+    </div>
+
     <!-- List header like Explorer (shown only in list view) -->
     <div v-if="app.view === 'list' || search.query.length" class="vuefinder__explorer__header">
       <div @click="fs.toggleSort('basename')"
@@ -355,8 +406,8 @@ const handleItemDragEnd = () => {
                   @dblclick="handleItemDblClick"
                   @contextmenu.prevent="handleItemContextMenu"
                   :class="[
-                    'file-item vf-new-explorer-item-list pointer-events-auto',
-                    fs.selectedKeys.has(getItemAtRow(rowIndex)?.path as never) ? 'vf-new-explorer-selected' : ''
+                    'file-item vf-explorer-item-list pointer-events-auto',
+                    fs.selectedKeys.has(getItemAtRow(rowIndex)?.path as never) ? 'vf-explorer-selected' : ''
                   ]"
               >
                 <div class="vuefinder__explorer__item-list-content">
@@ -404,8 +455,8 @@ const handleItemDragEnd = () => {
                   @dblclick="handleItemDblClick"
                   @contextmenu.prevent="handleItemContextMenu"
                   :class="[
-                    'file-item vf-new-explorer-item-grid pointer-events-auto',
-                    fs.selectedKeys.has(file.path as never) ? 'vf-new-explorer-selected' : ''
+                    'file-item vf-explorer-item-grid pointer-events-auto',
+                    fs.selectedKeys.has(file.path as never) ? 'vf-explorer-scrollbar-container' : ''
                   ]"
               >
                 <div>
@@ -457,8 +508,8 @@ const handleItemDragEnd = () => {
                   @dblclick="handleItemDblClick"
                   @contextmenu.prevent="handleItemContextMenu"
                   :class="[
-                    'file-item vf-new-explorer-item-list pointer-events-auto',
-                    fs.selectedKeys.has(getItemAtRow(rowIndex)?.path as never) ? 'vf-new-explorer-selected' : ''
+                    'file-item vf-explorer-item-list pointer-events-auto',
+                    fs.selectedKeys.has(getItemAtRow(rowIndex)?.path as never) ? 'vf-explorer-selected' : ''
                   ]"
               >
                 <div class="vuefinder__explorer__item-list-content">
