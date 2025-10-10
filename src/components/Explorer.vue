@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {ref, onMounted, onUnmounted, shallowRef, useTemplateRef, computed, inject, watch, onUpdated} from 'vue';
-import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
+import {ref, onMounted, onUnmounted, useTemplateRef, computed, inject, watch, onUpdated, shallowRef} from 'vue';
+import SelectionArea from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
 import { useAutoResetRef } from '@/composables/useAutoResetRef';
 import { useSelection } from '@/composables/useSelection';
@@ -8,7 +8,7 @@ import SortIcon from './SortIcon.vue';
 import ItemIcon from './ItemIcon.vue';
 import DragItem from './DragItem.vue';
 import title_shorten from '@/utils/title_shorten';
-import type { App, DirEntry } from '@/types';
+import type { ServiceContainer, DirEntry } from '@/types';
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
 import Toast from './Toast.vue';
 import { useFilesStore } from '@/stores/files';
@@ -16,17 +16,15 @@ import { useSearchStore } from '@/stores/search';
 import {useDragNDrop} from '@/composables/useDragNDrop';
 
 
-const app = inject('ServiceContainer') as App;
+const app = inject('ServiceContainer') as ServiceContainer;
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
 const files = computed<DirEntry[]>(() => fs.files);
 // Selection state is managed by useSelection
-
 const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const [awaitingDrag, setAwaitingDrag] = useAutoResetRef(200);
-const selectionStarted = ref(false);
 const search = useSearchStore();
 const fs = useFilesStore();
 
@@ -55,8 +53,17 @@ const {
 });
 
 // Selection composable
-const selectionApi = useSelection<DirEntry>({ getItemPosition, getItemsInRange, getKey: (f) => f.path });
-const { isDragging } = selectionApi;
+const { 
+    isDragging, 
+    initializeSelectionArea, 
+    destroySelectionArea, 
+    handleContentClick 
+} = useSelection<DirEntry>({ 
+    getItemPosition, 
+    getItemsInRange, 
+    getKey: (f) => f.path,
+    selectionObject
+});
 const copyPaste = app.copyPaste ?? null as unknown as { isCut: { value: boolean }, copiedItems: { value: Array<{ path: string }> } } | null;
 
 const currentDragKey = ref<string | null>(null);
@@ -138,61 +145,22 @@ const onBeforeDrag = () => {
   }
 }
 
-const _onBeforeStart = (event: SelectionEvent) => {
-  if(!event.event?.metaKey && !event.event?.ctrlKey) { 
-    selectionStarted.value = true;
-  }
-  setAwaitingDrag(true);
-  selectionApi.onBeforeStart(event);
-}
-
-const _onStart = (evt: SelectionEvent) => {
-  selectionApi.onStart(evt);
-};
-
-const _onMove = (event: SelectionEvent) => {
-  selectionStarted.value = false;
-  selectionApi.onMove(event);
-};
-
-const _onStop = (evt: SelectionEvent) => {
-  selectionApi.onStop(evt);
-}
+// Event handlers are now managed by the useSelection composable
 
 // selectSelectionRange moved into composable
 
 onMounted(() => {
-  selectionObject.value = new SelectionArea({
-    selectables: ['.file-item'],
-    boundaries: ['.scroller'],
-
-    behaviour: {
-      overlap: 'invert',
-      intersect: 'touch',
-      startThreshold: 0,
-      triggers: [0],
-      scrolling: {
-        speedDivider: 10,
-        manualSpeed: 750,
-        startScrollMargins: {x: 0, y: 10}
-      }
-    },
-    features: {
-      touch: true,
-      range: true,
-      deselectOnBlur: true,
-      singleTap: {
-        allow: false,
-        intersect: 'native'
-      }
-    }
-  });
-
-  selectionObject.value.on('beforestart', _onBeforeStart);
-  selectionObject.value.on('start', _onStart);
-  selectionObject.value.on('move', _onMove);
-  selectionObject.value.on('stop', _onStop);
-  selectionObject.value.on('beforedrag', onBeforeDrag);
+  // Initialize SelectionArea
+  initializeSelectionArea();
+  
+  // Add beforedrag handler
+  if (selectionObject.value) {
+    // ensure drag waits briefly after selection starts
+    selectionObject.value.on('beforestart', () => {
+      setAwaitingDrag(true);
+    });
+    selectionObject.value.on('beforedrag', onBeforeDrag);
+  }
   
   // Initialize LazyLoad for thumbnails
   if (scrollContainer.value) {
@@ -234,10 +202,7 @@ onUpdated(() => {
 });
 
 onUnmounted(() => {
-  if (selectionObject.value) {
-    selectionObject.value.destroy();
-    selectionObject.value = null;
-  }
+  destroySelectionArea();
   if (vfLazyLoad) {
     vfLazyLoad.destroy();
     vfLazyLoad = null;
@@ -251,12 +216,7 @@ defineExpose({
   files
 });
 
-const handleContentClick = () => {
-  if (selectionStarted.value) {
-     selectionObject.value?.clearSelection();
-     selectionStarted.value = false;
-  }
-}
+// handleContentClick is now provided by useSelection composable
 
 const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   const el = (event.target as Element | null)?.closest(".file-item");
@@ -274,7 +234,7 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
 }
 
 const openItem = (item: DirEntry) => {
-  const contextMenuItem = app.contextMenuItems.find((cmi: { show: (app: App, args: { searchQuery: string; items: DirEntry[]; target: DirEntry }) => boolean; action: (app: App, items: DirEntry[]) => void }) => {
+  const contextMenuItem = app.contextMenuItems.find((cmi: { show: (app: ServiceContainer, args: { searchQuery: string; items: DirEntry[]; target: DirEntry }) => boolean; action: (app: ServiceContainer, items: DirEntry[]) => void }) => {
     return cmi.show(app, {
       searchQuery: '',
       items: [item],

@@ -1,20 +1,22 @@
-import { ref, onMounted, onUnmounted } from 'vue';
-import type { SelectionEvent } from '@viselect/vanilla';
+import { ref, onMounted, onUnmounted, type Ref } from 'vue';
+import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import { useFilesStore } from '@/stores/files';
 
 export interface UseSelectionDeps<T> {
     getItemPosition: (itemIndex: number) => { row: number; col: number };
     getItemsInRange: <U>(items: U[], minRow: number, maxRow: number, minCol: number, maxCol: number) => U[];
     getKey: (item: T) => string;
+    selectionObject: Ref<SelectionArea | null>;
 }
 
 export function useSelection<T>(deps: UseSelectionDeps<T>) {
-    const {  getItemPosition, getItemsInRange, getKey } = deps;
+    const {  getItemPosition, getItemsInRange, getKey, selectionObject } = deps;
 
     const fs = useFilesStore();
     
 	const tempSelection = ref(new Set<string>());
     const isDragging = ref(false);
+    const selectionStarted = ref(false);
 
 	const extractIds = (els: Element[]): string[] => {
 		return els
@@ -54,6 +56,9 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const onBeforeStart = (event: SelectionEvent) => {
         // reset drag state for new gesture
         isDragging.value = false;
+        if(!event.event?.metaKey && !event.event?.ctrlKey) { 
+            selectionStarted.value = true;
+        }
 		event.selection.resolveSelectables();
 		cleanupSelection(event);
 		refreshSelection(event);
@@ -77,6 +82,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		const addedData = extractIds(event.store.changed.added);
 		const removedData = extractIds(event.store.changed.removed);
 
+        selectionStarted.value = false;
         isDragging.value = true;
 
 		addedData.forEach((id) => {
@@ -136,6 +142,56 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         isDragging.value = false;
 	};
 
+	// Initialize SelectionArea
+	const initializeSelectionArea = () => {
+		selectionObject.value = new SelectionArea({
+			selectables: ['.file-item'],
+			boundaries: ['.scroller'],
+
+			behaviour: {
+				overlap: 'invert',
+				intersect: 'touch',
+				startThreshold: 0,
+				triggers: [0],
+				scrolling: {
+					speedDivider: 10,
+					manualSpeed: 750,
+					startScrollMargins: {x: 0, y: 10}
+				}
+			},
+			features: {
+				touch: true,
+				range: true,
+				deselectOnBlur: true,
+				singleTap: {
+					allow: false,
+					intersect: 'native'
+				}
+			}
+		});
+
+		selectionObject.value.on('beforestart', onBeforeStart);
+		selectionObject.value.on('start', onStart);
+		selectionObject.value.on('move', onMove);
+		selectionObject.value.on('stop', onStop);
+	};
+
+	// Cleanup SelectionArea
+	const destroySelectionArea = () => {
+		if (selectionObject.value) {
+			selectionObject.value.destroy();
+			selectionObject.value = null;
+		}
+	};
+
+	// Handle content click to clear selection
+	const handleContentClick = () => {
+		if (selectionStarted.value) {
+			selectionObject.value?.clearSelection();
+			selectionStarted.value = false;
+		}
+	};
+
 	// Global dragleave listener to reliably reset dragging state
 	onMounted(() => {
 		const handleDragLeave = (e: Event) => {
@@ -152,6 +208,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
 	return {
         isDragging,
+		selectionStarted,
 		extractIds,
 		cleanupSelection,
 		refreshSelection,
@@ -161,6 +218,9 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		onMove,
 		onStop,
 		selectSelectionRange,
+		initializeSelectionArea,
+		destroySelectionArea,
+		handleContentClick,
 	};
 }
 
