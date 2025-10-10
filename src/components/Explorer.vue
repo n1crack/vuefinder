@@ -15,6 +15,7 @@ import { useFilesStore } from '@/stores/files';
 import { useSearchStore } from '@/stores/search';
 import {useDragNDrop} from '@/composables/useDragNDrop';
 import { OverlayScrollbars } from 'overlayscrollbars';
+import 'overlayscrollbars/overlayscrollbars.css';
 
 
 const app = inject('ServiceContainer') as ServiceContainer;
@@ -333,7 +334,10 @@ const handleItemDragEnd = () => {
 <template>
   <div class="vuefinder__explorer__container">
     <!-- Custom Scrollbar Container (OverlayScrollbars) -->
-    <div ref="customScrollBarContainer" class="vuefinder__explorer__scrollbar-container">
+    <div ref="customScrollBarContainer" 
+        class="vuefinder__explorer__scrollbar-container" 
+        :class="[{'grid-view': app.view === 'grid'}, {'search-active': search.hasQuery}]"
+    >
       <div ref="customScrollBar" class="vuefinder__explorer__scrollbar"></div>
     </div>
 
@@ -454,9 +458,9 @@ const handleItemDragEnd = () => {
                   @click="handleItemClick"
                   @dblclick="handleItemDblClick"
                   @contextmenu.prevent="handleItemContextMenu"
-                  :class="[
+                    :class="[
                     'file-item vf-explorer-item-grid pointer-events-auto',
-                    fs.selectedKeys.has(file.path as never) ? 'vf-explorer-scrollbar-container' : ''
+                    fs.selectedKeys.has(file.path as never) ? 'vf-explorer-selected' : ''
                   ]"
               >
                 <div>
