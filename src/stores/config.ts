@@ -26,15 +26,15 @@ export const useConfigStore = defineStore('config', () => {
     view: 'grid',
     fullScreen: false,
     showTreeView: false,
-    pinnedFolders: [],
     compactListView: true,
     metricUnits: false,
     showThumbnails: true,
     persist: false,
     loadingIndicator: 'spinner',
-    customIcon: undefined,
     selectButton: false,
     maxFileSize: null,
+    pinnedFolders: [],
+    customIcon: undefined,
   })
 
   // ⚙️ 2. Varsayılan ayarları başlat
@@ -45,6 +45,10 @@ export const useConfigStore = defineStore('config', () => {
   // 🎯 3. Tip güvenli getter
   function get<K extends keyof ConfigState>(key: K): ConfigState[K] {
     return state[key]
+  }
+
+  function all(): ConfigState {
+    return state
   }
 
   // 🧩 4. Tip güvenli setter (tek anahtar veya patch)
@@ -66,6 +70,7 @@ export const useConfigStore = defineStore('config', () => {
         init,
         get,
         set,
+        all
       }
 }, {
   persist: true,
