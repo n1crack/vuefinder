@@ -50,11 +50,15 @@ export const useConfigStore = defineStore('config', () => {
   // 🧩 4. Tip güvenli setter (tek anahtar veya patch)
   function set<K extends keyof ConfigState>(key: K, value: ConfigState[K]): void
   function set(patch: Partial<ConfigState>): void
-  function set(keyOrPatch: keyof ConfigState | Partial<ConfigState>, value?: unknown): void {
+  function set<K extends keyof ConfigState>(
+    keyOrPatch: K | Partial<ConfigState>,
+    value?: ConfigState[K],
+  ): void {
     if (typeof keyOrPatch === 'object' && keyOrPatch !== null) {
       Object.assign(state, keyOrPatch)
     } else {
-      state[keyOrPatch as keyof ConfigState] = value as ConfigState[keyof ConfigState]
+      // Type-safe assignment for a specific config key
+      ;(state as ConfigState)[keyOrPatch] = value as ConfigState[K]
     }
   }
       return {
