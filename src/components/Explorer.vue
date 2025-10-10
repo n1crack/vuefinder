@@ -33,7 +33,7 @@ const fs = useFilesStore();
 let vfLazyLoad: ILazyLoadInstance | null = null;
 
 // Constants for template
-const rowHeight = computed(() => app.view === 'grid' && !(search.searchMode && search.query.length) ? 88 : 24);
+const rowHeight = computed(() => app.view === 'grid' && !(search.searchMode && search.query.length) ? 88 : (app.compactListView ? 24 : 50));
 
 const {t} = app.i18n;
 
