@@ -3,7 +3,6 @@ import {FEATURES} from "../features";
 import ModalAbout from "@/components/modals/ModalAbout.vue";
 import ModalDelete from "@/components/modals/ModalDelete.vue";
 import ModalRename from "@/components/modals/ModalRename.vue";
-import type { App } from "../types";
 import ModalPreview from "@/components/modals/ModalPreview.vue";
 import { useSearchStore } from '@/stores/search';
 import { useFilesStore } from '@/stores/files';
@@ -14,7 +13,7 @@ const KEYBOARD_SHORTCUTS = {
     SPACE: 'Space',
 } as const;
 
-export function useHotkeyActions(app: App) {
+export function useHotkeyActions(app: any) {
     const search = useSearchStore();
     const fs = useFilesStore();
     const handleKeyboardShortcuts = (e: KeyboardEvent) => {
@@ -22,13 +21,17 @@ export function useHotkeyActions(app: App) {
         if (app.modal.visible) return;
         if (search.searchMode) return;
         if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
-            (fs.selectedItems.length !== 1) || app.modal.open(ModalRename, {items: fs.selectedItems})
+            if (fs.selectedItems.length === 1) {
+                app.modal.open(ModalRename, {items: fs.selectedItems})
+            }
         }
         if (e.code === KEYBOARD_SHORTCUTS.F5) {
             app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: fs.path.storage, path: fs.path.path}});
         }
-        if (e.code === KEYBOARD_SHORTCUTS.DELETE) {
-            (!fs.selectedItems.length) || app.modal.open(ModalDelete, {items: fs.selectedItems})
+        if (e.code === KEYBOARD_SHORTCUTS.DELETE) { 
+            if (fs.selectedItems.length === 0) {
+                app.modal.open(ModalDelete, {items: fs.selectedItems})
+            }
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout)
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && app.features.includes(FEATURES.SEARCH)) {
@@ -40,7 +43,9 @@ export function useHotkeyActions(app: App) {
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.ENTER) { app.fullScreen = !app.fullScreen; (app.root as HTMLElement).focus(); }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) { app.emitter.emit('vf-select-all'); e.preventDefault() }
         if (e.code === KEYBOARD_SHORTCUTS.SPACE) {
-            (fs.selectedItems.length !== 1) || app.modal.open(ModalPreview, {adapter: fs.path.storage, item: fs.selectedItems[0]})
+            if (fs.selectedItems.length === 1 && fs.selectedItems[0]?.type !== 'dir') {
+                app.modal.open(ModalPreview, {adapter: fs.path.storage, item: fs.selectedItems[0]})
+            }
         }
     };
 
