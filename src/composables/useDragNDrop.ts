@@ -54,7 +54,6 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   function handleDropZone(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
     if (!target) return;
     e.preventDefault();
-    // fs.setIsDragging(false);
     const el = e.currentTarget;
     delete (el as any).dataset[DATASET_COUNTER_KEY];
     el.classList.remove(...classList);
