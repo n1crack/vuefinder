@@ -286,8 +286,8 @@ const handleItemDragStart = (event: DragEvent) => {
     const itemsToDrag = fs.selectedKeys.has(currentDragKey.value)
         ? Array.from(fs.selectedKeys)
         : [currentDragKey.value];
-
     event.dataTransfer.setData('items', JSON.stringify(itemsToDrag));
+    fs.setDraggedItem(currentDragKey.value);
   }
 };
 

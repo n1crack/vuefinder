@@ -9,14 +9,24 @@ export function useDragNDrop(app: App, classList: string[] = []) {
 
   function handleDragOver(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
     e.preventDefault();
-    if (!target || target.type !== "dir" ||
-        fs.selectedItems.find((item: DirEntry) => item.path === target.path || dirname(item.path) === target.path)) {
-      if (e.dataTransfer) {
-        e.dataTransfer.dropEffect = "none";
-        e.dataTransfer.effectAllowed = "none";
-      }
+
+    const selfTarget = fs.getDraggedItem() === target.path;
+
+    if (
+        selfTarget ||
+        !target || 
+        target.type !== "dir" ||
+        fs.selectedItems.some((item: DirEntry) => item.path === target.path || dirname(item.path) === target.path)
+    ) {
+        if (e.dataTransfer) {
+            e.dataTransfer.dropEffect = "none";
+            e.dataTransfer.effectAllowed = "none";
+        }
     } else {
-      if (e.dataTransfer) e.dataTransfer.dropEffect = "copy";
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = "copy";
+        e.dataTransfer.effectAllowed = "all";
+      }
       e.currentTarget.classList.add(...classList);
     }
   }
@@ -51,6 +61,7 @@ export function useDragNDrop(app: App, classList: string[] = []) {
     const data = e.dataTransfer?.getData("items") || '[]';
     const draggedItemKeys: string[] = JSON.parse(data);
     const draggedItems: DirEntry[] = draggedItemKeys.map((key) => fs.sortedFiles.find((f) => f.path === key) as DirEntry);
+    fs.clearDraggedItem();
     app.modal.open(ModalMove, { items: { from: draggedItems, to: target } });
   }
 

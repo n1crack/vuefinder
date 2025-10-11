@@ -31,6 +31,7 @@ export const useFilesStore = defineStore('files', () => {
         path: '',
         items: new Set(),
     });
+    const draggedItem = ref<string | null>(null);
 
     // Path info (simple and robust)
     const path = computed(() => {
@@ -165,6 +166,18 @@ export const useFilesStore = defineStore('files', () => {
         return clipboardItems.value;
     }
 
+    function setDraggedItem(path: string | null) {
+        draggedItem.value = path;
+    }
+
+    function getDraggedItem() {
+        return draggedItem.value;
+    }
+
+    function clearDraggedItem() {
+        draggedItem.value = null;
+    }
+
     return {
         // State
         files,
@@ -198,6 +211,9 @@ export const useFilesStore = defineStore('files', () => {
         isCopied, // check if the item is copied
         clearClipboard, // clear the clipboard
         getClipboard, // get the clipboard
+        setDraggedItem, // set the dragged item
+        getDraggedItem, // get the dragged item
+        clearDraggedItem, // clear the dragged item
     };
 });
 
