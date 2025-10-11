@@ -68,7 +68,7 @@
 }
 
 .vuefinder__breadcrumb__hidden-item-content {
-  @apply flex pointer-events-none;
+  @apply flex pointer-events-none items-center;
 }
 
 .vuefinder .vuefinder__breadcrumb__hidden-item-icon {
