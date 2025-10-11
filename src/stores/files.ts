@@ -136,6 +136,7 @@ export const useFilesStore = defineStore('files', () => {
 
     function selectAll() {
         selectedKeys.value = new Set(files.value.map(f => f.path));
+        setSelectedCount(selectedKeys.value.size);
     }
 
     function clearSelection() {
