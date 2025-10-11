@@ -51,32 +51,7 @@ export const useFilesStore = defineStore('files', () => {
         const {active, column, order} = sort.value;
         if (!active || !column) return files.value;
         const direction = order === 'asc' ? 1 : -1;
-        return files.value.slice().sort((a, b) => {
-            let av: unknown;
-            let bv: unknown;
-            switch (column) {
-                case 'basename':
-                    av = a.basename;
-                    bv = b.basename;
-                    break;
-                case 'file_size':
-                    av = a.file_size ?? 0;
-                    bv = b.file_size ?? 0;
-                    break;
-                case 'last_modified':
-                    av = a.last_modified ?? 0;
-                    bv = b.last_modified ?? 0;
-                    break;
-                case 'path':
-                    av = a.path;
-                    bv = b.path;
-                    break;
-                default:
-                    av = 0;
-                    bv = 0;
-            }
-            return compareValues(av, bv) * direction;
-        });
+        return files.value.slice().sort((a, b) => compareValues(a[column], b[column]) * direction);
     });
 
     const setPath = (value: string) => {

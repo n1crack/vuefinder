@@ -122,6 +122,10 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		refreshSelection(event);
 	};
 
+    const clearTempSelection = () => {
+        tempSelection.value.clear();
+    }
+
     const selectSelectionRange = (event: SelectionEvent) => {
 		if (event.event && startPosition.value) {
 			// If we have tempSelection items, use them along with start position
@@ -166,7 +170,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		selectSelectionRange(event);
 		cleanupSelection(event);
 		refreshSelection(event);
-        fs.setSelectedCount(fs.selectedKeys.size); 
+        fs.setSelectedCount(fs.selectedKeys.size);
+        clearTempSelection()
 
         isDragging.value = false;
         startPosition.value = null;
@@ -223,6 +228,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         const mouse = event as PointerEvent;
         if (!tempSelection.value.size && !selectionStarted.value && !mouse?.ctrlKey && !mouse?.metaKey) {
           fs.clearSelection();
+          console.log('clear selection');
 
           selectionObject.value?.clearSelection();
         }
