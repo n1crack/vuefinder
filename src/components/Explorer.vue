@@ -318,14 +318,22 @@ const handleItemDragStart = (event: DragEvent) => {
   }
   isDragging.value = true;
   
-  if (event.dataTransfer) {
+  const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
+  currentDragKey.value = el ? String(el.dataset.key) : null;
+  
+  if (event.dataTransfer && currentDragKey.value) {
     event.dataTransfer.setDragImage(dragImage.value as Element, 0, 15);
     event.dataTransfer.effectAllowed = 'all';
     event.dataTransfer.dropEffect = 'copy';
-    event.dataTransfer.setData('items', JSON.stringify(Array.from(fs.selectedKeys)));
+    
+    // If the dragged item is not selected, only drag that item
+    // If it's selected, drag all selected items
+    const itemsToDrag = fs.selectedKeys.has(currentDragKey.value) 
+      ? Array.from(fs.selectedKeys)
+      : [currentDragKey.value];
+    
+    event.dataTransfer.setData('items', JSON.stringify(itemsToDrag));
   }
-  const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
-  currentDragKey.value = el ? String(el.dataset.key) : null;
 };
 
 const handleItemDragEnd = () => {
@@ -380,7 +388,7 @@ const handleItemDragEnd = () => {
             @click.self="handleContentClick"
       >
         <div ref="dragImage" class="vuefinder__explorer__drag-item">
-          <DragItem :count="fs.selectedKeys.size"/>
+          <DragItem :count="currentDragKey && fs.selectedKeys.has(currentDragKey) ? fs.selectedKeys.size : 1"/>
         </div>
         
         <!-- Search View -->

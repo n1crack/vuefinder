@@ -30,10 +30,6 @@ export default (props, options) => {
     }
 
     return reactive({
-        /** 
-        * Core properties
-        * */
-
         // app version
         version: version,
         // root element
@@ -56,10 +52,6 @@ export default (props, options) => {
         pinnedFolders: storage.getStore('pinned-folders', props.pinnedFolders),
         // treeViewData
         treeViewData: [], 
-
-        /**
-        * Settings
-        * */
 
         // theme state
         theme: theme,
