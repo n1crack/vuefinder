@@ -4,9 +4,9 @@
 
     @keyframes pop {
         0% {
-            transform: scale(0.00);
+            transform: scale(0.30);
         }
-        80% {
+        60% {
             transform: scale(1.03);
         }
         100% {
