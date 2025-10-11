@@ -13,7 +13,7 @@
   left: 0; 
   right: 0;
 
-  height: 4px;
+  height: 2px;
   --vuefinder__linear-loader-gradient: no-repeat linear-gradient(var(--vuefinder__linear-loader-primary) 0 0);
   background: var(--vuefinder__linear-loader-gradient),var(--vuefinder__linear-loader-gradient),var(--vuefinder__linear-loader-bg);
   background-size: 60% 100%;

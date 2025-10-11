@@ -147,7 +147,7 @@ onMounted(() => {
   // Initialize OverlayScrollbars custom track
   if (scrollBarContainer.value) {
     const instance = OverlayScrollbars(scrollBarContainer.value, {
-      scrollbars: {theme: 'vf-theme-dark dark:vf-theme-light'},
+      scrollbars: {theme: 'vf-scrollbars-theme'},
     }, {
       initialized: (inst: ReturnType<typeof OverlayScrollbars>) => {
         osInstance.value = inst;
@@ -331,10 +331,10 @@ const handleItemDragEnd = () => {
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'last_modified'"/>
       </div>
     </div>
-    <div class="vuefinder__linear-loader absolute" v-if="app.config === 'linear' && fs.isLoading()"></div>
-
     <!-- Content -->
-    <div ref="scrollContainer" class="vuefinder__explorer__selector-area scroller" @scroll="handleScroll">
+    <div ref="scrollContainer" class="vuefinder__explorer__selector-area scroller " @scroll="handleScroll">
+    <div class="vuefinder__linear-loader" v-if="config.loadingIndicator === 'linear' && fs.isLoading()"></div>
+    
       <div
           ref="scrollContent"
           class="scrollContent min-h-full"

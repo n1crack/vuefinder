@@ -13,7 +13,7 @@ export interface ConfigState {
     showThumbnails: boolean
     persist: boolean
     path: string
-    loadingIndicator: 'bar' | 'spinner' | string
+    loadingIndicator: 'linear' | 'circular' | string
     maxFileSize: number | string | null
     pinnedFolders: DirEntry[],
     customIcon: unknown
@@ -31,7 +31,7 @@ const DEFAULT_STATE: ConfigState = {
     showThumbnails: true,
     persist: false,
     path: '',
-    loadingIndicator: 'spinner',
+    loadingIndicator: 'circular',
     maxFileSize: null,
     pinnedFolders: [] as DirEntry[],
     customIcon: undefined,

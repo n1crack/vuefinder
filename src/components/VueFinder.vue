@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
       },
     }
   },
-  loadingIndicator: 'circular',
+  loadingIndicator: 'linear',
   contextMenuItems: () => contextMenuItems,
 })
 
