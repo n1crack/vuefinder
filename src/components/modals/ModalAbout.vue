@@ -11,7 +11,7 @@ import { useConfigStore } from '@/stores/config';
 
 const app = inject('ServiceContainer');
 const config = useConfigStore();
-const {setStore, clearStore} = app.storage;
+const {clearStore} = app.storage;
 const {t} = app.i18n;
 
 const TAB = {
@@ -32,8 +32,9 @@ const selectedTab = ref('about');
 
 
 const clearLocalStorage = async () => {
-  clearStore();
-  location.reload();
+    config.reset();
+    clearStore();
+    location.reload();
 };
 
 const handleTheme = (key: string) => {

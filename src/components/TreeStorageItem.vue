@@ -9,7 +9,6 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 import { useFilesStore } from '@/stores/files';
 
 const app = inject('ServiceContainer');
-const {setStore} = app.storage;
 const fs = useFilesStore();
 const showSubFolders = ref(false);
 const props = defineProps<{
@@ -42,7 +41,6 @@ function selectOrToggle(storage: string) {
     // select storage
     app.emitter.emit('vf-search-exit');
     app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: storage}});
-    setStore('adapter', storage);
   }
 }
 

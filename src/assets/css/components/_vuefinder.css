@@ -11,5 +11,5 @@
 }
 
 .vuefinder__main__content {
-  @apply relative flex overflow-hidden h-full;
+  @apply relative flex overflow-hidden h-full flex-1;
 }

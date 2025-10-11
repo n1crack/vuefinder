@@ -8,7 +8,6 @@ import { useSearchStore } from '@/stores/search';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const {setStore} = app.storage;
 const fs = useFilesStore();
 const search = useSearchStore();
 
@@ -16,7 +15,6 @@ const handleStorageSelect = (event: Event) => {
   const value = (event.target as HTMLSelectElement).value;
   app.emitter.emit('vf-search-exit');
   app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: value}});
-  setStore('adapter', value);
 };
 
 

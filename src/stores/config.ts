@@ -22,35 +22,24 @@ export interface ConfigState {
 
 export type ConfigDefaults = Partial<ConfigState>
 
+const DEFAULT_STATE: ConfigState = {
+    view: 'grid',
+    fullScreen: false,
+    showTreeView: false,
+    compactListView: true,
+    metricUnits: false,
+    showThumbnails: true,
+    persist: false,
+    path: '',
+    loadingIndicator: 'spinner',
+    maxFileSize: null,
+    pinnedFolders: [] as DirEntry[],
+    customIcon: undefined,
+    selectButton: false,
+}
+
 export const useConfigStore = defineStore('config', () => {
-    const state = reactive<ConfigState>({
-        // view state
-        view: 'grid',
-        // full screen state
-        fullScreen: false,
-        // show tree view state
-        showTreeView: false,
-        // compact list view state
-        compactListView: true,
-        // metric units state
-        metricUnits: false,
-        // show thumbnails state
-        showThumbnails: true,
-        // persist state
-        persist: false,
-        // path state
-        path: '',
-        // loading indicator state
-        loadingIndicator: 'spinner',
-        // max file size state
-        maxFileSize: null,
-        // pinned folders state
-        pinnedFolders: [],
-        // custom icon state
-        customIcon: undefined,
-        // select button state
-        selectButton: false,
-    })
+    const state = reactive<ConfigState>(Object.assign({}, DEFAULT_STATE))
 
     function init(defaults: ConfigDefaults = {}) {
         Object.assign(state, defaults)
@@ -81,13 +70,18 @@ export const useConfigStore = defineStore('config', () => {
         set(key, !state[key])
     }
 
+    function reset() {
+        init(Object.assign({}, DEFAULT_STATE))
+    }
+
     return {
         ...toRefs(state),
         init,
         get,
         set,
         toggle,
-        all
+        all,
+        reset
     }
 }, {
     persist: true,

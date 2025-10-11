@@ -25,7 +25,6 @@ import { useSearchStore } from '@/stores/search';
 import { useConfigStore } from '@/stores/config';
 
 const app = inject('ServiceContainer');
-const {setStore} = app.storage;
 const {t} = app.i18n;
 
 const fs = useFilesStore();
@@ -42,7 +41,6 @@ watch(() => config.fullScreen, () => {
     const body = document.querySelector('body');
     if (body) body.style.overflow = '';
   }
-  setStore('full-screen', config.fullScreen);
   app.emitter.emit('vf-fullscreen-toggle');
 });
 

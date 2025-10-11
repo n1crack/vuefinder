@@ -19,7 +19,6 @@ import {useConfigStore} from '@/stores/config';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const {setStore} = app.storage;
 const search = useSearchStore();
 const fs = useFilesStore();
 const config = useConfigStore();
@@ -155,11 +154,7 @@ const vClickOutside = {
 const toggleTreeView = () => {
   config.toggle('showTreeView');
 }
-watch(() => config.showTreeView, (newShowTreeView, oldValue) => {
-  if (newShowTreeView !== oldValue) {
-    setStore('show-tree-view', newShowTreeView);
-  }
-});
+
 
 /**
  *
