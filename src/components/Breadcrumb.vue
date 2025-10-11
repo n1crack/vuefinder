@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {inject, nextTick, onMounted, onUnmounted, ref, watch, computed} from 'vue';
-import { useSearchStore } from '@/stores/search';
+import {useSearchStore} from '@/stores/search';
 import useDebouncedRef from '@/composables/useDebouncedRef';
 import {FEATURES} from "@/features.js";
 import RefreshSVG from "@/assets/icons/refresh.svg";
@@ -14,8 +14,8 @@ import FolderSVG from '@/assets/icons/folder.svg';
 import ListTreeSVG from '@/assets/icons/list_tree.svg';
 import DotsSVG from '@/assets/icons/dots.svg';
 import {useDragNDrop} from '../composables/useDragNDrop';
-import { useFilesStore } from '@/stores/files';
-import { useConfigStore } from '@/stores/config';
+import {useFilesStore} from '@/stores/files';
+import {useConfigStore} from '@/stores/config';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -212,6 +212,22 @@ const handleBlur = () => {
     exitSearchMode();
   }
 }
+
+/**
+ *  Breadcrumbs Dropdown Position
+ */
+const mousePosition = ref({
+  x: 0,
+  y: 0
+})
+
+const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
+  if (event.currentTarget instanceof HTMLElement) {
+    const {x, y, height} = event.currentTarget.getBoundingClientRect();
+    mousePosition.value = {x, y: y + height};
+  }
+  showHiddenBreadcrumbs.value = !showHiddenBreadcrumbs.value;
+}
 </script>
 
 
@@ -255,7 +271,7 @@ const handleBlur = () => {
           <div class="relative">
             <span
                 @dragenter="showHiddenBreadcrumbs = true"
-                @click="showHiddenBreadcrumbs = !showHiddenBreadcrumbs"
+                @click="handleHiddenBreadcrumbsToggle"
                 class="vuefinder__breadcrumb__hidden-toggle">
               <DotsSVG class="vuefinder__breadcrumb__hidden-toggle-icon"/>
             </span>
@@ -293,18 +309,21 @@ const handleBlur = () => {
       <ExitSVG @click="exitSearchMode"/>
     </div>
 
-    <div v-show="showHiddenBreadcrumbs"
-         class="vuefinder__breadcrumb__hidden-dropdown">
-      <div
-          v-for="(item, index) in hiddenBreadcrumbs" :key="index"
-          v-on="dragNDrop.events(item)"
-          @click="handleHiddenBreadcrumbsClick(item)"
-          class="vuefinder__breadcrumb__hidden-item">
-        <div class="vuefinder__breadcrumb__hidden-item-content">
-          <span><FolderSVG class="vuefinder__breadcrumb__hidden-item-icon"/></span> <span
-            class="vuefinder__breadcrumb__hidden-item-text">{{ item.name }}</span>
+    <Teleport to="body">
+      <div v-show="showHiddenBreadcrumbs"
+           :style="{position: 'absolute', top: mousePosition.y + 'px', left: mousePosition.x + 'px'}"
+           class="vuefinder vuefinder__breadcrumb__hidden-dropdown">
+        <div
+            v-for="(item, index) in hiddenBreadcrumbs" :key="index"
+            v-on="dragNDrop.events(item)"
+            @click="handleHiddenBreadcrumbsClick(item)"
+            class="vuefinder__breadcrumb__hidden-item">
+          <div class="vuefinder__breadcrumb__hidden-item-content">
+            <span><FolderSVG class="vuefinder__breadcrumb__hidden-item-icon"/></span> <span
+              class="vuefinder__breadcrumb__hidden-item-text">{{ item.name }}</span>
+          </div>
         </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
