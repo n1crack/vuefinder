@@ -70,7 +70,9 @@ const {
     getItemPosition, 
     getItemsInRange, 
     getKey: (f) => f.path,
-    selectionObject
+    selectionObject,
+    rowHeight,
+    itemWidth: 104
 });
 const copyPaste = app.copyPaste ?? null as unknown as { isCut: { value: boolean }, copiedItems: { value: Array<{ path: string }> } } | null;
 
@@ -384,7 +386,8 @@ const handleItemDragEnd = () => {
         <!-- Search View -->
         <template v-if="search.query.length">
           <div
-              class="pointer-events-none"
+              class="vf-explorer-item-list-row pointer-events-none"
+              :data-row="rowIndex"
               v-for="rowIndex in visibleRows"
               :key="rowIndex"
               :style="{
@@ -433,7 +436,8 @@ const handleItemDragEnd = () => {
         <!-- Grid View -->
         <template v-else-if="config.view === 'grid'">
           <div
-              class="pointer-events-none"
+              class="vf-explorer-item-grid-row pointer-events-none"
+              :data-row="rowIndex"
               v-for="rowIndex in visibleRows"
               :key="rowIndex"
               :style="{
@@ -486,7 +490,8 @@ const handleItemDragEnd = () => {
         <!-- List View -->
         <template v-else>
           <div
-              class="pointer-events-none"
+              class="vf-explorer-item-list-row pointer-events-none"
+              :data-row="rowIndex"
               v-for="rowIndex in visibleRows"
               :key="rowIndex"
               :style="{

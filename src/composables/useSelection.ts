@@ -7,16 +7,19 @@ export interface UseSelectionDeps<T> {
     getItemsInRange: <U>(items: U[], minRow: number, maxRow: number, minCol: number, maxCol: number) => U[];
     getKey: (item: T) => string;
     selectionObject: Ref<SelectionArea | null>;
+    rowHeight: Ref<number>;
+    itemWidth: number;
 }
 
 export function useSelection<T>(deps: UseSelectionDeps<T>) {
-    const {  getItemPosition, getItemsInRange, getKey, selectionObject } = deps;
+    const {  getItemPosition, getItemsInRange, getKey, selectionObject, rowHeight, itemWidth } = deps;
 
     const fs = useFilesStore();
     
 	const tempSelection = ref(new Set<string>());
     const isDragging = ref(false);
     const selectionStarted = ref(false);
+    const startPosition = ref<{ row: number; col: number } | null>(null);
 
 	const extractIds = (els: Element[]): string[] => {
 		return els
@@ -75,6 +78,22 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 			selection.clearSelection(true, true);
 		}
 		tempSelection.value.clear();
+		
+		// Calculate start position from mouse coordinates
+		if (mouse && selectionObject.value) {
+			const container = selectionObject.value.getSelectables()[0]?.closest('.scroller') as HTMLElement;
+			if (container) {
+				const rect = container.getBoundingClientRect();
+				const relativeY = mouse.clientY - rect.top + container.scrollTop;
+				const relativeX = mouse.clientX - rect.left;
+				
+				// Find the row and column based on mouse position
+				const row = Math.floor(relativeY / rowHeight.value);
+				const col = Math.floor(relativeX / itemWidth);
+				
+				startPosition.value = { row, col };
+			}
+		}
 	};
 
     const onMove = (event: SelectionEvent) => {
@@ -104,32 +123,42 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	};
 
     const selectSelectionRange = (event: SelectionEvent) => {
-		if (event.event && tempSelection.value.size > 0) {
-			const keys = Array.from(tempSelection.value);
-            const positions = keys
-                .map((key) => {
-                    const index = fs.sortedFiles.findIndex((f) => getKey(f as T) === key);
-                    return index >= 0 ? getItemPosition(index) : null;
-                })
-                .filter((pos): pos is { row: number; col: number } => pos !== null);
-			if (positions.length === 0) return;
-			
-			// Calculate the actual min/max row and column from all selected positions
-			const minMaxIds = {
-				minRow: Math.min(...positions.map(p => p.row)),
-				maxRow: Math.max(...positions.map(p => p.row)),
-				minCol: Math.min(...positions.map(p => p.col)),
-				maxCol: Math.max(...positions.map(p => p.col)),
-			};
-            getItemsInRange(fs.sortedFiles, minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
-                (item) => {
-                    const key = getKey(item as T);
-					const el = document.querySelector(`[data-key="${key}"]`);
-					if (!el) {
-                        fs.toggleSelect(key);
-					}
+		if (event.event && startPosition.value) {
+			// If we have tempSelection items, use them along with start position
+			if (tempSelection.value.size > 0) {
+				const keys = Array.from(tempSelection.value);
+				const positions = keys
+					.map((key) => {
+						const index = fs.sortedFiles.findIndex((f) => getKey(f as T) === key);
+						return index >= 0 ? getItemPosition(index) : null;
+					})
+					.filter((pos): pos is { row: number; col: number } => pos !== null);
+				
+				if (positions.length > 0) {
+					// Include start position in the range calculation
+					const allPositions = [...positions, startPosition.value];
+					
+					// Calculate the actual min/max row and column from all positions including start
+					const minMaxIds = {
+						minRow: Math.min(...allPositions.map(p => p.row)),
+						maxRow: Math.max(...allPositions.map(p => p.row)),
+						minCol: Math.min(...allPositions.map(p => p.col)),
+						maxCol: Math.max(...allPositions.map(p => p.col)),
+					};
+					getItemsInRange(fs.sortedFiles, minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
+						(item) => {
+							const key = getKey(item as T);
+							const el = document.querySelector(`[data-key="${key}"]`);
+							if (!el) {
+								fs.select(key);
+							}
+						}
+					);
 				}
-			);
+			} else {
+				// If no tempSelection, don't do range selection
+				// This prevents unwanted selections when dragging over empty areas
+			}
 		}
 	};
 
@@ -140,6 +169,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         fs.setSelectedCount(fs.selectedKeys.size); 
 
         isDragging.value = false;
+        startPosition.value = null;
 	};
 
 	// Initialize SelectionArea
@@ -185,11 +215,17 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	};
 
 	// Handle content click to clear selection
-	const handleContentClick = () => {
+	const handleContentClick = (event: Event|PointerEvent) => {
 		if (selectionStarted.value) {
 			selectionObject.value?.clearSelection();
 			selectionStarted.value = false;
 		}
+        const mouse = event as PointerEvent;
+        if (!tempSelection.value.size && !selectionStarted.value && !mouse?.ctrlKey && !mouse?.metaKey) {
+          fs.clearSelection();
+
+          selectionObject.value?.clearSelection();
+        }
 	};
 
 	// Global dragleave listener to reliably reset dragging state

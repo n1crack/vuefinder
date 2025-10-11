@@ -127,6 +127,7 @@ export const useFilesStore = defineStore('files', () => {
 
   function clearSelection() {
     selectedKeys.value.clear();
+    setSelectedCount(0);
   }
 
   function setSelection(keys: string[]) {
