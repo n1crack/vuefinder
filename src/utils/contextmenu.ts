@@ -5,7 +5,6 @@ import ModalArchive from "@/components/modals/ModalArchive.vue";
 import ModalUnarchive from "@/components/modals/ModalUnarchive.vue";
 import ModalRename from "@/components/modals/ModalRename.vue";
 import ModalDelete from "@/components/modals/ModalDelete.vue";
-import ModalMove from "@/components/modals/ModalMove.vue";
 import { useFilesStore } from '@/stores/files';
 import type { App, DirEntry } from '../types'
 
@@ -107,7 +106,10 @@ export const menuItems: Item[] = [
   {
     id: ContextMenuIds.selectAll,
     title: ({t}) => t('Select All'),
-    action: (app) => app.emitter.emit('vf-select-all'),
+    action: (app) => {
+        const fs = useFilesStore();
+        fs.selectAll()
+    },
     show: showIf({target: 'none'})
   },
   {

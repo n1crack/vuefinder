@@ -47,7 +47,10 @@ export function useHotkeyActions(app: any) {
             config.toggle('fullScreen');
             (app.root as HTMLElement).focus(); 
         }
-        if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) { app.emitter.emit('vf-select-all'); e.preventDefault() }
+        if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) {
+            fs.selectAll();
+            e.preventDefault()
+        }
         if (e.code === KEYBOARD_SHORTCUTS.SPACE) {
             if (fs.selectedItems.length === 1 && fs.selectedItems[0]?.type !== 'dir') {
                 app.modal.open(ModalPreview, {adapter: fs.path.storage, item: fs.selectedItems[0]})

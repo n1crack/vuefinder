@@ -4,6 +4,9 @@ export type ServiceContainer = any;
 import type { RequestConfig } from "./utils/ajax";
 import type { Item as ContextMenuItem } from "./utils/contextmenu";
 
+export type App = ReturnType<typeof ServiceContainer>
+
+
 export interface VueFinderProps {
   id?: string;
   request: string | RequestConfig;
