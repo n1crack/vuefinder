@@ -41,24 +41,51 @@ const itemStyle = computed(() => ({
   opacity: (props.isDragging || fs.isCut(props.item.path)) ? 0.5 : ''
 }));
 
-const lastTapTime = ref(0)
-const DOUBLE_TAP_DELAY = 300 // ms
+let touchTimeOut: any = null;
+const doubleTapTimeOut = ref<ReturnType<typeof setTimeout> | null>(null);
+let tappedTwice = false;
 
-function onTouch(event: TouchEvent) {
-  const now = Date.now()
-  const diff = now - lastTapTime.value
-
-  if (diff < DOUBLE_TAP_DELAY && diff > 0) {
-    console.log('📱 Double tapped!')
-    emit('dblclick', event)
-    event.preventDefault()
-    event.stopPropagation()
-    return false;
+const clearTimeOut = () => {
+  if (touchTimeOut) {
+    clearTimeout(touchTimeOut);
   }
-
-  lastTapTime.value = now
+  draggable.value = true;
 }
+const draggable = ref(false);
 
+const delayedOpenItem = (event: TouchEvent) => {
+    draggable.value = false;
+    if (touchTimeOut) {
+        event.preventDefault();
+        clearTimeout(touchTimeOut); 
+    }
+    if(!tappedTwice) {
+        tappedTwice = true; 
+        doubleTapTimeOut.value = setTimeout(() => tappedTwice = false, 300)
+    } else {
+        tappedTwice = false; 
+        emit('dblclick', event)
+        clearTimeout(touchTimeOut);
+        return false;
+    }
+
+    if (event.currentTarget && event.currentTarget instanceof HTMLElement) {
+        const rect = (event.currentTarget ).getBoundingClientRect();
+
+        touchTimeOut = setTimeout(() => {
+            const cmEvent = new MouseEvent("contextmenu", {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+            button: 2,
+            buttons: 0,
+            clientX: rect.x ,
+            clientY: rect.y + rect.height 
+            });
+            event.target?.dispatchEvent(cmEvent);
+        }, 300)
+    }
+}
 </script>
 
 <template>
@@ -68,8 +95,9 @@ function onTouch(event: TouchEvent) {
     :data-key="item.path"
     :data-row="rowIndex"
     :data-col="colIndex"
-    draggable="true"
-    @touchstart="onTouch"
+    :draggable="draggable"
+    @touchstart="delayedOpenItem($event)"
+    @touchend="clearTimeOut()"
     @click="emit('click', $event)"
     @dblclick="emit('dblclick', $event)"
     @contextmenu.prevent="emit('contextmenu', $event)"
@@ -80,6 +108,7 @@ function onTouch(event: TouchEvent) {
     <div v-if="view === 'grid'">
       <div class="vuefinder__explorer__item-grid-content">
         <img
+          @touchstart="$event.preventDefault()"
           v-if="(item.mime_type ?? '').startsWith('image') && showThumbnails"
           src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
           class="vuefinder__explorer__item-thumbnail lazy"
