@@ -13,7 +13,6 @@ const props = defineProps<{
   showThumbnails?: boolean;
   showPath?: boolean;
   isDraggingItem: (path: string | null) => boolean;
-  isCut: (path: string | null) => boolean;
   isSelected: (path: string) => boolean;
   dragNDropEvents: (item: DirEntry) => Record<string, any>;
 }>();
@@ -74,7 +73,6 @@ const gridStyle = computed(() => {
         :show-path="showPath"
         :is-selected="isSelected(item.path)"
         :is-dragging="isDraggingItem(item.path)"
-        :is-cut="isCut(item.path)"
         :row-index="rowIndex"
         :col-index="colIndex"
         v-on="dragNDropEvents(item)"

@@ -26,6 +26,11 @@ export const useFilesStore = defineStore('files', () => {
     const files = ref<DirEntry[]>([]);
     const sort = ref<SortState>({active: false, column: '', order: ''});
     const selectedKeys = ref<Set<string>>(new Set());
+    const clipboardItems = ref<{type: 'cut' | 'copy', path: string, items: Set<DirEntry>}>({
+        type: 'copy',
+        path: '',
+        items: new Set(),
+    });
 
     // Path info (simple and robust)
     const path = computed(() => {
@@ -160,6 +165,31 @@ export const useFilesStore = defineStore('files', () => {
         return loading.value;
     }
 
+    function setClipboard(type: 'cut' | 'copy', items: Set<string>) {
+        const copiedItems = files.value.filter(f => items.has(f.path));
+        clipboardItems.value = {
+            type, 
+            path: path.value.path,
+            items: new Set(copiedItems)
+        };
+    }
+
+    function isCut(key: string): boolean {
+        return clipboardItems.value.type === 'cut' && Array.from(clipboardItems.value.items).some(f => f.path === key);
+    }
+
+    function isCopied(key: string): boolean {
+        return clipboardItems.value.type === 'copy' && Array.from(clipboardItems.value.items).some(f => f.path === key);
+    }
+
+    function clearClipboard() {
+        clipboardItems.value = {type: 'copy', path: '', items: new Set()};
+    }
+
+    function getClipboard() {
+        return clipboardItems.value;
+    }
+
     return {
         // State
         files,
@@ -188,6 +218,11 @@ export const useFilesStore = defineStore('files', () => {
         selectAll,
         clearSelection, // clear the selection
         setSelection, // set the selection
+        setClipboard, // set the clipboard
+        isCut, // check if the item is cut
+        isCopied, // check if the item is copied
+        clearClipboard, // clear the clipboard
+        getClipboard, // get the clipboard
     };
 });
 

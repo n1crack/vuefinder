@@ -7,11 +7,12 @@ import ModalPreview from "@/components/modals/ModalPreview.vue";
 import { useSearchStore } from '@/stores/search';
 import { useFilesStore } from '@/stores/files';
 import { useConfigStore } from '@/stores/config';
+import ModalMove from '@/components/modals/ModalMove.vue';
 
 const KEYBOARD_SHORTCUTS = {
     ESCAPE: 'Escape', F2: 'F2', F5: 'F5', DELETE: 'Delete', ENTER: 'Enter',
     BACKSLASH: 'Backslash', KEY_A: 'KeyA', KEY_E: 'KeyE', KEY_F: 'KeyF',
-    SPACE: 'Space',
+    SPACE: 'Space', KEY_C: 'KeyC', KEY_X: 'KeyX', KEY_V: 'KeyV',
 } as const;
 
 export function useHotkeyActions(app: any) {
@@ -55,6 +56,48 @@ export function useHotkeyActions(app: any) {
             if (fs.selectedItems.length === 1 && fs.selectedItems[0]?.type !== 'dir') {
                 app.modal.open(ModalPreview, {adapter: fs.path.storage, item: fs.selectedItems[0]})
             }
+        }
+
+        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_C) {
+            if (fs.selectedItems.length === 0) {
+                app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('No items selected')});
+                return;
+            };
+            fs.setClipboard('copy', new Set(fs.selectedItems.map(item => item.path)));
+            app.emitter.emit('vf-toast-push', {label: fs.selectedItems.length === 1 ? app.i18n.t('Item copied to clipboard') : app.i18n.t('%s items copied to clipboard', fs.selectedItems.length)});
+            e.preventDefault();
+        }
+
+        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_X) {
+            if (fs.selectedItems.length === 0) {
+                app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('No items selected')});
+                return;
+            };
+            fs.setClipboard('cut', new Set(fs.selectedItems.map(item => item.path)));
+            app.emitter.emit('vf-toast-push', {label: fs.selectedItems.length === 1 ? app.i18n.t('Item cut to clipboard') : app.i18n.t('%s items cut to clipboard', fs.selectedItems.length)});
+            e.preventDefault();
+        }
+        
+        if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_V) {
+            if (fs.getClipboard().items.size === 0) {
+                app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('No items in clipboard')});
+                return;
+            };
+            if (fs.getClipboard().path === fs.path.path) {
+                app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('Cannot paste items to the same directory')});
+                return;
+            };
+            if (fs.getClipboard().type === 'cut') {
+                app.modal.open(ModalMove, {items: {from: fs.getClipboard().items, to: fs.path}});
+                fs.clearClipboard();
+                return;
+            };
+            if (fs.getClipboard().type === 'copy') {
+                app.modal.open(ModalMove, {items: {from: fs.getClipboard().items, to: fs.path}});
+                return;
+            };
+            
+            e.preventDefault();
         }
     };
 

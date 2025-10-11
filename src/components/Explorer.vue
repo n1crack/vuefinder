@@ -17,7 +17,6 @@ import {OverlayScrollbars} from 'overlayscrollbars';
 import 'overlayscrollbars/overlayscrollbars.css';
 import {useConfigStore} from '@/stores/config';
 
-
 const app = inject('ServiceContainer') as ServiceContainer;
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
@@ -25,7 +24,6 @@ const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
  
-
 const search = useSearchStore();
 const fs = useFilesStore();
 const config = useConfigStore();
@@ -73,10 +71,6 @@ const {
   rowHeight,
   itemWidth: 104
 });
-const copyPaste = app.copyPaste ?? null as unknown as {
-  isCut: { value: boolean },
-  copiedItems: { value: Array<{ path: string }> }
-} | null;
 
 const currentDragKey = ref<string | null>(null);
 
@@ -86,12 +80,7 @@ const isDraggingItem = (key?: string | null) => {
   return isDragging.value && (draggingSelected ? fs.selectedKeys.has(key as never) : key === currentDragKey.value);
 };
 
-const isCut = (key?: string | null) => {
-  if (!key || !copyPaste) return false;
-  return (
-      copyPaste.isCut.value && !!copyPaste.copiedItems.value.find((item: { path: string }) => item.path === key)
-  );
-};
+
 
 watch(() => config.view, (view) => {
   if (view === 'list') {
@@ -110,12 +99,6 @@ watch(itemsPerRow, (n) => {
 const getItemAtRow = (rowIndex: number): DirEntry | undefined => {
   return fs.sortedFiles[rowIndex];
 };
-
-// Use getRowItems from composable using sorted files
-const getRowFiles = (rowIndex: number): DirEntry[] => {
-  return getRowItems(fs.sortedFiles, rowIndex);
-};
-
 
 onMounted(() => {
   // Initialize SelectionArea
@@ -376,7 +359,6 @@ const handleItemDragEnd = () => {
               :compact="config.compactListView"
               :show-path="true"
               :is-dragging-item="isDraggingItem"
-              :is-cut="isCut"
               :is-selected="(path) => fs.selectedKeys.has(path as never)"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
               @click="handleItemClick"
@@ -396,10 +378,9 @@ const handleItemDragEnd = () => {
               :row-height="rowHeight"
               view="grid"
               :items-per-row="itemsPerRow"
-              :items="getRowFiles(rowIndex)"
+              :items="getRowItems(fs.sortedFiles, rowIndex)"
               :show-thumbnails="config.showThumbnails"
               :is-dragging-item="isDraggingItem"
-              :is-cut="isCut"
               :is-selected="(path) => fs.selectedKeys.has(path as never)"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
               @click="handleItemClick"
@@ -421,7 +402,6 @@ const handleItemDragEnd = () => {
               :items="getItemAtRow(rowIndex) ? [getItemAtRow(rowIndex)!] : []"
               :compact="config.compactListView"
               :is-dragging-item="isDraggingItem"
-              :is-cut="isCut"
               :is-selected="(path) => fs.selectedKeys.has(path as never)"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
               @click="handleItemClick"

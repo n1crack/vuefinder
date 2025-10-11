@@ -3,6 +3,7 @@ import { inject, computed } from 'vue';
 import ItemIcon from './ItemIcon.vue';
 import title_shorten from '@/utils/title_shorten';
 import type { ServiceContainer, DirEntry } from '@/types';
+import { useFilesStore } from '@/stores/files';
 
 const props = defineProps<{
   item: DirEntry;
@@ -11,7 +12,6 @@ const props = defineProps<{
   showThumbnails?: boolean;
   isSelected?: boolean;
   isDragging?: boolean;
-  isCut?: boolean;
   rowIndex?: number;
   colIndex?: number;
   showPath?: boolean;
@@ -26,6 +26,7 @@ const emit = defineEmits<{
 }>();
 
 const app = inject('ServiceContainer') as ServiceContainer;
+const fs = useFilesStore();
 
 const itemClasses = computed(() => [
   'file-item',
@@ -35,29 +36,9 @@ const itemClasses = computed(() => [
 ]);
 
 const itemStyle = computed(() => ({
-  opacity: (props.isDragging || props.isCut) ? 0.5 : ''
+  opacity: (props.isDragging || fs.isCut(props.item.path)) ? 0.5 : ''
 }));
 
-const handleClick = (event: Event | MouseEvent | TouchEvent) => {
-  emit('click', event);
-};
-
-const handleDblClick = (event: MouseEvent) => {
-  emit('dblclick', event);
-};
-
-const handleContextMenu = (event: MouseEvent) => {
-  event.preventDefault();
-  emit('contextmenu', event);
-};
-
-const handleDragStart = (event: DragEvent) => {
-  emit('dragstart', event);
-};
-
-const handleDragEnd = (event: DragEvent) => {
-  emit('dragend', event);
-};
 </script>
 
 <template>
@@ -68,11 +49,11 @@ const handleDragEnd = (event: DragEvent) => {
     :data-row="rowIndex"
     :data-col="colIndex"
     draggable="true"
-    @click="handleClick"
-    @dblclick="handleDblClick"
-    @contextmenu.prevent="handleContextMenu"
-    @dragstart="handleDragStart"
-    @dragend="handleDragEnd"
+    @click="emit('click', $event)"
+    @dblclick="emit('dblclick', $event)"
+    @contextmenu.prevent="emit('contextmenu', $event)"
+    @dragstart="emit('dragstart', $event)"
+    @dragend="emit('dragend', $event)"
   >
     <!-- Grid View -->
     <div v-if="view === 'grid'">
@@ -98,8 +79,9 @@ const handleDragEnd = (event: DragEvent) => {
         <span class="vuefinder__explorer__item-name">{{ item.basename }}</span>
       </div>
       <div v-if="showPath" class="vuefinder__explorer__item-path">{{ item.path }}</div>
-      <div v-else-if="item.file_size" class="vuefinder__explorer__item-size">
-        {{ app.filesize(item.file_size) }}
+      <div  class="vuefinder__explorer__item-size">
+        <div v-if="item.file_size">{{ app.filesize(item.file_size) }}</div>
+
       </div>
       <div v-if="!showPath && item.last_modified" class="vuefinder__explorer__item-date">
         {{ new Date(item.last_modified * 1000).toLocaleString() }}

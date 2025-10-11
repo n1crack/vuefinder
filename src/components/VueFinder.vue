@@ -3,7 +3,6 @@ import {inject, onMounted, provide, ref, watch} from 'vue';
 // @ts-expect-error - ServiceContainer is a legacy JS module
 import ServiceContainer from '@/ServiceContainer.js';
 import {useHotkeyActions} from '@/composables/useHotkeyActions';
-import {useCopyPaste} from '@/composables/useCopyPaste';
 
 import Toolbar from '@/components/Toolbar.vue';
 import Breadcrumb from '@/components/Breadcrumb.vue';
@@ -61,7 +60,6 @@ const root = ref(null);
 app.root = root;
 
 useHotkeyActions(app);
-useCopyPaste(app);
 
 /** @type {AbortController} */
 let controller: AbortController | null = null;

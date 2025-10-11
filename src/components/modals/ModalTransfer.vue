@@ -55,7 +55,7 @@ const transfer = () => {
       <div class="vuefinder__move-modal__content">
         <p class="vuefinder__move-modal__description">{{ props.body }}</p>
         <div class="vuefinder__move-modal__files vf-scrollbar">
-          <div v-for="node in items" class="vuefinder__move-modal__file">
+          <div v-for="node in items" class="vuefinder__move-modal__file" :key="node.path">
             <div>
               <svg v-if="node.type === 'dir'" class="vuefinder__move-modal__icon vuefinder__move-modal__icon--dir"
                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
