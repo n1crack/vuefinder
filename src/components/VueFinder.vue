@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import {inject, onMounted, provide, ref, watch} from 'vue';
-// @ts-expect-error - ServiceContainer is a legacy JS module
-import ServiceContainer from '@/ServiceContainer.js';
+import {inject, onMounted, provide, ref, useTemplateRef, watch} from 'vue';
+import ServiceContainer from '@/ServiceContainer';
 import {useHotkeyActions} from '@/composables/useHotkeyActions';
 
 import Toolbar from '@/components/Toolbar.vue';
@@ -51,13 +50,8 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
-const {setStore, getStore} = app.storage;
 
-const fs = useFilesStore(); 
-
-//  Define root element
-const root = ref(null);
-app.root = root;
+const fs = useFilesStore();
 
 useHotkeyActions(app);
 
@@ -98,8 +92,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   }).then((data: Record<string, unknown>) => {
     fs.setPath(data.dirname as string);
     if (config.persist) {
-        // will persist
-        setStore('path', data.dirname as string);
+       config.set('path', data.dirname as string);
     }
 
     if (!noCloseModal) {
@@ -161,7 +154,7 @@ onMounted(() => {
         fetchPath(path)
     })
 
-    const path = config.persist ? getStore('path', props.path) : props.path;
+    const path = config.persist ? config.path : props.path;
     fs.setPath(path); 
     fetchPath(path);
 
@@ -174,6 +167,10 @@ onMounted(() => {
   // Emit update:path event based on store path
   watch(() => fs.path.path, (path) => {
     emit('update:path', path)
+  })
+
+  watch(() => fs.selectedItems, (value) => {
+    emit('select', value);
   })
 
 });

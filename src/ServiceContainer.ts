@@ -1,4 +1,4 @@
-import {reactive} from "vue";
+import {reactive, useTemplateRef} from "vue";
 import mitt from "mitt";
 import {buildRequester} from "./utils/ajax";
 import {useStorage} from "./composables/useStorage";
@@ -10,11 +10,8 @@ import useTheme from './composables/useTheme';
 import useModal from "./composables/useModal";
 import { useConfigStore } from "./stores/config";
 
-/**
- * @param {import('./types.js').VueFinderProps} props
- * @param options
- */
-export default (props, options) => {
+
+export default (props: any, options: any) => {
     const storage = useStorage(props.id);
     const emitter = mitt();
     const config = useConfigStore();
@@ -22,7 +19,7 @@ export default (props, options) => {
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
 
-    const setFeatures = (features) => {
+    const setFeatures = (features: any) => {
         if (Array.isArray(features)) {
             return features;
         }
@@ -33,7 +30,7 @@ export default (props, options) => {
         // app version
         version: version,
         // root element
-        root: null,
+        root: useTemplateRef("root"),
         // app id
         debug: props.debug,
         // Event Bus

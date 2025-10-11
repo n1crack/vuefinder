@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, computed } from 'vue';
+import { inject, computed, ref } from 'vue';
 import ItemIcon from './ItemIcon.vue';
 import PinSVG from "../assets/icons/pin.svg";
 import title_shorten from '@/utils/title_shorten';
@@ -21,7 +21,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   click: [event: Event | MouseEvent | TouchEvent];
-  dblclick: [event: MouseEvent];
+  dblclick: [event: MouseEvent | TouchEvent];
   contextmenu: [event: MouseEvent];
   dragstart: [event: DragEvent];
   dragend: [event: DragEvent];
@@ -41,6 +41,24 @@ const itemStyle = computed(() => ({
   opacity: (props.isDragging || fs.isCut(props.item.path)) ? 0.5 : ''
 }));
 
+const lastTapTime = ref(0)
+const DOUBLE_TAP_DELAY = 300 // ms
+
+function onTouch(event: TouchEvent) {
+  const now = Date.now()
+  const diff = now - lastTapTime.value
+
+  if (diff < DOUBLE_TAP_DELAY && diff > 0) {
+    console.log('📱 Double tapped!')
+    emit('dblclick', event)
+    event.preventDefault()
+    event.stopPropagation()
+    return false;
+  }
+
+  lastTapTime.value = now
+}
+
 </script>
 
 <template>
@@ -51,6 +69,7 @@ const itemStyle = computed(() => ({
     :data-row="rowIndex"
     :data-col="colIndex"
     draggable="true"
+    @touchstart="onTouch"
     @click="emit('click', $event)"
     @dblclick="emit('dblclick', $event)"
     @contextmenu.prevent="emit('contextmenu', $event)"

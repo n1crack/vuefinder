@@ -3,9 +3,10 @@ import type { Component } from "vue";
 export type ServiceContainer = any;
 import type { RequestConfig } from "./utils/ajax";
 import type { Item as ContextMenuItem } from "./utils/contextmenu";
+import type ServiceContainer from "@/ServiceContainer";
+
 
 export type App = ReturnType<typeof ServiceContainer>
-
 
 export interface VueFinderProps {
   id?: string;

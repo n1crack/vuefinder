@@ -12,6 +12,7 @@ export interface ConfigState {
     metricUnits: boolean
     showThumbnails: boolean
     persist: boolean
+    path: string
     loadingIndicator: 'bar' | 'spinner' | string
     maxFileSize: number | string | null
     pinnedFolders: DirEntry[],
@@ -37,6 +38,8 @@ export const useConfigStore = defineStore('config', () => {
         showThumbnails: true,
         // persist state
         persist: false,
+        // path state
+        path: '',
         // loading indicator state
         loadingIndicator: 'spinner',
         // max file size state
