@@ -48,9 +48,7 @@ export default (props, options) => {
         requester : buildRequester(props.request),
         // active features
         features: setFeatures(props.features),
-        // pinnedFolders
-        pinnedFolders: storage.getStore('pinned-folders', props.pinnedFolders),
-        // treeViewData
+        // treeViewData - temp. opened folders
         treeViewData: [], 
 
         // theme state

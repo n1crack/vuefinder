@@ -72,11 +72,11 @@
 }
 
 .vf-explorer-item-list {
-    @apply grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none pointer-events-auto;
+    @apply relative grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none pointer-events-auto;
 }
 
 .vf-explorer-item-grid {
-    @apply m-1 w-[5.5rem] h-20 md:w-24 border border-transparent hover:bg-neutral-50 dark:hover:bg-gray-700 inline-flex text-center justify-center select-none pointer-events-auto;
+    @apply relative m-1 w-[5.5rem] h-20 md:w-24 border border-transparent hover:bg-neutral-50 dark:hover:bg-gray-700 inline-flex text-center justify-center select-none pointer-events-auto;
 }
 
 .vf-explorer-selected {

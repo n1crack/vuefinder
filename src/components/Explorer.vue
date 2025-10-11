@@ -2,7 +2,6 @@
 import {ref, onMounted, onUnmounted, useTemplateRef, computed, inject, watch, onUpdated, shallowRef} from 'vue';
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '@/composables/useVirtualColumns';
-import {useAutoResetRef} from '@/composables/useAutoResetRef';
 import {useSelection} from '@/composables/useSelection';
 import SortIcon from './SortIcon.vue';
 import DragItem from './DragItem.vue';

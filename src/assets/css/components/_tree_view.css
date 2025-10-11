@@ -63,7 +63,7 @@
   @apply underline decoration-blue-300 dark:decoration-gray-400;
 }
 
-.vuefinder__treeview__remove-favorite {
+.vuefinder__treeview__remove-folder {
   @apply cursor-pointer;
 }
 

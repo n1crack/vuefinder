@@ -7,6 +7,7 @@ import ModalRename from "@/components/modals/ModalRename.vue";
 import ModalDelete from "@/components/modals/ModalDelete.vue";
 import { useFilesStore } from '@/stores/files';
 import type { App, DirEntry } from '../types'
+import {useConfigStore} from "@/stores/config.ts";
 
 type TargetKey = 'none' | 'one' | 'many'
 
@@ -136,24 +137,31 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.pinFolder,
     title: ({t}) => t('Pin Folder'),
     action: (app, selectedItems) => {
-        app.pinnedFolders = app.pinnedFolders.concat(selectedItems);
-        app.storage.setStore('pinned-folders', app.pinnedFolders);
+        const config = useConfigStore();
+
+        config.set('pinnedFolders', config.pinnedFolders.concat(selectedItems.filter((fav: DirEntry) => config.pinnedFolders.findIndex((item: DirEntry) => item.path === fav.path) === -1)))
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
-      (app, ctx) => app.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1,
+      (app, ctx) => {
+          const config = useConfigStore();
+          return config.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1
+      },
     )
   },
   {
     id: ContextMenuIds.unpinFolder,
     title: ({t}) => t('Unpin Folder'),
     action: (app, selectedItems) => {
-        app.pinnedFolders = app.pinnedFolders.filter((fav: DirEntry) => !selectedItems.find((item: DirEntry) => item.path === fav.path));
-        app.storage.setStore('pinned-folders', app.pinnedFolders);
+        const config = useConfigStore();
+        config.set('pinnedFolders',  config.pinnedFolders.filter((fav: DirEntry) => !selectedItems.find((item: DirEntry) => item.path === fav.path)));
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
-      (app, ctx) => app.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1,
+      (app, ctx) => {
+          const config = useConfigStore();
+          return config.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
+      },
     )
   },
   {

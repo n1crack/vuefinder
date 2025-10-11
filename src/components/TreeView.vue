@@ -27,9 +27,8 @@ const treeViewWidth = ref(190);
 const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
 watch(pinnedFoldersOpened, (value) => setStore('pinned-folders-opened', value));
 
-const removeFavorite = (item: PinnedFolder) => {
-  app.pinnedFolders = app.pinnedFolders.filter((fav: PinnedFolder) => fav.path !== item.path);
-  app.storage.setStore('pinned-folders', app.pinnedFolders);
+const removePin = (item: PinnedFolder) => {
+  config.pinnedFolders = config.pinnedFolders.filter((fav: PinnedFolder) => fav.path !== item.path);
 }
 
 const handleMouseDown = (e: MouseEvent) => {
@@ -130,33 +129,33 @@ watch(fs.files, (newFiles) => {
         </div>
         <ul class="vuefinder__treeview__pinned-list" v-if="pinnedFoldersOpened">
           <li
-              v-for="favorite in app.pinnedFolders"
-              :key="favorite.path"
+              v-for="folder in config.pinnedFolders"
+              :key="folder.path"
               class="vuefinder__treeview__pinned-item"
           >
             <div
-                v-on="dragNDrop.events(favorite)"
+                v-on="dragNDrop.events(folder)"
                 class="vuefinder__treeview__pinned-folder"
-                @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: favorite.storage, path:favorite.path}})"
+                @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: folder.storage, path:folder.path}})"
             >
-              <FolderSVG class="vuefinder__treeview__folder-icon" v-if="fs.path.path !== favorite.path"/>
-              <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="fs.path.path === favorite.path"/>
+              <FolderSVG class="vuefinder__treeview__folder-icon" v-if="fs.path.path !== folder.path"/>
+              <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="fs.path.path === folder.path"/>
               <div
 
-                  :title="favorite.path"
+                  :title="folder.path"
                   class="vuefinder__treeview__folder-name"
                   :class="{
-                  'vuefinder__treeview__folder-name--active': fs.path.path === favorite.path,
+                  'vuefinder__treeview__folder-name--active': fs.path.path === folder.path,
                 }"
               >
-                {{ favorite.basename }}
+                {{ folder.basename }}
               </div>
             </div>
-            <div class="vuefinder__treeview__remove-favorite" @click="removeFavorite(favorite)">
+            <div class="vuefinder__treeview__remove-folder" @click="removePin(folder)">
               <XBoxSVG class="vuefinder__treeview__remove-icon"/>
             </div>
           </li>
-          <li v-if="!app.pinnedFolders.length">
+          <li v-if="!config.pinnedFolders.length">
             <div class="vuefinder__treeview__no-pinned">{{ t('No folders pinned') }}</div>
           </li>
         </ul>

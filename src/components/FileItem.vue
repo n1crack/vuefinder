@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue';
 import ItemIcon from './ItemIcon.vue';
+import PinSVG from "../assets/icons/pin.svg";
 import title_shorten from '@/utils/title_shorten';
 import type { ServiceContainer, DirEntry } from '@/types';
 import { useFilesStore } from '@/stores/files';
+import {useConfigStore} from "@/stores/config.ts";
 
 const props = defineProps<{
   item: DirEntry;
@@ -27,11 +29,11 @@ const emit = defineEmits<{
 
 const app = inject('ServiceContainer') as ServiceContainer;
 const fs = useFilesStore();
+const config = useConfigStore();
 
 const itemClasses = computed(() => [
   'file-item',
   props.view === 'grid' ? 'vf-explorer-item-grid' : 'vf-explorer-item-list',
-  'pointer-events-auto',
   props.isSelected ? 'vf-explorer-selected' : ''
 ]);
 
@@ -81,11 +83,11 @@ const itemStyle = computed(() => ({
       <div v-if="showPath" class="vuefinder__explorer__item-path">{{ item.path }}</div>
       <div  class="vuefinder__explorer__item-size">
         <div v-if="item.file_size">{{ app.filesize(item.file_size) }}</div>
-
       </div>
       <div v-if="!showPath && item.last_modified" class="vuefinder__explorer__item-date">
         {{ new Date(item.last_modified * 1000).toLocaleString() }}
       </div>
     </div>
+    <PinSVG class="vuefinder__item--pinned" v-if="config.pinnedFolders.find(pin => pin.path === item.path)"/>
   </div>
 </template>
