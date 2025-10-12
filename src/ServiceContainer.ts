@@ -46,16 +46,14 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
      */
 
     return reactive({
-        id: props.id,
-
-        config: configStore,
-
-        fs: filesStore,
-
-        search: searchStore,
-
         // app version
         version: version,
+        // config store
+        config: configStore,
+        // files store
+        fs: filesStore,
+        // search store
+        search: searchStore,
         // root element
         root: useTemplateRef("root"),
         // app id

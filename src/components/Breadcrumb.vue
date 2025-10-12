@@ -280,7 +280,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
         </div>
       </div>
 
-      <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && loading.value"/>
+      <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && loading"/>
     
     </div>
     <div v-show="searchMode" class="vuefinder__breadcrumb__search-mode">

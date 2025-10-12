@@ -23,7 +23,10 @@ export function useHotkeyActions(app: any) {
     const selectedItems = useStore(fs.selectedItems);
     
     const handleKeyboardShortcuts = (e: KeyboardEvent) => {
-        if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) { app.modal.close(); (app.root as HTMLElement).focus(); }
+        if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) { 
+            app.modal.close(); 
+            (app.root as HTMLElement).focus(); 
+        }
         if (app.modal.visible) return;
         if (searchState.value?.searchMode) return;
         if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
