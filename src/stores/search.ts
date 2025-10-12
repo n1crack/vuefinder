@@ -1,4 +1,4 @@
-import { persistentAtom } from '@nanostores/persistent'
+import { atom } from 'nanostores'
 import { computed } from 'nanostores'
 
 export interface SearchState {
@@ -13,13 +13,8 @@ const DEFAULT_SEARCH_STATE: SearchState = {
 
 // Search store factory function
 export const createSearchStore = (id: string) => {
-    const storeKey = `vuefinder_search_${id}`
-    
-    // Create persistent atom with default state
-    const searchAtom = persistentAtom<SearchState>(storeKey, DEFAULT_SEARCH_STATE, {
-        encode: JSON.stringify,
-        decode: JSON.parse,
-    })
+    // Create normal atom with default state (not persistent)
+    const searchAtom = atom<SearchState>(DEFAULT_SEARCH_STATE)
 
     // Computed values
     const hasQuery = computed(searchAtom, (state) => state.query.length > 0)
