@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, inject} from 'vue';
+import {computed, inject, ref, onMounted, onUnmounted} from 'vue';
 import {useStore} from '@nanostores/vue';
 import ModalAbout from "./modals/ModalAbout.vue";
 import StorageSVG from "../assets/icons/storage.svg";
@@ -12,6 +12,10 @@ const search = app.search;
 
 // Use nanostores reactive values for template reactivity
 const searchState = useStore(search.searchAtom);
+const sortedFiles = useStore(fs.sortedFiles);
+const path = useStore(fs.path);
+const selectedCount = useStore(fs.selectedCount);
+const storages = useStore(fs.storages);
 
 const handleStorageSelect = (event: Event) => {
   const value = (event.target as HTMLSelectElement).value;
@@ -19,9 +23,8 @@ const handleStorageSelect = (event: Event) => {
   app.emitter.emit('vf-fetch', {params: {q: 'index', storage: value}});
 };
 
-
 const isSelectButtonActive = computed(() => {
-  const selectionAllowed = app.selectButton.multiple ? fs.selectedCount > 0 : fs.selectedCount === 1;
+  const selectionAllowed = app.selectButton.multiple ? selectedCount.value > 0 : selectedCount.value === 1;
   return app.selectButton.active && selectionAllowed;
 });
 
@@ -35,20 +38,21 @@ const isSelectButtonActive = computed(() => {
         <div class="vuefinder__status-bar__storage-icon">
           <StorageSVG/>
         </div>
-        <select name="vuefinder-media-selector" :value="fs.path.storage" @change="handleStorageSelect"
+        <select name="vuefinder-media-selector" :value="path?.storage" @change="handleStorageSelect"
                 class="vuefinder__status-bar__storage-select" tabindex="-1">
-          <option v-for="storage in fs.storages" :value="storage" :key="storage">
+          <option v-for="storage in storages" :value="storage" :key="storage">
             {{ storage }}
           </option>
         </select>
       </div>
       <div class="vuefinder__status-bar__info">
-        <span v-if="searchState.hasQuery">{{ fs.files.length }} items found. </span>
+        <span v-if="searchState.hasQuery">{{ sortedFiles.value.length }} items found. </span>
         <span class="vuefinder__status-bar__selected-count">{{
-            fs.selectedCount > 0 ? t('%s item(s) selected.', fs.selectedCount) : ''
+            selectedCount > 0 ? `${selectedCount} item(s) selected.` : ''
           }}</span>
       </div>
     </div>
+
     <div class="vuefinder__status-bar__actions">
       <button class="vf-btn vf-btn-primary vf-btn-small"
               :class="{disabled: !isSelectButtonActive}"

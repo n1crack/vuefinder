@@ -1,10 +1,14 @@
 import ModalMove from "../components/modals/ModalMove.vue";
 import { dirname } from "../utils/path";
 import type { App, DirEntry } from "../types";
+import { useStore } from '@nanostores/vue';
 
 export function useDragNDrop(app: App, classList: string[] = []) {
   const DATASET_COUNTER_KEY = "vfDragEnterCounter";
   const fs = app.fs;
+  
+  // Make selectedItems reactive
+  const selectedItems = useStore(fs.selectedItems);
 
   function handleDragOver(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
     e.preventDefault();
@@ -15,7 +19,7 @@ export function useDragNDrop(app: App, classList: string[] = []) {
         selfTarget ||
         !target || 
         target.type !== "dir" ||
-        fs.selectedItems.some((item: DirEntry) => item.path === target.path || dirname(item.path) === target.path)
+        selectedItems.value.some((item: DirEntry) => item.path === target.path || dirname(item.path) === target.path)
     ) {
         if (e.dataTransfer) {
             e.dataTransfer.dropEffect = "none";
@@ -58,7 +62,7 @@ export function useDragNDrop(app: App, classList: string[] = []) {
     el.classList.remove(...classList);
     const data = e.dataTransfer?.getData("items") || '[]';
     const draggedItemKeys: string[] = JSON.parse(data);
-    const draggedItems: DirEntry[] = draggedItemKeys.map((key) => fs.sortedFiles.find((f) => f.path === key) as DirEntry);
+    const draggedItems: DirEntry[] = draggedItemKeys.map((key) => fs.sortedFiles.get().find((f: DirEntry) => f.path === key) as DirEntry);
     fs.clearDraggedItem();
     app.modal.open(ModalMove, { items: { from: draggedItems, to: target } });
   }

@@ -27,8 +27,8 @@ const transfer = () => {
       params: {
         q: props.q,
         m: 'post',
-        storage: fs.path.storage,
-        path: fs.path.path,
+        storage: fs.path.get().storage,
+        path: fs.path.get().path,
       },
       body: {
         items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),

@@ -98,7 +98,7 @@ export const menuItems: Item[] = [
     title: ({t}) => t('Refresh'),
     action: (app) => {
       const fs = app.fs;
-      app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.storage, path: fs.path.path}});
+      app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.get().storage, path: fs.path.get().path}});
     },
     show: showIfAny(showIf({target: 'none'}), showIf({target: 'many'}))
   },

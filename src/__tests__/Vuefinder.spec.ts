@@ -49,43 +49,6 @@ vi.mock('overlayscrollbars', () => ({
   })
 }))
 
-// Mock DragSelect
-vi.mock('dragselect', () => ({
-  default: vi.fn().mockImplementation(() => ({
-    subscribe: vi.fn(),
-    clearSelection: vi.fn(),
-    getSelection: vi.fn().mockReturnValue([]),
-    getSelectables: vi.fn().mockReturnValue([]),
-    addSelection: vi.fn(),
-    setSettings: vi.fn(),
-    stop: vi.fn(),
-    Interaction: {
-      _reset: vi.fn()
-    },
-    Area: {
-      reset: vi.fn()
-    }
-  }))
-}))
-
-// Mock useDragSelect composable
-vi.mock('@/composables/useDragSelect', () => ({
-  default: vi.fn().mockReturnValue({
-    area: ref(null),
-    explorerId: 1,
-    isDraggingRef: ref(false),
-    scrollBar: ref(null),
-    scrollBarContainer: ref(null),
-    getSelected: vi.fn().mockReturnValue([]),
-    getSelection: vi.fn().mockReturnValue([]),
-    selectAll: vi.fn(),
-    clearSelection: vi.fn(),
-    refreshSelection: vi.fn(),
-    getCount: vi.fn().mockReturnValue(0),
-    onSelect: vi.fn()
-  })
-}))
-
 // Mock ServiceContainer
 const mockServiceContainer = {
   storage: {
@@ -129,20 +92,6 @@ const mockServiceContainer = {
     type: null,
     close: vi.fn(),
     open: vi.fn()
-  },
-  dragSelect: {
-    clearSelection: vi.fn(),
-    refreshSelection: vi.fn(),
-    onSelect: vi.fn(),
-    getSelected: vi.fn().mockReturnValue([]),
-    getCount: vi.fn().mockReturnValue(0),
-    getSelection: vi.fn().mockReturnValue([]),
-    selectAll: vi.fn(),
-    area: ref(null),
-    explorerId: 1,
-    isDraggingRef: ref(false),
-    scrollBar: ref(null),
-    scrollBarContainer: ref(null)
   },
   requester: {
     send: vi.fn().mockResolvedValue({

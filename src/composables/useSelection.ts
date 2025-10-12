@@ -1,5 +1,7 @@
 import { inject, ref, onMounted, onUnmounted, type Ref } from 'vue';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
+import type { DirEntry } from '@/types';
+import { useStore } from '@nanostores/vue';
 
 export interface UseSelectionDeps<T> {
     getItemPosition: (itemIndex: number) => { row: number; col: number };
@@ -16,6 +18,11 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const explorerId = Math.floor(Math.random() * 2 ** 32).toString();
     const app = inject('ServiceContainer');
     const fs = app.fs;
+    
+    // Make nanostores reactive in Vue context
+    const selectedKeys = useStore(fs.selectedKeys);
+    const sortedFiles = useStore(fs.sortedFiles);
+    const selectedCount = useStore(fs.selectedCount);
     
 	const tempSelection = ref(new Set<string>());
     const isDragging = ref(false);
@@ -35,19 +42,21 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	};
 
 	const refreshSelection = (event: SelectionEvent) => {
-		fs.selectedKeys.forEach((id) => {
-			const el = document.querySelector(`[data-key="${id}"]`);
-			if (el) {
-				event.selection.select(el, true);
-			}
-		});
+		if (selectedKeys.value) {
+			selectedKeys.value.forEach((id: string) => {
+				const el = document.querySelector(`[data-key="${id}"]`);
+				if (el) {
+					event.selection.select(el, true);
+				}
+			});
+		}
 	};
 
     const getSelectionRange = (selectionParam: Set<string>) => {
 		if (selectionParam.size === 0) return null;
 		const ids = Array.from(selectionParam);
         const positions = ids.map((key) => {
-            const index = fs.sortedFiles.findIndex((f) => getKey(f as T) === key);
+            const index = sortedFiles.value?.findIndex((f: DirEntry) => getKey(f as T) === key) ?? -1;
 			return getItemPosition(index >= 0 ? index : 0);
 		});
 		const minRow = Math.min(...positions.map((p) => p.row));
@@ -75,7 +84,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		}
         const mouse = event as MouseEvent | null;
 		if (!mouse?.ctrlKey && !mouse?.metaKey) {
-			fs.selectedKeys.clear();
+			fs.clearSelection();
 			selection.clearSelection(true, true);
 		}
 		tempSelection.value.clear();
@@ -106,18 +115,18 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         isDragging.value = true;
 
 		addedData.forEach((id) => {
-			if (!fs.selectedKeys.has(id)) {
+			if (selectedKeys.value && !selectedKeys.value.has(id)) {
 				tempSelection.value.add(id);
 			}
-			fs.selectedKeys.add(id);
+			fs.select(id);
 		});
 
         removedData.forEach((id) => {
 			const el = document.querySelector(`[data-key="${id}"]`);
-            if (el && fs.sortedFiles.find((file) => getKey(file as T) === id)) {
+            if (el && sortedFiles.value?.find((file: DirEntry) => getKey(file as T) === id)) {
 				tempSelection.value.delete(id);
 			}
-			fs.selectedKeys.delete(id);
+			fs.deselect(id);
 		});
 		selection.resolveSelectables();
 		refreshSelection(event);
@@ -134,7 +143,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 				const keys = Array.from(tempSelection.value);
 				const positions = keys
 					.map((key) => {
-						const index = fs.sortedFiles.findIndex((f) => getKey(f as T) === key);
+						const index = sortedFiles.value?.findIndex((f: DirEntry) => getKey(f as T) === key) ?? -1;
 						return index >= 0 ? getItemPosition(index) : null;
 					})
 					.filter((pos): pos is { row: number; col: number } => pos !== null);
@@ -150,7 +159,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 						minCol: Math.min(...allPositions.map(p => p.col)),
 						maxCol: Math.max(...allPositions.map(p => p.col)),
 					};
-					getItemsInRange(fs.sortedFiles, minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
+					getItemsInRange(sortedFiles.value || [], minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
 						(item) => {
 							const key = getKey(item as T);
 							const el = document.querySelector(`[data-key="${key}"]`);
@@ -171,7 +180,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		selectSelectionRange(event);
 		cleanupSelection(event);
 		refreshSelection(event);
-        fs.setSelectedCount(fs.selectedKeys.size);
+        fs.setSelectedCount(selectedKeys.value?.size || 0);
 
         isDragging.value = false;
         startPosition.value = null;

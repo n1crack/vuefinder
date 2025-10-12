@@ -20,22 +20,23 @@ export function useHotkeyActions(app: any) {
     
     // Use nanostores reactive values
     const searchState = useStore(search.searchAtom);
+    const selectedItems = useStore(fs.selectedItems);
     
     const handleKeyboardShortcuts = (e: KeyboardEvent) => {
         if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) { app.modal.close(); (app.root as HTMLElement).focus(); }
         if (app.modal.visible) return;
         if (searchState.value?.searchMode) return;
         if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
-            if (fs.selectedItems.length === 1) {
-                app.modal.open(ModalRename, {items: fs.selectedItems})
+            if (selectedItems.value.length === 1) {
+                app.modal.open(ModalRename, {items: selectedItems.value})
             }
         }
         if (e.code === KEYBOARD_SHORTCUTS.F5) {
-            app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.storage, path: fs.path.path}});
+            app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.get().storage, path: fs.path.get().path}});
         }
         if (e.code === KEYBOARD_SHORTCUTS.DELETE) { 
-            if (fs.selectedItems.length === 0) {
-                app.modal.open(ModalDelete, {items: fs.selectedItems})
+            if (selectedItems.value.length === 0) {
+                app.modal.open(ModalDelete, {items: selectedItems.value})
             }
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout)
@@ -56,28 +57,28 @@ export function useHotkeyActions(app: any) {
             e.preventDefault()
         }
         if (e.code === KEYBOARD_SHORTCUTS.SPACE) {
-            if (fs.selectedItems.length === 1 && fs.selectedItems[0]?.type !== 'dir') {
-                app.modal.open(ModalPreview, {storage: fs.path.storage, item: fs.selectedItems[0]})
+            if (selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir') {
+                app.modal.open(ModalPreview, {storage: fs.path.get().storage, item: selectedItems.value[0]})
             }
         }
 
         if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_C) {
-            if (fs.selectedItems.length === 0) {
+            if (selectedItems.value.length === 0) {
                 app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('No items selected')});
                 return;
             };
-            fs.setClipboard('copy', new Set(fs.selectedItems.map(item => item.path)));
-            app.emitter.emit('vf-toast-push', {label: fs.selectedItems.length === 1 ? app.i18n.t('Item copied to clipboard') : app.i18n.t('%s items copied to clipboard', fs.selectedItems.length)});
+            fs.setClipboard('copy', new Set(selectedItems.value.map(item => item.path)));
+            app.emitter.emit('vf-toast-push', {label: selectedItems.value.length === 1 ? app.i18n.t('Item copied to clipboard') : app.i18n.t('%s items copied to clipboard', selectedItems.value.length)});
             e.preventDefault();
         }
 
         if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_X) {
-            if (fs.selectedItems.length === 0) {
+            if (selectedItems.value.length === 0) {
                 app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('No items selected')});
                 return;
             };
-            fs.setClipboard('cut', new Set(fs.selectedItems.map(item => item.path)));
-            app.emitter.emit('vf-toast-push', {label: fs.selectedItems.length === 1 ? app.i18n.t('Item cut to clipboard') : app.i18n.t('%s items cut to clipboard', fs.selectedItems.length)});
+            fs.setClipboard('cut', new Set(selectedItems.value.map(item => item.path)));
+            app.emitter.emit('vf-toast-push', {label: selectedItems.value.length === 1 ? app.i18n.t('Item cut to clipboard') : app.i18n.t('%s items cut to clipboard', selectedItems.value.length)});
             e.preventDefault();
         }
         
@@ -86,7 +87,7 @@ export function useHotkeyActions(app: any) {
                 app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('No items in clipboard')});
                 return;
             };
-            if (fs.getClipboard().path === fs.path.path) {
+            if (fs.getClipboard().path === fs.path.get().path) {
                 app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('Cannot paste items to the same directory')});
                 return;
             };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, onMounted, onUnmounted, useTemplateRef, computed, inject, watch, onUpdated, shallowRef, reactive} from 'vue';
+import {ref, onMounted, onUnmounted, useTemplateRef, computed, inject, watch, onUpdated, shallowRef} from 'vue';
 import {useStore} from '@nanostores/vue';
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '../composables/useVirtualColumns';
@@ -26,8 +26,19 @@ const fs = app.fs;
 const config = app.config;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config.configAtom);
+const configState = useStore(config.state);
 const searchState = useStore(search.searchAtom);
+
+// Make files store reactive
+const sortedFiles = useStore(fs.sortedFiles);
+const selectedKeys = useStore(fs.selectedKeys);
+const loading = useStore(fs.loading);
+
+
+// Function for isSelected
+const isSelected = (path: string) => {
+  return selectedKeys.value?.has(path as never) ?? false;
+};
 
 let vfLazyLoad: ILazyLoadInstance | null = null;
 
@@ -54,7 +65,9 @@ const {
   getItemPosition,
   updateItemsPerRow
 } = useVirtualColumns<DirEntry>(
-    computed<DirEntry[]>(() => fs.files),
+    computed<DirEntry[]>(() => {
+        return sortedFiles.value ?? [];
+    }),
     {
       scrollContainer,
       itemWidth: 104,
@@ -82,8 +95,8 @@ const currentDragKey = ref<string | null>(null);
 
 const isDraggingItem = (key?: string | null) => {
   if (!key || !currentDragKey.value) return false;
-  const draggingSelected = fs.selectedKeys.has(currentDragKey.value as never);
-  return isDragging.value && (draggingSelected ? fs.selectedKeys.has(key as never) : key === currentDragKey.value);
+  const draggingSelected = selectedKeys.value?.has(currentDragKey.value as never) ?? false;
+  return isDragging.value && (draggingSelected ? selectedKeys.value?.has(key as never) ?? false : key === currentDragKey.value);
 };
 
 
@@ -103,7 +116,7 @@ watch(itemsPerRow, (n) => {
 });
 
 const getItemAtRow = (rowIndex: number): DirEntry | undefined => {
-  return fs.sortedFiles[rowIndex];
+  return sortedFiles.value?.[rowIndex];
 };
 
 onMounted(() => {
@@ -129,9 +142,8 @@ onMounted(() => {
 
   // Handle search queries via store
   watch(() => searchState.value.query, (newQuery) => {
-    console.log('query changed', newQuery);
-    const storage = fs.path.storage;
-    const currentPath = fs.path.path;
+    const storage = fs.path.get().storage;
+    const currentPath = fs.path.get().path;
     if (!storage || !currentPath) return;
     if (newQuery) {
       app.emitter.emit('vf-fetch', {
@@ -219,7 +231,7 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
     selectionObject.value?.resolveSelectables();
     fs.toggleSelect(key);
   }
-  fs.setSelectedCount(fs.selectedKeys.size);
+  fs.setSelectedCount(selectedKeys.value?.size || 0);
 }
 
 const openItem = (item: DirEntry) => {
@@ -242,15 +254,15 @@ const handleItemDblClick = (event: MouseEvent | TouchEvent) => {
   const el = (event.target as Element | null)?.closest('.file-item-' + explorerId) as HTMLElement | null;
   const key = el ? String(el.getAttribute('data-key')) : null;
   if (!key) return;
-  const item = fs.sortedFiles.find((f: DirEntry) => f.path === key);
+  const item = sortedFiles.value?.find((f: DirEntry) => f.path === key);
   if (item) {
     openItem(item);
   }
 }
 
 const getSelectedItems = () => {
-  const selected = new Set(fs.selectedKeys);
-  return fs.sortedFiles.filter((f: DirEntry) => selected.has(f.path));
+  const selected = selectedKeys.value;
+  return sortedFiles.value?.filter((f: DirEntry) => selected?.has(f.path)) || [];
 };
 
 const handleItemContextMenu = (event: MouseEvent) => {
@@ -258,9 +270,9 @@ const handleItemContextMenu = (event: MouseEvent) => {
   const el = (event.target as Element | null)?.closest('.file-item-' + explorerId) as HTMLElement | null;
   if (el) {
     const key = String(el.getAttribute('data-key'));
-    const targetItem = fs.sortedFiles.find((f: DirEntry) => f.path === key);
+    const targetItem = sortedFiles.value?.find((f: DirEntry) => f.path === key);
     // Ensure the clicked item is selected if not already
-    if (!fs.selectedKeys.has(key)) {
+    if (!selectedKeys.value?.has(key)) {
       fs.clearSelection();
       fs.select(key);
     }
@@ -291,8 +303,8 @@ const handleItemDragStart = (event: DragEvent) => {
 
     // If the dragged item is not selected, only drag that item
     // If it's selected, drag all selected items
-    const itemsToDrag = fs.selectedKeys.has(currentDragKey.value)
-        ? Array.from(fs.selectedKeys)
+    const itemsToDrag = selectedKeys.value?.has(currentDragKey.value)
+        ? Array.from(selectedKeys.value)
         : [currentDragKey.value];
     event.dataTransfer.setData('items', JSON.stringify(itemsToDrag));
     fs.setDraggedItem(currentDragKey.value);
@@ -340,7 +352,8 @@ const handleItemDragEnd = () => {
     </div>
     <!-- Content -->
     <div ref="scrollContainer" class="vuefinder__explorer__selector-area" :class="'scroller-' + explorerId" @scroll="handleScroll">
-    <div class="vuefinder__linear-loader" v-if="config.get('loadingIndicator') === 'linear' && fs.isLoading()"></div>
+    <div class="vuefinder__linear-loader" v-if="config.get('loadingIndicator') === 'linear' && loading.value"></div>
+    <div class="vuefinder__circular-loader" v-if="config.get('loadingIndicator') === 'circular' && loading.value"></div>
     
       <div
           ref="scrollContent"
@@ -350,7 +363,7 @@ const handleItemDragEnd = () => {
           @click.self="handleContentClick"
       >
         <div ref="dragImage" class="vuefinder__explorer__drag-item">
-          <DragItem :count="currentDragKey && fs.selectedKeys.has(currentDragKey) ? fs.selectedKeys.size : 1"/>
+          <DragItem :count="currentDragKey && selectedKeys?.has(currentDragKey) ? selectedKeys?.size : 1"/>
         </div>
 
         <!-- Search View -->
@@ -365,7 +378,7 @@ const handleItemDragEnd = () => {
               :compact="configState.compactListView"
               :show-path="true"
               :is-dragging-item="isDraggingItem"
-              :is-selected="(path) => fs.selectedKeys.has(path as never)"
+              :is-selected="isSelected"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
               :explorerId="explorerId"
               @click="handleItemClick"
@@ -385,10 +398,10 @@ const handleItemDragEnd = () => {
               :row-height="rowHeight"
               view="grid"
               :items-per-row="itemsPerRow"
-              :items="getRowItems(fs.sortedFiles, rowIndex)"
+              :items="getRowItems(sortedFiles, rowIndex)"
               :show-thumbnails="configState.showThumbnails"
               :is-dragging-item="isDraggingItem"
-              :is-selected="(path) => fs.selectedKeys.has(path as never)"
+              :is-selected="isSelected"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
               :explorerId="explorerId"
               @click="handleItemClick"
@@ -410,7 +423,7 @@ const handleItemDragEnd = () => {
               :items="getItemAtRow(rowIndex) ? [getItemAtRow(rowIndex)!] : []"
               :compact="configState.compactListView"
               :is-dragging-item="isDraggingItem"
-              :is-selected="(path) => fs.selectedKeys.has(path as never)"
+              :is-selected="isSelected"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
               :explorerId="explorerId"
               @click="handleItemClick"

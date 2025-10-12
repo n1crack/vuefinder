@@ -1,5 +1,5 @@
-import {defineStore} from 'pinia';
-import {ref, computed} from 'vue';
+import { atom } from 'nanostores'
+import { computed } from 'nanostores'
 import type {DirEntry} from '@/types';
 
 export type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
@@ -20,22 +20,25 @@ function compareValues(a: unknown, b: unknown): number {
     return an === bn ? 0 : an < bn ? -1 : 1;
 }
 
-export const useFilesStore = (id:string) => defineStore('files_' + id, () => {
-    const currentPath = ref<string>('');
-    const storages = ref<string[]>([]);
-    const files = ref<DirEntry[]>([]);
-    const sort = ref<SortState>({active: false, column: '', order: ''});
-    const selectedKeys = ref<Set<string>>(new Set());
-    const clipboardItems = ref<{type: 'cut' | 'copy', path: string, items: Set<DirEntry>}>({
+export const createFilesStore = () => {
+    // Create atoms for state
+    const currentPath = atom<string>('');
+    const storages = atom<string[]>([]);
+    const files = atom<DirEntry[]>([]);
+    const sort = atom<SortState>({active: false, column: '', order: ''});
+    const selectedKeys = atom<Set<string>>(new Set());
+    const clipboardItems = atom<{type: 'cut' | 'copy', path: string, items: Set<DirEntry>}>({
         type: 'copy',
         path: '',
         items: new Set(),
     });
-    const draggedItem = ref<string | null>(null);
+    const draggedItem = atom<string | null>(null);
+    const selectedCount = atom<number>(0);
+    const loading = atom<boolean>(false);
 
     // Path info (simple and robust)
-    const path = computed(() => {
-        const raw = (currentPath.value || 'local://').trim();
+    const path = computed([currentPath], (currentPathValue) => {
+        const raw = (currentPathValue || 'local://').trim();
         const idx = raw.indexOf('://');
         const storage = idx >= 0 ? raw.slice(0, idx) : '';
         const remainder = idx >= 0 ? raw.slice(idx + 3) : raw;
@@ -48,173 +51,193 @@ export const useFilesStore = (id:string) => defineStore('files_' + id, () => {
         return {storage, breadcrumb, path: raw};
     });
 
-    const sortedFiles = computed<DirEntry[]>(() => {
-        const {active, column, order} = sort.value;
-        if (!active || !column) return files.value;
+    const sortedFiles = computed([files, sort], (filesValue, sortValue) => {
+        const {active, column, order} = sortValue;
+        if (!active || !column) return filesValue;
         const direction = order === 'asc' ? 1 : -1;
-        return files.value.slice().sort((a, b) => compareValues(a[column], b[column]) * direction);
+        return filesValue.slice().sort((a, b) => compareValues(a[column], b[column]) * direction);
     });
-
-    const setPath = (value: string) => {
-        currentPath.value = value;
-    }
-
-    function setFiles(newFiles: DirEntry[]) {
-        files.value = newFiles ?? [];
-    }
-
-    function setStorages(newStorages: string[]) {
-        storages.value = newStorages ?? [];
-    }
-
-    function setSort(column: Exclude<SortColumn, ''>, order: Exclude<SortOrder, ''>) {
-        sort.value.active = true;
-        sort.value.column = column;
-        sort.value.order = order;
-    }
-
-    function toggleSort(column: Exclude<SortColumn, ''>) {
-        if (sort.value.active && sort.value.column === column) {
-            sort.value.active = sort.value.order === 'asc';
-            sort.value.column = column;
-            sort.value.order = 'desc';
-        } else {
-            sort.value.active = true;
-            sort.value.column = column;
-            sort.value.order = 'asc';
-        }
-    }
-
-    function clearSort() {
-        sort.value = {active: false, column: '', order: ''};
-    }
 
     // Selection helpers
-    const selectedItems = computed<DirEntry[]>(() => {
-        if (selectedKeys.value.size === 0) return [];
-        const keys = selectedKeys.value;
-        return files.value.filter(f => keys.has(f.path));
+    const selectedItems = computed([files, selectedKeys], (filesValue, selectedKeysValue) => {
+        if (selectedKeysValue.size === 0) return [];
+        return filesValue.filter(f => selectedKeysValue.has(f.path));
     });
 
-    const selectedCount = ref<number>(0);
-    const loading = ref<boolean>(false);
-
-    function select(key: string) {
-        selectedKeys.value.add(key);
+    // Actions
+    const setPath = (value: string) => {
+        currentPath.set(value);
     }
 
-    function deselect(key: string) {
-        selectedKeys.value.delete(key);
+    const setFiles = (newFiles: DirEntry[]) => {
+        files.set(newFiles ?? []);
     }
 
-    function toggleSelect(key: string) {
-        if (selectedKeys.value.has(key)) {
-            selectedKeys.value.delete(key);
+    const setStorages = (newStorages: string[]) => {
+        storages.set(newStorages ?? []);
+    }
+
+    const setSort = (column: Exclude<SortColumn, ''>, order: Exclude<SortOrder, ''>) => {
+        sort.set({active: true, column, order});
+    }
+
+    const toggleSort = (column: Exclude<SortColumn, ''>) => {
+        const currentSort = sort.get();
+        if (currentSort.active && currentSort.column === column) {
+            sort.set({
+                active: currentSort.order === 'asc',
+                column,
+                order: 'desc'
+            });
         } else {
-            selectedKeys.value.add(key);
+            sort.set({
+                active: true,
+                column,
+                order: 'asc'
+            });
         }
     }
 
-    function selectAll() {
-        selectedKeys.value = new Set(files.value.map(f => f.path));
-        setSelectedCount(selectedKeys.value.size);
+    const clearSort = () => {
+        sort.set({active: false, column: '', order: ''});
     }
 
-    function clearSelection() {
-        selectedKeys.value.clear();
-        setSelectedCount(0);
+    const select = (key: string) => {
+        const currentKeys = new Set(selectedKeys.get());
+        currentKeys.add(key);
+        selectedKeys.set(currentKeys);
+        selectedCount.set(currentKeys.size);
     }
 
-    function setSelection(keys: string[]) {
-        selectedKeys.value = new Set(keys ?? []);
+    const deselect = (key: string) => {
+        const currentKeys = new Set(selectedKeys.get());
+        currentKeys.delete(key);
+        selectedKeys.set(currentKeys);
+        selectedCount.set(currentKeys.size);
     }
 
-    function setSelectedCount(count: number) {
-        selectedCount.value = count;
+    const toggleSelect = (key: string) => {
+        const currentKeys = new Set(selectedKeys.get());
+        if (currentKeys.has(key)) {
+            currentKeys.delete(key);
+        } else {
+            currentKeys.add(key);
+        }
+        selectedKeys.set(currentKeys);
+        selectedCount.set(currentKeys.size);
     }
 
-    function setLoading(value: boolean) {
-        loading.value = !!value;
+    const selectAll = () => {
+        const allKeys = new Set(files.get().map(f => f.path));
+        selectedKeys.set(allKeys);
+        selectedCount.set(allKeys.size);
     }
 
-    function isLoading(): boolean {
-        return loading.value;
+    const clearSelection = () => {
+        selectedKeys.set(new Set());
+        selectedCount.set(0);
     }
 
-    function setClipboard(type: 'cut' | 'copy', items: Set<string>) {
-        const copiedItems = files.value.filter(f => items.has(f.path));
-        clipboardItems.value = {
+    const setSelection = (keys: string[]) => {
+        const newKeys = new Set(keys ?? []);
+        selectedKeys.set(newKeys);
+        selectedCount.set(newKeys.size);
+    }
+
+    const setSelectedCount = (count: number) => {
+        selectedCount.set(count);
+    }
+
+    const setLoading = (value: boolean) => {
+        loading.set(!!value);
+    }
+
+    const isLoading = (): boolean => {
+        return loading.get();
+    }
+
+    const setClipboard = (type: 'cut' | 'copy', items: Set<string>) => {
+        const copiedItems = files.get().filter(f => items.has(f.path));
+        clipboardItems.set({
             type, 
-            path: path.value.path,
+            path: path.get().path,
             items: new Set(copiedItems)
-        };
+        });
     }
 
-    function isCut(key: string): boolean {
-        return clipboardItems.value.type === 'cut' && Array.from(clipboardItems.value.items).some(f => f.path === key);
+    const isCut = (key: string): boolean => {
+        const clipboard = clipboardItems.get();
+        return clipboard.type === 'cut' && Array.from(clipboard.items).some(f => f.path === key);
     }
 
-    function isCopied(key: string): boolean {
-        return clipboardItems.value.type === 'copy' && Array.from(clipboardItems.value.items).some(f => f.path === key);
+    const isCopied = (key: string): boolean => {
+        const clipboard = clipboardItems.get();
+        return clipboard.type === 'copy' && Array.from(clipboard.items).some(f => f.path === key);
     }
 
-    function clearClipboard() {
-        clipboardItems.value = {type: 'copy', path: '', items: new Set()};
+    const clearClipboard = () => {
+        clipboardItems.set({type: 'copy', path: '', items: new Set()});
     }
 
-    function getClipboard() {
-        return clipboardItems.value;
+    const getClipboard = () => {
+        return clipboardItems.get();
     }
 
-    function setDraggedItem(path: string | null) {
-        draggedItem.value = path;
+    const setDraggedItem = (path: string | null) => {
+        draggedItem.set(path);
     }
 
-    function getDraggedItem() {
-        return draggedItem.value;
+    const getDraggedItem = () => {
+        return draggedItem.get();
     }
 
-    function clearDraggedItem() {
-        draggedItem.value = null;
+    const clearDraggedItem = () => {
+        draggedItem.set(null);
     }
 
     return {
-        // State
+        // Atoms (state)
         files,
         storages,
+        currentPath,
+        sort,
+        selectedKeys,
+        selectedCount,
+        loading,
+        draggedItem,
+        clipboardItems,
+        
+        // Computed values
         path,
-        sort, // sort state
-        selectedKeys, // selected keys
-        // Computed
-        sortedFiles, // filtered and sorted files
-        selectedItems, // selected items
-        selectedCount, // count of selected items
-        loading, // loading state
-        // Mutations
-        setPath, // set the current path
-        setFiles, // set the files
-        setStorages, // set the storages
-        setSort, // set the sort
-        setSelectedCount, // set the selected count
-        setLoading, // set loading
-        isLoading, // check loading
-        toggleSort, // toggle the sort
-        clearSort, // clear the sort
-        select, // select an item
-        deselect, // deselect an item
-        toggleSelect, // toggle the selection of an item
+        sortedFiles,
+        selectedItems,
+        
+        // Actions
+        setPath,
+        setFiles,
+        setStorages,
+        setSort,
+        toggleSort,
+        clearSort,
+        select,
+        deselect,
+        toggleSelect,
         selectAll,
-        clearSelection, // clear the selection
-        setSelection, // set the selection
-        setClipboard, // set the clipboard
-        isCut, // check if the item is cut
-        isCopied, // check if the item is copied
-        clearClipboard, // clear the clipboard
-        getClipboard, // get the clipboard
-        setDraggedItem, // set the dragged item
-        getDraggedItem, // get the dragged item
-        clearDraggedItem, // clear the dragged item
+        clearSelection,
+        setSelection,
+        setSelectedCount,
+        setLoading,
+        isLoading,
+        setClipboard,
+        isCut,
+        isCopied,
+        clearClipboard,
+        getClipboard,
+        setDraggedItem,
+        getDraggedItem,
+        clearDraggedItem,
     };
-});
+}
 
-
+// Legacy compatibility - create a default files store
+export const useFilesStore = () => createFilesStore()

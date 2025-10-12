@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, inject, onMounted, ref} from 'vue';
+import {useStore} from '@nanostores/vue';
 
 import FolderSVG from "../assets/icons/folder.svg";
 import OpenFolderSVG from "../assets/icons/open_folder.svg";
@@ -11,6 +12,9 @@ const app = inject('ServiceContainer');
 const fs = app.fs;
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const showSubFolders = ref<Record<string, boolean>>({});
+
+// Make path reactive
+const currentPath = useStore(fs.path);
 
 const props = defineProps<{
   storage: string
@@ -29,14 +33,14 @@ onMounted(() => {
   }
 });
 const treeSubFolders = computed(() => {
-  return app.treeViewData.find((e: any) => e.path === props.path)?.folders || [];
+  return app.treeViewData.find((e: {path: string, folders: Array<{storage: string, path: string, basename: string, type: 'dir'}>}) => e.path === props.path)?.folders || [];
 })
 </script>
 
 <template>
   <ul ref="parentSubfolderList" class="vuefinder__treesubfolderlist__container">
     <li
-        v-for="(item, index) in treeSubFolders"
+        v-for="item in treeSubFolders"
         :key="item.path"
         class="vuefinder__treesubfolderlist__item"
     >
@@ -56,13 +60,13 @@ const treeSubFolders = computed(() => {
             @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: props.storage, path:item.path}})"
         >
           <div class="vuefinder__treesubfolderlist__item-icon">
-            <OpenFolderSVG v-if="fs.path.path === item.path"/>
+            <OpenFolderSVG v-if="currentPath?.path === item.path"/>
             <FolderSVG v-else/>
           </div>
           <div
               class="vuefinder__treesubfolderlist__item-text"
               :class="{
-              'vuefinder__treesubfolderlist__item-text--active': fs.path.path === item.path,
+              'vuefinder__treesubfolderlist__item-text--active': currentPath?.path === item.path,
             }"
           >
             {{ item.basename }}

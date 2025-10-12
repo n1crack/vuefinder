@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {inject, onMounted, ref, watch} from 'vue';
+import {inject, onMounted, onUnmounted, ref, watch} from 'vue';
 import {useStore} from '@nanostores/vue';
 import FolderSVG from '../assets/icons/folder.svg';
 import OpenFolderSVG from '../assets/icons/open_folder.svg';
@@ -21,7 +21,9 @@ const fs = app.fs;
 const config = app.config;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config.configAtom);
+const configState = useStore(config.state);
+const sortedFiles = useStore(fs.sortedFiles);
+const path = useStore(fs.path);
 
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
@@ -90,10 +92,10 @@ onMounted(() => {
 
 // watch for changes in the fs.data
 // update the treeViewData
-watch(fs.files, (newFiles) => {
+watch(sortedFiles, (newFiles) => {
   const folders = newFiles.filter((e) => e.type === 'dir');
   upsert(app.treeViewData, {
-    path: fs.path.path, folders: folders.map((item) => {
+    path: path.value?.path || '', folders: folders.map((item) => {
       return {
         storage: item.storage,
         path: item.path,
@@ -140,14 +142,14 @@ watch(fs.files, (newFiles) => {
                 class="vuefinder__treeview__pinned-folder"
                 @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: folder.storage, path:folder.path}})"
             >
-              <FolderSVG class="vuefinder__treeview__folder-icon" v-if="fs.path.path !== folder.path"/>
-              <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="fs.path.path === folder.path"/>
+              <FolderSVG class="vuefinder__treeview__folder-icon" v-if="path?.path !== folder.path"/>
+              <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="path?.path === folder.path"/>
               <div
 
                   :title="folder.path"
                   class="vuefinder__treeview__folder-name"
                   :class="{
-                  'vuefinder__treeview__folder-name--active': fs.path.path === folder.path,
+                  'vuefinder__treeview__folder-name--active': path?.path === folder.path,
                 }"
               >
                 {{ folder.basename }}
@@ -163,7 +165,7 @@ watch(fs.files, (newFiles) => {
         </ul>
       </div>
 
-      <div class="vuefinder__treeview__storage" v-for="storage in fs.storages" :key="storage">
+      <div class="vuefinder__treeview__storage" v-for="storage in fs.storages.get()" :key="storage">
         <TreeStorageItem :storage="storage"/>
       </div>
     </div>

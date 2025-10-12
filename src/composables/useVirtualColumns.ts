@@ -1,4 +1,5 @@
 import {computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref, type TemplateRef} from 'vue';
+import {useStore} from '@nanostores/vue';
 
 export interface VirtualColumnsOptions {
     scrollContainer: TemplateRef<HTMLElement>;
@@ -24,7 +25,7 @@ export interface VirtualColumnsReturn {
 }
 
 export default function useVirtualColumns<T = unknown>(
-    items: Ref<T[]>,
+    items: Ref<T[]> | any, // Accept both Vue refs and Nanostores atoms
     options: VirtualColumnsOptions
 ): VirtualColumnsReturn {
     const { 
@@ -34,6 +35,9 @@ export default function useVirtualColumns<T = unknown>(
         overscan = 2,
         containerPadding = 48,
     } = options;
+
+    // Convert Nanostores atom to Vue ref if needed
+    const itemsRef = items && typeof items.get === 'function' ? useStore(items) : items;
 
     const getRowHeight = (): number => {
         return typeof rowHeight === 'number' ? rowHeight : (rowHeight as Ref<number>).value;
@@ -46,7 +50,7 @@ export default function useVirtualColumns<T = unknown>(
     let resizeObserver: ResizeObserver | null = null;
 
     // Computed properties
-    const totalRows = computed(() => Math.ceil(items.value.length / itemsPerRow.value));
+    const totalRows = computed(() => Math.ceil(itemsRef.value.length / itemsPerRow.value));
     const totalHeight = computed(() => totalRows.value * getRowHeight());
 
     const visibleRange = computed(() => {
@@ -79,7 +83,7 @@ export default function useVirtualColumns<T = unknown>(
     };
 
     // React to items change (e.g., data loaded or filtered)
-    watch(() => items.value.length, () => {
+    watch(() => itemsRef.value.length, () => {
         updateItemsPerRow();
     });
 

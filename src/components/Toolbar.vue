@@ -30,7 +30,7 @@ const config = app.config;
 const search = app.search;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config.configAtom);
+const configState = useStore(config.state);
 const searchState = useStore(search.searchAtom);
 
 watch(() => configState.value.fullScreen, () => {

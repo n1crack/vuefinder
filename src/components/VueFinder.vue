@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {inject, onMounted, provide, ref, useTemplateRef, watch} from 'vue';
+import {inject, onMounted, provide, watch} from 'vue';
 import {useStore} from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import {useHotkeyActions} from '../composables/useHotkeyActions';
@@ -51,7 +51,8 @@ const config = app.config;
 const fs = app.fs;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config.configAtom);
+const configState = useStore(config.state);
+const selectedItems = useStore(fs.selectedItems);
 
 useHotkeyActions(app);
 
@@ -139,7 +140,7 @@ function fetchPath(path: string | undefined) {
   } 
 
   app.emitter.emit('vf-fetch', {
-    params: {q: 'index', storage: fs.path.storage, ...pathExists},
+    params: {q: 'index', storage: fs.path.get().storage, ...pathExists},
     onError: props.onError ?? ((e: unknown) => {
       if (e && typeof e === 'object' && 'message' in e) {
         app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
@@ -165,11 +166,11 @@ onMounted(() => {
   });
 
   // Emit update:path event based on store path
-  watch(() => fs.path.path, (path) => {
+  watch(() => fs.path.get().path, (path) => {
     emit('update:path', path)
   })
 
-  watch(() => fs.selectedItems, (value) => {
+  watch(selectedItems, (value) => {
     emit('select', value);
   })
 

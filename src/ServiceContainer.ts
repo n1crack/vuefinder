@@ -21,7 +21,7 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
     const initialLang = props.locale ?? options.locale;
 
     const configStore = useConfigStore(props.id as string);
-    const filesStore = useFilesStore(props.id as string)();
+    const filesStore = useFilesStore();
     const searchStore = useSearchStore(props.id as string);
 
     const setFeatures = (features: unknown) => {

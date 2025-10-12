@@ -42,51 +42,51 @@ export const createConfigStore = (id: string) => {
     const storeKey = `vuefinder_config_${id}`
     
     // Create persistent atom with default state
-    const configAtom = persistentAtom<ConfigState>(storeKey, DEFAULT_STATE, {
+    const state = persistentAtom<ConfigState>(storeKey, DEFAULT_STATE, {
         encode: JSON.stringify,
         decode: JSON.parse,
     })
 
     // Helper functions
     const init = (defaults: ConfigDefaults = {}) => {
-        const currentState = configAtom.get()
+        const currentState = state.get()
         const newState = { ...DEFAULT_STATE, ...defaults, ...currentState }
-        configAtom.set(newState)
+        state.set(newState)
     }
 
     const get = <K extends keyof ConfigState>(key: K): ConfigState[K] => {
-        return configAtom.get()[key]
+        return state.get()[key]
     }
 
     const all = (): ConfigState => {
-        return configAtom.get()
+        return state.get()
     }
 
     const set = <K extends keyof ConfigState>(
         keyOrPatch: K | Partial<ConfigState>,
         value?: ConfigState[K],
     ): void => {
-        const currentState = configAtom.get()
+        const currentState = state.get()
         
         if (typeof keyOrPatch === 'object' && keyOrPatch !== null) {
-            configAtom.set({ ...currentState, ...keyOrPatch })
+            state.set({ ...currentState, ...keyOrPatch })
         } else {
-            configAtom.set({ ...currentState, [keyOrPatch]: value as ConfigState[K] })
+            state.set({ ...currentState, [keyOrPatch]: value as ConfigState[K] })
         }
     }
 
     const toggle = (key: keyof ConfigState) => {
-        const currentState = configAtom.get()
+        const currentState = state.get()
         set(key, !currentState[key])
     }
 
     const reset = () => {
-        configAtom.set({ ...DEFAULT_STATE })
+        state.set({ ...DEFAULT_STATE })
     }
 
     return {
         // Store atom
-        configAtom,
+        state,
         
         // Methods
         init,
