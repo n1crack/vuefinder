@@ -20,9 +20,9 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
 
-    const configStore = useConfigStore(props.id)();
-    const filesStore = useFilesStore(props.id)();
-    const searchStore = useSearchStore(props.id)();
+    const configStore = useConfigStore(props.id as string);
+    const filesStore = useFilesStore(props.id as string)();
+    const searchStore = useSearchStore(props.id as string);
 
     const setFeatures = (features: unknown) => {
         if (Array.isArray(features)) {
@@ -30,6 +30,20 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         }
         return FEATURE_ALL_NAMES;
     }
+
+    /** Best way to do this?
+    {
+            version  -- version
+            config -- use config store
+            fs  -- use files store
+            search -- use search store
+            emitter -- use emitter
+            i18n -- use i18n
+            modal -- use modal
+            
+            adapter -- cloud - local - custom ? 
+    }  
+     */
 
     return reactive({
         id: props.id,
@@ -64,7 +78,7 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         // theme state
         theme: theme,
         // human readable file sizes
-        filesize: configStore.metricUnits ? filesizeMetric : filesizeDefault,
+        filesize: configStore.get('metricUnits') ? filesizeMetric : filesizeDefault,
         // possible items of the context menu
         contextMenuItems: props.contextMenuItems,
         // custom icon

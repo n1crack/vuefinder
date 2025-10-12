@@ -1,11 +1,8 @@
 import {createApp} from 'vue'
-import { createPinia } from 'pinia'
 import App from './App.vue'
 import VueFinder from '../src/index.js'
 
 const app = createApp(App);
-
-app.use(createPinia())
 
 app.use(VueFinder,
     {

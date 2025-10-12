@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { inject, computed, ref } from 'vue';
+import { useStore } from '@nanostores/vue';
 import ItemIcon from './ItemIcon.vue';
 import PinSVG from "../assets/icons/pin.svg";
 import title_shorten from '../utils/title_shorten';
@@ -146,13 +147,13 @@ const delayedOpenItem = (event: TouchEvent) => {
         <span class="vuefinder__explorer__item-name">{{ item.basename }}</span>
       </div>
       <div v-if="showPath" class="vuefinder__explorer__item-path">{{ item.path }}</div>
-      <div  class="vuefinder__explorer__item-size">
+      <div v-if="!showPath" class="vuefinder__explorer__item-size">
         <div v-if="item.file_size">{{ app.filesize(item.file_size) }}</div>
       </div>
       <div v-if="!showPath && item.last_modified" class="vuefinder__explorer__item-date">
         {{ new Date(item.last_modified * 1000).toLocaleString() }}
       </div>
     </div>
-    <PinSVG class="vuefinder__item--pinned" v-if="config.pinnedFolders.find(pin => pin.path === item.path)"/>
+    <PinSVG class="vuefinder__item--pinned" v-if="config.get('pinnedFolders').find((pin: any) => pin.path === item.path)"/>
   </div>
 </template>

@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import {inject, nextTick, reactive, ref} from 'vue';
+import {useStore} from '@nanostores/vue';
 
 const app = inject('ServiceContainer');
+const search = app.search;
+
+// Use nanostores reactive values for template reactivity
+const searchState = useStore(search.searchAtom);
 
 const contextmenu = ref<HTMLElement | null>(null);
 const selectedItems = ref([]);
-const {query} = app.search;
 
 const context = reactive({
   active: false,
@@ -35,20 +39,20 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}: { event: a
 
   context.items = app.contextMenuItems.filter((item: any) => {
     return item.show(app, {
-      searchQuery: query.value,
+      searchQuery: searchState.query,
       items,
       target
     })
   });
 
-  if (query.value) {
+  if (searchState.query) {
     if (target) {
       app.emitter.emit('vf-context-selected', [target]);
       // console.log('search item selected');
     } else {
       return;
     }
-  } else if (!target && !query.value) {
+  } else if (!target && !searchState.query) {
     app.emitter.emit('vf-context-selected', []);
     // console.log('no files selected');
   } else if (items.length > 1 && items.some((el: any) => el.path === target.path)) {

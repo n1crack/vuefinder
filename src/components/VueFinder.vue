@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {inject, onMounted, provide, ref, useTemplateRef, watch} from 'vue';
+import {useStore} from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import {useHotkeyActions} from '../composables/useHotkeyActions';
 
@@ -49,6 +50,9 @@ const config = app.config;
 
 const fs = app.fs;
 
+// Use nanostores reactive values for template reactivity
+const configState = useStore(config.configAtom);
+
 useHotkeyActions(app);
 
 /** @type {AbortController} */
@@ -87,7 +91,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     abortSignal: signal,
   }).then((data: Record<string, unknown>) => {
     fs.setPath(data.dirname as string);
-    if (config.persist) {
+    if (config.get('persist')) {
        config.set('path', data.dirname as string);
     }
 
@@ -150,9 +154,9 @@ onMounted(() => {
         fetchPath(path)
     })
 
-    const path = config.persist ? config.path : props.path;
-    fs.setPath(path); 
-    fetchPath(path);
+    const initialPath = config.get('persist') ? config.get('path') : props.path;
+    fs.setPath(initialPath); 
+    fetchPath(initialPath);
 
   // Selection events from Explorer
   app.emitter.on('vf-select', (items: unknown[]) => {
@@ -177,8 +181,8 @@ onMounted(() => {
   <div class="vuefinder" ref="root" tabindex="0">
     <div :class="app.theme.actualValue">
       <div
-          :class="config.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
-          :style="!config.fullScreen ? 'max-height: ' + maxHeight : ''"
+          :class="configState.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
+          :style="!configState.fullScreen ? 'max-height: ' + maxHeight : ''"
           class="vuefinder__main__container"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')"

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref, onMounted, onUnmounted, useTemplateRef, computed, inject, watch, onUpdated, shallowRef, reactive} from 'vue';
+import {useStore} from '@nanostores/vue';
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
 import useVirtualColumns from '../composables/useVirtualColumns';
 import {useSelection} from '../composables/useSelection';
@@ -20,9 +21,13 @@ const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
  
-const {searchMode, query, hasQuery} = app.search;
+const search = app.search;
 const fs = app.fs;
 const config = app.config;
+
+// Use nanostores reactive values for template reactivity
+const configState = useStore(config.configAtom);
+const searchState = useStore(search.searchAtom);
 
 let vfLazyLoad: ILazyLoadInstance | null = null;
 
@@ -31,7 +36,11 @@ const osInstance = ref<ReturnType<typeof OverlayScrollbars> | null>(null);
 const scrollBar = useTemplateRef<HTMLElement>('customScrollBar');
 const scrollBarContainer = useTemplateRef<HTMLElement>('customScrollBarContainer');
 
-const rowHeight = computed(() => config.view === 'grid' && !(searchMode && query.value.length) ? 88 : (config.compactListView ? 24 : 50));
+const rowHeight = computed(() => {
+  const view = configState.value.view;
+  const compact = configState.value.compactListView;
+  return view === 'grid' && !(searchState.value.searchMode && searchState.value.query.length) ? 88 : (compact ? 24 : 50);
+});
 
 const {t} = app.i18n;
 
@@ -79,8 +88,8 @@ const isDraggingItem = (key?: string | null) => {
 
 
 
-watch(() => config.view, (view) => {
-  if (view === 'list') {
+watch(() => config.get('view'), (newView) => {
+  if (newView === 'list') {
     itemsPerRow.value = 1;
   } else {
     updateItemsPerRow();
@@ -88,7 +97,7 @@ watch(() => config.view, (view) => {
 }, {immediate: true});
 
 watch(itemsPerRow, (n) => {
-  if (config.view === 'list' && n !== 1) {
+  if (config.get('view') === 'list' && n !== 1) {
     itemsPerRow.value = 1;
   }
 });
@@ -119,7 +128,7 @@ onMounted(() => {
   }
 
   // Handle search queries via store
-  watch(() => query.value, (newQuery) => {
+  watch(() => searchState.value.query, (newQuery) => {
     console.log('query changed', newQuery);
     const storage = fs.path.storage;
     const currentPath = fs.path.path;
@@ -302,28 +311,28 @@ const handleItemDragEnd = () => {
     <!-- Custom Scrollbar Container (OverlayScrollbars) -->
     <div ref="customScrollBarContainer"
          class="vuefinder__explorer__scrollbar-container"
-         :class="[{'grid-view': config.view === 'grid'}, {'search-active': hasQuery}]"
+         :class="[{'grid-view': configState.view === 'grid'}, {'search-active': searchState.hasQuery}]"
     >
       <div ref="customScrollBar" class="vuefinder__explorer__scrollbar"></div>
     </div>
     <!-- List header like Explorer (shown only in list view) -->
-    <div v-if="config.view === 'list' || query.length" class="vuefinder__explorer__header">
+    <div v-if="configState.view === 'list' || searchState.query.length" class="vuefinder__explorer__header">
       <div @click="fs.toggleSort('basename')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button">
         {{ t('Name') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'basename'"/>
       </div>
-      <div v-if="!query.length" @click="fs.toggleSort('file_size')"
+      <div v-if="!searchState.query.length" @click="fs.toggleSort('file_size')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button">
         {{ t('Size') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'file_size'"/>
       </div>
-      <div v-if="query.length" @click="fs.toggleSort('path')"
+      <div v-if="searchState.query.length" @click="fs.toggleSort('path')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--path vf-sort-button">
         {{ t('Filepath') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'path'"/>
       </div>
-      <div v-if="!query.length" @click="fs.toggleSort('last_modified')"
+      <div v-if="!searchState.query.length" @click="fs.toggleSort('last_modified')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button">
         {{ t('Date') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'last_modified'"/>
@@ -331,7 +340,7 @@ const handleItemDragEnd = () => {
     </div>
     <!-- Content -->
     <div ref="scrollContainer" class="vuefinder__explorer__selector-area" :class="'scroller-' + explorerId" @scroll="handleScroll">
-    <div class="vuefinder__linear-loader" v-if="config.loadingIndicator === 'linear' && fs.isLoading()"></div>
+    <div class="vuefinder__linear-loader" v-if="config.get('loadingIndicator') === 'linear' && fs.isLoading()"></div>
     
       <div
           ref="scrollContent"
@@ -345,7 +354,7 @@ const handleItemDragEnd = () => {
         </div>
 
         <!-- Search View -->
-        <template v-if="query.length">
+        <template v-if="searchState.query.length">
           <FileRow
               v-for="rowIndex in visibleRows"
               :key="rowIndex"
@@ -353,7 +362,7 @@ const handleItemDragEnd = () => {
               :row-height="rowHeight"
               view="list"
               :items="getItemAtRow(rowIndex) ? [getItemAtRow(rowIndex)!] : []"
-              :compact="config.compactListView"
+              :compact="configState.compactListView"
               :show-path="true"
               :is-dragging-item="isDraggingItem"
               :is-selected="(path) => fs.selectedKeys.has(path as never)"
@@ -368,7 +377,7 @@ const handleItemDragEnd = () => {
         </template>
 
         <!-- Grid View -->
-        <template v-else-if="config.view === 'grid'">
+        <template v-else-if="configState.view === 'grid'">
           <FileRow
               v-for="rowIndex in visibleRows"
               :key="rowIndex"
@@ -377,7 +386,7 @@ const handleItemDragEnd = () => {
               view="grid"
               :items-per-row="itemsPerRow"
               :items="getRowItems(fs.sortedFiles, rowIndex)"
-              :show-thumbnails="config.showThumbnails"
+              :show-thumbnails="configState.showThumbnails"
               :is-dragging-item="isDraggingItem"
               :is-selected="(path) => fs.selectedKeys.has(path as never)"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
@@ -399,7 +408,7 @@ const handleItemDragEnd = () => {
               :row-height="rowHeight"
               view="list"
               :items="getItemAtRow(rowIndex) ? [getItemAtRow(rowIndex)!] : []"
-              :compact="config.compactListView"
+              :compact="configState.compactListView"
               :is-dragging-item="isDraggingItem"
               :is-selected="(path) => fs.selectedKeys.has(path as never)"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"

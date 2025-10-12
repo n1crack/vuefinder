@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, inject, ref} from 'vue';
+import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import ActionMessage from "../../components/ActionMessage.vue";
@@ -43,7 +44,7 @@ const handleTheme = (key: string) => {
 
 const handleMetricUnits = () => {
   config.toggle('metricUnits');
-  app.filesize = config.metricUnits ? filesizeMetric : filesizeDefault
+  app.filesize = config.get('metricUnits') ? filesizeMetric : filesizeDefault
 
   app.emitter.emit('vf-metric-units-saved');
 }
@@ -136,8 +137,8 @@ const themes = computed(() => ({
               <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="metric_unit" name="metric_unit" type="checkbox"
-                         v-model="config.metricUnits"
-                         @click="handleMetricUnits"
+                         :checked="config.get('metricUnits')"
+                         @change="handleMetricUnits"
                          class="vuefinder__about-modal__checkbox">
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
@@ -151,8 +152,8 @@ const themes = computed(() => ({
               <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="large_icons" name="large_icons" type="checkbox"
-                         v-model="config.compactListView"
-                         @click="handleCompactListView"
+                         :checked="config.get('compactListView')"
+                         @change="handleCompactListView"
                          class="vuefinder__about-modal__checkbox">
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
@@ -166,8 +167,8 @@ const themes = computed(() => ({
               <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="persist_path" name="persist_path" type="checkbox"
-                         v-model="config.persist"
-                         @click="handlePersistPath"
+                         :checked="config.get('persist')"
+                         @change="handlePersistPath"
                          class="vuefinder__about-modal__checkbox">
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
@@ -181,8 +182,8 @@ const themes = computed(() => ({
               <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="show_thumbnails" name="show_thumbnails" type="checkbox"
-                         v-model="config.showThumbnails"
-                         @click="handleShowThumbnails"
+                         :checked="config.get('showThumbnails')"
+                         @change="handleShowThumbnails"
                          class="vuefinder__about-modal__checkbox">
                 </div>
                 <div class="vuefinder__about-modal__setting-label">

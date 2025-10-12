@@ -1,36 +1,86 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
+import { persistentAtom } from '@nanostores/persistent'
+import { computed } from 'nanostores'
 
-export const useSearchStore = (id:string) => defineStore('search_' + id, () => {
-  const query = ref<string>('');
-  const searchMode = ref<boolean>(false);
+export interface SearchState {
+    query: string
+    searchMode: boolean
+}
 
-  const hasQuery = computed(() => query.value.length > 0);
+const DEFAULT_SEARCH_STATE: SearchState = {
+    query: '',
+    searchMode: false,
+}
 
-  function setQuery(newQuery: string) {
-    query.value = newQuery ?? '';
-  }
+// Search store factory function
+export const createSearchStore = (id: string) => {
+    const storeKey = `vuefinder_search_${id}`
+    
+    // Create persistent atom with default state
+    const searchAtom = persistentAtom<SearchState>(storeKey, DEFAULT_SEARCH_STATE, {
+        encode: JSON.stringify,
+        decode: JSON.parse,
+    })
 
-  function enterSearchMode() {
-    searchMode.value = true;
-  }
+    // Computed values
+    const hasQuery = computed(searchAtom, (state) => state.query.length > 0)
 
-  function exitSearchMode() {
-    searchMode.value = false;
-    query.value = '';
-  }
+    // Helper functions
+    const setQuery = (newQuery: string) => {
+        const currentState = searchAtom.get()
+        searchAtom.set({ ...currentState, query: newQuery ?? '' })
+    }
 
-  return {
-    // state
-    query,
-    searchMode,
-    // getters
-    hasQuery,
-    // actions
-    setQuery,
-    enterSearchMode,
-    exitSearchMode,
-  };
-});
+    const enterSearchMode = () => {
+        const currentState = searchAtom.get()
+        searchAtom.set({ ...currentState, searchMode: true })
+    }
 
+    const exitSearchMode = () => {
+        searchAtom.set({ query: '', searchMode: false })
+    }
 
+    const get = <K extends keyof SearchState>(key: K): SearchState[K] => {
+        return searchAtom.get()[key]
+    }
+
+    const all = (): SearchState => {
+        return searchAtom.get()
+    }
+
+    const set = <K extends keyof SearchState>(
+        keyOrPatch: K | Partial<SearchState>,
+        value?: SearchState[K],
+    ): void => {
+        const currentState = searchAtom.get()
+        
+        if (typeof keyOrPatch === 'object' && keyOrPatch !== null) {
+            searchAtom.set({ ...currentState, ...keyOrPatch })
+        } else {
+            searchAtom.set({ ...currentState, [keyOrPatch]: value as SearchState[K] })
+        }
+    }
+
+    const reset = () => {
+        searchAtom.set({ ...DEFAULT_SEARCH_STATE })
+    }
+
+    return {
+        // Store atom
+        searchAtom,
+        
+        // Computed values
+        hasQuery,
+        
+        // Methods
+        setQuery,
+        enterSearchMode,
+        exitSearchMode,
+        get,
+        set,
+        all,
+        reset
+    }
+}
+
+// Legacy compatibility - create a default search store
+export const useSearchStore = (id: string) => createSearchStore(id)

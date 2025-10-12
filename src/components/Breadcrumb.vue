@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {inject, nextTick, onMounted, onUnmounted, ref, watch, computed} from 'vue';
+import {useStore} from '@nanostores/vue';
 import useDebouncedRef from '../composables/useDebouncedRef';
 import {FEATURES} from "../features.js";
 import RefreshSVG from "../assets/icons/refresh.svg";
@@ -16,9 +17,16 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const {searchMode, enterSearchMode, exitSearchMode, setQuery} = app.search;
+const search = app.search;
 const fs = app.fs;
 const config = app.config;
+
+// Use nanostores reactive values for template reactivity
+const searchState = useStore(search.searchAtom);
+
+// Computed values for safe access
+const searchMode = computed(() => searchState.value?.searchMode ?? false);
+const searchQuery = computed(() => searchState.value?.query ?? '');
 
 // dynamic shown items calculation for breadcrumbs
 const breadcrumbContainer = ref<HTMLElement | null>(null);
@@ -106,7 +114,7 @@ const handleRefresh = () => {
 }
 
 const handleGoUp = () => {
-  exitSearchMode();
+  search.exitSearchMode();
 
   if (visibleBreadcrumbs.value.length > 0 && !searchMode.value) {
     app.emitter.emit('vf-fetch', {
@@ -164,7 +172,7 @@ const enterSearchModeHandler = () => {
   if (!app.features.includes(FEATURES.SEARCH)) {
     return;
   }
-  enterSearchMode();
+  search.enterSearchMode();
   nextTick(() => {
     if (searchInput.value) {
       searchInput.value.focus();
@@ -176,10 +184,10 @@ const query = useDebouncedRef('', 400);
 
 watch(query, newQuery => {
   app.emitter.emit('vf-toast-clear');
-  setQuery(newQuery);
+  search.setQuery(newQuery);
 });
 
-watch(() => searchMode.value, (newSearchMode) => {
+watch(searchMode, (newSearchMode) => {
   if (newSearchMode) {
     nextTick(() => {
       if (searchInput.value) {
@@ -191,14 +199,18 @@ watch(() => searchMode.value, (newSearchMode) => {
 
 
 app.emitter.on('vf-search-exit', () => {
-  exitSearchMode();
+  search.exitSearchMode();
 });
 
 
 const handleBlur = () => {
   if (query.value === '') {
-    exitSearchMode();
+    search.exitSearchMode();
   }
+}
+
+const exitSearchMode = () => {
+  search.exitSearchMode();
 }
 
 /**
@@ -225,7 +237,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
       <ListTreeSVG
           @click="toggleTreeView"
           class="vuefinder__breadcrumb__toggle-tree"
-          :class="config.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
+          :class="config.get('showTreeView') ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
       />
     </span>
 
@@ -244,7 +256,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-show="!searchMode" @click.self="enterSearchModeHandler"
+    <div v-show="!searchMode" @click="enterSearchModeHandler"
          class="group vuefinder__breadcrumb__search-container">
       <div>
         <HomeSVG
@@ -280,7 +292,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
         </div>
       </div>
 
-      <LoadingSVG v-if="config.loadingIndicator === 'circular' && fs.isLoading()"/>
+      <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && fs.isLoading()"/>
     </div>
     <div v-show="searchMode" class="vuefinder__breadcrumb__search-mode">
       <div>

@@ -3682,6 +3682,7 @@ function wu(t) {
     o.value = new gu({
       selectables: [".file-item-" + f],
       boundaries: [".scroller-" + f],
+      selectionContainerClass: "selection-area-container",
       behaviour: {
         overlap: "invert",
         intersect: "touch",

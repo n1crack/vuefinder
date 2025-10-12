@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {inject, watch} from 'vue';
+import {useStore} from '@nanostores/vue';
 import {FEATURES} from "../features.js";
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalNewFile from "./modals/ModalNewFile.vue";
@@ -26,10 +27,14 @@ const {t} = app.i18n;
 
 const fs = app.fs;
 const config = app.config;
-const {query} = app.search;
+const search = app.search;
 
-watch(() => config.fullScreen, () => {
-  if (config.fullScreen) {
+// Use nanostores reactive values for template reactivity
+const configState = useStore(config.configAtom);
+const searchState = useStore(search.searchAtom);
+
+watch(() => configState.value.fullScreen, () => {
+  if (configState.value.fullScreen) {
     // add body overflow hidden
     const body = document.querySelector('body');
     if (body) body.style.overflow = 'hidden';
@@ -43,14 +48,14 @@ watch(() => config.fullScreen, () => {
 
 // View Management
 const toggleView = () => {
-  config.set('view', config.view === 'list' ? 'grid' : 'list');
+  config.set('view', configState.value.view === 'list' ? 'grid' : 'list');
 };
 
 </script>
 
 <template>
   <div class="vuefinder__toolbar">
-    <div class="vuefinder__toolbar__actions" v-if="!query.length">
+    <div class="vuefinder__toolbar__actions" v-if="!searchState.query.length">
       <div
           class="mx-1.5"
           :title="t('New Folder')"
@@ -118,9 +123,9 @@ const toggleView = () => {
     <div class="vuefinder__toolbar__search-results" v-else>
       <div class="pl-2">
         {{ t('Search results for') }}
-        <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ query }}</span>
+        <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ searchState.query }}</span>
       </div>
-      <LoadingSVG v-if="config.loadingIndicator === 'circular' && fs.isLoading()"/>
+      <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && fs.isLoading()"/>
     </div>
 
     <div class="vuefinder__toolbar__controls">
@@ -130,19 +135,19 @@ const toggleView = () => {
           class="mx-1.5"
           :title="t('Toggle Full Screen')"
       >
-        <MinimizeSVG v-if="config.fullScreen"/>
+        <MinimizeSVG v-if="configState.fullScreen"/>
         <FullscreenSVG v-else/>
       </div>
 
       <div
           class="mx-1.5"
           :title="t('Change View')"
-          @click="query.length || toggleView()"
+          @click="searchState.query.length || toggleView()"
       >
-        <GridViewSVG v-if="config.view === 'grid'" class="vf-toolbar-icon"
-                     :class="(!query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
-        <ListViewSVG v-if="config.view === 'list'" class="vf-toolbar-icon"
-                     :class="(!query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
+        <GridViewSVG v-if="configState.view === 'grid'" class="vf-toolbar-icon"
+                     :class="(!searchState.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
+        <ListViewSVG v-if="configState.view === 'list'" class="vf-toolbar-icon"
+                     :class="(!searchState.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
       </div>
     </div>
   </div>

@@ -136,14 +136,16 @@ export const menuItems: Item[] = [
     title: ({t}) => t('Pin Folder'),
     action: (app, selectedItems) => {
         const config = app.config;
-
-        config.set('pinnedFolders', config.pinnedFolders.concat(selectedItems.filter((fav: DirEntry) => config.pinnedFolders.findIndex((item: DirEntry) => item.path === fav.path) === -1)))
+        const currentPinnedFolders = config.get('pinnedFolders');
+        const newPinnedFolders = currentPinnedFolders.concat(selectedItems.filter((fav: DirEntry) => currentPinnedFolders.findIndex((item: DirEntry) => item.path === fav.path) === -1));
+        config.set('pinnedFolders', newPinnedFolders);
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
       (app, ctx) => {
           const config = app.config;
-          return config.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1
+          const currentPinnedFolders = config.get('pinnedFolders');
+          return currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1
       },
     )
   },
@@ -152,13 +154,15 @@ export const menuItems: Item[] = [
     title: ({t}) => t('Unpin Folder'),
     action: (app, selectedItems) => {
         const config = app.config;
-        config.set('pinnedFolders',  config.pinnedFolders.filter((fav: DirEntry) => !selectedItems.find((item: DirEntry) => item.path === fav.path)));
+        const currentPinnedFolders = config.get('pinnedFolders');
+        config.set('pinnedFolders', currentPinnedFolders.filter((fav: DirEntry) => !selectedItems.find((item: DirEntry) => item.path === fav.path)));
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
       (app, ctx) => {
           const config = app.config;
-          return config.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
+          const currentPinnedFolders = config.get('pinnedFolders');
+          return currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
       },
     )
   },

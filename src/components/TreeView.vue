@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {inject, onMounted, ref, watch} from 'vue';
+import {useStore} from '@nanostores/vue';
 import FolderSVG from '../assets/icons/folder.svg';
 import OpenFolderSVG from '../assets/icons/open_folder.svg';
 import PinSVG from "../assets/icons/pin.svg";
@@ -19,6 +20,9 @@ const {getStore, setStore} = app.storage;
 const fs = app.fs;
 const config = app.config;
 
+// Use nanostores reactive values for template reactivity
+const configState = useStore(config.configAtom);
+
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
 const treeViewWidth = ref(190);
@@ -26,7 +30,7 @@ const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
 watch(pinnedFoldersOpened, (value) => setStore('pinned-folders-opened', value));
 
 const removePin = (item: PinnedFolder) => {
-  config.pinnedFolders = config.pinnedFolders.filter((fav: PinnedFolder) => fav.path !== item.path);
+  config.set('pinnedFolders', config.get('pinnedFolders').filter((fav: PinnedFolder) => fav.path !== item.path));
 }
 
 const handleMouseDown = (e: MouseEvent) => {
@@ -107,10 +111,10 @@ watch(fs.files, (newFiles) => {
   <div
       @click="config.toggle('showTreeView')"
       class="vuefinder__treeview__overlay"
-      :class="config.showTreeView ? 'vuefinder__treeview__backdrop' : 'hidden'"
+      :class="configState.showTreeView ? 'vuefinder__treeview__backdrop' : 'hidden'"
   ></div>
   <div
-      :style="config.showTreeView ? 'min-width:100px;max-width:75%; width: ' + treeViewWidth + 'px' : 'width: 0'"
+      :style="configState.showTreeView ? 'min-width:100px;max-width:75%; width: ' + treeViewWidth + 'px' : 'width: 0'"
       class="vuefinder__treeview__container"
   >
     <div ref="treeViewScrollElement" class="vuefinder__treeview__scroll">
@@ -127,7 +131,7 @@ watch(fs.files, (newFiles) => {
         </div>
         <ul class="vuefinder__treeview__pinned-list" v-if="pinnedFoldersOpened">
           <li
-              v-for="folder in config.pinnedFolders"
+              v-for="folder in configState.pinnedFolders"
               :key="folder.path"
               class="vuefinder__treeview__pinned-item"
           >
@@ -153,7 +157,7 @@ watch(fs.files, (newFiles) => {
               <XBoxSVG class="vuefinder__treeview__remove-icon"/>
             </div>
           </li>
-          <li v-if="!config.pinnedFolders.length">
+          <li v-if="!configState.pinnedFolders.length">
             <div class="vuefinder__treeview__no-pinned">{{ t('No folders pinned') }}</div>
           </li>
         </ul>

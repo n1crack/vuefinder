@@ -2,7 +2,6 @@ import {fileURLToPath, URL} from 'node:url'
 
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
 import svgLoader from 'vite-svg-loader'
@@ -42,13 +41,18 @@ export default defineConfig({
             // make sure to externalize deps that shouldn't be bundled
             // into the library
             external: [
-                'vue',
-                'pinia',
-                'mitt',
-                'vanilla-lazyload',
-                'cropperjs',
+                '@tanstack/vue-query',
                 '@uppy/core',
                 '@uppy/xhr-upload',
+                '@uppy/locales',
+                '@viselect/vanilla',
+                'cropperjs',
+                'mitt',
+                'overlayscrollbars',
+                'pinia',
+                'pinia-plugin-persistedstate',
+                'vanilla-lazyload',
+                'vue',
             ],
             output: {
                 exports: 'named',

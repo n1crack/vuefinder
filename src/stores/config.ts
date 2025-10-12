@@ -1,6 +1,5 @@
-import {defineStore} from 'pinia'
-import {reactive, toRefs} from 'vue'
-import type {DirEntry} from "@/types.ts";
+import { persistentAtom } from '@nanostores/persistent'
+import type { DirEntry } from "@/types.ts"
 
 type Viewport = 'grid' | 'list'
 
@@ -15,7 +14,7 @@ export interface ConfigState {
     path: string
     loadingIndicator: 'linear' | 'circular' | string
     maxFileSize: number | string | null
-    pinnedFolders: DirEntry[],
+    pinnedFolders: DirEntry[]
     customIcon: unknown
     selectButton: boolean
 }
@@ -38,45 +37,58 @@ const DEFAULT_STATE: ConfigState = {
     selectButton: false,
 }
 
+// Config store factory function
+export const createConfigStore = (id: string) => {
+    const storeKey = `vuefinder_config_${id}`
+    
+    // Create persistent atom with default state
+    const configAtom = persistentAtom<ConfigState>(storeKey, DEFAULT_STATE, {
+        encode: JSON.stringify,
+        decode: JSON.parse,
+    })
 
-export const useConfigStore = (id: string) => defineStore('config_' + id, () => {
-    const state = reactive<ConfigState>(Object.assign({}, DEFAULT_STATE))
-
-    function init(defaults: ConfigDefaults = {}) {
-        Object.assign(state, defaults)
+    // Helper functions
+    const init = (defaults: ConfigDefaults = {}) => {
+        const currentState = configAtom.get()
+        const newState = { ...DEFAULT_STATE, ...defaults, ...currentState }
+        configAtom.set(newState)
     }
 
-    function get<K extends keyof ConfigState>(key: K): ConfigState[K] {
-        return state[key]
+    const get = <K extends keyof ConfigState>(key: K): ConfigState[K] => {
+        return configAtom.get()[key]
     }
 
-    function all(): ConfigState {
-        return state
+    const all = (): ConfigState => {
+        return configAtom.get()
     }
 
-    function set<K extends keyof ConfigState>(key: K, value: ConfigState[K]): void
-    function set(patch: Partial<ConfigState>): void
-    function set<K extends keyof ConfigState>(
+    const set = <K extends keyof ConfigState>(
         keyOrPatch: K | Partial<ConfigState>,
         value?: ConfigState[K],
-    ): void {
+    ): void => {
+        const currentState = configAtom.get()
+        
         if (typeof keyOrPatch === 'object' && keyOrPatch !== null) {
-            Object.assign(state, keyOrPatch)
+            configAtom.set({ ...currentState, ...keyOrPatch })
         } else {
-            ;(state as ConfigState)[keyOrPatch] = value as ConfigState[K]
+            configAtom.set({ ...currentState, [keyOrPatch]: value as ConfigState[K] })
         }
     }
 
-    function toggle(key: keyof ConfigState) {
-        set(key, !state[key])
+    const toggle = (key: keyof ConfigState) => {
+        const currentState = configAtom.get()
+        set(key, !currentState[key])
     }
 
-    function reset() {
-        init(Object.assign({}, DEFAULT_STATE))
+    const reset = () => {
+        configAtom.set({ ...DEFAULT_STATE })
     }
 
     return {
-        ...toRefs(state),
+        // Store atom
+        configAtom,
+        
+        // Methods
         init,
         get,
         set,
@@ -84,6 +96,7 @@ export const useConfigStore = (id: string) => defineStore('config_' + id, () => 
         all,
         reset
     }
-}, {
-    persist: true,
-})
+}
+
+// Legacy compatibility - create a default config store
+export const useConfigStore = (id: string) => createConfigStore(id)
