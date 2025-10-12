@@ -97,6 +97,3 @@ export const createConfigStore = (id: string) => {
         reset
     }
 }
-
-// Legacy compatibility - create a default config store
-export const useConfigStore = (id: string) => createConfigStore(id)

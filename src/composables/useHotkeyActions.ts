@@ -19,7 +19,7 @@ export function useHotkeyActions(app: any) {
     const config = app.config;
     
     // Use nanostores reactive values
-    const searchState = useStore(search.searchAtom);
+    const searchState = useStore(search.state);
     const selectedItems = useStore(fs.selectedItems);
     
     const handleKeyboardShortcuts = (e: KeyboardEvent) => {

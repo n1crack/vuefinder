@@ -8,9 +8,9 @@ import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize'
 import useTheme from './composables/useTheme';
 import useModal from "./composables/useModal";
-import { useConfigStore } from "./stores/config";
-import {useFilesStore} from "./stores/files.ts";
-import {useSearchStore} from "./stores/search.ts";
+import { createConfigStore } from "./stores/config";
+import {createFilesStore} from "./stores/files.ts";
+import {createSearchStore} from "./stores/search.ts";
 
 
 export default (props: Record<string, unknown>, options: Record<string, unknown>) => {
@@ -20,9 +20,9 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
 
-    const configStore = useConfigStore(props.id as string);
-    const filesStore = useFilesStore();
-    const searchStore = useSearchStore(props.id as string);
+    const configStore = createConfigStore(props.id as string);
+    const filesStore = createFilesStore();
+    const searchStore = createSearchStore();
 
     const setFeatures = (features: unknown) => {
         if (Array.isArray(features)) {

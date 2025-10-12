@@ -21,8 +21,10 @@ const search = app.search;
 const fs = app.fs;
 const config = app.config;
 
+
 // Use nanostores reactive values for template reactivity
-const searchState = useStore(search.searchAtom);
+const configStore = useStore(config.state)
+const searchState = useStore(search.state);
 const path = useStore(fs.path);
 const loading = useStore(fs.loading);
 
@@ -199,6 +201,7 @@ const handleBlur = () => {
 }
 
 const exitSearchMode = () => {
+ query.value = '';
   search.exitSearchMode();
 }
 
@@ -226,9 +229,10 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
       <ListTreeSVG
           @click="toggleTreeView"
           class="vuefinder__breadcrumb__toggle-tree"
-          :class="config.get('showTreeView') ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
+          :class="configStore.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
       />
     </span>
+
 
     <span :title="t('Go up a directory')">
       <GoUpSVG
@@ -245,11 +249,11 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-show="!searchMode" class="group vuefinder__breadcrumb__search-container">
+    <div v-show="!searchMode" class="group vuefinder__breadcrumb__search-container" @click="search.enterSearchMode">
       <div>
         <HomeSVG
             v-on="dragNDrop.events(getBreadcrumb(-1))"
-            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: path.value?.storage ?? 'local'}})"/>
+            @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: path.value?.storage ?? 'local'}})"/>
       </div>
 
       <div class="vuefinder__breadcrumb__list">
@@ -267,14 +271,14 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
         </div>
       </div>
 
-      <div ref="breadcrumbContainer" class="vuefinder__breadcrumb__visible-list" @click.self="search.enterSearchMode">
+      <div ref="breadcrumbContainer" class="vuefinder__breadcrumb__visible-list pointer-events-none" >
         <div v-for="(item, index) in visibleBreadcrumbs" :key="index">
           <span class="vuefinder__breadcrumb__separator">/</span>
           <span
               v-on="dragNDrop.events(item as any)"
-              class="vuefinder__breadcrumb__item"
+              class="vuefinder__breadcrumb__item pointer-events-auto"
               :title="(item as any).basename"
-              @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: path?.storage, path:(item as any).path}})">{{
+              @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: path?.storage, path:(item as any).path}})">{{
               (item as any).name
             }}</span>
         </div>

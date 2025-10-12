@@ -6,7 +6,7 @@ const app = inject('ServiceContainer');
 const search = app.search;
 
 // Use nanostores reactive values for template reactivity
-const searchState = useStore(search.searchAtom);
+const searchState = useStore(search.state);
 
 const contextmenu = ref<HTMLElement | null>(null);
 const selectedItems = ref([]);

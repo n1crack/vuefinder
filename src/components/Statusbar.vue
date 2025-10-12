@@ -11,7 +11,7 @@ const fs = app.fs;
 const search = app.search;
 
 // Use nanostores reactive values for template reactivity
-const searchState = useStore(search.searchAtom);
+const searchState = useStore(search.state);
 const sortedFiles = useStore(fs.sortedFiles);
 const path = useStore(fs.path);
 const selectedCount = useStore(fs.selectedCount);

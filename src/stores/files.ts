@@ -1,5 +1,4 @@
-import { atom } from 'nanostores'
-import { computed } from 'nanostores'
+import { atom, computed} from 'nanostores'
 import type {DirEntry} from '@/types';
 
 export type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
@@ -238,6 +237,4 @@ export const createFilesStore = () => {
         clearDraggedItem,
     };
 }
-
-// Legacy compatibility - create a default files store
-export const useFilesStore = () => createFilesStore()
+ 

@@ -27,7 +27,7 @@ const config = app.config;
 
 // Use nanostores reactive values for template reactivity
 const configState = useStore(config.state);
-const searchState = useStore(search.searchAtom);
+const searchState = useStore(search.state);
 
 // Make files store reactive
 const sortedFiles = useStore(fs.sortedFiles);
