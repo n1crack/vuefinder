@@ -1,6 +1,6 @@
 import {reactive, useTemplateRef} from "vue";
 import mitt from "mitt";
-import {buildRequester} from "./utils/ajax";
+import {buildRequester, type RequestConfig} from "./utils/ajax";
 import {useStorage} from "./composables/useStorage";
 import {useI18n} from "./composables/useI18n";
 import {FEATURE_ALL_NAMES} from "./features.js";
@@ -9,17 +9,22 @@ import { format as filesizeDefault, metricFormat as filesizeMetric } from './uti
 import useTheme from './composables/useTheme';
 import useModal from "./composables/useModal";
 import { useConfigStore } from "./stores/config";
+import {useFilesStore} from "./stores/files.ts";
+import {useSearchStore} from "./stores/search.ts";
 
 
-export default (props: any, options: any) => {
-    const storage = useStorage(props.id);
+export default (props: Record<string, unknown>, options: Record<string, unknown>) => {
+    const storage = useStorage(props.id as string);
     const emitter = mitt();
-    const config = useConfigStore();
-    const theme = useTheme(storage, props.theme);
+    const theme = useTheme(storage, props.theme as "system" | "light" | "dark" | undefined);
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
 
-    const setFeatures = (features: any) => {
+    const configStore = useConfigStore(props.id)();
+    const filesStore = useFilesStore(props.id)();
+    const searchStore = useSearchStore(props.id)();
+
+    const setFeatures = (features: unknown) => {
         if (Array.isArray(features)) {
             return features;
         }
@@ -27,6 +32,14 @@ export default (props: any, options: any) => {
     }
 
     return reactive({
+        id: props.id,
+
+        config: configStore,
+
+        fs: filesStore,
+
+        search: searchStore,
+
         // app version
         version: version,
         // root element
@@ -38,11 +51,11 @@ export default (props: any, options: any) => {
         // storage
         storage: storage,
         // localization object
-        i18n: useI18n(storage, initialLang, emitter, supportedLocales),
+        i18n: useI18n(storage, initialLang as string, emitter, supportedLocales as Record<string, unknown>),
         // modal state
         modal: useModal(),
         // http object
-        requester : buildRequester(props.request),
+        requester : buildRequester(props.request as string | RequestConfig),
         // active features
         features: setFeatures(props.features),
         // treeViewData - temp. opened folders
@@ -51,7 +64,7 @@ export default (props: any, options: any) => {
         // theme state
         theme: theme,
         // human readable file sizes
-        filesize: config.metricUnits ? filesizeMetric : filesizeDefault,
+        filesize: configStore.metricUnits ? filesizeMetric : filesizeDefault,
         // possible items of the context menu
         contextMenuItems: props.contextMenuItems,
         // custom icon

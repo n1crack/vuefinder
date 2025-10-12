@@ -1,11 +1,10 @@
 import ModalMove from "../components/modals/ModalMove.vue";
 import { dirname } from "../utils/path";
 import type { App, DirEntry } from "../types";
-import { useFilesStore } from "@/stores/files";
 
 export function useDragNDrop(app: App, classList: string[] = []) {
   const DATASET_COUNTER_KEY = "vfDragEnterCounter";
-  const fs = useFilesStore();
+  const fs = app.fs;
 
   function handleDragOver(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
     e.preventDefault();

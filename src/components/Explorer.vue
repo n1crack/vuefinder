@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import {ref, onMounted, onUnmounted, useTemplateRef, computed, inject, watch, onUpdated, shallowRef} from 'vue';
+import {ref, onMounted, onUnmounted, useTemplateRef, computed, inject, watch, onUpdated, shallowRef, reactive} from 'vue';
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
-import useVirtualColumns from '@/composables/useVirtualColumns';
-import {useSelection} from '@/composables/useSelection';
+import useVirtualColumns from '../composables/useVirtualColumns';
+import {useSelection} from '../composables/useSelection';
 import SortIcon from './SortIcon.vue';
 import DragItem from './DragItem.vue';
 import FileRow from './FileRow.vue';
-import type {ServiceContainer, DirEntry} from '@/types';
+import type {ServiceContainer, DirEntry} from '../types';
 import LazyLoad, {type ILazyLoadInstance} from 'vanilla-lazyload';
 import Toast from './Toast.vue';
-import {useFilesStore} from '@/stores/files';
-import {useSearchStore} from '@/stores/search';
-import {useDragNDrop} from '@/composables/useDragNDrop';
+import {useDragNDrop} from '../composables/useDragNDrop';
 import {OverlayScrollbars} from 'overlayscrollbars';
 import 'overlayscrollbars/overlayscrollbars.css';
-import {useConfigStore} from '@/stores/config';
 
 const app = inject('ServiceContainer') as ServiceContainer;
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
@@ -23,9 +20,9 @@ const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
  
-const search = useSearchStore();
-const fs = useFilesStore();
-const config = useConfigStore();
+const {searchMode, query, hasQuery} = app.search;
+const fs = app.fs;
+const config = app.config;
 
 let vfLazyLoad: ILazyLoadInstance | null = null;
 
@@ -34,7 +31,7 @@ const osInstance = ref<ReturnType<typeof OverlayScrollbars> | null>(null);
 const scrollBar = useTemplateRef<HTMLElement>('customScrollBar');
 const scrollBarContainer = useTemplateRef<HTMLElement>('customScrollBarContainer');
 
-const rowHeight = computed(() => config.view === 'grid' && !(search.searchMode && search.query.length) ? 88 : (config.compactListView ? 24 : 50));
+const rowHeight = computed(() => config.view === 'grid' && !(searchMode && query.value.length) ? 88 : (config.compactListView ? 24 : 50));
 
 const {t} = app.i18n;
 
@@ -58,6 +55,7 @@ const {
     });
 
 const {
+  explorerId,
   isDragging,
   initializeSelectionArea,
   destroySelectionArea,
@@ -121,15 +119,16 @@ onMounted(() => {
   }
 
   // Handle search queries via store
-  watch(() => search.query, (newQuery) => {
-    const adapter = fs.path.storage;
+  watch(() => query.value, (newQuery) => {
+    console.log('query changed', newQuery);
+    const storage = fs.path.storage;
     const currentPath = fs.path.path;
-    if (!adapter || !currentPath) return;
+    if (!storage || !currentPath) return;
     if (newQuery) {
       app.emitter.emit('vf-fetch', {
         params: {
           q: 'search',
-          adapter,
+          storage,
           path: currentPath,
           filter: newQuery
         },
@@ -140,7 +139,7 @@ onMounted(() => {
         }
       });
     } else {
-      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter, path: currentPath}});
+      app.emitter.emit('vf-fetch', {params: {q: 'index', storage, path: currentPath}});
     }
   });
 
@@ -200,7 +199,7 @@ onUnmounted(() => {
 });
 
 const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
-  const el = (event.target as Element | null)?.closest(".file-item");
+  const el = (event.target as Element | null)?.closest('.file-item-' + explorerId);
   const mouse = event as MouseEvent | null;
   if (!mouse?.ctrlKey && !mouse?.metaKey) {
     fs.clearSelection();
@@ -230,11 +229,11 @@ const openItem = (item: DirEntry) => {
   }
 };
 
-const handleItemDblClick = (event: MouseEvent) => {
-  const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
+const handleItemDblClick = (event: MouseEvent | TouchEvent) => {
+  const el = (event.target as Element | null)?.closest('.file-item-' + explorerId) as HTMLElement | null;
   const key = el ? String(el.getAttribute('data-key')) : null;
   if (!key) return;
-  const item = fs.sortedFiles.find(f => f.path === key);
+  const item = fs.sortedFiles.find((f: DirEntry) => f.path === key);
   if (item) {
     openItem(item);
   }
@@ -242,15 +241,15 @@ const handleItemDblClick = (event: MouseEvent) => {
 
 const getSelectedItems = () => {
   const selected = new Set(fs.selectedKeys);
-  return fs.sortedFiles.filter(f => selected.has(f.path));
+  return fs.sortedFiles.filter((f: DirEntry) => selected.has(f.path));
 };
 
 const handleItemContextMenu = (event: MouseEvent) => {
   event.preventDefault();
-  const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
+  const el = (event.target as Element | null)?.closest('.file-item-' + explorerId) as HTMLElement | null;
   if (el) {
     const key = String(el.getAttribute('data-key'));
-    const targetItem = fs.sortedFiles.find(f => f.path === key);
+    const targetItem = fs.sortedFiles.find((f: DirEntry) => f.path === key);
     // Ensure the clicked item is selected if not already
     if (!fs.selectedKeys.has(key)) {
       fs.clearSelection();
@@ -273,7 +272,7 @@ const handleItemDragStart = (event: DragEvent) => {
 
   isDragging.value = true;
 
-  const el = (event.target as Element | null)?.closest('.file-item') as HTMLElement | null;
+  const el = (event.target as Element | null)?.closest('.file-item-'+explorerId) as HTMLElement | null;
   currentDragKey.value = el ? String(el.dataset.key) : null;
 
   if (event.dataTransfer && currentDragKey.value) {
@@ -303,36 +302,35 @@ const handleItemDragEnd = () => {
     <!-- Custom Scrollbar Container (OverlayScrollbars) -->
     <div ref="customScrollBarContainer"
          class="vuefinder__explorer__scrollbar-container"
-         :class="[{'grid-view': config.view === 'grid'}, {'search-active': search.hasQuery}]"
+         :class="[{'grid-view': config.view === 'grid'}, {'search-active': hasQuery}]"
     >
       <div ref="customScrollBar" class="vuefinder__explorer__scrollbar"></div>
     </div>
-
     <!-- List header like Explorer (shown only in list view) -->
-    <div v-if="config.view === 'list' || search.query.length" class="vuefinder__explorer__header">
+    <div v-if="config.view === 'list' || query.length" class="vuefinder__explorer__header">
       <div @click="fs.toggleSort('basename')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button">
         {{ t('Name') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'basename'"/>
       </div>
-      <div v-if="!search.query.length" @click="fs.toggleSort('file_size')"
+      <div v-if="!query.length" @click="fs.toggleSort('file_size')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button">
         {{ t('Size') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'file_size'"/>
       </div>
-      <div v-if="search.query.length" @click="fs.toggleSort('path')"
+      <div v-if="query.length" @click="fs.toggleSort('path')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--path vf-sort-button">
         {{ t('Filepath') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'path'"/>
       </div>
-      <div v-if="!search.query.length" @click="fs.toggleSort('last_modified')"
+      <div v-if="!query.length" @click="fs.toggleSort('last_modified')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button">
         {{ t('Date') }}
         <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'last_modified'"/>
       </div>
     </div>
     <!-- Content -->
-    <div ref="scrollContainer" class="vuefinder__explorer__selector-area scroller " @scroll="handleScroll">
+    <div ref="scrollContainer" class="vuefinder__explorer__selector-area" :class="'scroller-' + explorerId" @scroll="handleScroll">
     <div class="vuefinder__linear-loader" v-if="config.loadingIndicator === 'linear' && fs.isLoading()"></div>
     
       <div
@@ -347,7 +345,7 @@ const handleItemDragEnd = () => {
         </div>
 
         <!-- Search View -->
-        <template v-if="search.query.length">
+        <template v-if="query.length">
           <FileRow
               v-for="rowIndex in visibleRows"
               :key="rowIndex"
@@ -360,6 +358,7 @@ const handleItemDragEnd = () => {
               :is-dragging-item="isDraggingItem"
               :is-selected="(path) => fs.selectedKeys.has(path as never)"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
+              :explorerId="explorerId"
               @click="handleItemClick"
               @dblclick="handleItemDblClick"
               @contextmenu="handleItemContextMenu"
@@ -382,6 +381,7 @@ const handleItemDragEnd = () => {
               :is-dragging-item="isDraggingItem"
               :is-selected="(path) => fs.selectedKeys.has(path as never)"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
+              :explorerId="explorerId"
               @click="handleItemClick"
               @dblclick="handleItemDblClick"
               @contextmenu="handleItemContextMenu"
@@ -403,6 +403,7 @@ const handleItemDragEnd = () => {
               :is-dragging-item="isDraggingItem"
               :is-selected="(path) => fs.selectedKeys.has(path as never)"
               :drag-n-drop-events="(item) => dragNDrop.events(item)"
+              :explorerId="explorerId"
               @click="handleItemClick"
               @dblclick="handleItemDblClick"
               @contextmenu="handleItemContextMenu"

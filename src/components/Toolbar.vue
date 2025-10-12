@@ -8,28 +8,25 @@ import ModalDelete from "./modals/ModalDelete.vue";
 import ModalUpload from "./modals/ModalUpload.vue";
 import ModalUnarchive from "./modals/ModalUnarchive.vue";
 import ModalArchive from "./modals/ModalArchive.vue";
-import NewFolderSVG from "@/assets/icons/new_folder.svg";
-import NewFileSVG from "@/assets/icons/new_file.svg";
-import RenameSVG from "@/assets/icons/rename.svg";
-import DeleteSVG from "@/assets/icons/delete.svg";
-import UploadSVG from "@/assets/icons/upload.svg";
-import ArchiveSVG from "@/assets/icons/archive.svg";
-import UnarchiveSVG from "@/assets/icons/unarchive.svg";
-import LoadingSVG from "@/assets/icons/loading.svg";
-import FullscreenSVG from "@/assets/icons/full_screen.svg";
-import MinimizeSVG from "@/assets/icons/minimize.svg";
-import GridViewSVG from "@/assets/icons/grid_view.svg";
-import ListViewSVG from "@/assets/icons/list_view.svg";
-import { useFilesStore } from '@/stores/files';
-import { useSearchStore } from '@/stores/search';
-import { useConfigStore } from '@/stores/config';
+import NewFolderSVG from "../assets/icons/new_folder.svg";
+import NewFileSVG from "../assets/icons/new_file.svg";
+import RenameSVG from "../assets/icons/rename.svg";
+import DeleteSVG from "../assets/icons/delete.svg";
+import UploadSVG from "../assets/icons/upload.svg";
+import ArchiveSVG from "../assets/icons/archive.svg";
+import UnarchiveSVG from "../assets/icons/unarchive.svg";
+import LoadingSVG from "../assets/icons/loading.svg";
+import FullscreenSVG from "../assets/icons/full_screen.svg";
+import MinimizeSVG from "../assets/icons/minimize.svg";
+import GridViewSVG from "../assets/icons/grid_view.svg";
+import ListViewSVG from "../assets/icons/list_view.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
-const fs = useFilesStore();
-const config = useConfigStore();
-const search = useSearchStore();
+const fs = app.fs;
+const config = app.config;
+const {query} = app.search;
 
 watch(() => config.fullScreen, () => {
   if (config.fullScreen) {
@@ -53,7 +50,7 @@ const toggleView = () => {
 
 <template>
   <div class="vuefinder__toolbar">
-    <div class="vuefinder__toolbar__actions" v-if="!search.query.length">
+    <div class="vuefinder__toolbar__actions" v-if="!query.length">
       <div
           class="mx-1.5"
           :title="t('New Folder')"
@@ -121,7 +118,7 @@ const toggleView = () => {
     <div class="vuefinder__toolbar__search-results" v-else>
       <div class="pl-2">
         {{ t('Search results for') }}
-        <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ search.query }}</span>
+        <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ query }}</span>
       </div>
       <LoadingSVG v-if="config.loadingIndicator === 'circular' && fs.isLoading()"/>
     </div>
@@ -140,12 +137,12 @@ const toggleView = () => {
       <div
           class="mx-1.5"
           :title="t('Change View')"
-          @click="search.query.length || toggleView()"
+          @click="query.length || toggleView()"
       >
         <GridViewSVG v-if="config.view === 'grid'" class="vf-toolbar-icon"
-                     :class="(!search.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
+                     :class="(!query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
         <ListViewSVG v-if="config.view === 'list'" class="vf-toolbar-icon"
-                     :class="(!search.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
+                     :class="(!query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
       </div>
     </div>
   </div>

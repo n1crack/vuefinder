@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 
-export const useSearchStore = defineStore('search', () => {
+export const useSearchStore = (id:string) => defineStore('search_' + id, () => {
   const query = ref<string>('');
   const searchMode = ref<boolean>(false);
 

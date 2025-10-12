@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
-import ModalLayout from '@/components/modals/ModalLayout.vue';
-import Text from '@/components/previews/Text.vue';
-import Image from '@/components/previews/Image.vue';
-import Default from '@/components/previews/Default.vue';
-import Video from '@/components/previews/Video.vue';
-import Audio from '@/components/previews/Audio.vue';
-import Pdf from '@/components/previews/Pdf.vue';
-import datetimestring from '@/utils/datetimestring';
-import {FEATURES} from "@/features";
+import ModalLayout from '../../components/modals/ModalLayout.vue';
+import Text from '../../components/previews/Text.vue';
+import Image from '../../components/previews/Image.vue';
+import Default from '../../components/previews/Default.vue';
+import Video from '../../components/previews/Video.vue';
+import Audio from '../../components/previews/Audio.vue';
+import Pdf from '../../components/previews/Pdf.vue';
+import datetimestring from '../../utils/datetimestring';
+import {FEATURES} from "../../features";
 
 const app = inject('ServiceContainer')
 const {t} = app.i18n
@@ -66,8 +66,8 @@ if (!enabledPreview) {
       <a
           target="_blank"
           class="vf-btn vf-btn-primary"
-          :download="app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item)"
-          :href="app.requester.getDownloadUrl(app.modal.data.adapter, app.modal.data.item)"
+          :download="app.requester.getDownloadUrl(app.modal.data.storage, app.modal.data.item)"
+          :href="app.requester.getDownloadUrl(app.modal.data.storage, app.modal.data.item)"
           v-if="app.features.includes(FEATURES.DOWNLOAD)">{{ t('Download') }}</a>
     </template>
   </ModalLayout>

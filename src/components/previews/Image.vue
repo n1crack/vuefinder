@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Cropper from 'cropperjs';
 import {inject, onMounted, ref} from 'vue';
-import Message from '@/components/Message.vue';
-import {FEATURES} from "@/features";
+import Message from '../../components/Message.vue';
+import {FEATURES} from "../../features";
 
 const emit = defineEmits(['success']);
 const app = inject('ServiceContainer');
@@ -47,7 +47,7 @@ const crop = () => {
               method: 'post',
               params: {
                 q: 'upload',
-                adapter: app.modal.data.adapter,
+                storage: app.modal.data.storage,
                 path: app.modal.data.item.path,
               },
               body,
@@ -55,7 +55,7 @@ const crop = () => {
                 .then((data: any) => {
                   message.value = t('Updated.');
                   if (image.value) {
-                    image.value.src = app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item);
+                    image.value.src = app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item);
                   }
                   editMode();
                   emit('success');
@@ -92,7 +92,7 @@ onMounted(() => {
 
     <div class="vuefinder__image-preview__image-container">
       <img ref="image" class="vuefinder__image-preview__image"
-           :src="app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)" alt="">
+           :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)" alt="">
     </div>
 
     <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>

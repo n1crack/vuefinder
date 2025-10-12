@@ -1,27 +1,24 @@
 <script setup lang="ts">
 import {inject, nextTick, onMounted, onUnmounted, ref, watch, computed} from 'vue';
-import {useSearchStore} from '@/stores/search';
-import useDebouncedRef from '@/composables/useDebouncedRef';
-import {FEATURES} from "@/features.js";
-import RefreshSVG from "@/assets/icons/refresh.svg";
-import GoUpSVG from "@/assets/icons/go_up.svg";
-import CloseSVG from "@/assets/icons/close.svg";
-import HomeSVG from "@/assets/icons/home.svg";
-import SearchSVG from "@/assets/icons/search.svg";
-import LoadingSVG from "@/assets/icons/loading.svg";
-import ExitSVG from "@/assets/icons/exit.svg";
-import FolderSVG from '@/assets/icons/folder.svg';
-import ListTreeSVG from '@/assets/icons/list_tree.svg';
-import DotsSVG from '@/assets/icons/dots.svg';
+import useDebouncedRef from '../composables/useDebouncedRef';
+import {FEATURES} from "../features.js";
+import RefreshSVG from "../assets/icons/refresh.svg";
+import GoUpSVG from "../assets/icons/go_up.svg";
+import CloseSVG from "../assets/icons/close.svg";
+import HomeSVG from "../assets/icons/home.svg";
+import SearchSVG from "../assets/icons/search.svg";
+import LoadingSVG from "../assets/icons/loading.svg";
+import ExitSVG from "../assets/icons/exit.svg";
+import FolderSVG from '../assets/icons/folder.svg';
+import ListTreeSVG from '../assets/icons/list_tree.svg';
+import DotsSVG from '../assets/icons/dots.svg';
 import {useDragNDrop} from '../composables/useDragNDrop';
-import {useFilesStore} from '@/stores/files';
-import {useConfigStore} from '@/stores/config';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const search = useSearchStore();
-const fs = useFilesStore();
-const config = useConfigStore();
+const {searchMode, enterSearchMode, exitSearchMode, setQuery} = app.search;
+const fs = app.fs;
+const config = app.config;
 
 // dynamic shown items calculation for breadcrumbs
 const breadcrumbContainer = ref<HTMLElement | null>(null);
@@ -105,17 +102,17 @@ function getBreadcrumb(index: number | null = null) {
 const handleRefresh = () => {
   exitSearchMode();
 
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: fs.path.storage, path: fs.path.path}});
+  app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.storage, path: fs.path.path}});
 }
 
 const handleGoUp = () => {
   exitSearchMode();
 
-  if (visibleBreadcrumbs.value.length > 0 && !search.searchMode) {
+  if (visibleBreadcrumbs.value.length > 0 && !searchMode.value) {
     app.emitter.emit('vf-fetch', {
       params: {
         q: 'index',
-        adapter: fs.path.storage,
+        storage: fs.path.storage,
         path: (allBreadcrumbs.value[allBreadcrumbs.value.length - 2]?.path ?? (fs.path.storage + '://'))
       }
     });
@@ -123,7 +120,7 @@ const handleGoUp = () => {
 }
 
 const handleHiddenBreadcrumbsClick = (item: { path: string }) => {
-  app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: fs.path.storage, path: item.path}});
+  app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.storage, path: item.path}});
   showHiddenBreadcrumbs.value = false;
 }
 
@@ -163,11 +160,11 @@ const toggleTreeView = () => {
 
 const searchInput = ref<HTMLInputElement | null>(null);
 
-const enterSearchMode = () => {
+const enterSearchModeHandler = () => {
   if (!app.features.includes(FEATURES.SEARCH)) {
     return;
   }
-  search.enterSearchMode();
+  enterSearchMode();
   nextTick(() => {
     if (searchInput.value) {
       searchInput.value.focus();
@@ -179,10 +176,10 @@ const query = useDebouncedRef('', 400);
 
 watch(query, newQuery => {
   app.emitter.emit('vf-toast-clear');
-  search.setQuery(newQuery);
+  setQuery(newQuery);
 });
 
-watch(() => search.searchMode, (newSearchMode) => {
+watch(() => searchMode.value, (newSearchMode) => {
   if (newSearchMode) {
     nextTick(() => {
       if (searchInput.value) {
@@ -192,10 +189,6 @@ watch(() => search.searchMode, (newSearchMode) => {
   }
 });
 
-const exitSearchMode = () => {
-  search.exitSearchMode();
-  query.value = '';
-}
 
 app.emitter.on('vf-search-exit', () => {
   exitSearchMode();
@@ -238,9 +231,9 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
 
     <span :title="t('Go up a directory')">
       <GoUpSVG
-          v-on="(allBreadcrumbs.length && !search.searchMode) ? dragNDrop.events(getBreadcrumb() as unknown as any) : {}"
+          v-on="(allBreadcrumbs.length && !searchMode) ? dragNDrop.events(getBreadcrumb() as unknown as any) : {}"
           @click="handleGoUp"
-          :class="(allBreadcrumbs.length && !search.searchMode) ? 'vuefinder__breadcrumb__go-up--active' : 'vuefinder__breadcrumb__go-up--inactive'"
+          :class="(allBreadcrumbs.length && !searchMode) ? 'vuefinder__breadcrumb__go-up--active' : 'vuefinder__breadcrumb__go-up--inactive'"
       />
     </span>
 
@@ -251,12 +244,12 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-show="!search.searchMode" @click.self="enterSearchMode"
+    <div v-show="!searchMode" @click.self="enterSearchModeHandler"
          class="group vuefinder__breadcrumb__search-container">
       <div>
         <HomeSVG
             v-on="dragNDrop.events(getBreadcrumb(-1))"
-            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: fs.path.storage}})"/>
+            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: fs.path.storage}})"/>
       </div>
 
       <div class="vuefinder__breadcrumb__list">
@@ -281,7 +274,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
               v-on="dragNDrop.events(item as unknown as any)"
               class="vuefinder__breadcrumb__item"
               :title="item.basename"
-              @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: fs.path.storage, path:item.path}})">{{
+              @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: fs.path.storage, path:item.path}})">{{
               item.name
             }}</span>
         </div>
@@ -289,7 +282,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
 
       <LoadingSVG v-if="config.loadingIndicator === 'circular' && fs.isLoading()"/>
     </div>
-    <div v-show="search.searchMode" class="vuefinder__breadcrumb__search-mode">
+    <div v-show="searchMode" class="vuefinder__breadcrumb__search-mode">
       <div>
         <SearchSVG/>
       </div>

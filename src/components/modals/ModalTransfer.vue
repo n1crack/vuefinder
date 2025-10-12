@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
-import Message from '@/components/Message.vue';
-import ModalLayout from '@/components/modals/ModalLayout.vue';
-import ModalHeader from "@/components/modals/ModalHeader.vue";
-import MoveSVG from "@/assets/icons/move.svg";
-import { useFilesStore } from '@/stores/files';
+import Message from '../../components/Message.vue';
+import ModalLayout from '../../components/modals/ModalLayout.vue';
+import ModalHeader from "../../components/modals/ModalHeader.vue";
+import MoveSVG from "../../assets/icons/move.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const fs = useFilesStore();
+const fs = app.fs;
 
 const props = defineProps<{
   q?: string
@@ -28,7 +27,7 @@ const transfer = () => {
       params: {
         q: props.q,
         m: 'post',
-        adapter: fs.path.storage,
+        storage: fs.path.storage,
         path: fs.path.path,
       },
       body: {

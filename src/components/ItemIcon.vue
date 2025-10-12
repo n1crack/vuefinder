@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {inject} from 'vue';
-import FileSVG from '@/assets/icons/file.svg';
-import FolderSVG from '@/assets/icons/folder.svg';
+import FileSVG from '../assets/icons/file.svg';
+import FolderSVG from '../assets/icons/folder.svg';
 
 import type {DirEntry} from '../types'
 

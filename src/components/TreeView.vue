@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {inject, onMounted, ref, watch} from 'vue';
-import FolderSVG from '@/assets/icons/folder.svg';
-import OpenFolderSVG from '@/assets/icons/open_folder.svg';
-import PinSVG from "@/assets/icons/pin.svg";
-import XBoxSVG from "@/assets/icons/x_box.svg";
+import FolderSVG from '../assets/icons/folder.svg';
+import OpenFolderSVG from '../assets/icons/open_folder.svg';
+import PinSVG from "../assets/icons/pin.svg";
+import XBoxSVG from "../assets/icons/x_box.svg";
 
 import {OverlayScrollbars} from 'overlayscrollbars';
 import TreeStorageItem from "./TreeStorageItem.vue";
@@ -11,15 +11,13 @@ import upsert from "../utils/upsert";
 import FolderIndicator from "./FolderIndicator.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
 import type {App, PinnedFolder} from '../types';
-import { useFilesStore } from '@/stores/files';
-import { useConfigStore } from '@/stores/config';
 
 const app = inject('ServiceContainer') as App;
 const {t} = app.i18n;
 const {getStore, setStore} = app.storage;
 
-const fs = useFilesStore();
-const config = useConfigStore();
+const fs = app.fs;
+const config = app.config;
 
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 
@@ -93,7 +91,7 @@ watch(fs.files, (newFiles) => {
   upsert(app.treeViewData, {
     path: fs.path.path, folders: folders.map((item) => {
       return {
-        adapter: item.storage,
+        storage: item.storage,
         path: item.path,
         basename: item.basename,
         type: 'dir' as const
@@ -136,7 +134,7 @@ watch(fs.files, (newFiles) => {
             <div
                 v-on="dragNDrop.events(folder)"
                 class="vuefinder__treeview__pinned-folder"
-                @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: folder.storage, path:folder.path}})"
+                @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: folder.storage, path:folder.path}})"
             >
               <FolderSVG class="vuefinder__treeview__folder-icon" v-if="fs.path.path !== folder.path"/>
               <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="fs.path.path === folder.path"/>

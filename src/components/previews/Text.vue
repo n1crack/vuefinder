@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
 import {inject, onMounted, ref} from 'vue';
-import Message from '@/components/Message.vue';
-import {FEATURES} from "@/features.ts";
+import Message from '../../components/Message.vue';
+import {FEATURES} from "../../features.ts";
 
 const emit = defineEmits(['success'])
 const content = ref('');
@@ -21,7 +21,7 @@ onMounted(() => {
   app.requester.send({
     url: '',
     method: 'get',
-    params: {q: 'preview', adapter: app.modal.data.adapter, path: app.modal.data.item.path},
+    params: {q: 'preview', storage: app.modal.data.storage, path: app.modal.data.item.path},
     responseType: 'text',
   })
       .then((data: any) => {
@@ -44,7 +44,7 @@ const save = () => {
     method: 'post',
     params: {
       q: 'save',
-      adapter: app.modal.data.adapter,
+      storage: app.modal.data.storage,
       path: app.modal.data.item.path,
     },
     body: {

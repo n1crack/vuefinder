@@ -1,6 +1,5 @@
-import { ref, onMounted, onUnmounted, type Ref } from 'vue';
+import { inject, ref, onMounted, onUnmounted, type Ref } from 'vue';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
-import { useFilesStore } from '@/stores/files';
 
 export interface UseSelectionDeps<T> {
     getItemPosition: (itemIndex: number) => { row: number; col: number };
@@ -14,7 +13,9 @@ export interface UseSelectionDeps<T> {
 export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const {  getItemPosition, getItemsInRange, getKey, selectionObject, rowHeight, itemWidth } = deps;
 
-    const fs = useFilesStore();
+    const explorerId = Math.floor(Math.random() * 2 ** 32).toString();
+    const app = inject('ServiceContainer');
+    const fs = app.fs;
     
 	const tempSelection = ref(new Set<string>());
     const isDragging = ref(false);
@@ -81,7 +82,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		
 		// Calculate start position from mouse coordinates
 		if (mouse && selectionObject.value) {
-			const container = selectionObject.value.getSelectables()[0]?.closest('.scroller') as HTMLElement;
+			const container = selectionObject.value.getSelectables()[0]?.closest('.scroller-' + explorerId ) as HTMLElement;
 			if (container) {
 				const rect = container.getBoundingClientRect();
 				const relativeY = mouse.clientY - rect.top + container.scrollTop;
@@ -179,9 +180,9 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	// Initialize SelectionArea
 	const initializeSelectionArea = () => {
 		selectionObject.value = new SelectionArea({
-			selectables: ['.file-item'],
-			boundaries: ['.scroller'],
-
+			selectables: ['.file-item-' + explorerId],
+			boundaries: ['.scroller-'+ explorerId],
+            selectionContainerClass: 'selection-area-container',
 			behaviour: {
 				overlap: 'invert',
 				intersect: 'touch',
@@ -249,14 +250,11 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	return {
         isDragging,
 		selectionStarted,
+        explorerId,
 		extractIds,
 		cleanupSelection,
 		refreshSelection,
 		getSelectionRange,
-		onBeforeStart,
-		onStart,
-		onMove,
-		onStop,
 		selectSelectionRange,
 		initializeSelectionArea,
 		destroySelectionArea,

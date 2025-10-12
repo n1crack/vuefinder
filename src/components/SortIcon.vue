@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AscSVG from '@/assets/icons/asc.svg';
-import DescSVG from '@/assets/icons/desc.svg';
+import AscSVG from '../assets/icons/asc.svg';
+import DescSVG from '../assets/icons/desc.svg';
 
 defineProps<{
   direction?: string

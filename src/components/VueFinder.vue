@@ -1,23 +1,18 @@
 <script setup lang="ts">
 import {inject, onMounted, provide, ref, useTemplateRef, watch} from 'vue';
-import ServiceContainer from '@/ServiceContainer';
-import {useHotkeyActions} from '@/composables/useHotkeyActions';
+import ServiceContainer from '../ServiceContainer';
+import {useHotkeyActions} from '../composables/useHotkeyActions';
 
-import Toolbar from '@/components/Toolbar.vue';
-import Breadcrumb from '@/components/Breadcrumb.vue';
-import Explorer from '@/components/Explorer.vue';
-import ContextMenu from '@/components/ContextMenu.vue';
-import Statusbar from '@/components/Statusbar.vue';
-import TreeView from '@/components/TreeView.vue';
-import {menuItems as contextMenuItems} from '@/utils/contextmenu';
-import type {VueFinderProps, DirEntry} from '@/types';
-import { useFilesStore } from '@/stores/files';
-import { useConfigStore } from '@/stores/config';
+import Toolbar from '../components/Toolbar.vue';
+import Breadcrumb from '../components/Breadcrumb.vue';
+import Explorer from '../components/Explorer.vue';
+import ContextMenu from '../components/ContextMenu.vue';
+import Statusbar from '../components/Statusbar.vue';
+import TreeView from '../components/TreeView.vue';
+import {menuItems as contextMenuItems} from '../utils/contextmenu';
+import type {VueFinderProps, DirEntry} from '../types';
 
 const emit = defineEmits(['select', 'update:path'])
-
-const config = useConfigStore();
-
 
 const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
@@ -50,8 +45,9 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
+const config = app.config;
 
-const fs = useFilesStore();
+const fs = app.fs;
 
 useHotkeyActions(app);
 
@@ -72,7 +68,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   onError?: ((error: unknown) => void) | null,
   noCloseModal?: boolean
 }) => {
-  // Fill missing adapter/path for common queries
+  // Fill missing storage/path for common queries
  
   if (['index', 'search'].includes(params.q as string)) {
     if (controller) {
@@ -125,7 +121,7 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
 
 /**
  * fetchPath fetches the items of the given path
- * if no path is given, the backend should return the root of the current adapter
+ * if no path is given, the backend should return the root of the current storage
  * @param path {string | undefined} example: 'media://public'
  */
 function fetchPath(path: string | undefined) {
@@ -133,13 +129,13 @@ function fetchPath(path: string | undefined) {
 
   if (path && path.includes("://")) {
     pathExists = {
-      adapter: path.split("://")[0],
+      storage: path.split("://")[0],
       path: path
     };
   } 
 
   app.emitter.emit('vf-fetch', {
-    params: {q: 'index', adapter: fs.path.storage, ...pathExists},
+    params: {q: 'index', storage: fs.path.storage, ...pathExists},
     onError: props.onError ?? ((e: unknown) => {
       if (e && typeof e === 'object' && 'message' in e) {
         app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})

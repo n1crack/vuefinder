@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import {ref, inject, watch} from 'vue';
 
-import SquarePlusSVG from "@/assets/icons/plus.svg";
-import SquareMinusSVG from "@/assets/icons/minus.svg";
-import LoadingSVG from "@/assets/icons/loading.svg";
-import upsert from "@/utils/upsert";
+import SquarePlusSVG from "../assets/icons/plus.svg";
+import SquareMinusSVG from "../assets/icons/minus.svg";
+import LoadingSVG from "../assets/icons/loading.svg";
+import upsert from "../utils/upsert";
 
 const props = defineProps<{
-  adapter: string
+  storage: string
   path: string
 }>()
 
@@ -33,7 +33,7 @@ const fetchSubFolders = () => {
     method: 'get',
     params: {
       q: 'subfolders',
-      adapter: props.adapter,
+      storage: props.storage,
       path: props.path,
     },
   })

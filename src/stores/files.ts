@@ -20,7 +20,7 @@ function compareValues(a: unknown, b: unknown): number {
     return an === bn ? 0 : an < bn ? -1 : 1;
 }
 
-export const useFilesStore = defineStore('files', () => {
+export const useFilesStore = (id:string) => defineStore('files_' + id, () => {
     const currentPath = ref<string>('');
     const storages = ref<string[]>([]);
     const files = ref<DirEntry[]>([]);

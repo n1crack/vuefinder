@@ -1,5 +1,5 @@
 import {customRef, ref} from 'vue'
-import { debounce } from '@/utils/debounce'
+import { debounce } from '../utils/debounce'
 
 const useDebouncedRef = <T>(initialValue: T, delay: number, immediate?: boolean) => {
   const state = ref<T>(initialValue)

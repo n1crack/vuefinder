@@ -88,12 +88,17 @@
             color-scheme: dark;
         }
     }
-
+    .vuefinder:has(.vuefinder__main__fixed) {
+        @apply z-100;
+    }
      
 
 
     .selection-area { 
         @apply bg-slate-300 opacity-50 !border !border-slate-500 rounded-sm;
+    }
+    .selection-area-container {
+        @apply !z-200;
     }
 
     kbd {

@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import {computed, inject, ref} from 'vue';
-import ModalLayout from '@/components/modals/ModalLayout.vue';
-import ModalHeader from "@/components/modals//ModalHeader.vue";
-import ActionMessage from "@/components//ActionMessage.vue";
-import {format as filesizeDefault, metricFormat as filesizeMetric} from '@/utils/filesize'
+import ModalLayout from '../../components/modals/ModalLayout.vue';
+import ModalHeader from "../../components/modals/ModalHeader.vue";
+import ActionMessage from "../../components/ActionMessage.vue";
+import {format as filesizeDefault, metricFormat as filesizeMetric} from '../../utils/filesize'
 
-import AboutSVG from "@/assets/icons/gear.svg";
-import {FEATURES} from '@/features';
-import { useConfigStore } from '@/stores/config';
+import AboutSVG from "../../assets/icons/gear.svg";
+import {FEATURES} from '../../features';
 
 const app = inject('ServiceContainer');
-const config = useConfigStore();
+const config = app.config;
 const {clearStore} = app.storage;
 const {t} = app.i18n;
 

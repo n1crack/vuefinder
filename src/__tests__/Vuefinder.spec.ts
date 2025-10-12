@@ -102,7 +102,7 @@ const mockServiceContainer = {
   fs: {
     data: {},
     loading: false,
-    adapter: 'local',
+    storage: 'local',
     path: '',
     isGoUpAvailable: vi.fn().mockReturnValue(false),
     breadcrumbs: [],
@@ -146,7 +146,7 @@ const mockServiceContainer = {
   },
   requester: {
     send: vi.fn().mockResolvedValue({
-      adapter: 'local',
+      storage: 'local',
       dirname: '/',
       files: []
     })

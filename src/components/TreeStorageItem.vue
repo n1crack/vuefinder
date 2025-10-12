@@ -2,14 +2,13 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
 
-import StorageSVG from "@/assets/icons/storage.svg";
+import StorageSVG from "../assets/icons/storage.svg";
 import FolderLoaderIndicator from "./FolderLoaderIndicator.vue";
 import TreeSubfolderList from "./TreeSubfolderList.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
-import { useFilesStore } from '@/stores/files';
 
 const app = inject('ServiceContainer');
-const fs = useFilesStore();
+const fs = app.fs;
 const showSubFolders = ref(false);
 const props = defineProps<{
   storage: string
@@ -40,7 +39,7 @@ function selectOrToggle(storage: string) {
   } else {
     // select storage
     app.emitter.emit('vf-search-exit');
-    app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: storage}});
+    app.emitter.emit('vf-fetch', {params:{q: 'index', storage: storage}});
   }
 }
 
@@ -65,9 +64,9 @@ function selectOrToggle(storage: string) {
     </div>
 
     <div class="vuefinder__treestorageitem__loader" @click.stop="showSubFolders = !showSubFolders">
-      <FolderLoaderIndicator :adapter="storage" :path="storage + '://'" v-model="showSubFolders" />
+      <FolderLoaderIndicator :storage="storage" :path="storage + '://'" v-model="showSubFolders" />
     </div>
   </div>
-  <TreeSubfolderList :adapter="storage" :path="storage + '://'" v-show="showSubFolders" class="vuefinder__treestorageitem__subfolder" />
+  <TreeSubfolderList :storage="storage" :path="storage + '://'" v-show="showSubFolders" class="vuefinder__treestorageitem__subfolder" />
 </template>
 

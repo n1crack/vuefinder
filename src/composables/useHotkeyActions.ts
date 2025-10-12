@@ -1,13 +1,10 @@
 import {onMounted, onBeforeUnmount} from 'vue';
 import {FEATURES} from "../features";
-import ModalAbout from "@/components/modals/ModalAbout.vue";
-import ModalDelete from "@/components/modals/ModalDelete.vue";
-import ModalRename from "@/components/modals/ModalRename.vue";
-import ModalPreview from "@/components/modals/ModalPreview.vue";
-import { useSearchStore } from '@/stores/search';
-import { useFilesStore } from '@/stores/files';
-import { useConfigStore } from '@/stores/config';
-import ModalMove from '@/components/modals/ModalMove.vue';
+import ModalAbout from "../components/modals/ModalAbout.vue";
+import ModalDelete from "../components/modals/ModalDelete.vue";
+import ModalRename from "../components/modals/ModalRename.vue";
+import ModalPreview from "../components/modals/ModalPreview.vue";
+import ModalMove from '../components/modals/ModalMove.vue';
 
 const KEYBOARD_SHORTCUTS = {
     ESCAPE: 'Escape', F2: 'F2', F5: 'F5', DELETE: 'Delete', ENTER: 'Enter',
@@ -16,20 +13,20 @@ const KEYBOARD_SHORTCUTS = {
 } as const;
 
 export function useHotkeyActions(app: any) {
-    const search = useSearchStore();
-    const fs = useFilesStore();
-    const config = useConfigStore();
+    const {searchMode, enterSearchMode}  = app.search;
+    const fs = app.fs;
+    const config = app.config;
     const handleKeyboardShortcuts = (e: KeyboardEvent) => {
         if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) { app.modal.close(); (app.root as HTMLElement).focus(); }
         if (app.modal.visible) return;
-        if (search.searchMode) return;
+        if (searchMode.value) return;
         if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
             if (fs.selectedItems.length === 1) {
                 app.modal.open(ModalRename, {items: fs.selectedItems})
             }
         }
         if (e.code === KEYBOARD_SHORTCUTS.F5) {
-            app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: fs.path.storage, path: fs.path.path}});
+            app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.storage, path: fs.path.path}});
         }
         if (e.code === KEYBOARD_SHORTCUTS.DELETE) { 
             if (fs.selectedItems.length === 0) {
@@ -38,7 +35,8 @@ export function useHotkeyActions(app: any) {
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout)
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && app.features.includes(FEATURES.SEARCH)) {
-            search.enterSearchMode(); e.preventDefault();
+            enterSearchMode(); 
+            e.preventDefault();
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {
             config.toggle('showTreeView'); 
@@ -54,7 +52,7 @@ export function useHotkeyActions(app: any) {
         }
         if (e.code === KEYBOARD_SHORTCUTS.SPACE) {
             if (fs.selectedItems.length === 1 && fs.selectedItems[0]?.type !== 'dir') {
-                app.modal.open(ModalPreview, {adapter: fs.path.storage, item: fs.selectedItems[0]})
+                app.modal.open(ModalPreview, {storage: fs.path.storage, item: fs.selectedItems[0]})
             }
         }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DragSVG from '@/assets/icons/drag.svg';
+import DragSVG from '../assets/icons/drag.svg';
 
 const props = defineProps<{
   count?: number

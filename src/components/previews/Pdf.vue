@@ -6,7 +6,7 @@ const app = inject('ServiceContainer');
 const emit = defineEmits(['success']);
 
 const getPDFUrl = () => {
-  return app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)
+  return app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)
 }
 
 onMounted(() => {

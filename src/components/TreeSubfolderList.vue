@@ -1,27 +1,26 @@
 <script setup lang="ts">
 import {computed, inject, onMounted, ref} from 'vue';
 
-import FolderSVG from "@/assets/icons/folder.svg";
-import OpenFolderSVG from "@/assets/icons/open_folder.svg";
+import FolderSVG from "../assets/icons/folder.svg";
+import OpenFolderSVG from "../assets/icons/open_folder.svg";
 import FolderLoaderIndicator from "./FolderLoaderIndicator.vue";
 import {OverlayScrollbars} from "overlayscrollbars";
 import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
-import { useFilesStore } from '@/stores/files';
-const fs = useFilesStore();
+const fs = app.fs;
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const showSubFolders = ref<Record<string, boolean>>({});
 
 const props = defineProps<{
-  adapter: string
+  storage: string
   path: string
 }>()
 const parentSubfolderList = ref(null)
 
 onMounted(() => {
   // only initialize overlay scrollbars for the root folder
-  if (props.path === props.adapter + '://' && parentSubfolderList.value) {
+  if (props.path === props.storage + '://' && parentSubfolderList.value) {
     OverlayScrollbars(parentSubfolderList.value, {
       scrollbars: {
         theme: 'vf-theme-dark dark:vf-theme-light',
@@ -48,13 +47,13 @@ const treeSubFolders = computed(() => {
             class="vuefinder__treesubfolderlist__item-toggle"
             @click="showSubFolders[item.path] = !showSubFolders[item.path]"
         >
-          <FolderLoaderIndicator :adapter="adapter" :path="item.path" v-model="showSubFolders[item.path]"/>
+          <FolderLoaderIndicator :storage="storage" :path="item.path" v-model="showSubFolders[item.path]"/>
         </div>
         <div
             class="vuefinder__treesubfolderlist__item-link"
             :title="item.path"
             @dblclick="showSubFolders[item.path] = !showSubFolders[item.path]"
-            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: props.adapter, path:item.path}})"
+            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: props.storage, path:item.path}})"
         >
           <div class="vuefinder__treesubfolderlist__item-icon">
             <OpenFolderSVG v-if="fs.path.path === item.path"/>
@@ -71,7 +70,7 @@ const treeSubFolders = computed(() => {
         </div>
       </div>
       <div class="vuefinder__treesubfolderlist__subfolder">
-        <TreeSubfolderList :adapter="props.adapter" :path="item.path" v-show="showSubFolders[item.path]"/>
+        <TreeSubfolderList :storage="props.storage" :path="item.path" v-show="showSubFolders[item.path]"/>
       </div>
     </li>
   </ul>

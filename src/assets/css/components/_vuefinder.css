@@ -1,5 +1,5 @@
 .vuefinder__main__fixed {
-  @apply fixed w-screen inset-0 ;
+  @apply fixed w-screen inset-0;
 }
 
 .vuefinder__main__relative {

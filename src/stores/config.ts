@@ -38,7 +38,8 @@ const DEFAULT_STATE: ConfigState = {
     selectButton: false,
 }
 
-export const useConfigStore = defineStore('config', () => {
+
+export const useConfigStore = (id: string) => defineStore('config_' + id, () => {
     const state = reactive<ConfigState>(Object.assign({}, DEFAULT_STATE))
 
     function init(defaults: ConfigDefaults = {}) {

@@ -3,7 +3,7 @@ import type { Component } from "vue";
 export type ServiceContainer = any;
 import type { RequestConfig } from "./utils/ajax";
 import type { Item as ContextMenuItem } from "./utils/contextmenu";
-import type ServiceContainer from "@/ServiceContainer";
+import type ServiceContainer from "../ServiceContainer";
 
 
 export type App = ReturnType<typeof ServiceContainer>
@@ -77,7 +77,7 @@ export interface PinnedFolder {
 }
 
 export interface TreeViewFolder {
-  adapter: string;
+  storage: string;
   path: string;
   basename: string;
   type: 'dir';
@@ -89,7 +89,7 @@ export interface TreeViewData {
 }
 
 export interface FsData {
-  adapter: string;
+  storage: string;
   storages: string[];
   storage_info: Record<string, StorageInfo>;
   dirname: string;

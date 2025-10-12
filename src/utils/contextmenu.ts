@@ -1,13 +1,11 @@
-import {FEATURES} from "@/features";
-import ModalNewFolder from "@/components/modals/ModalNewFolder.vue";
-import ModalPreview from "@/components/modals/ModalPreview.vue";
-import ModalArchive from "@/components/modals/ModalArchive.vue";
-import ModalUnarchive from "@/components/modals/ModalUnarchive.vue";
-import ModalRename from "@/components/modals/ModalRename.vue";
-import ModalDelete from "@/components/modals/ModalDelete.vue";
-import { useFilesStore } from '@/stores/files';
+import {FEATURES} from "../features";
+import ModalNewFolder from "../components/modals/ModalNewFolder.vue";
+import ModalPreview from "../components/modals/ModalPreview.vue";
+import ModalArchive from "../components/modals/ModalArchive.vue";
+import ModalUnarchive from "../components/modals/ModalUnarchive.vue";
+import ModalRename from "../components/modals/ModalRename.vue";
+import ModalDelete from "../components/modals/ModalDelete.vue";
 import type { App, DirEntry } from '../types'
-import {useConfigStore} from "@/stores/config.ts";
 
 type TargetKey = 'none' | 'one' | 'many'
 
@@ -90,7 +88,7 @@ export const menuItems: Item[] = [
     action: (app, selectedItems) => {
       app.emitter.emit('vf-search-exit');
       app.emitter.emit('vf-fetch', {
-        params: { q: 'index', adapter: selectedItems[0]?.storage, path: (selectedItems[0]?.path) }
+        params: { q: 'index', storage: selectedItems[0]?.storage, path: (selectedItems[0]?.path) }
       });
     },
     show: showIf({ target: 'one', needsSearchQuery: true })
@@ -99,8 +97,8 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.refresh,
     title: ({t}) => t('Refresh'),
     action: (app) => {
-      const fs = useFilesStore();
-      app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: fs.path.storage, path: fs.path.path}});
+      const fs = app.fs;
+      app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.storage, path: fs.path.path}});
     },
     show: showIfAny(showIf({target: 'none'}), showIf({target: 'many'}))
   },
@@ -108,7 +106,7 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.selectAll,
     title: ({t}) => t('Select All'),
     action: (app) => {
-        const fs = useFilesStore();
+        const fs = app.fs;
         fs.selectAll()
     },
     show: showIf({target: 'none'})
@@ -128,7 +126,7 @@ export const menuItems: Item[] = [
           return;
       }
       app.emitter.emit('vf-fetch', {
-        params: { q: 'index', adapter: selectedItems[0].storage, path: selectedItems[0].path }
+        params: { q: 'index', storage: selectedItems[0].storage, path: selectedItems[0].path }
       });
     },
     show: showIf({target: 'one', targetType: 'dir'})
@@ -137,14 +135,14 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.pinFolder,
     title: ({t}) => t('Pin Folder'),
     action: (app, selectedItems) => {
-        const config = useConfigStore();
+        const config = app.config;
 
         config.set('pinnedFolders', config.pinnedFolders.concat(selectedItems.filter((fav: DirEntry) => config.pinnedFolders.findIndex((item: DirEntry) => item.path === fav.path) === -1)))
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
       (app, ctx) => {
-          const config = useConfigStore();
+          const config = app.config;
           return config.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1
       },
     )
@@ -153,13 +151,13 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.unpinFolder,
     title: ({t}) => t('Unpin Folder'),
     action: (app, selectedItems) => {
-        const config = useConfigStore();
+        const config = app.config;
         config.set('pinnedFolders',  config.pinnedFolders.filter((fav: DirEntry) => !selectedItems.find((item: DirEntry) => item.path === fav.path)));
     },
     show: showIfAll(
       showIf({target: 'one', targetType: 'dir'}),
       (app, ctx) => {
-          const config = useConfigStore();
+          const config = app.config;
           return config.pinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
       },
     )
@@ -167,7 +165,7 @@ export const menuItems: Item[] = [
   {
     id: ContextMenuIds.preview,
     title: ({t}) => t('Preview'),
-    action: (app, selectedItems) => app.modal.open(ModalPreview, {adapter: selectedItems[0]?.storage, item: selectedItems[0]}),
+    action: (app, selectedItems) => app.modal.open(ModalPreview, {storage: selectedItems[0]?.storage, item: selectedItems[0]}),
     show: showIfAll(
       showIf({target: 'one', feature: FEATURES.PREVIEW}),
       (app, ctx) => ctx.target?.type !== 'dir'
@@ -193,7 +191,7 @@ export const menuItems: Item[] = [
 //     id: ContextMenuIds.move,
 //     title: ({t}) => t('Move'),
 //     action: (app, selectedItems) => {
-//       const fs = useFilesStore();
+//       const fs = app.fs;
 //       const target = { storage: fs.path.storage || '', path: fs.path.path || '', type: 'dir' as const };
 //       app.modal.open(ModalMove, { items: { from: selectedItems, to: target } });
 //     },

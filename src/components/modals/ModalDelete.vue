@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
-import ModalLayout from '@/components/modals/ModalLayout.vue';
-import ModalHeader from "@/components/modals//ModalHeader.vue";
-import Message from '@/components/Message.vue';
-import DeleteSVG from "@/assets/icons/delete.svg";
-import { useFilesStore } from '@/stores/files';
+import ModalLayout from '../../components/modals/ModalLayout.vue';
+import ModalHeader from "../../components/modals//ModalHeader.vue";
+import Message from '../../components/Message.vue';
+import DeleteSVG from "../../assets/icons/delete.svg";
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const fs = useFilesStore();
+const fs = app.fs;
 const items = ref(app.modal.data.items);
 const message = ref('');
 
@@ -18,7 +17,7 @@ const remove = () => {
       params: {
         q: 'delete',
         m: 'post',
-        adapter: fs.path.storage,
+        storage: fs.path.storage,
         path: fs.path.path,
       },
       body: {

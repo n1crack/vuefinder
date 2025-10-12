@@ -2,10 +2,8 @@
 import { inject, computed, ref } from 'vue';
 import ItemIcon from './ItemIcon.vue';
 import PinSVG from "../assets/icons/pin.svg";
-import title_shorten from '@/utils/title_shorten';
-import type { ServiceContainer, DirEntry } from '@/types';
-import { useFilesStore } from '@/stores/files';
-import {useConfigStore} from "@/stores/config.ts";
+import title_shorten from '../utils/title_shorten';
+import type { ServiceContainer, DirEntry } from '../types';
 
 const props = defineProps<{
   item: DirEntry;
@@ -17,6 +15,7 @@ const props = defineProps<{
   rowIndex?: number;
   colIndex?: number;
   showPath?: boolean;
+  explorerId: string;
 }>();
 
 const emit = defineEmits<{
@@ -28,11 +27,11 @@ const emit = defineEmits<{
 }>();
 
 const app = inject('ServiceContainer') as ServiceContainer;
-const fs = useFilesStore();
-const config = useConfigStore();
+const fs = app.fs;
+const config = app.config;
 
 const itemClasses = computed(() => [
-  'file-item',
+  'file-item-' + props.explorerId,
   props.view === 'grid' ? 'vf-explorer-item-grid' : 'vf-explorer-item-list',
   props.isSelected ? 'vf-explorer-selected' : ''
 ]);

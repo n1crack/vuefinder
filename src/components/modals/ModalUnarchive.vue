@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
-import Message from '@/components/Message.vue';
-import ModalLayout from '@/components/modals/ModalLayout.vue';
-import ModalHeader from "@/components/modals/ModalHeader.vue";
-import UnarchiveSVG from "@/assets/icons/unarchive.svg";
-import { useFilesStore } from '@/stores/files';
+import Message from '../../components/Message.vue';
+import ModalLayout from '../../components/modals/ModalLayout.vue';
+import ModalHeader from "../../components/modals/ModalHeader.vue";
+import UnarchiveSVG from "../../assets/icons/unarchive.svg";
 
 const app = inject('ServiceContainer');
-const fs = useFilesStore();
+const fs = app.fs;
 
 const {t} = app.i18n;
 
@@ -22,7 +21,7 @@ const unarchive = () => {
     params: {
       q: 'unarchive',
       m: 'post',
-      adapter: fs.path.storage,
+      storage: fs.path.storage,
       path: fs.path.path,
     },
     body: {

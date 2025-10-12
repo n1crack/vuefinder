@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import FileItem from './FileItem.vue';
-import type { DirEntry } from '@/types';
+import type { DirEntry } from '../types';
 
 const props = defineProps<{
   rowIndex: number;
@@ -15,6 +15,7 @@ const props = defineProps<{
   isDraggingItem: (path: string | null) => boolean;
   isSelected: (path: string) => boolean;
   dragNDropEvents: (item: DirEntry) => Record<string, any>;
+  explorerId: string;
 }>();
 
 const emit = defineEmits<{
@@ -81,6 +82,7 @@ const gridStyle = computed(() => {
         @contextmenu="emit('contextmenu', $event)"
         @dragstart="emit('dragstart', $event)"
         @dragend="emit('dragend', $event)"
+        :explorerId="explorerId"
       />
     </div>
   </div>
