@@ -1,70 +1,53 @@
 <script setup lang="ts">
-import Cropper from 'cropperjs';
 import {inject, onMounted, ref} from 'vue';
-import Message from '../../components/Message.vue';
 import {FEATURES} from "../../features";
+import CropperCanvas from './CropperCanvas.vue';
+
+defineOptions({ name: 'ImagePreview' });
 
 const emit = defineEmits(['success']);
 const app = inject('ServiceContainer');
 
 const {t} = app.i18n;
 
-const image = ref<HTMLImageElement | null>(null);
-const cropper = ref<any>(null);
+const cropperRef = ref<{ getCroppedBlob: (options?: { width?: number; height?: number }) => Promise<Blob | null> } | null>(null);
 const showEdit = ref(false);
 const message = ref('');
 const isError = ref(false);
 
 const editMode = () => {
   showEdit.value = !showEdit.value;
-
-  if (showEdit.value && image.value) {
-    cropper.value = new Cropper(image.value, {
-      crop(event: any) {
-      },
-    });
-  } else if (cropper.value) {
-    cropper.value.destroy();
-  }
+  // No manual instance needed with web components
 };
 
 const crop = () => {
-  if (!cropper.value) return;
-
-  cropper.value
-      .getCroppedCanvas({
-        width: 795,
-        height: 341
-      })
-      .toBlob(
-          (blob: any) => {
-            message.value = '';
-            isError.value = false;
-            const body = new FormData();
-            body.set('file', blob);
-            app.requester.send({
-              url: '',
-              method: 'post',
-              params: {
-                q: 'upload',
-                storage: app.modal.data.storage,
-                path: app.modal.data.item.path,
-              },
-              body,
-            })
-                .then((data: any) => {
-                  message.value = t('Updated.');
-                  if (image.value) {
-                    image.value.src = app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item);
-                  }
-                  editMode();
-                  emit('success');
-                })
-                .catch((e: any) => {
-                  message.value = t(e.message);
-                  isError.value = true;
-                });
-          });
+  cropperRef.value?.getCroppedBlob({ width: 795, height: 341 }).then((blob) => {
+    if (!blob) return;
+    message.value = '';
+    isError.value = false;
+    const body = new FormData();
+    body.set('file', blob);
+    app.requester.send({
+      url: '',
+      method: 'post',
+      params: {
+        q: 'upload',
+        storage: app.modal.data.storage,
+        path: app.modal.data.item.path,
+      },
+      body,
+    })
+        .then(() => {
+          message.value = t('Updated.');
+          editMode();
+          emit('success');
+        })
+        .catch((e: unknown) => {
+          const err = (e as { message?: string })?.message ?? 'Error';
+          message.value = t(err);
+          isError.value = true;
+        });
+  });
 };
 
 onMounted(() => {
@@ -90,9 +73,13 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="vuefinder__image-preview__image-container">
-      <img ref="image" class="vuefinder__image-preview__image"
+    <div class="vuefinder__image-preview__image-container h-[50vh]">
+      <img v-if="!showEdit" class="vuefinder__image-preview__image w-full h-full object-contain"
            :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)" alt="">
+
+      <CropperCanvas v-if="showEdit" ref="cropperRef"
+                     :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)"
+                     class="vuefinder__image-preview__image w-full h-full"></CropperCanvas>
     </div>
 
     <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>

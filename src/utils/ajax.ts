@@ -106,13 +106,13 @@ export class Requester {
 
     getDownloadUrl(storage: string, node: { path: string; url?: string }): string {
         if (node.url != null) return node.url
-        const transform = this.transformRequestParams({ url: '', method: 'get', params: {q: 'download', storage, path: node.path} });
+        const transform = this.transformRequestParams({ url: '', method: 'get', params: {q: 'download', storage, adapter:storage, path: node.path} });
         return transform.url + '?' + new URLSearchParams(transform.params as Record<string,string>).toString()
     }
 
     getPreviewUrl(storage: string, node: { path: string; url?: string }): string {
         if (node.url != null) return node.url
-        const transform = this.transformRequestParams({ url: '', method: 'get', params: {q: 'preview', storage, path: node.path} });
+        const transform = this.transformRequestParams({ url: '', method: 'get', params: {q: 'preview', storage, adapter:storage, path: node.path} });
         return transform.url + '?' + new URLSearchParams(transform.params as Record<string,string>).toString()
     }
 
