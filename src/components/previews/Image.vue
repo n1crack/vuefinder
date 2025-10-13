@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {inject, onMounted, ref} from 'vue';
+import Cropper from 'cropperjs';
+import {inject, nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef} from 'vue';
 import {FEATURES} from "../../features";
-import CropperCanvas from './CropperCanvas.vue';
 
 defineOptions({ name: 'ImagePreview' });
 
@@ -10,18 +10,46 @@ const app = inject('ServiceContainer');
 
 const {t} = app.i18n;
 
-const cropperRef = ref<{ getCroppedBlob: (options?: { width?: number; height?: number }) => Promise<Blob | null> } | null>(null);
+const containerEl = useTemplateRef<HTMLDivElement | null>('containerEl');
+const cropper = ref<InstanceType<typeof Cropper> | null>(null);
 const showEdit = ref(false);
 const message = ref('');
 const isError = ref(false);
 
-const editMode = () => {
-  showEdit.value = !showEdit.value;
-  // No manual instance needed with web components
+const initCropper = async () => {
+  if (!containerEl.value) return;
+  const image = new Image();
+  image.src = app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item);
+  image.alt = 'Picture';
+  await new Promise<void>((resolve, reject) => {
+    image.onload = () => resolve();
+    image.onerror = () => reject(new Error('Image load failed'));
+  });
+  (cropper.value as unknown as { destroy?: () => void })?.destroy?.();
+  cropper.value = null;
+  cropper.value = new Cropper(image as unknown as HTMLImageElement, {
+    container: containerEl.value
+  } as unknown as Record<string, unknown>);
 };
 
-const crop = () => {
-  cropperRef.value?.getCroppedBlob({ width: 795, height: 341 }).then((blob) => {
+const editMode = async () => {
+  showEdit.value = !showEdit.value;
+  await nextTick();
+  if (showEdit.value) await initCropper();
+  else {
+    (cropper.value as unknown as { destroy?: () => void })?.destroy?.();
+    cropper.value = null;
+  }
+};
+
+const crop = async () => {
+  if (!cropper.value) {
+    await initCropper();
+  }
+  const cnv = cropper.value?.getCropperCanvas();
+
+  if (!cnv) return;
+  cnv.toBlob((blob: Blob | null) => {
     if (!blob) return;
     message.value = '';
     isError.value = false;
@@ -54,6 +82,11 @@ onMounted(() => {
   emit('success');
 });
 
+onBeforeUnmount(() => {
+  (cropper.value as unknown as { destroy?: () => void })?.destroy?.();
+  cropper.value = null;
+});
+
 </script>
 
 <template>
@@ -77,11 +110,9 @@ onMounted(() => {
       <img v-if="!showEdit" class="vuefinder__image-preview__image w-full h-full object-contain"
            :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)" alt="">
 
-      <CropperCanvas v-if="showEdit" ref="cropperRef"
-                     :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)"
-                     canvas-class="vuefinder__image-preview__image w-full h-full"></CropperCanvas>
+      <div v-else ref="containerEl" class="vuefinder__image-preview__image w-full h-full" style="position: relative;"></div>
     </div>
 
     <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
   </div>
-</template>
+</template> 

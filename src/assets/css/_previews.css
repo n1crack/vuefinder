@@ -43,7 +43,11 @@
 }
 
 .vuefinder .vuefinder__image-preview__image {
-  @apply max-w-[50vh] max-h-[50vh];
+  @apply max-h-[70vh];
+}
+.vuefinder .vuefinder__image-preview__image cropper-canvas {
+    height: 100%;
+    width: 100%;
 }
 
 /** Auido Preview */
