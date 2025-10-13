@@ -52,7 +52,6 @@ export default defineConfig({
                 '@uppy/xhr-upload',
                 '@uppy/locales',
                 '@viselect/vanilla',
-                'cropperjs',
                 'mitt',
                 'overlayscrollbars',
                 'nanostores',
@@ -60,6 +59,7 @@ export default defineConfig({
                 '@nanostores/persistent',
                 'vanilla-lazyload',
                 'vue',
+                'vue-advanced-cropper',
             ],
             output: {
                 exports: 'named',

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import Cropper from 'cropperjs';
-import {inject, nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef} from 'vue';
+import {inject, onMounted, ref, useTemplateRef} from 'vue';
+import { Cropper } from 'vue-advanced-cropper';
+import 'vue-advanced-cropper/dist/style.css';
 import {FEATURES} from "../../features";
 
 defineOptions({ name: 'ImagePreview' });
@@ -10,46 +11,22 @@ const app = inject('ServiceContainer');
 
 const {t} = app.i18n;
 
-const containerEl = useTemplateRef<HTMLDivElement | null>('containerEl');
-const cropper = ref<InstanceType<typeof Cropper> | null>(null);
 const showEdit = ref(false);
 const message = ref('');
 const isError = ref(false);
+const tempImageData = ref(app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item));
 
-const initCropper = async () => {
-  if (!containerEl.value) return;
-  const image = new Image();
-  image.src = app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item);
-  image.alt = 'Picture';
-  await new Promise<void>((resolve, reject) => {
-    image.onload = () => resolve();
-    image.onerror = () => reject(new Error('Image load failed'));
-  });
-  (cropper.value as unknown as { destroy?: () => void })?.destroy?.();
-  cropper.value = null;
-  cropper.value = new Cropper(image as unknown as HTMLImageElement, {
-    container: containerEl.value
-  } as unknown as Record<string, unknown>);
-};
+const cropperRef = useTemplateRef<{ getResult: (options?: { size?: { width?: number; height?: number }; fillColor?: string }) => { canvas?: HTMLCanvasElement } } | null>('cropperRef');
 
 const editMode = async () => {
   showEdit.value = !showEdit.value;
-  await nextTick();
-  if (showEdit.value) await initCropper();
-  else {
-    (cropper.value as unknown as { destroy?: () => void })?.destroy?.();
-    cropper.value = null;
-  }
 };
 
-const crop = async () => {
-  if (!cropper.value) {
-    await initCropper();
-  }
-  const cnv = cropper.value?.getCropperCanvas();
-
-  if (!cnv) return;
-  cnv.toBlob((blob: Blob | null) => {
+const crop = async () => { 
+  const result = cropperRef.value?.getResult({ size: { width: 795, height: 341 }, fillColor: '#ffffff' });
+  const canvas = result?.canvas;
+  if (!canvas) return;
+  canvas.toBlob((blob) => {
     if (!blob) return;
     message.value = '';
     isError.value = false;
@@ -61,6 +38,7 @@ const crop = async () => {
       params: {
         q: 'upload',
         storage: app.modal.data.storage,
+        adapter: app.modal.data.storage,
         path: app.modal.data.item.path,
       },
       body,
@@ -71,8 +49,8 @@ const crop = async () => {
           emit('success');
         })
         .catch((e: unknown) => {
-          const err = (e as { message?: string })?.message ?? 'Error';
-          message.value = t(err);
+          const msg = (e as { message?: string })?.message ?? 'Error';
+          message.value = t(msg);
           isError.value = true;
         });
   });
@@ -80,11 +58,6 @@ const crop = async () => {
 
 onMounted(() => {
   emit('success');
-});
-
-onBeforeUnmount(() => {
-  (cropper.value as unknown as { destroy?: () => void })?.destroy?.();
-  cropper.value = null;
 });
 
 </script>
@@ -106,13 +79,33 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <div class="vuefinder__image-preview__image-container h-[50vh]">
-      <img v-if="!showEdit" class="vuefinder__image-preview__image w-full h-full object-contain"
-           :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)" alt="">
+    <div class="vuefinder__image-preview__image-container h-[50vh] w-full">
+      <img v-if="!showEdit" style="width: 100%; height: 100%;" :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)" 
+        class="vuefinder__image-preview__image w-full h-full" />
 
-      <div v-else ref="containerEl" class="vuefinder__image-preview__image w-full h-full" style="position: relative;"></div>
+      <Cropper v-else ref="cropperRef"
+               class="w-full h-full"
+               crossorigin="anonymous"
+               :src="tempImageData"
+               :stencil-props="{ aspectRatio: 795/341 }"
+               :auto-zoom="true"
+               :priority="'image'"
+               :transitions="true"
+      />
     </div>
 
     <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
   </div>
 </template> 
+  
+  <style>
+  .cropper-viewers {
+    margin-top: 0.5rem;
+  }
+  
+  .cropper-viewers > cropper-viewer {
+    border: 1px solid var(--vp-c-divider);
+    display: inline-block;
+    margin-right: 0.25rem;
+  }
+  </style>
