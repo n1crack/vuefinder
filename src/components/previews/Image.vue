@@ -79,7 +79,7 @@ onMounted(() => {
 
       <CropperCanvas v-if="showEdit" ref="cropperRef"
                      :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)"
-                     class="vuefinder__image-preview__image w-full h-full"></CropperCanvas>
+                     canvas-class="vuefinder__image-preview__image w-full h-full"></CropperCanvas>
     </div>
 
     <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
