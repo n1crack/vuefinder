@@ -32,6 +32,7 @@ const search = app.search;
 // Use nanostores reactive values for template reactivity
 const configState = useStore(config.state);
 const searchState = useStore(search.state);
+const selectedItems = useStore(fs.selectedItems);
 
 watch(() => configState.value.fullScreen, () => {
   if (configState.value.fullScreen) {
@@ -60,7 +61,7 @@ const toggleView = () => {
           class="mx-1.5"
           :title="t('New Folder')"
           v-if="app.features.includes(FEATURES.NEW_FOLDER)"
-          @click="app.modal.open(ModalNewFolder, {items: fs.selectedItems})"
+          @click="app.modal.open(ModalNewFolder, {items: selectedItems})"
       >
         <NewFolderSVG/>
       </div>
@@ -69,7 +70,7 @@ const toggleView = () => {
           class="mx-1.5"
           :title="t('New File')"
           v-if="app.features.includes(FEATURES.NEW_FILE)"
-          @click="app.modal.open(ModalNewFile, {items: fs.selectedItems})"
+          @click="app.modal.open(ModalNewFile, {items: selectedItems})"
       >
         <NewFileSVG/>
       </div>
@@ -78,45 +79,45 @@ const toggleView = () => {
           class="mx-1.5"
           :title="t('Rename')"
           v-if="app.features.includes(FEATURES.RENAME)"
-          @click="(fs.selectedItems.length !== 1) || app.modal.open(ModalRename, {items: fs.selectedItems})"
+          @click="(selectedItems.length !== 1) || app.modal.open(ModalRename, {items: selectedItems})"
       >
-        <RenameSVG :class="(fs.selectedItems.length === 1) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <RenameSVG :class="(selectedItems.length === 1) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div
           class="mx-1.5"
           :title="t('Delete')"
           v-if="app.features.includes(FEATURES.DELETE)"
-          @click="(!fs.selectedItems.length) || app.modal.open(ModalDelete, {items: fs.selectedItems})"
+          @click="(!selectedItems.length) || app.modal.open(ModalDelete, {items: selectedItems})"
       >
-        <DeleteSVG :class="(fs.selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <DeleteSVG :class="(selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div
           class="mx-1.5"
           :title="t('Upload')"
           v-if="app.features.includes(FEATURES.UPLOAD)"
-          @click="app.modal.open(ModalUpload, {items: fs.selectedItems})"
+          @click="app.modal.open(ModalUpload, {items: selectedItems})"
       >
         <UploadSVG/>
       </div>
 
       <div
           class="mx-1.5"
-          v-if="app.features.includes(FEATURES.UNARCHIVE) && fs.selectedItems.length === 1 && fs.selectedItems[0].mime_type === 'application/zip'"
+          v-if="app.features.includes(FEATURES.UNARCHIVE) && selectedItems.length === 1 && selectedItems[0].mime_type === 'application/zip'"
           :title="t('Unarchive')"
-          @click="(!fs.selectedItems.length) || app.modal.open(ModalUnarchive, {items: fs.selectedItems})"
+          @click="(!selectedItems.length) || app.modal.open(ModalUnarchive, {items: selectedItems})"
       >
-        <UnarchiveSVG :class="(fs.selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <UnarchiveSVG :class="(selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
 
       <div
           class="mx-1.5"
           v-if="app.features.includes(FEATURES.ARCHIVE)"
           :title="t('Archive')"
-          @click="(!fs.selectedItems.length) || app.modal.open(ModalArchive, {items: fs.selectedItems})"
+          @click="(!selectedItems.length) || app.modal.open(ModalArchive, {items: selectedItems})"
       >
-        <ArchiveSVG :class="(fs.selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <ArchiveSVG :class="(selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
     </div>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
-import Message from '../../components/Message.vue';
+import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import NewFolderSVG from "../../assets/icons/new_folder.svg";
@@ -8,6 +8,8 @@ import NewFolderSVG from "../../assets/icons/new_folder.svg";
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const fs = app.fs;
+
+const currentPath = useStore(fs.path);
 
 const name = ref('');
 const message = ref('');
@@ -18,8 +20,8 @@ const createFolder = () => {
       params: {
         q: 'newfolder',
         m: 'post',
-        storage: fs.path.storage,
-        path: fs.path.path,
+        storage: currentPath.value.storage,
+        path: currentPath.value.path,
       },
       body: {
         name: name.value

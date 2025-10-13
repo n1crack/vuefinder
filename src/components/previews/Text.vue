@@ -21,7 +21,12 @@ onMounted(() => {
   app.requester.send({
     url: '',
     method: 'get',
-    params: {q: 'preview', storage: app.modal.data.storage, path: app.modal.data.item.path},
+    params: {
+        q: 'preview', 
+        storage: app.modal.data.storage, 
+        adapter: app.modal.data.storage,
+        path: app.modal.data.item.path
+    },
     responseType: 'text',
   })
       .then((data: any) => {
@@ -45,6 +50,7 @@ const save = () => {
     params: {
       q: 'save',
       storage: app.modal.data.storage,
+      adapter: app.modal.data.storage,
       path: app.modal.data.item.path,
     },
     body: {

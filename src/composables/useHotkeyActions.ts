@@ -6,6 +6,7 @@ import ModalDelete from "../components/modals/ModalDelete.vue";
 import ModalRename from "../components/modals/ModalRename.vue";
 import ModalPreview from "../components/modals/ModalPreview.vue";
 import ModalMove from '../components/modals/ModalMove.vue';
+import ModalCopy from '../components/modals/ModalCopy.vue';
 
 const KEYBOARD_SHORTCUTS = {
     ESCAPE: 'Escape', F2: 'F2', F5: 'F5', DELETE: 'Delete', ENTER: 'Enter',
@@ -100,7 +101,7 @@ export function useHotkeyActions(app: any) {
                 return;
             };
             if (fs.getClipboard().type === 'copy') {
-                app.modal.open(ModalMove, {items: {from: fs.getClipboard().items, to: fs.path}});
+                app.modal.open(ModalCopy, {items: {from: fs.getClipboard().items, to: fs.path}});
                 return;
             };
             

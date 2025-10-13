@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
+import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
-import Message from '../../components/Message.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import NewFileSVG from "../../assets/icons/new_file.svg";
+
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const fs = app.fs;
+
+const currentPath = useStore(fs.path);
 
 const name = ref('');
 const message = ref('');
@@ -17,8 +20,8 @@ const createFile = () => {
       params: {
         q: 'newfile',
         m: 'post',
-        storage: fs.path.storage,
-        path: fs.path.path,
+        storage: currentPath.value.storage,
+        path: currentPath.value.path,
       },
       body: {
         name: name.value

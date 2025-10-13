@@ -166,6 +166,7 @@ export const createFilesStore = () => {
 
     const isCut = (key: string): boolean => {
         const clipboard = clipboardItems.get();
+        console.log(clipboard)
         return clipboard.type === 'cut' && Array.from(clipboard.items).some(f => f.path === key);
     }
 

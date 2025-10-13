@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
-import Message from '../../components/Message.vue';
+import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import UnarchiveSVG from "../../assets/icons/unarchive.svg";
 
 const app = inject('ServiceContainer');
 const fs = app.fs;
-
+const currentPath = useStore(fs.path);
 const {t} = app.i18n;
 
 const item = ref(app.modal.data.items[0]);
@@ -21,8 +21,8 @@ const unarchive = () => {
     params: {
       q: 'unarchive',
       m: 'post',
-      storage: fs.path.storage,
-      path: fs.path.path,
+      storage: currentPath.value.storage,
+      path: currentPath.value.path,
     },
     body: {
       item: item.value.path

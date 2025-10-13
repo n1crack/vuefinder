@@ -82,6 +82,8 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     fs.setLoading(true);
   }
 
+  params.adapter = params.storage;
+
   controller = new AbortController();
   const signal = controller.signal;
   app.requester.send({
