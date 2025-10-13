@@ -1,5 +1,6 @@
 import { atom, computed} from 'nanostores'
 import type {DirEntry} from '@/types';
+import { useStore } from '@nanostores/vue';
 
 export type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
 export type SortOrder = 'asc' | 'desc' | '';
@@ -164,15 +165,30 @@ export const createFilesStore = () => {
         });
     }
 
+    // Reactive versions that return computed atoms
+    const createIsCut = (key: string) => {
+        return computed([clipboardItems], (clipboard) => {
+            return clipboard.type === 'cut' && Array.from(clipboard.items).some(f => f.path === key);
+        });
+    }
+
+    const createIsCopied = (key: string) => {
+        return computed([clipboardItems], (clipboard) => {
+            return clipboard.type === 'copy' && Array.from(clipboard.items).some(f => f.path === key);
+        });
+    }
+
+    // helper reactive
     const isCut = (key: string): boolean => {
-        const clipboard = clipboardItems.get();
-        console.log(clipboard)
-        return clipboard.type === 'cut' && Array.from(clipboard.items).some(f => f.path === key);
+        const isItemCutStore = createIsCut(key);
+        const isItemCut = useStore<boolean>(isItemCutStore);
+        return isItemCut.value ?? false;
     }
 
     const isCopied = (key: string): boolean => {
-        const clipboard = clipboardItems.get();
-        return clipboard.type === 'copy' && Array.from(clipboard.items).some(f => f.path === key);
+        const isItemCopiedStore = createIsCopied(key);
+        const isItemCopied = useStore<boolean>(isItemCopiedStore);
+        return isItemCopied.value ?? false;
     }
 
     const clearClipboard = () => {
@@ -229,6 +245,8 @@ export const createFilesStore = () => {
         setLoading,
         isLoading,
         setClipboard,
+        createIsCut,
+        createIsCopied,
         isCut,
         isCopied,
         clearClipboard,

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { inject, computed, ref } from 'vue';
-import { useStore } from '@nanostores/vue';
 import ItemIcon from './ItemIcon.vue';
 import PinSVG from "../assets/icons/pin.svg";
 import title_shorten from '../utils/title_shorten';
@@ -37,11 +36,12 @@ const itemClasses = computed(() => [
   props.isSelected ? 'vf-explorer-selected' : ''
 ]);
 
+
 const itemStyle = computed(() => ({
   opacity: (props.isDragging || fs.isCut(props.item.path)) ? 0.5 : ''
 }));
 
-let touchTimeOut: any = null;
+let touchTimeOut: ReturnType<typeof setTimeout> | null = null;
 const doubleTapTimeOut = ref<ReturnType<typeof setTimeout> | null>(null);
 let tappedTwice = false;
 
@@ -66,7 +66,9 @@ const delayedOpenItem = (event: TouchEvent) => {
     } else {
         tappedTwice = false; 
         emit('dblclick', event)
-        clearTimeout(touchTimeOut);
+        if (touchTimeOut) {
+            clearTimeout(touchTimeOut);
+        }
         return false;
     }
 
