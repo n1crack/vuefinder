@@ -48,6 +48,7 @@
     "@uppy/core": "^5.0.2",
     "@uppy/locales": "^5.0.1",
     "@uppy/xhr-upload": "^5.0.1",
+    "@uppy/vue": "^3.1.0",
     "@viselect/vanilla": "^3.9.0",
     "@vueuse/core": "^13.9.0",
     "nanostores": "^1.0.1",
