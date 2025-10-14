@@ -1,5 +1,4 @@
 import {computed, nextTick, onMounted, onUnmounted, ref, watch, type Ref, type TemplateRef} from 'vue';
-import {useStore} from '@nanostores/vue';
 
 export interface VirtualColumnsOptions {
     scrollContainer: TemplateRef<HTMLElement>;
@@ -7,6 +6,7 @@ export interface VirtualColumnsOptions {
     rowHeight?: number | Ref<number>;
     overscan?: number;
     containerPadding?: number;
+    lockItemsPerRow: Ref<boolean>;
 }
 
 export interface VirtualColumnsReturn {
@@ -24,8 +24,10 @@ export interface VirtualColumnsReturn {
     getContainerHeight: () => number;
 }
 
+// (Nanostores support removed; only Vue refs are accepted.)
+
 export default function useVirtualColumns<T = unknown>(
-    items: Ref<T[]> | any, // Accept both Vue refs and Nanostores atoms
+    items: Ref<T[]>, // Accept only Vue refs (including computed)
     options: VirtualColumnsOptions
 ): VirtualColumnsReturn {
     const { 
@@ -34,10 +36,11 @@ export default function useVirtualColumns<T = unknown>(
         rowHeight ,
         overscan = 2,
         containerPadding = 48,
+        lockItemsPerRow,
     } = options;
 
     // Convert Nanostores atom to Vue ref if needed
-    const itemsRef = items && typeof items.get === 'function' ? useStore(items) : items;
+    const itemsRef: Ref<T[]> = items;
 
     const getRowHeight = (): number => {
         return typeof rowHeight === 'number' ? rowHeight : (rowHeight as Ref<number>).value;
@@ -70,9 +73,15 @@ export default function useVirtualColumns<T = unknown>(
         return containerHeightRef.value;
     };
 
+    const isLocked = (): boolean => lockItemsPerRow.value;
+
     const updateItemsPerRow = () => {
+        if (isLocked()) {
+            itemsPerRow.value = 1;
+            return;
+        }
         if (scrollContainer.value) {
-        const width = scrollContainer.value.clientWidth - containerPadding;
+            const width = scrollContainer.value.clientWidth - containerPadding;
             itemsPerRow.value = Math.max(Math.floor(width / itemWidth), 2);
         }
     }

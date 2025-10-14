@@ -73,7 +73,8 @@ const {
       itemWidth: 104,
       rowHeight,
       overscan: 2,
-      containerPadding: 0
+      containerPadding: 0,
+      lockItemsPerRow: computed(() => configState.value.view === 'list' || !!searchState.value.query.length)
     });
 
 const {
