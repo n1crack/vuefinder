@@ -1,33 +1,15 @@
-<template>
-  <div class="vuefinder__folder-loader-indicator">
-
-    <LoadingSVG v-if="loading" class="vuefinder__folder-loader-indicator--loading" />
-    <div class="vuefinder__folder-loader-indicator--icon" v-else>
-      <SquareMinusSVG class="vuefinder__folder-loader-indicator--minus" v-if="opened && getLoadedFolder()?.folders.length" />
-      <SquarePlusSVG class="vuefinder__folder-loader-indicator--plus" v-if="!opened" />
-    </div>
-
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import {ref, inject, watch} from 'vue';
 
-import SquarePlusSVG from "./icons/plus.svg";
-import SquareMinusSVG from "./icons/minus.svg";
-import LoadingSVG from "./icons/loading.svg";
+import SquarePlusSVG from "../assets/icons/plus.svg";
+import SquareMinusSVG from "../assets/icons/minus.svg";
+import LoadingSVG from "../assets/icons/loading.svg";
 import upsert from "../utils/upsert";
 
-const props = defineProps({
-  adapter: {
-    type: String,
-    required: true,
-  },
-  path: {
-    type: String,
-    required: true,
-  }
-});
+const props = defineProps<{
+  storage: string
+  path: string
+}>()
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -38,14 +20,10 @@ const loading = ref(false)
 
 watch(() => opened.value, () =>
     getLoadedFolder()?.folders.length || fetchSubFolders()
-);
-
-function toggleIndicator() {
-  return opened.value = !opened.value;
-}
+); 
 
 function getLoadedFolder() {
-  return app.treeViewData.find(e => e.path === props.path) ;
+  return app.treeViewData.find((e: any) => e.path === props.path);
 }
 
 const fetchSubFolders = () => {
@@ -55,14 +33,15 @@ const fetchSubFolders = () => {
     method: 'get',
     params: {
       q: 'subfolders',
-      adapter: props.adapter,
+      storage: props.storage,
+      adapter: props.storage,
       path: props.path,
     },
   })
-      .then(data => {
-        upsert(app.treeViewData, {path: props.path, type:'dir', ...data})
+      .then((data: any) => {
+        upsert(app.treeViewData, {path: props.path, type: 'dir', ...data})
       })
-      .catch((e) => {
+      .catch((e: any) => {
       })
       .finally(() => {
         loading.value = false;
@@ -71,3 +50,16 @@ const fetchSubFolders = () => {
 }
 </script>
 
+
+<template>
+  <div class="vuefinder__folder-loader-indicator">
+
+    <LoadingSVG v-if="loading" class="vuefinder__folder-loader-indicator--loading"/>
+    <div class="vuefinder__folder-loader-indicator--icon" v-else>
+      <SquareMinusSVG class="vuefinder__folder-loader-indicator--minus"
+                      v-if="opened && getLoadedFolder()?.folders.length"/>
+      <SquarePlusSVG class="vuefinder__folder-loader-indicator--plus" v-if="!opened"/>
+    </div>
+
+  </div>
+</template>

@@ -1,0 +1,238 @@
+import {FEATURES} from "../features";
+import ModalNewFolder from "../components/modals/ModalNewFolder.vue";
+import ModalPreview from "../components/modals/ModalPreview.vue";
+import ModalArchive from "../components/modals/ModalArchive.vue";
+import ModalUnarchive from "../components/modals/ModalUnarchive.vue";
+import ModalRename from "../components/modals/ModalRename.vue";
+import ModalDelete from "../components/modals/ModalDelete.vue";
+import type { App, DirEntry } from '../types'
+
+type TargetKey = 'none' | 'one' | 'many'
+
+export const ContextMenuIds = {
+  newfolder: "newfolder",
+  selectAll: "selectAll",
+  pinFolder: "pinFolder",
+  unpinFolder: "unpinFolder",
+  delete: "delete",
+  refresh: "refresh",
+  preview: "preview",
+  open: "open",
+  openDir: "openDir",
+  download: "download",
+  download_archive: "download_archive",
+  archive: "archive",
+  unarchive: "unarchive",
+  rename: "rename",
+  move: "move",
+} as const
+
+export type MenuContext = {
+  searchQuery: string
+  items: DirEntry[]
+  target: DirEntry | null
+}
+
+export type Item = {
+  id: string
+  title: (i18n: App['i18n']) => string
+  action: (app: App, selectedItems: DirEntry[]) => void
+  link?: (app: App, selectedItems: DirEntry[]) => void
+  show: (app: App, ctx: MenuContext) => boolean
+}
+
+// type ItemTemplate = Pick<Item, 'title' | 'action'> & { link?: Item['link']; key?: string }
+
+type ShowOptions = {
+  needsSearchQuery?: boolean
+  target?: TargetKey
+  targetType?: string
+  mimeType?: string
+  feature?: string
+}
+
+function getTarget(ctx: MenuContext): TargetKey {
+  if (ctx.items.length > 1 && ctx.items.some((item) => item.path === ctx.target?.path)) {
+    return 'many'
+  }
+  return ctx.target ? 'one' : 'none'
+}
+
+function showIf(options: Partial<ShowOptions>) {
+  const merged: ShowOptions = Object.assign({
+    needsSearchQuery: false,
+  }, options)
+
+  return (app: App, ctx: MenuContext) => {
+    if (merged.needsSearchQuery !== !!ctx.searchQuery) return false
+    if (merged.target !== undefined && merged.target !== getTarget(ctx)) return false
+    if (merged.targetType !== undefined && merged.targetType !== ctx.target?.type) return false
+    if (merged.mimeType !== undefined && merged.mimeType !== ctx.target?.mime_type) return false
+    if (merged.feature !== undefined && !app.features.includes(merged.feature)) return false
+    return true
+  }
+}
+
+function showIfAny(...showFns: Item['show'][]): Item['show'] {
+  return (app, ctx) => showFns.some((fn) => fn(app, ctx))
+}
+
+function showIfAll(...showFns: Item['show'][]): Item['show'] {
+  return (app, ctx) => showFns.every((fn) => fn(app, ctx))
+}
+
+export const menuItems: Item[] = [
+  {
+    id: ContextMenuIds.openDir,
+    title: ({t}) => t('Open containing folder'),
+    action: (app, selectedItems) => {
+      app.emitter.emit('vf-search-exit');
+      app.emitter.emit('vf-fetch', {
+        params: { q: 'index', storage: selectedItems[0]?.storage, path: (selectedItems[0]?.path) }
+      });
+    },
+    show: showIf({ target: 'one', needsSearchQuery: true })
+  },
+  {
+    id: ContextMenuIds.refresh,
+    title: ({t}) => t('Refresh'),
+    action: (app) => {
+      const fs = app.fs;
+      app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.get().storage, path: fs.path.get().path}});
+    },
+    show: showIfAny(showIf({target: 'none'}), showIf({target: 'many'}))
+  },
+  {
+    id: ContextMenuIds.selectAll,
+    title: ({t}) => t('Select All'),
+    action: (app) => {
+        const fs = app.fs;
+        fs.selectAll()
+    },
+    show: showIf({target: 'none'})
+  },
+  {
+    id: ContextMenuIds.newfolder,
+    title: ({t}) => t('New Folder'),
+    action: (app) => app.modal.open(ModalNewFolder),
+    show: showIf({target: 'none', feature: FEATURES.NEW_FOLDER})
+  },
+  {
+    id: ContextMenuIds.open,
+    title: ({t}) => t('Open'),
+    action: (app, selectedItems) => {
+      app.emitter.emit('vf-search-exit');
+      if (!selectedItems[0]) {
+          return;
+      }
+      app.emitter.emit('vf-fetch', {
+        params: { q: 'index', storage: selectedItems[0].storage, path: selectedItems[0].path }
+      });
+    },
+    show: showIf({target: 'one', targetType: 'dir'})
+  },
+  {
+    id: ContextMenuIds.pinFolder,
+    title: ({t}) => t('Pin Folder'),
+    action: (app, selectedItems) => {
+        const config = app.config;
+        const currentPinnedFolders = config.get('pinnedFolders');
+        const newPinnedFolders = currentPinnedFolders.concat(selectedItems.filter((fav: DirEntry) => currentPinnedFolders.findIndex((item: DirEntry) => item.path === fav.path) === -1));
+        config.set('pinnedFolders', newPinnedFolders);
+    },
+    show: showIfAll(
+      showIf({target: 'one', targetType: 'dir'}),
+      (app, ctx) => {
+          const config = app.config;
+          const currentPinnedFolders = config.get('pinnedFolders');
+          return currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1
+      },
+    )
+  },
+  {
+    id: ContextMenuIds.unpinFolder,
+    title: ({t}) => t('Unpin Folder'),
+    action: (app, selectedItems) => {
+        const config = app.config;
+        const currentPinnedFolders = config.get('pinnedFolders');
+        config.set('pinnedFolders', currentPinnedFolders.filter((fav: DirEntry) => !selectedItems.find((item: DirEntry) => item.path === fav.path)));
+    },
+    show: showIfAll(
+      showIf({target: 'one', targetType: 'dir'}),
+      (app, ctx) => {
+          const config = app.config;
+          const currentPinnedFolders = config.get('pinnedFolders');
+          return currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
+      },
+    )
+  },
+  {
+    id: ContextMenuIds.preview,
+    title: ({t}) => t('Preview'),
+    action: (app, selectedItems) => app.modal.open(ModalPreview, {storage: selectedItems[0]?.storage, item: selectedItems[0]}),
+    show: showIfAll(
+      showIf({target: 'one', feature: FEATURES.PREVIEW}),
+      (app, ctx) => ctx.target?.type !== 'dir'
+    )
+  },
+  {
+    id: ContextMenuIds.download,
+    link: (app, selectedItems) => app.requester.getDownloadUrl(selectedItems[0]?.storage, selectedItems[0]),
+    title: ({t}) => t('Download'),
+    action: () => {},
+    show: showIfAll(
+      showIf({target: 'one', feature: FEATURES.DOWNLOAD}),
+      (app, ctx) => ctx.target?.type !== 'dir'
+    )
+  },
+  {
+    id: ContextMenuIds.rename,
+    title: ({t}) => t('Rename'),
+    action: (app, selectedItems) => app.modal.open(ModalRename, {items: selectedItems}),
+    show: showIf({target: 'one', feature: FEATURES.RENAME})
+  },
+//   {
+//     id: ContextMenuIds.move,
+//     title: ({t}) => t('Move'),
+//     action: (app, selectedItems) => {
+//       const fs = app.fs;
+//       const target = { storage: fs.path.storage || '', path: fs.path.path || '', type: 'dir' as const };
+//       app.modal.open(ModalMove, { items: { from: selectedItems, to: target } });
+//     },
+//     show: showIfAny(
+//       showIf({target: 'one', feature: FEATURES.MOVE}),
+//       showIf({target: 'many', feature: FEATURES.MOVE})
+//     )
+//   },
+  {
+    id: ContextMenuIds.archive,
+    title: ({t}) => t('Archive'),
+    action: (app, selectedItems) => app.modal.open(ModalArchive, {items: selectedItems}),
+    show: showIfAny(
+      showIf({target: 'many', feature: FEATURES.ARCHIVE}),
+      showIfAll(
+        showIf({target: 'one', feature: FEATURES.ARCHIVE}),
+        (app, ctx) => ctx.target?.mime_type !== 'application/zip'
+      )
+    )
+  },
+  {
+    id: ContextMenuIds.unarchive,
+    title: ({t}) => t('Unarchive'),
+    action: (app, selectedItems) => app.modal.open(ModalUnarchive, {items: selectedItems}),
+    show: showIf({target: 'one', feature: FEATURES.UNARCHIVE, mimeType: 'application/zip'})
+  },
+  {
+    id: ContextMenuIds.delete,
+    title: ({t}) => t('Delete'),
+    action: (app, selectedItems) => {
+      app.modal.open(ModalDelete, {items: selectedItems});
+    },
+    show: showIfAny(
+      showIf({feature: FEATURES.DELETE, target: 'one'}),
+      showIf({feature: FEATURES.DELETE, target: 'many'}),
+    )
+  },
+]
+
+

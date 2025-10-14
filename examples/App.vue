@@ -1,72 +1,8 @@
-<template>
-  <div class="wrapper">
-    
-    <label for="example">
-      Example
-    </label>
-    <div>
-      <select id="example" v-model="example">
-        <option v-for="(name, key) in examples" :value="key">{{ name }}</option>
-      </select>
-    </div>
 
-    <div style="font-weight: bold;padding: 10px">{{ examples[example] }}</div>
-    <vue-finder
-      v-if="example === 'default'"
-      id='my_vuefinder'
-      :request="request"
-      :max-file-size="maxFileSize"
-      :features="features"
-      :select-button="handleSelectButton"
-    />
 
-    <div v-if="example === 'externalSelect'">
-      <vue-finder
-        id='my_vuefinder2'
-        :request="request"
-        :max-file-size="maxFileSize"
-        :features="features"
-        loadingIndicator="linear"
-        @select="handleSelect"
-      />
-
-      <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">Show Selected  ({{ selectedFiles.length ?? 0 }} selected)</button>
-
-      <div v-show="selectedFiles.length">
-        <h3>Selected Files ({{ selectedFiles.length }} selected)</h3>
-        <ul>
-          <li v-for="file in selectedFiles" :key="file.path">
-            {{ file.path }}
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <vue-finder
-      v-if="example === 'contextmenu'"
-      id='my_vuefinder3'
-      :request="request"
-      :max-file-size="maxFileSize"
-      :features="features"
-      :select-button="handleSelectButton"
-      :context-menu-items="customContextMenuItems"
-    />
-
-    <vue-finder
-      v-if="example === 'customIcons'"
-      id='my_vuefinder4'
-      :request="request"
-      :max-file-size="maxFileSize"
-      :features="features"
-      :icon="customIcon"
-    />
-
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
-import { FEATURES, FEATURE_ALL_NAMES } from '../src/features.js';
+import { FEATURE_ALL_NAMES } from '../src/features.js';
 import { contextMenuItems } from '../src/index.js';
 import PDFIcon from './icons/pdf_file.svg'
 import TextIcon from './icons/text_file.svg'
@@ -163,16 +99,15 @@ const customIconMap = {
  * @param {import('../src/types.js').App} app
  * @param {import('../src/types.js').DirEntry} item 
  */
-const customIcon = (app, item) => {
+const customIcon = (app, config, item) => {
   const props = {
     style: {
-      padding: app.view === 'grid' || !app.compactListView ? '6px' : '1px',
+      padding: config.view === 'grid' || !config.compactListView ? '6px' : '1px',
       height: '100%',
       width: 'auto',
       margin: 'auto',
     }
   }
-
   const icon = customIconMap[item.extension]
   if (icon) {
     return { is: icon, props }
@@ -181,6 +116,73 @@ const customIcon = (app, item) => {
 }
 
 </script>
+
+
+<template>
+  <div class="wrapper">
+    
+    <label for="example">
+      Example
+    </label>
+    <div>
+      <select id="example" v-model="example">
+        <option v-for="(name, key) in examples" :value="key" :key="key">{{ name }}</option>
+      </select>
+    </div>
+
+    <div style="font-weight: bold;padding: 10px">{{ examples[example] }}</div>
+    <vue-finder
+      v-if="example === 'default'"
+      id='my_vuefinder'
+      :request="request"
+      :max-file-size="maxFileSize"
+      :features="features"
+      :select-button="handleSelectButton"
+    />
+
+    <div v-if="example === 'externalSelect'">
+      <vue-finder
+        id='my_vuefinder2'
+        :request="request"
+        :max-file-size="maxFileSize"
+        :features="features"
+        loadingIndicator="linear"
+        @select="handleSelect"
+      />
+
+      <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">Show Selected  ({{ selectedFiles.length ?? 0 }} selected)</button>
+
+      <div v-show="selectedFiles.length">
+        <h3>Selected Files ({{ selectedFiles.length }} selected)</h3>
+        <ul>
+          <li v-for="file in selectedFiles" :key="file.path">
+            {{ file.path }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <vue-finder
+      v-if="example === 'contextmenu'"
+      id='my_vuefinder3'
+      :request="request"
+      :max-file-size="maxFileSize"
+      :features="features"
+      :select-button="handleSelectButton"
+      :context-menu-items="customContextMenuItems"
+    />
+
+    <vue-finder
+      v-if="example === 'customIcons'"
+      id='my_vuefinder4'
+      :request="request"
+      :max-file-size="maxFileSize"
+      :features="features"
+      :icon="customIcon"
+    />
+
+  </div>
+</template>
 
 <style>
 body {

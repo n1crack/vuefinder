@@ -1,0 +1,39 @@
+@theme {
+    /* custom animation variable */
+    --animate-pop: pop 160ms cubic-bezier(0.25, 1, 0.5, 1);
+
+    @keyframes pop {
+        0% {
+            transform: scale(0.30);
+        }
+        60% {
+            transform: scale(1.03);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+}
+
+.vuefinder__context-menu {
+    @apply z-30 absolute text-xs
+    bg-gray-50 dark:bg-gray-800
+    text-gray-700 dark:text-gray-200
+    border border-slate-300 dark:border-slate-600
+    shadow rounded-xs select-none
+    origin-top-left
+    transition-transform duration-150
+    animate-pop;
+}
+
+.vuefinder__context-menu__item {
+    @apply cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700;
+}
+
+.vuefinder__context-menu__link {
+    @apply block pl-2 pr-3 py-2;
+}
+
+.vuefinder__context-menu__action {
+    @apply pl-2 pr-3 py-1.5;
+}

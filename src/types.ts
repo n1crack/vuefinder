@@ -1,8 +1,10 @@
 import type { Component } from "vue";
-import type VueFinder from "./components/VueFinder.vue"
-import type ServiceContainer from "./ServiceContainer";
-import type { RequestConfig } from "./utils/ajax.js";
-import type { Item as ContextMenuItem } from "./utils/contextmenu.js";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ServiceContainer = any;
+import type { RequestConfig } from "./utils/ajax";
+import type { Item as ContextMenuItem } from "./utils/contextmenu";
+import type ServiceContainer from "../ServiceContainer";
+
 
 export type App = ReturnType<typeof ServiceContainer>
 
@@ -65,4 +67,31 @@ export type SelectButton = {
 
 export interface StorageInfo {
   filesystem?: string
+}
+
+export interface PinnedFolder {
+  path: string;
+  storage: string;
+  basename: string;
+  type: 'dir';
+}
+
+export interface TreeViewFolder {
+  storage: string;
+  path: string;
+  basename: string;
+  type: 'dir';
+}
+
+export interface TreeViewData {
+  path: string;
+  folders: TreeViewFolder[];
+}
+
+export interface FsData {
+  storage: string;
+  storages: string[];
+  storage_info: Record<string, StorageInfo>;
+  dirname: string;
+  files: DirEntry[];
 }

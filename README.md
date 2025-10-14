@@ -188,7 +188,7 @@ Alternatively, you can use the select event to get the selected items.
 ```
 
 ### Features 
-- Multi adapter/storage (see https://github.com/thephpleague/flysystem)
+- Multi storage (see https://github.com/thephpleague/flysystem)
 - File and folder operations
   - Create a new file
   - Create a new folder

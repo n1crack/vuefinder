@@ -1,3 +1,43 @@
+<script setup lang="ts">
+import {inject, ref} from 'vue';
+import {useStore} from '@nanostores/vue';
+import ModalLayout from '../../components/modals/ModalLayout.vue';
+import ModalHeader from "../../components/modals/ModalHeader.vue";
+import NewFileSVG from "../../assets/icons/new_file.svg";
+
+const app = inject('ServiceContainer');
+const {t} = app.i18n;
+const fs = app.fs;
+
+const currentPath = useStore(fs.path);
+
+const name = ref('');
+const message = ref('');
+
+const createFile = () => {
+  if (name.value !== '') {
+    app.emitter.emit('vf-fetch', {
+      params: {
+        q: 'newfile',
+        m: 'post',
+        storage: currentPath.value.storage,
+        path: currentPath.value.path,
+      },
+      body: {
+        name: name.value
+      },
+      onSuccess: () => {
+        app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
+      },
+      onError: (e: any) => {
+        message.value = t(e.message);
+      }
+    });
+  }
+};
+
+</script>
+
 <template>
   <ModalLayout>
     <div>
@@ -18,40 +58,3 @@
     </template>
   </ModalLayout>
 </template>
-
-<script setup>
-import ModalLayout from './ModalLayout.vue';
-import {inject, ref} from 'vue';
-import Message from '../Message.vue';
-import ModalHeader from "./ModalHeader.vue";
-import NewFileSVG from "../icons/new_file.svg";
-
-const app = inject('ServiceContainer');
-const {t} = app.i18n;
-
-const name = ref('');
-const message = ref('');
-
-const createFile = () => {
-  if (name.value !== '') {
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'newfile',
-        m: 'post',
-        adapter: app.fs.adapter,
-        path: app.fs.data.dirname,
-      },
-      body: {
-        name: name.value
-      },
-      onSuccess: () => {
-        app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
-      },
-      onError: (e) => {
-        message.value = t(e.message);
-      }
-    });
-  }
-};
-
-</script>

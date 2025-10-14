@@ -9,7 +9,7 @@
   box-sizing: border-box; /* 1 */
   border-width: 0; /* 2 */
   border-style: solid; /* 2 */
-  border-color: theme('borderColor.DEFAULT', currentColor); /* 2 */
+  border-color: var(--color-border-default, currentColor); /* 2 */
 }
 
 ::before,
@@ -80,9 +80,9 @@ code,
 kbd,
 samp,
 pre {
-  font-family: theme('fontFamily.mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace); /* 1 */
-  font-feature-settings: theme('fontFamily.mono[1].fontFeatureSettings', normal); /* 2 */
-  font-variation-settings: theme('fontFamily.mono[1].fontVariationSettings', normal); /* 3 */
+  font-family: var(--font-family-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace); /* 1 */
+  font-feature-settings: var(--font-family-mono-1-font-feature-settings, normal); /* 2 */
+  font-variation-settings: var(--font-family-mono-1-font-variation-settings, normal); /* 3 */
   font-size: 1em; /* 4 */
 }
 
@@ -300,7 +300,7 @@ textarea {
 input::placeholder,
 textarea::placeholder {
   opacity: 1; /* 1 */
-  color: theme('colors.gray.400', #9ca3af); /* 2 */
+  color: var(--color-gray-400, #9ca3af); /* 2 */
 }
 
 /*

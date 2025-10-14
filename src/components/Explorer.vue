@@ -1,178 +1,447 @@
-<template>
-  <div class="vuefinder__explorer__container">
-    <div v-if="app.view === 'list' || searchQuery.length" class="vuefinder__explorer__header">
-      <div @click="sortBy('basename')" class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button">
-        {{ t('Name') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'basename'"/>
-      </div>
-      <div v-if="!searchQuery.length" @click="sortBy('file_size')" class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button">
-        {{ t('Size') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'file_size'"/>
-      </div>
-      <div v-if="!searchQuery.length" @click="sortBy('last_modified')" class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button">
-        {{ t('Date') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'last_modified'"/>
-      </div>
-      <div v-if="searchQuery.length" @click="sortBy('path')" class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--path vf-sort-button">
-        {{ t('Filepath') }} <SortIcon :direction="sort.order" v-show="sort.active && sort.column === 'path'"/>
-      </div>
-    </div>
-
-    <div class="vuefinder__explorer__drag-item">
-      <DragItem ref="dragImage" :count="ds.getCount()"/>
-    </div>
-
-    <div :ref="ds.scrollBarContainer" class="vf-explorer-scrollbar-container vuefinder__explorer__scrollbar-container" :class="[{'grid-view': app.view === 'grid'}, {'search-active': searchQuery.length}]">
-      <div :ref="ds.scrollBar" class="vuefinder__explorer__scrollbar"></div>
-    </div>
-
-    <div :ref="ds.area"
-         class="vuefinder__explorer__selector-area vf-explorer-scrollbar vf-selector-area min-h-32"
-         @contextmenu.self.prevent="app.emitter.emit('vf-contextmenu-show',{event: $event, items: ds.getSelected()})"
-    >
-
-      <div class="vuefinder__linear-loader absolute" v-if="app.loadingIndicator === 'linear' && app.fs.loading"></div>
-
-      <!-- Search View -->
-      <Item v-if="searchQuery.length" v-for="(item, index) in getItems()"
-            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list">
-        <div class="vuefinder__explorer__item-list-content">
-          <div class="vuefinder__explorer__item-list-name">
-            <ItemIcon :item="item" :small="app.compactListView"/>
-            <span class="vuefinder__explorer__item-name">{{ item.basename }}</span>
-          </div>
-          <div class="vuefinder__explorer__item-path">{{ item.path }}</div>
-        </div>
-      </Item>
-      <!-- List View -->
-      <Item v-if="app.view==='list' && !searchQuery.length" v-for="(item, index) in getItems()"
-            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-list" draggable="true" :key="item.path">
-        <div class="vuefinder__explorer__item-list-content">
-          <div class="vuefinder__explorer__item-list-name">
-            <ItemIcon :item="item" :small="app.compactListView"/>
-            <span class="vuefinder__explorer__item-name">{{ item.basename }}</span>
-          </div>
-          <div class="vuefinder__explorer__item-size">{{ item.file_size ? app.filesize(item.file_size) : '' }}</div>
-          <div class="vuefinder__explorer__item-date">
-            {{ datetimestring(item.last_modified) }}
-          </div>
-        </div>
-      </Item>
-      <!-- Grid View -->
-      <Item v-if="app.view==='grid' && !searchQuery.length" v-for="(item, index) in getItems(false)"
-            :item="item" :index="index" :dragImage="dragImage" class="vf-item vf-item-grid" draggable="true">
-        <div>
-          <div class="vuefinder__explorer__item-grid-content">
-            <img src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                 class="vuefinder__explorer__item-thumbnail lazy" v-if="(item.mime_type ?? '').startsWith('image') && app.showThumbnails"
-                 :data-src="app.requester.getPreviewUrl(app.fs.adapter, item)" :alt="item.basename" :key="item.path">
-            <ItemIcon :item="item" :ext="true" v-else/>
-          </div>
-          <span class="vuefinder__explorer__item-title break-all">{{ title_shorten(item.basename) }}</span>
-        </div>
-      </Item>
-    </div>
-
-    <Toast/>
-  </div>
-</template>
-
-<script setup>
-import {inject, onBeforeUnmount, onMounted, onUpdated, reactive, ref} from 'vue';
-import datetimestring from '../utils/datetimestring.js';
-import title_shorten from "../utils/title_shorten.js";
+<script setup lang="ts">
+import {ref, onMounted, onUnmounted, useTemplateRef, computed, inject, watch, onUpdated, shallowRef} from 'vue';
+import {useStore} from '@nanostores/vue';
+import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
+import useVirtualColumns from '../composables/useVirtualColumns';
+import {useSelection} from '../composables/useSelection';
+import SortIcon from './SortIcon.vue';
+import DragItem from './DragItem.vue';
+import FileRow from './FileRow.vue';
+import type {ServiceContainer, DirEntry} from '../types';
+import LazyLoad, {type ILazyLoadInstance} from 'vanilla-lazyload';
 import Toast from './Toast.vue';
-import LazyLoad from 'vanilla-lazyload';
-import SortIcon from "./SortIcon.vue";
-import ItemIcon from "./ItemIcon.vue";
-import DragItem from "./DragItem.vue";
-import Item from "./Item.vue";
+import {useDragNDrop} from '../composables/useDragNDrop';
+import {OverlayScrollbars} from 'overlayscrollbars';
+import 'overlayscrollbars/overlayscrollbars.css';
+
+const app = inject('ServiceContainer') as ServiceContainer;
+const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+const dragImage = useTemplateRef<HTMLElement>('dragImage');
+const selectionObject = shallowRef<SelectionArea | null>(null);
+const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
+const scrollContent = useTemplateRef<HTMLElement>('scrollContent');
+ 
+const search = app.search;
+const fs = app.fs;
+const config = app.config;
+
+// Use nanostores reactive values for template reactivity
+const configState = useStore(config.state);
+const searchState = useStore(search.state);
+
+// Make files store reactive
+const sortedFiles = useStore(fs.sortedFiles);
+const selectedKeys = useStore(fs.selectedKeys);
+const loading = useStore(fs.loading);
 
 
-const app = inject('ServiceContainer');
-const {t} = app.i18n;
+// Function for isSelected
+const isSelected = (path: string) => {
+  return selectedKeys.value?.has(path as never) ?? false;
+};
 
-const dragImage = ref(null);
+let vfLazyLoad: ILazyLoadInstance | null = null;
 
-const searchQuery = ref('');
-const ds = app.dragSelect;
+// OverlayScrollbars custom bar refs/state
+const osInstance = ref<ReturnType<typeof OverlayScrollbars> | null>(null);
+const scrollBar = useTemplateRef<HTMLElement>('customScrollBar');
+const scrollBarContainer = useTemplateRef<HTMLElement>('customScrollBarContainer');
 
-/** @type {import('vanilla-lazyload').ILazyLoadInstance} */
-let vfLazyLoad
-
-app.emitter.on('vf-fullscreen-toggle', () => {
-  ds.area.value.style.height = null;
+const rowHeight = computed(() => {
+  const view = configState.value.view;
+  const compact = configState.value.compactListView;
+  return view === 'grid' && !(searchState.value.searchMode && searchState.value.query.length) ? 88 : (compact ? 24 : 50);
 });
 
-app.emitter.on('vf-search-query', ({newQuery}) => {
-  searchQuery.value = newQuery;
+const {t} = app.i18n;
 
-  if (newQuery) {
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'search',
-        adapter: app.fs.adapter,
-        path: app.fs.data.dirname,
-        filter: newQuery
+const {
+  itemsPerRow,
+  totalHeight,
+  visibleRows,
+  handleScroll,
+  getRowItems,
+  getItemsInRange,
+  getItemPosition,
+  updateItemsPerRow
+} = useVirtualColumns<DirEntry>(
+    computed<DirEntry[]>(() => {
+        return sortedFiles.value ?? [];
+    }),
+    {
+      scrollContainer,
+      itemWidth: 104,
+      rowHeight,
+      overscan: 2,
+      containerPadding: 0,
+      lockItemsPerRow: computed(() => configState.value.view === 'list' || !!searchState.value.query.length)
+    });
+
+const {
+  explorerId,
+  isDragging,
+  initializeSelectionArea,
+  destroySelectionArea,
+  handleContentClick
+} = useSelection<DirEntry>({
+  getItemPosition,
+  getItemsInRange,
+  getKey: (f) => f.path,
+  selectionObject,
+  rowHeight,
+  itemWidth: 104
+});
+
+const currentDragKey = ref<string | null>(null);
+
+const isDraggingItem = (key?: string | null) => {
+  if (!key || !currentDragKey.value) return false;
+  const draggingSelected = selectedKeys.value?.has(currentDragKey.value as never) ?? false;
+  return isDragging.value && (draggingSelected ? selectedKeys.value?.has(key as never) ?? false : key === currentDragKey.value);
+};
+
+
+
+watch(() => config.get('view'), (newView) => {
+  if (newView === 'list') {
+    itemsPerRow.value = 1;
+  } else {
+    updateItemsPerRow();
+  }
+}, {immediate: true});
+
+watch(itemsPerRow, (n) => {
+  if (config.get('view') === 'list' && n !== 1) {
+    itemsPerRow.value = 1;
+  }
+});
+
+const getItemAtRow = (rowIndex: number): DirEntry | undefined => {
+  return sortedFiles.value?.[rowIndex];
+};
+
+onMounted(() => {
+  // Initialize SelectionArea
+  initializeSelectionArea();
+
+  if (selectionObject.value) {
+    selectionObject.value.on('beforestart', ({event}: SelectionEvent) => {
+        const blankArea = event?.target === scrollContent.value
+        if (!event?.metaKey && !event?.ctrlKey && !event?.altKey && !blankArea) {
+          return false;
+        }
+    });
+  }
+
+  // Initialize LazyLoad for thumbnails
+  if (scrollContainer.value) {
+    vfLazyLoad = new LazyLoad({
+      elements_selector: '.lazy',
+      container: scrollContainer.value
+    });
+  }
+
+  // Handle search queries via store
+  watch(() => searchState.value.query, (newQuery) => {
+    const storage = fs.path.get().storage;
+    const currentPath = fs.path.get().path;
+    if (!storage || !currentPath) return;
+    if (newQuery) {
+      app.emitter.emit('vf-fetch', {
+        params: {
+          q: 'search',
+          storage,
+          path: currentPath,
+          filter: newQuery
+        },
+        onSuccess: (data: { files: DirEntry[] }) => {
+          if (!data.files.length) {
+            app.emitter.emit('vf-toast-push', {label: t('No search result found.')});
+          }
+        }
+      });
+    } else {
+      app.emitter.emit('vf-fetch', {params: {q: 'index', storage, path: currentPath}});
+    }
+  });
+
+  // Initialize OverlayScrollbars custom track
+  if (scrollBarContainer.value) {
+    const instance = OverlayScrollbars(scrollBarContainer.value, {
+      scrollbars: {theme: 'vf-scrollbars-theme'},
+    }, {
+      initialized: (inst: ReturnType<typeof OverlayScrollbars>) => {
+        osInstance.value = inst;
       },
-      onSuccess: (data) => {
-        if (!data.files.length) {
-          app.emitter.emit('vf-toast-push', {label: t('No search result found.')});
+      scroll: (inst: ReturnType<typeof OverlayScrollbars>) => {
+        const {scrollOffsetElement} = inst.elements();
+        if (scrollContainer.value) {
+          scrollContainer.value.scrollTo({top: (scrollOffsetElement as HTMLElement).scrollTop, left: 0});
         }
       }
     });
-  } else {
-    app.emitter.emit('vf-fetch', {params: {q: 'index', adapter: app.fs.adapter, path: app.fs.data.dirname}});
+    osInstance.value = instance as unknown as ReturnType<typeof OverlayScrollbars>;
+  }
+
+  // Sync custom bar when content scrolls
+  if (scrollContainer.value) {
+    scrollContainer.value.addEventListener('scroll', () => {
+      const inst = osInstance.value;
+      if (!inst) return;
+      const {scrollOffsetElement} = inst.elements();
+      (scrollOffsetElement as HTMLElement).scrollTo({top: scrollContainer.value!.scrollTop, left: 0});
+    });
   }
 });
-
-const sort = reactive({active: false, column: '', order: ''});
-
-const getItems = (sorted = true) => {
-  let files = [...app.fs.data.files],
-      column = sort.column,
-      order = sort.order === 'asc' ? 1 : -1;
-
-  if (!sorted) {
-    return files;
-  }
-
-  const compare = (a, b) => {
-    if (typeof a === 'string' && typeof b === 'string') {
-      return a.toLowerCase().localeCompare(b.toLowerCase());
-    }
-    if (a < b) return -1;
-    if (a > b) return 1;
-    return 0;
-  };
-
-  if (sort.active) {
-    files = files.slice().sort((a, b) => compare(a[column], b[column]) * order);
-  }
-
-  return files;
-};
-
-const sortBy = (column) => {
-  if (sort.active && sort.column === column) {
-    sort.active = sort.order === 'asc'
-    sort.column = column
-    sort.order = 'desc'
-  } else {
-    sort.active = true
-    sort.column = column
-    sort.order = 'asc'
-  }
-};
-
 
 onMounted(() => {
-  vfLazyLoad = new LazyLoad(ds.area.value);
-});
+  app.emitter.on('vf-refresh-thumbnails', () => {
+    if (vfLazyLoad) {
+      vfLazyLoad.update();
+    }
+  });
+}); 
 
 onUpdated(() => {
-  vfLazyLoad.update();
+  if (vfLazyLoad) {
+    vfLazyLoad.update();
+  }
+  // Update custom scrollbar height/visibility
+  const inst = osInstance.value;
+  if (inst && scrollBar.value && scrollContainer.value) {
+    const needsBar = scrollContainer.value.scrollHeight > scrollContainer.value.clientHeight;
+    const barEl = scrollBar.value;
+    barEl.style.display = needsBar ? 'block' : 'none';
+    barEl.style.height = `${totalHeight.value}px`;
+  }
 });
 
-onBeforeUnmount(() => {
-  vfLazyLoad.destroy();
+onUnmounted(() => {
+  destroySelectionArea();
+  if (vfLazyLoad) {
+    vfLazyLoad.destroy();
+    vfLazyLoad = null;
+  }
+  if (osInstance.value) {
+    osInstance.value.destroy();
+    osInstance.value = null;
+  }
 });
+
+const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
+  const el = (event.target as Element | null)?.closest('.file-item-' + explorerId);
+  const mouse = event as MouseEvent | null;
+  if (!mouse?.ctrlKey && !mouse?.metaKey  && event.type !== 'touchstart') {
+    fs.clearSelection();
+    selectionObject.value?.clearSelection(true, true);
+  }
+  if (el && event.type !== 'touchstart') {
+    const key = String(el.getAttribute('data-key'));
+    selectionObject.value?.resolveSelectables();
+    fs.toggleSelect(key);
+  }
+  fs.setSelectedCount(selectedKeys.value?.size || 0);
+}
+
+const openItem = (item: DirEntry) => {
+  const contextMenuItem = app.contextMenuItems.find((cmi: {
+    show: (app: ServiceContainer, args: { searchQuery: string; items: DirEntry[]; target: DirEntry }) => boolean;
+    action: (app: ServiceContainer, items: DirEntry[]) => void
+  }) => {
+    return cmi.show(app, {
+      searchQuery: '',
+      items: [item],
+      target: item,
+    })
+  })
+  if (contextMenuItem) {
+    contextMenuItem.action(app, [item]);
+  }
+};
+
+const handleItemDblClick = (event: MouseEvent | TouchEvent) => {
+  const el = (event.target as Element | null)?.closest('.file-item-' + explorerId) as HTMLElement | null;
+  const key = el ? String(el.getAttribute('data-key')) : null;
+  if (!key) return;
+  const item = sortedFiles.value?.find((f: DirEntry) => f.path === key);
+  if (item) {
+    openItem(item);
+  }
+}
+
+const getSelectedItems = () => {
+  const selected = selectedKeys.value;
+  return sortedFiles.value?.filter((f: DirEntry) => selected?.has(f.path)) || [];
+};
+
+const handleItemContextMenu = (event: MouseEvent) => {
+  event.preventDefault();
+  const el = (event.target as Element | null)?.closest('.file-item-' + explorerId) as HTMLElement | null;
+  if (el) {
+    const key = String(el.getAttribute('data-key'));
+    const targetItem = sortedFiles.value?.find((f: DirEntry) => f.path === key);
+    // Ensure the clicked item is selected if not already
+    if (!selectedKeys.value?.has(key)) {
+      fs.clearSelection();
+      fs.select(key);
+    }
+    app.emitter.emit('vf-contextmenu-show', {event, items: getSelectedItems(), target: targetItem});
+  }
+}
+
+const handleContentContextMenu = (event: MouseEvent) => {
+  event.preventDefault();
+  app.emitter.emit('vf-contextmenu-show', {event, items: getSelectedItems()});
+}
+
+const handleItemDragStart = (event: DragEvent) => {
+    if (event.altKey || event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+        return false;
+    }
+
+  isDragging.value = true;
+
+  const el = (event.target as Element | null)?.closest('.file-item-'+explorerId) as HTMLElement | null;
+  currentDragKey.value = el ? String(el.dataset.key) : null;
+
+  if (event.dataTransfer && currentDragKey.value) {
+    event.dataTransfer.setDragImage(dragImage.value as Element, 0, 15);
+    event.dataTransfer.effectAllowed = 'all';
+    event.dataTransfer.dropEffect = 'copy';
+
+    // If the dragged item is not selected, only drag that item
+    // If it's selected, drag all selected items
+    const itemsToDrag = selectedKeys.value?.has(currentDragKey.value)
+        ? Array.from(selectedKeys.value)
+        : [currentDragKey.value];
+    event.dataTransfer.setData('items', JSON.stringify(itemsToDrag));
+    fs.setDraggedItem(currentDragKey.value);
+  }
+};
+
+const handleItemDragEnd = () => {
+  currentDragKey.value = null;
+};
 
 </script>
+
+
+<template>
+  <div class="vuefinder__explorer__container">
+    <!-- Custom Scrollbar Container (OverlayScrollbars) -->
+    <div ref="customScrollBarContainer"
+         class="vuefinder__explorer__scrollbar-container"
+         :class="[{'grid-view': configState.view === 'grid'}, {'search-active': searchState.hasQuery}]"
+    >
+      <div ref="customScrollBar" class="vuefinder__explorer__scrollbar"></div>
+    </div>
+    <!-- List header like Explorer (shown only in list view) -->
+    <div v-if="configState.view === 'list' || searchState.query.length" class="vuefinder__explorer__header">
+      <div @click="fs.toggleSort('basename')"
+           class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button">
+        {{ t('Name') }}
+        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'basename'"/>
+      </div>
+      <div v-if="!searchState.query.length" @click="fs.toggleSort('file_size')"
+           class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button">
+        {{ t('Size') }}
+        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'file_size'"/>
+      </div>
+      <div v-if="searchState.query.length" @click="fs.toggleSort('path')"
+           class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--path vf-sort-button">
+        {{ t('Filepath') }}
+        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'path'"/>
+      </div>
+      <div v-if="!searchState.query.length" @click="fs.toggleSort('last_modified')"
+           class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button">
+        {{ t('Date') }}
+        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'last_modified'"/>
+      </div>
+    </div>
+    <!-- Content -->
+    <div ref="scrollContainer" class="vuefinder__explorer__selector-area" :class="'scroller-' + explorerId" @scroll="handleScroll">
+    <div class="vuefinder__linear-loader" v-if="config.get('loadingIndicator') === 'linear' && loading"></div>
+    
+      <div
+          ref="scrollContent"
+          class="scrollContent min-h-full"
+          :style="{ height: `${totalHeight}px`, position: 'relative', width: '100%' }"
+          @contextmenu.self.prevent="handleContentContextMenu"
+          @click.self="handleContentClick"
+      >
+        <div ref="dragImage" class="vuefinder__explorer__drag-item">
+          <DragItem :count="currentDragKey && selectedKeys?.has(currentDragKey) ? selectedKeys?.size : 1"/>
+        </div>
+
+        <!-- Search View -->
+        <template v-if="searchState.query.length">
+          <FileRow
+              v-for="rowIndex in visibleRows"
+              :key="rowIndex"
+              :row-index="rowIndex"
+              :row-height="rowHeight"
+              view="list"
+              :items="getItemAtRow(rowIndex) ? [getItemAtRow(rowIndex)!] : []"
+              :compact="configState.compactListView"
+              :show-path="true"
+              :is-dragging-item="isDraggingItem"
+              :is-selected="isSelected"
+              :drag-n-drop-events="(item) => dragNDrop.events(item)"
+              :explorerId="explorerId"
+              @click="handleItemClick"
+              @dblclick="handleItemDblClick"
+              @contextmenu="handleItemContextMenu"
+              @dragstart="handleItemDragStart"
+              @dragend="handleItemDragEnd"
+          />
+        </template>
+        <!-- Grid View -->
+        <template v-else-if="configState.view === 'grid'">
+          <FileRow
+              v-for="rowIndex in visibleRows"
+              :key="rowIndex"
+              :row-index="rowIndex"
+              :row-height="rowHeight"
+              view="grid"
+              :items-per-row="itemsPerRow"
+              :items="getRowItems(sortedFiles, rowIndex)"
+              :show-thumbnails="configState.showThumbnails"
+              :is-dragging-item="isDraggingItem"
+              :is-selected="isSelected"
+              :drag-n-drop-events="(item) => dragNDrop.events(item)"
+              :explorerId="explorerId"
+              @click="handleItemClick"
+              @dblclick="handleItemDblClick"
+              @contextmenu="handleItemContextMenu"
+              @dragstart="handleItemDragStart"
+              @dragend="handleItemDragEnd"
+          />
+        </template>
+
+        <!-- List View -->
+        <template v-else>
+          <FileRow
+              v-for="rowIndex in visibleRows"
+              :key="rowIndex"
+              :row-index="rowIndex"
+              :row-height="rowHeight"
+              view="list"
+              :items="getItemAtRow(rowIndex) ? [getItemAtRow(rowIndex)!] : []"
+              :compact="configState.compactListView"
+              :is-dragging-item="isDraggingItem"
+              :is-selected="isSelected"
+              :drag-n-drop-events="(item) => dragNDrop.events(item)"
+              :explorerId="explorerId"
+              @click="handleItemClick"
+              @dblclick="handleItemDblClick"
+              @contextmenu="handleItemContextMenu"
+              @dragstart="handleItemDragStart"
+              @dragend="handleItemDragEnd"
+          />
+        </template>
+      </div>
+    </div>
+    <Toast/>
+  </div>
+</template>

@@ -1,3 +1,105 @@
+<script setup lang="ts">
+import {computed, inject, ref} from 'vue';
+import {useStore} from '@nanostores/vue';
+import ModalLayout from '../../components/modals/ModalLayout.vue';
+import ModalHeader from "../../components/modals/ModalHeader.vue";
+import ActionMessage from "../../components/ActionMessage.vue";
+import {format as filesizeDefault, metricFormat as filesizeMetric} from '../../utils/filesize'
+
+import AboutSVG from "../../assets/icons/gear.svg";
+import {FEATURES} from '../../features';
+
+const app = inject('ServiceContainer');
+const config = app.config;
+const {clearStore} = app.storage;
+const {t} = app.i18n;
+
+const TAB = {
+  ABOUT: 'about',
+  SETTINGS: 'settings',
+  SHORTCUTS: 'shortcuts',
+  RESET: 'reset',
+};
+
+const tabs = computed(() => [
+  {name: t('About'), key: TAB.ABOUT, current: false},
+  {name: t('Settings'), key: TAB.SETTINGS, current: false},
+  {name: t('Shortcuts'), key: TAB.SHORTCUTS, current: false},
+  {name: t('Reset'), key: TAB.RESET, current: false},
+]);
+
+const selectedTab = ref('about');
+
+
+const clearLocalStorage = async () => {
+    config.reset();
+    clearStore();
+    location.reload();
+};
+
+const handleTheme = (key: string) => {
+  app.theme.set(key);
+  app.emitter.emit('vf-theme-saved');
+}
+
+const handleMetricUnits = () => {
+  config.toggle('metricUnits');
+  app.filesize = config.get('metricUnits') ? filesizeMetric : filesizeDefault
+
+  app.emitter.emit('vf-metric-units-saved');
+}
+
+const handleCompactListView = () => {
+  config.toggle('compactListView');
+
+  app.emitter.emit('vf-compact-view-saved');
+}
+
+const handleShowThumbnails = () => {
+  config.toggle('showThumbnails');
+
+  app.emitter.emit('vf-show-thumbnails-saved');
+}
+
+const handlePersistPath = () => {
+  config.toggle('persist');
+
+  app.emitter.emit('vf-persist-path-saved');
+}
+
+
+const {i18n} = inject('VueFinderOptions') as any;
+
+const languageList = {
+  ar: 'Arabic (العربيّة)',
+  en: 'English',
+  fr: 'French (Français)',
+  de: 'German (Deutsch)',
+  fa: 'Persian (فارسی)',
+  he: 'Hebrew (עִברִית)',
+  hi: 'Hindi (हिंदी)',
+  pl: 'Polish (Polski)',
+  ru: 'Russian (Pусский)',
+  sv: 'Swedish (Svenska)',
+  tr: 'Turkish (Türkçe)',
+  nl: 'Dutch (Nederlands)',
+  zhCN: 'Simplified Chinese (简体中文)',
+  zhTW: 'Traditional Chinese (繁體中文)',
+};
+
+// Filter the supportedLanguages object
+const supportedLanguages = Object.fromEntries(
+    Object.entries(languageList).filter(([key]) => Object.keys(i18n).includes(key))
+);
+
+const themes = computed(() => ({
+  system: t('System'),
+  light: t('Light'),
+  dark: t('Dark'),
+}));
+
+</script>
+
 <template>
   <ModalLayout>
     <div class="vuefinder__about-modal__content">
@@ -8,16 +110,22 @@
           <div>
             <nav class="vuefinder__about-modal__tabs" aria-label="Tabs">
               <button v-for="tab in tabs" :key="tab.name"
-                @click="selectedTab = tab.key"
-                :class="[tab.key === selectedTab ? 'vuefinder__about-modal__tab--active' : 'vuefinder__about-modal__tab--inactive', 'vuefinder__about-modal__tab']" :aria-current="tab.current ? 'page' : undefined">{{ tab.name }}</button>
+                      @click="selectedTab = tab.key"
+                      :class="[tab.key === selectedTab ? 'vuefinder__about-modal__tab--active' : 'vuefinder__about-modal__tab--inactive', 'vuefinder__about-modal__tab']"
+                      :aria-current="tab.current ? 'page' : undefined">{{ tab.name }}
+              </button>
             </nav>
           </div>
         </div>
 
         <div class="vuefinder__about-modal__tab-content" v-if="selectedTab === TAB.ABOUT">
-          <div class="vuefinder__about-modal__description">{{ t('Vuefinder is a simple, lightweight, and fast file manager library for Vue.js applications') }}</div>
-          <a href="https://vuefinder.ozdemir.be" class="vuefinder__about-modal__link" target="_blank">{{ t('Project home') }}</a>
-          <a href="https://github.com/n1crack/vuefinder" class="vuefinder__about-modal__link" target="_blank">{{ t('Follow on GitHub') }}</a>
+          <div class="vuefinder__about-modal__description">
+            {{ t('Vuefinder is a simple, lightweight, and fast file manager library for Vue.js applications') }}
+          </div>
+          <a href="https://vuefinder.ozdemir.be" class="vuefinder__about-modal__link"
+             target="_blank">{{ t('Project home') }}</a>
+          <a href="https://github.com/n1crack/vuefinder" class="vuefinder__about-modal__link"
+             target="_blank">{{ t('Follow on GitHub') }}</a>
         </div>
 
         <div class="vuefinder__about-modal__tab-content" v-if="selectedTab === TAB.SETTINGS">
@@ -26,70 +134,75 @@
           </div>
           <div class="vuefinder__about-modal__settings">
             <fieldset>
-              <div class="vuefinder__about-modal__setting flex">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="metric_unit" name="metric_unit" type="checkbox"
-                         v-model="app.metricUnits"
-                         @click="handleMetricUnits"
+                         :checked="config.get('metricUnits')"
+                         @change="handleMetricUnits"
                          class="vuefinder__about-modal__checkbox">
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
                   <label for="metric_unit" class="vuefinder__about-modal__label">
-                    {{ t('Use Metric Units') }} <action-message class="ms-3" on="vf-metric-units-saved">{{ t('Saved.') }}</action-message>
+                    {{ t('Use Metric Units') }}
+                    <action-message class="ms-3" on="vf-metric-units-saved">{{ t('Saved.') }}</action-message>
                   </label>
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting flex">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="large_icons" name="large_icons" type="checkbox"
-                         v-model="app.compactListView"
-                         @click="handleCompactListView"
+                         :checked="config.get('compactListView')"
+                         @change="handleCompactListView"
                          class="vuefinder__about-modal__checkbox">
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
                   <label for="large_icons" class="vuefinder__about-modal__label">
-                    {{ t('Compact list view') }} <action-message class="ms-3" on="vf-compact-view-saved">{{ t('Saved.') }}</action-message>
+                    {{ t('Compact list view') }}
+                    <action-message class="ms-3" on="vf-compact-view-saved">{{ t('Saved.') }}</action-message>
                   </label>
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting flex">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="persist_path" name="persist_path" type="checkbox"
-                         v-model="app.persist"
-                         @click="handlePersistPath"
+                         :checked="config.get('persist')"
+                         @change="handlePersistPath"
                          class="vuefinder__about-modal__checkbox">
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
                   <label for="persist_path" class="vuefinder__about-modal__label">
-                    {{ t('Persist path on reload') }} <action-message class="ms-3" on="vf-persist-path-saved">{{ t('Saved.') }}</action-message>
+                    {{ t('Persist path on reload') }}
+                    <action-message class="ms-3" on="vf-persist-path-saved">{{ t('Saved.') }}</action-message>
                   </label>
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting flex">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="show_thumbnails" name="show_thumbnails" type="checkbox"
-                         v-model="app.showThumbnails"
-                         @click="handleShowThumbnails"
+                         :checked="config.get('showThumbnails')"
+                         @change="handleShowThumbnails"
                          class="vuefinder__about-modal__checkbox">
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
                   <label for="show_thumbnails" class="vuefinder__about-modal__label">
-                    {{ t('Show thumbnails') }} <action-message class="ms-3" on="vf-show-thumbnails-saved">{{ t('Saved.') }}</action-message>
+                    {{ t('Show thumbnails') }}
+                    <action-message class="ms-3" on="vf-show-thumbnails-saved">{{ t('Saved.') }}</action-message>
                   </label>
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting ">
+              <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <label for="theme" class="vuefinder__about-modal__label">
                     {{ t('Theme') }}
                   </label>
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
-                  <select id="theme" v-model="app.theme.value" @change="handleTheme($event.target.value)"
+                  <select id="theme" v-model="app.theme.value"
+                          @change="(event) => handleTheme((event.target as HTMLSelectElement)?.value || '')"
                           class="vuefinder__about-modal__select">
                     <optgroup :label="t('Theme')">
                       <option v-for="(name, key) in themes" :value="key">{{ name }}</option>
@@ -99,7 +212,8 @@
                 </div>
               </div>
 
-              <div class="vuefinder__about-modal__setting" v-if="app.features.includes(FEATURES.LANGUAGE) && Object.keys(supportedLanguages).length > 1">
+              <div class="vuefinder__about-modal__setting"
+                   v-if="app.features.includes(FEATURES.LANGUAGE) && Object.keys(supportedLanguages).length > 1">
                 <div class="vuefinder__about-modal__setting-input">
                   <label for="language" class="vuefinder__about-modal__label">
                     {{ t('Language') }}
@@ -169,6 +283,12 @@
                 <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
               </div>
             </div>
+            <div class="vuefinder__about-modal__shortcut">
+              {{ t('Preview') }}
+              <div>
+                <kbd>Space</kbd>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -190,105 +310,4 @@
   </ModalLayout>
 </template>
 
-<script setup>
-import ModalLayout from './ModalLayout.vue';
-import {computed, inject, ref} from 'vue';
-import ActionMessage from "../ActionMessage.vue";
-import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize.js'
-import AboutSVG from "../icons/gear.svg";
 
-import { FEATURES } from '../../features.js';
-import ModalHeader from "./ModalHeader.vue";
-
-const app = inject('ServiceContainer');
-const {setStore, clearStore} = app.storage;
-const {t} = app.i18n;
-
-const TAB = {
-  ABOUT: 'about',
-  SETTINGS: 'settings',
-  SHORTCUTS: 'shortcuts',
-  RESET: 'reset',
-};
-
-const tabs = computed(() => [
-  {name: t('About'), key: TAB.ABOUT},
-  {name: t('Settings'), key: TAB.SETTINGS},
-  {name: t('Shortcuts'), key: TAB.SHORTCUTS},
-  {name: t('Reset'), key: TAB.RESET},
-]);
-
-const selectedTab = ref('about');
-
-
-const clearLocalStorage = async () => {
-  clearStore();
-  location.reload();
-};
-
-const handleTheme = (key) => {
-  app.theme.set(key);
-  app.emitter.emit('vf-theme-saved');
-}
-
-const handleMetricUnits = () => {
-  app.metricUnits = !app.metricUnits;
-  app.filesize = app.metricUnits ?  filesizeMetric  : filesizeDefault
-
-  setStore('metricUnits', app.metricUnits);
-  app.emitter.emit('vf-metric-units-saved');
-}
-
-const handleCompactListView = () => {
-  app.compactListView = !app.compactListView;
-
-  setStore('compactListView', app.compactListView);
-  app.emitter.emit('vf-compact-view-saved');
-}
-
-const handleShowThumbnails = () => {
-  app.showThumbnails = !app.showThumbnails;
-
-  setStore('show-thumbnails', app.showThumbnails);
-  app.emitter.emit('vf-show-thumbnails-saved');
-}
-
-const handlePersistPath = () => {
-  app.persist = !app.persist;
-
-  setStore('persist-path', app.persist);
-  app.emitter.emit('vf-persist-path-saved');
-}
-
-
-const {i18n} = inject('VueFinderOptions');
-
-const languageList = {
-  ar: 'Arabic (العربيّة)',
-  en: 'English',
-  fr: 'French (Français)',
-  de: 'German (Deutsch)',
-  fa: 'Persian (فارسی)',
-  he: 'Hebrew (עִברִית)',
-  hi: 'Hindi (हिंदी)',
-  pl: 'Polish (Polski)',
-  ru: 'Russian (Pусский)',
-  sv: 'Swedish (Svenska)',
-  tr: 'Turkish (Türkçe)',
-  nl: 'Dutch (Nederlands)',
-  zhCN: 'Simplified Chinese (简体中文)',
-  zhTW: 'Traditional Chinese (繁體中文)',
-};
-
-// Filter the supportedLanguages object
-const supportedLanguages = Object.fromEntries(
-  Object.entries(languageList).filter(([key]) => Object.keys(i18n).includes(key))
-);
-
-const themes = computed(() => ({
-  system: t('System'),
-  light: t('Light'),
-  dark: t('Dark'),
-}));
-
-</script>

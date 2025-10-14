@@ -1,11 +1,4 @@
-<template>
-  <div class="vuefinder__action-message" :class="{ 'vuefinder__action-message--hidden': !shown }">
-    <slot v-if="$slots.default"/>
-    <span v-else>{{ t('Saved.') }}</span>
-  </div>
-</template>
-
-<script>
+<script lang="ts">
 import {ref, onMounted, onUnmounted, inject} from 'vue';
 
 export default {
@@ -41,3 +34,10 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="vuefinder__action-message" :class="{ 'vuefinder__action-message--hidden': !shown }">
+    <slot v-if="$slots.default"/>
+    <span v-else>{{ t('Saved.') }}</span>
+  </div>
+</template>

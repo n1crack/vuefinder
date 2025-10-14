@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@import "./preflight.css";
+
+@import "./_effects.css";
+@import "./_forms.css";
+@import "./_scrollbars.css";
+
+/** Previews */
+@import "./_previews.css";
+
+@import "overlayscrollbars/styles/overlayscrollbars.css";
+
+/** Components */
+@import "./components/_action_message.css";
+@import "./components/_breadcrumb.css";
+@import "./components/_context_menu.css";
+@import "./components/_explorer.css";
+@import "./components/_drag_item.css";
+@import "./components/_folder_indicator.css";
+@import "./components/_folder_loader_indicator.css";
+@import "./components/_item.css";
+@import "./components/_item_icon.css";
+@import "./components/_linear_loader.css";
+@import "./components/_message.css";
+@import "./components/_statusbar.css";
+@import "./components/_tree_view.css";
+@import "./components/_toast.css";
+@import "./components/_toolbar.css";
+@import "./components/_vuefinder.css";
+
+/** Modals */
+@import "./components/modals/_modal__layout.css";
+@import "./components/modals/_modal_about.css";
+@import "./components/modals/_modal_archive.css";
+@import "./components/modals/_modal_delete.css";
+@import "./components/modals/_modal_header.css";
+@import "./components/modals/_modal_message.css";
+@import "./components/modals/_modal_move.css";
+@import "./components/modals/_modal_new_file.css";
+@import "./components/modals/_modal_new_folder.css";
+@import "./components/modals/_modal_preview.css";
+@import "./components/modals/_modal_rename.css";
+@import "./components/modals/_modal_unarchive.css";
+@import "./components/modals/_modal_upload.css";
+
+@source './src/**/*.{vue,js,ts,jsx,tsx,svg}';
+
+@custom-variant dark (&:is(.dark *));
+
+
+.vf-scrollbars-theme {
+    box-sizing: border-box;
+    --os-size: 10px;
+    --os-padding-perpendicular: 2px;
+    --os-padding-axis: 2px;
+    --os-track-border-radius: 10px;
+    --os-handle-interactive-area-offset: 4px;
+    --os-handle-border-radius: 10px;
+
+    --os-handle-bg: rgba(0, 0, 0, 0.24);
+    --os-handle-bg-hover: rgba(0, 0, 0, 0.35);
+    --os-handle-bg-active: rgba(0, 0, 0, 0.66);
+    @variant dark {
+        --os-handle-bg: rgba(255, 255, 255, 0.24);
+        --os-handle-bg-hover: rgba(255, 255, 255, 0.35);
+        --os-handle-bg-active: rgba(255, 255, 255, 0.66);
+    } 
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
+    .vuefinder {
+        position: relative;
+
+        * {
+            touch-action: manipulation;
+        }
+
+        .vuefinder.dark {
+            color-scheme: dark;
+        }
+    }
+    .vuefinder:has(.vuefinder__main__fixed) {
+        @apply z-100;
+    }
+     
+
+
+    .selection-area { 
+        @apply bg-slate-300 opacity-50 !border !border-slate-500 rounded-sm;
+    }
+    .selection-area-container {
+        @apply !z-200;
+    }
+
+    kbd {
+        @apply px-2 py-1 text-xs font-semibold text-gray-500 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-300 dark:border-gray-500;
+    }
+}
+
+@layer components {
+    .vf-theme-dark,
+    .vf-theme-light {
+        @apply box-border;
+    }
+}

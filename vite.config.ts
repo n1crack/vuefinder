@@ -1,14 +1,26 @@
-import {defineConfig} from 'vite'
-import {resolve} from 'path'
-import vue from '@vitejs/plugin-vue'
-import copy from 'rollup-plugin-copy'
-import svgLoader from 'vite-svg-loader'
-import dts from 'vite-plugin-dts'
+import {fileURLToPath, URL} from 'node:url'
 
+import {defineConfig} from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+import tailwindcss from '@tailwindcss/vite'
+import svgLoader from 'vite-svg-loader'
+import copy from 'rollup-plugin-copy'
+import {resolve} from 'path'
+
+
+// https://vite.dev/config/
 export default defineConfig({
     plugins: [
-        dts({ outDir: 'dist/types', entryRoot: 'src' }),
-        vue(),
+        vue({
+            template: {
+                compilerOptions: {
+                    isCustomElement: (tag) => tag.startsWith('cropper-'),
+                }
+            }
+        }),
+        vueDevTools(),
+        tailwindcss(),
         svgLoader(),
         copy({
             targets: [
@@ -18,12 +30,10 @@ export default defineConfig({
             hook: "writeBundle",
         })
     ],
-    css: {
-        preprocessorOptions: {
-            scss: {
-                api: 'modern-compiler', // or 'modern'
-            },
-        },
+    resolve: {
+        // alias: {
+        //   '@': fileURLToPath(new URL('./src', import.meta.url))
+        // },
     },
     build: {
         lib: {
@@ -35,16 +45,21 @@ export default defineConfig({
         },
         rollupOptions: {
             // make sure to externalize deps that shouldn't be bundled
-            // into your library
+            // into the library
             external: [
-                'vue',
-                'mitt',
-                'vanilla-lazyload',
-                'dragselect',
-                'cropperjs/dist/cropper.css',
-                'cropperjs',
+                '@tanstack/vue-query',
                 '@uppy/core',
                 '@uppy/xhr-upload',
+                '@uppy/locales',
+                '@viselect/vanilla',
+                'mitt',
+                'overlayscrollbars',
+                'nanostores',
+                '@nanostores/vue',
+                '@nanostores/persistent',
+                'vanilla-lazyload',
+                'vue',
+                'vue-advanced-cropper',
             ],
             output: {
                 exports: 'named',
@@ -56,6 +71,4 @@ export default defineConfig({
             }
         }
     },
-});
-
-
+})

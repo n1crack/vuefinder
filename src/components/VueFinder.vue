@@ -1,35 +1,8 @@
-<template>
-  <div class="vuefinder" ref="root" tabindex="0">
-    <div :class="app.theme.actualValue">
-      <div
-        :class="app.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
-        :style="!app.fullScreen ? 'max-height: ' + maxHeight : ''"
-        class="vuefinder__main__container"
-        @mousedown="app.emitter.emit('vf-contextmenu-hide')"
-        @touchstart="app.emitter.emit('vf-contextmenu-hide')"
-      >
-        <Toolbar/>
-        <Breadcrumb/>
-        <div class="vuefinder__main__content">
-          <TreeView/>
-          <Explorer/>
-        </div>
-        <Statusbar/>
-      </div>
-
-      <Transition name="fade">
-        <Component v-if="app.modal.visible" :is="app.modal.type"/>
-      </Transition>
-
-      <ContextMenu/>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import {inject, onMounted, provide, ref, watch} from 'vue';
-import ServiceContainer from "../ServiceContainer.js";
-import {useHotkeyActions} from "../composables/useHotkeyActions.js";
+import {inject, onMounted, provide, watch} from 'vue';
+import {useStore} from '@nanostores/vue';
+import ServiceContainer from '../ServiceContainer';
+import {useHotkeyActions} from '../composables/useHotkeyActions';
 
 import Toolbar from '../components/Toolbar.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
@@ -37,9 +10,8 @@ import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
-import { menuItems as contextMenuItems } from '../utils/contextmenu.js';
-import type { VueFinderProps } from '../types';
-import { useCopyPaste } from '../composables/useCopyPaste.js';
+import {menuItems as contextMenuItems} from '../utils/contextmenu';
+import type {VueFinderProps, DirEntry} from '../types';
 
 const emit = defineEmits(['select', 'update:path'])
 
@@ -50,7 +22,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   features: true,
   debug: false,
   theme: 'system',
-  locale: null,
+  locale: undefined as string | undefined,
   maxHeight: '600px',
   maxFileSize: '10mb',
   fullScreen: false,
@@ -61,52 +33,56 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
     return {
       active: false,
       multiple: false,
-      click: (items) => {
+      click: () => {
         // items is an array of selected items
-        // 
+        //
       },
     }
   },
-  loadingIndicator: 'circular',
+  loadingIndicator: 'linear',
   contextMenuItems: () => contextMenuItems,
 })
 
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions'));
 provide('ServiceContainer', app);
-const {setStore} = app.storage;
+const config = app.config;
 
-//  Define root element
-const root = ref(null);
-app.root = root;
+const fs = app.fs;
 
-// Define dragSelect object
-const ds = app.dragSelect;
+// Use nanostores reactive values for template reactivity
+const configState = useStore(config.state);
+const selectedItems = useStore(fs.selectedItems);
 
 useHotkeyActions(app);
-useCopyPaste(app);
-
-const updateItems = (data) => {
-  Object.assign(app.fs.data, data);
-  ds.clearSelection();
-  ds.refreshSelection();
-};
 
 /** @type {AbortController} */
-let controller;
+let controller: AbortController | null = null;
 app.emitter.on('vf-fetch-abort', () => {
-  controller.abort();
-  app.fs.loading = false;
+  if (controller) {
+    controller.abort();
+  }
+  fs.setLoading(false);
 });
 
 // Fetch data
-app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}) => {
-  if (['index', 'search'].includes(params.q)) {
+app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}: {
+  params: Record<string, unknown>,
+  body?: unknown,
+  onSuccess?: ((data: unknown) => void) | null,
+  onError?: ((error: unknown) => void) | null,
+  noCloseModal?: boolean
+}) => {
+  // Fill missing storage/path for common queries
+ 
+  if (['index', 'search'].includes(params.q as string)) {
     if (controller) {
       controller.abort();
     }
-    app.fs.loading = true;
+    fs.setLoading(true);
   }
+
+  params.adapter = params.storage;
 
   controller = new AbortController();
   const signal = controller.signal;
@@ -116,57 +92,60 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
     params,
     body,
     abortSignal: signal,
-  }).then(data => {
-    app.fs.adapter = data.adapter;
-    if (app.persist) {
-      app.fs.path = data.dirname;
-      setStore('path', app.fs.path);
+  }).then((data: Record<string, unknown>) => {
+    fs.setPath(data.dirname as string);
+    if (config.get('persist')) {
+       config.set('path', data.dirname as string);
     }
 
-    
     if (!noCloseModal) {
       app.modal.close();
     }
-    updateItems(data);
+    // Sync store path from backend dirname so breadcrumbs render correctly
+    fs.setFiles(data.files as DirEntry[]);
+
+    fs.clearSelection();
+    fs.setSelectedCount(0);
+    fs.setStorages(data.storages as string[]);
     if (onSuccess) {
       onSuccess(data);
     }
-  }).catch((e) => {
+  }).catch((e: unknown) => {
     console.error(e)
     if (onError) {
       onError(e);
     } else {
-      if (e.message) {
-        app.emitter.emit('vf-toast-push', {label: e.message, type: 'error'})
+      if (e && typeof e === 'object' && 'message' in e) {
+        app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
       }
     }
   }).finally(() => {
-    if (['index', 'search'].includes(params.q)) {
-      app.fs.loading = false;
+    if (['index', 'search'].includes(params.q as string)) {
+      fs.setLoading(false);
     }
   });
 });
 
 /**
  * fetchPath fetches the items of the given path
- * if no path is given, the backend should return the root of the current adapter
+ * if no path is given, the backend should return the root of the current storage
  * @param path {string | undefined} example: 'media://public'
  */
- function fetchPath(path) {
-  let pathExists = {};
+function fetchPath(path: string | undefined) {
+  let pathExists: Record<string, unknown> = {};
 
   if (path && path.includes("://")) {
     pathExists = {
-      adapter: path.split("://")[0],
+      storage: path.split("://")[0],
       path: path
     };
-  }
+  } 
 
   app.emitter.emit('vf-fetch', {
-    params: {q: 'index', adapter: app.fs.adapter, ...pathExists}, 
-    onError: props.onError ?? ((e) => {
-      if (e.message) {
-        app.emitter.emit('vf-toast-push', {label: e.message, type: 'error'})
+    params: {q: 'index', storage: fs.path.get().storage, ...pathExists},
+    onError: props.onError ?? ((e: unknown) => {
+      if (e && typeof e === 'object' && 'message' in e) {
+        app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
       }
     })
   });
@@ -174,27 +153,57 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
 
 // fetch initial data
 onMounted(() => {
-  // app.fs.adapter can be null at first, until we get the adapter list it will be the first one from response
-  // later we can set default adapter from a prop value
+    watch(() => props.path, (path) => {
+        fetchPath(path)
+    })
 
-  // if there is a path coming from the prop, we should use it.
-  fetchPath(app.fs.path)
+    const initialPath = config.get('persist') ? config.get('path') : props.path;
+    fs.setPath(initialPath); 
+    fetchPath(initialPath);
 
-  // We re-fetch the data if the path prop is updated
-  watch(() => props.path, (path) => {
-    fetchPath(path)
-  }) 
-
-  // Emit select event
-  ds.onSelect((items) => {
+  // Selection events from Explorer
+  app.emitter.on('vf-select', (items: unknown[]) => {
+    (app as Record<string, unknown>).selectedItems = items;
     emit('select', items);
   });
 
-  // Emit update:path event
-  watch(() => app.fs.data.dirname, (path) => {
+  // Emit update:path event based on store path
+  watch(() => fs.path.get().path, (path) => {
     emit('update:path', path)
+  })
+
+  watch(selectedItems, (value) => {
+    emit('select', value);
   })
 
 });
 
 </script>
+
+<template>
+  <div class="vuefinder" ref="root" tabindex="0">
+    <div :class="app.theme.actualValue">
+      <div
+          :class="configState.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
+          :style="!configState.fullScreen ? 'max-height: ' + maxHeight : ''"
+          class="vuefinder__main__container"
+          @mousedown="app.emitter.emit('vf-contextmenu-hide')"
+          @touchstart="app.emitter.emit('vf-contextmenu-hide')"
+      >
+        <Toolbar/>
+        <Breadcrumb/>
+        <div class="vuefinder__main__content">
+          <TreeView/>
+          <Explorer/>
+        </div>
+        <Statusbar/>
+      </div>
+      <Transition name="fade">
+        <Component v-if="app.modal.visible" :is="app.modal.type"/>
+      </Transition>
+
+      <ContextMenu/>
+    </div>
+
+  </div>
+</template>
