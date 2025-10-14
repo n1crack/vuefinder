@@ -177,7 +177,8 @@ export default function useUpload(): UseUploadReturn {
 
         uppy.on('complete', () => {
             uploading.value = false;
-            app.emitter.emit('vf-fetch', { params: {q: 'index'}, noCloseModal: true });
+
+            app.emitter.emit('vf-fetch', { params: {q: 'index', path: currentPath.value.path, storage: currentPath.value.storage, adapter: currentPath.value.storage}, noCloseModal: true });
         });
 
         // Event listeners

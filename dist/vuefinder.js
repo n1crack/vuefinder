@@ -2013,7 +2013,7 @@ function ur() {
     }), b.on("error", (w) => {
       g.value = w.message, S.value = !1, n.emitter.emit("vf-fetch", { params: { q: "index" }, noCloseModal: !0 });
     }), b.on("complete", () => {
-      S.value = !1, n.emitter.emit("vf-fetch", { params: { q: "index" }, noCloseModal: !0 });
+      S.value = !1, n.emitter.emit("vf-fetch", { params: { q: "index", path: l.value.path, storage: l.value.storage, adapter: l.value.storage }, noCloseModal: !0 });
     }), _.value?.addEventListener("click", () => m.value?.click()), d.value?.addEventListener("click", () => u.value?.click()), i.value?.addEventListener("dragover", (w) => {
       w.preventDefault(), T.value = !0;
     }), i.value?.addEventListener("dragleave", (w) => {
