@@ -4,6 +4,7 @@ import FileSVG from '../assets/icons/file.svg';
 import FolderSVG from '../assets/icons/folder.svg';
 
 import type {DirEntry} from '../types'
+import { useStore } from '@nanostores/vue';
 
 const props = defineProps<{
   item: DirEntry
@@ -12,8 +13,11 @@ const props = defineProps<{
 }>()
 
 const app = inject('ServiceContainer')
-const comp = app.customIcon?.(app, props.item)
+const configState = useStore(app.config.state)
 
+const comp = app.customIcon?.(app, configState, props.item)
+
+ 
 </script>
 
 <template>

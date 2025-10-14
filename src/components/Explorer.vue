@@ -361,7 +361,6 @@ const handleItemDragEnd = () => {
     <!-- Content -->
     <div ref="scrollContainer" class="vuefinder__explorer__selector-area" :class="'scroller-' + explorerId" @scroll="handleScroll">
     <div class="vuefinder__linear-loader" v-if="config.get('loadingIndicator') === 'linear' && loading"></div>
-    <div class="vuefinder__circular-loader" v-if="config.get('loadingIndicator') === 'circular' && loading"></div>
     
       <div
           ref="scrollContent"
@@ -396,7 +395,6 @@ const handleItemDragEnd = () => {
               @dragend="handleItemDragEnd"
           />
         </template>
-
         <!-- Grid View -->
         <template v-else-if="configState.view === 'grid'">
           <FileRow

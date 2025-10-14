@@ -61,7 +61,7 @@ const unarchive = () => {
             <span class="vuefinder__unarchive-modal__item-name">{{ item.basename }}</span>
           </p>
           <p class="vuefinder__unarchive-modal__info">{{ t('The archive will be unarchived at') }}
-            ({{ fs.path.path }})</p>
+            ({{ currentPath.path }})</p>
 
           <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
