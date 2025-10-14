@@ -40,7 +40,7 @@
 }
 
 .vuefinder .vuefinder__upload-modal__file-remove {
-  @apply rounded w-5 h-5 border border-neutral-400 dark:border-gray-200 justify-center items-center text-base leading-none font-medium focus:outline-none dark:text-gray-400 dark:hover:text-gray-200 dark:bg-gray-600 ml-auto sm:text-xs hover:text-red-600;
+  @apply flex rounded w-5 h-5 border border-neutral-200 dark:border-gray-500/50 justify-center items-center text-base leading-none font-medium focus:outline-none dark:text-gray-400 dark:hover:text-gray-200 dark:bg-gray-600 ml-auto sm:text-xs hover:text-red-600;
 }
 
 .vuefinder .vuefinder__upload-modal__file-remove.disabled {
