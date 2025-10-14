@@ -231,11 +231,11 @@ onUnmounted(() => {
 const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   const el = (event.target as Element | null)?.closest('.file-item-' + explorerId);
   const mouse = event as MouseEvent | null;
-  if (!mouse?.ctrlKey && !mouse?.metaKey) {
+  if (!mouse?.ctrlKey && !mouse?.metaKey  && event.type !== 'touchstart') {
     fs.clearSelection();
     selectionObject.value?.clearSelection(true, true);
   }
-  if (el) {
+  if (el && event.type !== 'touchstart') {
     const key = String(el.getAttribute('data-key'));
     selectionObject.value?.resolveSelectables();
     fs.toggleSelect(key);
