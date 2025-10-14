@@ -96,12 +96,12 @@ export function useHotkeyActions(app: any) {
                 return;
             };
             if (fs.getClipboard().type === 'cut') {
-                app.modal.open(ModalMove, {items: {from: fs.getClipboard().items, to: fs.path}});
+                app.modal.open(ModalMove, {items: {from: Array.from(fs.getClipboard().items), to: fs.path.get()}});
                 fs.clearClipboard();
                 return;
             };
             if (fs.getClipboard().type === 'copy') {
-                app.modal.open(ModalCopy, {items: {from: fs.getClipboard().items, to: fs.path}});
+                app.modal.open(ModalCopy, {items: {from: Array.from(fs.getClipboard().items), to: fs.path.get()}});
                 return;
             };
             

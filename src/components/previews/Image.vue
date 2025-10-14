@@ -49,7 +49,9 @@ const crop = async () => {
           message.value = t('Updated.');
           fetch(previewUrl.value, {cache: 'reload', mode: 'no-cors'})
           const image = app.root.querySelector('[data-src="'+previewUrl.value+'"]');
-          LazyLoad.resetStatus(image);
+          if (image) {
+            LazyLoad.resetStatus(image);
+          }
           app.emitter.emit('vf-refresh-thumbnails');
           
           editMode();

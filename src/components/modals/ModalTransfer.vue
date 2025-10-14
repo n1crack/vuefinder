@@ -17,11 +17,9 @@ const props = defineProps<{
   successBtn: string
   successText: string
 }>()
-
 const items = ref(app.modal.data.items.from);
 const target = app.modal.data.items.to
 const message = ref('');
-console.log(target.value.path)
 
 const transfer = () => {
   if (items.value.length) {
@@ -30,11 +28,12 @@ const transfer = () => {
         q: props.q,
         m: 'post',
         storage: currentPath.value.storage,
+        adapter: currentPath.value.storage,
         path: currentPath.value.path,
       },
       body: {
         items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),
-        item: target.value.path
+        item: target.path
       },
       onSuccess: () => {
         app.emitter.emit('vf-toast-push', {label: props.successText});
@@ -80,7 +79,7 @@ const transfer = () => {
             <path stroke-linecap="round" stroke-linejoin="round"
                   d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
           </svg>
-          <span class="vuefinder__move-modal__target-path">{{ target.value.path }}</span>
+          <span class="vuefinder__move-modal__target-path">{{ target.path }}</span>
         </p>
         <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
       </div>
@@ -89,7 +88,7 @@ const transfer = () => {
     <template v-slot:buttons>
       <button type="button" @click="transfer" class="vf-btn vf-btn-primary">{{ props.successBtn }}</button>
       <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
-      <div class="vuefinder__move-modal__selected-items">{{ t('%s item(s) selected.', items.size) }}</div>
+      <div class="vuefinder__move-modal__selected-items">{{ t('%s item(s) selected.', items.length) }}</div>
     </template>
   </ModalLayout>
 </template>
