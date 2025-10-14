@@ -48,7 +48,7 @@ function selectOrToggle(storage: string) {
   } else {
     // select storage
     app.emitter.emit('vf-search-exit');
-    app.emitter.emit('vf-fetch', {params:{q: 'index', storage: storage}});
+    app.emitter.emit('vf-fetch', {params:{q: 'index', storage: storage, adapter: storage}});
   }
 }
 
