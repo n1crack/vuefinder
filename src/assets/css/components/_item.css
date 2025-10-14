@@ -3,5 +3,5 @@
 }
 
 .vuefinder__item--pinned {
-  @apply absolute top-0 right-0 text-amber-600;
+  @apply absolute top-0 right-0 w-3 h-3 md:w-5 md:h-5 text-amber-600;
 }
