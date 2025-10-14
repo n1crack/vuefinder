@@ -193,6 +193,14 @@ onMounted(() => {
   }
 });
 
+onMounted(() => {
+  app.emitter.on('vf-refresh-thumbnails', () => {
+    if (vfLazyLoad) {
+      vfLazyLoad.update();
+    }
+  });
+}); 
+
 onUpdated(() => {
   if (vfLazyLoad) {
     vfLazyLoad.update();

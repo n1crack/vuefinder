@@ -3,6 +3,7 @@ import {inject, onMounted, ref, useTemplateRef} from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 import {FEATURES} from "../../features";
+import LazyLoad from 'vanilla-lazyload';
 
 defineOptions({ name: 'ImagePreview' });
 
@@ -14,7 +15,8 @@ const {t} = app.i18n;
 const showEdit = ref(false);
 const message = ref('');
 const isError = ref(false);
-const tempImageData = ref(app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item));
+const previewUrl = ref(app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item));
+const tempImageData = ref(previewUrl.value);
 
 const cropperRef = useTemplateRef<{ getResult: (options?: { size?: { width?: number; height?: number }; fillColor?: string }) => { canvas?: HTMLCanvasElement } } | null>('cropperRef');
 
@@ -45,6 +47,11 @@ const crop = async () => {
     })
         .then(() => {
           message.value = t('Updated.');
+          fetch(previewUrl.value, {cache: 'reload', mode: 'no-cors'})
+          const image = app.root.querySelector('[data-src="'+previewUrl.value+'"]');
+          LazyLoad.resetStatus(image);
+          app.emitter.emit('vf-refresh-thumbnails');
+          
           editMode();
           emit('success');
         })
