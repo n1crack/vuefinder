@@ -1,6 +1,10 @@
-@import "tailwindcss";
+@layer theme, base, components, utilities;
 
-@import "./preflight.css";
+@import "tailwindcss/theme.css" layer(theme);
+.vuefinder {
+  @import "tailwindcss/preflight.css" layer(base);
+}
+@import "tailwindcss/utilities.css" layer(utilities);
 
 @import "./_effects.css";
 @import "./_forms.css";
