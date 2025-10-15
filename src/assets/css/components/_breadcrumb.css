@@ -40,7 +40,7 @@
 }
 
 .vuefinder__breadcrumb__hidden-toggle-icon {
-  @apply px-1 pointer-events-none;
+  @apply px-1 h-6 w-6 rounded;
 }
 
 .vuefinder__breadcrumb__visible-list {

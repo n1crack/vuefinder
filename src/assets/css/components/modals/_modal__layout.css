@@ -1,6 +1,6 @@
 
 .vuefinder__modal-layout {
-  @apply relative z-30;
+  @apply relative z-50;
 }
 
 .vuefinder__modal-layout__overlay {

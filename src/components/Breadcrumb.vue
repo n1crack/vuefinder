@@ -213,12 +213,12 @@ const mousePosition = ref({
   y: 0
 })
 
-const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
+const handleHiddenBreadcrumbsToggle = (event: MouseEvent, value = null ) => {
   if (event.currentTarget instanceof HTMLElement) {
     const {x, y, height} = event.currentTarget.getBoundingClientRect();
     mousePosition.value = {x, y: y + height};
   }
-  showHiddenBreadcrumbs.value = !showHiddenBreadcrumbs.value;
+  showHiddenBreadcrumbs.value = value ?? !showHiddenBreadcrumbs.value;
 }
 </script>
 
@@ -262,8 +262,8 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent) => {
           <div class="vuefinder__breadcrumb__separator">/</div>
           <div class="relative">
             <span
-                @dragenter="showHiddenBreadcrumbs = true"
-                @click="handleHiddenBreadcrumbsToggle"
+                @dragenter="handleHiddenBreadcrumbsToggle($event, true)"
+                @click.stop="handleHiddenBreadcrumbsToggle"
                 class="vuefinder__breadcrumb__hidden-toggle">
               <DotsSVG class="vuefinder__breadcrumb__hidden-toggle-icon"/>
             </span>
