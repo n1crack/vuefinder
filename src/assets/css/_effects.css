@@ -1,8 +1,18 @@
+/* modal fade effect */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 @theme {
     /* custom animation variable */
     --animate-pop: pop 160ms cubic-bezier(0.25, 1, 0.5, 1);
-    --animate-fade: fade 50ms ease-in-out; 
+    --animate-fade: fade 0.2s ease; 
 
     @keyframes pop {
         0% {

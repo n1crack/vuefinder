@@ -20,7 +20,7 @@
 }
 
 .vuefinder__breadcrumb__search-container {
-  @apply flex bg-white dark:bg-gray-700 items-center rounded p-1 ml-2 w-full overflow-hidden;
+  @apply flex bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:shadow-2xs hover:border-gray-300 dark:hover:border-gray-500 items-center rounded p-1 ml-2 w-full overflow-hidden;
 }
 
 .vuefinder__breadcrumb__list {

@@ -196,10 +196,11 @@ onMounted(() => {
         </div>
         <Statusbar/>
       </div>
-      <Transition name="fade">
-        <Component v-if="app.modal.visible" :is="app.modal.type"/>
-      </Transition>
-
+      <Teleport to="body">
+        <Transition name="fade">
+            <Component v-if="app.modal.visible" :is="app.modal.type"/>
+        </Transition>
+       </Teleport>
       <ContextMenu/>
     </div>
 

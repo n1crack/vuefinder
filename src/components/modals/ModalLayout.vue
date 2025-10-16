@@ -35,24 +35,22 @@ onMounted(() => {
 });
 </script>
 
-<template>
-    <Teleport to="body">    
-        <div class="vuefinder vuefinder__modal-layout animate-fade" aria-labelledby="modal-title" role="dialog" aria-modal="true"
-            @keyup.esc="app.modal.close()" tabindex="0">
-            <div class="vuefinder__modal-layout__overlay"></div>
+<template>  
+    <div class="vuefinder vuefinder__modal-layout" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+        @keyup.esc="app.modal.close()" tabindex="0">
+        <div class="vuefinder__modal-layout__overlay"></div>
 
-            <div class="vuefinder__modal-layout__container">
-            <div class="vuefinder__modal-layout__wrapper" @mousedown.self="app.modal.close()">
-                <div ref="modalBody" class="vuefinder__modal-layout__body">
-                <div class="vuefinder__modal-layout__content">
-                    <slot/>
-                </div>
-                <div class="vuefinder__modal-layout__footer">
-                    <slot name="buttons"/>
-                </div>
-                </div>
+        <div class="vuefinder__modal-layout__container">
+        <div class="vuefinder__modal-layout__wrapper" @mousedown.self="app.modal.close()">
+            <div ref="modalBody" class="vuefinder__modal-layout__body">
+            <div class="vuefinder__modal-layout__content">
+                <slot/>
+            </div>
+            <div class="vuefinder__modal-layout__footer">
+                <slot name="buttons"/>
             </div>
             </div>
         </div>
-    </Teleport>
+        </div>
+    </div>
 </template>
