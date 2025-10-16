@@ -4,6 +4,7 @@ import {useStore} from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import {useHotkeyActions} from '../composables/useHotkeyActions';
 
+import MenuBar from '../components/MenuBar.vue';
 import Toolbar from '../components/Toolbar.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
 import Explorer from '../components/Explorer.vue';
@@ -173,6 +174,7 @@ onMounted(() => {
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')"
       >
+        <MenuBar/>
         <Toolbar/>
         <Breadcrumb/>
         <div class="vuefinder__main__content">

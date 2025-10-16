@@ -131,7 +131,7 @@ const customIcon = (app, config, item) => {
       <template #status-bar="{ selected, path, count }">
         <div class="vuefinder__status-bar__actions">
           <button
-              class="border border-gray-300 rounded-md p-0.5"
+              class="border border-gray-300 dark:border-gray-600 rounded-xs p-0.5 disabled:opacity-50 not-disabled:hover:text-sky-400 not-disabled:cursor-pointer"
               @click="() => {
                      console.log(selected);
                      console.log(path);

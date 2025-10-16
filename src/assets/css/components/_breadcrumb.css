@@ -52,7 +52,8 @@
 }
 
 .vuefinder__breadcrumb__search-mode {
-  @apply relative flex bg-white dark:bg-gray-700 justify-between items-center rounded p-1 ml-2 w-full;
+  @apply relative flex bg-white dark:bg-gray-700 justify-between items-center rounded p-1 ml-2 w-full
+  border shadow-2xs border-gray-300 dark:border-gray-500;
 }
 
 .vuefinder__breadcrumb__search-input {

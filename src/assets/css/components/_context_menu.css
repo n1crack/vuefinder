@@ -1,22 +1,56 @@
 .vuefinder__context-menu {
     @apply z-30 absolute text-xs
-    bg-gray-50 dark:bg-gray-800
-    text-gray-700 dark:text-gray-200
-    border border-slate-300 dark:border-slate-600
-    shadow rounded-xs select-none
+    bg-white dark:bg-gray-900
+    text-gray-900 dark:text-gray-100
+    border border-gray-200 dark:border-gray-700
+    shadow-lg rounded-md select-none
     origin-top-left min-w-max
-    transition-transform duration-150
+    transition-transform duration-150 ease-out
     animate-pop;
+    min-width: 110px;
+    padding: 2px 0;
+    box-shadow: 0 4px 12px rgba(140, 149, 159, 0.15);
 }
 
 .vuefinder__context-menu__item {
-    @apply cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700;
+    @apply cursor-pointer transition-all duration-100 ease-out;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.vuefinder__context-menu__item:hover:not(.vuefinder__context-menu__item--disabled) {
+    @apply bg-gray-50 dark:bg-gray-800;
+    color: #0969da;
+}
+
+.dark .vuefinder__context-menu__item:hover:not(.vuefinder__context-menu__item--disabled) {
+    color: #58a6ff;
+}
+
+.vuefinder__context-menu__item--disabled {
+    @apply text-gray-400 dark:text-gray-600 cursor-not-allowed;
+}
+
+.vuefinder__context-menu__item--disabled:hover {
+    @apply bg-transparent;
 }
 
 .vuefinder__context-menu__link {
-    @apply block pl-2 pr-3 py-2;
+    @apply block; 
+    padding: 0 8px;
+    margin: 0 2px;
+    height: 24px;
+    @apply flex items-center overflow-hidden whitespace-nowrap text-ellipsis flex-1
 }
 
 .vuefinder__context-menu__action {
-    @apply pl-2 pr-3 py-1.5;
+    @apply block; 
+    padding: 0 8px;
+    margin: 0 2px;
+    height: 24px;
+    @apply flex items-center overflow-hidden whitespace-nowrap text-ellipsis flex-1
 }

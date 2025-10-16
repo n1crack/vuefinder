@@ -16,5 +16,7 @@ declare module '*.vue' {
 // Minimal types for @nanostores/vue to enable useStore in TS
 declare module '@nanostores/vue' {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    export function useStore<T = any>(store: unknown): { value: T }
+    export function useStore<T = any>(store: unknown): {
+        hasQuery: any value: T
+    }
 }

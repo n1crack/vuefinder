@@ -12,6 +12,7 @@ const search = app.search;
 
 // Use nanostores reactive values for template reactivity
 const searchState = useStore(search.state);
+const hasQuery = useStore(search.hasQuery);
 const sortedFiles = useStore(fs.sortedFiles);
 const path = useStore(fs.path);
 const selectedCount = useStore(fs.selectedCount);
@@ -23,6 +24,26 @@ const handleStorageSelect = (event: Event) => {
   const value = (event.target as HTMLSelectElement).value;
   app.emitter.emit('vf-search-exit');
   app.emitter.emit('vf-fetch', {params: {q: 'index', storage: value}});
+};
+
+// Calculate total size of selected items
+const totalSelectedSize = computed(() => {
+  if (!selectedItems.value || selectedItems.value.length === 0) return 0;
+  
+  return selectedItems.value.reduce((total: number, item: any) => {
+    return total + (item.file_size || 0);
+  }, 0);
+});
+
+// Format file size
+const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 B';
+  
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 };
 
 
@@ -43,12 +64,15 @@ const handleStorageSelect = (event: Event) => {
           </option>
         </select>
       </div>
-      <div class="vuefinder__status-bar__info">
-        <span v-if="searchState.hasQuery">{{ sortedFiles.value.length }} items found. </span>
-        <span class="vuefinder__status-bar__selected-count">
-          {{ selectedCount > 0 ? `${selectedCount} item(s) selected.` : '' }}
-        </span>
-      </div>
+        <div class="vuefinder__status-bar__info space-x-2">
+          <span v-if="selectedCount === 0">{{ sortedFiles.length }} {{ t('items') }}</span>
+          <span v-else>
+            {{ selectedCount }} {{ t('selected') }}
+            <span v-if="totalSelectedSize" class="vuefinder__status-bar__size">
+              {{ app.filesize(totalSelectedSize) }}
+            </span>
+          </span>
+        </div>
     </div>
 
     <div class="vuefinder__status-bar__actions"> 

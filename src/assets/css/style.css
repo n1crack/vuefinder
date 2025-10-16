@@ -31,6 +31,7 @@
 @import "./components/_tree_view.css";
 @import "./components/_toast.css";
 @import "./components/_toolbar.css";
+@import "./components/_menubar.css";
 @import "./components/_vuefinder.css";
 
 /** Modals */

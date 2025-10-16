@@ -20,11 +20,12 @@ export function useI18n(storage: {getStore: (k: string, d?: any) => any; setStor
                 emitter.emit('vf-toast-push', {label: 'The language is set to ' + newLocale});
                 emitter.emit('vf-language-saved');
             }
-        }).catch(() => {
+        }).catch((e) => {
             if (defaultLocale) {
                 emitter.emit('vf-toast-push', {label: 'The selected locale is not yet supported!', type: 'error'});
                 changeLocale(defaultLocale, null);
             } else {
+                console.error(e);
                 emitter.emit("vf-toast-push", {label: "Locale cannot be loaded!", type: "error"});
             }
         });
