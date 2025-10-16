@@ -241,12 +241,13 @@ If you want to contribute to the project, please feel free to fork the repositor
 
 ### Dependencies
  - [Vue3](https://vuejs.org/)
- - [Cropperjs](https://github.com/fengyuanchen/cropperjs)  : JavaScript image cropper
- - [DragSelect](https://github.com/ThibaultJanBeyer/DragSelect/) : Selection utility
+ - [vue-advanced-cropper](https://github.com/advanced-cropper/vue-advanced-cropper)  : JavaScript image cropper
+ - [viselect](https://github.com/simonwep/viselect) : Selection utility
  - [Uppy](https://github.com/transloadit/uppy) : Upload library
  - [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) : lightweight and flexible lazy loading for thumbnails
  - [mitt](https://github.com/developit/mitt) : Tiny 200 byte functional event emitter / pubsub
  - [OverlayScrollbars](https://kingsora.github.io/OverlayScrollbars) : scrollbar plugin
+ - [nanostores] A tiny state manager 
 
 ### License
 Copyright (c) 2018 Yusuf ÖZDEMİR, released under [the MIT license](LICENSE)
