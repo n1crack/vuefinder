@@ -28,6 +28,7 @@ const config = app.config;
 // Use nanostores reactive values for template reactivity
 const configState = useStore(config.state);
 const searchState = useStore(search.state);
+const fsSortState = useStore(fs.sort);
 
 // Make files store reactive
 const sortedFiles = useStore(fs.sortedFiles);
@@ -342,26 +343,26 @@ const handleItemDragEnd = () => {
       <div ref="customScrollBar" class="vuefinder__explorer__scrollbar"></div>
     </div>
     <!-- List header like Explorer (shown only in list view) -->
-    <div v-if="configState.view === 'list' || searchState.query.length" class="vuefinder__explorer__header">
+    <div v-if="configState.view === 'list' || searchState.hasQuery" class="vuefinder__explorer__header">
       <div @click="fs.toggleSort('basename')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button">
         {{ t('Name') }}
-        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'basename'"/>
+        <SortIcon :direction="fsSortState.order" v-show="fsSortState.active && fsSortState.column === 'basename'"/>
       </div>
-      <div v-if="!searchState.query.length" @click="fs.toggleSort('file_size')"
+      <div v-if="!searchState.hasQuery" @click="fs.toggleSort('file_size')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button">
         {{ t('Size') }}
-        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'file_size'"/>
+        <SortIcon :direction="fsSortState.order" v-show="fsSortState.active && fsSortState.column === 'file_size'"/>
       </div>
-      <div v-if="searchState.query.length" @click="fs.toggleSort('path')"
+      <div v-if="searchState.hasQuery" @click="fs.toggleSort('path')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--path vf-sort-button">
         {{ t('Filepath') }}
-        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'path'"/>
+        <SortIcon :direction="fsSortState.order" v-show="fsSortState.active && fsSortState.column === 'path'"/>
       </div>
-      <div v-if="!searchState.query.length" @click="fs.toggleSort('last_modified')"
+      <div v-if="!searchState.hasQuery" @click="fs.toggleSort('last_modified')"
            class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button">
         {{ t('Date') }}
-        <SortIcon :direction="fs.sort.order" v-show="fs.sort.active && fs.sort.column === 'last_modified'"/>
+        <SortIcon :direction="fsSortState.order" v-show="fsSortState.active && fsSortState.column === 'last_modified'"/>
       </div>
     </div>
     <!-- Content -->
