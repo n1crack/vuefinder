@@ -3,13 +3,12 @@
     bg-white dark:bg-gray-900
     text-gray-900 dark:text-gray-100
     border border-gray-200 dark:border-gray-700
-    shadow-lg rounded-md select-none
+    shadow-lg shadow-gray-200 dark:shadow-gray-900/50 rounded-md select-none
     origin-top-left min-w-max
     transition-transform duration-150 ease-out
     animate-pop;
     min-width: 110px;
     padding: 2px 0;
-    box-shadow: 0 4px 12px rgba(140, 149, 159, 0.15);
 }
 
 .vuefinder__context-menu__item {

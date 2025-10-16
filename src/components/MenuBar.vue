@@ -32,6 +32,7 @@ const selectedItems = useStore(fs?.selectedItems || []);
 
 // Menu state
 const activeMenu = ref<string | null>(null);
+const isMenuOpen = ref(false);
 
 // Make menu items reactive to language changes
 const menuItems = computed(() => [
@@ -201,28 +202,6 @@ const menuItems = computed(() => [
       },
       { type: 'separator' },
       {
-        id: 'theme-light',
-        label: t('Light Theme'),
-        action: () => config?.set('theme', 'light'),
-        enabled: () => true,
-        checked: () => configState.value?.theme === 'light'
-      },
-      {
-        id: 'theme-dark',
-        label: t('Dark Theme'),
-        action: () => config?.set('theme', 'dark'),
-        enabled: () => true,
-        checked: () => configState.value?.theme === 'dark'
-      },
-      {
-        id: 'theme-system',
-        label: t('System Theme'),
-        action: () => config?.set('theme', 'system'),
-        enabled: () => true,
-        checked: () => configState.value?.theme === 'system'
-      },
-      { type: 'separator' },
-      {
         id: 'fullscreen',
         label: t('Full Screen'),
         action: () => config?.toggle('fullScreen'),
@@ -282,11 +261,26 @@ const menuItems = computed(() => [
 
 // Menu methods
 const toggleMenu = (menuId: string) => {
-  activeMenu.value = activeMenu.value === menuId ? null : menuId;
+  if (activeMenu.value === menuId) {
+    // Same menu clicked - close it
+    closeMenu();
+  } else {
+    // Different menu clicked - open it
+    activeMenu.value = menuId;
+    isMenuOpen.value = true;
+  }
+};
+
+const openMenu = (menuId: string) => {
+  if (isMenuOpen.value) {
+    // Menu is open, switch to hovered menu
+    activeMenu.value = menuId;
+  }
 };
 
 const closeMenu = () => {
   activeMenu.value = null;
+  isMenuOpen.value = false;
 };
 
 const handleMenuAction = (action: () => void) => {
@@ -322,6 +316,7 @@ onUnmounted(() => {
         class="vuefinder__menubar__item"
         :class="{ 'vuefinder__menubar__item--active': activeMenu === menu.id }"
         @click="toggleMenu(menu.id)"
+        @mouseenter="openMenu(menu.id)"
       >
         <span class="vuefinder__menubar__label">{{ menu.label }}</span>
         
@@ -329,6 +324,7 @@ onUnmounted(() => {
         <div 
           v-if="activeMenu === menu.id"
           class="vuefinder__menubar__dropdown"
+          @mouseenter="openMenu(menu.id)"
         >
           <div 
             v-for="item in menu.items" 
