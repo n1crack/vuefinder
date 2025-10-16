@@ -28,7 +28,6 @@ const transfer = () => {
         q: props.q,
         m: 'post',
         storage: currentPath.value.storage,
-        adapter: currentPath.value.storage,
         path: currentPath.value.path,
       },
       body: {

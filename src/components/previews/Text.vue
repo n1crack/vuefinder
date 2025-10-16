@@ -24,7 +24,6 @@ onMounted(() => {
     params: {
         q: 'preview', 
         storage: app.modal.data.storage, 
-        adapter: app.modal.data.storage,
         path: app.modal.data.item.path
     },
     responseType: 'text',
@@ -50,7 +49,6 @@ const save = () => {
     params: {
       q: 'save',
       storage: app.modal.data.storage,
-      adapter: app.modal.data.storage,
       path: app.modal.data.item.path,
     },
     body: {

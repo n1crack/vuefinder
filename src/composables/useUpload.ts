@@ -129,7 +129,6 @@ export default function useUpload(): UseUploadReturn {
                 url: '', method: 'post', params: {
                     q: 'upload', 
                     storage: currentPath.value.storage, 
-                    adapter: currentPath.value.storage,
                     path: currentPath.value.path
                 },
             });
@@ -178,7 +177,7 @@ export default function useUpload(): UseUploadReturn {
         uppy.on('complete', () => {
             uploading.value = false;
 
-            app.emitter.emit('vf-fetch', { params: {q: 'index', path: currentPath.value.path, storage: currentPath.value.storage, adapter: currentPath.value.storage}, noCloseModal: true });
+            app.emitter.emit('vf-fetch', { params: {q: 'index', path: currentPath.value.path, storage: currentPath.value.storage}, noCloseModal: true });
         });
 
         // Event listeners

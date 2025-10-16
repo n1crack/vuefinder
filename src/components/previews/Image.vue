@@ -40,7 +40,6 @@ const crop = async () => {
       params: {
         q: 'upload',
         storage: app.modal.data.storage,
-        adapter: app.modal.data.storage,
         path: app.modal.data.item.path,
       },
       body,

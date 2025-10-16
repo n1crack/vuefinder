@@ -34,7 +34,6 @@ const fetchSubFolders = () => {
     params: {
       q: 'subfolders',
       storage: props.storage,
-      adapter: props.storage,
       path: props.path,
     },
   })
