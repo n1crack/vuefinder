@@ -20,7 +20,7 @@ const examples = {
 const request = {
   // ----- CHANGE ME! -----
   // [REQUIRED] Url for development server endpoint
-  baseUrl: "http://vuefinder.ozdemir.be.test/vuefinder",
+  baseUrl: "http://inertia-vuefinder.test/vuefinder",
   // ----- CHANGE ME! -----
 
   // Additional headers & params & body
@@ -75,6 +75,10 @@ const handleSelectButton = {
     alert('Selected: ' + items[0].path);
     console.log(items, event);
   }
+}
+
+const handlePathUpdate = (path: string) => {
+  console.log('Path updated: ', path);
 }
 
 const customContextMenuItems = [
@@ -137,6 +141,7 @@ const customIcon = (app, config, item) => {
       :request="request"
       :max-file-size="maxFileSize"
       :features="features"
+      @path-update="handlePathUpdate"
       :select-button="handleSelectButton"
     />
 

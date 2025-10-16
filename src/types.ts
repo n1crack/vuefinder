@@ -28,7 +28,6 @@ export interface VueFinderProps {
   contextMenuItems?: ContextMenuItem[];
   onError?: (error: any) => void;
   onSelect?: SelectEvent;
-  'onUpdate:path'?: UpdatePathEvent;
   icon?: CustomIcon
 }
 

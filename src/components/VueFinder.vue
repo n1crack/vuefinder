@@ -13,7 +13,7 @@ import TreeView from '../components/TreeView.vue';
 import {menuItems as contextMenuItems} from '../utils/contextmenu';
 import type {VueFinderProps, DirEntry} from '../types';
 
-const emit = defineEmits(['select', 'update:path'])
+const emit = defineEmits(['select', 'path-update'])
 
 const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
@@ -52,7 +52,6 @@ const fs = app.fs;
 
 // Use nanostores reactive values for template reactivity
 const configState = useStore(config.state);
-const selectedItems = useStore(fs.selectedItems);
 
 useHotkeyActions(app);
 
@@ -159,20 +158,16 @@ onMounted(() => {
     fs.setPath(initialPath); 
     fetchPath(initialPath);
 
-  // Selection events from Explorer
-  app.emitter.on('vf-select', (items: unknown[]) => {
-    (app as Record<string, unknown>).selectedItems = items;
+  // Emit path-update event based on store path
+  fs.path.listen((path) => {
+    emit('path-update', path)
+  })
+  
+  // Emit select event based on store selected items
+  fs.selectedItems.listen((items) => {
     emit('select', items);
-  });
-
-  // Emit update:path event based on store path
-  watch(() => fs.path.get().path, (path) => {
-    emit('update:path', path)
   })
-
-  watch(selectedItems, (value) => {
-    emit('select', value);
-  })
+  
 
 });
 

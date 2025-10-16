@@ -126,7 +126,7 @@ To customize or update the styles, simply find the appropriate BEM class in the 
 | Event                                   | Description                                                                                                                |
 |-----------------------------------------|:---------------------------------------------------------------------------------------------------------------------------|
 | `'select': (items: any[]) => void`      | The callback function is invoked when the user selects a file or folder, and the selected elements are passed as arguments |
-| `'update:path': (path: string) => void` | The callback function is invoked when the user opens another folder.                                                       |
+| `'path-update': (path: string) => void` | The callback function is invoked when the user opens another folder.                                                       |
 
 ### Selection
 There are 2 ways to select files and folders.

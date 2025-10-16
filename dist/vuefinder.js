@@ -4678,10 +4678,9 @@ const Zi = [
     contextMenuItems: { default: () => Zi },
     onError: {},
     onSelect: {},
-    "onUpdate:path": {},
     icon: {}
   },
-  emits: ["select", "update:path"],
+  emits: ["select", "path-update"],
   setup(n, { emit: e }) {
     const o = e, l = n, r = cn(l, Y("VueFinderOptions"));
     Pt("ServiceContainer", r);
