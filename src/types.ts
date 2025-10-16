@@ -23,7 +23,6 @@ export interface VueFinderProps {
   showTreeView?: boolean;
   pinnedFolders?: string[];
   showThumbnails?: boolean;
-  selectButton?: SelectButton;
   loadingIndicator?: "circular" | "linear";
   contextMenuItems?: ContextMenuItem[];
   onError?: (error: any) => void;
@@ -48,21 +47,6 @@ export interface DirEntry {
   mime_type: string | null;
   visibility: string;
 }
-
-export type SelectButton = {
-  /**
-   * show select button
-   */
-  active: boolean;
-  /**
-   * allow multiple selection
-   */
-  multiple: boolean;
-  /**
-   * handle click event
-   */
-  click: (items: DirEntry[], event: any) => void;
-};
 
 export interface StorageInfo {
   filesystem?: string

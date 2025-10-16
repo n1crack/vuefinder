@@ -81,7 +81,5 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         contextMenuItems: props.contextMenuItems,
         // custom icon
         customIcon: props.icon,
-        // selectButton state
-        selectButton: props.selectButton,
     });
 }

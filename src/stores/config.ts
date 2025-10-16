@@ -16,7 +16,6 @@ export interface ConfigState {
     maxFileSize: number | string | null
     pinnedFolders: DirEntry[]
     customIcon: unknown
-    selectButton: boolean
 }
 
 export type ConfigDefaults = Partial<ConfigState>
@@ -34,7 +33,6 @@ const DEFAULT_STATE: ConfigState = {
     maxFileSize: null,
     pinnedFolders: [] as DirEntry[],
     customIcon: undefined,
-    selectButton: false,
 }
 
 // Config store factory function

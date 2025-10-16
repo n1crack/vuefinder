@@ -16,6 +16,7 @@ const sortedFiles = useStore(fs.sortedFiles);
 const path = useStore(fs.path);
 const selectedCount = useStore(fs.selectedCount);
 const storages = useStore(fs.storages);
+const selectedItems = useStore(fs.selectedItems);
 
 const handleStorageSelect = (event: Event) => {
   const value = (event.target as HTMLSelectElement).value;
@@ -23,10 +24,6 @@ const handleStorageSelect = (event: Event) => {
   app.emitter.emit('vf-fetch', {params: {q: 'index', storage: value}});
 };
 
-const isSelectButtonActive = computed(() => {
-  const selectionAllowed = app.selectButton.multiple ? selectedCount.value > 0 : selectedCount.value === 1;
-  return app.selectButton.active && selectionAllowed;
-});
 
 </script>
 
@@ -53,12 +50,8 @@ const isSelectButtonActive = computed(() => {
       </div>
     </div>
 
-    <div class="vuefinder__status-bar__actions">
-      <button class="vf-btn vf-btn-primary vf-btn-small"
-              :class="{disabled: !isSelectButtonActive}"
-              :disabled="!isSelectButtonActive"
-              v-if="app.selectButton.active" @click="app.selectButton.click(fs.selectedItems, $event)">{{ t("Select") }}
-      </button>
+    <div class="vuefinder__status-bar__actions"> 
+      <slot name="actions" :selectedCount="selectedCount || 0" :selectedItems="selectedItems || []"></slot>
       <span class="vuefinder__status-bar__about" :title="t('About')" @click="app.modal.open(ModalAbout)">
         <AboutSVG/>
       </span>

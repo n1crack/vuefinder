@@ -131,32 +131,28 @@ To customize or update the styles, simply find the appropriate BEM class in the 
 ### Selection
 There are 2 ways to select files and folders.
 
-First one, you can use the select button in the status bar. To enable the select button, you can use the select-button prop.
-when you set the select-button active to true, the select button will be visible in the status bar.
+#### 1) Inline select button via status bar scoped slot (recommended)
+You can inject a custom button into the status bar and access the reactive selection via the `status-bar` scoped slot:
+
 ```vue
 <vue-finder
-  id='my_vuefinder'
+  id="my_vuefinder"
   :request="request"
-  :select-button="handleSelectButton"
-/>
+>
+  <template #status-bar="{ selectedCount, selectedItems }">
+    <div class="vuefinder__status-bar__actions">
+      <button class="btn"
+              @click="handleButton(selectedItems)"
+              :disabled="!selectedCount">
+        Show Selected ({{ selectedCount ?? 0 }} selected)
+      </button>
+    </div>
+  </template>
+</vue-finder>
 
 <script setup>
-  // other codes
-
-  const handleSelectButton = {
-    // show select button
-    active: true,
-    // allow multiple selection
-    multiple: false,
-    // handle click event
-    click: (items, event) => {
-      if (!items.length) {
-        alert('No item selected');
-        return;
-      }
-      alert('Selected: ' + items[0].path);
-      console.log(items, event);
-    }
+  const handleButton = (items) => {
+    console.log(items)
   }
 </script>
 ```

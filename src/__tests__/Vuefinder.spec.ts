@@ -82,11 +82,6 @@ const mockServiceContainer = {
   fullScreen: false,
   features: [],
   pinnedFolders: [],
-  selectButton: {
-    active: false,
-    multiple: false,
-    click: vi.fn()
-  },
   modal: {
     visible: false,
     type: null,

@@ -29,16 +29,6 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   showTreeView: false,
   pinnedFolders: () => [],
   showThumbnails: true,
-  selectButton: () => {
-    return {
-      active: false,
-      multiple: false,
-      click: () => {
-        // items is an array of selected items
-        //
-      },
-    }
-  },
   loadingIndicator: 'linear',
   contextMenuItems: () => contextMenuItems,
 })
@@ -189,7 +179,11 @@ onMounted(() => {
           <TreeView/>
           <Explorer/>
         </div>
-        <Statusbar/>
+        <Statusbar>
+          <template #actions="slotProps">
+            <slot name="status-bar" v-bind="slotProps" />
+          </template>
+        </Statusbar>
       </div>
       <Teleport to="body">
         <Transition name="fade">

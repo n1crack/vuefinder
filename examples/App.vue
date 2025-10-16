@@ -57,24 +57,8 @@ const handleSelect = (selection) => {
   selectedFiles.value = selection
 }
 
-const handleButton = () => {
-  console.log(selectedFiles.value)
-}
-
-const handleSelectButton = {
-  // show select button
-  active: true,
-  // allow multiple selection
-  multiple: false,
-  // handle click event
-  click: (items, event) => {
-    if (!items.length) {
-      alert('No item selected');
-      return;
-    }
-    alert('Selected: ' + items[0].path);
-    console.log(items, event);
-  }
+const handleButton = (items = selectedFiles.value) => {
+  console.log(items)
 }
 
 const handlePathUpdate = (path: string) => {
@@ -142,8 +126,15 @@ const customIcon = (app, config, item) => {
       :max-file-size="maxFileSize"
       :features="features"
       @path-update="handlePathUpdate"
-      :select-button="handleSelectButton"
-    />
+    >
+    
+      <template #status-bar="{ selectedCount, selectedItems }">
+        <div class="vuefinder__status-bar__actions">
+          <button class="border border-gray-300 rounded-md p-0.5" @click="handleButton(selectedItems)" :disabled="!selectedCount">Show Selected  ({{ selectedCount ?? 0 }} selected)</button>
+        </div>
+      </template>
+
+    </vue-finder>
 
     <div v-if="example === 'externalSelect'">
       <vue-finder
@@ -155,9 +146,9 @@ const customIcon = (app, config, item) => {
         @select="handleSelect"
       />
 
-      <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">Show Selected  ({{ selectedFiles.length ?? 0 }} selected)</button>
-
+      <button class="btn" @click="handleButton(selectedFiles)" :disabled="!selectedFiles.length">Show Selected  ({{ selectedFiles.length ?? 0 }} selected)</button>
       <div v-show="selectedFiles.length">
+
         <h3>Selected Files ({{ selectedFiles.length }} selected)</h3>
         <ul>
           <li v-for="file in selectedFiles" :key="file.path">
@@ -173,7 +164,6 @@ const customIcon = (app, config, item) => {
       :request="request"
       :max-file-size="maxFileSize"
       :features="features"
-      :select-button="handleSelectButton"
       :context-menu-items="customContextMenuItems"
     />
 
