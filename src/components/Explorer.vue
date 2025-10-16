@@ -231,16 +231,21 @@ onUnmounted(() => {
 const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   const el = (event.target as Element | null)?.closest('.file-item-' + explorerId);
   const mouse = event as MouseEvent | null;
-  if (!mouse?.ctrlKey && !mouse?.metaKey  && event.type !== 'touchstart') {
-    fs.clearSelection();
-    selectionObject.value?.clearSelection(true, true);
-  }
-  if (el && event.type !== 'touchstart') {
+  if (el) {
     const key = String(el.getAttribute('data-key'));
+    if (!mouse?.ctrlKey && !mouse?.metaKey  &&  ( event.type !== 'touchstart' || !fs.isSelected(key))) {
+        fs.clearSelection();
+        selectionObject.value?.clearSelection(true, true);
+    }
     selectionObject.value?.resolveSelectables();
-    fs.toggleSelect(key);
+    if(event.type === 'touchstart' && fs.isSelected(key)) { 
+      fs.select(key);
+    } else {
+      fs.toggleSelect(key);
+    }
   }
-  fs.setSelectedCount(selectedKeys.value?.size || 0);
+
+  fs.setSelectedCount(selectedKeys.value?.size || 0);  
 }
 
 const openItem = (item: DirEntry) => {

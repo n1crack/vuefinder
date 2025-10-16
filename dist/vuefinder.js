@@ -129,7 +129,7 @@ const ee = {
   FULL_SCREEN: "fullscreen",
   DOWNLOAD: "download",
   LANGUAGE: "language"
-}, en = Object.values(ee), tn = "3.0.0-dev";
+}, en = Object.values(ee), tn = "4.0.0-dev";
 function it(n, e, o, l, r) {
   return e = Math, o = e.log, l = 1024, r = o(n) / o(l) | 0, (n / e.pow(l, r)).toFixed(0) + " " + (r ? "KMGTPEZY"[--r] + "iB" : "B");
 }

@@ -116,6 +116,10 @@ export const createFilesStore = () => {
         selectedCount.set(currentKeys.size);
     }
 
+    const isSelected = (key: string) => {
+        return selectedKeys.get().has(key);
+    }
+
     const toggleSelect = (key: string) => {
         const currentKeys = new Set(selectedKeys.get());
         if (currentKeys.has(key)) {
@@ -239,6 +243,7 @@ export const createFilesStore = () => {
         deselect,
         toggleSelect,
         selectAll,
+        isSelected,
         clearSelection,
         setSelection,
         setSelectedCount,

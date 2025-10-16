@@ -9,7 +9,9 @@ onMounted(() => {
   const inputElements = document.querySelector('.v-f-modal input') as HTMLInputElement
 
   // If there is an input element, focus it
-  inputElements && inputElements.focus();
+  if (inputElements) {
+    inputElements.focus();
+  }
 
   nextTick(() => {
     // If the modal has an input element and the screen width is less than 768px
@@ -34,23 +36,23 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="vuefinder__modal-layout" aria-labelledby="modal-title" role="dialog" aria-modal="true"
-       @keyup.esc="app.modal.close()" tabindex="0">
-    <div class="vuefinder__modal-layout__overlay"></div>
+    <Teleport to="body">    
+        <div class="vuefinder vuefinder__modal-layout animate-fade" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+            @keyup.esc="app.modal.close()" tabindex="0">
+            <div class="vuefinder__modal-layout__overlay"></div>
 
-    <div class="vuefinder__modal-layout__container">
-      <div class="vuefinder__modal-layout__wrapper" @mousedown.self="app.modal.close()">
-        <div ref="modalBody" class="vuefinder__modal-layout__body">
-          <div class="vuefinder__modal-layout__content">
-
-            <slot/>
-
-          </div>
-          <div class="vuefinder__modal-layout__footer">
-            <slot name="buttons"/>
-          </div>
+            <div class="vuefinder__modal-layout__container">
+            <div class="vuefinder__modal-layout__wrapper" @mousedown.self="app.modal.close()">
+                <div ref="modalBody" class="vuefinder__modal-layout__body">
+                <div class="vuefinder__modal-layout__content">
+                    <slot/>
+                </div>
+                <div class="vuefinder__modal-layout__footer">
+                    <slot name="buttons"/>
+                </div>
+                </div>
+            </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+    </Teleport>
 </template>

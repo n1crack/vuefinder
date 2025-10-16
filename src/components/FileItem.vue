@@ -62,7 +62,9 @@ const delayedOpenItem = (event: TouchEvent) => {
     if(!tappedTwice) {
         tappedTwice = true; 
         emit('click', event)
-        doubleTapTimeOut.value = setTimeout(() => tappedTwice = false, 300)
+        doubleTapTimeOut.value = setTimeout(() => {
+            tappedTwice = false
+        }, 300)
     } else {
         tappedTwice = false; 
         emit('dblclick', event)

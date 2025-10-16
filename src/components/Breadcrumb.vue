@@ -213,7 +213,7 @@ const mousePosition = ref({
   y: 0
 })
 
-const handleHiddenBreadcrumbsToggle = (event: MouseEvent, value = null ) => {
+const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = null as boolean | null ) => {
   if (event.currentTarget instanceof HTMLElement) {
     const {x, y, height} = event.currentTarget.getBoundingClientRect();
     mousePosition.value = {x, y: y + height};
