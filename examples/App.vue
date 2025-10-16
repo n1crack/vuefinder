@@ -57,8 +57,8 @@ const handleSelect = (selection) => {
   selectedFiles.value = selection
 }
 
-const handleButton = (items = selectedFiles.value) => {
-  console.log(items)
+const handleButton = () => {
+  console.log(selectedFiles.value)
 }
 
 const handlePathUpdate = (path: string) => {
@@ -128,9 +128,19 @@ const customIcon = (app, config, item) => {
       @path-update="handlePathUpdate"
     >
     
-      <template #status-bar="{ selectedCount, selectedItems }">
+      <template #status-bar="{ selected, path, count }">
         <div class="vuefinder__status-bar__actions">
-          <button class="border border-gray-300 rounded-md p-0.5" @click="handleButton(selectedItems)" :disabled="!selectedCount">Show Selected  ({{ selectedCount ?? 0 }} selected)</button>
+          <button
+              class="border border-gray-300 rounded-md p-0.5"
+              @click="() => {
+                     console.log(selected);
+                     console.log(path);
+                     console.log(count);
+                  }"
+              :disabled="!count"
+          >
+            Show Selected  ({{ count ?? 0 }} selected)
+          </button>
         </div>
       </template>
 
@@ -146,7 +156,7 @@ const customIcon = (app, config, item) => {
         @select="handleSelect"
       />
 
-      <button class="btn" @click="handleButton(selectedFiles)" :disabled="!selectedFiles.length">Show Selected  ({{ selectedFiles.length ?? 0 }} selected)</button>
+      <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">Show Selected  ({{ selectedFiles.length ?? 0 }} selected)</button>
       <div v-show="selectedFiles.length">
 
         <h3>Selected Files ({{ selectedFiles.length }} selected)</h3>

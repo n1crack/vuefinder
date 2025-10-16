@@ -17,6 +17,7 @@ const path = useStore(fs.path);
 const selectedCount = useStore(fs.selectedCount);
 const storages = useStore(fs.storages);
 const selectedItems = useStore(fs.selectedItems);
+const currentPath = useStore(fs.path);
 
 const handleStorageSelect = (event: Event) => {
   const value = (event.target as HTMLSelectElement).value;
@@ -44,14 +45,14 @@ const handleStorageSelect = (event: Event) => {
       </div>
       <div class="vuefinder__status-bar__info">
         <span v-if="searchState.hasQuery">{{ sortedFiles.value.length }} items found. </span>
-        <span class="vuefinder__status-bar__selected-count">{{
-            selectedCount > 0 ? `${selectedCount} item(s) selected.` : ''
-          }}</span>
+        <span class="vuefinder__status-bar__selected-count">
+          {{ selectedCount > 0 ? `${selectedCount} item(s) selected.` : '' }}
+        </span>
       </div>
     </div>
 
     <div class="vuefinder__status-bar__actions"> 
-      <slot name="actions" :selectedCount="selectedCount || 0" :selectedItems="selectedItems || []"></slot>
+      <slot name="actions" :path="currentPath.path" :count="selectedCount || 0" :selected="selectedItems || []"></slot>
       <span class="vuefinder__status-bar__about" :title="t('About')" @click="app.modal.open(ModalAbout)">
         <AboutSVG/>
       </span>

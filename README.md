@@ -139,22 +139,20 @@ You can inject a custom button into the status bar and access the reactive selec
   id="my_vuefinder"
   :request="request"
 >
-  <template #status-bar="{ selectedCount, selectedItems }">
+  <template #status-bar="{ selected, count, path  }">
     <div class="vuefinder__status-bar__actions">
       <button class="btn"
-              @click="handleButton(selectedItems)"
-              :disabled="!selectedCount">
-        Show Selected ({{ selectedCount ?? 0 }} selected)
+              @click="() => {
+                    console.log(selected);
+                    console.log(count);
+                    console.log(path);
+                }"
+              :disabled="!count">
+        Show Selected ({{ count ?? 0 }} selected)
       </button>
     </div>
   </template>
 </vue-finder>
-
-<script setup>
-  const handleButton = (items) => {
-    console.log(items)
-  }
-</script>
 ```
 
 Alternatively, you can use the select event to get the selected items.
