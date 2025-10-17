@@ -1,11 +1,11 @@
 
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { FEATURE_ALL_NAMES } from '../src/features.js';
 import { contextMenuItems } from '../src/index.js';
-import PDFIcon from './icons/pdf_file.svg'
-import TextIcon from './icons/text_file.svg'
+// import PDFIcon from './icons/pdf_file.svg'
+// import TextIcon from './icons/text_file.svg'
 
 const example = ref('default')
 const examples = {
@@ -54,7 +54,9 @@ const features = [
   //FEATURES.LANGUAGE,
 ]
 
-const selectedFiles = ref([]);
+const selectedFiles = ref<any[]>([]);
+const popupSelectedFiles = ref<any[]>([]);
+const filesFromPopup = ref<any[]>([]);
 
 // an example how to show selected files, outside of vuefinder
 // you can create a ref object and assign the items to it,
@@ -63,13 +65,73 @@ const handleSelect = (selection) => {
   selectedFiles.value = selection
 }
 
+const handlePopupSelect = (selection) => {
+  popupSelectedFiles.value = selection
+}
+
+const selectAndClose = () => {
+  // Seçilen dosyaları ana pencereye gönder
+  try {
+    if (window.opener && !window.opener.closed) {
+      window.opener.postMessage({
+        type: 'filesSelected',
+        files: popupSelectedFiles.value
+      }, '*');
+    } else {
+      // Fallback: localStorage kullan
+      localStorage.setItem('vuefinder_selected_files', JSON.stringify(popupSelectedFiles.value));
+    }
+  } catch (e) {
+    // Fallback: localStorage kullan
+    localStorage.setItem('vuefinder_selected_files', JSON.stringify(popupSelectedFiles.value));
+  }
+  
+  // Popup window'u kapat
+  window.close();
+}
+
 const handleButton = () => {
   console.log(selectedFiles.value)
 }
 
 const handlePathUpdate = (path: string) => {
-  console.log('Path updated: ', path);
+  // Path updated
 }
+
+// Popup'tan gelen mesajları dinle
+const handleMessage = (event) => {
+  if (event.data.type === 'filesSelected') {
+    filesFromPopup.value = event.data.files;
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('message', handleMessage);
+  
+  // localStorage fallback kontrolü
+  const checkLocalStorage = () => {
+    const savedFiles = localStorage.getItem('vuefinder_selected_files');
+    if (savedFiles) {
+      try {
+        filesFromPopup.value = JSON.parse(savedFiles);
+        localStorage.removeItem('vuefinder_selected_files');
+      } catch (e) {
+        // Parse hatası - localStorage'ı temizle
+        localStorage.removeItem('vuefinder_selected_files');
+      }
+    }
+  };
+  
+  const interval = setInterval(checkLocalStorage, 500);
+  
+  onUnmounted(() => {
+    clearInterval(interval);
+  });
+})
+
+onUnmounted(() => {
+  window.removeEventListener('message', handleMessage);
+})
 
 const customContextMenuItems = [
   ...contextMenuItems,
@@ -86,8 +148,8 @@ const customContextMenuItems = [
 ]
 
 const customIconMap = {
-  'pdf': PDFIcon,
-  'txt': TextIcon
+  'pdf': 'div',
+  'txt': 'div'
 }
 /**
  * @param {import('../src/types.js').App} app
@@ -100,6 +162,7 @@ const customIcon = (app, config, item) => {
       height: '100%',
       width: 'auto',
       margin: 'auto',
+      backgroundColor: item.extension === 'pdf' ? 'red' : item.extension === 'txt' ? 'blue' : 'transparent',
     }
   }
   const icon = customIconMap[item.extension]
@@ -150,7 +213,21 @@ const openPopupWindow = () => {
         :max-file-size="maxFileSize"
         :features="features"
         @path-update="handlePathUpdate"
+        @select="handlePopupSelect"
+        @selection-change="handlePopupSelect"
       />
+      
+      <!-- Custom select button outside VueFinder -->
+      <div style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">
+        <button 
+          class="btn btn-primary"
+          @click="selectAndClose"
+          :disabled="popupSelectedFiles.length === 0"
+          style="background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
+        >
+          Select ({{ popupSelectedFiles.length }} selected)
+        </button>
+      </div>
     </div>
 
     <!-- Regular examples (only show if not in popup) -->
@@ -231,7 +308,16 @@ const openPopupWindow = () => {
           >
             Open VueFinder in Popup Window
           </button>
-        
+        </div>
+
+        <!-- Seçilen dosyaları göster -->
+        <div v-if="filesFromPopup.length" style="margin: 20px 0; padding: 15px; background: #f0f0f0; border-radius: 5px;">
+          <h3>Selected Files from Popup ({{ filesFromPopup.length }} files):</h3>
+          <ul>
+            <li v-for="file in filesFromPopup" :key="file.path" style="margin: 5px 0;">
+              <strong>{{ file.name }}</strong> - {{ file.path }}
+            </li>
+          </ul>
         </div>
   
       </div>
