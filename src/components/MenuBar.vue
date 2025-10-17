@@ -280,6 +280,13 @@ const menuItems = computed(() => [
         enabled: () => true,
         checked: () => configState.value?.showThumbnails
       },
+      {
+        id: 'show-hidden-files',
+        label: t('Show Hidden Files'),
+        action: () => config?.toggle('showHiddenFiles'),
+        enabled: () => true,
+        checked: () => configState.value?.showHiddenFiles
+      },
       { type: 'separator' },
       {
         id: 'fullscreen',

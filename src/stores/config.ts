@@ -7,6 +7,7 @@ export interface ConfigState {
     view: Viewport
     fullScreen: boolean
     showTreeView: boolean
+    showHiddenFiles: boolean
     compactListView: boolean
     metricUnits: boolean
     showThumbnails: boolean
@@ -24,6 +25,7 @@ const DEFAULT_STATE: ConfigState = {
     view: 'grid',
     fullScreen: false,
     showTreeView: false,
+    showHiddenFiles: true,
     compactListView: true,
     metricUnits: false,
     showThumbnails: true,

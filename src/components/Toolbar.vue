@@ -75,7 +75,7 @@ const filterSortState = ref({
   sortBy: 'name', // name | size | type | modified
   sortOrder: '', // '' | asc | desc (empty means no sorting)
   filterKind: 'all', // all | files | folders
-  showHidden: false,
+  showHidden: configState.value.showHiddenFiles, // Initialize with config store default
 });
 
 
@@ -136,24 +136,31 @@ watch(fsSortState, (newSortState) => {
 
 // Watch for filter changes and apply to files store automatically
 watch(() => filterSortState.value.filterKind, (newFilterKind) => {
-  fs.setFilter(newFilterKind as 'all' | 'files' | 'folders', filterSortState.value.showHidden);
+  fs.setFilter(newFilterKind as 'all' | 'files' | 'folders', configState.value.showHiddenFiles);
 });
 
 watch(() => filterSortState.value.showHidden, (newShowHidden) => {
+  config.set('showHiddenFiles', newShowHidden);
   fs.setFilter(filterSortState.value.filterKind as 'all' | 'files' | 'folders', newShowHidden);
 });
 
 // Sync filter dropdown state with files store
 watch(fsFilterState, (newFilterState) => {
   filterSortState.value.filterKind = newFilterState.kind;
-  filterSortState.value.showHidden = newFilterState.showHidden;
+  // Don't sync showHidden from files store anymore
+}, { immediate: true });
+
+// Sync showHidden with config store
+watch(() => configState.value.showHiddenFiles, (newShowHidden) => {
+  filterSortState.value.showHidden = newShowHidden;
+  fs.setFilter(filterSortState.value.filterKind as 'all' | 'files' | 'folders', newShowHidden);
 }, { immediate: true });
 
 const toggleView = () => config.set('view', configState.value.view === 'grid' ? 'list' : 'grid');
 
 // Check if any filters or sorting are active
 const hasActiveFilters = computed(() => {
-  return fsFilterState.value.kind !== 'all' || fsFilterState.value.showHidden || fsSortState.value.active;
+  return fsFilterState.value.kind !== 'all' || !configState.value.showHiddenFiles || fsSortState.value.active;
 });
 
 const resetFilters = () => {
@@ -161,8 +168,9 @@ const resetFilters = () => {
     sortBy: 'name',
     sortOrder: '', // No sorting by default
     filterKind: 'all',
-    showHidden: false,
+    showHidden: true, // Reset to default value
   };
+  config.set('showHiddenFiles', true);
   fs.clearSort();
   fs.clearFilter();
 };
