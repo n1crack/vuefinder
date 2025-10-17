@@ -4,8 +4,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { FEATURE_ALL_NAMES } from '../src/features.js';
 import { contextMenuItems } from '../src/index.js';
-// import PDFIcon from './icons/pdf_file.svg'
-// import TextIcon from './icons/text_file.svg'
+import PDFIcon from './icons/pdf_file.svg'
+import TextIcon from './icons/text_file.svg'
 
 const example = ref('default')
 const examples = {
@@ -54,9 +54,8 @@ const features = [
   //FEATURES.LANGUAGE,
 ]
 
-const selectedFiles = ref<any[]>([]);
-const popupSelectedFiles = ref<any[]>([]);
-const filesFromPopup = ref<any[]>([]);
+const selectedFiles = ref<{path: string, name?: string}[]>([]);
+const filesFromPopup = ref<{path: string, name?: string}[]>([]);
 
 // an example how to show selected files, outside of vuefinder
 // you can create a ref object and assign the items to it,
@@ -66,67 +65,91 @@ const handleSelect = (selection) => {
 }
 
 const handlePopupSelect = (selection) => {
-  popupSelectedFiles.value = selection
+  filesFromPopup.value = selection
+}
+
+// Close directly from selection event
+const selectAndCloseFromEvent = (selection) => {
+  try {
+    filesFromPopup.value = selection
+  } catch (_) {}
+  selectAndClose()
 }
 
 const selectAndClose = () => {
-  // Seçilen dosyaları ana pencereye gönder
+  // Wait for ack, then close; otherwise close after a short fallback
+  let ackReceived = false;
+  const onAck = (event: MessageEvent) => {
+    if (event.data && event.data.type === 'filesReceived') {
+      ackReceived = true;
+      window.removeEventListener('message', onAck);
+      window.close();
+    }
+  };
+  window.addEventListener('message', onAck);
+
+  // Send selected files to the parent window
   try {
     if (window.opener && !window.opener.closed) {
       window.opener.postMessage({
         type: 'filesSelected',
-        files: popupSelectedFiles.value
+        files: filesFromPopup.value
       }, '*');
-    } else {
-      // Fallback: localStorage kullan
-      localStorage.setItem('vuefinder_selected_files', JSON.stringify(popupSelectedFiles.value));
     }
   } catch (e) {
-    // Fallback: localStorage kullan
-    localStorage.setItem('vuefinder_selected_files', JSON.stringify(popupSelectedFiles.value));
+    // ignore
   }
-  
-  // Popup window'u kapat
-  window.close();
+
+  // If no ack arrives in time, close anyway
+  setTimeout(() => {
+    if (!ackReceived) {
+      window.removeEventListener('message', onAck);
+      window.close();
+    }
+  }, 1000);
+}
+
+// Send selected items to parent from popup (normalizes payload)
+const sendTestToParent = (payload) => {
+  try {
+    const toPlain = (it) => {
+      const path = typeof it?.path === 'string' ? it.path : undefined
+      const name = it?.name ?? it?.basename ?? it?.filename ?? (typeof path === 'string' ? path.split('/').pop() : undefined)
+      return { path, name }
+    }
+    const filesRaw = Array.isArray(payload) ? payload.map(toPlain) : []
+    // Strip proxies/reactivity to avoid DataCloneError
+    const files = JSON.parse(JSON.stringify(filesRaw))
+    if (window.opener && !window.opener.closed) {
+      window.opener.postMessage({ type: 'filesSelected', files }, '*')
+    }
+  } catch (_) {}
 }
 
 const handleButton = () => {
   console.log(selectedFiles.value)
 }
 
-const handlePathUpdate = (path: string) => {
-  // Path updated
+const handlePathUpdate = (path) => {
+  console.log('handlePathUpdate called with path:', path);
 }
 
-// Popup'tan gelen mesajları dinle
+// Listen messages from popup
 const handleMessage = (event) => {
-  if (event.data.type === 'filesSelected') {
+  if (event.data && event.data.type === 'filesSelected') {
     filesFromPopup.value = event.data.files;
+    console.log('Selection completed:', Array.isArray(event.data.files) ? event.data.files.length : 0)
+    if (event.source && 'postMessage' in event.source) {
+        (event.source as Window).postMessage({ type: 'filesReceived' }, '*');
+    }
   }
 }
 
 onMounted(() => {
   window.addEventListener('message', handleMessage);
-  
-  // localStorage fallback kontrolü
-  const checkLocalStorage = () => {
-    const savedFiles = localStorage.getItem('vuefinder_selected_files');
-    if (savedFiles) {
-      try {
-        filesFromPopup.value = JSON.parse(savedFiles);
-        localStorage.removeItem('vuefinder_selected_files');
-      } catch (e) {
-        // Parse hatası - localStorage'ı temizle
-        localStorage.removeItem('vuefinder_selected_files');
-      }
-    }
-  };
-  
-  const interval = setInterval(checkLocalStorage, 500);
-  
-  onUnmounted(() => {
-    clearInterval(interval);
-  });
+  if (isPopup.value && window.opener && !window.opener.closed) {
+    window.opener.postMessage({ type: 'popupReady' }, '*');
+  }
 })
 
 onUnmounted(() => {
@@ -148,8 +171,8 @@ const customContextMenuItems = [
 ]
 
 const customIconMap = {
-  'pdf': 'div',
-  'txt': 'div'
+  'pdf':  PDFIcon,
+  'txt': TextIcon,
 }
 /**
  * @param {import('../src/types.js').App} app
@@ -174,14 +197,10 @@ const customIcon = (app, config, item) => {
 
 // Function to open VueFinder in a popup window
 const openPopupWindow = () => {
-  // Create a popup window that loads the current page with a special parameter
-  const popup = window.open(window.location.href + '?popup=true', 'vuefinder-popup', 'width=900,height=600,scrollbars=yes,resizable=yes');
-  
-  if (popup) {
-    console.log('Popup window opened with opener:', popup.opener !== null);
-    console.log('Window name:', popup.name);
-    console.log('History length:', popup.history.length);
-  }
+  // Build popup url robustly (preserve existing query params)
+  const url = new URL(window.location.href);
+  url.searchParams.set('popup', 'true');
+  const popup = window.open(url.toString(), 'vuefinder-popup', 'width=900,height=600,scrollbars=yes,resizable=yes');
 }
 
 </script>
@@ -214,29 +233,20 @@ const openPopupWindow = () => {
         :features="features"
         @path-update="handlePathUpdate"
         @select="handlePopupSelect"
-        @selection-change="handlePopupSelect"
-      />
-      
-      <!-- Custom select button outside VueFinder -->
-      <div style="position: fixed; bottom: 10px; right: 10px; z-index: 1000;">
-        <button 
-          class="btn btn-primary"
-          @click="selectAndClose"
-          :disabled="popupSelectedFiles.length === 0"
-          :style="{
-            background: popupSelectedFiles.length === 0 ? '#ccc' : '#007bff',
-            color: 'white',
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: popupSelectedFiles.length === 0 ? 'not-allowed' : 'pointer',
-            opacity: popupSelectedFiles.length === 0 ? 0.6 : 1,
-            transition: 'all 0.3s ease'
-          }"
-        >
-          Select ({{ popupSelectedFiles.length }} selected)
-        </button>
-      </div>
+      >
+        <template #status-bar="{ selected, count }">
+          <div class="vuefinder__status-bar__actions">
+            <button
+              class="border border-gray-300 dark:border-gray-600 rounded-xs p-0.5 disabled:opacity-50 not-disabled:hover:text-sky-400 not-disabled:cursor-pointer"
+              @click="sendTestToParent(selected)"
+              :disabled="!count"
+            >
+              Select  ({{ count ?? 0 }} selected)
+            </button>
+          </div>
+        </template>
+      </vue-finder>
+       
     </div>
 
     <!-- Regular examples (only show if not in popup) -->
@@ -319,7 +329,7 @@ const openPopupWindow = () => {
           </button>
         </div>
 
-        <!-- Seçilen dosyaları göster -->
+        <!-- Display selected files -->
         <div v-if="filesFromPopup.length" style="margin: 20px 0; padding: 15px; background: #f0f0f0; border-radius: 5px;">
           <h3>Selected Files from Popup ({{ filesFromPopup.length }} files):</h3>
           <ul>
