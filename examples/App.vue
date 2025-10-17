@@ -110,7 +110,7 @@ const selectAndClose = () => {
 }
 
 // Send selected items to parent from popup (normalizes payload)
-const sendTestToParent = (payload) => {
+const sendSelectedToParent = (payload) => {
   try {
     const toPlain = (it) => {
       const path = typeof it?.path === 'string' ? it.path : undefined
@@ -124,6 +124,8 @@ const sendTestToParent = (payload) => {
       window.opener.postMessage({ type: 'filesSelected', files }, '*')
     }
   } catch (_) {}
+  // Close the popup right after sending the selection
+  try { window.close() } catch (_) {}
 }
 
 const handleButton = () => {
@@ -237,8 +239,8 @@ const openPopupWindow = () => {
         <template #status-bar="{ selected, count }">
           <div class="vuefinder__status-bar__actions">
             <button
-              class="border border-gray-300 dark:border-gray-600 rounded-xs p-0.5 disabled:opacity-50 not-disabled:hover:text-sky-400 not-disabled:cursor-pointer"
-              @click="sendTestToParent(selected)"
+              class="border bg-emerald-800 text-white border-gray-300 dark:border-gray-600 rounded-sm px-2 p-0.5 disabled:opacity-50 not-disabled:hover:bg-emerald-700 not-disabled:cursor-pointer"
+              @click="sendSelectedToParent(selected)"
               :disabled="!count"
             >
               Select  ({{ count ?? 0 }} selected)

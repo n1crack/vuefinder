@@ -3,7 +3,7 @@
 }
 
 .vuefinder__main__relative {
-  @apply relative rounded resize-y;
+  @apply relative md:rounded resize-y;
 }
 
 .vuefinder .vuefinder__main__container {
