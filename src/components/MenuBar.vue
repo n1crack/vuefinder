@@ -41,14 +41,6 @@ const shouldShowExit = computed(() => {
   const canClose = window.opener !== null || 
                    window.name !== '' || 
                    window.history.length <= 1;
-  
-  console.log('Exit visibility check:', {
-    opener: window.opener !== null,
-    name: window.name !== '',
-    history: window.history.length <= 1,
-    canClose
-  });
-  
   return canClose;
 });
 
