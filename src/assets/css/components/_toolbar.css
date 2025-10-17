@@ -34,6 +34,79 @@
   /* Leave empty intentionally as it's applied inline */
 }
 
+/* Dropdown styles */
+.vuefinder__toolbar__dropdown-container {
+  @apply relative;
+}
+
+.vuefinder__toolbar__dropdown-trigger {
+  @apply p-1;
+}
+
+.vuefinder__toolbar__filter-indicator {
+  @apply absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full;
+}
+
+.vuefinder__toolbar__dropdown {
+  @apply absolute right-0 z-50 mt-1 w-52 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg;
+}
+
+.vuefinder__toolbar__dropdown-content {
+  @apply p-2 space-y-2;
+}
+
+.vuefinder__toolbar__dropdown-section {
+  @apply space-y-1;
+}
+
+.vuefinder__toolbar__dropdown-label {
+  @apply text-xs text-gray-500 dark:text-gray-400 mb-1;
+}
+
+.vuefinder__toolbar__dropdown-row {
+  @apply flex gap-1;
+}
+
+.vuefinder__toolbar__dropdown-select {
+  @apply flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700;
+}
+
+.vuefinder__toolbar__dropdown-options {
+  @apply space-y-1;
+}
+
+.vuefinder__toolbar__dropdown-option {
+  @apply flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 p-1 rounded;
+}
+
+.vuefinder__toolbar__radio {
+  @apply text-blue-600;
+}
+
+.vuefinder__toolbar__option-text {
+  @apply text-xs;
+}
+
+.vuefinder__toolbar__dropdown-toggle {
+  @apply flex items-center justify-between;
+}
+
+.vuefinder__toolbar__toggle-label {
+  @apply text-xs text-gray-600 dark:text-gray-400;
+}
+
+.vuefinder__toolbar__checkbox {
+  @apply rounded;
+}
+
+.vuefinder__toolbar__dropdown-reset {
+  @apply pt-2 border-t border-gray-200 dark:border-gray-700;
+}
+
+.vuefinder__toolbar__reset-button {
+  @apply w-full px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-gray-600 dark:text-gray-400;
+}
+
 .vf-sort-button {
   @apply p-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center dark:border-gray-700
 }

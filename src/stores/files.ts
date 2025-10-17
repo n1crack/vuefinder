@@ -26,6 +26,10 @@ export const createFilesStore = () => {
     const storages = atom<string[]>([]);
     const files = atom<DirEntry[]>([]);
     const sort = atom<SortState>({active: false, column: '', order: ''});
+    const filter = atom<{kind: 'all' | 'files' | 'folders', showHidden: boolean}>({
+        kind: 'all',
+        showHidden: false
+    });
     const selectedKeys = atom<Set<string>>(new Set());
     const clipboardItems = atom<{type: 'cut' | 'copy', path: string, items: Set<DirEntry>}>({
         type: 'copy',
@@ -51,11 +55,26 @@ export const createFilesStore = () => {
         return {storage, breadcrumb, path: raw};
     });
 
-    const sortedFiles = computed([files, sort], (filesValue, sortValue) => {
+    const sortedFiles = computed([files, sort, filter], (filesValue, sortValue, filterValue) => {
+        let filteredFiles = filesValue;
+        
+        // Apply type filter
+        if (filterValue.kind === 'files') {
+            filteredFiles = filteredFiles.filter(f => f.type === 'file');
+        } else if (filterValue.kind === 'folders') {
+            filteredFiles = filteredFiles.filter(f => f.type === 'dir');
+        }
+        
+        // Apply hidden files filter
+        if (!filterValue.showHidden) {
+            filteredFiles = filteredFiles.filter(f => !f.basename.startsWith('.'));
+        }
+        
+        // Apply sorting
         const {active, column, order} = sortValue;
-        if (!active || !column) return filesValue;
+        if (!active || !column) return filteredFiles;
         const direction = order === 'asc' ? 1 : -1;
-        return filesValue.slice().sort((a, b) => compareValues(a[column], b[column]) * direction);
+        return filteredFiles.slice().sort((a, b) => compareValues(a[column], b[column]) * direction);
     });
 
     // Selection helpers
@@ -100,6 +119,14 @@ export const createFilesStore = () => {
 
     const clearSort = () => {
         sort.set({active: false, column: '', order: ''});
+    }
+
+    const setFilter = (kind: 'all' | 'files' | 'folders', showHidden: boolean) => {
+        filter.set({kind, showHidden});
+    }
+
+    const clearFilter = () => {
+        filter.set({kind: 'all', showHidden: false});
     }
 
     const select = (key: string) => {
@@ -221,6 +248,7 @@ export const createFilesStore = () => {
         storages,
         currentPath,
         sort,
+        filter,
         selectedKeys,
         selectedCount,
         loading,
@@ -239,6 +267,8 @@ export const createFilesStore = () => {
         setSort,
         toggleSort,
         clearSort,
+        setFilter,
+        clearFilter,
         select,
         deselect,
         toggleSelect,
