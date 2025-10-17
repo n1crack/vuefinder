@@ -24,6 +24,7 @@ export default {
     "Change View": "Ändra vy",
     "Storage": "Lagring",
     "Go up a directory": "Gå upp en katalog",
+    "Go": "Gå",
     "Search anything..": "Sök överallt..",
     "Name": "Namn",
     "Size": "Storlek",

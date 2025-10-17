@@ -24,6 +24,7 @@ export default {
     "Change View": "Zmień widok",
     "Storage": "Pamięć",
     "Go up a directory": "Przejdź do katalogu wyżej",
+    "Go": "Idź",
     "Search anything..": "Szukaj czegokolwiek..",
     "Name": "Nazwa",
     "Size": "Rozmiar",

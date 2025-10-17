@@ -39,6 +39,10 @@ export const createFilesStore = () => {
     const draggedItem = atom<string | null>(null);
     const selectedCount = atom<number>(0);
     const loading = atom<boolean>(false);
+    
+    // Navigation history
+    const navigationHistory = atom<string[]>([]);
+    const historyIndex = atom<number>(-1);
 
     // Path info (simple and robust)
     const path = computed([currentPath], (currentPathValue) => {
@@ -84,7 +88,30 @@ export const createFilesStore = () => {
     });
 
     // Actions
-    const setPath = (value: string) => {
+    const setPath = (value: string, addToHistory?: boolean) => {
+        const currentValue = currentPath.get();
+        
+        if ((addToHistory ?? true) && currentValue !== value) {
+            const history = navigationHistory.get();
+            const index = historyIndex.get();
+            
+            // Remove any forward history if we're not at the end
+            if (index < history.length - 1) {
+                history.splice(index + 1);
+            }
+            
+            // If this is the first navigation, add current path to history
+            if (history.length === 0 && currentValue) {
+                history.push(currentValue);
+            }
+            
+            // Add new path to history
+            history.push(value);
+            
+            navigationHistory.set([...history]);
+            historyIndex.set(history.length - 1);
+        }
+        
         currentPath.set(value);
     }
 
@@ -241,6 +268,38 @@ export const createFilesStore = () => {
     const clearDraggedItem = () => {
         draggedItem.set(null);
     }
+    
+    // Navigation functions
+    const goBack = () => {
+        const history = navigationHistory.get();
+        const index = historyIndex.get();
+        
+        if (index > 0) {
+            const newIndex = index - 1;
+            const newPath = history[newIndex];
+            if (newPath) {
+                historyIndex.set(newIndex);
+                setPath(newPath, false); // Don't add to history when navigating
+            }
+        }
+    }
+    
+    const goForward = () => {
+        const history = navigationHistory.get();
+        const index = historyIndex.get();
+        
+        if (index < history.length - 1) {
+            const newIndex = index + 1;
+            const newPath = history[newIndex];
+            if (newPath) {
+                historyIndex.set(newIndex);
+                setPath(newPath, false); // Don't add to history when navigating
+            }
+        }
+    }
+    
+    const canGoBack = computed([historyIndex], (index) => index > 0);
+    const canGoForward = computed([navigationHistory, historyIndex], (history, index) => index < history.length - 1);
 
     return {
         // Atoms (state)
@@ -289,6 +348,14 @@ export const createFilesStore = () => {
         setDraggedItem,
         getDraggedItem,
         clearDraggedItem,
+        
+        // Navigation
+        goBack,
+        goForward,
+        canGoBack,
+        canGoForward,
+        navigationHistory,
+        historyIndex
     };
 }
  

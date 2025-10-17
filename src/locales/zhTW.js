@@ -24,6 +24,7 @@ export default {
     "Change View": "變更視圖",
     "Storage": "儲存",
     "Go up a directory": "上一個目錄",
+    "Go": "前往",
     "Search anything..": "搜尋..",
     "Name": "名稱",
     "Size": "大小",

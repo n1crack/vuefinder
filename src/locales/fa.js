@@ -24,6 +24,7 @@ export default {
     "Change View": "تغییر نوع نمایش",
     "Storage": "فضا",
     "Go up a directory": "برو به پوشه",
+    "Go": "برو",
     "Search anything..": "به دنبال چه چیزی هستید ؟ جستجو کنید ...",
     "Name": "نام",
     "Size": "سایز",

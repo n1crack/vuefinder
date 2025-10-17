@@ -24,6 +24,7 @@ export default {
     "Change View": "दृश्य बदलें",
     "Storage": "संग्रहण",
     "Go up a directory": "एक निर्देशिका ऊपर जाएं",
+    "Go": "जाएं",
     "Search anything..": "कुछ भी खोजें..",
     "Name": "नाम",
     "Size": "आकार",

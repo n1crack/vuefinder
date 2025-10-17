@@ -24,6 +24,7 @@ export default {
     "Change View": "שינוי תצוגה",
     "Storage": "אחסון",
     "Go up a directory": "מעבר תיקייה אחת למעלה",
+    "Go": "לך",
     "Search anything..": "חיפוש...",
     "Name": "שם",
     "Size": "גודל",

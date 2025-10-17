@@ -151,9 +151,9 @@ watch(fsFilterState, (newFilterState) => {
 
 const toggleView = () => config.set('view', configState.value.view === 'grid' ? 'list' : 'grid');
 
-// Check if any filters are active
+// Check if any filters or sorting are active
 const hasActiveFilters = computed(() => {
-  return fsFilterState.value.kind !== 'all' || fsFilterState.value.showHidden;
+  return fsFilterState.value.kind !== 'all' || fsFilterState.value.showHidden || fsSortState.value.active;
 });
 
 const resetFilters = () => {

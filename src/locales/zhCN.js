@@ -24,6 +24,7 @@ export default {
     "Change View": "切换视图",
     "Storage": "存储",
     "Go up a directory": "上一级目录",
+    "Go": "前往",
     "Search anything..": "搜索..",
     "Name": "名称",
     "Size": "大小",

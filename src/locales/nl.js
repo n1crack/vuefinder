@@ -24,6 +24,7 @@ export default {
     "Change View": "Weergave wijzigen",
     "Storage": "Opslag",
     "Go up a directory": "Ga een map omhoog",
+    "Go": "Ga",
     "Search anything..": "Zoek iets...",
     "Name": "Naam",
     "Size": "Grootte",

@@ -184,6 +184,37 @@ const menuItems = computed(() => [
       },
       { type: 'separator' },
       {
+        id: 'copy-path',
+        label: t('Copy Path'),
+        action: () => {
+          if (selectedItems.value.length === 1) {
+            const item = selectedItems.value[0];
+            navigator.clipboard.writeText(item.path).catch(err => {
+              console.error('Failed to copy path:', err);
+            });
+          }
+        },
+        enabled: () => selectedItems.value.length === 1
+      },
+      {
+        id: 'copy-download-url',
+        label: t('Copy Download URL'),
+        action: () => {
+          if (selectedItems.value.length === 1) {
+            const item = selectedItems.value[0];
+            const storage = fs?.path?.get()?.storage ?? 'local';
+            const downloadUrl = app?.requester?.getDownloadUrl(storage, item);
+            if (downloadUrl) {
+              navigator.clipboard.writeText(downloadUrl).catch(err => {
+                console.error('Failed to copy download URL:', err);
+              });
+            }
+          }
+        },
+        enabled: () => selectedItems.value.length === 1
+      },
+      { type: 'separator' },
+      {
         id: 'rename',
         label: t('Rename'),
         action: () => {
@@ -260,35 +291,64 @@ const menuItems = computed(() => [
     ]
   },
   {
-    id: 'git',
-    label: t('Git'),
+    id: 'go',
+    label: t('Go'),
     items: [
       {
         id: 'forward',
         label: t('Forward'),
         action: () => {
-          // TODO: Implement forward navigation
-          console.log('Forward navigation');
+          fs?.goForward();
+          app?.emitter?.emit('vf-fetch', {
+            params: {
+              q: 'index',
+              storage: fs?.path?.get()?.storage ?? 'local',
+              path: fs?.currentPath?.get() ?? ''
+            }
+          });
         },
-        enabled: () => true
+        enabled: () => fs?.canGoForward?.get() ?? false
       },
       {
         id: 'back',
         label: t('Back'),
         action: () => {
-          // TODO: Implement back navigation
-          console.log('Back navigation');
+          fs?.goBack();
+          app?.emitter?.emit('vf-fetch', {
+            params: {
+              q: 'index',
+              storage: fs?.path?.get()?.storage ?? 'local',
+              path: fs?.currentPath?.get() ?? ''
+            }
+          });
         },
-        enabled: () => true
+        enabled: () => fs?.canGoBack?.get() ?? false
       },
       {
         id: 'open-containing-folder',
         label: t('Open containing folder'),
         action: () => {
-          // TODO: Implement open containing folder
-          console.log('Open containing folder');
+          const pathInfo = fs?.path?.get();
+          
+          if (pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 0) {
+            // Get parent path from breadcrumb
+            const parentBreadcrumb = pathInfo.breadcrumb[pathInfo.breadcrumb.length - 2];
+            const parentPath = parentBreadcrumb?.path ?? `${pathInfo.storage}://`;
+            
+            fs?.setPath(parentPath);
+            app?.emitter?.emit('vf-fetch', {
+              params: {
+                q: 'index',
+                storage: pathInfo.storage ?? 'local',
+                path: parentPath
+              }
+            });
+          }
         },
-        enabled: () => true
+        enabled: () => {
+          const pathInfo = fs?.path?.get();
+          return pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 0;
+        }
       },
       { type: 'separator' },
       // Dynamic storage list items will be added here
@@ -296,9 +356,10 @@ const menuItems = computed(() => [
         id: `storage-${storage}`,
         label: storage,
         action: () => {
-          fs?.setPath(`${storage}://`);
+          const storagePath = `${storage}://`;
+          fs?.setPath(storagePath);
           app?.emitter?.emit('vf-fetch', {
-            params: {q: 'index', storage, path: ''}
+            params: {q: 'index', storage, path: storagePath}
           });
         },
         enabled: () => true
@@ -308,8 +369,17 @@ const menuItems = computed(() => [
         id: 'go-to-folder',
         label: t('Go to Folder'),
         action: () => {
-          // TODO: Implement go to folder dialog
-          console.log('Go to folder');
+          const folderPath = prompt(t('Enter folder path:'));
+          if (folderPath) {
+            fs?.setPath(folderPath);
+            app?.emitter?.emit('vf-fetch', {
+              params: {
+                q: 'index',
+                storage: fs?.path?.get()?.storage ?? 'local',
+                path: folderPath
+              }
+            });
+          }
         },
         enabled: () => true
       }
@@ -354,8 +424,10 @@ const closeMenu = () => {
 };
 
 const handleMenuAction = (action: () => void) => {
-  action();
+  // Close menu first
   closeMenu();
+  // Then execute action
+  action();
 };
 
 
@@ -405,7 +477,7 @@ onUnmounted(() => {
               'vuefinder__menubar__dropdown__item--disabled': item.enabled && !item.enabled(),
               'vuefinder__menubar__dropdown__item--checked': item.checked && item.checked()
             }"
-            @click="item.type !== 'separator' && item.enabled && item.enabled() ? handleMenuAction(item.action) : null"
+            @click.stop="item.type !== 'separator' && item.enabled && item.enabled() ? handleMenuAction(item.action) : null"
           >
             <span v-if="item.type !== 'separator'" class="vuefinder__menubar__dropdown__label">
               {{ item.label }}
