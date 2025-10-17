@@ -223,7 +223,16 @@ const openPopupWindow = () => {
           class="btn btn-primary"
           @click="selectAndClose"
           :disabled="popupSelectedFiles.length === 0"
-          style="background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
+          :style="{
+            background: popupSelectedFiles.length === 0 ? '#ccc' : '#007bff',
+            color: 'white',
+            padding: '10px 20px',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: popupSelectedFiles.length === 0 ? 'not-allowed' : 'pointer',
+            opacity: popupSelectedFiles.length === 0 ? 0.6 : 1,
+            transition: 'all 0.3s ease'
+          }"
         >
           Select ({{ popupSelectedFiles.length }} selected)
         </button>
@@ -358,5 +367,19 @@ body {
   background: #fff;
   cursor: pointer;
   outline: none;
+}
+
+.btn:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-primary:disabled {
+  background: #ccc !important;
+  color: white !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
 }
 </style>
