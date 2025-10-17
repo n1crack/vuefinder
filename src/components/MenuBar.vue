@@ -36,6 +36,22 @@ const storages = useStore(fs?.storages || []);
 const activeMenu = ref<string | null>(null);
 const isMenuOpen = ref(false);
 
+// Check if exit option should be shown
+const shouldShowExit = computed(() => {
+  const canClose = window.opener !== null || 
+                   window.name !== '' || 
+                   window.history.length <= 1;
+  
+  console.log('Exit visibility check:', {
+    opener: window.opener !== null,
+    name: window.name !== '',
+    history: window.history.length <= 1,
+    canClose
+  });
+  
+  return canClose;
+});
+
 // Make menu items reactive to language changes
 const menuItems = computed(() => [
   {
@@ -102,13 +118,22 @@ const menuItems = computed(() => [
         },
         enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir'
       },
-      { type: 'separator' },
-      {
-        id: 'exit',
-        label: t('Exit'),
-        action: () => window.close(),
-        enabled: () => true
-      }
+      // Only show exit option if we can actually close the window
+      ...(shouldShowExit.value ? [
+        { type: 'separator' },
+        {
+          id: 'exit',
+          label: t('Exit'),
+          action: () => {
+            try {
+              window.close();
+            } catch (e) {
+              console.log('Cannot close window:', (e as Error).message);
+            }
+          },
+          enabled: () => true
+        }
+      ] : [])
     ]
   },
   {

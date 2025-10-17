@@ -118,5 +118,9 @@ export default {
     "items": "個項目",
     "selected": "已選擇",
     "About": "關於",
+    "Git": "Git",
+    "Forward": "前進",
+    "Back": "後退",
+    "Go to Folder": "前往資料夾",
     "uppy": uppyLocalezhTW
 }

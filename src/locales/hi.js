@@ -118,5 +118,9 @@ export default {
     "items": "आइटम",
     "selected": "चयनित",
     "About": "के बारे में",
+    "Git": "Git",
+    "Forward": "आगे",
+    "Back": "पीछे",
+    "Go to Folder": "फ़ोल्डर पर जाएं",
     "uppy": uppyLocaleHi
 }

@@ -118,5 +118,9 @@ export default {
     "items": "objekt",
     "selected": "valda",
     "About": "Om",
+    "Git": "Git",
+    "Forward": "Framåt",
+    "Back": "Tillbaka",
+    "Go to Folder": "Gå till mapp",
     "uppy": uppyLocaleSv
 }

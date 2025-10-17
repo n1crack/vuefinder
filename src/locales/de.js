@@ -118,5 +118,9 @@ export default {
     "items": "Elemente",
     "selected": "ausgewählt",
     "About": "Über",
+    "Git": "Git",
+    "Forward": "Vorwärts",
+    "Back": "Zurück",
+    "Go to Folder": "Zu Ordner gehen",
     "uppy": uppyLocaleDe,
 }

@@ -118,5 +118,9 @@ export default {
     "items": "آیتم",
     "selected": "انتخاب شد",
     "About": "درباره",
+    "Git": "Git",
+    "Forward": "جلو",
+    "Back": "عقب",
+    "Go to Folder": "برو به پوشه",
     "uppy": uppyLocaleFa
 }

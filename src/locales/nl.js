@@ -118,5 +118,9 @@ export default {
     "items": "items",
     "selected": "geselecteerd",
     "About": "Over",
+    "Git": "Git",
+    "Forward": "Vooruit",
+    "Back": "Terug",
+    "Go to Folder": "Ga naar map",
     "uppy": uppyLocaleNl
 }

@@ -118,5 +118,9 @@ export default {
     "items": "элементов",
     "selected": "выбрано",
     "About": "О программе",
+    "Git": "Git",
+    "Forward": "Вперед",
+    "Back": "Назад",
+    "Go to Folder": "Перейти в папку",
     "uppy": uppyLocaleRu
 }

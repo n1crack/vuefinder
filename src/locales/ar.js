@@ -118,5 +118,9 @@ export default {
     "items": "عنصر",
     "selected": "محدد",
     "About": "حول",
+    "Git": "Git",
+    "Forward": "إلى الأمام",
+    "Back": "رجوع",
+    "Go to Folder": "الذهاب إلى المجلد",
     "uppy": uppyLocaleAr
 }

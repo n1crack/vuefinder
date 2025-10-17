@@ -166,7 +166,7 @@ onMounted(() => {
 
 <template>
   <div class="vuefinder" ref="root" tabindex="0">
-    <div :class="app.theme.actualValue">
+    <div :class="app.theme.actualValue" style="height: 100%; width: 100%;">
       <div
           :class="configState.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
           :style="!configState.fullScreen ? 'max-height: ' + maxHeight : ''"

@@ -118,5 +118,9 @@ export default {
     "items": "פריטים",
     "selected": "נבחרו",
     "About": "אודות",
+    "Git": "Git",
+    "Forward": "קדימה",
+    "Back": "אחורה",
+    "Go to Folder": "עבור לתיקייה",
     "uppy": uppyLocaleHe
 }
