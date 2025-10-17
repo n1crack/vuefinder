@@ -2,6 +2,7 @@
 import {inject, ref, computed, onMounted, onUnmounted} from 'vue';
 import {useStore} from '@nanostores/vue';
 import {FEATURES} from "../features.js";
+import type {DirEntry} from "../types";
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalNewFile from "./modals/ModalNewFile.vue";
 import ModalRename from "./modals/ModalRename.vue";
@@ -29,6 +30,7 @@ const search = app?.search;
 const configState = useStore(config?.state || {});
 const searchState = useStore(search?.state || {});
 const selectedItems = useStore(fs?.selectedItems || []);
+const storages = useStore(fs?.storages || []);
 
 // Menu state
 const activeMenu = ref<string | null>(null);
@@ -58,6 +60,36 @@ const menuItems = computed(() => [
         label: t('Upload'),
         action: () => app?.modal?.open(ModalUpload, {items: selectedItems.value}),
         enabled: () => app?.features?.includes(FEATURES.UPLOAD) || false
+      },
+      { type: 'separator' },
+      {
+        id: 'search',
+        label: t('Search'),
+        action: () => search?.enterSearchMode(),
+        enabled: () => app?.features?.includes(FEATURES.SEARCH)
+      },
+      { type: 'separator' },
+      {
+        id: 'archive',
+        label: t('Archive'),
+        action: () => {
+          if (selectedItems.value.length > 0) {
+            app?.modal?.open(ModalArchive, {items: selectedItems.value});
+          }
+        },
+        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.ARCHIVE)
+      },
+      {
+        id: 'unarchive',
+        label: t('Unarchive'),
+        action: () => {
+          if (selectedItems.value.length === 1 && selectedItems.value[0]?.mime_type === 'application/zip') {
+            app?.modal?.open(ModalUnarchive, {items: selectedItems.value});
+          }
+        },
+        enabled: () => selectedItems.value.length === 1 && 
+                 selectedItems.value[0]?.mime_type === 'application/zip' && 
+                 app?.features?.includes(FEATURES.UNARCHIVE)
       },
       { type: 'separator' },
       {
@@ -101,7 +133,7 @@ const menuItems = computed(() => [
         label: t('Cut'),
         action: () => {
           if (selectedItems.value.length > 0) {
-            fs?.setClipboard('cut', new Set(selectedItems.value.map(item => item.path)));
+            fs?.setClipboard('cut', new Set(selectedItems.value.map((item: DirEntry) => item.path)));
           }
         },
         enabled: () => selectedItems.value.length > 0
@@ -111,7 +143,7 @@ const menuItems = computed(() => [
         label: t('Copy'),
         action: () => {
           if (selectedItems.value.length > 0) {
-            fs?.setClipboard('copy', new Set(selectedItems.value.map(item => item.path)));
+            fs?.setClipboard('copy', new Set(selectedItems.value.map((item: DirEntry) => item.path)));
           }
         },
         enabled: () => selectedItems.value.length > 0
@@ -211,37 +243,58 @@ const menuItems = computed(() => [
     ]
   },
   {
-    id: 'tools',
-    label: t('Tools'),
+    id: 'git',
+    label: t('Git'),
     items: [
       {
-        id: 'search',
-        label: t('Search'),
-        action: () => search?.enterSearchMode(),
-        enabled: () => app?.features?.includes(FEATURES.SEARCH)
+        id: 'forward',
+        label: t('Forward'),
+        action: () => {
+          // TODO: Implement forward navigation
+          console.log('Forward navigation');
+        },
+        enabled: () => true
+      },
+      {
+        id: 'back',
+        label: t('Back'),
+        action: () => {
+          // TODO: Implement back navigation
+          console.log('Back navigation');
+        },
+        enabled: () => true
+      },
+      {
+        id: 'open-containing-folder',
+        label: t('Open containing folder'),
+        action: () => {
+          // TODO: Implement open containing folder
+          console.log('Open containing folder');
+        },
+        enabled: () => true
       },
       { type: 'separator' },
-      {
-        id: 'archive',
-        label: t('Archive'),
+      // Dynamic storage list items will be added here
+      ...(storages.value || []).map((storage: string) => ({
+        id: `storage-${storage}`,
+        label: storage,
         action: () => {
-          if (selectedItems.value.length > 0) {
-            app?.modal?.open(ModalArchive, {items: selectedItems.value});
-          }
+          fs?.setPath(`${storage}://`);
+          app?.emitter?.emit('vf-fetch', {
+            params: {q: 'index', storage, path: ''}
+          });
         },
-        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.ARCHIVE)
-      },
+        enabled: () => true
+      })),
+      { type: 'separator' },
       {
-        id: 'unarchive',
-        label: t('Unarchive'),
+        id: 'go-to-folder',
+        label: t('Go to Folder'),
         action: () => {
-          if (selectedItems.value.length === 1 && selectedItems.value[0]?.mime_type === 'application/zip') {
-            app?.modal?.open(ModalUnarchive, {items: selectedItems.value});
-          }
+          // TODO: Implement go to folder dialog
+          console.log('Go to folder');
         },
-        enabled: () => selectedItems.value.length === 1 && 
-                 selectedItems.value[0]?.mime_type === 'application/zip' && 
-                 app?.features?.includes(FEATURES.UNARCHIVE)
+        enabled: () => true
       }
     ]
   },

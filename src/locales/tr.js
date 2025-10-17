@@ -102,7 +102,7 @@ export default {
     "Follow on GitHub": "GitHub'da takip et",
     "Customize your experience with the following settings": "Aşağıdaki ayarlarla deneyiminizi özelleştirin",
     "File": "Dosya",
-    "View": "Görünüm",
+    "View": "Görüntü",
     "Tools": "Araçlar",
     "Help": "Yardım",
     "Exit": "Çıkış",
@@ -118,5 +118,9 @@ export default {
     "items": "öğe",
     "selected": "seçildi",
     "About": "Hakkında",
+    "Git": "Git",
+    "Forward": "İleri",
+    "Back": "Geri",
+    "Go to Folder": "Klasöre Git",
     "uppy": uppyLocaleTr,
 }
