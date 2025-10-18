@@ -132,5 +132,14 @@ export default {
     "Files only": "Alleen bestanden",
     "Folders only": "Alleen mappen",
     "Show hidden files": "Verborgen bestanden tonen",
+    "Copy files": "Bestanden kopiëren",
+    "Are you sure you want to copy these files?": "Weet je zeker dat je deze bestanden wilt kopiëren?",
+    "Yes, Copy!": "Ja, kopiëren!",
+    "Files copied.": "Bestanden gekopieerd.",
+    "Browse": "Bladeren",
+    "Create a copy instead of moving": "Maak een kopie in plaats van verplaatsen",
+    "Select Target Folder": "Selecteer doelmap",
+    "Storages": "Opslag",
+    "Loading": "Laden",
     "uppy": uppyLocaleNl
 }

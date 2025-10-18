@@ -132,5 +132,14 @@ export default {
     "Files only": "فقط فایل‌ها",
     "Folders only": "فقط پوشه‌ها",
     "Show hidden files": "نمایش فایل‌های مخفی",
+    "Copy files": "کپی فایل‌ها",
+    "Are you sure you want to copy these files?": "آیا مطمئن هستید که می‌خواهید این فایل‌ها را کپی کنید؟",
+    "Yes, Copy!": "بله، کپی کن!",
+    "Files copied.": "فایل‌ها کپی شدند.",
+    "Browse": "مرور",
+    "Create a copy instead of moving": "ایجاد کپی به جای انتقال",
+    "Select Target Folder": "انتخاب پوشه مقصد",
+    "Storages": "ذخیره‌سازی",
+    "Loading": "در حال بارگذاری",
     "uppy": uppyLocaleFa
 }

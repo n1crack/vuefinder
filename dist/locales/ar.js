@@ -135,5 +135,14 @@ export default {
     "Files only": "الملفات فقط",
     "Folders only": "المجلدات فقط",
     "Show hidden files": "إظهار الملفات المخفية",
+    "Copy files": "نسخ الملفات",
+    "Are you sure you want to copy these files?": "هل أنت متأكد من أنك تريد نسخ هذه الملفات؟",
+    "Yes, Copy!": "نعم، انسخ!",
+    "Files copied.": "تم نسخ الملفات.",
+    "Browse": "تصفح",
+    "Create a copy instead of moving": "إنشاء نسخة بدلاً من النقل",
+    "Select Target Folder": "اختر المجلد الهدف",
+    "Storages": "التخزين",
+    "Loading": "جاري التحميل",
     "uppy": uppyLocaleAr
 }

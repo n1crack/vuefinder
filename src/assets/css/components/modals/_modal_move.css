@@ -49,7 +49,7 @@
 }
 
 .vuefinder__move-modal__target-display {
-  @apply flex items-center justify-between px-3 py-0.5 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors;
+  @apply flex items-center justify-between px-3 py-0.5 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 cursor-pointer hover:border-sky-500 dark:hover:border-sky-400 transition-colors;
 }
 
 .vuefinder__move-modal__target-path {
@@ -65,7 +65,7 @@
 }
 
 .vuefinder__move-modal__target-badge {
-  @apply px-2 py-1 text-xs font-medium text-sky-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-900/20 rounded border border-blue-200 dark:border-blue-700 flex-shrink-0 ml-2;
+  @apply px-2 py-1 text-xs font-medium text-sky-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-900/20 rounded border border-blue-200 dark:border-sky-700 flex-shrink-0 ml-2;
 }
 
 /* Options styles */

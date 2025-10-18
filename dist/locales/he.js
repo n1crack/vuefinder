@@ -132,5 +132,14 @@ export default {
     "Files only": "קבצים בלבד",
     "Folders only": "תיקיות בלבד",
     "Show hidden files": "הצג קבצים נסתרים",
+    "Copy files": "העתק קבצים",
+    "Are you sure you want to copy these files?": "האם אתה בטוח שברצונך להעתיק קבצים אלה?",
+    "Yes, Copy!": "כן, העתק!",
+    "Files copied.": "קבצים הועתקו.",
+    "Browse": "עיון",
+    "Create a copy instead of moving": "צור עותק במקום להעביר",
+    "Select Target Folder": "בחר תיקיית יעד",
+    "Storages": "אחסון",
+    "Loading": "טוען",
     "uppy": uppyLocaleHe
 }
