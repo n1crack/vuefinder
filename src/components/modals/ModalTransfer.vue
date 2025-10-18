@@ -4,7 +4,7 @@ import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import MoveSVG from "../../assets/icons/move.svg";
-import TreeViewSelector from "../TreeViewSelector.vue";
+import ModalTreeSelector from "./ModalTreeSelector.vue";
 import type {DirEntry} from '../../types';
 
 const app = inject('ServiceContainer');
@@ -115,7 +115,7 @@ const transfer = () => {
 
         <!-- Tree selector -->
         <div v-if="showTreeSelector">
-          <TreeViewSelector
+          <ModalTreeSelector
               v-model="target"
               :show-pinned-folders="true"
               @update:modelValue="selectTargetFolder"

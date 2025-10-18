@@ -306,6 +306,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
     <Teleport to="body">
       <div v-show="showHiddenBreadcrumbs"
            :style="{position: 'absolute', top: mousePosition.y + 'px', left: mousePosition.x + 'px'}"
+           :class="app.theme.actualValue"
            class="vuefinder vuefinder__breadcrumb__hidden-dropdown">
         <div
             v-for="(item, index) in hiddenBreadcrumbs" :key="index"

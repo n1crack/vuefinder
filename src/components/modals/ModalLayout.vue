@@ -36,7 +36,7 @@ onMounted(() => {
 </script>
 
 <template>  
-    <div class="vuefinder vuefinder__modal-layout" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+    <div :class="app.theme.actualValue" class="vuefinder vuefinder__modal-layout" aria-labelledby="modal-title" role="dialog" aria-modal="true"
         @keyup.esc="app.modal.close()" tabindex="0">
         <div class="vuefinder__modal-layout__overlay"></div>
 
