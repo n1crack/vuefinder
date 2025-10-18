@@ -21,6 +21,7 @@ import FullscreenSVG from "../assets/icons/full_screen.svg";
 import MinimizeSVG from "../assets/icons/minimize.svg";
 import GridViewSVG from "../assets/icons/grid_view.svg";
 import ListViewSVG from "../assets/icons/list_view.svg";
+import FilterSVG from "../assets/icons/filter.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -257,9 +258,8 @@ const resetFilters = () => {
       <div class="vuefinder__toolbar__control vuefinder__toolbar__dropdown-container">
         <div :title="t('Filter')" @click="showFilterSort = !showFilterSort" class="vuefinder__toolbar__dropdown-trigger">
           <div class="relative">
-            <svg class="vf-toolbar-icon vuefinder__toolbar__icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
-            </svg>
+
+            <FilterSVG class="vf-toolbar-icon vuefinder__toolbar__icon w-6 h-6"/>
             <!-- Filter indicator dot -->
             <div v-if="hasActiveFilters" class="vuefinder__toolbar__filter-indicator"></div>
           </div>

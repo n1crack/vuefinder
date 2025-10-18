@@ -123,5 +123,14 @@ export default {
     "Forward": "前进",
     "Back": "后退",
     "Go to Folder": "转到文件夹",
+    "Sorting": "排序",
+    "Asc": "升序",
+    "Desc": "降序",
+    "None": "无",
+    "Show": "显示",
+    "All items": "所有项目",
+    "Files only": "仅文件",
+    "Folders only": "仅文件夹",
+    "Show hidden files": "显示隐藏文件",
     "uppy": uppyLocalezhCN
 }

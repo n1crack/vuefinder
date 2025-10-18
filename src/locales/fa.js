@@ -123,5 +123,14 @@ export default {
     "Forward": "جلو",
     "Back": "عقب",
     "Go to Folder": "برو به پوشه",
+    "Sorting": "مرتب‌سازی",
+    "Asc": "صعودی",
+    "Desc": "نزولی",
+    "None": "هیچ",
+    "Show": "نمایش",
+    "All items": "همه موارد",
+    "Files only": "فقط فایل‌ها",
+    "Folders only": "فقط پوشه‌ها",
+    "Show hidden files": "نمایش فایل‌های مخفی",
     "uppy": uppyLocaleFa
 }

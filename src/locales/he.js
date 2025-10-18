@@ -123,5 +123,14 @@ export default {
     "Forward": "קדימה",
     "Back": "אחורה",
     "Go to Folder": "עבור לתיקייה",
+    "Sorting": "מיון",
+    "Asc": "עולה",
+    "Desc": "יורד",
+    "None": "ללא",
+    "Show": "הצג",
+    "All items": "כל הפריטים",
+    "Files only": "קבצים בלבד",
+    "Folders only": "תיקיות בלבד",
+    "Show hidden files": "הצג קבצים נסתרים",
     "uppy": uppyLocaleHe
 }

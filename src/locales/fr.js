@@ -127,5 +127,14 @@ export default {
     "Forward": "Avancer",
     "Back": "Retour",
     "Go to Folder": "Aller au dossier",
+    "Sorting": "Tri",
+    "Asc": "Croissant",
+    "Desc": "Décroissant",
+    "None": "Aucun",
+    "Show": "Afficher",
+    "All items": "Tous les éléments",
+    "Files only": "Fichiers uniquement",
+    "Folders only": "Dossiers uniquement",
+    "Show hidden files": "Afficher les fichiers cachés",
     "uppy": uppyLocaleFr
 }

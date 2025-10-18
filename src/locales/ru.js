@@ -126,5 +126,14 @@ export default {
     "Forward": "Вперед",
     "Back": "Назад",
     "Go to Folder": "Перейти в папку",
+    "Sorting": "Сортировка",
+    "Asc": "По возрастанию",
+    "Desc": "По убыванию",
+    "None": "Нет",
+    "Show": "Показать",
+    "All items": "Все элементы",
+    "Files only": "Только файлы",
+    "Folders only": "Только папки",
+    "Show hidden files": "Показать скрытые файлы",
     "uppy": uppyLocaleRu
 }

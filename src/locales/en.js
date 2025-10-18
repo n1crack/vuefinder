@@ -126,5 +126,14 @@ export default {
     "Forward": "Forward",
     "Back": "Back",
     "Go to Folder": "Go to Folder",
+    "Sorting": "Sorting",
+    "Asc": "Asc",
+    "Desc": "Desc",
+    "None": "None",
+    "Show": "Show",
+    "All items": "All items",
+    "Files only": "Files only",
+    "Folders only": "Folders only",
+    "Show hidden files": "Show hidden files",
     "uppy": uppyLocaleEn
 }

@@ -123,5 +123,14 @@ export default {
     "Forward": "आगे",
     "Back": "पीछे",
     "Go to Folder": "फ़ोल्डर पर जाएं",
+    "Sorting": "क्रमबद्धता",
+    "Asc": "आरोही",
+    "Desc": "अवरोही",
+    "None": "कोई नहीं",
+    "Show": "दिखाएं",
+    "All items": "सभी आइटम",
+    "Files only": "केवल फाइलें",
+    "Folders only": "केवल फोल्डर",
+    "Show hidden files": "छुपी हुई फाइलें दिखाएं",
     "uppy": uppyLocaleHi
 }

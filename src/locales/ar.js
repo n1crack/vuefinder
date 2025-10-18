@@ -126,5 +126,14 @@ export default {
     "Forward": "إلى الأمام",
     "Back": "رجوع",
     "Go to Folder": "الذهاب إلى المجلد",
+    "Sorting": "الترتيب",
+    "Asc": "تصاعدي",
+    "Desc": "تنازلي",
+    "None": "لا شيء",
+    "Show": "إظهار",
+    "All items": "جميع العناصر",
+    "Files only": "الملفات فقط",
+    "Folders only": "المجلدات فقط",
+    "Show hidden files": "إظهار الملفات المخفية",
     "uppy": uppyLocaleAr
 }

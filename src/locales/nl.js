@@ -123,5 +123,14 @@ export default {
     "Forward": "Vooruit",
     "Back": "Terug",
     "Go to Folder": "Ga naar map",
+    "Sorting": "Sorteren",
+    "Asc": "Oplopend",
+    "Desc": "Aflopend",
+    "None": "Geen",
+    "Show": "Tonen",
+    "All items": "Alle items",
+    "Files only": "Alleen bestanden",
+    "Folders only": "Alleen mappen",
+    "Show hidden files": "Verborgen bestanden tonen",
     "uppy": uppyLocaleNl
 }

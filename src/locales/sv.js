@@ -123,5 +123,14 @@ export default {
     "Forward": "Framåt",
     "Back": "Tillbaka",
     "Go to Folder": "Gå till mapp",
+    "Sorting": "Sortering",
+    "Asc": "Stigande",
+    "Desc": "Fallande",
+    "None": "Ingen",
+    "Show": "Visa",
+    "All items": "Alla objekt",
+    "Files only": "Endast filer",
+    "Folders only": "Endast mappar",
+    "Show hidden files": "Visa dolda filer",
     "uppy": uppyLocaleSv
 }

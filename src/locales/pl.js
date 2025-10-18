@@ -123,5 +123,14 @@ export default {
     "Forward": "Dalej",
     "Back": "Wstecz",
     "Go to Folder": "Idź do folderu",
+    "Sorting": "Sortowanie",
+    "Asc": "Rosnąco",
+    "Desc": "Malejąco",
+    "None": "Brak",
+    "Show": "Pokaż",
+    "All items": "Wszystkie elementy",
+    "Files only": "Tylko pliki",
+    "Folders only": "Tylko foldery",
+    "Show hidden files": "Pokaż ukryte pliki",
     "uppy": uppyLocalePl
 }

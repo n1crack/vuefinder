@@ -123,5 +123,14 @@ export default {
     "Forward": "前進",
     "Back": "後退",
     "Go to Folder": "前往資料夾",
+    "Sorting": "排序",
+    "Asc": "升序",
+    "Desc": "降序",
+    "None": "無",
+    "Show": "顯示",
+    "All items": "所有項目",
+    "Files only": "僅檔案",
+    "Folders only": "僅資料夾",
+    "Show hidden files": "顯示隱藏檔案",
     "uppy": uppyLocalezhTW
 }
