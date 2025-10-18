@@ -41,6 +41,24 @@ const selectTargetFolderAndClose = (folder: DirEntry | null) => {
   }
 };
 
+// Simple function to split storage and path
+const getTargetParts = () => {
+  const path = target.value.path;
+  if (!path) return { storage: 'local', path: '' };
+  
+  // For storage roots like "local://", just return the storage name
+  if (path.endsWith('://')) {
+    return { storage: path.replace('://', ''), path: '' };
+  }
+  
+  // Split storage and path
+  const parts = path.split('://');
+  return { 
+    storage: parts[0] || 'local', 
+    path: parts[1] || '' 
+  };
+};
+
 const transfer = () => {
   if (items.value.length) {
     // Determine the operation based on createCopy checkbox or original q prop
@@ -95,22 +113,17 @@ const transfer = () => {
           </div>
         </div>
         <h4 class="vuefinder__move-modal__target-title">{{ t('Target Directory') }}</h4>
-        <div class="vuefinder__move-modal__target-input-container">
-          <input
-              type="text"
-              v-model="target.path"
-              class="vuefinder__move-modal__target-input"
-              :placeholder="t('Select target folder')"
-              readonly
+        <div class="vuefinder__move-modal__target-container">
+          <div
+              class="vuefinder__move-modal__target-display"
               @click="showTreeSelector = !showTreeSelector"
-          />
-          <button
-              type="button"
-              @click="showTreeSelector = !showTreeSelector"
-              class="vuefinder__move-modal__target-button"
           >
-            {{ t('Browse') }}
-          </button>
+            <div class="vuefinder__move-modal__target-path">
+              <span class="vuefinder__move-modal__target-storage">{{ getTargetParts().storage }}://</span>
+              <span v-if="getTargetParts().path" class="vuefinder__move-modal__target-folder">{{ getTargetParts().path }}</span>
+            </div>
+            <span class="vuefinder__move-modal__target-badge">{{ t('Browse') }}</span>
+          </div>
         </div>
 
         <!-- Tree selector -->

@@ -135,5 +135,14 @@ export default {
     "Files only": "Files only",
     "Folders only": "Folders only",
     "Show hidden files": "Show hidden files",
+    "Copy files": "Copy files",
+    "Are you sure you want to copy these files?": "Are you sure you want to copy these files?",
+    "Yes, Copy!": "Yes, Copy!",
+    "Files copied.": "Files copied.",
+    "Browse": "Browse",
+    "Create a copy instead of moving": "Create a copy instead of moving",
+    "Select Target Folder": "Select Target Folder",
+    "Storages": "Storages",
+    "Loading": "Loading",
     "uppy": uppyLocaleEn
 }

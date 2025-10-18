@@ -132,5 +132,14 @@ export default {
     "Files only": "केवल फाइलें",
     "Folders only": "केवल फोल्डर",
     "Show hidden files": "छुपी हुई फाइलें दिखाएं",
+    "Copy files": "फाइलें कॉपी करें",
+    "Are you sure you want to copy these files?": "क्या आप वाकई इन फाइलों को कॉपी करना चाहते हैं?",
+    "Yes, Copy!": "हाँ, कॉपी करें!",
+    "Files copied.": "फाइलें कॉपी हो गईं।",
+    "Browse": "ब्राउज़ करें",
+    "Create a copy instead of moving": "स्थानांतरित करने के बजाय कॉपी बनाएं",
+    "Select Target Folder": "लक्ष्य फोल्डर चुनें",
+    "Storages": "स्टोरेज",
+    "Loading": "लोड हो रहा है",
     "uppy": uppyLocaleHi
 }

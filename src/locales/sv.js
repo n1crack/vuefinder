@@ -132,5 +132,14 @@ export default {
     "Files only": "Endast filer",
     "Folders only": "Endast mappar",
     "Show hidden files": "Visa dolda filer",
+    "Copy files": "Kopiera filer",
+    "Are you sure you want to copy these files?": "Är du säker på att du vill kopiera dessa filer?",
+    "Yes, Copy!": "Ja, kopiera!",
+    "Files copied.": "Filer kopierade.",
+    "Browse": "Bläddra",
+    "Create a copy instead of moving": "Skapa en kopia istället för att flytta",
+    "Select Target Folder": "Välj målmapp",
+    "Storages": "Lagring",
+    "Loading": "Laddar",
     "uppy": uppyLocaleSv
 }

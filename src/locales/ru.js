@@ -135,5 +135,14 @@ export default {
     "Files only": "Только файлы",
     "Folders only": "Только папки",
     "Show hidden files": "Показать скрытые файлы",
+    "Copy files": "Копировать файлы",
+    "Are you sure you want to copy these files?": "Вы уверены, что хотите скопировать эти файлы?",
+    "Yes, Copy!": "Да, копировать!",
+    "Files copied.": "Файлы скопированы.",
+    "Browse": "Обзор",
+    "Create a copy instead of moving": "Создать копию вместо перемещения",
+    "Select Target Folder": "Выбрать целевую папку",
+    "Storages": "Хранилища",
+    "Loading": "Загрузка",
     "uppy": uppyLocaleRu
 }

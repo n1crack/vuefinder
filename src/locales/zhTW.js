@@ -132,5 +132,14 @@ export default {
     "Files only": "僅檔案",
     "Folders only": "僅資料夾",
     "Show hidden files": "顯示隱藏檔案",
+    "Copy files": "複製檔案",
+    "Are you sure you want to copy these files?": "您確定要複製這些檔案嗎？",
+    "Yes, Copy!": "是的，複製！",
+    "Files copied.": "檔案已複製。",
+    "Browse": "瀏覽",
+    "Create a copy instead of moving": "建立副本而不是移動",
+    "Select Target Folder": "選擇目標資料夾",
+    "Storages": "儲存",
+    "Loading": "載入中",
     "uppy": uppyLocalezhTW
 }

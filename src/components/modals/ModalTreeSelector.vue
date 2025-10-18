@@ -6,7 +6,7 @@ import PlusSVG from "../../assets/icons/plus.svg";
 import MinusSVG from "../../assets/icons/minus.svg";
 import PinSVG from "../../assets/icons/pin.svg";
 import {OverlayScrollbars} from 'overlayscrollbars';
-import type {App, DirEntry} from '../types';
+import type {App, DirEntry} from '../../types';
 import StorageSVG from '../../assets/icons/storage.svg';
 import ModalTreeFolderItem from './ModalTreeFolderItem.vue';
 

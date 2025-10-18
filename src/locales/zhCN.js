@@ -132,5 +132,14 @@ export default {
     "Files only": "仅文件",
     "Folders only": "仅文件夹",
     "Show hidden files": "显示隐藏文件",
+    "Copy files": "复制文件",
+    "Are you sure you want to copy these files?": "您确定要复制这些文件吗？",
+    "Yes, Copy!": "是的，复制！",
+    "Files copied.": "文件已复制。",
+    "Browse": "浏览",
+    "Create a copy instead of moving": "创建副本而不是移动",
+    "Select Target Folder": "选择目标文件夹",
+    "Storages": "存储",
+    "Loading": "加载中",
     "uppy": uppyLocalezhCN
 }
