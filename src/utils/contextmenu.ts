@@ -28,6 +28,7 @@ export const ContextMenuIds = {
   rename: "rename",
   move: "move",
   copy: "copy",
+  paste: "paste",
 } as const
 
 export type MenuContext = {
@@ -215,14 +216,45 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.copy,
     title: ({t}) => t('Copy'),
     action: (app, selectedItems) => {
-      const fs = app.fs;
-      const target = { storage: fs.path.get().storage || '', path: fs.path.get().path || '', type: 'dir' as const };
-      app.modal.open(ModalCopy, { items: { from: selectedItems, to: target } });
+      if (selectedItems.length > 0) {
+        app.fs.setClipboard('copy', new Set(selectedItems.map((item: DirEntry) => item.path)));
+      }
     },
     show: showIfAny(
       showIf({target: 'one', feature: FEATURES.COPY}),
       showIf({target: 'many', feature: FEATURES.COPY})
     )
+  },
+  {
+    id: ContextMenuIds.paste,
+    title: ({t}) => t('Paste'),
+    action: (app, selectedItems) => {
+      const clipboard = app.fs.getClipboard();
+      if (clipboard?.items?.size > 0) {
+        const fs = app.fs;
+        const currentPath = fs.path.get();
+        
+        // Determine target path
+        let targetPath = currentPath.path;
+        let targetStorage = currentPath.storage;
+        
+        // If a single folder is selected, use its path as target
+        if (selectedItems.length === 1 && selectedItems[0].type === 'dir') {
+          targetPath = selectedItems[0].path;
+          targetStorage = selectedItems[0].storage;
+        }
+        
+        const target = { storage: targetStorage || '', path: targetPath || '', type: 'dir' as const };
+        
+        app.modal.open(clipboard.type === 'cut' ? ModalMove : ModalCopy, {
+          items: { from: Array.from(clipboard.items), to: target }
+        });
+      }
+    },
+    show: (app, ctx) => {
+      const clipboard = app.fs.getClipboard();
+      return clipboard?.items?.size > 0;
+    }
   },
   {
     id: ContextMenuIds.archive,

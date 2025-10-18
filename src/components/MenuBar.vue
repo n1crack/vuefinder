@@ -182,6 +182,18 @@ const menuItems = computed(() => [
           return clipboard?.items?.size > 0;
         }
       },
+      {
+        id: 'move',
+        label: t('Move'),
+        action: () => {
+          if (selectedItems.value.length > 0) {
+            const fs = app?.fs;
+            const target = { storage: fs?.path?.get()?.storage || '', path: fs?.path?.get()?.path || '', type: 'dir' as const };
+            app?.modal?.open(ModalMove, { items: { from: selectedItems.value, to: target } });
+          }
+        },
+        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.MOVE)
+      },
       { type: 'separator' },
       {
         id: 'copy-path',
