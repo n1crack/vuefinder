@@ -1,6 +1,6 @@
 
 .vuefinder__breadcrumb__container {
-  @apply space-x-0.5 flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm grow-0;
+  @apply relative space-x-0.5 flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm grow-0;
 }
 
 .vuefinder__breadcrumb__toggle-tree {
@@ -61,7 +61,9 @@
 }
 
 .vuefinder__breadcrumb__hidden-dropdown {
-  @apply z-50 absolute top-[65px] md:top-[75px] left-[90px] rounded -mx-1.5 mt-1 bg-neutral-50 dark:bg-gray-800 max-w-80 shadow overflow-y-auto text-gray-700 dark:text-gray-200 border border-neutral-300 dark:border-gray-600;
+    @apply z-50 absolute  rounded top-9
+     bg-neutral-50 dark:bg-gray-900 max-w-80 shadow overflow-y-auto text-gray-700 dark:text-gray-200
+     border border-neutral-300 dark:border-gray-600;
 }
 
 .vuefinder__breadcrumb__hidden-item {

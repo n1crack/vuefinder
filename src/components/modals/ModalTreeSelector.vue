@@ -59,8 +59,11 @@ watch(sortedFiles, (newFiles: any) => { // eslint-disable-line @typescript-eslin
 const toggleFolder = (storage: string, folderPath: string) => {
   const key = `${storage}:${folderPath}`;
 
-  // Toggle the expanded state
-  expandedFolders.value[key] = !expandedFolders.value[key];
+  // Toggle the expanded state - create a new object to ensure reactivity
+  expandedFolders.value = {
+    ...expandedFolders.value,
+    [key]: !expandedFolders.value[key]
+  };
 
   // Load subfolders if not already loaded and we're expanding
   if (expandedFolders.value[key] && !modalTreeData.value[folderPath]) {

@@ -114,7 +114,10 @@ const transfer = () => {
         </div>
 
         <!-- Tree selector -->
-        <div v-if="showTreeSelector">
+        <div 
+          class="vuefinder__move-modal__tree-selector"
+          :class="showTreeSelector ? 'vuefinder__move-modal__tree-selector--expanded' : 'vuefinder__move-modal__tree-selector--collapsed'"
+        >
           <ModalTreeSelector
               v-model="target"
               :show-pinned-folders="true"

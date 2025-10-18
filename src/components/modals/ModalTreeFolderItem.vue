@@ -46,7 +46,8 @@ const subfolders = computed(() => {
 });
 
 const hasSubfolders = computed(() => {
-  return subfolders.value.length > 0;
+  // Check if subfolders exist or if this folder can potentially have subfolders
+  return subfolders.value.length > 0 || props.folder.type === 'dir';
 });
 
 // Methods
@@ -72,8 +73,8 @@ const selectFolderAndClose = () => {
         class="vuefinder__modal-tree__folder-toggle"
         @click="toggleFolder"
       >
-        <PlusSVG v-if="!isExpanded" class="vuefinder__modal-tree__toggle-icon"/>
-        <MinusSVG v-else class="vuefinder__modal-tree__toggle-icon"/>
+        <PlusSVG v-if="!isExpanded" class="vuefinder__modal-tree__folder-toggle-icon"/>
+        <MinusSVG v-else class="vuefinder__modal-tree__folder-toggle-icon"/>
       </div>
       <div 
         v-else
@@ -104,7 +105,7 @@ const selectFolderAndClose = () => {
         :modalTreeData="modalTreeData"
         @update:modelValue="$emit('update:modelValue', $event)"
         @selectAndClose="$emit('selectAndClose', $event)"
-        @toggleFolder="$emit('toggleFolder', $event[0], $event[1])"
+        @toggleFolder="(storage, folderPath) => $emit('toggleFolder', storage, folderPath)"
       />
     </div>
   </div>

@@ -140,11 +140,15 @@
 }
 
 .vuefinder__modal-tree__storage-toggle {
-  @apply flex border border-gray-300 dark:border-gray-700 items-center justify-center w-4 h-4 mr-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded border-solid;
+  @apply flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 items-center justify-center w-4 h-4 mr-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded border-solid;
 }
 
 .vuefinder__modal-tree__toggle-icon {
-  @apply h-4 w-4 text-gray-500 dark:text-gray-400;
+  @apply h-3 w-3 text-gray-700 dark:text-gray-300;
+}
+
+.vuefinder__modal-tree__folder-toggle-icon {
+  @apply h-3 w-3 text-gray-700 dark:text-gray-300;
 }
 
 .vuefinder__modal-tree__storage-link {
@@ -177,7 +181,7 @@
 }
 
 .vuefinder__modal-tree__folder-toggle {
-  @apply flex border border-gray-300 items-center justify-center w-4 h-4 mr-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded border-solid;
+  @apply flex border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 items-center justify-center w-4 h-4 mr-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded border-solid;
 }
 
 .vuefinder__modal-tree__folder-spacer {
@@ -198,5 +202,18 @@
 
 .vuefinder__modal-tree__folder-text {
   @apply text-sm text-gray-700 dark:text-gray-300;
+}
+
+/* Tree selector accordion styles */
+.vuefinder__move-modal__tree-selector {
+  @apply overflow-hidden transition-all duration-300 ease-in-out;
+}
+
+.vuefinder__move-modal__tree-selector--collapsed {
+  @apply max-h-0 opacity-0;
+}
+
+.vuefinder__move-modal__tree-selector--expanded {
+  @apply max-h-[400px] opacity-100;
 }
 

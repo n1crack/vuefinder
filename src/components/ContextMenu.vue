@@ -100,7 +100,12 @@ const showContextMenu = (event: any) => {
 </script>
 
 <template>
-  <ul ref="contextmenu" :class="context.active ? 'vuefinder__context-menu--active' : 'vuefinder__context-menu--inactive'" v-show="context.active" :style="context.positions"
+  <ul ref="contextmenu" :class="{
+        'vuefinder__context-menu--active': context.active, 
+        'vuefinder__context-menu--inactive': !context.active
+        }" 
+        v-show="context.active" 
+        :style="context.positions"
       class="vuefinder__context-menu">
     <li class="vuefinder__context-menu__item" v-for="(item) in context.items" :key="item.title">
       <template v-if="item.link">
