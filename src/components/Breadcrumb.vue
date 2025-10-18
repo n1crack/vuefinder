@@ -25,7 +25,7 @@ const config = app.config;
 // Use nanostores reactive values for template reactivity
 const configStore = useStore(config.state)
 const searchState = useStore(search.state);
-const path = useStore(fs.path);
+const currentPath = useStore(fs.path);
 const loading = useStore(fs.loading);
 
 // Computed values for safe access
@@ -36,7 +36,7 @@ const breadcrumbContainer = ref<HTMLElement | null>(null);
 const breadcrumbContainerWidth = useDebouncedRef(0, 100);
 const breadcrumbItemLimit = ref(5);
 const showHiddenBreadcrumbs = ref(false);
-const allBreadcrumbs = computed(() => path.value?.breadcrumb ?? []);
+const allBreadcrumbs = computed(() => currentPath.value?.breadcrumb ?? []);
 
 function separateBreadcrumbs<T>(links: T[], show: number): [T[], T[]] {
   if (links.length > show) return [links.slice(-show), links.slice(0, -show)];
@@ -96,10 +96,10 @@ const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 function getBreadcrumb(index: number | null = null) {
   index ??= allBreadcrumbs.value.length - 2;
   const fallback = {
-    basename: path.value?.storage ?? 'local',
+    basename: currentPath.value?.storage ?? 'local',
     extension: '',
-    path: ((path.value?.storage ?? 'local') + '://'),
-    storage: path.value?.storage ?? 'local',
+    path: ((currentPath.value?.storage ?? 'local') + '://'),
+    storage: currentPath.value?.storage ?? 'local',
     type: 'dir' as const,
     file_size: null,
     last_modified: null,
@@ -113,7 +113,7 @@ function getBreadcrumb(index: number | null = null) {
 const handleRefresh = () => {
   exitSearchMode();
 
-  app.emitter.emit('vf-fetch', {params: {q: 'index', storage: path.value?.storage, path: path.value?.path}});
+  app.emitter.emit('vf-fetch', {params: {q: 'index', storage: currentPath.value?.storage, path: currentPath.value?.path}});
 }
 
 const handleGoUp = () => {
@@ -123,15 +123,15 @@ const handleGoUp = () => {
     app.emitter.emit('vf-fetch', {
       params: {
         q: 'index',
-        storage: path.value?.storage ?? 'local',
-        path: (allBreadcrumbs.value[allBreadcrumbs.value.length - 2]?.path ?? ((path.value?.storage ?? 'local') + '://'))
+        storage: currentPath.value?.storage ?? 'local',
+        path: (allBreadcrumbs.value[allBreadcrumbs.value.length - 2]?.path ?? ((currentPath.value?.storage ?? 'local') + '://'))
       }
     });
   }
 }
 
 const handleHiddenBreadcrumbsClick = (item: { path: string }) => {
-  app.emitter.emit('vf-fetch', {params: {q: 'index', storage: path.value?.storage, path: item.path}});
+  app.emitter.emit('vf-fetch', {params: {q: 'index', storage: currentPath.value?.storage, path: item.path}});
   showHiddenBreadcrumbs.value = false;
 }
 
@@ -178,6 +178,10 @@ watch(query, newQuery => {
   search.setQuery(newQuery);
 });
 
+search.state.listen(state => {
+  query.value = state?.query ?? '';
+})
+
 watch(searchMode, (newSearchMode) => {
   if (newSearchMode) {
     nextTick(() => {
@@ -201,8 +205,8 @@ const handleBlur = () => {
 }
 
 const exitSearchMode = () => {
- query.value = '';
   search.exitSearchMode();
+  app.emitter.emit('vf-fetch', {params: {q: 'index', storage: currentPath.value.storage, path: currentPath.value.path}});
 }
 
 /**
@@ -233,7 +237,6 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
       />
     </span>
 
-
     <span :title="t('Go up a directory')">
       <GoUpSVG
           v-on="(allBreadcrumbs.length && !searchMode) ? dragNDrop.events(getBreadcrumb() as unknown as any) : {}"
@@ -253,7 +256,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
       <div>
         <HomeSVG
             v-on="dragNDrop.events(getBreadcrumb(-1))"
-            @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: path.value?.storage ?? 'local'}})"/>
+            @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: currentPath.storage ?? 'local'}})"/>
       </div>
 
       <div class="vuefinder__breadcrumb__list">
@@ -278,7 +281,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
               v-on="dragNDrop.events(item as any)"
               class="vuefinder__breadcrumb__item pointer-events-auto"
               :title="(item as any).basename"
-              @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: path?.storage, path:(item as any).path}})">{{
+              @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: currentPath.storage, path:(item as any).path}})">{{
               (item as any).name
             }}</span>
         </div>

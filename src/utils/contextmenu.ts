@@ -86,10 +86,14 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.openDir,
     title: ({t}) => t('Open containing folder'),
     action: (app, selectedItems) => {
-      app.emitter.emit('vf-search-exit');
-      app.emitter.emit('vf-fetch', {
-        params: { q: 'index', storage: selectedItems[0]?.storage, path: (selectedItems[0]?.path) }
-      });
+        const selectedItem = selectedItems[0]
+        if (!selectedItem) {
+            return;
+        }
+        app.emitter.emit('vf-fetch', {
+            params: { q: 'index', storage: selectedItem.storage, path: (selectedItem.dir) }
+        });
+        app.search.setQuery('', true);
     },
     show: showIf({ target: 'one', needsSearchQuery: true })
   },

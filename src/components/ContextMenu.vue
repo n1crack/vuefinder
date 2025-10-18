@@ -39,20 +39,20 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}: { event: a
 
   context.items = app.contextMenuItems.filter((item: any) => {
     return item.show(app, {
-      searchQuery: searchState.query,
+      searchQuery: searchState.value.query,
       items,
       target
     })
   });
 
-  if (searchState.query) {
+  if (searchState.value.query) {
     if (target) {
       app.emitter.emit('vf-context-selected', [target]);
       // console.log('search item selected');
     } else {
       return;
     }
-  } else if (!target && !searchState.query) {
+  } else if (!target && !searchState.value.query) {
     app.emitter.emit('vf-context-selected', []);
     // console.log('no files selected');
   } else if (items.length > 1 && items.some((el: any) => el.path === target.path)) {

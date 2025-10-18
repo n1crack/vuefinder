@@ -162,7 +162,7 @@ onMounted(() => {
         }
       });
     } else {
-      app.emitter.emit('vf-fetch', {params: {q: 'index', storage, path: currentPath}});
+      // app.emitter.emit('vf-fetch', {params: {q: 'index', storage, path: currentPath}});
     }
   });
 

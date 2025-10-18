@@ -37,6 +37,7 @@ export type CustomIcon = (app: App, item: DirEntry) => {is: string | Component, 
 export type DirEntryType = 'file' | 'dir'
 
 export interface DirEntry {
+  dir: string;
   basename: string;
   extension: string;
   path: string;

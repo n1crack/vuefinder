@@ -18,9 +18,10 @@ export const createSearchStore = () => {
     const hasQuery = computed(state, (state) => state.query.length > 0)
 
     // Helper functions
-    const setQuery = (newQuery: string) => {
-        const currentState = state.get()
-        state.set({ ...currentState, query: newQuery ?? '' })
+    const setQuery = (newQuery: string, updateSearchMode: false) => {
+        const query = newQuery ?? ''
+        const searchMode = updateSearchMode ? query.length > 0 : state.get().searchMode;
+        state.set({ query, searchMode})
     }
 
     const enterSearchMode = () => {
