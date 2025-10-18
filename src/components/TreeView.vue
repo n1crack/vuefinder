@@ -23,6 +23,7 @@ const config = app.config;
 // Use nanostores reactive values for template reactivity
 const configState = useStore(config.state);
 const sortedFiles = useStore(fs.sortedFiles);
+const storages = useStore(fs.storages);
 const path = useStore(fs.path);
 
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
@@ -164,8 +165,8 @@ watch(sortedFiles, (newFiles) => {
           </li>
         </ul>
       </div>
-
-      <div class="vuefinder__treeview__storage" v-for="storage in fs.storages.get()" :key="storage">
+ 
+      <div class="vuefinder__treeview__storage" v-for="storage in storages" :key="storage">
         <TreeStorageItem :storage="storage"/>
       </div>
     </div>

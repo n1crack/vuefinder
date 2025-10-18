@@ -112,8 +112,6 @@ function getBreadcrumb(index: number | null = null) {
 
 const handleRefresh = () => {
   exitSearchMode();
-
-  app.emitter.emit('vf-fetch', {params: {q: 'index', storage: currentPath.value?.storage, path: currentPath.value?.path}});
 }
 
 const handleGoUp = () => {

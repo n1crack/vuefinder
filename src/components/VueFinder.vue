@@ -24,7 +24,6 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   debug: false,
   theme: 'system',
   locale: undefined as string | undefined,
-  maxHeight: '600px',
   maxFileSize: '10mb',
   fullScreen: false,
   showTreeView: false,
@@ -169,7 +168,6 @@ onMounted(() => {
     <div :class="app.theme.actualValue" style="height: 100%; width: 100%;">
       <div
           :class="configState.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
-          :style="!configState.fullScreen ? 'max-height: ' + maxHeight : ''"
           class="vuefinder__main__container"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')"

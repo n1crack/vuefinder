@@ -1,3 +1,6 @@
+.vuefinder {
+  @apply max-w-screen max-h-screen h-full w-full;
+}
 .vuefinder__main__fixed {
   @apply fixed w-screen inset-0;
 }
