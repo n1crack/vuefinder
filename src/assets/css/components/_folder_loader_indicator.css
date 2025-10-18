@@ -8,7 +8,7 @@
 }
 
 .vuefinder__folder-loader-indicator--icon {
-  @apply cursor-pointer;
+  @apply cursor-pointer h-5 w-5 p-0.5;
 }
 
 .vuefinder__folder-loader-indicator--minus {

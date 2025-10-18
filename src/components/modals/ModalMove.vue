@@ -9,9 +9,5 @@ const {t} = app.i18n;
 <template>
   <ModalTransfer
       q="move"
-      :title="t('Move files')"
-      :body="t('Are you sure you want to move these files')"
-      :success-btn="t('Yes, Move!')"
-      :success-text="t('Files moved.')"
   />
 </template>

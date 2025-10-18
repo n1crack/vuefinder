@@ -54,6 +54,33 @@ app.emitter.on('vf-fetch-abort', () => {
   fs.setLoading(false);
 });
 
+// Fetch data for modal (doesn't change main directory)
+app.emitter.on('vf-fetch-modal', ({params, body = null, onSuccess = null, onError = null}: {
+  params: Record<string, unknown>,
+  body?: unknown,
+  onSuccess?: ((data: unknown) => void) | null,
+  onError?: ((error: unknown) => void) | null
+}) => {
+  // Use a separate controller for modal requests
+  let modalController: AbortController | null = null;
+  modalController = new AbortController();
+  const signal = modalController.signal;
+  
+  app.requester.send({
+    url: '',
+    method: params.m || 'get',
+    params: params,
+    body: body,
+    abortSignal: signal
+  }).then((data) => {
+    // Don't change main directory, just call onSuccess
+    onSuccess && onSuccess(data);
+  }).catch((error) => {
+    console.error(error);
+    onError ? onError(error) : error && typeof error === 'object' && 'message' in error && app.emitter.emit('vf-toast-push', {label: (error as {message: string}).message, type: 'error'});
+  });
+});
+
 // Fetch data
 app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}: {
   params: Record<string, unknown>,

@@ -85,7 +85,7 @@ onMounted(() => {
         x: 'hidden',
       },
       scrollbars: {
-        theme: 'vf-theme-dark dark:vf-theme-light',
+        theme: 'vf-scrollbars-theme',
       },
     });
   }

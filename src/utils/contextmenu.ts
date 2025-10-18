@@ -5,6 +5,8 @@ import ModalArchive from "../components/modals/ModalArchive.vue";
 import ModalUnarchive from "../components/modals/ModalUnarchive.vue";
 import ModalRename from "../components/modals/ModalRename.vue";
 import ModalDelete from "../components/modals/ModalDelete.vue";
+import ModalMove from "../components/modals/ModalMove.vue";
+import ModalCopy from "../components/modals/ModalCopy.vue";
 import type { App, DirEntry } from '../types'
 
 type TargetKey = 'none' | 'one' | 'many'
@@ -25,6 +27,7 @@ export const ContextMenuIds = {
   unarchive: "unarchive",
   rename: "rename",
   move: "move",
+  copy: "copy",
 } as const
 
 export type MenuContext = {
@@ -195,19 +198,32 @@ export const menuItems: Item[] = [
     action: (app, selectedItems) => app.modal.open(ModalRename, {items: selectedItems}),
     show: showIf({target: 'one', feature: FEATURES.RENAME})
   },
-//   {
-//     id: ContextMenuIds.move,
-//     title: ({t}) => t('Move'),
-//     action: (app, selectedItems) => {
-//       const fs = app.fs;
-//       const target = { storage: fs.path.storage || '', path: fs.path.path || '', type: 'dir' as const };
-//       app.modal.open(ModalMove, { items: { from: selectedItems, to: target } });
-//     },
-//     show: showIfAny(
-//       showIf({target: 'one', feature: FEATURES.MOVE}),
-//       showIf({target: 'many', feature: FEATURES.MOVE})
-//     )
-//   },
+  {
+    id: ContextMenuIds.move,
+    title: ({t}) => t('Move'),
+    action: (app, selectedItems) => {
+      const fs = app.fs;
+      const target = { storage: fs.path.get().storage || '', path: fs.path.get().path || '', type: 'dir' as const };
+      app.modal.open(ModalMove, { items: { from: selectedItems, to: target } });
+    },
+    show: showIfAny(
+      showIf({target: 'one', feature: FEATURES.MOVE}),
+      showIf({target: 'many', feature: FEATURES.MOVE})
+    )
+  },
+  {
+    id: ContextMenuIds.copy,
+    title: ({t}) => t('Copy'),
+    action: (app, selectedItems) => {
+      const fs = app.fs;
+      const target = { storage: fs.path.get().storage || '', path: fs.path.get().path || '', type: 'dir' as const };
+      app.modal.open(ModalCopy, { items: { from: selectedItems, to: target } });
+    },
+    show: showIfAny(
+      showIf({target: 'one', feature: FEATURES.COPY}),
+      showIf({target: 'many', feature: FEATURES.COPY})
+    )
+  },
   {
     id: ContextMenuIds.archive,
     title: ({t}) => t('Archive'),

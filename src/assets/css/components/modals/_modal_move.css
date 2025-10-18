@@ -42,3 +42,146 @@
 .vuefinder__move-modal__selected-items {
   @apply m-1 mr-auto font-bold text-gray-500 text-sm dark:text-gray-200 self-center;
 }
+
+/* Target input styles */
+.vuefinder__move-modal__target-input-container {
+  @apply flex gap-2 mb-3;
+}
+
+.vuefinder__move-modal__target-input {
+  @apply flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 cursor-pointer;
+}
+
+.vuefinder__move-modal__target-input:focus {
+  @apply outline-none ring-2 ring-blue-500 border-blue-500;
+}
+
+.vuefinder__move-modal__target-button {
+  @apply px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+/* Options styles */
+.vuefinder__move-modal__options {
+  @apply mb-3;
+}
+
+.vuefinder__move-modal__checkbox-label {
+  @apply flex items-center cursor-pointer;
+}
+
+.vuefinder__move-modal__checkbox {
+  @apply mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded;
+}
+
+.vuefinder__move-modal__checkbox-text {
+  @apply text-sm text-gray-700 dark:text-gray-300;
+}
+
+/* Tree view styles */
+.vuefinder__treeview__compact {
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg;
+}
+
+.vuefinder__treeview__compact-header {
+  @apply px-4 py-2 border-b border-gray-200 dark:border-gray-700;
+}
+
+.vuefinder__treeview__compact-title {
+  @apply text-sm font-medium text-gray-900 dark:text-gray-100;
+}
+
+.vuefinder__treeview__compact-content {
+  @apply p-2 max-h-[200px] overflow-y-auto;
+}
+
+.vuefinder__treeview__compact-section {
+  @apply mb-2;
+}
+
+.vuefinder__treeview__compact-section:last-child {
+  @apply mb-0;
+}
+
+.vuefinder__treeview__compact-section-title {
+  @apply text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider my-1;
+}
+
+.vuefinder__treeview__compact-list {
+  @apply space-y-1;
+}
+
+.vuefinder__treeview__compact-item {
+  @apply flex items-center px-1 py-0.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer;
+}
+
+.vuefinder__treeview__compact-item--selected {
+  @apply bg-sky-50 dark:bg-blue-900 text-blue-900 dark:text-blue-100;
+}
+
+.vuefinder__treeview__compact-icon {
+  @apply h-5 w-5 mr-2 text-gray-500 dark:text-gray-400;
+}
+
+.vuefinder__treeview__compact-icon--pin {
+  @apply h-4 w-4 text-orange-400 dark:text-blue-500 ml-auto;
+}
+
+.vuefinder__treeview__compact-text {
+  @apply text-sm text-gray-700 dark:text-gray-300 truncate;
+}
+
+
+/* Folder item styles */
+.vuefinder__treeview__compact-folder-item {
+  @apply ml-2;
+  position: relative;
+}
+
+/* Left border for subfolders */
+.vuefinder__treeview__compact-folder-item::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #e2e8f0;
+}
+
+.vuefinder__treeview__compact-folder-content {
+  @apply flex items-center;
+}
+
+.vuefinder__treeview__compact-folder-toggle {
+  @apply flex border border-gray-300 items-center justify-center w-4 h-4 mr-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded;
+  border-style: solid !important;
+}
+
+.vuefinder__treeview__compact-toggle-icon {
+  @apply h-4 w-4 text-gray-500 dark:text-gray-400;
+}
+
+.vuefinder__treeview__compact-folder-link {
+  @apply flex items-center flex-1 px-0.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer;
+}
+
+.vuefinder__treeview__compact-storage-icon {
+  @apply h-5 w-5 stroke-amber-500;
+}
+
+.vuefinder__treeview__compact-folder-link--selected {
+  @apply bg-sky-50 dark:bg-blue-900 text-blue-900 dark:text-blue-100;
+}
+
+.vuefinder__treeview__compact-folder-icon {
+  @apply h-5 w-5 mr-1 text-gray-500 dark:text-gray-400;
+}
+
+.vuefinder__treeview__compact-folder-text {
+  @apply text-sm text-gray-700 dark:text-gray-300;
+}
+
+.vuefinder__treeview__compact-subfolders {
+  @apply ml-2;
+}
+

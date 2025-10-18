@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import {inject, ref} from 'vue';
+import {computed, inject, ref} from 'vue';
 import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import MoveSVG from "../../assets/icons/move.svg";
+import TreeViewSelector from "../TreeViewSelector.vue";
+import type {DirEntry} from '../../types';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -12,32 +14,53 @@ const currentPath = useStore(fs.path);
 
 const props = defineProps<{
   q?: string
-  title: string
-  body: string
-  successBtn: string
-  successText: string
 }>()
+
 const items = ref(app.modal.data.items.from);
-const target = app.modal.data.items.to
+const target = ref<DirEntry>(app.modal.data.items.to);
 const message = ref('');
+const createCopy = ref(false);
+const showTreeSelector = ref(false);
+
+const title = computed(() => createCopy.value ? t('Copy files') : t('Move files') );
+const body = computed(() => createCopy.value ? t('Are you sure you want to copy these files?') : t('Are you sure you want to move these files?') );
+const successBtn = computed(() => createCopy.value ? t('Yes, Copy!') : t('Yes, Move!') );
+const successText = computed(() => createCopy.value ? t('Files copied.') : t('Files moved.') );
+
+
+const selectTargetFolder = (folder: DirEntry | null) => {
+  if (folder) {
+    target.value = folder;
+  }
+};
+
+const selectTargetFolderAndClose = (folder: DirEntry | null) => {
+  if (folder) {
+    target.value = folder;
+    showTreeSelector.value = false;
+  }
+};
 
 const transfer = () => {
   if (items.value.length) {
+    // Determine the operation based on createCopy checkbox or original q prop
+    const operation = createCopy.value ? 'copy' : (props.q || 'move');
+
     app.emitter.emit('vf-fetch', {
       params: {
-        q: props.q,
+        q: operation,
         m: 'post',
         storage: currentPath.value.storage,
         path: currentPath.value.path,
       },
       body: {
         items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),
-        item: target.path
+        item: target.value.path
       },
       onSuccess: () => {
-        app.emitter.emit('vf-toast-push', {label: props.successText});
+        app.emitter.emit('vf-toast-push', {label: successText});
       },
-      onError: (e: any) => {
+      onError: (e: Error) => {
         message.value = t(e.message);
       }
     });
@@ -50,9 +73,9 @@ const transfer = () => {
 <template>
   <ModalLayout>
     <div>
-      <ModalHeader :icon="MoveSVG" :title="props.title"></ModalHeader>
+      <ModalHeader :icon="MoveSVG" :title="title"></ModalHeader>
       <div class="vuefinder__move-modal__content">
-        <p class="vuefinder__move-modal__description">{{ props.body }}</p>
+        <p class="vuefinder__move-modal__description">{{ body }}</p>
         <div class="vuefinder__move-modal__files vf-scrollbar">
           <div v-for="node in items" class="vuefinder__move-modal__file" :key="node.path">
             <div>
@@ -72,20 +95,51 @@ const transfer = () => {
           </div>
         </div>
         <h4 class="vuefinder__move-modal__target-title">{{ t('Target Directory') }}</h4>
-        <p class="vuefinder__move-modal__target-directory">
-          <svg xmlns="http://www.w3.org/2000/svg" class="vuefinder__move-modal__icon vuefinder__move-modal__icon--dir"
-               fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-          </svg>
-          <span class="vuefinder__move-modal__target-path">{{ target.path }}</span>
-        </p>
+        <div class="vuefinder__move-modal__target-input-container">
+          <input
+              type="text"
+              v-model="target.path"
+              class="vuefinder__move-modal__target-input"
+              :placeholder="t('Select target folder')"
+              readonly
+              @click="showTreeSelector = !showTreeSelector"
+          />
+          <button
+              type="button"
+              @click="showTreeSelector = !showTreeSelector"
+              class="vuefinder__move-modal__target-button"
+          >
+            {{ t('Browse') }}
+          </button>
+        </div>
+
+        <!-- Tree selector -->
+        <div v-if="showTreeSelector">
+          <TreeViewSelector
+              v-model="target"
+              :show-pinned-folders="true"
+              @update:modelValue="selectTargetFolder"
+              @selectAndClose="selectTargetFolderAndClose"
+          />
+        </div>
+
+        <div class="vuefinder__move-modal__options">
+          <label class="vuefinder__move-modal__checkbox-label">
+            <input
+                type="checkbox"
+                v-model="createCopy"
+                class="vuefinder__move-modal__checkbox"
+            />
+            <span class="vuefinder__move-modal__checkbox-text">{{ t('Create a copy instead of moving') }}</span>
+          </label>
+        </div>
+
         <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
       </div>
     </div>
 
     <template v-slot:buttons>
-      <button type="button" @click="transfer" class="vf-btn vf-btn-primary">{{ props.successBtn }}</button>
+      <button type="button" @click="transfer" class="vf-btn vf-btn-primary">{{ successBtn }}</button>
       <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">{{ t('Cancel') }}</button>
       <div class="vuefinder__move-modal__selected-items">{{ t('%s item(s) selected.', items.length) }}</div>
     </template>

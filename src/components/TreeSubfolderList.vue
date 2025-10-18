@@ -27,7 +27,7 @@ onMounted(() => {
   if (props.path === props.storage + '://' && parentSubfolderList.value) {
     OverlayScrollbars(parentSubfolderList.value, {
       scrollbars: {
-        theme: 'vf-theme-dark dark:vf-theme-light',
+        theme: 'vf-scrollbars-theme',
       },
     });
   }
