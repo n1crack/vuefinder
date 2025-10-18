@@ -83,7 +83,7 @@
     }
 
     .vuefinder {
-        position: relative;
+        @apply relative;
 
         * {
             touch-action: manipulation;

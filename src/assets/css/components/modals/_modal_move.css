@@ -133,19 +133,13 @@
 
 /* Folder item styles */
 .vuefinder__treeview__compact-folder-item {
-  @apply ml-2;
-  position: relative;
+  @apply ml-2 relative;
 }
 
 /* Left border for subfolders */
 .vuefinder__treeview__compact-folder-item::before {
+  @apply absolute left-[-8px] top-0 bottom-0 w-px bg-slate-200;
   content: '';
-  position: absolute;
-  left: -8px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: #e2e8f0;
 }
 
 .vuefinder__treeview__compact-folder-content {
@@ -153,8 +147,7 @@
 }
 
 .vuefinder__treeview__compact-folder-toggle {
-  @apply flex border border-gray-300 items-center justify-center w-4 h-4 mr-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded;
-  border-style: solid !important;
+  @apply flex border border-gray-300 items-center justify-center w-4 h-4 mr-1 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded border-solid;
 }
 
 .vuefinder__treeview__compact-toggle-icon {

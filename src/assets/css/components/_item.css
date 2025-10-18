@@ -1,5 +1,5 @@
 .vuefinder__item {
-  position: relative;
+  @apply relative;
 }
 
 .vuefinder__item--pinned {

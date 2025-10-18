@@ -8,8 +8,7 @@
 }
 
 .vuefinder__archive-modal__files {
-  @apply text-gray-500 text-sm mb-1 overflow-auto;
-  max-height: 200px;
+  @apply text-gray-500 text-sm mb-1 overflow-auto max-h-[200px];
 }
 
 .vuefinder__archive-modal__file {

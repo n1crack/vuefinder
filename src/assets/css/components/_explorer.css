@@ -80,13 +80,11 @@
 }
 
 .vf-explorer-selected {
-    background-color: rgb(245 245 245) !important;
-    border: 1px solid rgb(212 212 212) !important;
+  @apply bg-neutral-100 border border-neutral-300;
 }
 
 .dark .vf-explorer-selected {
-    background-color: rgb(51 65 85) !important;
-    border: 1px solid rgb(30 41 59) !important;
+  @apply bg-slate-700 border border-slate-600;
 }
 
 .vuefinder__explorer__scrollbar-container {

@@ -1,7 +1,7 @@
 .vf-scrollbar {
   /* width */
   &::-webkit-scrollbar {
-    width: 12px;
+    @apply w-3;
   }
 
   /* Track */
@@ -26,7 +26,7 @@
 
 .vf-explorer-scrollbar {
   &::-webkit-scrollbar {
-    width: 12px;
+    @apply w-3;
   }
 
   &::-webkit-scrollbar-track-piece,
