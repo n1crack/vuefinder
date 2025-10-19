@@ -107,11 +107,11 @@
 }
 
 .vuefinder__text-preview__content {
-  @apply p-2 border font-normal whitespace-pre-wrap border-gray-200 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto;
+  @apply p-2 border font-normal whitespace-pre-wrap border-gray-100 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto;
 }
 
 .vuefinder .vuefinder__text-preview__textarea {
-  @apply w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] max-h-[60vh];
+  @apply border border-gray-400 dark:border-gray-700/50 w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] max-h-[60vh];
 }
 
 /** Video Preview */
