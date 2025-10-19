@@ -61,7 +61,7 @@ const treeSubFolders = computed(() => {
         >
           <div class="vuefinder__treesubfolderlist__item-icon">
             <OpenFolderSVG v-if="currentPath?.path === item.path"/>
-            <FolderSVG v-else/>
+            <FolderSVG class="vuefinder__item-icon__folder" v-else/>
           </div>
           <div
               class="vuefinder__treesubfolderlist__item-text"

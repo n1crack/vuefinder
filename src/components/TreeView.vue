@@ -143,7 +143,7 @@ watch(sortedFiles, (newFiles) => {
                 class="vuefinder__treeview__pinned-folder"
                 @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: folder.storage, path:folder.path}})"
             >
-              <FolderSVG class="vuefinder__treeview__folder-icon" v-if="path?.path !== folder.path"/>
+              <FolderSVG class="vuefinder__treeview__folder-icon vuefinder__item-icon__folder" v-if="path?.path !== folder.path"/>
               <OpenFolderSVG class="vuefinder__treeview__open-folder-icon" v-if="path?.path === folder.path"/>
               <div
 
