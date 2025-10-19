@@ -15,19 +15,25 @@ const props = defineProps<{
 const app = inject('ServiceContainer')
 const configState = useStore(app.config.state)
 
-const comp = app.customIcon?.(app, configState, props.item)
-
- 
+// Scoped slot için gerekli verileri hazırla
+const slotData = {
+  app,
+  config: configState.value,
+  item: props.item
+}
 </script>
 
 <template>
   <div class="vuefinder__item-icon" :class="small ? 'vuefinder__item-icon--small' : 'vuefinder__item-icon--large'">
-    <component v-if="comp" :is="comp.is" v-bind="comp.props || {}"/>
-    <FolderSVG v-else-if="item.type === 'dir'"/>
-    <FileSVG v-else/>
-    <div class="vuefinder__item-icon__extension"
-         v-if="!comp && ext && item.type !== 'dir' && item.extension">
-      {{ item.extension.substring(0, 3) }}
-    </div>
+    <!-- Scoped slot ile custom icon desteği -->
+    <slot name="icon" v-bind="slotData">
+      <!-- Default icon'lar -->
+      <FolderSVG class="vuefinder__item-icon__folder" v-if="item.type === 'dir'"/>
+      <FileSVG class="vuefinder__item-icon__file" v-else/>
+      <div class="vuefinder__item-icon__extension"
+           v-if="ext && item.type !== 'dir' && item.extension">
+        {{ item.extension.substring(0, 3) }}
+      </div>
+    </slot>
   </div>
 </template>

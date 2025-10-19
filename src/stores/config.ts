@@ -13,10 +13,10 @@ export interface ConfigState {
     showThumbnails: boolean
     persist: boolean
     path: string
+    initialPath: string | null
     loadingIndicator: 'linear' | 'circular' | string
     maxFileSize: number | string | null
     pinnedFolders: DirEntry[]
-    customIcon: unknown
 }
 
 export type ConfigDefaults = Partial<ConfigState>
@@ -31,24 +31,24 @@ const DEFAULT_STATE: ConfigState = {
     showThumbnails: true,
     persist: false,
     path: '',
+    initialPath: null,
     loadingIndicator: 'circular',
     maxFileSize: null,
     pinnedFolders: [] as DirEntry[],
-    customIcon: undefined,
 }
 
 // Config store factory function
-export const createConfigStore = (id: string) => {
+export const createConfigStore = (id: string, initialConfig: ConfigDefaults | Record<string, unknown> = {}) => {
     const storeKey = `vuefinder_config_${id}`
     
     // Create persistent atom with default state
-    const state = persistentAtom<ConfigState>(storeKey, DEFAULT_STATE, {
+    const state = persistentAtom<ConfigState>(storeKey, { ...DEFAULT_STATE, ...initialConfig }, {
         encode: JSON.stringify,
         decode: JSON.parse,
     })
 
     // Helper functions
-    const init = (defaults: ConfigDefaults = {}) => {
+    const init = (defaults: ConfigDefaults | Record<string, unknown> = {}) => {
         const currentState = state.get()
         const newState = { ...DEFAULT_STATE, ...defaults, ...currentState }
         state.set(newState)

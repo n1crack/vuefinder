@@ -20,10 +20,10 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
 
-    const configStore = createConfigStore(props.id as string);
+    const configStore = createConfigStore(props.id as string, props.config ?? {});
     const filesStore = createFilesStore();
     const searchStore = createSearchStore();
-
+    
     const setFeatures = (features: unknown) => {
         if (Array.isArray(features)) {
             return features;
@@ -79,7 +79,5 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         filesize: configStore.get('metricUnits') ? filesizeMetric : filesizeDefault,
         // possible items of the context menu
         contextMenuItems: props.contextMenuItems,
-        // custom icon
-        customIcon: props.icon,
     });
 }

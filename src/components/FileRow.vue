@@ -83,7 +83,11 @@ const gridStyle = computed(() => {
         @dragstart="emit('dragstart', $event)"
         @dragend="emit('dragend', $event)"
         :explorerId="explorerId"
-      />
+      >
+        <template #icon="slotProps">
+          <slot name="icon" v-bind="slotProps" />
+        </template>
+      </FileItem>
     </div>
   </div>
 </template>

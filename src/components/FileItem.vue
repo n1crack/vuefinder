@@ -141,7 +141,11 @@ const delayedOpenItem = (event: TouchEvent) => {
           :data-src="app.requester.getPreviewUrl(item.storage, item)"
           :alt="item.basename"
         />
-        <ItemIcon v-else :item="item" :ext="true"/>
+        <ItemIcon v-else :item="item" :ext="true">
+          <template #icon="slotProps">
+            <slot name="icon" v-bind="slotProps" />
+          </template>
+        </ItemIcon>
       </div>
       <span class="vuefinder__explorer__item-title">{{ title_shorten(item.basename) }}</span>
     </div>
@@ -150,7 +154,11 @@ const delayedOpenItem = (event: TouchEvent) => {
     <div v-else class="vuefinder__explorer__item-list-content">
       <div class="vuefinder__explorer__item-list-name">
         <div class="vuefinder__explorer__item-list-icon">
-          <ItemIcon :item="item" :small="compact"/>
+          <ItemIcon :item="item" :small="compact">
+            <template #icon="slotProps">
+              <slot name="icon" v-bind="slotProps" />
+            </template>
+          </ItemIcon>
         </div>
         <span class="vuefinder__explorer__item-name">{{ item.basename }}</span>
         <div>

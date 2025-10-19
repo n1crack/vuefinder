@@ -417,7 +417,11 @@ const handleItemDragEnd = () => {
               @contextmenu="handleItemContextMenu"
               @dragstart="handleItemDragStart"
               @dragend="handleItemDragEnd"
-          />
+          >
+            <template #icon="slotProps">
+              <slot name="icon" v-bind="slotProps" />
+            </template>
+          </FileRow>
         </template>
         <!-- Grid View -->
         <template v-else-if="configState.view === 'grid'">
@@ -439,7 +443,11 @@ const handleItemDragEnd = () => {
               @contextmenu="handleItemContextMenu"
               @dragstart="handleItemDragStart"
               @dragend="handleItemDragEnd"
-          />
+          >
+            <template #icon="slotProps">
+              <slot name="icon" v-bind="slotProps" />
+            </template>
+          </FileRow>
         </template>
 
         <!-- List View -->
@@ -461,7 +469,11 @@ const handleItemDragEnd = () => {
               @contextmenu="handleItemContextMenu"
               @dragstart="handleItemDragStart"
               @dragend="handleItemDragEnd"
-          />
+          >
+            <template #icon="slotProps">
+              <slot name="icon" v-bind="slotProps" />
+            </template>
+          </FileRow>
         </template>
       </div>
     </div>

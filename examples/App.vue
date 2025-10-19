@@ -12,7 +12,7 @@ const examples = {
   default: "Inline select button example",
   externalSelect: "External select example",
   contextmenu: "Custom context menu example",
-  customIcons: "Custom Icons",
+  customIcons: "Custom Icons (Scoped Slot)",
   windowExamples: "Window Examples (Exit Menu Demo)",
   eventsDemo: "Events Demo - All VueFinder Events",
   customDclick: "Custom Double-Click Events Demo"
@@ -229,31 +229,6 @@ const customContextMenuItems = [
   }
 ]
 
-const customIconMap = {
-  'pdf':  PDFIcon,
-  'txt': TextIcon,
-}
-/**
- * @param {import('../src/types.js').App} app
- * @param {import('../src/types.js').DirEntry} item 
- */
-const customIcon = (app, config, item) => {
-  const props = {
-    style: {
-      padding: config.view === 'grid' || !config.compactListView ? '6px' : '1px',
-      height: '100%',
-      width: 'auto',
-      margin: 'auto',
-      backgroundColor: item.extension === 'pdf' ? 'red' : item.extension === 'txt' ? 'blue' : 'transparent',
-    }
-  }
-  const icon = customIconMap[item.extension]
-  if (icon) {
-    return { is: icon, props }
-  }
-  return undefined
-}
-
 // Function to open VueFinder in a popup window
 const openPopupWindow = () => {
   // Build popup url robustly (preserve existing query params)
@@ -314,7 +289,9 @@ const openPopupWindow = () => {
         v-if="example === 'default'"
         id='my_vuefinder'
         :request="request"
-        :max-file-size="maxFileSize"
+        :config="{
+            maxFileSize: maxFileSize, 
+        }"
         :features="features"
         @path-update="handlePathUpdate"
       >
@@ -341,9 +318,11 @@ const openPopupWindow = () => {
         <vue-finder
           id='my_vuefinder2'
           :request="request"
-          :max-file-size="maxFileSize"
+          :config="{
+            maxFileSize: maxFileSize,
+            loadingIndicator: 'linear'
+          }"
           :features="features"
-          loadingIndicator="linear"
           @select="handleSelect"
         />
 
@@ -363,7 +342,9 @@ const openPopupWindow = () => {
         v-if="example === 'contextmenu'"
         id='my_vuefinder3'
         :request="request"
-        :max-file-size="maxFileSize"
+        :config="{
+          maxFileSize: maxFileSize,
+        }"
         :features="features"
         :context-menu-items="customContextMenuItems"
       />
@@ -372,10 +353,16 @@ const openPopupWindow = () => {
         v-if="example === 'customIcons'"
         id='my_vuefinder4'
         :request="request"
-        :max-file-size="maxFileSize"
+        :config="{
+          maxFileSize: maxFileSize
+        }"
         :features="features"
-        :icon="customIcon"
-      />
+      >
+        <template #icon="{ app, config, item }">
+            <TextIcon class="vuefinder__item-icon__file" v-if="item.extension === 'txt'" />
+            <PDFIcon class="vuefinder__item-icon__file" v-else-if="item.extension === 'pdf'" />
+        </template>
+      </vue-finder>
 
       <div v-if="example === 'windowExamples'">
         
@@ -475,7 +462,9 @@ const openPopupWindow = () => {
         <vue-finder
           id='events-demo-vuefinder'
           :request="request"
-          :max-file-size="maxFileSize"
+          :config="{
+            maxFileSize: maxFileSize,
+          }"
           :features="features"
           @select="onSelectEvents"
           @path-change="onPathChangeEvents"
@@ -524,7 +513,9 @@ const openPopupWindow = () => {
         <vue-finder
           id='custom-dclick-vuefinder'
           :request="request"
-          :max-file-size="maxFileSize"
+          :config="{
+            maxFileSize: maxFileSize,
+          }"
           :features="features"
           @file-dclick="onCustomFileDclick"
           @folder-dclick="onCustomFolderDclick"

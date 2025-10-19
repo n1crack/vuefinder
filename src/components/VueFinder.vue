@@ -19,6 +19,7 @@ const emit = defineEmits(['select', 'path-change', 'upload-complete', 'delete-co
 const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
   persist: false,
+  config: () => ({}),
   path: '',
   features: true,
   debug: false,
@@ -27,7 +28,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   maxFileSize: '10mb',
   fullScreen: false,
   showTreeView: false,
-  pinnedFolders: () => [],
+  pinnedFolders: [],
   showThumbnails: true,
   loadingIndicator: 'linear',
   contextMenuItems: () => contextMenuItems,
@@ -168,11 +169,11 @@ function fetchPath(path: string | undefined) {
 
 // fetch initial data
 onMounted(() => {
-    watch(() => props.path, (path) => {
+    watch(() => config.get('path'), (path) => {
         fetchPath(path)
     })
 
-    const initialPath = config.get('persist') ? config.get('path') : props.path;
+    const initialPath = config.get('persist') ? config.get('path') : (config.get('initialPath') ?? '');
     fs.setPath(initialPath); 
     fetchPath(initialPath);
 
@@ -211,7 +212,11 @@ onMounted(() => {
           <Explorer 
             :on-file-dclick="props.onFileDclick"
             :on-folder-dclick="props.onFolderDclick"
-          />
+          >
+            <template #icon="slotProps">
+              <slot name="icon" v-bind="slotProps" />
+            </template>
+          </Explorer>
         </div>
         <Statusbar>
           <template #actions="slotProps">
