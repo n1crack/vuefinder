@@ -55,7 +55,8 @@ export default function useUpload(): UseUploadReturn {
             return;
         }
         message.value = '';
-        uppy.retryAll();
+        // will look into retrying failed uploads later
+        // uppy.retryAll();
         uppy.upload();
     };
 
@@ -177,12 +178,25 @@ export default function useUpload(): UseUploadReturn {
         uppy.on('complete', () => {
             uploading.value = false;
 
+            // Get the list of successfully uploaded file names from the queue
+            const successfullyUploadedFileNames = queue.value
+                .filter(entry => entry.status === QUEUE_ENTRY_STATUS.DONE)
+                .map(entry => entry.name);
+
+
+
+            // Fetch updated file list and filter only newly uploaded files
             app.emitter.emit('vf-fetch', { 
                 params: {q: 'index', path: currentPath.value.path, storage: currentPath.value.storage}, 
                 noCloseModal: true,
                 onSuccess: (data: any) => {
-                    // Emit upload-complete event with uploaded files
-                    const uploadedFiles = data?.files || [];
+                    // Filter data.files to only include the newly uploaded files
+                    const uploadedFiles = (data?.files || []).filter((file: any) => 
+                        successfullyUploadedFileNames.includes(file.basename)
+                    );
+
+                        
+                    // Emit upload-complete event with only the newly uploaded files from backend
                     app.emitter.emit('vf-upload-complete', uploadedFiles);
                 }
             });
