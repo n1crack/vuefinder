@@ -149,11 +149,13 @@ const delayedOpenItem = (event: TouchEvent) => {
     <!-- List View -->
     <div v-else class="vuefinder__explorer__item-list-content">
       <div class="vuefinder__explorer__item-list-name">
-        <LockSVG v-if="fs.isReadOnly(item)" class="vuefinder__item--readonly vuefinder__item--readonly--list-left" title="Read Only"/>
         <div class="vuefinder__explorer__item-list-icon">
           <ItemIcon :item="item" :small="compact"/>
         </div>
         <span class="vuefinder__explorer__item-name">{{ item.basename }}</span>
+        <div>
+            <LockSVG v-if="fs.isReadOnly(item)" class="vuefinder__item--readonly vuefinder__item--readonly--list" title="Read Only"/>
+        </div>
       </div>
       <div v-if="showPath" class="vuefinder__explorer__item-path">{{ item.path }}</div>
       <div v-if="!showPath" class="vuefinder__explorer__item-size">

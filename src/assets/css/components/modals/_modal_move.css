@@ -57,7 +57,7 @@
 }
 
 .vuefinder__move-modal__target-storage {
-  @apply text-xs font-medium text-sky-500 dark:text-sky-400 mr-1 flex-shrink-0;
+  @apply text-xs font-medium text-sky-500 dark:text-sky-400 mr-0.5 flex-shrink-0;
 }
 
 .vuefinder__move-modal__target-folder {
@@ -131,11 +131,14 @@
 }
 
 .vuefinder__modal-tree__icon--pin {
-  @apply h-4 w-4 text-orange-400 dark:text-blue-500 ml-auto;
+  @apply h-4 w-4 text-orange-400 dark:text-orange-500 ml-auto;
 }
 
 .vuefinder__modal-tree__text {
   @apply text-sm text-gray-700 dark:text-gray-300 truncate;
+}
+.vuefinder__modal-tree__text-storage {
+  @apply text-xs text-sky-500 dark:text-sky-400 truncate ml-1 border border-sky-300 dark:border-sky-600 rounded-md px-1 py-0.5;
 }
 
 /* Storage item styles */

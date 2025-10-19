@@ -21,7 +21,7 @@ onMounted(() => {
       </div>
       <div class="vuefinder__default-preview__icon-container">
         <FileSVG class="vuefinder__default-preview__file-icon" />
-        <div class="vuefinder__default-preview__file-name text-center" id="modal-title" :title="app.modal.data.item.path">
+        <div class="vuefinder__default-preview__file-name" id="modal-title" :title="app.modal.data.item.path">
             {{ app.modal.data.item.basename }}
         </div>
       </div>

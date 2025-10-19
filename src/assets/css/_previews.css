@@ -8,6 +8,10 @@
   @apply flex mb-2;
 }
 
+.vuefinder__default-preview__file-name {
+    @apply text-center text-sm text-gray-500 dark:text-gray-400;
+}
+
 .vuefinder__default-preview__title {
   @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
 }

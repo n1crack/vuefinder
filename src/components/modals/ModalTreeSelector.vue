@@ -170,7 +170,8 @@ onMounted(() => {
               :class="{ 'vuefinder__modal-tree__item--selected': modelValue?.path === folder.path }"
           >
             <FolderSVG class="vuefinder__modal-tree__icon"/>
-            <span class="vuefinder__modal-tree__text">{{ folder.basename }}</span>
+            <div class="vuefinder__modal-tree__text">{{ folder.basename }}</div>
+            <div class="vuefinder__modal-tree__text-storage">{{ folder.storage }}</div>
             <PinSVG class="vuefinder__modal-tree__icon vuefinder__modal-tree__icon--pin"/>
           </div>
         </div>
