@@ -26,6 +26,8 @@ const remove = () => {
       },
       onSuccess: () => {
         app.emitter.emit('vf-toast-push', {label: t('Files deleted.')});
+        // Emit delete-complete event with deleted items
+        app.emitter.emit('vf-delete-complete', items.value);
       },
       onError: (e: any) => {
         message.value = t(e.message);

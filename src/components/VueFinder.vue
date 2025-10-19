@@ -14,7 +14,7 @@ import TreeView from '../components/TreeView.vue';
 import {menuItems as contextMenuItems} from '../utils/contextmenu';
 import type {VueFinderProps, DirEntry} from '../types';
 
-const emit = defineEmits(['select', 'path-update'])
+const emit = defineEmits(['select', 'path-change', 'upload-complete', 'delete-complete', 'error', 'ready'])
 
 const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
 })
 
 // the object is passed to all components as props
-const app = ServiceContainer(props, inject('VueFinderOptions'));
+const app = ServiceContainer(props, inject('VueFinderOptions') || {});
 provide('ServiceContainer', app);
 const config = app.config;
 
@@ -54,13 +54,24 @@ app.emitter.on('vf-fetch-abort', () => {
   fs.setLoading(false);
 });
 
+// Listen for upload-complete event
+app.emitter.on('vf-upload-complete', (files: unknown) => {
+  emit('upload-complete', files as DirEntry[]);
+});
+
+// Listen for delete-complete event
+app.emitter.on('vf-delete-complete', (deletedItems: unknown) => {
+  emit('delete-complete', deletedItems as DirEntry[]);
+});
+
 // Fetch data for modal (doesn't change main directory)
-app.emitter.on('vf-fetch-modal', ({params, body = null, onSuccess = null, onError = null}: {
-  params: Record<string, unknown>,
-  body?: unknown,
-  onSuccess?: ((data: unknown) => void) | null,
-  onError?: ((error: unknown) => void) | null
-}) => {
+app.emitter.on('vf-fetch-modal', (event: unknown) => {
+  const {params, body = null, onSuccess = null, onError = null} = event as {
+    params: Record<string, unknown>,
+    body?: unknown,
+    onSuccess?: ((data: unknown) => void) | null,
+    onError?: ((error: unknown) => void) | null
+  };
   // Use a separate controller for modal requests
   let modalController: AbortController | null = null;
   modalController = new AbortController();
@@ -68,27 +79,36 @@ app.emitter.on('vf-fetch-modal', ({params, body = null, onSuccess = null, onErro
   
   app.requester.send({
     url: '',
-    method: params.m || 'get',
-    params: params,
-    body: body,
+    method: (params.m as 'get' | 'post' | 'put' | 'delete' | 'patch') || 'get',
+    params: params as Record<string, string | null | undefined>,
+    body: body as Record<string, string | null | undefined> | FormData | undefined,
     abortSignal: signal
   }).then((data) => {
     // Don't change main directory, just call onSuccess
-    onSuccess && onSuccess(data);
+    if (onSuccess) {
+      onSuccess(data);
+    }
   }).catch((error) => {
     console.error(error);
-    onError ? onError(error) : error && typeof error === 'object' && 'message' in error && app.emitter.emit('vf-toast-push', {label: (error as {message: string}).message, type: 'error'});
+    if (onError) {
+      onError(error);
+    } else if (error && typeof error === 'object' && 'message' in error) {
+      app.emitter.emit('vf-toast-push', {label: (error as {message: string}).message, type: 'error'});
+    }
+    // Emit error event
+    emit('error', error)
   });
 });
 
 // Fetch data
-app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = null, noCloseModal = false}: {
-  params: Record<string, unknown>,
-  body?: unknown,
-  onSuccess?: ((data: unknown) => void) | null,
-  onError?: ((error: unknown) => void) | null,
-  noCloseModal?: boolean
-}) => {
+app.emitter.on('vf-fetch', (event: unknown) => {
+  const {params, body = null, onSuccess = null, onError = null, noCloseModal = false} = event as {
+    params: Record<string, unknown>,
+    body?: unknown,
+    onSuccess?: ((data: unknown) => void) | null,
+    onError?: ((error: unknown) => void) | null,
+    noCloseModal?: boolean
+  };
   // Fill missing storage/path for common queries
  
   if (['index', 'search'].includes(params.q as string)) {
@@ -102,27 +122,28 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
   const signal = controller.signal;
   app.requester.send({
     url: '',
-    method: params.m || 'get',
-    params,
-    body,
+    method: (params.m as 'get' | 'post' | 'put' | 'delete' | 'patch') || 'get',
+    params: params as Record<string, string | null | undefined>,
+    body: body as Record<string, string | null | undefined> | FormData | undefined,
     abortSignal: signal,
-  }).then((data: Record<string, unknown>) => {
-    fs.setPath(data.dirname as string);
+  }).then((data) => {
+    const responseData = data as Record<string, unknown>;
+    fs.setPath(responseData.dirname as string);
     if (config.get('persist')) {
-       config.set('path', data.dirname as string);
+       config.set('path', responseData.dirname as string);
     }
 
     if (!noCloseModal) {
       app.modal.close();
     }
     // Sync store path from backend dirname so breadcrumbs render correctly
-    fs.setFiles(data.files as DirEntry[]);
+    fs.setFiles(responseData.files as DirEntry[]);
 
     fs.clearSelection();
     fs.setSelectedCount(0);
-    fs.setStorages(data.storages as string[]);
+    fs.setStorages(responseData.storages as string[]);
     if (onSuccess) {
-      onSuccess(data);
+      onSuccess(responseData);
     }
   }).catch((e: unknown) => {
     console.error(e)
@@ -133,6 +154,8 @@ app.emitter.on('vf-fetch', ({params, body = null, onSuccess = null, onError = nu
         app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
       }
     }
+    // Emit error event
+    emit('error', e)
   }).finally(() => {
     if (['index', 'search'].includes(params.q as string)) {
       fs.setLoading(false);
@@ -175,15 +198,18 @@ onMounted(() => {
     fs.setPath(initialPath); 
     fetchPath(initialPath);
 
-  // Emit path-update event based on store path
+  // Emit path-change event based on store path
   fs.path.listen((path) => {
-    emit('path-update', path)
+    emit('path-change', path.path)
   })
   
   // Emit select event based on store selected items
   fs.selectedItems.listen((items) => {
     emit('select', items);
   })
+  
+  // Emit ready event when VueFinder is initialized
+  emit('ready')
   
 
 });
@@ -194,7 +220,7 @@ onMounted(() => {
   <div class="vuefinder vuefinder__main" ref="root" tabindex="0">
     <div :class="app.theme.actualValue" style="height: 100%; width: 100%;">
       <div
-          :class="configState.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
+          :class="(configState as any)?.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
           class="vuefinder__main__container"
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')"

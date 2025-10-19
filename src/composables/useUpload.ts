@@ -177,7 +177,15 @@ export default function useUpload(): UseUploadReturn {
         uppy.on('complete', () => {
             uploading.value = false;
 
-            app.emitter.emit('vf-fetch', { params: {q: 'index', path: currentPath.value.path, storage: currentPath.value.storage}, noCloseModal: true });
+            app.emitter.emit('vf-fetch', { 
+                params: {q: 'index', path: currentPath.value.path, storage: currentPath.value.storage}, 
+                noCloseModal: true,
+                onSuccess: (data: any) => {
+                    // Emit upload-complete event with uploaded files
+                    const uploadedFiles = data?.files || [];
+                    app.emitter.emit('vf-upload-complete', uploadedFiles);
+                }
+            });
         });
 
         // Event listeners

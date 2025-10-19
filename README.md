@@ -125,8 +125,12 @@ To customize or update the styles, simply find the appropriate BEM class in the 
 ### Events
 | Event                                   | Description                                                                                                                |
 |-----------------------------------------|:---------------------------------------------------------------------------------------------------------------------------|
-| `'select': (items: any[]) => void`      | The callback function is invoked when the user selects a file or folder, and the selected elements are passed as arguments |
-| `'path-update': (path: string) => void` | The callback function is invoked when the user opens another folder.                                                       |
+| `'select': (items: DirEntry[]) => void`      | The callback function is invoked when the user selects a file or folder, and the selected elements are passed as arguments |
+| `'path-change': (path: string) => void` | The callback function is invoked when the user opens another folder.                                                       |
+| `'upload-complete': (files: DirEntry[]) => void` | The callback function is invoked when file uploads are completed successfully.                                              |
+| `'delete-complete': (deletedItems: DirEntry[]) => void` | The callback function is invoked when files or folders are deleted successfully.                                            |
+| `'error': (error: any) => void` | The callback function is invoked when an error occurs during any operation.                                                 |
+| `'ready': () => void` | The callback function is invoked when VueFinder is initialized and ready to use.                                           |
 
 ### Selection
 There are 2 ways to select files and folders.
@@ -161,6 +165,11 @@ Alternatively, you can use the select event to get the selected items.
   id='my_vuefinder'
   :request="request"
   @select="handleSelect"
+  @path-change="handlePathChange"
+  @upload-complete="handleUploadComplete"
+  @delete-complete="handleDeleteComplete"
+  @error="handleError"
+  @ready="handleReady"
 />
 
 <script setup>
@@ -172,6 +181,31 @@ Alternatively, you can use the select event to get the selected items.
   // handle select event, and store the selected items
   const handleSelect = (selection) => {
     selectedFiles.value = selection
+  }
+  
+  // handle path change event
+  const handlePathChange = (path) => {
+    console.log('Current path:', path)
+  }
+  
+  // handle upload complete event
+  const handleUploadComplete = (uploadedFiles) => {
+    console.log('Uploaded files:', uploadedFiles)
+  }
+  
+  // handle delete complete event
+  const handleDeleteComplete = (deletedItems) => {
+    console.log('Deleted items:', deletedItems)
+  }
+  
+  // handle error event
+  const handleError = (error) => {
+    console.error('VueFinder error:', error)
+  }
+  
+  // handle ready event
+  const handleReady = () => {
+    console.log('VueFinder is ready!')
   }
   // then with a button click, you can get the selected items easily
   // you can add this method to the click event of a button. 

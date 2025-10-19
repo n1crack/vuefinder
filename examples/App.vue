@@ -13,7 +13,8 @@ const examples = {
   externalSelect: "External select example",
   contextmenu: "Custom context menu example",
   customIcons: "Custom Icons",
-  windowExamples: "Window Examples (Exit Menu Demo)"
+  windowExamples: "Window Examples (Exit Menu Demo)",
+  eventsDemo: "Events Demo - All VueFinder Events"
 }
 
 // Check if we're in a popup window
@@ -68,47 +69,6 @@ const handlePopupSelect = (selection) => {
   filesFromPopup.value = selection
 }
 
-// Close directly from selection event
-const selectAndCloseFromEvent = (selection) => {
-  try {
-    filesFromPopup.value = selection
-  } catch (_) {}
-  selectAndClose()
-}
-
-const selectAndClose = () => {
-  // Wait for ack, then close; otherwise close after a short fallback
-  let ackReceived = false;
-  const onAck = (event: MessageEvent) => {
-    if (event.data && event.data.type === 'filesReceived') {
-      ackReceived = true;
-      window.removeEventListener('message', onAck);
-      window.close();
-    }
-  };
-  window.addEventListener('message', onAck);
-
-  // Send selected files to the parent window
-  try {
-    if (window.opener && !window.opener.closed) {
-      window.opener.postMessage({
-        type: 'filesSelected',
-        files: filesFromPopup.value
-      }, '*');
-    }
-  } catch (e) {
-    // ignore
-  }
-
-  // If no ack arrives in time, close anyway
-  setTimeout(() => {
-    if (!ackReceived) {
-      window.removeEventListener('message', onAck);
-      window.close();
-    }
-  }, 1000);
-}
-
 // Send selected items to parent from popup (normalizes payload)
 const sendSelectedToParent = (payload) => {
   try {
@@ -123,9 +83,13 @@ const sendSelectedToParent = (payload) => {
     if (window.opener && !window.opener.closed) {
       window.opener.postMessage({ type: 'filesSelected', files }, '*')
     }
-  } catch (_) {}
+  } catch {
+    // ignore
+  }
   // Close the popup right after sending the selection
-  try { window.close() } catch (_) {}
+  try { window.close() } catch {
+    // ignore
+  }
 }
 
 const handleButton = () => {
@@ -135,6 +99,63 @@ const handleButton = () => {
 const handlePathUpdate = (path) => {
   console.log('handlePathUpdate called with path:', path);
 }
+
+// Events Demo - Event handlers and state
+const eventLog = ref<Array<{type: string, message: string, timestamp: string, count?: number}>>([]);
+const selectedFilesEvents = ref<{path: string, name?: string}[]>([]);
+const currentPathEvents = ref<string>('');
+const uploadedFilesEvents = ref<{path: string, name?: string}[]>([]);
+const deletedFilesEvents = ref<{path: string, name?: string}[]>([]);
+const isReadyEvents = ref<boolean>(false);
+
+const addEventLog = (type: string, message: string, count?: number) => {
+  eventLog.value.unshift({
+    type,
+    message,
+    timestamp: new Date().toLocaleTimeString(),
+    count
+  });
+  // Keep only last 20 events
+  if (eventLog.value.length > 20) {
+    eventLog.value = eventLog.value.slice(0, 20);
+  }
+};
+
+// Event handlers for the events demo
+const onSelectEvents = (items: {path: string, basename: string, type: string}[]) => {
+  selectedFilesEvents.value = items;
+  addEventLog('select', `Selected ${items.length} item(s): ${items.map(item => item.basename).join(', ')}`, items.length);
+};
+
+const onPathChangeEvents = (path: string) => {
+  currentPathEvents.value = path;
+  addEventLog('path-change', `Path changed to: ${path}`);
+};
+
+const onUploadCompleteEvents = (files: {path: string, basename: string, type: string}[]) => {
+  uploadedFilesEvents.value = files;
+  addEventLog('upload-complete', `Uploaded ${files.length} file(s): ${files.map(file => file.basename).join(', ')}`, files.length);
+};
+
+const onDeleteCompleteEvents = (deletedItems: {path: string, basename: string, type: string}[]) => {
+  deletedFilesEvents.value = deletedItems;
+  addEventLog('delete-complete', `Deleted ${deletedItems.length} item(s): ${deletedItems.map(item => item.basename).join(', ')}`, deletedItems.length);
+};
+
+const onErrorEvents = (error: {message?: string} | string | null) => {
+  const errorMessage = typeof error === 'object' && error?.message ? error.message : 
+                      typeof error === 'string' ? error : 'Unknown error occurred';
+  addEventLog('error', `Error: ${errorMessage}`);
+};
+
+const onReadyEvents = () => {
+  isReadyEvents.value = true;
+  addEventLog('ready', 'VueFinder is ready and initialized');
+};
+
+const clearEventLog = () => {
+  eventLog.value = [];
+};
 
 // Listen messages from popup
 const handleMessage = (event) => {
@@ -202,7 +223,7 @@ const openPopupWindow = () => {
   // Build popup url robustly (preserve existing query params)
   const url = new URL(window.location.href);
   url.searchParams.set('popup', 'true');
-  const popup = window.open(url.toString(), 'vuefinder-popup', 'width=900,height=600,scrollbars=yes,resizable=yes');
+  window.open(url.toString(), 'vuefinder-popup', 'width=900,height=600,scrollbars=yes,resizable=yes');
 }
 
 </script>
@@ -341,6 +362,92 @@ const openPopupWindow = () => {
           </ul>
         </div>
   
+      </div>
+
+      <!-- Events Demo -->
+      <div v-if="example === 'eventsDemo'">
+        <div style="margin: 20px 0;">
+          <h2>VueFinder Events Demo</h2>
+          <p>This example demonstrates all VueFinder events. Interact with the file manager below to see events in action.</p>
+          
+          <!-- Status indicators -->
+          <div style="display: flex; gap: 20px; margin: 20px 0; flex-wrap: wrap;">
+            <div style="padding: 10px; background: #e8f5e8; border-radius: 5px; border-left: 4px solid #4caf50;">
+              <strong>Ready:</strong> {{ isReadyEvents ? '✅ Yes' : '❌ No' }}
+            </div>
+            <div style="padding: 10px; background: #e3f2fd; border-radius: 5px; border-left: 4px solid #2196f3;">
+              <strong>Current Path:</strong> {{ currentPathEvents || 'None' }}
+            </div>
+            <div style="padding: 10px; background: #fff3e0; border-radius: 5px; border-left: 4px solid #ff9800;">
+              <strong>Selected:</strong> {{ selectedFilesEvents.length }} item(s)
+            </div>
+            <div style="padding: 10px; background: #f3e5f5; border-radius: 5px; border-left: 4px solid #9c27b0;">
+              <strong>Uploaded:</strong> {{ uploadedFilesEvents.length }} file(s)
+            </div>
+            <div style="padding: 10px; background: #ffebee; border-radius: 5px; border-left: 4px solid #f44336;">
+              <strong>Deleted:</strong> {{ deletedFilesEvents.length }} item(s)
+            </div>
+          </div>
+
+          <!-- Event log -->
+          <div style="margin: 20px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <h3>Event Log ({{ eventLog.length }} events)</h3>
+              <button class="btn" @click="clearEventLog" :disabled="!eventLog.length">
+                Clear Log
+              </button>
+            </div>
+            <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background-color: #f9f9f9; border-radius: 5px;">
+              <div v-if="!eventLog.length" style="text-align: center; color: #666; padding: 20px;">
+                No events yet. Interact with the file manager to see events here.
+              </div>
+              <div v-for="(event, index) in eventLog" :key="index" 
+                   :style="{
+                     marginBottom: '8px',
+                     padding: '8px',
+                     borderRadius: '4px',
+                     backgroundColor: 'white',
+                     borderLeft: `4px solid ${
+                       event.type === 'select' ? '#4caf50' :
+                       event.type === 'path-change' ? '#2196f3' :
+                       event.type === 'upload-complete' ? '#9c27b0' :
+                       event.type === 'delete-complete' ? '#f44336' :
+                       event.type === 'error' ? '#ff5722' :
+                       event.type === 'ready' ? '#4caf50' : '#666'
+                     }`
+                   }">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <strong :style="{ color: event.type === 'error' ? '#f44336' : '#333' }">
+                      {{ event.type.toUpperCase() }}
+                    </strong>
+                    <span v-if="event.count !== undefined" style="margin-left: 8px; padding: 2px 6px; background: #e0e0e0; border-radius: 10px; font-size: 0.8em;">
+                      {{ event.count }}
+                    </span>
+                  </div>
+                  <small style="color: #666;">{{ event.timestamp }}</small>
+                </div>
+                <div style="margin-top: 4px; font-size: 0.9em; color: #555;">
+                  {{ event.message }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VueFinder with all events -->
+        <vue-finder
+          id='events-demo-vuefinder'
+          :request="request"
+          :max-file-size="maxFileSize"
+          :features="features"
+          @select="onSelectEvents"
+          @path-change="onPathChangeEvents"
+          @upload-complete="onUploadCompleteEvents"
+          @delete-complete="onDeleteCompleteEvents"
+          @error="onErrorEvents"
+          @ready="onReadyEvents"
+        />
       </div>
 
     </div>
