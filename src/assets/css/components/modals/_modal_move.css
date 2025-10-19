@@ -61,7 +61,7 @@
 }
 
 .vuefinder__move-modal__target-folder {
-  @apply text-xs tracking-wide text-gray-900 dark:text-gray-100 truncate;
+  @apply text-xs tracking-wide text-gray-700 dark:text-gray-100 truncate;
 }
 
 .vuefinder__move-modal__target-badge {
@@ -91,11 +91,11 @@
 }
 
 .vuefinder__modal-tree__header {
-  @apply px-4 py-2 border-b border-gray-200 dark:border-gray-700;
+  @apply px-4 py-1 border-b border-gray-200 dark:border-gray-700;
 }
 
 .vuefinder__modal-tree__title {
-  @apply text-sm font-medium text-gray-700 dark:text-gray-300;
+  @apply text-xs font-medium text-gray-700 dark:text-gray-300;
 }
 
 .vuefinder__modal-tree__content {
