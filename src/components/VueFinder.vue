@@ -14,7 +14,7 @@ import TreeView from '../components/TreeView.vue';
 import {menuItems as contextMenuItems} from '../utils/contextmenu';
 import type {VueFinderProps, DirEntry} from '../types';
 
-const emit = defineEmits(['select', 'path-change', 'upload-complete', 'delete-complete', 'error', 'ready'])
+const emit = defineEmits(['select', 'path-change', 'upload-complete', 'delete-complete', 'error', 'ready', 'file-dclick', 'folder-dclick'])
 
 const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
@@ -62,6 +62,15 @@ app.emitter.on('vf-upload-complete', (files: unknown) => {
 // Listen for delete-complete event
 app.emitter.on('vf-delete-complete', (deletedItems: unknown) => {
   emit('delete-complete', deletedItems as DirEntry[]);
+});
+
+// Listen for custom double-click events
+app.emitter.on('vf-file-dclick', (item: unknown) => {
+  emit('file-dclick', item as DirEntry);
+});
+
+app.emitter.on('vf-folder-dclick', (item: unknown) => {
+  emit('folder-dclick', item as DirEntry);
 });
 
 // Fetch data
@@ -198,7 +207,10 @@ onMounted(() => {
         <Breadcrumb/>
         <div class="vuefinder__main__content">
           <TreeView/>
-          <Explorer/>
+          <Explorer 
+            :on-file-dclick="props.onFileDclick"
+            :on-folder-dclick="props.onFolderDclick"
+          />
         </div>
         <Statusbar>
           <template #actions="slotProps">

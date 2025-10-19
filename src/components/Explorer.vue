@@ -14,6 +14,11 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 import {OverlayScrollbars} from 'overlayscrollbars';
 import 'overlayscrollbars/overlayscrollbars.css';
 
+const props = defineProps<{
+  onFileDclick?: (item: DirEntry) => void;
+  onFolderDclick?: (item: DirEntry) => void;
+}>();
+
 const app = inject('ServiceContainer') as ServiceContainer;
 const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
@@ -250,6 +255,18 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
 }
 
 const openItem = (item: DirEntry) => {
+  // Check if custom handlers are provided
+  if (item.type === 'file' && props.onFileDclick) {
+    app.emitter.emit('vf-file-dclick', item);
+    return;
+  }
+  
+  if (item.type === 'dir' && props.onFolderDclick) {
+    app.emitter.emit('vf-folder-dclick', item);
+    return;
+  }
+  
+  // Default behavior - execute context menu action
   const contextMenuItem = app.contextMenuItems.find((cmi: {
     show: (app: ServiceContainer, args: { searchQuery: string; items: DirEntry[]; target: DirEntry }) => boolean;
     action: (app: ServiceContainer, items: DirEntry[]) => void

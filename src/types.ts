@@ -31,6 +31,8 @@ export interface VueFinderProps {
   onUploadComplete?: (files: DirEntry[]) => void;
   onDeleteComplete?: (deletedItems: DirEntry[]) => void;
   onReady?: () => void;
+  onFileDclick?: (item: DirEntry) => void;
+  onFolderDclick?: (item: DirEntry) => void;
   icon?: CustomIcon
 }
 

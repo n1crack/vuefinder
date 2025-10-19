@@ -170,6 +170,8 @@ Alternatively, you can use the select event to get the selected items.
   @delete-complete="handleDeleteComplete"
   @error="handleError"
   @ready="handleReady"
+  @file-dclick="handleFileDoubleClick"
+  @folder-dclick="handleFolderDoubleClick"
 />
 
 <script setup>
@@ -207,6 +209,18 @@ Alternatively, you can use the select event to get the selected items.
   const handleReady = () => {
     console.log('VueFinder is ready!')
   }
+  
+  // handle file double-click event
+  const handleFileDoubleClick = (file) => {
+    console.log('File double-clicked:', file)
+    // Custom logic here - maybe download, open in external app, etc.
+  }
+  
+  // handle folder double-click event
+  const handleFolderDoubleClick = (folder) => {
+    console.log('Folder double-clicked:', folder)
+    // Custom logic here - maybe show folder info, add to favorites, etc.
+  }
   // then with a button click, you can get the selected items easily
   // you can add this method to the click event of a button. 
   const handleButtonClick = () => {
@@ -214,6 +228,38 @@ Alternatively, you can use the select event to get the selected items.
   }
 </script>
 ```
+
+### Custom Double-Click Behavior
+
+By default, VueFinder handles double-click events as follows:
+- **File double-click**: Opens preview modal
+- **Folder double-click**: Navigates to folder (changes path)
+
+You can customize this behavior by providing `@file-dclick` and `@folder-dclick` event handlers. When these handlers are provided, they will override the default behavior.
+
+```vue
+<vue-finder
+  :request="request"
+  @file-dclick="handleFileDoubleClick"
+  @folder-dclick="handleFolderDoubleClick"
+/>
+
+<script setup>
+const handleFileDoubleClick = (file) => {
+  // Custom file double-click behavior
+  // Example: Download file, open in external app, etc.
+  console.log('Custom file action:', file.basename);
+};
+
+const handleFolderDoubleClick = (folder) => {
+  // Custom folder double-click behavior  
+  // Example: Show folder info, add to favorites, etc.
+  console.log('Custom folder action:', folder.basename);
+};
+</script>
+```
+
+**Note**: If you don't provide these handlers, VueFinder will use the default behavior (preview for files, navigation for folders).
 
 ### Features 
 - Multi storage (see https://github.com/thephpleague/flysystem)
