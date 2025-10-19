@@ -172,8 +172,7 @@ const menuItems = computed(() => [
           const clipboard = fs?.getClipboard();
           if (clipboard?.items?.size > 0) {
             app?.modal?.open(clipboard.type === 'cut' ? ModalMove : ModalCopy, {
-              items: Array.from(clipboard.items),
-              targetPath: fs?.path?.get()?.path
+              items: { from: Array.from(clipboard.items), to: fs?.path?.get() }
             });
           }
         },
