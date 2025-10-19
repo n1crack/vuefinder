@@ -64,59 +64,25 @@ app.emitter.on('vf-delete-complete', (deletedItems: unknown) => {
   emit('delete-complete', deletedItems as DirEntry[]);
 });
 
-// Fetch data for modal (doesn't change main directory)
-app.emitter.on('vf-fetch-modal', (event: unknown) => {
-  const {params, body = null, onSuccess = null, onError = null} = event as {
-    params: Record<string, unknown>,
-    body?: unknown,
-    onSuccess?: ((data: unknown) => void) | null,
-    onError?: ((error: unknown) => void) | null
-  };
-  // Use a separate controller for modal requests
-  let modalController: AbortController | null = null;
-  modalController = new AbortController();
-  const signal = modalController.signal;
-  
-  app.requester.send({
-    url: '',
-    method: (params.m as 'get' | 'post' | 'put' | 'delete' | 'patch') || 'get',
-    params: params as Record<string, string | null | undefined>,
-    body: body as Record<string, string | null | undefined> | FormData | undefined,
-    abortSignal: signal
-  }).then((data) => {
-    // Don't change main directory, just call onSuccess
-    if (onSuccess) {
-      onSuccess(data);
-    }
-  }).catch((error) => {
-    console.error(error);
-    if (onError) {
-      onError(error);
-    } else if (error && typeof error === 'object' && 'message' in error) {
-      app.emitter.emit('vf-toast-push', {label: (error as {message: string}).message, type: 'error'});
-    }
-    // Emit error event
-    emit('error', error)
-  });
-});
-
 // Fetch data
 app.emitter.on('vf-fetch', (event: unknown) => {
-  const {params, body = null, onSuccess = null, onError = null, noCloseModal = false} = event as {
+  const {params, body = null, onSuccess = null, onError = null, dontCloseModal = false, dontChangePath = false} = event as {
     params: Record<string, unknown>,
     body?: unknown,
     onSuccess?: ((data: unknown) => void) | null,
     onError?: ((error: unknown) => void) | null,
-    noCloseModal?: boolean
+    dontCloseModal?: boolean
+    dontChangePath?: boolean
   };
   // Fill missing storage/path for common queries
- 
+ if (!dontChangePath) {
   if (['index', 'search'].includes(params.q as string)) {
     if (controller) {
       controller.abort();
     }
     fs.setLoading(true);
   }
+ }
 
   controller = new AbortController();
   const signal = controller.signal;
@@ -128,20 +94,22 @@ app.emitter.on('vf-fetch', (event: unknown) => {
     abortSignal: signal,
   }).then((data) => {
     const responseData = data as Record<string, unknown>;
-    fs.setPath(responseData.dirname as string);
-    if (config.get('persist')) {
-       config.set('path', responseData.dirname as string);
-    }
+    if (!dontChangePath) {
+      fs.setPath(responseData.dirname as string);
+      if (config.get('persist')) {
+         config.set('path', responseData.dirname as string);
+      }
 
-    if (!noCloseModal) {
-      app.modal.close();
-    }
-    // Sync store path from backend dirname so breadcrumbs render correctly
-    fs.setFiles(responseData.files as DirEntry[]);
+      if (!dontCloseModal) {
+        app.modal.close();
+      }
+      // Sync store path from backend dirname so breadcrumbs render correctly
+      fs.setFiles(responseData.files as DirEntry[]);
 
-    fs.clearSelection();
-    fs.setSelectedCount(0);
-    fs.setStorages(responseData.storages as string[]);
+      fs.clearSelection();
+      fs.setSelectedCount(0);
+      fs.setStorages(responseData.storages as string[]);
+    }
     if (onSuccess) {
       onSuccess(responseData);
     }

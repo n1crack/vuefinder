@@ -172,7 +172,7 @@ export default function useUpload(): UseUploadReturn {
 
         uppy.on('error', (error: any) => {
             message.value = error.message; uploading.value = false;
-            app.emitter.emit('vf-fetch', { params: {q: 'index'}, noCloseModal: true });
+            app.emitter.emit('vf-fetch', { params: {q: 'index'}, dontCloseModal: true });
         });
 
         uppy.on('complete', () => {
@@ -183,12 +183,10 @@ export default function useUpload(): UseUploadReturn {
                 .filter(entry => entry.status === QUEUE_ENTRY_STATUS.DONE)
                 .map(entry => entry.name);
 
-
-
             // Fetch updated file list and filter only newly uploaded files
             app.emitter.emit('vf-fetch', { 
                 params: {q: 'index', path: currentPath.value.path, storage: currentPath.value.storage}, 
-                noCloseModal: true,
+                dontCloseModal: true,
                 onSuccess: (data: any) => {
                     // Filter data.files to only include the newly uploaded files
                     const uploadedFiles = (data?.files || []).filter((file: any) => 
