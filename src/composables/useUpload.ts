@@ -19,6 +19,7 @@ export interface UseUploadReturn {
     openFileSelector: () => void; upload: () => void; cancel: () => void; remove: (file: QueueEntry) => void;
     clear: (onlySuccessful: boolean) => void; close: () => void;
     getClassNameForEntry: (entry: QueueEntry) => string; getIconForEntry: (entry: QueueEntry) => string;
+    addExternalFiles: (files: File[]) => void;
 }
 
 export default function useUpload(): UseUploadReturn {
@@ -87,6 +88,12 @@ export default function useUpload(): UseUploadReturn {
         } else {
             queue.value = [];
         }
+    };
+
+    const addExternalFiles = (files: File[]) => {
+        files.forEach(file => {
+            addFile(file);
+        });
     };
 
     onMounted(() => {
@@ -242,5 +249,6 @@ export default function useUpload(): UseUploadReturn {
         container, internalFileInput, internalFolderInput, pickFiles, pickFolders, dropArea,
         queue, message, uploading, hasFilesInDropArea, definitions,
         openFileSelector, upload, cancel, remove, clear, close, getClassNameForEntry, getIconForEntry,
+        addExternalFiles
     };
 }

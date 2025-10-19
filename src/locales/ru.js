@@ -144,5 +144,6 @@ export default {
     "Select Target Folder": "Выбрать целевую папку",
     "Storages": "Хранилища",
     "Loading": "Загрузка",
+    "Drop files here": "Перетащите файлы сюда",
     "uppy": uppyLocaleRu
 }

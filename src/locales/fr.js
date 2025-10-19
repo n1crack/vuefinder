@@ -145,5 +145,6 @@ export default {
     "Select Target Folder": "Sélectionner le dossier cible",
     "Storages": "Stockages",
     "Loading": "Chargement",
+    "Drop files here": "Déposez les fichiers ici",
     "uppy": uppyLocaleFr
 }

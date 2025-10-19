@@ -3,6 +3,7 @@ import {inject, onMounted, provide, watch} from 'vue';
 import {useStore} from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import {useHotkeyActions} from '../composables/useHotkeyActions';
+import {useExternalDragDrop} from '../composables/useExternalDragDrop';
 
 import MenuBar from '../components/MenuBar.vue';
 import Toolbar from '../components/Toolbar.vue';
@@ -11,6 +12,7 @@ import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
+import ModalUpload from '../components/modals/ModalUpload.vue';
 import {menuItems as contextMenuItems} from '../utils/contextmenu';
 import type {VueFinderProps, DirEntry} from '../types';
 
@@ -35,6 +37,14 @@ const fs = app.fs;
 const configState = useStore(config.state);
 
 useHotkeyActions(app);
+
+const { 
+  isDraggingExternal, 
+  handleDragEnter, 
+  handleDragOver, 
+  handleDragLeave, 
+  handleDrop
+} = useExternalDragDrop();
 
 /** @type {AbortController} */
 let controller: AbortController | null = null;
@@ -179,14 +189,29 @@ onMounted(() => {
   
   // Emit ready event when VueFinder is initialized
   emit('ready')
-  
-
 });
 
+
+  // External drag & drop handler
+  const handleExternalDrop = (e: DragEvent) => {
+    const droppedFiles = handleDrop(e);
+    if (droppedFiles.length > 0) {
+      app.modal.open(ModalUpload);
+
+      setTimeout(() => {
+        app.emitter.emit('vf-external-files-dropped', droppedFiles.map(f => f.file));
+      }, 100);
+    }
+  };
 </script>
 
 <template>
-  <div class="vuefinder vuefinder__main" ref="root" tabindex="0">
+  <div class="vuefinder vuefinder__main" ref="root" tabindex="0" 
+       @dragenter="handleDragEnter" 
+       @dragover="handleDragOver" 
+       @dragleave="handleDragLeave"
+       @drop="handleExternalDrop"
+       :class="{ 'vuefinder--dragging-external': isDraggingExternal }">
     <div :class="app.theme.actualValue" style="height: 100%; width: 100%;">
       <div
           :class="(configState as any)?.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
@@ -194,6 +219,13 @@ onMounted(() => {
           @mousedown="app.emitter.emit('vf-contextmenu-hide')"
           @touchstart="app.emitter.emit('vf-contextmenu-hide')"
       >
+        <!-- External Drag Drop Overlay -->
+        <div v-if="isDraggingExternal" class="vuefinder__external-drop-overlay">
+          <div class="vuefinder__external-drop-message">
+            {{ app.i18n.t('Drop files here') }}
+          </div>
+        </div>
+        
         <MenuBar/>
         <Toolbar/>
         <Breadcrumb/>

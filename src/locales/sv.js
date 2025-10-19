@@ -141,5 +141,6 @@ export default {
     "Select Target Folder": "Välj målmapp",
     "Storages": "Lagring",
     "Loading": "Laddar",
+    "Drop files here": "Släpp filer här",
     "uppy": uppyLocaleSv
 }

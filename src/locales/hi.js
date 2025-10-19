@@ -141,5 +141,6 @@ export default {
     "Select Target Folder": "लक्ष्य फोल्डर चुनें",
     "Storages": "स्टोरेज",
     "Loading": "लोड हो रहा है",
+    "Drop files here": "फाइलें यहाँ ड्रॉप करें",
     "uppy": uppyLocaleHi
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {inject} from 'vue';
+import {inject, onMounted, onUnmounted} from 'vue';
 import Message from '../../components/Message.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import ModalLayout from '../../components/modals/ModalLayout.vue';
@@ -30,7 +30,19 @@ const {
   close,
   getClassNameForEntry,
   getIconForEntry,
+  addExternalFiles,
 } = useUpload();
+
+// Dışarıdan gelen dosyaları dinle
+onMounted(() => {
+  app.emitter.on('vf-external-files-dropped', (files: File[]) => {
+    addExternalFiles(files);
+  });
+});
+
+onUnmounted(() => {
+  app.emitter.off('vf-external-files-dropped');
+});
 
 </script>
 
