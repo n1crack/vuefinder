@@ -1,4 +1,80 @@
 
+/* Navigation overlay - positioned on sides */
+.vuefinder__preview-modal__nav-overlay {
+  @apply absolute inset-0 pointer-events-none z-10;
+}
+
+.vuefinder__preview-modal__nav-side {
+  @apply absolute top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 text-white transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed pointer-events-auto flex items-center justify-center shadow-lg hover:shadow-xl;
+}
+
+.vuefinder__preview-modal__nav-side--left {
+  @apply left-4;
+}
+
+.vuefinder__preview-modal__nav-side--right {
+  @apply right-4;
+}
+
+.vuefinder__preview-modal__nav-side:not(:disabled):hover {
+  @apply transform -translate-y-1/2 scale-110;
+}
+
+.vuefinder__preview-modal__nav-icon {
+  @apply w-6 h-6;
+}
+
+/* Responsive navigation */
+@media (max-width: 768px) {
+  .vuefinder__preview-modal__nav-side {
+    @apply w-10 h-10;
+  }
+  
+  .vuefinder__preview-modal__nav-side--left {
+    @apply left-2;
+  }
+  
+  .vuefinder__preview-modal__nav-side--right {
+    @apply right-2;
+  }
+  
+  .vuefinder__preview-modal__nav-icon {
+    @apply w-5 h-5;
+  }
+}
+
+@media (max-width: 480px) {
+  .vuefinder__preview-modal__nav-side {
+    @apply w-8 h-8;
+  }
+  
+  .vuefinder__preview-modal__nav-side--left {
+    @apply left-1;
+  }
+  
+  .vuefinder__preview-modal__nav-side--right {
+    @apply right-1;
+  }
+  
+  .vuefinder__preview-modal__nav-icon {
+    @apply w-4 h-4;
+  }
+}
+
+/* Focus states for accessibility */
+.vuefinder__preview-modal__nav-side:focus {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-gray-900;
+}
+
+/* Disable focus outline for modal content */
+.vuefinder__preview-modal:focus {
+  @apply outline-none;
+}
+
+.vuefinder__preview-modal__content:focus {
+  @apply outline-none;
+}
+
 .vuefinder__preview-modal__content {
   @apply mt-3 sm:mt-0 sm:text-left w-full;
 }

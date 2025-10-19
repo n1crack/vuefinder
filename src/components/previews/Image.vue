@@ -87,8 +87,8 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="vuefinder__image-preview__image-container h-[50vh] w-full">
-      <img v-if="!showEdit" style="width: 100%; height: 100%;" :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)" 
+    <div class="vuefinder__image-preview__image-container">
+      <img v-if="!showEdit" style="" :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)" 
         class="vuefinder__image-preview__image w-full h-full" />
 
       <Cropper v-else ref="cropperRef"

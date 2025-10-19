@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {inject, ref} from 'vue';
+import {inject, ref, computed, onMounted} from 'vue';
+import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import Text from '../../components/previews/Text.vue';
 import Image from '../../components/previews/Image.vue';
@@ -9,6 +10,7 @@ import Audio from '../../components/previews/Audio.vue';
 import Pdf from '../../components/previews/Pdf.vue';
 import datetimestring from '../../utils/datetimestring';
 import {FEATURES} from "../../features";
+import type { DirEntry } from '../../types';
 
 const app = inject('ServiceContainer')
 const {t} = app.i18n
@@ -19,11 +21,110 @@ const enabledPreview = app.features.includes(FEATURES.PREVIEW)
 if (!enabledPreview) {
   loaded.value = true;
 }
+
+// Navigation logic - filter only files
+const currentItem = computed(() => app.modal.data.item);
+const files = useStore(app.fs.sortedFiles);
+const fileOnlyItems = computed(() => files.value.filter((f: DirEntry) => f.type === 'file'));
+const currentIndex = computed(() => fileOnlyItems.value.findIndex((f: DirEntry) => f.path === currentItem.value.path));
+
+const canNavigatePrevious = computed(() => {
+  return currentIndex.value > 0;
+});
+
+const canNavigateNext = computed(() => {
+  return currentIndex.value < fileOnlyItems.value.length - 1;
+});
+
+const navigateToPrevious = () => {
+  if (!canNavigatePrevious.value) return;
+  const previousItem = fileOnlyItems.value[currentIndex.value - 1];
+  
+  // Clear current selection
+  app.fs.clearSelection();
+  
+  // Select the previous item
+  app.fs.select(previousItem.path);
+  
+  // Update modal data instead of opening new modal
+  app.modal.data.item = previousItem;
+  app.modal.data.storage = app.modal.data.storage;
+};
+
+const navigateToNext = () => {
+  if (!canNavigateNext.value) return;
+  const nextItem = fileOnlyItems.value[currentIndex.value + 1];
+  
+  // Clear current selection
+  app.fs.clearSelection();
+  
+  // Select the next item
+  app.fs.select(nextItem.path);
+  
+  // Update modal data instead of opening new modal
+  app.modal.data.item = nextItem;
+  app.modal.data.storage = app.modal.data.storage;
+};
+
+// Keyboard navigation for preview
+const handleKeydown = (event: KeyboardEvent) => {
+  // Handle ESC key to close modal
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    event.stopPropagation();
+    app.modal.close();
+    return;
+  }
+  
+  // Handle arrow keys for navigation
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.key === 'ArrowLeft') {
+      navigateToPrevious();
+    } else {
+      navigateToNext();
+    }
+  }
+};
+
+onMounted(() => {
+  // Focus the modal for keyboard events
+  const modalWrapper = document.querySelector('.vuefinder__preview-modal');
+  if (modalWrapper) {
+    (modalWrapper as HTMLElement).focus();
+  }
+});
 </script>
 
 <template>
   <ModalLayout>
-    <div>
+    <div class="vuefinder__preview-modal" @keydown="handleKeydown" tabindex="0">
+      <!-- Navigation arrows - positioned on sides -->
+      <div class="vuefinder__preview-modal__nav-overlay">
+        <button 
+          @click="navigateToPrevious" 
+          :disabled="!canNavigatePrevious"
+          class="vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--left"
+          :title="t('Previous file')"
+        >
+          <svg class="vuefinder__preview-modal__nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
+        </button>
+        
+        <button 
+          @click="navigateToNext" 
+          :disabled="!canNavigateNext"
+          class="vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--right"
+          :title="t('Next file')"
+        >
+          <svg class="vuefinder__preview-modal__nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
+      </div>
+
       <div class="vuefinder__preview-modal__content">
         <div v-if="enabledPreview">
           <Text v-if="loadPreview('text')" @success="loaded = true"/>
