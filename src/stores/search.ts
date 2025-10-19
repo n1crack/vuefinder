@@ -14,9 +14,6 @@ export const createSearchStore = () => {
     // Create normal atom with default state (not persistent)
     const state = atom<SearchState>(DEFAULT_SEARCH_STATE)
 
-    // Computed values
-    const hasQuery = computed(state, (state) => state.query.length > 0)
-
     // Helper functions
     const setQuery = (newQuery: string, updateSearchMode: false) => {
         const query = newQuery ?? ''
@@ -61,9 +58,6 @@ export const createSearchStore = () => {
     return {
         // Store atom
         state,
-        
-        // Computed values
-        hasQuery,
         
         // Methods
         setQuery,

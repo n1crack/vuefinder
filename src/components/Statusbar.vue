@@ -8,11 +8,8 @@ import AboutSVG from "../assets/icons/about.svg";
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const fs = app.fs;
-const search = app.search;
 
 // Use nanostores reactive values for template reactivity
-const searchState = useStore(search.state);
-const hasQuery = useStore(search.hasQuery);
 const sortedFiles = useStore(fs.sortedFiles);
 const path = useStore(fs.path);
 const selectedCount = useStore(fs.selectedCount);
