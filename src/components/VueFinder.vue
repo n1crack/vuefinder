@@ -18,19 +18,9 @@ const emit = defineEmits(['select', 'path-change', 'upload-complete', 'delete-co
 
 const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
-  persist: false,
-  config: () => ({}),
-  path: '',
   features: true,
   debug: false,
   theme: 'system',
-  locale: undefined as string | undefined,
-  maxFileSize: '10mb',
-  fullScreen: false,
-  showTreeView: false,
-  pinnedFolders: [],
-  showThumbnails: true,
-  loadingIndicator: 'linear',
   contextMenuItems: () => contextMenuItems,
 })
 

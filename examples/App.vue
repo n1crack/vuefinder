@@ -97,8 +97,8 @@ const handleButton = () => {
   console.log(selectedFiles.value)
 }
 
-const handlePathUpdate = (path) => {
-  console.log('handlePathUpdate called with path:', path);
+const handlePathChange = (path) => {
+  console.log('handlePathChange called with path:', path);
 }
 
 // Events Demo - Event handlers and state
@@ -263,9 +263,11 @@ const openPopupWindow = () => {
         id='popup-vuefinder'
         :request="request"
         style="height: 100%; width: 100%;"
-        :max-file-size="maxFileSize"
+        :config="{
+            maxFileSize: maxFileSize,
+        }"
         :features="features"
-        @path-update="handlePathUpdate"
+        @path-change="handlePathChange"
         @select="handlePopupSelect"
       >
         <template #status-bar="{ selected, count }">
@@ -293,7 +295,7 @@ const openPopupWindow = () => {
             maxFileSize: maxFileSize, 
         }"
         :features="features"
-        @path-update="handlePathUpdate"
+        @path-change="handlePathChange"
       >
       
         <template #status-bar="{ selected, path, count }">
