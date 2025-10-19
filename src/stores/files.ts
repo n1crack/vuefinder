@@ -24,6 +24,7 @@ export const createFilesStore = () => {
     // Create atoms for state
     const currentPath = atom<string>('');
     const storages = atom<string[]>([]);
+    const read_only = atom<boolean>(false);
     const files = atom<DirEntry[]>([]);
     const sort = atom<SortState>({active: false, column: '', order: ''});
     const filter = atom<{kind: 'all' | 'files' | 'folders', showHidden: boolean}>({
@@ -301,6 +302,25 @@ export const createFilesStore = () => {
     const canGoBack = computed([historyIndex], (index) => index > 0);
     const canGoForward = computed([navigationHistory, historyIndex], (history, index) => index < history.length - 1);
 
+    const setReadOnly = (value: boolean) => {
+        read_only.set(value);
+    }
+
+    const getReadOnly = () => {
+        return read_only.get();
+    }
+
+    const isReadOnly = (file: DirEntry) => {
+        // Check if the current path is read-only
+        const currentPathReadOnly = read_only.get();
+        if (currentPathReadOnly) {
+            return true;
+        }
+        
+        // Check if the specific file/folder is read-only
+        return file.read_only ?? false;
+    };
+
     return {
         // Atoms (state)
         files,
@@ -348,6 +368,9 @@ export const createFilesStore = () => {
         setDraggedItem,
         getDraggedItem,
         clearDraggedItem,
+        setReadOnly,
+        getReadOnly,
+        isReadOnly,
         
         // Navigation
         goBack,

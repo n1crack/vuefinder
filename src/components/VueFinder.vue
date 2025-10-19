@@ -108,6 +108,7 @@ app.emitter.on('vf-fetch', (event: unknown) => {
       if (config.get('persist')) {
          config.set('path', responseData.dirname as string);
       }
+      fs.setReadOnly(responseData.read_only as boolean);
 
       if (!dontCloseModal) {
         app.modal.close();

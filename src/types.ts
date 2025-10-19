@@ -52,6 +52,7 @@ export interface DirEntry {
   file_size: number | null;
   last_modified: number | null;
   mime_type: string | null;
+  read_only?: boolean;
   visibility: string;
 }
 

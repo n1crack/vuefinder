@@ -4,6 +4,7 @@ import ItemIcon from './ItemIcon.vue';
 import PinSVG from "../assets/icons/pin.svg";
 import title_shorten from '../utils/title_shorten';
 import type { ServiceContainer, DirEntry } from '../types';
+import LockSVG from "../assets/icons/lock.svg";
 
 const props = defineProps<{
   item: DirEntry;
@@ -29,6 +30,7 @@ const emit = defineEmits<{
 const app = inject('ServiceContainer') as ServiceContainer;
 const fs = app.fs;
 const config = app.config;
+
 
 const itemClasses = computed(() => [
   'file-item-' + props.explorerId,
@@ -128,7 +130,9 @@ const delayedOpenItem = (event: TouchEvent) => {
   >
     <!-- Grid View -->
     <div v-if="view === 'grid'">
+      <LockSVG v-if="fs.isReadOnly(item)" class="vuefinder__item--readonly vuefinder__item--readonly--left" title="Read Only"/>
       <div class="vuefinder__explorer__item-grid-content">
+
         <img
           @touchstart="$event.preventDefault()"
           v-if="(item.mime_type ?? '').startsWith('image') && showThumbnails"
@@ -145,6 +149,7 @@ const delayedOpenItem = (event: TouchEvent) => {
     <!-- List View -->
     <div v-else class="vuefinder__explorer__item-list-content">
       <div class="vuefinder__explorer__item-list-name">
+        <LockSVG v-if="fs.isReadOnly(item)" class="vuefinder__item--readonly vuefinder__item--readonly--list-left" title="Read Only"/>
         <div class="vuefinder__explorer__item-list-icon">
           <ItemIcon :item="item" :small="compact"/>
         </div>

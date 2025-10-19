@@ -5,3 +5,18 @@
 .vuefinder__item--pinned {
   @apply absolute top-0 right-0 w-3 h-3 md:w-5 md:h-5 text-amber-600;
 }
+
+.vuefinder__item--readonly {
+  @apply absolute top-0.5 right-0.5 w-4 h-4 md:w-4 md:h-4;
+  z-index: 5;
+}
+
+.vuefinder__item--readonly--left {
+  @apply absolute top-0.5 left-0.5 w-4 h-4 md:w-4 md:h-4 text-neutral-500 dark:text-neutral-400;
+  z-index: 5;
+}
+
+.vuefinder__item--readonly--list-left {
+  @apply relative top-auto right-auto w-3 h-3 text-neutral-500 dark:text-neutral-400;
+  margin-right: 4px;
+}
