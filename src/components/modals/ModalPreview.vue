@@ -37,6 +37,7 @@ const canNavigateNext = computed(() => {
 });
 
 const navigateToPrevious = () => {
+  if (app.modal.editMode.value) return;
   if (!canNavigatePrevious.value) return;
   const previousItem = fileOnlyItems.value[currentIndex.value - 1];
   
@@ -52,6 +53,7 @@ const navigateToPrevious = () => {
 };
 
 const navigateToNext = () => {
+  if (app.modal.editMode.value) return;
   if (!canNavigateNext.value) return;
   const nextItem = fileOnlyItems.value[currentIndex.value + 1];
   
@@ -101,7 +103,7 @@ onMounted(() => {
   <ModalLayout>
     <div class="vuefinder__preview-modal" @keydown="handleKeydown" tabindex="0">
       <!-- Navigation arrows - positioned on sides -->
-      <div class="vuefinder__preview-modal__nav-overlay">
+      <div class="vuefinder__preview-modal__nav-overlay" v-if="!app.modal.editMode">
         <button 
           @click="navigateToPrevious" 
           :disabled="!canNavigatePrevious"
@@ -113,7 +115,7 @@ onMounted(() => {
           </svg>
         </button>
         
-        <button 
+        <button
           @click="navigateToNext" 
           :disabled="!canNavigateNext"
           class="vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--right"

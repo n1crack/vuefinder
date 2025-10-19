@@ -34,9 +34,10 @@ onMounted(() => {
       });
 });
 
-const editMode = () => {
+const toggleEditMode = () => {
   showEdit.value = !showEdit.value;
   contentTemp.value = content.value;
+  app.modal.setEditMode(showEdit.value);
 };
 
 const save = () => {
@@ -80,7 +81,7 @@ const save = () => {
         <button @click="save" class="vuefinder__text-preview__save-button" v-if="showEdit">
           {{ t('Save') }}
         </button>
-        <button class="vuefinder__text-preview__edit-button" @click="editMode()"
+        <button class="vuefinder__text-preview__edit-button" @click="toggleEditMode()"
                 v-if="app.features.includes(FEATURES.EDIT)">
           {{ showEdit ? t('Cancel') : t('Edit') }}
         </button>

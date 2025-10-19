@@ -20,8 +20,9 @@ const tempImageData = ref(previewUrl.value);
 
 const cropperRef = useTemplateRef<{ getResult: (options?: { size?: { width?: number; height?: number }; fillColor?: string }) => { canvas?: HTMLCanvasElement } } | null>('cropperRef');
 
-const editMode = async () => {
+const toggleEditMode = async () => {
   showEdit.value = !showEdit.value;
+  app.modal.setEditMode(showEdit.value);
 };
 
 const crop = async () => { 
@@ -53,7 +54,7 @@ const crop = async () => {
           }
           app.emitter.emit('vf-refresh-thumbnails');
           
-          editMode();
+          toggleEditMode();
           emit('success');
         })
         .catch((e: unknown) => {
@@ -80,7 +81,7 @@ onMounted(() => {
         <button @click="crop" class="vuefinder__image-preview__crop-button" v-if="showEdit">
           {{ t('Crop') }}
         </button>
-        <button class="vuefinder__image-preview__edit-button" @click="editMode()"
+        <button class="vuefinder__image-preview__edit-button" @click="toggleEditMode()"
                 v-if="app.features.includes(FEATURES.EDIT)">
           {{ showEdit ? t('Cancel') : t('Edit') }}
         </button>
@@ -95,7 +96,7 @@ onMounted(() => {
                class="w-full h-full"
                crossorigin="anonymous"
                :src="tempImageData"
-               :stencil-props="{ aspectRatio: 795/341 }"
+              
                :auto-zoom="true"
                :priority="'image'"
                :transitions="true"

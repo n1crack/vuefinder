@@ -4,6 +4,7 @@ export default function useModal() {
     const type = shallowRef<any>(null);
     const visible = ref(false);
     const data = ref<any>();
+    const editMode = ref(false);
 
     const open = (modal: any, payload: any = null) => {
         document.querySelector('body')!.style.overflow = 'hidden';
@@ -18,7 +19,11 @@ export default function useModal() {
         type.value = null;
     }
 
-    return {visible, type, data, open, close}
+    const setEditMode = (mode: boolean) => {
+        editMode.value = mode;
+    }
+
+    return {visible, type, data, open, close, setEditMode, editMode}
 }
 
 
