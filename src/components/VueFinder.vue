@@ -25,6 +25,8 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   theme: 'system',
   contextMenuItems: () => contextMenuItems,
   selectionMode: 'multiple',
+  selectionFilterType: 'both',
+  selectionFilterMimeIncludes: () => [],
 })
 
 // the object is passed to all components as props

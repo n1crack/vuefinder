@@ -44,11 +44,33 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		if (selectedKeys.value) {
 			selectedKeys.value.forEach((id: string) => {
 				const el = document.querySelector(`[data-key="${id}"]`);
-				if (el) {
+				if (el && isItemSelectable(id)) {
 					event.selection.select(el, true);
 				}
 			});
 		}
+	};
+
+	// Helper function to check if an item is selectable based on filters
+	const isItemSelectable = (key: string): boolean => {
+		const item = sortedFiles.value?.find((f: DirEntry) => getKey(f as T) === key);
+		if (!item) return false;
+
+		const filterType = app.selectionFilterType;
+		const allowedMimes = app.selectionFilterMimeIncludes;
+
+		// Check type filter
+		if (filterType === 'files' && item.type === 'dir') return false;
+		if (filterType === 'dirs' && item.type === 'file') return false;
+
+		// Check MIME filter - if MIME filters are active, only allow items with matching MIME types
+		if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+			// If item has no MIME type, it's not selectable when MIME filters are active
+			if (!item.mime_type) return false;
+			return allowedMimes.some((prefix: string) => item.mime_type?.startsWith(prefix));
+		}
+
+		return true;
 	};
 
     const getSelectionRange = (selectionParam: Set<string>) => {
@@ -129,10 +151,10 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         isDragging.value = true;
 
 		addedData.forEach((id) => {
-			if (selectedKeys.value && !selectedKeys.value.has(id)) {
+			if (selectedKeys.value && !selectedKeys.value.has(id) && isItemSelectable(id)) {
 				tempSelection.value.add(id);
+				fs.select(id, (app.selectionMode as 'single' | 'multiple') || 'multiple');
 			}
-			fs.select(id, (app.selectionMode as 'single' | 'multiple') || 'multiple');
 		});
 
         removedData.forEach((id) => {
@@ -203,7 +225,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	// Initialize SelectionArea
 	const initializeSelectionArea = () => {
 		selectionObject.value = new SelectionArea({
-			selectables: ['.file-item-' + explorerId],
+			selectables: ['.file-item-' + explorerId + ':not(.vf-explorer-item--unselectable)'],
 			boundaries: ['.scroller-'+ explorerId],
             selectionContainerClass: 'selection-area-container',
 			behaviour: {
@@ -239,6 +261,23 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		if (selectionObject.value) {
 			selectionObject.value.destroy();
 			selectionObject.value = null;
+		}
+	};
+
+	// Update SelectionArea when filters change
+	const updateSelectionArea = () => {
+		if (selectionObject.value) {
+			// Clean up selections that are no longer valid
+			const currentSelection = Array.from(selectedKeys.value || []);
+			currentSelection.forEach((key: string) => {
+				if (!isItemSelectable(key)) {
+					fs.deselect(key);
+				}
+			});
+			
+			// Re-initialize the selection area with updated selectables
+			destroySelectionArea();
+			initializeSelectionArea();
 		}
 	};
 
@@ -281,6 +320,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		selectSelectionRange,
 		initializeSelectionArea,
 		destroySelectionArea,
+		updateSelectionArea,
 		handleContentClick,
 	};
 }

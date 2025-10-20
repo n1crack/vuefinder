@@ -32,15 +32,33 @@ const fs = app.fs;
 const config = app.config;
 
 
+const isSelectableByType = computed(() => {
+  const filterType = app.selectionFilterType;
+  if (!filterType || filterType === 'both') return true;
+  return (filterType === 'files' && props.item.type === 'file') || (filterType === 'dirs' && props.item.type === 'dir');
+});
+
+const isSelectableByMime = computed(() => {
+  const allowed = app.selectionFilterMimeIncludes;
+  if (!allowed || !allowed.length) return true;
+  
+  // If MIME filters are active, only allow items with matching MIME types
+  if (!props.item.mime_type) return false;
+  return allowed.some((prefix: string) => props.item.mime_type?.startsWith(prefix));
+});
+
+const isSelectable = computed(() => isSelectableByType.value && isSelectableByMime.value);
+
 const itemClasses = computed(() => [
   'file-item-' + props.explorerId,
   props.view === 'grid' ? 'vf-explorer-item-grid' : 'vf-explorer-item-list',
-  props.isSelected ? 'vf-explorer-selected' : ''
+  props.isSelected ? 'vf-explorer-selected' : '',
+  !isSelectable.value ? 'vf-explorer-item--unselectable' : ''
 ]);
 
 
 const itemStyle = computed(() => ({
-  opacity: (props.isDragging || fs.isCut(props.item.path)) ? 0.5 : ''
+  opacity: (props.isDragging || fs.isCut(props.item.path) || !isSelectable.value) ? 0.5 : ''
 }));
 
 let touchTimeOut: ReturnType<typeof setTimeout> | null = null;

@@ -72,6 +72,9 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         features: setFeatures(props.features),
         // selection mode
         selectionMode: props.selectionMode || 'multiple',
+        // selection filters
+        selectionFilterType: props.selectionFilterType || 'both',
+        selectionFilterMimeIncludes: props.selectionFilterMimeIncludes || [],
         // treeViewData - temp. opened folders
         treeViewData: [], 
 

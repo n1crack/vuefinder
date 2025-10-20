@@ -89,6 +89,7 @@ const {
   isDragging,
   initializeSelectionArea,
   destroySelectionArea,
+  updateSelectionArea,
   handleContentClick
 } = useSelection<DirEntry>({
   getItemPosition,
@@ -173,6 +174,11 @@ onMounted(() => {
     }
   });
 
+  // Watch for filter changes and update selection area
+  watch(() => [app.selectionFilterType, app.selectionFilterMimeIncludes], () => {
+    updateSelectionArea();
+  }, { deep: true });
+
   // Initialize OverlayScrollbars custom track
   if (scrollBarContainer.value) {
     const instance = OverlayScrollbars(scrollBarContainer.value, {
@@ -241,6 +247,25 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   const mouse = event as MouseEvent | null;
   if (el) {
     const key = String(el.getAttribute('data-key'));
+    const item = sortedFiles.value?.find((f: DirEntry) => f.path === key);
+    // Block selection if not selectable per filters
+    const filterType = app.selectionFilterType;
+    const allowedMimes = app.selectionFilterMimeIncludes;
+    const typeAllowed = !filterType || filterType === 'both' || (filterType === 'files' && item?.type === 'file') || (filterType === 'dirs' && item?.type === 'dir');
+    
+    // Check MIME filter - if MIME filters are active, only allow items with matching MIME types
+    let mimeAllowed = true;
+    if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+      if (!item?.mime_type) {
+        mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+      } else {
+        mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
+      }
+    }
+    
+    if (!typeAllowed || !mimeAllowed) {
+      return;
+    }
     const selectionMode = app.selectionMode || 'multiple';
     
     if (!mouse?.ctrlKey && !mouse?.metaKey  &&  ( event.type !== 'touchstart' || !fs.isSelected(key))) {
@@ -291,6 +316,22 @@ const handleItemDblClick = (event: MouseEvent | TouchEvent) => {
   const key = el ? String(el.getAttribute('data-key')) : null;
   if (!key) return;
   const item = sortedFiles.value?.find((f: DirEntry) => f.path === key);
+  // Block open if not selectable
+  const filterType = app.selectionFilterType;
+  const allowedMimes = app.selectionFilterMimeIncludes;
+  const typeAllowed = !filterType || filterType === 'both' || (filterType === 'files' && item?.type === 'file') || (filterType === 'dirs' && item?.type === 'dir');
+  
+  // Check MIME filter - if MIME filters are active, only allow items with matching MIME types
+  let mimeAllowed = true;
+  if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+    if (!item?.mime_type) {
+      mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+    } else {
+      mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
+    }
+  }
+  
+  if (!typeAllowed || !mimeAllowed) return;
   if (item) {
     openItem(item);
   }
