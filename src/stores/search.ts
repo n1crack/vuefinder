@@ -1,4 +1,4 @@
-import { atom, computed } from 'nanostores'
+import { atom } from 'nanostores'
 export interface SearchState {
     query: string
     searchMode: boolean

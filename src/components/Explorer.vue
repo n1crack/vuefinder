@@ -119,9 +119,10 @@ watch(() => config.get('view'), (newView) => {
 
 watch(itemsPerRow, (n) => {
   if (config.get('view') === 'list' && n !== 1) {
-    itemsPerRow.value = 1;
+itemsPerRow.value = 1;
   }
 });
+
 
 const getItemAtRow = (rowIndex: number): DirEntry | undefined => {
   return sortedFiles.value?.[rowIndex];
@@ -240,15 +241,17 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   const mouse = event as MouseEvent | null;
   if (el) {
     const key = String(el.getAttribute('data-key'));
+    const selectionMode = config.get('selectionMode');
+    
     if (!mouse?.ctrlKey && !mouse?.metaKey  &&  ( event.type !== 'touchstart' || !fs.isSelected(key))) {
         fs.clearSelection();
         selectionObject.value?.clearSelection(true, true);
     }
     selectionObject.value?.resolveSelectables();
     if(event.type === 'touchstart' && fs.isSelected(key)) { 
-      fs.select(key);
+      fs.select(key, selectionMode);
     } else {
-      fs.toggleSelect(key);
+      fs.toggleSelect(key, selectionMode);
     }
   }
 

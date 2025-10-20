@@ -24,12 +24,16 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   debug: false,
   theme: 'system',
   contextMenuItems: () => contextMenuItems,
+  selectionMode: 'multiple',
 })
 
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions') || {});
 provide('ServiceContainer', app);
 const config = app.config;
+
+// Set selection mode from props
+config.set('selectionMode', props.selectionMode);
 
 const fs = app.fs;
 

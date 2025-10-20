@@ -132,19 +132,22 @@ const menuItems = computed(() => [
     id: 'edit',
     label: t('Edit'),
     items: [
-      {
-        id: 'select-all',
-        label: t('Select All'),
-        action: () => fs?.selectAll(),
-        enabled: () => true
-      },
-      {
-        id: 'deselect',
-        label: t('Deselect All'),
-        action: () => fs?.clearSelection(),
-        enabled: () => selectedItems.value.length > 0
-      },
-      { type: 'separator' },
+      // Only show Select All and Deselect All in multiple selection mode
+      ...(config?.get('selectionMode') === 'multiple' ? [
+        {
+          id: 'select-all',
+          label: t('Select All'),
+          action: () => fs?.selectAll(config?.get('selectionMode')),
+          enabled: () => true
+        },
+        {
+          id: 'deselect',
+          label: t('Deselect All'),
+          action: () => fs?.clearSelection(),
+          enabled: () => selectedItems.value.length > 0
+        },
+        { type: 'separator' }
+      ] : []),
       {
         id: 'cut',
         label: t('Cut'),

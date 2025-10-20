@@ -162,8 +162,14 @@ export const createFilesStore = () => {
         filter.set({kind: 'all', showHidden: false});
     }
 
-    const select = (key: string) => {
+    const select = (key: string, selectionMode: 'single' | 'multiple' = 'multiple') => {
         const currentKeys = new Set(selectedKeys.get());
+        
+        // In single selection mode, clear existing selection before adding new one
+        if (selectionMode === 'single') {
+            currentKeys.clear();
+        }
+        
         currentKeys.add(key);
         selectedKeys.set(currentKeys);
         selectedCount.set(currentKeys.size);
@@ -180,21 +186,36 @@ export const createFilesStore = () => {
         return selectedKeys.get().has(key);
     }
 
-    const toggleSelect = (key: string) => {
+    const toggleSelect = (key: string, selectionMode: 'single' | 'multiple' = 'multiple') => {
         const currentKeys = new Set(selectedKeys.get());
+        
         if (currentKeys.has(key)) {
             currentKeys.delete(key);
         } else {
+            // In single selection mode, clear existing selection before adding new one
+            if (selectionMode === 'single') {
+                currentKeys.clear();
+            }
             currentKeys.add(key);
         }
         selectedKeys.set(currentKeys);
         selectedCount.set(currentKeys.size);
     }
 
-    const selectAll = () => {
-        const allKeys = new Set(files.get().map(f => f.path));
-        selectedKeys.set(allKeys);
-        selectedCount.set(allKeys.size);
+    const selectAll = (selectionMode: 'single' | 'multiple' = 'multiple') => {
+        // In single selection mode, selectAll should only select the first item
+        if (selectionMode === 'single') {
+            const firstFile = files.get()[0];
+            if (firstFile) {
+                const firstKey = firstFile.path;
+                selectedKeys.set(new Set([firstKey]));
+                selectedCount.set(1);
+            }
+        } else {
+            const allKeys = new Set(files.get().map(f => f.path));
+            selectedKeys.set(allKeys);
+            selectedCount.set(allKeys.size);
+        }
     }
 
     const clearSelection = () => {

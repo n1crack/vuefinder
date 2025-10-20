@@ -17,6 +17,7 @@ export interface VueFinderProps {
   theme?: "system" | "light" | "dark";
   locale?: string;
   contextMenuItems?: ContextMenuItem[];
+  selectionMode?: "single" | "multiple";
   onError?: (error: any) => void;
   onSelect?: SelectEvent;
   onPathChange?: UpdatePathEvent;
