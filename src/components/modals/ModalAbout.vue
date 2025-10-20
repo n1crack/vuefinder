@@ -199,6 +199,7 @@ import AboutSVG from "../icons/gear.svg";
 
 import { FEATURES } from '../../features.js';
 import ModalHeader from "./ModalHeader.vue";
+import { sanitizeLocale } from '../../composables/useI18n.js';
 
 const app = inject('ServiceContainer');
 const {setStore, clearStore} = app.storage;
@@ -263,26 +264,14 @@ const handlePersistPath = () => {
 
 const {i18n} = inject('VueFinderOptions');
 
-const languageList = {
-  ar: 'Arabic (العربيّة)',
-  en: 'English',
-  fr: 'French (Français)',
-  de: 'German (Deutsch)',
-  fa: 'Persian (فارسی)',
-  he: 'Hebrew (עִברִית)',
-  hi: 'Hindi (हिंदी)',
-  pl: 'Polish (Polski)',
-  ru: 'Russian (Pусский)',
-  sv: 'Swedish (Svenska)',
-  tr: 'Turkish (Türkçe)',
-  nl: 'Dutch (Nederlands)',
-  zhCN: 'Simplified Chinese (简体中文)',
-  zhTW: 'Traditional Chinese (繁體中文)',
-};
+const languagesInEnglish = new Intl.DisplayNames(["en"], { type: "language" });
 
-// Filter the supportedLanguages object
 const supportedLanguages = Object.fromEntries(
-  Object.entries(languageList).filter(([key]) => Object.keys(i18n).includes(key))
+  Object.keys(i18n).map((locale) => {
+    const sanitized = sanitizeLocale(locale)
+    const languagesInLocale = new Intl.DisplayNames([sanitized, "en"], { type: "language" });
+    return [locale, `${languagesInEnglish.of(sanitized)} (${languagesInLocale.of(sanitized)})`]
+  })
 );
 
 const themes = computed(() => ({

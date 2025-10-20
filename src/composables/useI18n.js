@@ -1,14 +1,51 @@
 import {reactive, ref, watch} from 'vue';
 
-export async function loadLocale(locale, supportedLocales) {
-    const localeData = supportedLocales[locale];
-    return typeof localeData === 'function' ? (await localeData()).default : localeData;
+/**
+ * @param {string} locale 
+ * @returns 
+ */
+export function sanitizeLocale(locale) {
+    return locale.toLowerCase().replace("_", "-")
 }
 
-export function useI18n(storage, initialLocale, emitter, supportedLocales) {
+/**
+ * @param {string} locale 
+ * @param {Record<string, any>} supportedLocales 
+ * @param {false | string} fallback
+ * @returns 
+ */
+function findLocale(locale, supportedLocales, fallback=false) {
+    const exactMatch = Object.keys(supportedLocales).find(
+        (supported) => sanitizeLocale(supported) === sanitizeLocale(locale)
+    );
+    if (exactMatch) {
+        return supportedLocales[exactMatch];
+    }
+    const sameLanguage = Object.keys(supportedLocales).find(
+        (supported) =>
+            sanitizeLocale(supported).split("-")[0] ===
+            sanitizeLocale(locale).split("-")[0]
+    );
+
+    if(!sameLanguage && fallback) {
+        return findLocale(fallback, supportedLocales)
+    }
+
+    return supportedLocales[sameLanguage];
+}
+
+export async function loadLocale(locale, supportedLocales) {
+    const localeLoader = findLocale(locale, supportedLocales);
+    return typeof localeLoader === 'function' ? (await localeLoader()).default : localeLoader;
+}
+
+export function useI18n(storage, localeProp, emitter, supportedLocales) {
+    const [initialLocale, overrideStorage] = [localeProp.replace('!', ''), localeProp.includes('!')]
     const {getStore, setStore} = storage;
     const translations = ref({});
-    const locale = ref(getStore('locale', initialLocale));
+    const locale = overrideStorage 
+        ? ref(supportedLocales[initialLocale] === undefined ? 'en' : initialLocale) 
+        : ref(getStore('locale', initialLocale));
 
     const changeLocale = (newLocale, defaultLocale = initialLocale) => {
         loadLocale(newLocale, supportedLocales).then((i18n) => {
@@ -21,6 +58,7 @@ export function useI18n(storage, initialLocale, emitter, supportedLocales) {
                 emitter.emit('vf-language-saved');
             }
         }).catch(e => {
+            console.error(e)
             if (defaultLocale) {
                 emitter.emit('vf-toast-push', {label: 'The selected locale is not yet supported!', type: 'error'});
                 changeLocale(defaultLocale, null);
@@ -34,7 +72,7 @@ export function useI18n(storage, initialLocale, emitter, supportedLocales) {
         changeLocale(newLocale);
     });
 
-    if (!getStore('locale') && !supportedLocales.length) {
+    if (!getStore('locale') || getStore('locale') !== locale.value) {
         changeLocale(initialLocale);
     } else {
         translations.value = getStore('translations');
@@ -51,4 +89,3 @@ export function useI18n(storage, initialLocale, emitter, supportedLocales) {
 
     return reactive({t, locale});
 }
-

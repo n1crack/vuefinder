@@ -1,6 +1,4 @@
-import uppyLocalezhCN from '@uppy/locales/lib/zh_CN.js';
-
-export default {
+{
     "Language": "语言",
     "Create": "创建",
     "Close": "关闭",
@@ -75,15 +73,15 @@ export default {
     "Settings": "设置",
     "Shortcuts": "快捷键",
     "Reset": "重置",
-    'Escape': '退出',
-    'Search': '搜索',
-    'Toggle Sidebar': '切换侧边栏',
-    'Open Settings': '打开设置',
+    "Escape": "退出",
+    "Search": "搜索",
+    "Toggle Sidebar": "切换侧边栏",
+    "Open Settings": "打开设置",
     "Reset all settings to default": "重置所有设置为默认",
     "Use Metric Units": "使用公制单位",
     "Saved.": "已保存。",
     "Reset Settings": "重置设置",
-    "Download doesn\'t work? You can try right-click \"Download\" button, select \"Save link as...\".": "下载不管用？您可以尝试右键点击“下载”按钮，选择“链接另存为...”。",
+    "Download doesn't work? You can try right-click \"Download\" button, select \"Save link as...\".": "下载不管用？您可以尝试右键点击“下载”按钮，选择“链接另存为...”。",
     "Theme": "主题",
     "Dark": "深色",
     "Light": "浅色",
@@ -100,6 +98,5 @@ export default {
     "Unpin Folder": "取消固定文件夹",
     "Project home": "项目主页",
     "Follow on GitHub": "在 GitHub 上关注",
-    "Customize your experience with the following settings": "使用以下设置自定义您的体验",
-    "uppy": uppyLocalezhCN
+    "Customize your experience with the following settings": "使用以下设置自定义您的体验"
 }
