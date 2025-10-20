@@ -238,6 +238,7 @@ declare module 'vue' {
 - Python: [Python WSGI](https://github.com/abichinger/vuefinder-wsgi)
 - Go: [vuefinder-go](https://github.com/Duke1616/vuefinder-go)
 - Rust: [vuefinder-rust](https://github.com/boenfu/vuefinder-rust)
+- CloudFlare R2: [Cloudflare R2](https://github.com/NightFurySL2001/r2-explorer-demo)
 
 You can use any backend language. Just be sure, the response should be compatible.
 If you develop a backend library for another language, please let me know to add it here.
