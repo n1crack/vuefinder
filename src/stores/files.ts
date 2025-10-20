@@ -5,10 +5,15 @@ import { useStore } from '@nanostores/vue';
 export type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
 export type SortOrder = 'asc' | 'desc' | '';
 
-interface SortState {
+export interface SortState {
     active: boolean;
     column: SortColumn;
     order: SortOrder;
+}
+
+export interface FilterState {
+    kind: 'all' | 'files' | 'folders';
+    showHidden: boolean;
 }
 
 function compareValues(a: unknown, b: unknown): number {
@@ -27,7 +32,7 @@ export const createFilesStore = () => {
     const read_only = atom<boolean>(false);
     const files = atom<DirEntry[]>([]);
     const sort = atom<SortState>({active: false, column: '', order: ''});
-    const filter = atom<{kind: 'all' | 'files' | 'folders', showHidden: boolean}>({
+    const filter = atom<FilterState>({
         kind: 'all',
         showHidden: false
     });

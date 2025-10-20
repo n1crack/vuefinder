@@ -22,6 +22,11 @@ import MinimizeSVG from "../assets/icons/minimize.svg";
 import GridViewSVG from "../assets/icons/grid_view.svg";
 import ListViewSVG from "../assets/icons/list_view.svg";
 import FilterSVG from "../assets/icons/filter.svg";
+import type { StoreValue } from 'nanostores';
+import type { SearchState } from '../stores/search';
+import type { ConfigState } from '../stores/config';
+import type { DirEntry } from '../types';
+import type { SortState, FilterState } from '../stores/files';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -33,11 +38,11 @@ const config = app.config;
 const search = app.search;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config.state);
-const searchState = useStore(search.state);
-const selectedItems = useStore(fs.selectedItems);
-const fsSortState = useStore(fs.sort);
-const fsFilterState = useStore(fs.filter);
+const configState: StoreValue<ConfigState> = useStore(config.state);
+const searchState: StoreValue<SearchState> = useStore(search.state);
+const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
+const fsSortState: StoreValue<SortState> = useStore(fs.sort);
+const fsFilterState: StoreValue<FilterState> = useStore(fs.filter);
 
 watch(() => configState.value.fullScreen, () => {
   if (configState.value.fullScreen) {
