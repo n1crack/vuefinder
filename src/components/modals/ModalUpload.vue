@@ -55,8 +55,6 @@ const {
   internalFileInput,
   internalFolderInput,
   pickFiles,
-  pickFolders,
-  dropArea,
   queue,
   message,
   uploading,
@@ -90,13 +88,29 @@ onUnmounted(() => {
   app.emitter.off('vf-external-files-dropped');
 });
 
+// Dropdown state
+const showActions = ref(false);
+
+// Close dropdown on outside click (handle both mobile and desktop menus)
+const actionsMenuMobileRef = ref<HTMLElement | null>(null);
+const actionsMenuDesktopRef = ref<HTMLElement | null>(null);
+const onClickOutside = (e: MouseEvent) => {
+  if (!showActions.value) return;
+  const target = e.target as Node;
+  const inMobile = actionsMenuMobileRef.value?.contains(target) ?? false;
+  const inDesktop = actionsMenuDesktopRef.value?.contains(target) ?? false;
+  if (!inMobile && !inDesktop) showActions.value = false;
+};
+onMounted(() => document.addEventListener('click', onClickOutside));
+onUnmounted(() => document.removeEventListener('click', onClickOutside));
+
 </script>
 
 <template>
-  <ModalLayout>
+  <ModalLayout :showDragOverlay="hasFilesInDropArea" :dragOverlayText="t('Release to drop these files.')">
     <div>
       <ModalHeader :icon="UploadSVG" :title="t('Upload Files')"></ModalHeader>
-      <div class="vuefinder__upload-modal__content">
+      <div class="vuefinder__upload-modal__content relative">
         <!-- Target Folder Selection - Compact version above dropzone -->
         <div class="vuefinder__upload-modal__target-section">
           <div class="vuefinder__upload-modal__target-label">{{ t('Hedef Klasör') }}</div>
@@ -127,28 +141,13 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <div class="vuefinder__upload-modal__drop-area" ref="dropArea" @click="openFileSelector">
-          <div class="pointer-events-none" v-if="hasFilesInDropArea">
-            {{ t('Release to drop these files.') }}
-          </div>
-          <div class="pointer-events-none" v-else>
-            {{ t('Drag and drop the files/folders to here or click here.') }}
-          </div>
+        <!-- Drag and drop hint -->
+        <div class="hidden sm:block text-sm lg:text-base text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">
+          {{ t('You can drag & drop files anywhere while this modal is open.') }}
         </div>
-        <div ref="container" class="vuefinder__upload-modal__buttons">
-          <button ref="pickFiles" type="button" class="vf-btn vf-btn-secondary">
-            {{ t('Select Files') }}
-          </button>
-          <button ref="pickFolders" type="button" class="vf-btn vf-btn-secondary">
-            {{ t('Select Folders') }}
-          </button>
-          <button type="button" class="vf-btn vf-btn-secondary" :disabled="uploading" @click="clear(false)">
-            {{ t('Clear all') }}
-          </button>
-          <button type="button" class="vf-btn vf-btn-secondary" :disabled="uploading" @click="clear(true)">
-            {{ t('Clear only successful') }}
-          </button>
-        </div>
+
+        <!-- Container for programmatic hooks -->
+        <div ref="container" class="hidden"></div>
         <div class="vuefinder__upload-modal__file-list vf-scrollbar">
           <div class="vuefinder__upload-modal__file-entry" :key="entry.id" v-for="entry in queue">
             <span class="vuefinder__upload-modal__file-icon" :class="getClassNameForEntry(entry)">
@@ -186,14 +185,45 @@ onUnmounted(() => {
     <input ref="internalFolderInput" type="file" multiple webkitdirectory class="hidden">
 
     <template v-slot:buttons>
-      <button type="button" class="vf-btn vf-btn-primary" :disabled="uploading" @click.prevent="upload">
+      <!-- Mobile group: above Upload -->
+      <div class="sm:hidden relative w-full mb-2" ref="actionsMenuMobileRef">
+        <div :class="['vuefinder__upload-actions','vuefinder__upload-actions--block', showActions ? 'vuefinder__upload-actions--ring' : '']">
+          <button type="button" class="vuefinder__upload-actions__main" @click="openFileSelector()">{{ t('Select Files') }}</button>
+          <button type="button" class="vuefinder__upload-actions__trigger" @click.stop="showActions = !showActions" aria-haspopup="menu" :aria-expanded="showActions ? 'true' : 'false'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" /></svg>
+          </button>
+        </div>
+        <div v-if="showActions" class="vuefinder__upload-actions__menu left-0 right-0 absolute bottom-full mb-2">
+          <button type="button" class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">{{ t('Select Files') }}</button>
+          <button type="button" class="vuefinder__upload-actions__item" @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}</button>
+          <div class="vuefinder__upload-actions__separator"></div>
+          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading" @click="clear(false); showActions=false">{{ t('Clear all') }}</button>
+          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading" @click="clear(true); showActions=false">{{ t('Clear only successful') }}</button>
+        </div>
+      </div>
+
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="uploading || !queue.length" @click.prevent="upload">
         {{ t('Upload') }}
       </button>
-      <button type="button" class="vf-btn vf-btn-secondary" v-if="uploading" @click.prevent="cancel">{{
-          t('Cancel')
-        }}
-      </button>
+      <button type="button" class="vf-btn vf-btn-secondary" v-if="uploading" @click.prevent="cancel">{{ t('Cancel') }}</button>
       <button type="button" class="vf-btn vf-btn-secondary" v-else @click.prevent="close">{{ t('Close') }}</button>
+
+      <!-- Desktop group: far left (row-reverse makes last child appear leftmost) -->
+      <div class="hidden sm:block relative mr-auto" ref="actionsMenuDesktopRef">
+        <div class="vuefinder__upload-actions" :class="showActions ? 'vuefinder__upload-actions--ring' : ''">
+          <button ref="pickFiles" type="button" class="vuefinder__upload-actions__main">{{ t('Select Files') }}</button>
+          <button type="button" class="vuefinder__upload-actions__trigger" @click.stop="showActions = !showActions" aria-haspopup="menu" :aria-expanded="showActions ? 'true' : 'false'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" /></svg>
+          </button>
+        </div>
+        <div v-if="showActions" class="vuefinder__upload-actions__menu absolute bottom-full mb-2 left-0">
+          <button type="button" class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">{{ t('Select Files') }}</button>
+          <button type="button" class="vuefinder__upload-actions__item" @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}</button>
+          <div class="vuefinder__upload-actions__separator"></div>
+          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading" @click="clear(false); showActions=false">{{ t('Clear all') }}</button>
+          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading" @click="clear(true); showActions=false">{{ t('Clear only successful') }}</button>
+        </div>
+      </div>
     </template>
   </ModalLayout>
 </template>

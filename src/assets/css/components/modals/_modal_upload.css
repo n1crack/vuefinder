@@ -51,3 +51,59 @@
   @apply w-5 h-5;
 }
 
+/* Upload actions (Select Files + caret) */
+.vuefinder__upload-actions {
+  @apply inline-flex items-stretch;
+}
+
+.vuefinder__upload-actions--block {
+  @apply w-full;
+}
+
+.vuefinder__upload-actions--ring {
+  @apply ring-1 ring-gray-300 dark:ring-gray-600 rounded-md;
+}
+
+.vuefinder__upload-actions__main {
+  @apply border flex-1 border-gray-300 dark:border-gray-700 h-9 px-3 text-sm !m-0 !rounded-l-md !rounded-r-none bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 cursor-pointer select-none;
+}
+
+.vuefinder__upload-actions__trigger {
+  @apply border border-gray-300 dark:border-gray-700 !border-l-0 -ml-px w-9 h-9 flex items-center justify-center !m-0 !px-0 !rounded-l-none !rounded-r-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 cursor-pointer select-none;
+}
+
+.vuefinder__upload-actions__main:hover,
+.vuefinder__upload-actions__trigger:hover {
+  @apply bg-gray-50 dark:bg-gray-700/70;
+}
+
+.vuefinder__upload-actions__menu {
+  @apply absolute z-10 min-w-[12rem] rounded-md border border-gray-200 dark:border-gray-700 shadow-lg py-1 text-sm;
+  background: rgba(17, 24, 39, 0.88); /* darker backdrop */
+}
+
+.vuefinder__upload-actions__menu--light {
+  @apply bg-gray-900/80 text-gray-100;
+}
+
+.vuefinder__upload-actions__item {
+  @apply block w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200;
+}
+
+.vuefinder__upload-actions__separator {
+  @apply my-1 h-px bg-gray-200 dark:bg-gray-700;
+}
+
+/* Disabled states */
+.vuefinder__upload-actions__main:disabled,
+.vuefinder__upload-actions__trigger:disabled {
+  @apply opacity-50 cursor-not-allowed bg-gray-100 dark:bg-gray-700/50 text-gray-400 dark:text-gray-400 border-gray-300 dark:border-gray-700;
+}
+
+/* Make Upload button visually disabled inside modal when :disabled */
+.vuefinder__modal-layout .vf-btn[disabled] {
+  @apply opacity-50 cursor-not-allowed;
+}
+.vuefinder__modal-layout .vf-btn-primary[disabled] {
+  @apply bg-gray-300 dark:bg-gray-700 border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300;
+}

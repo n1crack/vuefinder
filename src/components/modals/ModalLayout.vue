@@ -4,6 +4,12 @@ import {inject, nextTick, onMounted, ref} from 'vue';
 const modalBody = ref<HTMLElement | null>(null);
 const app = inject('ServiceContainer')
 
+// Props for drag overlay
+const props = defineProps<{
+  showDragOverlay?: boolean;
+  dragOverlayText?: string;
+}>()
+
 onMounted(() => {
   // Select the first input element in the modal
   const inputElements = document.querySelector('.v-f-modal input') as HTMLInputElement
@@ -51,6 +57,16 @@ onMounted(() => {
             </div>
             </div>
         </div>
+        </div>
+        
+        <!-- Full screen drag overlay (similar to VueFinder external drop overlay) -->
+        <div
+          v-if="props.showDragOverlay"
+          class="vuefinder__modal-drag-overlay"
+        >
+          <div class="vuefinder__modal-drag-message">
+            {{ props.dragOverlayText || 'Release to drop these files.' }}
+          </div>
         </div>
     </div>
 </template>

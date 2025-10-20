@@ -1,4 +1,4 @@
-import {inject, onMounted, ref, type Ref} from 'vue';
+import {inject, onMounted, onUnmounted, ref, type Ref} from 'vue';
 import Uppy from '@uppy/core';
 import XHR from '@uppy/xhr-upload';
 import {parse} from '../utils/filesize';
@@ -13,7 +13,7 @@ export interface QueueEntry {
 
 export interface UseUploadReturn {
     container: Ref<HTMLElement | null>; internalFileInput: Ref<HTMLInputElement | null>; internalFolderInput: Ref<HTMLInputElement | null>;
-    pickFiles: Ref<HTMLElement | null>; pickFolders: Ref<HTMLElement | null>; dropArea: Ref<HTMLElement | null>;
+    pickFiles: Ref<HTMLElement | null>; pickFolders: Ref<HTMLElement | null>;
     queue: Ref<QueueEntry[]>; message: Ref<string>; uploading: Ref<boolean>; hasFilesInDropArea: Ref<boolean>;
     definitions: Ref<{QUEUE_ENTRY_STATUS: typeof QUEUE_ENTRY_STATUS}>;
     openFileSelector: () => void; upload: (targetFolder?: any) => void; cancel: () => void; remove: (file: QueueEntry) => void;
@@ -35,7 +35,7 @@ export default function useUpload(): UseUploadReturn {
     const internalFolderInput = ref<HTMLInputElement | null>(null);
     const pickFiles = ref<HTMLElement | null>(null);
     const pickFolders = ref<HTMLElement | null>(null);
-    const dropArea = ref<HTMLElement | null>(null);
+    
     const queue = ref<QueueEntry[]>([]);
     const message = ref('');
     const uploading = ref(false);
@@ -43,6 +43,65 @@ export default function useUpload(): UseUploadReturn {
     const uploadTargetFolder = ref<any>(null);
 
     let uppy: Uppy;
+
+    // Recursively scan dropped entries (files/folders)
+    const scanFiles = (resultCallback: (entry: any, file: File) => void, item: any) => {
+        if (!item) return;
+        if (item.isFile) item.file((f: File) => resultCallback(item, f));
+        if (item.isDirectory) item.createReader().readEntries((entries: any[]) => entries.forEach((entry: any) => scanFiles(resultCallback, entry)));
+    };
+
+    // Document-level drag event handlers
+    const handleDocumentDragOver = (ev: DragEvent) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        hasFilesInDropArea.value = true;
+    };
+    const handleDocumentDragEnter = (ev: DragEvent) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        hasFilesInDropArea.value = true;
+    };
+    
+    const handleDocumentDragLeave = (ev: DragEvent) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        // Only hide if leaving the document completely
+        if (!ev.relatedTarget || ev.relatedTarget === document.body) {
+            hasFilesInDropArea.value = false;
+        }
+    };
+    
+    const handleDocumentDrop = (ev: DragEvent) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        hasFilesInDropArea.value = false;
+        
+        // Always accept files when upload modal is open
+        const trimFileName = /^[/\\](.+)/;
+        const dt = ev.dataTransfer;
+        if (!dt) return;
+
+        // Prefer items for folder support; fallback to files
+        if (dt.items && dt.items.length) {
+            Array.from(dt.items).forEach((item) => {
+                if (item.kind === 'file') {
+                    const getAsEntry = (item as any).webkitGetAsEntry?.();
+                    if (getAsEntry) {
+                        scanFiles((entry: any, file: File) => {
+                            const matched = trimFileName.exec((entry?.fullPath as string) || '');
+                            addFile(file, matched ? matched[1] : file.name);
+                        }, getAsEntry);
+                    } else {
+                        const f = item.getAsFile?.();
+                        if (f) addFile(f);
+                    }
+                }
+            });
+        } else if (dt.files && dt.files.length) {
+            Array.from(dt.files).forEach((file) => addFile(file));
+        }
+    };
 
     const findQueueEntryIndexById = (id: string) => queue.value.findIndex(item => item.id === id);
     const addFile = (file: File, name?: string) => uppy.addFile({ name: name || file.name, type: file.type, data: file, source: 'Local' });
@@ -220,28 +279,13 @@ export default function useUpload(): UseUploadReturn {
         // Event listeners
         pickFiles.value?.addEventListener('click', () => internalFileInput.value?.click());
         pickFolders.value?.addEventListener('click', () => internalFolderInput.value?.click());
-        dropArea.value?.addEventListener('dragover', ev => { ev.preventDefault(); hasFilesInDropArea.value = true; });
-        dropArea.value?.addEventListener('dragleave', ev => { ev.preventDefault(); hasFilesInDropArea.value = false; });
-
-        const scanFiles = (resultCallback: (entry: any, file: File) => void, item: any) => {
-            if (item.isFile) item.file((f: File) => resultCallback(item, f));
-            if (item.isDirectory) item.createReader().readEntries((entries: any[]) => entries.forEach((entry: any) => scanFiles(resultCallback, entry)));
-        };
-
-        dropArea.value?.addEventListener('drop', ev => {
-            ev.preventDefault(); hasFilesInDropArea.value = false;
-            const trimFileName = /^[/\\](.+)/;
-            const items = ev.dataTransfer?.items;
-            if (!items) return;
-            Array.from(items).forEach((item) => {
-                if (item.kind === 'file') {
-                    scanFiles((entry: any, file: File) => {
-                        const matched = trimFileName.exec(entry.fullPath as string);
-                        addFile(file, matched ? matched[1] : file.name);
-                    }, item.webkitGetAsEntry());
-                }
-            });
-        });
+        
+        // Add document-level listeners
+        const listenerOptions: AddEventListenerOptions | boolean = { capture: true };
+        document.addEventListener('dragover', handleDocumentDragOver, listenerOptions);
+        document.addEventListener('dragenter', handleDocumentDragEnter, listenerOptions);
+        document.addEventListener('dragleave', handleDocumentDragLeave, listenerOptions);
+        document.addEventListener('drop', handleDocumentDrop, listenerOptions);
 
         const onFileInputChange = (evt: Event) => {
             const target = evt.target as HTMLInputElement;
@@ -255,8 +299,17 @@ export default function useUpload(): UseUploadReturn {
         internalFolderInput.value?.addEventListener('change', onFileInputChange);
     });
 
+    // Cleanup on unmount
+    onUnmounted(() => {
+        const listenerOptions: AddEventListenerOptions | boolean = { capture: true };
+        document.removeEventListener('dragover', handleDocumentDragOver, listenerOptions);
+        document.removeEventListener('dragenter', handleDocumentDragEnter, listenerOptions);
+        document.removeEventListener('dragleave', handleDocumentDragLeave, listenerOptions);
+        document.removeEventListener('drop', handleDocumentDrop, listenerOptions);
+    });
+
     return {
-        container, internalFileInput, internalFolderInput, pickFiles, pickFolders, dropArea,
+        container, internalFileInput, internalFolderInput, pickFiles, pickFolders,
         queue, message, uploading, hasFilesInDropArea, definitions,
         openFileSelector, upload, cancel, remove, clear, close, getClassNameForEntry, getIconForEntry,
         addExternalFiles
