@@ -141,5 +141,6 @@ export default {
     "Select Target Folder": "انتخاب پوشه مقصد",
     "Storages": "ذخیره‌سازی",
     "Loading": "در حال بارگذاری",
+    "Drop files here": "فایل‌ها را اینجا رها کنید",
     "uppy": uppyLocaleFa
 }

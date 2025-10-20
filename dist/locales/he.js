@@ -141,5 +141,6 @@ export default {
     "Select Target Folder": "בחר תיקיית יעד",
     "Storages": "אחסון",
     "Loading": "טוען",
+    "Drop files here": "גרור קבצים לכאן",
     "uppy": uppyLocaleHe
 }

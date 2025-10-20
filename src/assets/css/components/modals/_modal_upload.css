@@ -50,3 +50,48 @@
 .vuefinder .vuefinder__upload-modal__file-remove-icon {
   @apply w-5 h-5;
 }
+
+/* Target folder selection styles - Compact version */
+.vuefinder__upload-modal__target-section {
+  @apply mb-4;
+}
+
+.vuefinder__upload-modal__target-label {
+  @apply text-sm font-medium text-gray-600 dark:text-gray-400 mb-2;
+}
+
+.vuefinder__upload-modal__target-container {
+  @apply mb-2;
+}
+
+.vuefinder__upload-modal__target-display {
+  @apply flex items-center justify-between px-3 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md cursor-pointer transition-all duration-200 text-sm hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-gray-700;
+}
+
+.vuefinder__upload-modal__target-path {
+  @apply flex items-center flex-1 min-w-0;
+}
+
+.vuefinder__upload-modal__target-storage {
+  @apply text-gray-500 dark:text-gray-400 font-medium mr-1;
+}
+
+.vuefinder__upload-modal__target-folder {
+  @apply text-gray-700 dark:text-gray-200 font-medium overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+.vuefinder__upload-modal__target-badge {
+  @apply bg-blue-500 text-white px-2 py-1 rounded text-xs font-medium ml-2 flex-shrink-0;
+}
+
+.vuefinder__upload-modal__tree-selector {
+  @apply overflow-hidden transition-all duration-300 rounded-md bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600;
+}
+
+.vuefinder__upload-modal__tree-selector--collapsed {
+  @apply max-h-0 border-none;
+}
+
+.vuefinder__upload-modal__tree-selector--expanded {
+  @apply max-h-[300px];
+}

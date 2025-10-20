@@ -1,14 +1,54 @@
 <script setup lang="ts">
-import {inject, onMounted, onUnmounted} from 'vue';
+import {inject, onMounted, onUnmounted, ref} from 'vue';
+import {useStore} from '@nanostores/vue';
 import Message from '../../components/Message.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import ModalLayout from '../../components/modals/ModalLayout.vue';
+import ModalTreeSelector from "./ModalTreeSelector.vue";
 import useUpload from '../../composables/useUpload';
 import title_shorten from "../../utils/title_shorten";
 import UploadSVG from "../../assets/icons/upload.svg";
+import type {DirEntry} from '../../types';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
+const fs = app.fs;
+const currentPath = useStore(fs.path);
+
+// Target folder selection
+const target = ref<DirEntry>(currentPath.value);
+const showTreeSelector = ref(false);
+
+// Simple function to split storage and path
+const getTargetParts = () => {
+  const path = target.value.path;
+  if (!path) return { storage: 'local', path: '' };
+  
+  // For storage roots like "local://", just return the storage name
+  if (path.endsWith('://')) {
+    return { storage: path.replace('://', ''), path: '' };
+  }
+  
+  // Split storage and path
+  const parts = path.split('://');
+  return { 
+    storage: parts[0] || 'local', 
+    path: parts[1] || '' 
+  };
+};
+
+const selectTargetFolder = (folder: DirEntry | null) => {
+  if (folder) {
+    target.value = folder;
+  }
+};
+
+const selectTargetFolderAndClose = (folder: DirEntry | null) => {
+  if (folder) {
+    target.value = folder;
+    showTreeSelector.value = false;
+  }
+};
 
 const {
   container,
@@ -23,7 +63,7 @@ const {
   hasFilesInDropArea,
   definitions,
   openFileSelector,
-  upload,
+  upload: originalUpload,
   cancel,
   remove,
   clear,
@@ -33,10 +73,16 @@ const {
   addExternalFiles,
 } = useUpload();
 
+// Override upload function to use target folder
+const upload = () => {
+  // Update the upload function to use the selected target folder
+  originalUpload(target.value);
+};
+
 // Dışarıdan gelen dosyaları dinle
 onMounted(() => {
-  app.emitter.on('vf-external-files-dropped', (files: File[]) => {
-    addExternalFiles(files);
+  app.emitter.on('vf-external-files-dropped', (event: unknown) => {
+    addExternalFiles(event as File[]);
   });
 });
 
@@ -51,6 +97,36 @@ onUnmounted(() => {
     <div>
       <ModalHeader :icon="UploadSVG" :title="t('Upload Files')"></ModalHeader>
       <div class="vuefinder__upload-modal__content">
+        <!-- Target Folder Selection - Compact version above dropzone -->
+        <div class="vuefinder__upload-modal__target-section">
+          <div class="vuefinder__upload-modal__target-label">{{ t('Hedef Klasör') }}</div>
+          <div class="vuefinder__upload-modal__target-container">
+            <div
+                class="vuefinder__upload-modal__target-display"
+                @click="showTreeSelector = !showTreeSelector"
+            >
+              <div class="vuefinder__upload-modal__target-path">
+                <span class="vuefinder__upload-modal__target-storage">{{ getTargetParts().storage }}://</span>
+                <span v-if="getTargetParts().path" class="vuefinder__upload-modal__target-folder">{{ getTargetParts().path }}</span>
+              </div>
+              <span class="vuefinder__upload-modal__target-badge">{{ t('Browse') }}</span>
+            </div>
+          </div>
+
+          <!-- Tree selector -->
+          <div 
+            class="vuefinder__upload-modal__tree-selector"
+            :class="showTreeSelector ? 'vuefinder__upload-modal__tree-selector--expanded' : 'vuefinder__upload-modal__tree-selector--collapsed'"
+          >
+            <ModalTreeSelector
+                v-model="target"
+                :show-pinned-folders="true"
+                @update:modelValue="selectTargetFolder"
+                @selectAndClose="selectTargetFolderAndClose"
+            />
+          </div>
+        </div>
+
         <div class="vuefinder__upload-modal__drop-area" ref="dropArea" @click="openFileSelector">
           <div class="pointer-events-none" v-if="hasFilesInDropArea">
             {{ t('Release to drop these files.') }}
@@ -102,6 +178,7 @@ onUnmounted(() => {
           </div>
           <div class="py-2" v-if="!queue.length">{{ t('No files selected!') }}</div>
         </div>
+
         <Message v-if="message.length" @hidden="message=''" error>{{ message }}</Message>
       </div>
     </div>

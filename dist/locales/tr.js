@@ -144,5 +144,6 @@ export default {
     "Select Target Folder": "Hedef klasörü seç",
     "Storages": "Depolar",
     "Loading": "Yükleniyor",
+    "Drop files here": "Dosyaları buraya bırakın",
     "uppy": uppyLocaleTr,
 }

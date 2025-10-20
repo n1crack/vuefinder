@@ -141,5 +141,6 @@ export default {
     "Select Target Folder": "选择目标文件夹",
     "Storages": "存储",
     "Loading": "加载中",
+    "Drop files here": "将文件拖放到此处",
     "uppy": uppyLocalezhCN
 }

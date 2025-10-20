@@ -141,5 +141,6 @@ export default {
     "Select Target Folder": "Wybierz folder docelowy",
     "Storages": "Magazyny",
     "Loading": "Ładowanie",
+    "Drop files here": "Przeciągnij pliki tutaj",
     "uppy": uppyLocalePl
 }

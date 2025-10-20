@@ -144,5 +144,6 @@ export default {
     "Select Target Folder": "اختر المجلد الهدف",
     "Storages": "التخزين",
     "Loading": "جاري التحميل",
+    "Drop files here": "اسحب الملفات هنا",
     "uppy": uppyLocaleAr
 }

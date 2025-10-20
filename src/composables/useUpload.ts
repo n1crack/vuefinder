@@ -16,7 +16,7 @@ export interface UseUploadReturn {
     pickFiles: Ref<HTMLElement | null>; pickFolders: Ref<HTMLElement | null>; dropArea: Ref<HTMLElement | null>;
     queue: Ref<QueueEntry[]>; message: Ref<string>; uploading: Ref<boolean>; hasFilesInDropArea: Ref<boolean>;
     definitions: Ref<{QUEUE_ENTRY_STATUS: typeof QUEUE_ENTRY_STATUS}>;
-    openFileSelector: () => void; upload: () => void; cancel: () => void; remove: (file: QueueEntry) => void;
+    openFileSelector: () => void; upload: (targetFolder?: any) => void; cancel: () => void; remove: (file: QueueEntry) => void;
     clear: (onlySuccessful: boolean) => void; close: () => void;
     getClassNameForEntry: (entry: QueueEntry) => string; getIconForEntry: (entry: QueueEntry) => string;
     addExternalFiles: (files: File[]) => void;
@@ -40,6 +40,7 @@ export default function useUpload(): UseUploadReturn {
     const message = ref('');
     const uploading = ref(false);
     const hasFilesInDropArea = ref(false);
+    const uploadTargetFolder = ref<any>(null);
 
     let uppy: Uppy;
 
@@ -50,12 +51,16 @@ export default function useUpload(): UseUploadReturn {
     const openFileSelector = () => pickFiles.value?.click();
     const close = () => app.modal.close();
 
-    const upload = () => {
+    const upload = (targetFolder?: any) => {
         if (uploading.value || !queue.value.filter(entry => entry.status !== QUEUE_ENTRY_STATUS.DONE).length) {
             if (!uploading.value) message.value = t('Please select file to upload first.');
             return;
         }
         message.value = '';
+        
+        // Store the target folder for use in the upload event handler
+        uploadTargetFolder.value = targetFolder || currentPath.value;
+        
         // will look into retrying failed uploads later
         // uppy.retryAll();
         uppy.upload();
@@ -132,12 +137,14 @@ export default function useUpload(): UseUploadReturn {
         });
 
         uppy.on('upload', () => {
+            // Use the stored target folder or fallback to current path
+            const targetPath = uploadTargetFolder.value || currentPath.value;
             
             const reqParams = app.requester.transformRequestParams({
                 url: '', method: 'post', params: {
                     q: 'upload', 
-                    storage: currentPath.value.storage, 
-                    path: currentPath.value.path
+                    storage: targetPath.storage, 
+                    path: targetPath.path
                 },
             });
             uppy.setMeta({...reqParams.body});
@@ -190,9 +197,12 @@ export default function useUpload(): UseUploadReturn {
                 .filter(entry => entry.status === QUEUE_ENTRY_STATUS.DONE)
                 .map(entry => entry.name);
 
+            // Use the target folder for refreshing the file list
+            const targetPath = uploadTargetFolder.value || currentPath.value;
+
             // Fetch updated file list and filter only newly uploaded files
             app.emitter.emit('vf-fetch', { 
-                params: {q: 'index', path: currentPath.value.path, storage: currentPath.value.storage}, 
+                params: {q: 'index', path: targetPath.path, storage: targetPath.storage}, 
                 dontCloseModal: true,
                 onSuccess: (data: any) => {
                     // Filter data.files to only include the newly uploaded files

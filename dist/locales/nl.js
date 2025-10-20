@@ -141,5 +141,6 @@ export default {
     "Select Target Folder": "Selecteer doelmap",
     "Storages": "Opslag",
     "Loading": "Laden",
+    "Drop files here": "Sleep bestanden hierheen",
     "uppy": uppyLocaleNl
 }
