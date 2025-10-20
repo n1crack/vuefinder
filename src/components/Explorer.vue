@@ -241,7 +241,7 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   const mouse = event as MouseEvent | null;
   if (el) {
     const key = String(el.getAttribute('data-key'));
-    const selectionMode = config.get('selectionMode');
+    const selectionMode = app.selectionMode || 'multiple';
     
     if (!mouse?.ctrlKey && !mouse?.metaKey  &&  ( event.type !== 'touchstart' || !fs.isSelected(key))) {
         fs.clearSelection();

@@ -133,11 +133,11 @@ const menuItems = computed(() => [
     label: t('Edit'),
     items: [
       // Only show Select All and Deselect All in multiple selection mode
-      ...(config?.get('selectionMode') === 'multiple' ? [
+      ...(app?.selectionMode === 'multiple' ? [
         {
           id: 'select-all',
           label: t('Select All'),
-          action: () => fs?.selectAll(config?.get('selectionMode')),
+          action: () => fs?.selectAll((app?.selectionMode as 'single' | 'multiple') || 'multiple'),
           enabled: () => true
         },
         {

@@ -70,6 +70,8 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         requester : buildRequester(props.request as string | RequestConfig),
         // active features
         features: setFeatures(props.features),
+        // selection mode
+        selectionMode: props.selectionMode || 'multiple',
         // treeViewData - temp. opened folders
         treeViewData: [], 
 

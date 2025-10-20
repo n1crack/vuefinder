@@ -17,7 +17,6 @@ export interface ConfigState {
     loadingIndicator: 'linear' | 'circular' | string
     maxFileSize: number | string | null
     pinnedFolders: DirEntry[]
-    selectionMode: 'single' | 'multiple'
 }
 
 export type ConfigDefaults = Partial<ConfigState>
@@ -36,7 +35,6 @@ const DEFAULT_STATE: ConfigState = {
     loadingIndicator: 'circular',
     maxFileSize: null,
     pinnedFolders: [] as DirEntry[],
-    selectionMode: 'multiple',
 }
 
 // Config store factory function

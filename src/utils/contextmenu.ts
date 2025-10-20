@@ -115,11 +115,11 @@ export const menuItems: Item[] = [
     title: ({t}) => t('Select All'),
     action: (app) => {
         const fs = app.fs;
-        fs.selectAll(app.config.get('selectionMode'))
+        fs.selectAll(app.selectionMode || 'multiple')
     },
     show: (app, ctx) => {
         // Only show Select All in multiple selection mode
-        return app.config.get('selectionMode') === 'multiple' && showIf({target: 'none'})(app, ctx);
+        return app.selectionMode === 'multiple' && showIf({target: 'none'})(app, ctx);
     }
   },
   {

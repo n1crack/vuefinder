@@ -32,9 +32,6 @@ const app = ServiceContainer(props, inject('VueFinderOptions') || {});
 provide('ServiceContainer', app);
 const config = app.config;
 
-// Set selection mode from props
-config.set('selectionMode', props.selectionMode);
-
 const fs = app.fs;
 
 // Use nanostores reactive values for template reactivity

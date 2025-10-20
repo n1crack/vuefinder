@@ -18,12 +18,10 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const explorerId = Math.floor(Math.random() * 2 ** 32).toString();
     const app = inject('ServiceContainer');
     const fs = app.fs;
-    const config = app.config;
     
     // Make nanostores reactive in Vue context
     const selectedKeys = useStore(fs.selectedKeys);
     const sortedFiles = useStore(fs.sortedFiles);
-    const configState = useStore(config.state);
     
 	const tempSelection = ref(new Set<string>());
     const isDragging = ref(false);
@@ -69,7 +67,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     const onBeforeStart = (event: SelectionEvent) => {
         // Disable drag selection in single mode
-        if (configState.value.selectionMode === 'single') {
+        if (app.selectionMode === 'single') {
             return false;
         }
         
@@ -85,7 +83,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     const onStart = ({ event, selection }: SelectionEvent) => {
         // Disable drag selection in single mode
-        if (configState.value.selectionMode === 'single') {
+        if (app.selectionMode === 'single') {
             return;
         }
         
@@ -119,7 +117,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     const onMove = (event: SelectionEvent) => {
         // Disable drag selection in single mode
-        if (configState.value.selectionMode === 'single') {
+        if (app.selectionMode === 'single') {
             return;
         }
         
@@ -134,7 +132,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 			if (selectedKeys.value && !selectedKeys.value.has(id)) {
 				tempSelection.value.add(id);
 			}
-			fs.select(id, configState.value.selectionMode);
+			fs.select(id, (app.selectionMode as 'single' | 'multiple') || 'multiple');
 		});
 
         removedData.forEach((id) => {
@@ -180,7 +178,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 							const key = getKey(item as T);
 							const el = document.querySelector(`[data-key="${key}"]`);
 							if (!el) {
-								fs.select(key, configState.value.selectionMode);
+								fs.select(key, (app.selectionMode as 'single' | 'multiple') || 'multiple');
 							}
 						}
 					);
