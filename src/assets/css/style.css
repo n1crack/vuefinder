@@ -36,6 +36,7 @@
 
 /** Modals */
 @import "./components/modals/_modal__layout.css";
+@import "./components/modals/_modal_target.css";
 @import "./components/modals/_modal_about.css";
 @import "./components/modals/_modal_archive.css";
 @import "./components/modals/_modal_delete.css";

@@ -1,0 +1,61 @@
+/* Shared Target Folder UI for modals (Transfer/Upload) */
+
+/* Section spacing */
+.vuefinder__move-modal__target-title,
+.vuefinder__upload-modal__target-label {
+  @apply font-bold text-xs text-gray-700 dark:text-gray-400 tracking-wider mb-1;
+}
+
+.vuefinder__move-modal__target-container,
+.vuefinder__upload-modal__target-container {
+  @apply mb-3;
+}
+
+/* Target display */
+.vuefinder__move-modal__target-display,
+.vuefinder__upload-modal__target-display {
+  @apply flex items-center justify-between px-3 py-0.5 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 cursor-pointer hover:border-sky-500 dark:hover:border-sky-400 transition-colors;
+}
+
+/* Path row */
+.vuefinder__move-modal__target-path,
+.vuefinder__upload-modal__target-path {
+  @apply flex items-center flex-1 min-w-0;
+}
+
+/* Storage prefix */
+.vuefinder__move-modal__target-storage,
+.vuefinder__upload-modal__target-storage {
+  @apply text-xs font-medium text-sky-500 dark:text-sky-400 mr-0.5 flex-shrink-0;
+}
+
+/* Folder path */
+.vuefinder__move-modal__target-folder,
+.vuefinder__upload-modal__target-folder {
+  @apply text-xs tracking-wide text-gray-700 dark:text-gray-100 truncate;
+}
+
+/* Browse badge */
+.vuefinder__move-modal__target-badge,
+.vuefinder__upload-modal__target-badge {
+  @apply px-2 py-1 text-xs font-medium text-sky-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-900/20 rounded border border-blue-200 dark:border-sky-700 flex-shrink-0 ml-2;
+}
+
+/* Accordion container */
+.vuefinder__move-modal__tree-selector,
+.vuefinder__upload-modal__tree-selector {
+  @apply overflow-hidden transition-all duration-300 ease-in-out;
+}
+
+/* Collapsed/expanded states */
+.vuefinder__move-modal__tree-selector--collapsed,
+.vuefinder__upload-modal__tree-selector--collapsed {
+  @apply max-h-0 opacity-0;
+}
+
+.vuefinder__move-modal__tree-selector--expanded,
+.vuefinder__upload-modal__tree-selector--expanded {
+  @apply max-h-[400px] opacity-100;
+}
+
+
