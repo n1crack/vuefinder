@@ -90,7 +90,8 @@ const {
   initializeSelectionArea,
   destroySelectionArea,
   updateSelectionArea,
-  handleContentClick
+  handleContentClick,
+  handleScrollDuringSelection
 } = useSelection<DirEntry>({
   getItemPosition,
   getItemsInRange,
@@ -106,6 +107,14 @@ const isDraggingItem = (key?: string | null) => {
   if (!key || !currentDragKey.value) return false;
   const draggingSelected = selectedKeys.value?.has(currentDragKey.value as never) ?? false;
   return isDragging.value && (draggingSelected ? selectedKeys.value?.has(key as never) ?? false : key === currentDragKey.value);
+};
+
+// Custom scroll handler that handles both virtual columns and selection updates
+const handleScrollWithSelection = (event: Event) => {
+ 
+  handleScroll(event);
+  // Handle selection area updates during scroll
+  handleScrollDuringSelection();
 };
 
 
@@ -191,6 +200,8 @@ onMounted(() => {
         const {scrollOffsetElement} = inst.elements();
         if (scrollContainer.value) {
           scrollContainer.value.scrollTo({top: (scrollOffsetElement as HTMLElement).scrollTop, left: 0});
+          // Also handle selection area updates during scroll
+          handleScrollDuringSelection();
         }
       }
     });
@@ -204,6 +215,8 @@ onMounted(() => {
       if (!inst) return;
       const {scrollOffsetElement} = inst.elements();
       (scrollOffsetElement as HTMLElement).scrollTo({top: scrollContainer.value!.scrollTop, left: 0});
+      // Also handle selection area updates during scroll
+      handleScrollDuringSelection();
     });
   }
 });
@@ -428,7 +441,7 @@ const handleItemDragEnd = () => {
       </div>
     </div>
     <!-- Content -->
-    <div ref="scrollContainer" class="vuefinder__explorer__selector-area" :class="'scroller-' + explorerId" @scroll="handleScroll">
+    <div ref="scrollContainer" class="vuefinder__explorer__selector-area" :class="'scroller-' + explorerId" @scroll="handleScrollWithSelection">
     <div class="vuefinder__linear-loader" v-if="config.get('loadingIndicator') === 'linear' && loading"></div>
     
       <div

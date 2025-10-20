@@ -103,7 +103,12 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		refreshSelection(event);
 	};
 
+    const deltaY = ref(0);
+    
     const onStart = ({ event, selection }: SelectionEvent) => {
+        deltaY.value =  (selectionObject.value?.getAreaLocation().y1 ?? 0) - ((app.root as HTMLElement).getBoundingClientRect().top ?? 0) 
+         
+
         // Disable drag selection in single mode
         if (app.selectionMode === 'single') {
             return;
@@ -137,6 +142,27 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		}
 	};
 
+	// Handle scroll events during selection to update selection area boundaries
+	const handleScrollDuringSelection = () => {
+		if (selectionObject.value && (isDragging.value || selectionStarted.value)) {
+			// Get the boundaries element
+			const boundaries = selectionObject.value.getSelectables()[0]?.closest('.scroller-' + explorerId) as HTMLElement;
+			if (boundaries) {
+				// Update the scroll delta to account for boundaries scroll changes
+          
+                const areaLocation = selectionObject.value.getAreaLocation();
+                const rootRect = (app.root as HTMLElement).getBoundingClientRect();
+  
+                selectionObject.value.setAreaLocation({
+                    y1: rootRect.top + deltaY.value,
+                    y2: rootRect.top + deltaY.value + (areaLocation.y2 - areaLocation.y1),
+                });
+                selectionObject.value._setupSelectionArea();
+                selectionObject.value._recalculateSelectionAreaRect();
+			}
+		}
+	};
+
     const onMove = (event: SelectionEvent) => {
         // Disable drag selection in single mode
         if (app.selectionMode === 'single') {
@@ -166,6 +192,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		});
 		selection.resolveSelectables();
 		refreshSelection(event);
+        handleScrollDuringSelection(event)
 	};
 
     const clearTempSelection = () => {
@@ -322,6 +349,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		destroySelectionArea,
 		updateSelectionArea,
 		handleContentClick,
+		handleScrollDuringSelection,
 	};
 }
 
