@@ -1,6 +1,7 @@
 
-.vuefinder__upload-modal__content {
-  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+.vuefinder__upload-modal__drag-hint {
+  @apply hidden sm:block text-sm lg:text-base mb-2 sm:mb-3;
+  color: var(--vf-text-secondary);
 }
 
 .vuefinder .vuefinder__upload-modal__drop-area {

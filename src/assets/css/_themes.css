@@ -257,8 +257,8 @@
   
   /* Text Colors */
   --vf-text-primary: #7c2d12;
-  --vf-text-secondary: #a16207;
-  --vf-text-tertiary: #ca8a04;
+  --vf-text-secondary: #9d174d;
+  --vf-text-tertiary: #be185d;
   --vf-text-disabled: #d4a574;
   --vf-text-inverse: #fefefe;
   
@@ -285,7 +285,7 @@
   
   --vf-overlay-bg: rgba(124, 45, 18, 0.2);
   --vf-overlay-border: rgba(225, 29, 72, 0.6);
-  --vf-overlay-text: #a16207;
+  --vf-overlay-text: #9d174d;
 }
 
 /* Mythril Theme */

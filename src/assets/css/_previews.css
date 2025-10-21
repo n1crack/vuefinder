@@ -23,6 +23,8 @@
   background-color: var(--vf-bg-secondary);
   border: 2px dashed var(--vf-border-secondary);
   border-radius: 1rem;
+  width: 300px;
+  justify-self: center;
   margin: 1rem 0;
   min-height: 200px;
 }

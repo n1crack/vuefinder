@@ -203,7 +203,7 @@
 }
 
 .vf-toolbar-icon {
-  @apply cursor-pointer h-8 w-8;
+  @apply cursor-pointer h-5 w-5 md:w-8 md:h-8;
   stroke: var(--vf-text-secondary);
 }
 
@@ -212,7 +212,7 @@
 }
 
 .vf-toolbar-icon-disabled {
-  @apply cursor-not-allowed h-8 w-8;
+  @apply cursor-not-allowed h-5 w-5 md:h-8 md:w-8;
   stroke: var(--vf-text-disabled);
   opacity: 0.8;
 }
