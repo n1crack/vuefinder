@@ -310,7 +310,7 @@ const openPopupWindow = () => {
       <div style="font-weight: bold;padding: 10px">{{ examples[example] }}</div>
       
       <!-- Theme Selector -->
-      <div style="margin-top: 1rem;">
+      <div style="margin-top: 1rem; margin-bottom: 1rem;">
         <label for="theme">
           Theme
         </label>
