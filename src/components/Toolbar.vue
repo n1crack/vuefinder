@@ -347,7 +347,7 @@ const resetFilters = () => {
 
       <!-- Theme Selector -->
       <div class="mx-1.5">
-        <ThemeSelector />
+        <ThemeSelector position="right" />
       </div>
     </div>
   </div>

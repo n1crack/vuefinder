@@ -11,7 +11,7 @@
           <circle cx="12" cy="12" r="5"/>
           <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
         </svg>
-        <span class="vuefinder__theme-selector__label">{{ currentThemeConfig?.displayName }}</span>
+        <span class="vuefinder__theme-selector__label hidden md:inline">{{ currentThemeConfig?.displayName }}</span>
         <svg class="vuefinder__theme-selector__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <polyline points="6,9 12,15 18,9"/>
         </svg>
@@ -20,6 +20,7 @@
       <div 
         v-if="isOpen" 
         class="vuefinder__theme-selector__menu"
+        :class="`vuefinder__theme-selector__menu--${props.position}`"
         @click.stop
       >
         <div 
@@ -48,6 +49,14 @@
 <script setup lang="ts">
 import { ref, computed, inject, onMounted, onUnmounted } from 'vue';
 import { themes, getThemeConfig, type Theme } from '../utils/theme';
+
+interface ThemeSelectorProps {
+  position?: 'left' | 'right' | 'center';
+}
+
+const props = withDefaults(defineProps<ThemeSelectorProps>(), {
+  position: 'right'
+});
 
 const currentTheme = inject<{ value: Theme }>('currentTheme');
 const setTheme = inject<(theme: Theme) => void>('setTheme');
@@ -98,7 +107,7 @@ onUnmounted(() => {
 }
 
 .vuefinder__theme-selector__trigger {
-  @apply flex items-center gap-2 px-3 py-2 rounded border cursor-pointer transition-all duration-200;
+  @apply flex items-center gap-2 px-2 py-2 md:px-3 rounded border cursor-pointer transition-all duration-200;
   background-color: var(--vf-bg-primary);
   border-color: var(--vf-border-primary);
   color: var(--vf-text-primary);
@@ -135,14 +144,63 @@ onUnmounted(() => {
 }
 
 .vuefinder__theme-selector__menu {
-  @apply absolute top-full left-0 mt-1 w-64 rounded border shadow-lg z-50;
+  @apply absolute top-full mt-1 w-64 md:w-64 rounded border shadow-lg z-50 max-h-80 overflow-y-auto;
   background-color: var(--vf-bg-primary);
   border-color: var(--vf-border-primary);
   box-shadow: 0 10px 15px -3px var(--vf-shadow-md), 0 4px 6px -2px var(--vf-shadow-sm);
 }
 
+/* Custom scrollbar for theme menu */
+.vuefinder__theme-selector__menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.vuefinder__theme-selector__menu::-webkit-scrollbar-track {
+  background: var(--vf-bg-secondary);
+  border-radius: 3px;
+}
+
+.vuefinder__theme-selector__menu::-webkit-scrollbar-thumb {
+  background: var(--vf-border-primary);
+  border-radius: 3px;
+}
+
+.vuefinder__theme-selector__menu::-webkit-scrollbar-thumb:hover {
+  background: var(--vf-accent-primary);
+}
+
+.vuefinder__theme-selector__menu--left {
+  @apply left-0;
+}
+
+.vuefinder__theme-selector__menu--right {
+  @apply right-0;
+}
+
+.vuefinder__theme-selector__menu--center {
+  @apply left-1/2 transform -translate-x-1/2;
+}
+
+@media (max-width: 768px) {
+  .vuefinder__theme-selector__menu {
+    @apply w-56;
+  }
+  
+  .vuefinder__theme-selector__menu--left {
+    @apply left-0;
+  }
+  
+  .vuefinder__theme-selector__menu--right {
+    @apply right-0;
+  }
+  
+  .vuefinder__theme-selector__menu--center {
+    @apply left-1/2 transform -translate-x-1/2;
+  }
+}
+
 .vuefinder__theme-selector__option {
-  @apply flex items-center gap-3 px-3 py-2 cursor-pointer transition-colors duration-150;
+  @apply flex items-center gap-2 md:gap-3 px-2 md:px-3 py-2 cursor-pointer transition-colors duration-150;
 }
 
 .vuefinder__theme-selector__option:hover {
@@ -172,6 +230,30 @@ onUnmounted(() => {
 
 .vuefinder__theme-selector__option-preview[data-theme="latte"] {
   background: linear-gradient(135deg, #faf7f0 0%, #f5f1e8 50%, #ede7d9 100%);
+}
+
+.vuefinder__theme-selector__option-preview[data-theme="rose"] {
+  background: linear-gradient(135deg, #fefefe 0%, #fef7f7 50%, #fef2f2 100%);
+}
+
+.vuefinder__theme-selector__option-preview[data-theme="desert"] {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%);
+}
+
+.vuefinder__theme-selector__option-preview[data-theme="lime"] {
+  background: linear-gradient(135deg, #0f1419 0%, #1a2e1a 50%, #2d4a2d 100%);
+}
+
+.vuefinder__theme-selector__option-preview[data-theme="dark-plus"] {
+  background: linear-gradient(135deg, #272822 0%, #49483e 50%, #3e3d32 100%);
+}
+
+.vuefinder__theme-selector__option-preview[data-theme="ocean"] {
+  background: linear-gradient(135deg, #263238 0%, #37474f 50%, #455a64 100%);
+}
+
+.vuefinder__theme-selector__option-preview[data-theme="palenight"] {
+  background: linear-gradient(135deg, #263238 0%, #1e2326 50%, #2c3e50 100%);
 }
 
 .vuefinder__theme-selector__option-content {

@@ -183,7 +183,7 @@
 }
 
 .vuefinder__modal-tree__folder-icon {
-  @apply h-5 w-5 mr-1 text-gray-500 dark:text-gray-400;
+  @apply h-5 w-5 mr-1 text-gray-500 dark:text-gray-400 ;
 }
 
 .vuefinder__modal-tree__folder-text {

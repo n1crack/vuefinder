@@ -1,7 +1,15 @@
 /* VueFinder Theme System */
 
+/* Global CSS variables for selection area */
+:root {
+  --vf-selection-bg: #f9fafb;
+  --vf-selection-border: #d1d5db;
+}
+
 /* Default Light Theme */
 .vuefinder[data-theme="default-light"] {
+  --vf-selection-bg: #f9fafb;
+  --vf-selection-border: #d1d5db;
   /* Background Colors */
   --vf-bg-primary: #ffffff;
   --vf-bg-secondary: #f9fafb;
@@ -48,6 +56,8 @@
 
 /* Default Dark Theme */
 .vuefinder[data-theme="default-dark"] {
+  --vf-selection-bg: #374151;
+  --vf-selection-border: #374151;
   /* Background Colors */
   --vf-bg-primary: #1f2937;
   --vf-bg-secondary: #111827;
@@ -94,6 +104,8 @@
 
 /* Midnight Theme */
 .vuefinder[data-theme="midnight"] {
+  --vf-selection-bg: #334155;
+  --vf-selection-border: #334155;
   /* Background Colors */
   --vf-bg-primary: #0f172a;
   --vf-bg-secondary: #1e293b;
@@ -140,6 +152,8 @@
 
 /* Latte Theme */
 .vuefinder[data-theme="latte"] {
+  --vf-selection-bg: #f5f1e8;
+  --vf-selection-border: #d4c4a8;
   /* Background Colors */
   --vf-bg-primary: #faf7f0;
   --vf-bg-secondary: #f5f1e8;
@@ -222,4 +236,268 @@
   --vf-overlay-bg: rgba(17, 24, 39, 0.3);
   --vf-overlay-border: rgba(75, 85, 99, 0.8);
   --vf-overlay-text: #6b7280;
+}
+
+/* Rose Theme */
+.vuefinder[data-theme="rose"] {
+  --vf-selection-bg: #fef7f7;
+  --vf-selection-border: #fecaca;
+  /* Background Colors */
+  --vf-bg-primary: #fefefe;
+  --vf-bg-secondary: #fef7f7;
+  --vf-bg-tertiary: #fef2f2;
+  --vf-bg-hover: #fef7f7;
+  --vf-bg-selected: #fef2f2;
+  --vf-bg-disabled: #fef7f7;
+  
+  /* Text Colors */
+  --vf-text-primary: #7c2d12;
+  --vf-text-secondary: #a16207;
+  --vf-text-tertiary: #ca8a04;
+  --vf-text-disabled: #d4a574;
+  --vf-text-inverse: #fefefe;
+  
+  /* Border Colors */
+  --vf-border-primary: #fecaca;
+  --vf-border-secondary: #fef2f2;
+  --vf-border-focus: #fbbf24;
+  --vf-border-disabled: #fef2f2;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #f59e0b;
+  --vf-accent-secondary: #fbbf24;
+  --vf-accent-tertiary: #fde68a;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #fef2f2;
+  --vf-interactive-active: #fecaca;
+  --vf-interactive-focus: #fef2f2;
+  
+  --vf-shadow-sm: rgba(245, 158, 11, 0.08);
+  --vf-shadow-md: rgba(245, 158, 11, 0.12);
+  --vf-shadow-lg: rgba(245, 158, 11, 0.16);
+  
+  --vf-overlay-bg: rgba(124, 45, 18, 0.2);
+  --vf-overlay-border: rgba(245, 158, 11, 0.6);
+  --vf-overlay-text: #a16207;
+}
+
+/* Desert Theme */
+.vuefinder[data-theme="desert"] {
+  --vf-selection-bg: #fef3c7;
+  --vf-selection-border: #fde68a;
+  /* Background Colors */
+  --vf-bg-primary: #fffbeb;
+  --vf-bg-secondary: #fef3c7;
+  --vf-bg-tertiary: #fde68a;
+  --vf-bg-hover: #fef3c7;
+  --vf-bg-selected: #fde68a;
+  --vf-bg-disabled: #fef3c7;
+  
+  /* Text Colors */
+  --vf-text-primary: #92400e;
+  --vf-text-secondary: #b45309;
+  --vf-text-tertiary: #d97706;
+  --vf-text-disabled: #f59e0b;
+  --vf-text-inverse: #fffbeb;
+  
+  /* Border Colors */
+  --vf-border-primary: #fde68a;
+  --vf-border-secondary: #fef3c7;
+  --vf-border-focus: #f59e0b;
+  --vf-border-disabled: #fef3c7;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #d97706;
+  --vf-accent-secondary: #f59e0b;
+  --vf-accent-tertiary: #fbbf24;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #fde68a;
+  --vf-interactive-active: #f59e0b;
+  --vf-interactive-focus: #fde68a;
+  
+  --vf-shadow-sm: rgba(217, 119, 6, 0.08);
+  --vf-shadow-md: rgba(217, 119, 6, 0.12);
+  --vf-shadow-lg: rgba(217, 119, 6, 0.16);
+  
+  --vf-overlay-bg: rgba(146, 64, 14, 0.2);
+  --vf-overlay-border: rgba(217, 119, 6, 0.6);
+  --vf-overlay-text: #b45309;
+}
+
+/* Lime Theme */
+.vuefinder[data-theme="lime"] {
+  --vf-selection-bg: #1a2e1a;
+  --vf-selection-border: #84cc16;
+  /* Background Colors */
+  --vf-bg-primary: #0f1419;
+  --vf-bg-secondary: #1a2e1a;
+  --vf-bg-tertiary: #2d4a2d;
+  --vf-bg-hover: #1a2e1a;
+  --vf-bg-selected: #2d4a2d;
+  --vf-bg-disabled: #1a2e1a;
+  
+  /* Text Colors */
+  --vf-text-primary: #f0fdf4;
+  --vf-text-secondary: #dcfce7;
+  --vf-text-tertiary: #bbf7d0;
+  --vf-text-disabled: #86efac;
+  --vf-text-inverse: #0f1419;
+  
+  /* Border Colors */
+  --vf-border-primary: #2d4a2d;
+  --vf-border-secondary: #365f32;
+  --vf-border-focus: #84cc16;
+  --vf-border-disabled: #365f32;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #84cc16;
+  --vf-accent-secondary: #a3e635;
+  --vf-accent-tertiary: #bef264;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #2d4a2d;
+  --vf-interactive-active: #84cc16;
+  --vf-interactive-focus: #2d4a2d;
+  
+  --vf-shadow-sm: rgba(132, 204, 22, 0.15);
+  --vf-shadow-md: rgba(132, 204, 22, 0.2);
+  --vf-shadow-lg: rgba(132, 204, 22, 0.25);
+  
+  --vf-overlay-bg: rgba(15, 20, 25, 0.8);
+  --vf-overlay-border: rgba(132, 204, 22, 0.7);
+  --vf-overlay-text: #dcfce7;
+}
+
+/* Monokai Theme */
+.vuefinder[data-theme="dark-plus"] {
+  --vf-selection-bg: #49483e;
+  --vf-selection-border: #f92672;
+  /* Background Colors */
+  --vf-bg-primary: #272822;
+  --vf-bg-secondary: #49483e;
+  --vf-bg-tertiary: #3e3d32;
+  --vf-bg-hover: #49483e;
+  --vf-bg-selected: #3e3d32;
+  --vf-bg-disabled: #49483e;
+  
+  /* Text Colors */
+  --vf-text-primary: #f8f8f2;
+  --vf-text-secondary: #e6db74;
+  --vf-text-tertiary: #a6e22e;
+  --vf-text-disabled: #75715e;
+  --vf-text-inverse: #272822;
+  
+  /* Border Colors */
+  --vf-border-primary: #3e3d32;
+  --vf-border-secondary: #49483e;
+  --vf-border-focus: #f92672;
+  --vf-border-disabled: #49483e;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #f92672;
+  --vf-accent-secondary: #fd971f;
+  --vf-accent-tertiary: #a6e22e;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #3e3d32;
+  --vf-interactive-active: #f92672;
+  --vf-interactive-focus: #3e3d32;
+  
+  --vf-shadow-sm: rgba(249, 38, 114, 0.1);
+  --vf-shadow-md: rgba(249, 38, 114, 0.15);
+  --vf-shadow-lg: rgba(249, 38, 114, 0.2);
+  
+  --vf-overlay-bg: rgba(39, 40, 34, 0.8);
+  --vf-overlay-border: rgba(249, 38, 114, 0.6);
+  --vf-overlay-text: #e6db74;
+}
+
+/* Deep Blue Theme */
+.vuefinder[data-theme="ocean"] {
+  --vf-selection-bg: #263238;
+  --vf-selection-border: #00bcd4;
+  /* Background Colors */
+  --vf-bg-primary: #263238;
+  --vf-bg-secondary: #37474f;
+  --vf-bg-tertiary: #455a64;
+  --vf-bg-hover: #37474f;
+  --vf-bg-selected: #455a64;
+  --vf-bg-disabled: #37474f;
+  
+  /* Text Colors */
+  --vf-text-primary: #eceff1;
+  --vf-text-secondary: #b0bec5;
+  --vf-text-tertiary: #90a4ae;
+  --vf-text-disabled: #78909c;
+  --vf-text-inverse: #263238;
+  
+  /* Border Colors */
+  --vf-border-primary: #455a64;
+  --vf-border-secondary: #546e7a;
+  --vf-border-focus: #00bcd4;
+  --vf-border-disabled: #546e7a;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #00bcd4;
+  --vf-accent-secondary: #26c6da;
+  --vf-accent-tertiary: #4dd0e1;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #455a64;
+  --vf-interactive-active: #00bcd4;
+  --vf-interactive-focus: #455a64;
+  
+  --vf-shadow-sm: rgba(0, 188, 212, 0.1);
+  --vf-shadow-md: rgba(0, 188, 212, 0.15);
+  --vf-shadow-lg: rgba(0, 188, 212, 0.2);
+  
+  --vf-overlay-bg: rgba(38, 50, 56, 0.8);
+  --vf-overlay-border: rgba(0, 188, 212, 0.6);
+  --vf-overlay-text: #b0bec5;
+}
+
+/* Palenight Theme */
+.vuefinder[data-theme="palenight"] {
+  --vf-selection-bg: #263238;
+  --vf-selection-border: #c792ea;
+  /* Background Colors */
+  --vf-bg-primary: #263238;
+  --vf-bg-secondary: #1e2326;
+  --vf-bg-tertiary: #2c3e50;
+  --vf-bg-hover: #1e2326;
+  --vf-bg-selected: #2c3e50;
+  --vf-bg-disabled: #1e2326;
+  
+  /* Text Colors */
+  --vf-text-primary: #a6accd;
+  --vf-text-secondary: #a78bfa;
+  --vf-text-tertiary: #676e95;
+  --vf-text-disabled: #676e95;
+  --vf-text-inverse: #263238;
+  
+  /* Border Colors */
+  --vf-border-primary: #2c3e50;
+  --vf-border-secondary: #34495e;
+  --vf-border-focus: #c792ea;
+  --vf-border-disabled: #34495e;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #c792ea;
+  --vf-accent-secondary: #a78bfa;
+  --vf-accent-tertiary: #8b5cf6;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #2c3e50;
+  --vf-interactive-active: #c792ea;
+  --vf-interactive-focus: #2c3e50;
+  
+  --vf-shadow-sm: rgba(199, 146, 234, 0.15);
+  --vf-shadow-md: rgba(199, 146, 234, 0.2);
+  --vf-shadow-lg: rgba(199, 146, 234, 0.25);
+  
+  --vf-overlay-bg: rgba(30, 35, 38, 0.9);
+  --vf-overlay-border: rgba(199, 146, 234, 0.7);
+  --vf-overlay-text: #c792ea;
 }

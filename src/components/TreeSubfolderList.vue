@@ -60,7 +60,7 @@ const treeSubFolders = computed(() => {
             @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: props.storage, path:item.path}})"
         >
           <div class="vuefinder__treesubfolderlist__item-icon">
-            <OpenFolderSVG v-if="currentPath?.path === item.path"/>
+            <OpenFolderSVG class="vuefinder__item-icon__folder--open" v-if="currentPath?.path === item.path"/>
             <FolderSVG class="vuefinder__item-icon__folder" v-else/>
           </div>
           <div

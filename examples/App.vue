@@ -26,7 +26,13 @@ const themes = [
   { value: 'default-light', label: 'Default Light' },
   { value: 'default-dark', label: 'Default Dark' },
   { value: 'midnight', label: 'Midnight' },
-  { value: 'latte', label: 'Latte' }
+  { value: 'latte', label: 'Latte' },
+  { value: 'rose', label: 'Rose' },
+  { value: 'desert', label: 'Desert' },
+  { value: 'lime', label: 'Night Bright Lime' },
+  { value: 'dark-plus', label: 'Neon' },
+  { value: 'ocean', label: 'Oceanic' },
+  { value: 'palenight', label: 'Palenight' }
 ]
 
 // Check if we're in a popup window

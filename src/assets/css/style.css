@@ -102,11 +102,11 @@
         @apply z-50;
     }
      
-    .selection-area { 
-        @apply opacity-50 !border rounded-sm;
-        background-color: var(--vf-bg-hover);
-        border-color: var(--vf-border-primary);
-    }
+.selection-area { 
+    @apply opacity-50 !border rounded-sm;
+    background-color: var(--vf-selection-bg);
+    border-color: var(--vf-selection-border);
+}
 
     .selection-area-container {
         @apply !z-100;
