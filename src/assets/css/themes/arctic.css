@@ -1,0 +1,48 @@
+/* Arctic Theme */
+.vuefinder[data-theme="arctic"] {
+  --vf-selection-bg: #3b4252;
+  --vf-selection-border: #88c0d0;
+  /* Background Colors */
+  --vf-bg-primary: #2e3440;
+  --vf-bg-secondary: #3b4252;
+  --vf-bg-tertiary: #434c5e;
+  --vf-bg-hover: #3b4252;
+  --vf-bg-selected: #434c5e;
+  --vf-bg-disabled: #3b4252;
+  
+  /* Text Colors */
+  --vf-text-primary: #d8dee9;
+  --vf-text-secondary: #e5e9f0;
+  --vf-text-tertiary: #eceff4;
+  --vf-text-disabled: #4c566a;
+  --vf-text-inverse: #2e3440;
+  
+  /* Border Colors */
+  --vf-border-primary: #434c5e;
+  --vf-border-secondary: #4c566a;
+  --vf-border-focus: #88c0d0;
+  --vf-border-error: #bf616a;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #88c0d0;
+  --vf-accent-secondary: #81a1c1;
+  --vf-accent-success: #a3be8c;
+  --vf-accent-warning: #ebcb8b;
+  --vf-accent-error: #bf616a;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #434c5e;
+  --vf-interactive-active: #88c0d0;
+  --vf-interactive-focus: #3b4252;
+  
+  /* Shadow Colors */
+  --vf-shadow-sm: rgba(136, 192, 208, 0.1);
+  --vf-shadow-md: rgba(136, 192, 208, 0.15);
+  --vf-shadow-lg: rgba(136, 192, 208, 0.2);
+  --vf-shadow-modal: rgba(0, 0, 0, 0.4);
+  
+  /* Overlay Colors */
+  --vf-overlay-bg: rgba(0, 0, 0, 0.4);
+  --vf-overlay-border: rgba(136, 192, 208, 0.5);
+  --vf-overlay-text: #e5e9f0;
+}

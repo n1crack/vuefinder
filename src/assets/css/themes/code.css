@@ -1,0 +1,48 @@
+/* Code Theme */
+.vuefinder[data-theme="code"] {
+  --vf-selection-bg: #f6f8fa;
+  --vf-selection-border: #d0d7de;
+  /* Background Colors */
+  --vf-bg-primary: #ffffff;
+  --vf-bg-secondary: #f6f8fa;
+  --vf-bg-tertiary: #eaeef2;
+  --vf-bg-hover: #f6f8fa;
+  --vf-bg-selected: #eaeef2;
+  --vf-bg-disabled: #f6f8fa;
+  
+  /* Text Colors */
+  --vf-text-primary: #24292f;
+  --vf-text-secondary: #656d76;
+  --vf-text-tertiary: #8b949e;
+  --vf-text-disabled: #d0d7de;
+  --vf-text-inverse: #ffffff;
+  
+  /* Border Colors */
+  --vf-border-primary: #d0d7de;
+  --vf-border-secondary: #eaeef2;
+  --vf-border-focus: #0969da;
+  --vf-border-error: #d1242f;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #0969da;
+  --vf-accent-secondary: #0550ae;
+  --vf-accent-success: #1a7f37;
+  --vf-accent-warning: #9a6700;
+  --vf-accent-error: #d1242f;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #f6f8fa;
+  --vf-interactive-active: #eaeef2;
+  --vf-interactive-focus: #dbeafe;
+  
+  /* Shadow Colors */
+  --vf-shadow-sm: rgba(0, 0, 0, 0.04);
+  --vf-shadow-md: rgba(0, 0, 0, 0.08);
+  --vf-shadow-lg: rgba(0, 0, 0, 0.12);
+  --vf-shadow-modal: rgba(0, 0, 0, 0.12);
+  
+  /* Overlay Colors */
+  --vf-overlay-bg: rgba(0, 0, 0, 0.2);
+  --vf-overlay-border: rgba(0, 0, 0, 0.1);
+  --vf-overlay-text: #656d76;
+}

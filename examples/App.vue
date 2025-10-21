@@ -30,9 +30,12 @@ const themes = [
   { value: 'rose', label: 'Rose' },
   { value: 'mythril', label: 'Mythril' },
   { value: 'lime', label: 'Night Bright Lime' },
-  { value: 'dark-plus', label: 'Neon' },
+  { value: 'sky', label: 'Sky' },
   { value: 'ocean', label: 'Oceanic' },
-  { value: 'palenight', label: 'Palenight' }
+  { value: 'palenight', label: 'Palenight' },
+  { value: 'monokai', label: 'Monokai' },
+  { value: 'arctic', label: 'Arctic' },
+  { value: 'code', label: 'Code' }
 ]
 
 // Check if we're in a popup window
