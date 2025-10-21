@@ -696,6 +696,21 @@ const openPopupWindow = () => {
             </div>
           </div>
 
+
+
+        <!-- VueFinder with selection filters -->
+        <vue-finder
+          id='selection-filter-vuefinder'
+          :request="request"
+          :config="{
+            maxFileSize: maxFileSize,
+          }"
+          :features="features"
+          :selection-filter-type="selectionFilterType"
+          :selection-filter-mime-includes="selectionFilterMimeIncludes"
+          @select="handleSelectionFilter"
+        />
+
           <!-- Selection info -->
           <div style="margin: 20px 0; padding: 15px; background: #f0f0f0; border-radius: 5px;">
             <h3>Current Selection ({{ selectionFilteredFiles.length }} items):</h3>
@@ -722,19 +737,6 @@ const openPopupWindow = () => {
             </ol>
           </div>
         </div>
-
-        <!-- VueFinder with selection filters -->
-        <vue-finder
-          id='selection-filter-vuefinder'
-          :request="request"
-          :config="{
-            maxFileSize: maxFileSize,
-          }"
-          :features="features"
-          :selection-filter-type="selectionFilterType"
-          :selection-filter-mime-includes="selectionFilterMimeIncludes"
-          @select="handleSelectionFilter"
-        />
       </div>
 
     </div>
