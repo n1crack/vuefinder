@@ -68,8 +68,7 @@ export default {
     "Select Folders": "Klasörleri Seç",
     "Clear all": "Hepsini Temizle",
     "Clear only successful": "Başarılı Olanları Temizle",
-    "Drag and drop the files/folders to here or click here.": "Dosyaları/klasörleri buraya sürükleyin veya buraya tıklayın.",
-    "Release to drop these files.": "Dosyaları eklemek için serbest bırakın.",
+    "Drag and drop the files/folders to here.": "Dosyaları/klasörleri buraya sürükleyin.",
     "Canceled": "İptal edildi",
     "Done": "Tamamlandı",
     "Network Error, Unable establish connection to the server or interrupted.": "Ağ Hatası, Sunucuya bağlantı kurulamıyor veya kesiliyor.",
@@ -144,6 +143,5 @@ export default {
     "Select Target Folder": "Hedef klasörü seç",
     "Storages": "Depolar",
     "Loading": "Yükleniyor",
-    "Drop files here": "Dosyaları buraya bırakın",
     "uppy": uppyLocaleTr,
 }

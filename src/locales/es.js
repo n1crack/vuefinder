@@ -68,8 +68,7 @@ export default {
     "Select Folders": "Seleccionar carpetas",
     "Clear all": "Limpiar todo",
     "Clear only successful": "Limpiar solo exitosos",
-    "Drag and drop the files/folders to here or click here.": "Arrastra y suelta los archivos/carpetas aquí o haz clic aquí.",
-    "Release to drop these files.": "Suelta para dejar caer estos archivos.",
+    "Drag and drop the files/folders to here.": "Arrastra y suelta los archivos/carpetas aquí.",
     "Canceled": "Cancelado",
     "Done": "Hecho",
     "Network Error, Unable establish connection to the server or interrupted.": "Error de red, No se pudo establecer conexión con el servidor o se interrumpió.",
@@ -144,6 +143,5 @@ export default {
     "Select Target Folder": "Seleccionar carpeta de destino",
     "Storages": "Almacenamientos",
     "Loading": "Cargando",
-    "Drop files here": "Arrastra archivos aquí",
     "uppy": uppyLocaleEs
 }

@@ -107,7 +107,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
 </script>
 
 <template>
-  <ModalLayout :showDragOverlay="hasFilesInDropArea" :dragOverlayText="t('Release to drop these files.')">
+  <ModalLayout :showDragOverlay="hasFilesInDropArea" :dragOverlayText="t('Drag and drop the files/folders to here.')">
     <div>
       <ModalHeader :icon="UploadSVG" :title="t('Upload Files')"></ModalHeader>
       <div class="vuefinder__upload-modal__content relative">

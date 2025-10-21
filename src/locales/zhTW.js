@@ -65,8 +65,7 @@ export default {
     "Select Folders": "選擇資料夾",
     "Clear all": "全部清除",
     "Clear only successful": "僅清除成功上傳的",
-    "Drag and drop the files/folders to here or click here.": "拖曳或點擊此處上傳檔案/資料夾。",
-    "Release to drop these files.": "放開後添加這些文件。",
+    "Drag and drop the files/folders to here.": "拖曳或點擊此處上傳檔案/資料夾。",
     "Canceled": "已取消",
     "Done": "已完成",
     "Network Error, Unable establish connection to the server or interrupted.": "網路錯誤，無法連線到伺服器或連線被意外中斷。",
@@ -141,6 +140,5 @@ export default {
     "Select Target Folder": "選擇目標資料夾",
     "Storages": "儲存",
     "Loading": "載入中",
-    "Drop files here": "將檔案拖放到此處",
     "uppy": uppyLocalezhTW
 }

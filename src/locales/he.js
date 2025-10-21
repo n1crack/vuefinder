@@ -65,8 +65,7 @@ export default {
     "Select Folders": "Select Folders",
     "Clear all": "נקה הכל",
     "Clear only successful": "נקה רק הצלחות",
-    "Drag and drop the files/folders to here or click here.": "גרור ושחרר את הקבצים/תיקיות לכאן או לחץ כאן.",
-    "Release to drop these files.": "שחרר כדי לשחרר את הקבצים.",
+    "Drag and drop the files/folders to here.": "גרור ושחרר את הקבצים/תיקיות לכאן.",
     "Canceled": "בוטל",
     "Done": "הסתיים",
     "Network Error, Unable establish connection to the server or interrupted.": "שגיאת רשת, לא ניתן להתחבר לשרת או החיבור נקטע.",
@@ -141,6 +140,5 @@ export default {
     "Select Target Folder": "בחר תיקיית יעד",
     "Storages": "אחסון",
     "Loading": "טוען",
-    "Drop files here": "גרור קבצים לכאן",
     "uppy": uppyLocaleHe
 }

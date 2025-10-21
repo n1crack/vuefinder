@@ -65,8 +65,7 @@ export default {
     "Select Folders": "Mappen selecteren",
     "Clear all": "Alles wissen",
     "Clear only successful": "Alleen geslaagde wissen",
-    "Drag and drop the files/folders to here or click here.": "Sleep de bestanden/mappen hierheen of klik hier.",
-    "Release to drop these files.": "Laat los om deze bestanden te plaatsen.",
+    "Drag and drop the files/folders to here.": "Sleep de bestanden/mappen hierheen.",
     "Canceled": "Geannuleerd",
     "Done": "Klaar",
     "Network Error, Unable establish connection to the server or interrupted.": "Netwerkfout, kan geen verbinding maken met de server of onderbroken.",
@@ -141,6 +140,5 @@ export default {
     "Select Target Folder": "Selecteer doelmap",
     "Storages": "Opslag",
     "Loading": "Laden",
-    "Drop files here": "Sleep bestanden hierheen",
     "uppy": uppyLocaleNl
 }

@@ -225,7 +225,7 @@ onMounted(() => {
         <!-- External Drag Drop Overlay -->
         <div v-if="isDraggingExternal" class="vuefinder__external-drop-overlay">
           <div class="vuefinder__external-drop-message">
-            {{ app.i18n.t('Drop files here') }}
+            {{ app.i18n.t('Drag and drop the files/folders to here.') }}
           </div>
         </div>
         

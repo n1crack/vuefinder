@@ -65,8 +65,7 @@ export default {
     "Select Folders": "Select Folders",
     "Clear all": "پاک کردن همه",
     "Clear only successful": "پاک کردن فقط موفق",
-    "Drag and drop the files/folders to here or click here.": "فایل ها/پوشه ها را به اینجا بکشید یا اینجا کلیک کنید.",
-    "Release to drop these files.": "رها کنید تا این فایل ها را رها کنید.",
+    "Drag and drop the files/folders to here.": "فایل ها/پوشه ها را به اینجا بکشید.",
     "Canceled": "لغو شد",
     "Done": "انجام شد",
     "Network Error, Unable establish connection to the server or interrupted.": "خطای شبکه، اتصال به سرور برقرار نشد یا قطع شد.",
@@ -141,6 +140,5 @@ export default {
     "Select Target Folder": "انتخاب پوشه مقصد",
     "Storages": "ذخیره‌سازی",
     "Loading": "در حال بارگذاری",
-    "Drop files here": "فایل‌ها را اینجا رها کنید",
     "uppy": uppyLocaleFa
 }

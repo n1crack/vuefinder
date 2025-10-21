@@ -69,8 +69,7 @@ export default {
     "Select Folders": "Sélectionner des dossiers",
     "Clear all": "Tout effacer",
     "Clear only successful": "Effacer uniquement les réussites",
-    "Drag and drop the files/folders to here or click here.": "Faites glisser les fichiers/dossiers ici ou cliquez ici.",
-    "Release to drop these files.": "Relâchez pour déposer ces fichiers.",
+    "Drag and drop the files/folders to here.": "Faites glisser les fichiers/dossiers ici.",
     "Canceled": "Annulé",
     "Done": "Terminé",
     "Network Error, Unable establish connection to the server or interrupted.": "Erreur réseau, impossible d'établir une connexion avec le serveur ou interrompue.",
@@ -145,6 +144,5 @@ export default {
     "Select Target Folder": "Sélectionner le dossier cible",
     "Storages": "Stockages",
     "Loading": "Chargement",
-    "Drop files here": "Déposez les fichiers ici",
     "uppy": uppyLocaleFr
 }

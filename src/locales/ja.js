@@ -68,8 +68,7 @@ export default {
     "Select Folders": "フォルダを選択",
     "Clear all": "すべてクリア",
     "Clear only successful": "成功したもののみクリア",
-    "Drag and drop the files/folders to here or click here.": "ファイル/フォルダをここにドラッグ&ドロップするか、ここをクリックしてください。",
-    "Release to drop these files.": "これらのファイルをドロップするには離してください。",
+    "Drag and drop the files/folders to here.": "ファイル/フォルダをここにドラッグ&ドロップしてください。",
     "Canceled": "キャンセルされました",
     "Done": "完了",
     "Network Error, Unable establish connection to the server or interrupted.": "ネットワークエラー、サーバーへの接続を確立できないか、中断されました。",
@@ -144,6 +143,5 @@ export default {
     "Select Target Folder": "ターゲットフォルダを選択",
     "Storages": "ストレージ",
     "Loading": "読み込み中",
-    "Drop files here": "ファイルをここにドロップ",
     "uppy": uppyLocaleJa
 }

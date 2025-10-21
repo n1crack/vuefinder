@@ -68,8 +68,7 @@ export default {
     "Select Folders": "Выбрать папки",
     "Clear all": "Очистить все",
     "Clear only successful": "Очистить только успешные",
-    "Drag and drop the files/folders to here or click here.": "Перетащите файлы/папки сюда или нажмите здесь.",
-    "Release to drop these files.": "Отпустите, чтобы отпустить эти файлы.",
+    "Drag and drop the files/folders to here.": "Перетащите файлы/папки сюда.",
     "Canceled": "Отменено",
     "Done": "Готово",
     "Network Error, Unable establish connection to the server or interrupted.": "Ошибка сети, не удалось установить соединение с сервером или соединение было прервано.",
@@ -144,6 +143,5 @@ export default {
     "Select Target Folder": "Выбрать целевую папку",
     "Storages": "Хранилища",
     "Loading": "Загрузка",
-    "Drop files here": "Перетащите файлы сюда",
     "uppy": uppyLocaleRu
 }

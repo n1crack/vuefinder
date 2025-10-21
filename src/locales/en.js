@@ -68,8 +68,7 @@ export default {
     "Select Folders": "Select Folders",
     "Clear all": "Clear all",
     "Clear only successful": "Clear only successful",
-    "Drag and drop the files/folders to here or click here.": "Drag and drop the files/folders to here or click here.",
-    "Release to drop these files.": "Release to drop these files.",
+    "Drag and drop the files/folders to here.": "Drag and drop the files/folders to here.",
     "Canceled": "Canceled",
     "Done": "Done",
     "Network Error, Unable establish connection to the server or interrupted.": "Network Error, Unable establish connection to the server or interrupted.",
@@ -144,6 +143,5 @@ export default {
     "Select Target Folder": "Select Target Folder",
     "Storages": "Storages",
     "Loading": "Loading",
-    "Drop files here": "Drop files here",
     "uppy": uppyLocaleEn
 }

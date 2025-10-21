@@ -65,8 +65,7 @@ export default {
     "Select Folders": "फ़ोल्डर चुनें",
     "Clear all": "सब कुछ साफ़ करें",
     "Clear only successful": "केवल सफल साफ़ करें",
-    "Drag and drop the files/folders to here or click here.": "फ़ाइलें/फ़ोल्डर्स यहाँ खींचें या यहाँ क्लिक करें।",
-    "Release to drop these files.": "इन फ़ाइलों को छोड़ने के लिए रिलीज़ करें।",
+    "Drag and drop the files/folders to here.": "फ़ाइलें/फ़ोल्डर्स यहाँ खींचें।",
     "Canceled": "रद्द कर दिया गया",
     "Done": "हो गया",
     "Network Error, Unable establish connection to the server or interrupted.": "नेटवर्क त्रुटि, सर्वर से कनेक्शन स्थापित नहीं कर सकता या रुका हुआ है।",
@@ -141,6 +140,5 @@ export default {
     "Select Target Folder": "लक्ष्य फोल्डर चुनें",
     "Storages": "स्टोरेज",
     "Loading": "लोड हो रहा है",
-    "Drop files here": "फाइलें यहाँ ड्रॉप करें",
     "uppy": uppyLocaleHi
 }

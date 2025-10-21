@@ -65,8 +65,7 @@ export default {
     "Select Folders": "Välj mappar",
     "Clear all": "Rensa alla",
     "Clear only successful": "Rensa endast lyckade",
-    "Drag and drop the files/folders to here or click here.": "Dra och släpp filerna/mapparna hit eller klicka här.",
-    "Release to drop these files.": "Släpp för att lägga till dessa filer.",
+    "Drag and drop the files/folders to here.": "Dra och släpp filerna/mapparna hit.",
     "Canceled": "Avbruten",
     "Done": "Klar",
     "Network Error, Unable establish connection to the server or interrupted.": "Nätverksfel, kan inte upprätta anslutning till servern eller avbruten.",
@@ -141,6 +140,5 @@ export default {
     "Select Target Folder": "Välj målmapp",
     "Storages": "Lagring",
     "Loading": "Laddar",
-    "Drop files here": "Släpp filer här",
     "uppy": uppyLocaleSv
 }

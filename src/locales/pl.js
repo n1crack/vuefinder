@@ -65,8 +65,7 @@ export default {
     "Select Folders": "Wybierz foldery",
     "Clear all": "Wyczyść wszystko",
     "Clear only successful": "Wyczyść tylko udane",
-    "Drag and drop the files/folders to here or click here.": "Przeciągnij i upuść pliki/foldery tutaj lub kliknij tutaj.",
-    "Release to drop these files.": "Zwolnij przycisk, aby upuścić te pliki.",
+    "Drag and drop the files/folders to here.": "Przeciągnij i upuść pliki/foldery tutaj.",
     "Canceled": "Anulowano",
     "Done": "Gotowe",
     "Network Error, Unable establish connection to the server or interrupted.": "Błąd sieci, nie można nawiązać połączenia z serwerem lub połączenie zostało przerwane.",
@@ -141,6 +140,5 @@ export default {
     "Select Target Folder": "Wybierz folder docelowy",
     "Storages": "Magazyny",
     "Loading": "Ładowanie",
-    "Drop files here": "Przeciągnij pliki tutaj",
     "uppy": uppyLocalePl
 }

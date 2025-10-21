@@ -65,7 +65,7 @@ onMounted(() => {
           class="vuefinder__modal-drag-overlay"
         >
           <div class="vuefinder__modal-drag-message">
-            {{ props.dragOverlayText || 'Release to drop these files.' }}
+            {{ props.dragOverlayText || 'Drag and drop the files/folders to here.' }}
           </div>
         </div>
     </div>

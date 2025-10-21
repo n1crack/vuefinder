@@ -68,8 +68,7 @@ export default {
     "Select Folders": "حدد المجلدات",
     "Clear all": "مسح الجميع",
     "Clear only successful": "مسح الناجح فقط",
-    "Drag and drop the files/folders to here or click here.": "اسحب وأفلت الملفات/المجلدات إلى هنا أو قم بالنقر هنا.",
-    "Release to drop these files.": "حرر لإسقاط هذه الملفات.",
+    "Drag and drop the files/folders to here.": "اسحب وأفلت الملفات/المجلدات إلى هنا.",
     "Canceled": "مُلغى",
     "Done": "تم",
     "Network Error, Unable establish connection to the server or interrupted.": "خطأ في الشبكة، تعذر إنشاء اتصال بالخادم أو انقطاعه.",
@@ -144,6 +143,5 @@ export default {
     "Select Target Folder": "اختر المجلد الهدف",
     "Storages": "التخزين",
     "Loading": "جاري التحميل",
-    "Drop files here": "اسحب الملفات هنا",
     "uppy": uppyLocaleAr
 }
