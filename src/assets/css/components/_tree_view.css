@@ -150,9 +150,33 @@
 
 .vuefinder__treestorageitem__header {
   @apply p-1 py-1.5 uppercase font-bold text-xs flex justify-between border-b cursor-pointer;
-  background-color: var(--vf-bg-secondary);
+  background-color: var(--vf-bg-tertiary);
   border-color: var(--vf-border-primary);
   color: var(--vf-text-tertiary);
+}
+
+/* Darker background for dark themes */
+.vuefinder[data-theme="default-dark"] .vuefinder__treestorageitem__header,
+.vuefinder[data-theme="midnight"] .vuefinder__treestorageitem__header,
+.vuefinder[data-theme="ocean"] .vuefinder__treestorageitem__header,
+.vuefinder[data-theme="palenight"] .vuefinder__treestorageitem__header,
+.vuefinder[data-theme="lime"] .vuefinder__treestorageitem__header,
+.vuefinder[data-theme="monokai"] .vuefinder__treestorageitem__header {
+  background-color: var(--vf-bg-secondary);
+}
+
+/* Much darker background for specific themes */
+.vuefinder[data-theme="ocean"] .vuefinder__treestorageitem__header,
+.vuefinder[data-theme="lime"] .vuefinder__treestorageitem__header,
+.vuefinder[data-theme="midnight"] .vuefinder__treestorageitem__header {
+  background-color: var(--vf-bg-primary);
+  opacity: 0.7;
+}
+
+/* Very dark background for default dark theme */
+.vuefinder[data-theme="default-dark"] .vuefinder__treestorageitem__header {
+  background-color: var(--vf-bg-primary);
+  opacity: 0.5;
 }
 
 .vuefinder__treestorageitem__info {
