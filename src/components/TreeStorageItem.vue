@@ -15,7 +15,7 @@ const props = defineProps<{
   storage: string
 }>()
 
-const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 
 // Make path reactive
 const currentPath = useStore(fs.path);

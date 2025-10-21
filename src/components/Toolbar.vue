@@ -329,8 +329,8 @@ const resetFilters = () => {
           class="mx-1.5"
           :title="t('Toggle Full Screen')"
       >
-        <MinimizeSVG v-if="configState.fullScreen"/>
-        <FullscreenSVG v-else/>
+        <MinimizeSVG class="vf-toolbar-icon" v-if="configState.fullScreen"/>
+        <FullscreenSVG class="vf-toolbar-icon" v-else/>
       </div>
 
       <div

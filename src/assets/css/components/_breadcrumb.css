@@ -10,7 +10,22 @@
   color: var(--vf-text-primary);
 }
 
+.vuefinder__breadcrumb__toggle-tree:hover {
+  background-color: var(--vf-bg-hover);
+}
+
 .vuefinder__breadcrumb__toggle-tree--active {
+  background-color: var(--vf-bg-hover);
+}
+
+.vuefinder__breadcrumb__refresh-icon,
+.vuefinder__breadcrumb__close-icon {
+  @apply h-6 w-6 p-1 rounded cursor-pointer;
+  color: var(--vf-text-primary);
+}
+
+.vuefinder__breadcrumb__refresh-icon:hover,
+.vuefinder__breadcrumb__close-icon:hover {
   background-color: var(--vf-bg-hover);
 }
 
@@ -28,14 +43,37 @@
 }
 
 .vuefinder__breadcrumb__search-container {
-  @apply flex border items-center rounded p-1 ml-2 w-full overflow-hidden;
+  @apply flex border items-center rounded p-1 ml-2 w-full overflow-hidden cursor-pointer;
   background-color: var(--vf-bg-primary);
   border-color: var(--vf-border-primary);
 }
 
 .vuefinder__breadcrumb__search-container:hover {
   border-color: var(--vf-border-focus);
+  background-color: var(--vf-bg-hover);
   box-shadow: 0 1px 3px 0 var(--vf-shadow-sm), 0 1px 2px 0 var(--vf-shadow-sm);
+}
+
+.vuefinder__breadcrumb__search-container:hover .vuefinder__breadcrumb__home-icon {
+  color: var(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__search-container:hover .vuefinder__breadcrumb__separator {
+  color: var(--vf-text-primary);
+}
+
+.vuefinder__breadcrumb__search-container:hover .vuefinder__breadcrumb__item {
+  color: var(--vf-text-primary);
+}
+
+.vuefinder__breadcrumb__home-icon {
+  @apply h-6 w-6 p-1 rounded cursor-pointer;
+  color: var(--vf-text-primary);
+}
+
+.vuefinder__breadcrumb__home-icon:hover {
+  background-color: var(--vf-bg-hover);
+  color: var(--vf-accent-primary);
 }
 
 .vuefinder__breadcrumb__list {
@@ -69,12 +107,18 @@
 }
 
 .vuefinder__breadcrumb__item {
-  @apply px-1.5 py-1 rounded cursor-pointer whitespace-nowrap;
+  @apply px-1.5 py-0.5 rounded cursor-pointer whitespace-nowrap border border-transparent;
   color: var(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__item:hover {
   background-color: var(--vf-bg-hover);
+}
+
+/* Theme-aware drag over class */
+.vuefinder__drag-over {
+  background-color: var(--vf-selection-bg) !important;
+  border: 1px solid var(--vf-selection-border) !important;
 }
 
 .vuefinder__breadcrumb__search-mode {

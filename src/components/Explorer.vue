@@ -20,7 +20,7 @@ const props = defineProps<{
 }>();
 
 const app = inject('ServiceContainer') as ServiceContainer;
-const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
 const selectionObject = shallowRef<SelectionArea | null>(null);
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');

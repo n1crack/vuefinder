@@ -8,7 +8,7 @@ const props = defineProps<{
 
 <template>
   <div class="vuefinder__drag-item__container">
-    <DragSVG/>
+    <DragSVG class="vuefinder__drag-item__icon"/>
     <div class="vuefinder__drag-item__count">{{ props.count }}</div>
   </div>
 </template>

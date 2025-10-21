@@ -92,7 +92,7 @@ onUnmounted(() => {
   }
 });
 
-const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 
 function getBreadcrumb(index: number | null = null) {
   index ??= allBreadcrumbs.value.length - 2;
@@ -251,9 +251,10 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-show="!searchMode" class="group vuefinder__breadcrumb__search-container" @click="search.enterSearchMode">
+    <div v-show="!searchMode" class="vuefinder__breadcrumb__search-container" @click="search.enterSearchMode">
       <div>
         <HomeSVG
+            class="vuefinder__breadcrumb__home-icon"
             v-on="dragNDrop.events(getBreadcrumb(-1))"
             @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: currentPath.storage ?? 'local'}})"/>
       </div>

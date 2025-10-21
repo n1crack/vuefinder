@@ -141,7 +141,7 @@
 }
 
 .vf-toolbar-icon {
-  @apply cursor-pointer;
+  @apply cursor-pointer h-8 w-8;
   stroke: var(--vf-text-secondary);
 }
 
@@ -150,7 +150,7 @@
 }
 
 .vf-toolbar-icon-disabled {
-  @apply cursor-not-allowed;
+  @apply cursor-not-allowed h-8 w-8;
   stroke: var(--vf-text-disabled);
   opacity: 0.8;
 }

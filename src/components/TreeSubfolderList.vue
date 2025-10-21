@@ -10,7 +10,7 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
 const fs = app.fs;
-const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 const showSubFolders = ref<Record<string, boolean>>({});
 
 // Make path reactive

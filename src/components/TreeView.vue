@@ -26,7 +26,7 @@ const sortedFiles = useStore(fs.sortedFiles);
 const storages = useStore(fs.storages);
 const path = useStore(fs.path);
 
-const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 
 const treeViewWidth = ref(190);
 const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
