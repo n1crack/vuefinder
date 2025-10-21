@@ -70,8 +70,8 @@
     @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
 }
 
-.vuefinder__breadcrumb__item.pointer-events-auto {
-  
+.vuefinder__breadcrumb__item--pointer-events-auto {
+  @apply pointer-events-auto;
 }
 /* Theme-aware drag over class */
 .vuefinder__drag-over {
