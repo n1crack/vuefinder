@@ -152,6 +152,5 @@
 .vf-toolbar-icon-disabled {
   @apply cursor-not-allowed;
   stroke: var(--vf-text-disabled);
-  filter: grayscale(100%);
-  opacity: 0.5;
+  opacity: 0.8;
 }

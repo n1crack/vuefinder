@@ -24,8 +24,14 @@
   color: var(--vf-accent-primary);
 }
 
-.vuefinder__menubar__item--active:hover {
-  color: var(--vf-accent-primary);
+.vuefinder__menubar__item--disabled {
+  @apply cursor-not-allowed;
+  color: var(--vf-text-disabled);
+  opacity: 0.8;
+}
+
+.vuefinder__menubar__item--disabled:hover {
+  color: var(--vf-text-disabled);
 }
 
 .vuefinder__menubar__label {
@@ -62,6 +68,7 @@
 .vuefinder__menubar__dropdown__item--disabled {
   @apply cursor-not-allowed;
   color: var(--vf-text-disabled);
+  opacity: 0.8;
 }
 
 .vuefinder__menubar__dropdown__item--disabled:hover {

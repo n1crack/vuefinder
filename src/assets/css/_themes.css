@@ -47,6 +47,7 @@
   --vf-shadow-sm: rgba(0, 0, 0, 0.05);
   --vf-shadow-md: rgba(0, 0, 0, 0.1);
   --vf-shadow-lg: rgba(0, 0, 0, 0.15);
+  --vf-shadow-modal: rgba(0, 0, 0, 0.15);
   
   /* Overlay Colors */
   --vf-overlay-bg: rgba(17, 24, 39, 0.3);
@@ -95,6 +96,7 @@
   --vf-shadow-sm: rgba(0, 0, 0, 0.3);
   --vf-shadow-md: rgba(0, 0, 0, 0.4);
   --vf-shadow-lg: rgba(0, 0, 0, 0.5);
+  --vf-shadow-modal: rgba(0, 0, 0, 0.4);
   
   /* Overlay Colors */
   --vf-overlay-bg: rgba(0, 0, 0, 0.4);
@@ -143,6 +145,7 @@
   --vf-shadow-sm: rgba(0, 0, 0, 0.4);
   --vf-shadow-md: rgba(0, 0, 0, 0.5);
   --vf-shadow-lg: rgba(0, 0, 0, 0.6);
+  --vf-shadow-modal: rgba(0, 0, 0, 0.5);
   
   /* Overlay Colors */
   --vf-overlay-bg: rgba(0, 0, 0, 0.5);
@@ -191,6 +194,7 @@
   --vf-shadow-sm: rgba(76, 42, 26, 0.1);
   --vf-shadow-md: rgba(76, 42, 26, 0.15);
   --vf-shadow-lg: rgba(76, 42, 26, 0.2);
+  --vf-shadow-modal: rgba(76, 42, 26, 0.15);
   
   /* Overlay Colors */
   --vf-overlay-bg: rgba(76, 42, 26, 0.2);
@@ -232,6 +236,7 @@
   --vf-shadow-sm: rgba(0, 0, 0, 0.05);
   --vf-shadow-md: rgba(0, 0, 0, 0.1);
   --vf-shadow-lg: rgba(0, 0, 0, 0.15);
+  --vf-shadow-modal: rgba(0, 0, 0, 0.15);
   
   --vf-overlay-bg: rgba(17, 24, 39, 0.3);
   --vf-overlay-border: rgba(75, 85, 99, 0.8);
@@ -276,6 +281,7 @@
   --vf-shadow-sm: rgba(245, 158, 11, 0.08);
   --vf-shadow-md: rgba(245, 158, 11, 0.12);
   --vf-shadow-lg: rgba(245, 158, 11, 0.16);
+  --vf-shadow-modal: rgba(124, 45, 18, 0.15);
   
   --vf-overlay-bg: rgba(124, 45, 18, 0.2);
   --vf-overlay-border: rgba(245, 158, 11, 0.6);
@@ -336,13 +342,13 @@
   --vf-bg-tertiary: #2d4a2d;
   --vf-bg-hover: #1a2e1a;
   --vf-bg-selected: #2d4a2d;
-  --vf-bg-disabled: #1a2e1a;
+  --vf-bg-disabled: #374151;
   
   /* Text Colors */
   --vf-text-primary: #f0fdf4;
   --vf-text-secondary: #dcfce7;
   --vf-text-tertiary: #bbf7d0;
-  --vf-text-disabled: #86efac;
+  --vf-text-disabled: #9ca3af;
   --vf-text-inverse: #0f1419;
   
   /* Border Colors */
@@ -357,13 +363,14 @@
   --vf-accent-tertiary: #bef264;
   
   /* Interactive Colors */
-  --vf-interactive-hover: #2d4a2d;
+  --vf-interactive-hover: #365f32;
   --vf-interactive-active: #84cc16;
   --vf-interactive-focus: #2d4a2d;
   
   --vf-shadow-sm: rgba(132, 204, 22, 0.15);
   --vf-shadow-md: rgba(132, 204, 22, 0.2);
   --vf-shadow-lg: rgba(132, 204, 22, 0.25);
+  --vf-shadow-modal: rgba(0, 0, 0, 0.4);
   
   --vf-overlay-bg: rgba(15, 20, 25, 0.8);
   --vf-overlay-border: rgba(132, 204, 22, 0.7);

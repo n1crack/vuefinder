@@ -4,11 +4,13 @@
  }
 
  .vuefinder__message-modal__icon-container {
-   @apply mx-auto shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 dark:bg-gray-500 sm:mx-0 sm:h-10 sm:w-10;
+   @apply mx-auto shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10;
+   background-color: var(--vf-bg-tertiary);
  }
 
  .vuefinder .vuefinder__message-modal__icon {
-   @apply h-6 w-6 stroke-blue-600 dark:stroke-blue-100;
+   @apply h-6 w-6;
+   stroke: var(--vf-accent-primary);
  }
 
  .vuefinder__message-modal__text {
@@ -16,7 +18,8 @@
  }
 
  .vuefinder__message-modal__title {
-   @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
+   @apply text-lg leading-6 font-medium;
+   color: var(--vf-text-primary);
  }
 
  .vuefinder__message-modal__message {
@@ -24,5 +27,6 @@
  }
 
  .vuefinder__message-modal__description {
-   @apply text-sm text-gray-500;
+   @apply text-sm;
+   color: var(--vf-text-secondary);
  }

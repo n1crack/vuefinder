@@ -5,45 +5,69 @@
   text-base font-medium tracking-wide
   focus:outline-none focus:ring-2 focus:ring-offset-2
   mt-0.5 sm:mx-1 sm:w-auto sm:text-sm;
+  border-color: var(--vf-border-primary);
+  background-color: var(--vf-bg-primary);
+  color: var(--vf-text-primary);
 }
 
 .vf-btn-primary {
-  @apply
-  border-transparent
-  text-white
-  bg-blue-600 hover:bg-blue-700
-  focus:ring-indigo-500
-  dark:text-gray-50 dark:border-gray-800 dark:bg-gray-700 dark:hover:bg-gray-500;
+  @apply border-transparent focus:ring-2 focus:ring-offset-2;
+  background-color: var(--vf-accent-primary);
+  color: var(--vf-text-inverse);
+  border-color: var(--vf-accent-primary);
+}
+
+.vf-btn-primary:hover {
+  background-color: var(--vf-interactive-hover);
+  border-color: var(--vf-interactive-hover);
+}
+
+.vf-btn-primary:focus {
+  ring-color: var(--vf-accent-primary);
 }
 
 .vf-btn-primary.disabled {
-  @apply
-  hover:bg-blue-600
-  dark:hover:bg-gray-700
+  background-color: var(--vf-bg-disabled);
+  color: var(--vf-text-disabled);
+  border-color: var(--vf-border-primary);
 }
 
 .vf-btn-secondary {
-  @apply
-  border-gray-300
-  text-gray-700
-  bg-white hover:bg-gray-50
-  focus:ring-gray-500
-  dark:text-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-500;
+  @apply focus:ring-2 focus:ring-offset-2;
+  background-color: var(--vf-bg-secondary);
+  color: var(--vf-text-primary);
+  border-color: var(--vf-border-primary);
+}
+
+.vf-btn-secondary:hover {
+  background-color: var(--vf-bg-hover);
+  border-color: var(--vf-border-focus);
+}
+
+.vf-btn-secondary:focus {
+  ring-color: var(--vf-border-focus);
 }
 
 .vf-btn-secondary.disabled {
-  @apply
-  hover:bg-gray-50
-  dark:hover:bg-gray-800
+  background-color: var(--vf-bg-disabled);
+  color: var(--vf-text-disabled);
+  border-color: var(--vf-border-primary);
 }
 
 .vf-btn-danger {
-  @apply
-  border-transparent
-  text-white
-  bg-red-600 hover:bg-red-700
-  focus:ring-red-200 focus:ring-1 focus:ring-offset-1
-  dark:text-gray-50 dark:border-red-800 dark:bg-red-700 dark:hover:bg-red-500;
+  @apply border-transparent focus:ring-2 focus:ring-offset-2;
+  background-color: var(--vf-accent-error);
+  color: var(--vf-text-inverse);
+  border-color: var(--vf-accent-error);
+}
+
+.vf-btn-danger:hover {
+  background-color: var(--vf-interactive-active);
+  border-color: var(--vf-interactive-active);
+}
+
+.vf-btn-danger:focus {
+  ring-color: var(--vf-accent-error);
 }
 
 .disabled {
