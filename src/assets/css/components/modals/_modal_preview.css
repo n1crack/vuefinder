@@ -80,19 +80,18 @@
 }
 
 .vuefinder__preview-modal__loading {
-  @apply text-gray-700 dark:text-gray-200 text-sm;
-}
-
-.vuefinder__preview-modal__loading-indicator {
-  @apply flex leading-5;
+  @apply text-sm;
+  color: var(--vf-text-primary);
 }
 
 .vuefinder .vuefinder__preview-modal__spinner {
-  @apply animate-spin -ml-1 mr-3 h-5 w-5 text-white;
+  @apply animate-spin -ml-1 mr-3 h-5 w-5;
+  color: var(--vf-text-primary);
 }
 
 .vuefinder__preview-modal__spinner-circle {
-  @apply opacity-25 stroke-blue-900 dark:stroke-blue-100;
+  @apply opacity-25;
+  stroke: var(--vf-text-primary);
 }
 
 .vuefinder__preview-modal__spinner-path {
@@ -100,9 +99,11 @@
 }
 
 .vuefinder__preview-modal__details {
-  @apply py-2 flex font-normal break-all text-gray-800 dark:text-gray-200 rounded text-xs;
+  @apply py-2 flex font-normal break-all rounded text-xs;
+  color: var(--vf-text-primary);
 }
 
 .vuefinder__preview-modal__note {
-  @apply text-xs text-gray-600 dark:text-gray-400;
+  @apply text-xs;
+  color: var(--vf-text-secondary);
 }

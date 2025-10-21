@@ -18,8 +18,9 @@
 }
 
 .vf-btn-primary:hover {
-  background-color: var(--vf-interactive-hover);
-  border-color: var(--vf-interactive-hover);
+  background-color: var(--vf-accent-secondary);
+  border-color: var(--vf-accent-secondary);
+  color: var(--vf-text-inverse);
 }
 
 .vf-btn-primary:focus {

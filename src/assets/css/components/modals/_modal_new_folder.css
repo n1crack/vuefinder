@@ -8,9 +8,18 @@
 }
 
 .vuefinder__new-folder-modal__description {
-  @apply text-sm text-gray-500;
+  @apply text-sm;
+  color: var(--vf-text-secondary);
 }
 
 .vuefinder .vuefinder__new-folder-modal__input {
-  @apply px-2 py-1 border rounded dark:bg-gray-700/25 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full;
+  @apply px-2 py-1 border rounded w-full;
+  background-color: var(--vf-bg-primary);
+  border-color: var(--vf-border-primary);
+  color: var(--vf-text-primary);
+}
+
+.vuefinder .vuefinder__new-folder-modal__input:focus {
+  border-color: var(--vf-border-focus);
+  ring-color: var(--vf-border-focus);
 }

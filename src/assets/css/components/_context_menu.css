@@ -1,9 +1,9 @@
 .vuefinder__context-menu {
-    @apply z-30 absolute text-xs shadow-lg rounded-md select-none origin-top-left min-w-[110px] transition-transform duration-150 ease-out animate-pop py-0.5;
+    @apply z-30 absolute text-xs shadow-lg rounded-md select-none origin-top-left min-w-[110px] transition-transform duration-150 ease-out animate-pop py-0.5 border;
     background-color: var(--vf-bg-primary);
     color: var(--vf-text-primary);
-    border-color: var(--vf-border-primary);
-    box-shadow: 0 10px 15px -3px var(--vf-shadow-md), 0 4px 6px -2px var(--vf-shadow-sm);
+    border-color: var(--vf-border-secondary);
+    box-shadow: 0 4px 6px -1px var(--vf-shadow-sm), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .vuefinder__context-menu__item {
@@ -24,6 +24,7 @@
 .vuefinder__context-menu__item--disabled {
     @apply cursor-not-allowed;
     color: var(--vf-text-disabled);
+    opacity: 0.8;
 }
 
 .vuefinder__context-menu__item--disabled:hover {
@@ -36,4 +37,30 @@
 
 .vuefinder__context-menu__action {
     @apply px-2 mx-0.5 h-6 flex items-center overflow-hidden whitespace-nowrap text-ellipsis flex-1;
+}
+
+/* Theme-specific context menu styles */
+.vuefinder[data-theme="ocean"] .vuefinder__context-menu {
+    border-color: #546e7a;
+    box-shadow: 0 4px 6px -1px rgba(0, 188, 212, 0.1), 0 2px 4px -1px rgba(0, 188, 212, 0.06);
+}
+
+.vuefinder[data-theme="palenight"] .vuefinder__context-menu {
+    border-color: #34495e;
+    box-shadow: 0 4px 6px -1px rgba(199, 146, 234, 0.05), 0 2px 4px -1px rgba(199, 146, 234, 0.03);
+}
+
+.vuefinder[data-theme="desert"] .vuefinder__context-menu {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.1), 0 2px 4px -1px rgba(245, 158, 11, 0.06);
+}
+
+.vuefinder[data-theme="rose"] .vuefinder__context-menu {
+    border-color: #fef2f2;
+    box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.1), 0 2px 4px -1px rgba(245, 158, 11, 0.06);
+}
+
+.vuefinder[data-theme="midnight"] .vuefinder__context-menu {
+    border-color: #475569;
+    box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
 }
