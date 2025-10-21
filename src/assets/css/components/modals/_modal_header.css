@@ -6,16 +6,13 @@
 }
 
 .vuefinder__modal-header__icon-container {
-  @apply shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10;
-  background-color: var(--vf-bg-tertiary);
+  @apply shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10 bg-(--vf-bg-tertiary);
 }
 
 .vuefinder .vuefinder__modal-header__icon {
-  @apply p-0.5 h-6 w-6;
-  stroke: var(--vf-accent-primary);
+  @apply p-0.5 h-6 w-6 stroke-(--vf-accent-primary);
 }
 
 .vuefinder__modal-header__title {
-  @apply text-lg leading-6 font-medium;
-  color: var(--vf-text-primary);
+  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
 }

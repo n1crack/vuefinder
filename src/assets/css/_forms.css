@@ -4,71 +4,52 @@
   w-full px-4 py-2 rounded-md border shadow-sm
   text-base font-medium tracking-wide
   focus:outline-none focus:ring-2 focus:ring-offset-2
-  mt-0.5 sm:mx-1 sm:w-auto sm:text-sm;
-  border-color: var(--vf-border-primary);
-  background-color: var(--vf-bg-primary);
-  color: var(--vf-text-primary);
+  mt-0.5 sm:mx-1 sm:w-auto sm:text-sm
+  border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary);
 }
 
 .vf-btn-primary {
-  @apply border-transparent focus:ring-2 focus:ring-offset-2;
-  background-color: var(--vf-accent-primary);
-  color: var(--vf-text-inverse);
-  border-color: var(--vf-accent-primary);
+  @apply border-transparent focus:ring-2 focus:ring-offset-2 bg-(--vf-accent-primary) text-(--vf-text-inverse) border-(--vf-accent-primary);
 }
 
 .vf-btn-primary:hover {
-  background-color: var(--vf-accent-secondary);
-  border-color: var(--vf-accent-secondary);
-  color: var(--vf-text-inverse);
+  @apply bg-(--vf-accent-secondary) border-(--vf-accent-secondary) text-(--vf-text-inverse);
 }
 
 .vf-btn-primary:focus {
-  ring-color: var(--vf-accent-primary);
+  @apply ring-(--vf-accent-primary);
 }
 
 .vf-btn-primary.disabled {
-  background-color: var(--vf-bg-disabled);
-  color: var(--vf-text-disabled);
-  border-color: var(--vf-border-primary);
+  @apply bg-(--vf-bg-disabled) text-(--vf-text-disabled) border-(--vf-border-primary);
 }
 
 .vf-btn-secondary {
-  @apply focus:ring-2 focus:ring-offset-2;
-  background-color: var(--vf-bg-secondary);
-  color: var(--vf-text-primary);
-  border-color: var(--vf-border-primary);
+  @apply focus:ring-2 focus:ring-offset-2 bg-(--vf-bg-secondary) text-(--vf-text-primary) border-(--vf-border-primary);
 }
 
 .vf-btn-secondary:hover {
-  background-color: var(--vf-bg-hover);
-  border-color: var(--vf-border-focus);
+  @apply bg-(--vf-bg-hover) border-(--vf-border-focus);
 }
 
 .vf-btn-secondary:focus {
-  ring-color: var(--vf-border-focus);
+  @apply ring-(--vf-border-focus);
 }
 
 .vf-btn-secondary.disabled {
-  background-color: var(--vf-bg-disabled);
-  color: var(--vf-text-disabled);
-  border-color: var(--vf-border-primary);
+  @apply bg-(--vf-bg-disabled) text-(--vf-text-disabled) border-(--vf-border-primary);
 }
 
 .vf-btn-danger {
-  @apply border-transparent focus:ring-2 focus:ring-offset-2;
-  background-color: var(--vf-accent-error);
-  color: var(--vf-text-inverse);
-  border-color: var(--vf-accent-error);
+  @apply border-transparent focus:ring-2 focus:ring-offset-2 bg-(--vf-accent-error) text-(--vf-text-inverse) border-(--vf-accent-error);
 }
 
 .vf-btn-danger:hover {
-  background-color: var(--vf-interactive-active);
-  border-color: var(--vf-interactive-active);
+  @apply bg-(--vf-interactive-active) border-(--vf-interactive-active);
 }
 
 .vf-btn-danger:focus {
-  ring-color: var(--vf-accent-error);
+  @apply ring-(--vf-accent-error);
 }
 
 .disabled {

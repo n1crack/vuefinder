@@ -1,9 +1,7 @@
 /* MenuBar Styles - Compact modern design */
 .vuefinder__menubar {
-  @apply border-b relative z-50 whitespace-nowrap overflow-visible text-[13px] leading-8;
+  @apply border-b relative z-50 whitespace-nowrap overflow-visible text-[13px] leading-8 bg-(--vf-bg-primary) border-(--vf-border-primary);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--vf-bg-primary);
-  border-color: var(--vf-border-primary);
   box-shadow: none;
 }
 
@@ -12,26 +10,23 @@
 }
 
 .vuefinder__menubar__item {
-  @apply bg-transparent border-none cursor-pointer h-full relative transition-all duration-150 ease-out inline-flex items-center whitespace-nowrap flex-shrink-0 rounded-md mx-0.5 px-1.5 font-normal;
-  color: var(--vf-text-primary);
+  @apply bg-transparent border-none cursor-pointer h-full relative transition-all duration-150 ease-out inline-flex items-center whitespace-nowrap flex-shrink-0 rounded-md mx-0.5 px-1.5 font-normal text-(--vf-text-primary);
 }
 
 .vuefinder__menubar__item:hover {
-  color: var(--vf-accent-primary);
+  @apply text-(--vf-accent-primary);
 }
 
 .vuefinder__menubar__item--active {
-  color: var(--vf-accent-primary);
+  @apply text-(--vf-accent-primary);
 }
 
 .vuefinder__menubar__item--disabled {
-  @apply cursor-not-allowed;
-  color: var(--vf-text-disabled);
-  opacity: 0.8;
+  @apply cursor-not-allowed text-(--vf-text-disabled) opacity-80;
 }
 
 .vuefinder__menubar__item--disabled:hover {
-  color: var(--vf-text-disabled);
+  @apply text-(--vf-text-disabled);
 }
 
 .vuefinder__menubar__label {
@@ -40,35 +35,28 @@
 
 /* Dropdown Menu */
 .vuefinder__menubar__dropdown {
-  @apply border rounded-md shadow-lg absolute z-50 min-w-[160px] top-[calc(100%-1px)] left-0 py-0.5;
-  background-color: var(--vf-bg-primary);
-  border-color: var(--vf-border-primary);
+  @apply border rounded-md shadow-lg absolute z-50 min-w-[160px] top-[calc(100%-1px)] left-0 py-0.5 bg-(--vf-bg-primary) border-(--vf-border-primary);
   box-shadow: 0 4px 12px var(--vf-shadow-md);
 }
 
 .vuefinder__menubar__dropdown__item {
-  @apply flex items-center cursor-pointer relative transition-all duration-100 ease-out rounded-sm mx-0.5 h-6 justify-between px-2 text-xs;
-  color: var(--vf-text-primary);
+  @apply flex items-center cursor-pointer relative transition-all duration-100 ease-out rounded-sm mx-0.5 h-6 justify-between px-2 text-xs text-(--vf-text-primary);
 }
 
 .vuefinder__menubar__dropdown__item:hover:not(.vuefinder__menubar__dropdown__item--separator):not(.vuefinder__menubar__dropdown__item--disabled) {
-  background-color: var(--vf-bg-hover);
-  color: var(--vf-accent-primary);
+  @apply bg-(--vf-bg-hover) text-(--vf-accent-primary);
 }
 
 .vuefinder__menubar__dropdown__item--separator {
-  @apply cursor-default rounded-none h-px mx-2 p-0;
-  background-color: var(--vf-border-primary);
+  @apply cursor-default rounded-none h-px mx-2 p-0 bg-(--vf-border-primary);
 }
 
 .vuefinder__menubar__dropdown__item--separator:hover {
-  background-color: var(--vf-border-primary);
+  @apply bg-(--vf-border-primary);
 }
 
 .vuefinder__menubar__dropdown__item--disabled {
-  @apply cursor-not-allowed;
-  color: var(--vf-text-disabled);
-  opacity: 0.8;
+  @apply cursor-not-allowed text-(--vf-text-disabled) opacity-80;
 }
 
 .vuefinder__menubar__dropdown__item--disabled:hover {
@@ -76,8 +64,7 @@
 }
 
 .vuefinder__menubar__dropdown__item--checked {
-  @apply font-medium;
-  color: var(--vf-accent-primary);
+  @apply font-medium text-(--vf-accent-primary);
 }
 
 .vuefinder__menubar__dropdown__label {
@@ -85,16 +72,13 @@
 }
 
 .vuefinder__menubar__dropdown__shortcut {
-  @apply text-xs font-normal ml-3;
-  color: var(--vf-text-secondary);
+  @apply text-xs font-normal ml-3 text-(--vf-text-secondary);
   font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
 .vuefinder__menubar__dropdown__checkmark {
-  @apply text-xs font-semibold ml-2;
-  color: var(--vf-accent-primary);
+  @apply text-xs font-semibold ml-2 text-(--vf-accent-primary);
 }
-
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

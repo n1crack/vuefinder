@@ -1,9 +1,11 @@
 @layer theme, base, components, utilities;
 
 @import "tailwindcss/theme.css" layer(theme);
+
 .vuefinder {
-  @import "tailwindcss/preflight.css" layer(base);
+    @import "tailwindcss/preflight.css" layer(base);
 }
+
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @import "./_themes.css";
@@ -90,24 +92,19 @@
         .vuefinder {
             color-scheme: auto;
         }
-        
+
         kbd {
-            @apply px-2 py-1 text-xs font-semibold rounded-lg border;
-            background-color: var(--vf-bg-secondary);
-            color: var(--vf-text-secondary);
-            border-color: var(--vf-border-primary);
+            @apply px-2 py-1 text-xs font-semibold rounded-lg border bg-(--vf-bg-secondary) text-(--vf-text-secondary) border-(--vf-border-primary);
         }
     }
 
     .vuefinder:has(.vuefinder__main__fixed) {
         @apply z-50;
     }
-     
-.selection-area { 
-    @apply opacity-50 !border rounded-sm;
-    background-color: var(--vf-selection-bg);
-    border-color: var(--vf-selection-border);
-}
+
+    .selection-area {
+        @apply opacity-50 !border rounded-sm bg-(--vf-selection-bg) border-(--vf-selection-border);
+    }
 
     .selection-area-container {
         @apply !z-100;

@@ -1,8 +1,7 @@
 /**  TreeView */
 
 .vuefinder__treeview__overlay {
-  @apply w-full h-full z-[1];
-  background-color: var(--vf-bg-tertiary);
+  @apply w-full h-full z-[1] bg-(--vf-bg-tertiary);
 }
 
 .vuefinder__treeview__backdrop {
@@ -10,25 +9,19 @@
 }
 
 .vuefinder .vuefinder__treeview__container {
-  @apply absolute h-full md:h-auto md:relative shadow-lg shrink-0 ease-in-out duration-200 z-[1];
-  background-color: var(--vf-bg-secondary);
+  @apply absolute h-full md:h-auto md:relative shadow-lg shrink-0 ease-in-out duration-200 z-[1] bg-(--vf-bg-secondary);
 }
 
 .vuefinder__treeview__scroll {
-  @apply h-full border-r pb-4;
-  border-color: var(--vf-border-primary);
+  @apply h-full border-r pb-4 border-(--vf-border-primary);
 }
 
 .vuefinder__treeview__header {
-  @apply sticky left-0;
-  border-color: var(--vf-border-primary);
+  @apply sticky left-0 border-(--vf-border-primary);
 }
 
 .vuefinder__treeview__pinned-toggle {
-  @apply pr-2 border-b p-1 py-1.5 uppercase font-bold text-xs flex items-center justify-between cursor-pointer;
-  background-color: var(--vf-bg-secondary);
-  border-color: var(--vf-border-primary);
-  color: var(--vf-text-tertiary);
+  @apply pr-2 border-b p-1 py-1.5 uppercase font-bold text-xs flex items-center justify-between cursor-pointer bg-(--vf-bg-secondary) border-(--vf-border-primary) text-(--vf-text-tertiary);
 }
 
 .vuefinder__treeview__pinned-label {
@@ -36,7 +29,7 @@
 }
 
 .vuefinder__treeview__pin-icon {
-  color: var(--vf-accent-warning);
+  @apply text-(--vf-accent-warning);
 }
 
 .vuefinder__treeview__pinned-list {
@@ -48,12 +41,11 @@
 }
 
 .vuefinder__treeview__pinned-folder {
-  @apply flex rounded cursor-pointer border border-transparent;
-  color: var(--vf-text-primary);
+  @apply flex rounded cursor-pointer border border-transparent text-(--vf-text-primary);
 }
 
 .vuefinder__treeview__pinned-folder:hover {
-  color: var(--vf-accent-primary);
+  @apply text-(--vf-accent-primary);
 }
 
 .vuefinder__treeview__folder-icon {
@@ -69,8 +61,7 @@
 }
 
 .vuefinder__treeview__folder-name--active {
-  @apply underline;
-  text-decoration-color: var(--vf-accent-primary);
+  @apply underline decoration-(--vf-accent-primary);
 }
 
 .vuefinder__treeview__remove-folder {
@@ -78,12 +69,11 @@
 }
 
 .vuefinder__treeview__remove-icon {
-  @apply p-0.5;
-  color: var(--vf-text-tertiary);
+  @apply p-0.5 text-(--vf-text-tertiary);
 }
 
 .vuefinder__treeview__remove-icon:hover {
-  color: var(--vf-text-secondary);
+  @apply text-(--vf-text-secondary);
 }
 
 .vuefinder__treeview__no-pinned {
@@ -99,7 +89,7 @@
 }
 
 .vuefinder__treeview__resize-handle:hover {
-  background-color: var(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 /** TreeSubFolderList */
@@ -113,12 +103,11 @@
 }
 
 .vuefinder__treesubfolderlist__item-content {
-  @apply flex rounded border border-transparent;
-  color: var(--vf-text-primary);
+  @apply flex rounded border border-transparent text-(--vf-text-primary);
 }
 
 .vuefinder__treesubfolderlist__item-content:hover {
-  color: var(--vf-accent-primary);
+  @apply text-(--vf-accent-primary);
 }
 
 .vuefinder__treesubfolderlist__item-toggle {
@@ -138,8 +127,7 @@
 }
 
 .vuefinder__treesubfolderlist__item-text--active {
-  @apply underline;
-  text-decoration-color: var(--vf-accent-primary);
+  @apply underline decoration-(--vf-accent-primary);
 }
 
 .vuefinder__treesubfolderlist__subfolder {
@@ -149,20 +137,15 @@
 /** TreeStorageItem */
 
 .vuefinder__treestorageitem__header {
-  @apply p-1 py-1.5 uppercase font-bold text-xs flex justify-between border-b cursor-pointer;
-  background-color: var(--vf-bg-tertiary);
-  border-color: var(--vf-border-primary);
-  color: var(--vf-text-tertiary);
+  @apply p-1 py-1.5 uppercase font-bold text-xs flex justify-between border-b cursor-pointer bg-(--vf-bg-tertiary) border-(--vf-border-primary) text-(--vf-text-tertiary);
 }
-
 
 .vuefinder__treestorageitem__info {
   @apply flex flex-1 space-x-1 items-center border border-transparent;
 }
 
 .vuefinder__treestorageitem__info--active {
-  @apply font-bold;
-  color: var(--vf-text-primary);
+  @apply font-bold text-(--vf-text-primary);
 }
 
 .vuefinder__treestorageitem__icon {
@@ -170,7 +153,7 @@
 }
 
 .vuefinder__treestorageitem__icon--active {
-  color: var(--vf-accent-primary);
+  @apply text-(--vf-accent-primary);
 }
 
 .vuefinder__treestorageitem__loader {

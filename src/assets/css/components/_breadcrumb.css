@@ -1,76 +1,65 @@
 
 .vuefinder__breadcrumb__container {
-  @apply relative space-x-0.5 flex p-1.5 border-t border-b items-center select-none text-sm grow-0;
-  background-color: var(--vf-bg-secondary);
-  border-color: var(--vf-border-primary);
+  @apply relative space-x-0.5 flex p-1.5 border-t border-b items-center select-none text-sm grow-0 bg-(--vf-bg-secondary) border-(--vf-border-primary);
 }
 
 .vuefinder__breadcrumb__toggle-tree {
-  @apply h-6 w-6 p-0.5 rounded cursor-pointer;
-  color: var(--vf-text-primary);
+  @apply h-6 w-6 p-0.5 rounded cursor-pointer text-(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__toggle-tree:hover {
-  background-color: var(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__toggle-tree--active {
-  background-color: var(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__refresh-icon,
 .vuefinder__breadcrumb__close-icon {
-  @apply h-6 w-6 p-1 rounded cursor-pointer;
-  color: var(--vf-text-primary);
+  @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__refresh-icon:hover,
 .vuefinder__breadcrumb__close-icon:hover {
-  background-color: var(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__go-up--active {
-  @apply cursor-pointer;
-  color: var(--vf-text-primary);
+  @apply cursor-pointer text-(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__go-up--active:hover {
-  background-color: var(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__go-up--inactive {
-  color: var(--vf-text-disabled);
+  @apply text-(--vf-text-disabled);
 }
 
 .vuefinder__breadcrumb__search-container {
-  @apply flex border items-center rounded p-1 ml-2 w-full overflow-hidden cursor-pointer;
-  background-color: var(--vf-bg-primary);
-  border-color: var(--vf-border-primary);
+  @apply flex border items-center rounded p-1 ml-2 w-full overflow-hidden cursor-pointer bg-(--vf-bg-primary) border-(--vf-border-primary);
 }
 
 .vuefinder__breadcrumb__search-container:hover {
-  border-color: var(--vf-border-focus);
-  background-color: var(--vf-bg-hover);
+  @apply border-(--vf-border-focus) bg-(--vf-bg-hover);
   box-shadow: 0 1px 3px 0 var(--vf-shadow-sm), 0 1px 2px 0 var(--vf-shadow-sm);
 }
 
-
 .vuefinder__breadcrumb__search-container:hover .vuefinder__breadcrumb__separator {
-  color: var(--vf-text-primary);
+  @apply text-(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__search-container:hover .vuefinder__breadcrumb__item {
-  color: var(--vf-text-primary);
+  @apply text-(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__home-icon {
-  @apply h-6 w-6 p-1 rounded cursor-pointer;
-  color: var(--vf-text-primary);
+  @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__home-icon:hover {
-  background-color: var(--vf-bg-hover);
-  color: var(--vf-accent-primary);
+  @apply bg-(--vf-bg-hover) text-(--vf-accent-primary);
 }
 
 .vuefinder__breadcrumb__list {
@@ -82,17 +71,15 @@
 }
 
 .vuefinder__breadcrumb__separator {
-  @apply mx-0.5;
-  color: var(--vf-text-tertiary);
+  @apply mx-0.5 text-(--vf-text-tertiary);
 }
 
 .vuefinder__breadcrumb__hidden-toggle {
-  @apply rounded cursor-pointer;
-  color: var(--vf-text-primary);
+  @apply rounded cursor-pointer text-(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__hidden-toggle:hover {
-  background-color: var(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__hidden-toggle-icon {
@@ -104,37 +91,29 @@
 }
 
 .vuefinder__breadcrumb__item {
-  @apply px-1.5 py-0.5 rounded cursor-pointer whitespace-nowrap border border-transparent;
-  color: var(--vf-text-primary);
+  @apply px-1.5 py-0.5 rounded cursor-pointer whitespace-nowrap border border-transparent text-(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__item:hover {
-  background-color: var(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 /* Theme-aware drag over class */
 .vuefinder__drag-over {
-  background-color: var(--vf-selection-bg) !important;
-  border: 1px solid var(--vf-selection-border) !important;
+  @apply bg-(--vf-selection-bg) border border-(--vf-selection-border);
 }
 
 .vuefinder__breadcrumb__search-mode {
-  @apply relative flex justify-between items-center rounded p-1 ml-2 w-full border;
-  background-color: var(--vf-bg-primary);
-  border-color: var(--vf-border-focus);
+  @apply relative flex justify-between items-center rounded p-1 ml-2 w-full border bg-(--vf-bg-primary) border-(--vf-border-focus);
   box-shadow: 0 1px 3px 0 var(--vf-shadow-sm), 0 1px 2px 0 var(--vf-shadow-sm);
 }
 
 .vuefinder__breadcrumb__search-input {
-  @apply w-full pb-0 px-1 border-0 text-base ring-0 outline-0 focus:ring-transparent focus:border-transparent bg-transparent;
-  color: var(--vf-text-primary);
+  @apply w-full pb-0 px-1 border-0 text-base ring-0 outline-0 focus:ring-transparent focus:border-transparent bg-transparent text-(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__hidden-dropdown {
-    @apply z-50 absolute rounded top-9 max-w-80 shadow overflow-y-auto;
-    background-color: var(--vf-bg-primary);
-    color: var(--vf-text-primary);
-    border-color: var(--vf-border-primary);
+    @apply z-50 absolute rounded top-9 max-w-80 shadow overflow-y-auto bg-(--vf-bg-primary) text-(--vf-text-primary) border-(--vf-border-primary);
     box-shadow: 0 10px 15px -3px var(--vf-shadow-md), 0 4px 6px -2px var(--vf-shadow-sm);
 }
 
@@ -143,7 +122,7 @@
 }
 
 .vuefinder__breadcrumb__hidden-item:hover {
-  background-color: var(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__hidden-item-content {

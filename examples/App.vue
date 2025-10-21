@@ -33,7 +33,6 @@ const themes = [
   { value: 'sky', label: 'Sky' },
   { value: 'ocean', label: 'Oceanic' },
   { value: 'palenight', label: 'Palenight' },
-  { value: 'monokai', label: 'Monokai' },
   { value: 'arctic', label: 'Arctic' },
   { value: 'code', label: 'Code' }
 ]

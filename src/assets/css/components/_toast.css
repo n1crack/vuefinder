@@ -12,9 +12,7 @@
 }
 
 .vuefinder__toast__message {
-  @apply inline-block mx-auto my-0.5 py-0.5 px-2 min-w-max border text-xs sm:text-sm rounded cursor-pointer;
-  background-color: var(--vf-bg-secondary);
-  border-color: var(--vf-border-primary);
+  @apply inline-block mx-auto my-0.5 py-0.5 px-2 min-w-max border text-xs sm:text-sm rounded cursor-pointer bg-(--vf-bg-secondary) border-(--vf-border-primary);
 }
 
 /* Transition classes */

@@ -4,12 +4,9 @@
 }
 
 .vuefinder__drag-item__icon {
-  @apply absolute h-6 w-6 md:h-12 md:w-12 m-auto z-10;
-  stroke: var(--vf-text-tertiary);
-  fill: var(--vf-bg-primary);
+  @apply absolute h-6 w-6 md:h-12 md:w-12 m-auto z-10 stroke-(--vf-text-tertiary) fill-(--vf-bg-primary);
 }
 
 .vuefinder__drag-item__count {
-  @apply p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs;
-  color: var(--vf-text-primary);
+  @apply p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs text-(--vf-text-primary);
 }

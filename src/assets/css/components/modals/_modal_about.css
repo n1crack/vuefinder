@@ -17,20 +17,15 @@
 }
 
 .vuefinder .vuefinder__about-modal__tab--active {
-  @apply border-b-2;
-  background-color: var(--vf-bg-hover);
-  color: var(--vf-text-primary);
-  border-bottom-color: var(--vf-accent-primary);
+  @apply border-b-2 bg-(--vf-bg-hover) text-(--vf-text-primary) border-(--vf-accent-primary);
 }
 
 .vuefinder .vuefinder__about-modal__tab--inactive {
-  @apply border-b-2;
-  color: var(--vf-text-secondary);
-  border-bottom-color: var(--vf-border-primary);
+  @apply border-b-2 text-(--vf-text-secondary) border-(--vf-border-primary);
 }
 
 .vuefinder .vuefinder__about-modal__tab--inactive:hover {
-  color: var(--vf-text-primary);
+  @apply text-(--vf-text-primary);
 }
 
 .vuefinder__about-modal__tab-content {
@@ -38,13 +33,11 @@
 }
 
 .vuefinder__about-modal__description {
-  @apply m-1 text-sm;
-  color: var(--vf-text-secondary);
+  @apply m-1 text-sm text-(--vf-text-secondary);
 }
 
 .vuefinder__about-modal__link {
-  @apply block mt-2 text-sm;
-  color: var(--vf-accent-primary);
+  @apply block mt-2 text-sm text-(--vf-accent-primary);
 }
 
 .vuefinder__about-modal__settings {
@@ -68,22 +61,16 @@
 }
 
 .vuefinder .vuefinder__about-modal__label {
-  @apply flex w-full text-sm;
-  color: var(--vf-text-primary);
+  @apply flex w-full text-sm text-(--vf-text-primary);
 }
 
 .vuefinder .vuefinder__about-modal__checkbox {
-  @apply h-4 w-4 rounded focus:ring-2;
-  border-color: var(--vf-border-primary);
-  color: var(--vf-accent-primary);
+  @apply h-4 w-4 rounded focus:ring-2 border-(--vf-border-primary) text-(--vf-accent-primary);
   accent-color: var(--vf-accent-primary);
 }
 
 .vuefinder .vuefinder__about-modal__select {
-  @apply shrink-0 sm:w-1/2 w-full text-sm rounded border;
-  color: var(--vf-text-primary);
-  background-color: var(--vf-bg-primary);
-  border-color: var(--vf-border-primary);
+  @apply shrink-0 sm:w-1/2 w-full text-sm rounded border text-(--vf-text-primary) bg-(--vf-bg-primary) border-(--vf-border-primary);
 }
 
 .vuefinder__about-modal__shortcuts {
@@ -91,6 +78,5 @@
 }
 
 .vuefinder__about-modal__shortcut {
-  @apply flex justify-between text-sm;
-  color: var(--vf-text-secondary);
+  @apply flex justify-between text-sm text-(--vf-text-secondary);
 }

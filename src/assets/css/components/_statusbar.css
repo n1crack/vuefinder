@@ -1,7 +1,6 @@
 
 .vuefinder__status-bar__wrapper {
-  @apply p-1 text-xs border-t flex justify-between select-none grow-0;
-  border-color: var(--vf-border-primary);
+  @apply p-1 text-xs border-t flex justify-between select-none grow-0 border-(--vf-border-primary);
 }
 
 .vuefinder__status-bar__storage {
@@ -9,9 +8,7 @@
 }
 
 .vuefinder__status-bar__storage-container {
-  @apply flex leading-5 items-center rounded border;
-  background-color: var(--vf-bg-primary);
-  border-color: var(--vf-border-primary);
+  @apply flex leading-5 items-center rounded border bg-(--vf-bg-primary) border-(--vf-border-primary);
 }
 
 .vuefinder__status-bar__storage-icon {
@@ -19,9 +16,7 @@
 }
 
 .vuefinder__status-bar__storage-select {
-  @apply border-0 py-0.5 text-xs rounded uppercase focus:outline-0 cursor-pointer;
-  background-color: var(--vf-bg-primary);
-  color: var(--vf-text-secondary);
+  @apply border-0 py-0.5 text-xs rounded uppercase focus:outline-0 cursor-pointer bg-(--vf-bg-primary) text-(--vf-text-secondary);
 }
 
 .vuefinder__status-bar__info {

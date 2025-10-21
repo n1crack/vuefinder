@@ -6,14 +6,11 @@
 }
 
 .vuefinder__explorer__header {
-    @apply grid grid-cols-12 px-1 border-b text-xs select-none divide-x;
-    background-color: var(--vf-bg-secondary);
-    border-color: var(--vf-border-primary);
+    @apply grid grid-cols-12 px-1 border-b text-xs select-none divide-x bg-(--vf-bg-secondary) border-(--vf-border-primary);
 }
 
 .vuefinder__explorer__sort-button {
-    @apply cursor-pointer;
-    border-color: var(--vf-border-primary);
+    @apply cursor-pointer border-(--vf-border-primary);
 }
 
 .vuefinder__explorer__sort-button--name {
@@ -78,33 +75,27 @@
 }
 
 .vf-explorer-item-list {
-    @apply relative grid grid-cols-1 border my-0.5 w-full select-none pointer-events-auto;
-    background-color: transparent;
-    border-color: transparent;
+    @apply relative grid grid-cols-1 border my-0.5 w-full select-none pointer-events-auto bg-transparent border-transparent;
 }
 
 .vf-explorer-item-list:hover {
-    background-color: var(--vf-bg-hover);
+    @apply bg-(--vf-bg-hover);
 }
 
 .vf-explorer-item-grid {
-    @apply relative m-1 w-[5.5rem] h-20 md:w-24 border inline-flex text-center justify-center select-none pointer-events-auto;
-    background-color: transparent;
-    border-color: transparent;
+    @apply relative m-1 w-[5.5rem] h-20 md:w-24 border inline-flex text-center justify-center select-none pointer-events-auto bg-transparent border-transparent;
 }
 
 .vf-explorer-item-grid:hover {
-    background-color: var(--vf-bg-hover);
+    @apply bg-(--vf-bg-hover);
 }
 
 .vf-explorer-selected {
-  background-color: var(--vf-bg-selected);
-  border-color: var(--vf-border-primary);
+  @apply bg-(--vf-bg-selected) border-(--vf-border-primary);
 }
 
 .vuefinder__explorer__scrollbar-container {
-    @apply p-1 top-[33px] h-[calc(100%-33px)]
-    absolute right-0 z-[10] pointer-events-none  ;   
+    @apply p-1 top-[33px] h-[calc(100%-33px)] absolute right-0 z-[10] pointer-events-none;   
 }
 .vuefinder__explorer__scrollbar-container.grid-view:not(.search-active) {
     @apply top-0 h-full;
@@ -130,6 +121,5 @@
 
 /* Linear loader */
 .vuefinder__linear-loader {
-    @apply absolute h-1 animate-pulse;
-    background-color: var(--vf-accent-primary);
+    @apply absolute h-1 animate-pulse bg-(--vf-accent-primary);
 }
