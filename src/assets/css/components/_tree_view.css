@@ -48,7 +48,7 @@
 }
 
 .vuefinder__treeview__pinned-folder {
-  @apply flex rounded cursor-pointer;
+  @apply flex rounded cursor-pointer border border-transparent;
   color: var(--vf-text-primary);
 }
 
@@ -113,7 +113,7 @@
 }
 
 .vuefinder__treesubfolderlist__item-content {
-  @apply flex rounded;
+  @apply flex rounded border border-transparent;
   color: var(--vf-text-primary);
 }
 
@@ -180,7 +180,7 @@
 }
 
 .vuefinder__treestorageitem__info {
-  @apply flex flex-1 space-x-1 items-center;
+  @apply flex flex-1 space-x-1 items-center border border-transparent;
 }
 
 .vuefinder__treestorageitem__info--active {

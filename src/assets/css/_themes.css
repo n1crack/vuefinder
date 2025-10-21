@@ -265,26 +265,26 @@
   /* Border Colors */
   --vf-border-primary: #fecaca;
   --vf-border-secondary: #fef2f2;
-  --vf-border-focus: #fbbf24;
+  --vf-border-focus: #e11d48;
   --vf-border-disabled: #fef2f2;
   
   /* Accent Colors */
-  --vf-accent-primary: #f59e0b;
-  --vf-accent-secondary: #fbbf24;
-  --vf-accent-tertiary: #fde68a;
+  --vf-accent-primary: #e11d48;
+  --vf-accent-secondary: #be185d;
+  --vf-accent-tertiary: #9d174d;
   
   /* Interactive Colors */
   --vf-interactive-hover: #fef2f2;
   --vf-interactive-active: #fecaca;
   --vf-interactive-focus: #fef2f2;
   
-  --vf-shadow-sm: rgba(245, 158, 11, 0.08);
-  --vf-shadow-md: rgba(245, 158, 11, 0.12);
-  --vf-shadow-lg: rgba(245, 158, 11, 0.16);
+  --vf-shadow-sm: rgba(225, 29, 72, 0.08);
+  --vf-shadow-md: rgba(225, 29, 72, 0.12);
+  --vf-shadow-lg: rgba(225, 29, 72, 0.16);
   --vf-shadow-modal: rgba(124, 45, 18, 0.15);
   
   --vf-overlay-bg: rgba(124, 45, 18, 0.2);
-  --vf-overlay-border: rgba(245, 158, 11, 0.6);
+  --vf-overlay-border: rgba(225, 29, 72, 0.6);
   --vf-overlay-text: #a16207;
 }
 

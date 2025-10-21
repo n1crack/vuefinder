@@ -56,8 +56,8 @@
 }
 
 .vuefinder[data-theme="rose"] .vuefinder__context-menu {
-    border-color: #fef2f2;
-    box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.1), 0 2px 4px -1px rgba(245, 158, 11, 0.06);
+    border: 1px solid #e11d48;
+    box-shadow: 0 4px 6px -1px rgba(225, 29, 72, 0.1), 0 2px 4px -1px rgba(225, 29, 72, 0.06);
 }
 
 .vuefinder[data-theme="midnight"] .vuefinder__context-menu {
