@@ -3,7 +3,7 @@
  * Provides utilities for theme management
  */
 
-export type Theme = 'default-light' | 'default-dark' | 'midnight' | 'latte' | 'rose' | 'desert' | 'lime' | 'dark-plus' | 'ocean' | 'palenight';
+export type Theme = 'default-light' | 'default-dark' | 'midnight' | 'latte' | 'rose' | 'mythril' | 'lime' | 'dark-plus' | 'ocean' | 'palenight';
 
 export interface ThemeConfig {
   name: Theme;
@@ -38,9 +38,9 @@ export const themes: ThemeConfig[] = [
     description: 'Sweet pastel pink theme'
   },
   {
-    name: 'desert',
-    displayName: 'Desert',
-    description: 'Warm earth tones theme'
+    name: 'mythril',
+    displayName: 'Mythril',
+    description: 'Modern blue-gray theme'
   },
   {
     name: 'lime',
@@ -136,9 +136,9 @@ function updateRootSelectionVariables(theme: Theme): void {
       root.style.setProperty('--vf-selection-bg', '#fef7f7');
       root.style.setProperty('--vf-selection-border', '#fecaca');
       break;
-    case 'desert':
-      root.style.setProperty('--vf-selection-bg', '#fef3c7');
-      root.style.setProperty('--vf-selection-border', '#fde68a');
+    case 'mythril':
+      root.style.setProperty('--vf-selection-bg', '#f0f9ff');
+      root.style.setProperty('--vf-selection-border', '#0ea5e9');
       break;
     case 'lime':
       root.style.setProperty('--vf-selection-bg', '#1a2e1a');

@@ -28,7 +28,7 @@ const themes = [
   { value: 'midnight', label: 'Midnight' },
   { value: 'latte', label: 'Latte' },
   { value: 'rose', label: 'Rose' },
-  { value: 'desert', label: 'Desert' },
+  { value: 'mythril', label: 'Mythril' },
   { value: 'lime', label: 'Night Bright Lime' },
   { value: 'dark-plus', label: 'Neon' },
   { value: 'ocean', label: 'Oceanic' },

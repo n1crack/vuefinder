@@ -50,9 +50,9 @@
     box-shadow: 0 4px 6px -1px rgba(199, 146, 234, 0.05), 0 2px 4px -1px rgba(199, 146, 234, 0.03);
 }
 
-.vuefinder[data-theme="desert"] .vuefinder__context-menu {
-    border-color: #d1d5db;
-    box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.1), 0 2px 4px -1px rgba(245, 158, 11, 0.06);
+.vuefinder[data-theme="mythril"] .vuefinder__context-menu {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
 }
 
 .vuefinder[data-theme="rose"] .vuefinder__context-menu {

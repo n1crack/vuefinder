@@ -4,5 +4,9 @@
 }
 
 .vuefinder__drag-item__count {
-  @apply text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs;
+  @apply p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs;
+  color: var(--vf-text-primary);
+  background-color: var(--vf-bg-primary);
+  border: 1px solid var(--vf-border-primary);
+  border-radius: 4px;
 }

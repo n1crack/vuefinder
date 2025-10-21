@@ -288,48 +288,48 @@
   --vf-overlay-text: #a16207;
 }
 
-/* Desert Theme */
-.vuefinder[data-theme="desert"] {
-  --vf-selection-bg: #fef3c7;
-  --vf-selection-border: #f59e0b;
+/* Mythril Theme */
+.vuefinder[data-theme="mythril"] {
+  --vf-selection-bg: #f0f9ff;
+  --vf-selection-border: #0ea5e9;
   /* Background Colors */
-  --vf-bg-primary: #fffbeb;
-  --vf-bg-secondary: #fef3c7;
-  --vf-bg-tertiary: #fde68a;
-  --vf-bg-hover: #fef3c7;
-  --vf-bg-selected: #fde68a;
+  --vf-bg-primary: #f8fafc;
+  --vf-bg-secondary: #f1f5f9;
+  --vf-bg-tertiary: #e2e8f0;
+  --vf-bg-hover: #f1f5f9;
+  --vf-bg-selected: #e2e8f0;
   --vf-bg-disabled: #f3f4f6;
   
   /* Text Colors */
-  --vf-text-primary: #374151;
-  --vf-text-secondary: #6b7280;
-  --vf-text-tertiary: #9ca3af;
-  --vf-text-disabled: #d1d5db;
-  --vf-text-inverse: #fffbeb;
+  --vf-text-primary: #1e293b;
+  --vf-text-secondary: #475569;
+  --vf-text-tertiary: #64748b;
+  --vf-text-disabled: #94a3b8;
+  --vf-text-inverse: #f8fafc;
   
   /* Border Colors */
-  --vf-border-primary: #e5e7eb;
-  --vf-border-secondary: #d1d5db;
-  --vf-border-focus: #f59e0b;
-  --vf-border-disabled: #e5e7eb;
+  --vf-border-primary: #cbd5e1;
+  --vf-border-secondary: #94a3b8;
+  --vf-border-focus: #0ea5e9;
+  --vf-border-disabled: #cbd5e1;
   
   /* Accent Colors */
-  --vf-accent-primary: #f59e0b;
-  --vf-accent-secondary: #d97706;
-  --vf-accent-tertiary: #b45309;
+  --vf-accent-primary: #0ea5e9;
+  --vf-accent-secondary: #0284c7;
+  --vf-accent-tertiary: #0369a1;
   
   /* Interactive Colors */
-  --vf-interactive-hover: #fef3c7;
-  --vf-interactive-active: #f59e0b;
-  --vf-interactive-focus: #fde68a;
+  --vf-interactive-hover: #f0f9ff;
+  --vf-interactive-active: #0284c7;
+  --vf-interactive-focus: #e0f2fe;
   
-  --vf-shadow-sm: rgba(217, 119, 6, 0.08);
-  --vf-shadow-md: rgba(217, 119, 6, 0.12);
-  --vf-shadow-lg: rgba(217, 119, 6, 0.16);
+  --vf-shadow-sm: rgba(14, 165, 233, 0.08);
+  --vf-shadow-md: rgba(14, 165, 233, 0.12);
+  --vf-shadow-lg: rgba(14, 165, 233, 0.16);
   
-  --vf-overlay-bg: rgba(146, 64, 14, 0.2);
-  --vf-overlay-border: rgba(217, 119, 6, 0.6);
-  --vf-overlay-text: #b45309;
+  --vf-overlay-bg: rgba(14, 165, 233, 0.2);
+  --vf-overlay-border: rgba(14, 165, 233, 0.6);
+  --vf-overlay-text: #0369a1;
 }
 
 /* Lime Theme */

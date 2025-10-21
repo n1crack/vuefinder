@@ -64,7 +64,7 @@
 }
 
 .vuefinder__about-modal__setting-label {
-  @apply flex flex-1 block text-sm;
+  @apply flex flex-1 text-sm;
 }
 
 .vuefinder .vuefinder__about-modal__label {
@@ -80,7 +80,7 @@
 }
 
 .vuefinder .vuefinder__about-modal__select {
-  @apply shrink-0 sm:w-1/2 w-full text-sm rounded;
+  @apply shrink-0 sm:w-1/2 w-full text-sm rounded border;
   color: var(--vf-text-primary);
   background-color: var(--vf-bg-primary);
   border-color: var(--vf-border-primary);
