@@ -1,3 +1,6 @@
+.vf-explorer-item--unselectable {
+  @apply opacity-50 cursor-not-allowed;
+}
 .vuefinder__explorer__container {
     @apply relative flex-auto flex flex-col;
 }

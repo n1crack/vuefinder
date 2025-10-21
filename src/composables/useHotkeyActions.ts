@@ -57,7 +57,7 @@ export function useHotkeyActions(app: any) {
             (app.root as HTMLElement).focus(); 
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) {
-            fs.selectAll(app.selectionMode || 'multiple');
+            fs.selectAll(app.selectionMode || 'multiple', app);
             e.preventDefault()
         }
         if (e.code === KEYBOARD_SHORTCUTS.SPACE) {

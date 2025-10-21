@@ -89,7 +89,9 @@ const {
   isDragging,
   initializeSelectionArea,
   destroySelectionArea,
-  handleContentClick
+  updateSelectionArea,
+  handleContentClick,
+  handleScrollDuringSelection
 } = useSelection<DirEntry>({
   getItemPosition,
   getItemsInRange,
@@ -105,6 +107,14 @@ const isDraggingItem = (key?: string | null) => {
   if (!key || !currentDragKey.value) return false;
   const draggingSelected = selectedKeys.value?.has(currentDragKey.value as never) ?? false;
   return isDragging.value && (draggingSelected ? selectedKeys.value?.has(key as never) ?? false : key === currentDragKey.value);
+};
+
+// Custom scroll handler that handles both virtual columns and selection updates
+const handleScrollWithSelection = (event: Event) => {
+ 
+  handleScroll(event);
+  // Handle selection area updates during scroll
+  handleScrollDuringSelection();
 };
 
 
@@ -173,6 +183,11 @@ onMounted(() => {
     }
   });
 
+  // Watch for filter changes and update selection area
+  watch(() => [app.selectionFilterType, app.selectionFilterMimeIncludes], () => {
+    updateSelectionArea();
+  }, { deep: true });
+
   // Initialize OverlayScrollbars custom track
   if (scrollBarContainer.value) {
     const instance = OverlayScrollbars(scrollBarContainer.value, {
@@ -185,6 +200,8 @@ onMounted(() => {
         const {scrollOffsetElement} = inst.elements();
         if (scrollContainer.value) {
           scrollContainer.value.scrollTo({top: (scrollOffsetElement as HTMLElement).scrollTop, left: 0});
+          // Also handle selection area updates during scroll
+          handleScrollDuringSelection();
         }
       }
     });
@@ -198,6 +215,8 @@ onMounted(() => {
       if (!inst) return;
       const {scrollOffsetElement} = inst.elements();
       (scrollOffsetElement as HTMLElement).scrollTo({top: scrollContainer.value!.scrollTop, left: 0});
+      // Also handle selection area updates during scroll
+      handleScrollDuringSelection();
     });
   }
 });
@@ -241,6 +260,31 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   const mouse = event as MouseEvent | null;
   if (el) {
     const key = String(el.getAttribute('data-key'));
+    const item = sortedFiles.value?.find((f: DirEntry) => f.path === key);
+    // Block selection if not selectable per filters
+    const filterType = app.selectionFilterType;
+    const allowedMimes = app.selectionFilterMimeIncludes;
+    const typeAllowed = !filterType || filterType === 'both' || (filterType === 'files' && item?.type === 'file') || (filterType === 'dirs' && item?.type === 'dir');
+    
+    // Check MIME filter - only apply to files, not directories
+    let mimeAllowed = true;
+    if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+      // If it's a directory, MIME filters don't apply - it's always selectable
+      if (item?.type === 'dir') {
+        mimeAllowed = true;
+      } else {
+        // For files, check MIME type
+        if (!item?.mime_type) {
+          mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+        } else {
+          mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
+        }
+      }
+    }
+    
+    if (!typeAllowed || !mimeAllowed) {
+      return;
+    }
     const selectionMode = app.selectionMode || 'multiple';
     
     if (!mouse?.ctrlKey && !mouse?.metaKey  &&  ( event.type !== 'touchstart' || !fs.isSelected(key))) {
@@ -291,6 +335,28 @@ const handleItemDblClick = (event: MouseEvent | TouchEvent) => {
   const key = el ? String(el.getAttribute('data-key')) : null;
   if (!key) return;
   const item = sortedFiles.value?.find((f: DirEntry) => f.path === key);
+  // Block open if not selectable
+  const filterType = app.selectionFilterType;
+  const allowedMimes = app.selectionFilterMimeIncludes;
+  const typeAllowed = !filterType || filterType === 'both' || (filterType === 'files' && item?.type === 'file') || (filterType === 'dirs' && item?.type === 'dir');
+  
+  // Check MIME filter - only apply to files, not directories
+  let mimeAllowed = true;
+  if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+    // If it's a directory, MIME filters don't apply - it's always selectable
+    if (item?.type === 'dir') {
+      mimeAllowed = true;
+    } else {
+      // For files, check MIME type
+      if (!item?.mime_type) {
+        mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+      } else {
+        mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
+      }
+    }
+  }
+  
+  if (!typeAllowed || !mimeAllowed) return;
   if (item) {
     openItem(item);
   }
@@ -307,6 +373,33 @@ const handleItemContextMenu = (event: MouseEvent) => {
   if (el) {
     const key = String(el.getAttribute('data-key'));
     const targetItem = sortedFiles.value?.find((f: DirEntry) => f.path === key);
+    
+    // Check if the item is selectable according to filters
+    const filterType = app.selectionFilterType;
+    const allowedMimes = app.selectionFilterMimeIncludes;
+    const typeAllowed = !filterType || filterType === 'both' || (filterType === 'files' && targetItem?.type === 'file') || (filterType === 'dirs' && targetItem?.type === 'dir');
+    
+    // Check MIME filter - only apply to files, not directories
+    let mimeAllowed = true;
+    if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+      // If it's a directory, MIME filters don't apply - it's always selectable
+      if (targetItem?.type === 'dir') {
+        mimeAllowed = true;
+      } else {
+        // For files, check MIME type
+        if (!targetItem?.mime_type) {
+          mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+        } else {
+          mimeAllowed = allowedMimes.some((p: string) => (targetItem?.mime_type as string).startsWith(p));
+        }
+      }
+    }
+    
+    // Only allow context menu if item is selectable
+    if (!typeAllowed || !mimeAllowed) {
+      return; // Don't show context menu for unselectable items
+    }
+    
     // Ensure the clicked item is selected if not already
     if (!selectedKeys.value?.has(key)) {
       fs.clearSelection();
@@ -387,7 +480,7 @@ const handleItemDragEnd = () => {
       </div>
     </div>
     <!-- Content -->
-    <div ref="scrollContainer" class="vuefinder__explorer__selector-area" :class="'scroller-' + explorerId" @scroll="handleScroll">
+    <div ref="scrollContainer" class="vuefinder__explorer__selector-area" :class="'scroller-' + explorerId" @scroll="handleScrollWithSelection">
     <div class="vuefinder__linear-loader" v-if="config.get('loadingIndicator') === 'linear' && loading"></div>
     
       <div

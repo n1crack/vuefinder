@@ -18,6 +18,8 @@ export interface VueFinderProps {
   locale?: string;
   contextMenuItems?: ContextMenuItem[];
   selectionMode?: "single" | "multiple";
+  selectionFilterType?: 'files' | 'dirs' | 'both';
+  selectionFilterMimeIncludes?: string[];
   onError?: (error: any) => void;
   onSelect?: SelectEvent;
   onPathChange?: UpdatePathEvent;

@@ -137,7 +137,7 @@ const menuItems = computed(() => [
         {
           id: 'select-all',
           label: t('Select All'),
-          action: () => fs?.selectAll((app?.selectionMode as 'single' | 'multiple') || 'multiple'),
+          action: () => fs?.selectAll((app?.selectionMode as 'single' | 'multiple') || 'multiple', app),
           enabled: () => true
         },
         {

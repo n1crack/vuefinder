@@ -202,7 +202,7 @@ export const createFilesStore = () => {
         selectedCount.set(currentKeys.size);
     }
 
-    const selectAll = (selectionMode: 'single' | 'multiple' = 'multiple') => {
+    const selectAll = (selectionMode: 'single' | 'multiple' = 'multiple', app?: any) => {
         // In single selection mode, selectAll should only select the first item
         if (selectionMode === 'single') {
             const firstFile = files.get()[0];
@@ -212,9 +212,41 @@ export const createFilesStore = () => {
                 selectedCount.set(1);
             }
         } else {
-            const allKeys = new Set(files.get().map(f => f.path));
-            selectedKeys.set(allKeys);
-            selectedCount.set(allKeys.size);
+            // Apply selection filters if available
+            if (app?.selectionFilterType || (app?.selectionFilterMimeIncludes && app.selectionFilterMimeIncludes.length > 0)) {
+                const selectableKeys = files.get()
+                    .filter(file => {
+                        const filterType = app.selectionFilterType;
+                        const allowedMimes = app.selectionFilterMimeIncludes;
+                        
+                        // Check type filter
+                        if (filterType === 'files' && file.type === 'dir') return false;
+                        if (filterType === 'dirs' && file.type === 'file') return false;
+                        
+                        // Check MIME filter - only apply to files, not directories
+                        if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+                            // If it's a directory, MIME filters don't apply - it's always selectable
+                            if (file.type === 'dir') {
+                                // Directory is always selectable when MIME filters are active
+                            } else {
+                                // For files, check MIME type
+                                if (!file.mime_type) return false; // No MIME type means not selectable when MIME filters are active
+                                return allowedMimes.some((prefix: string) => file.mime_type?.startsWith(prefix));
+                            }
+                        }
+                        
+                        return true;
+                    })
+                    .map(f => f.path);
+                
+                selectedKeys.set(new Set(selectableKeys));
+                selectedCount.set(selectableKeys.length);
+            } else {
+                // No filters, select all
+                const allKeys = new Set(files.get().map(f => f.path));
+                selectedKeys.set(allKeys);
+                selectedCount.set(allKeys.size);
+            }
         }
     }
 
