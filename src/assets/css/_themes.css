@@ -1,0 +1,225 @@
+/* VueFinder Theme System */
+
+/* Default Light Theme */
+.vuefinder[data-theme="default-light"] {
+  /* Background Colors */
+  --vf-bg-primary: #ffffff;
+  --vf-bg-secondary: #f9fafb;
+  --vf-bg-tertiary: #f3f4f6;
+  --vf-bg-hover: #f9fafb;
+  --vf-bg-selected: #f3f4f6;
+  --vf-bg-disabled: #f9fafb;
+  
+  /* Text Colors */
+  --vf-text-primary: #374151;
+  --vf-text-secondary: #6b7280;
+  --vf-text-tertiary: #9ca3af;
+  --vf-text-disabled: #d1d5db;
+  --vf-text-inverse: #ffffff;
+  
+  /* Border Colors */
+  --vf-border-primary: #d1d5db;
+  --vf-border-secondary: #e5e7eb;
+  --vf-border-focus: #3b82f6;
+  --vf-border-error: #ef4444;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #3b82f6;
+  --vf-accent-secondary: #06b6d4;
+  --vf-accent-success: #10b981;
+  --vf-accent-warning: #f59e0b;
+  --vf-accent-error: #ef4444;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #f3f4f6;
+  --vf-interactive-active: #e5e7eb;
+  --vf-interactive-focus: #dbeafe;
+  
+  /* Shadow Colors */
+  --vf-shadow-sm: rgba(0, 0, 0, 0.05);
+  --vf-shadow-md: rgba(0, 0, 0, 0.1);
+  --vf-shadow-lg: rgba(0, 0, 0, 0.15);
+  
+  /* Overlay Colors */
+  --vf-overlay-bg: rgba(17, 24, 39, 0.3);
+  --vf-overlay-border: rgba(75, 85, 99, 0.8);
+  --vf-overlay-text: #6b7280;
+}
+
+/* Default Dark Theme */
+.vuefinder[data-theme="default-dark"] {
+  /* Background Colors */
+  --vf-bg-primary: #1f2937;
+  --vf-bg-secondary: #111827;
+  --vf-bg-tertiary: #374151;
+  --vf-bg-hover: #374151;
+  --vf-bg-selected: #4b5563;
+  --vf-bg-disabled: #374151;
+  
+  /* Text Colors */
+  --vf-text-primary: #f9fafb;
+  --vf-text-secondary: #d1d5db;
+  --vf-text-tertiary: #9ca3af;
+  --vf-text-disabled: #6b7280;
+  --vf-text-inverse: #1f2937;
+  
+  /* Border Colors */
+  --vf-border-primary: #374151;
+  --vf-border-secondary: #4b5563;
+  --vf-border-focus: #60a5fa;
+  --vf-border-error: #f87171;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #60a5fa;
+  --vf-accent-secondary: #22d3ee;
+  --vf-accent-success: #34d399;
+  --vf-accent-warning: #fbbf24;
+  --vf-accent-error: #f87171;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #374151;
+  --vf-interactive-active: #4b5563;
+  --vf-interactive-focus: #1e3a8a;
+  
+  /* Shadow Colors */
+  --vf-shadow-sm: rgba(0, 0, 0, 0.3);
+  --vf-shadow-md: rgba(0, 0, 0, 0.4);
+  --vf-shadow-lg: rgba(0, 0, 0, 0.5);
+  
+  /* Overlay Colors */
+  --vf-overlay-bg: rgba(0, 0, 0, 0.4);
+  --vf-overlay-border: rgba(107, 114, 128, 0.9);
+  --vf-overlay-text: #9ca3af;
+}
+
+/* Midnight Theme */
+.vuefinder[data-theme="midnight"] {
+  /* Background Colors */
+  --vf-bg-primary: #0f172a;
+  --vf-bg-secondary: #1e293b;
+  --vf-bg-tertiary: #334155;
+  --vf-bg-hover: #334155;
+  --vf-bg-selected: #475569;
+  --vf-bg-disabled: #334155;
+  
+  /* Text Colors */
+  --vf-text-primary: #f1f5f9;
+  --vf-text-secondary: #cbd5e1;
+  --vf-text-tertiary: #94a3b8;
+  --vf-text-disabled: #64748b;
+  --vf-text-inverse: #0f172a;
+  
+  /* Border Colors */
+  --vf-border-primary: #334155;
+  --vf-border-secondary: #475569;
+  --vf-border-focus: #0ea5e9;
+  --vf-border-error: #f87171;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #0ea5e9;
+  --vf-accent-secondary: #06b6d4;
+  --vf-accent-success: #22c55e;
+  --vf-accent-warning: #eab308;
+  --vf-accent-error: #f87171;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #334155;
+  --vf-interactive-active: #475569;
+  --vf-interactive-focus: #0c4a6e;
+  
+  /* Shadow Colors */
+  --vf-shadow-sm: rgba(0, 0, 0, 0.4);
+  --vf-shadow-md: rgba(0, 0, 0, 0.5);
+  --vf-shadow-lg: rgba(0, 0, 0, 0.6);
+  
+  /* Overlay Colors */
+  --vf-overlay-bg: rgba(0, 0, 0, 0.5);
+  --vf-overlay-border: rgba(100, 116, 139, 0.8);
+  --vf-overlay-text: #94a3b8;
+}
+
+/* Latte Theme */
+.vuefinder[data-theme="latte"] {
+  /* Background Colors */
+  --vf-bg-primary: #faf7f0;
+  --vf-bg-secondary: #f5f1e8;
+  --vf-bg-tertiary: #ede7d9;
+  --vf-bg-hover: #f5f1e8;
+  --vf-bg-selected: #ede7d9;
+  --vf-bg-disabled: #f5f1e8;
+  
+  /* Text Colors */
+  --vf-text-primary: #4c2a1a;
+  --vf-text-secondary: #8b5a3c;
+  --vf-text-tertiary: #a67c52;
+  --vf-text-disabled: #c4a484;
+  --vf-text-inverse: #faf7f0;
+  
+  /* Border Colors */
+  --vf-border-primary: #d4c4a8;
+  --vf-border-secondary: #e2d5c0;
+  --vf-border-focus: #8b5a3c;
+  --vf-border-error: #c65d5d;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #8b5a3c;
+  --vf-accent-secondary: #a67c52;
+  --vf-accent-success: #7d8b5a;
+  --vf-accent-warning: #d4a574;
+  --vf-accent-error: #c65d5d;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #f5f1e8;
+  --vf-interactive-active: #ede7d9;
+  --vf-interactive-focus: #e2d5c0;
+  
+  /* Shadow Colors */
+  --vf-shadow-sm: rgba(76, 42, 26, 0.1);
+  --vf-shadow-md: rgba(76, 42, 26, 0.15);
+  --vf-shadow-lg: rgba(76, 42, 26, 0.2);
+  
+  /* Overlay Colors */
+  --vf-overlay-bg: rgba(76, 42, 26, 0.2);
+  --vf-overlay-border: rgba(139, 90, 60, 0.6);
+  --vf-overlay-text: #8b5a3c;
+}
+
+/* Default theme fallback */
+.vuefinder:not([data-theme]) {
+  /* Use default-light as fallback */
+  --vf-bg-primary: #ffffff;
+  --vf-bg-secondary: #f9fafb;
+  --vf-bg-tertiary: #f3f4f6;
+  --vf-bg-hover: #f9fafb;
+  --vf-bg-selected: #f3f4f6;
+  --vf-bg-disabled: #f9fafb;
+  
+  --vf-text-primary: #374151;
+  --vf-text-secondary: #6b7280;
+  --vf-text-tertiary: #9ca3af;
+  --vf-text-disabled: #d1d5db;
+  --vf-text-inverse: #ffffff;
+  
+  --vf-border-primary: #d1d5db;
+  --vf-border-secondary: #e5e7eb;
+  --vf-border-focus: #3b82f6;
+  --vf-border-error: #ef4444;
+  
+  --vf-accent-primary: #3b82f6;
+  --vf-accent-secondary: #06b6d4;
+  --vf-accent-success: #10b981;
+  --vf-accent-warning: #f59e0b;
+  --vf-accent-error: #ef4444;
+  
+  --vf-interactive-hover: #f3f4f6;
+  --vf-interactive-active: #e5e7eb;
+  --vf-interactive-focus: #dbeafe;
+  
+  --vf-shadow-sm: rgba(0, 0, 0, 0.05);
+  --vf-shadow-md: rgba(0, 0, 0, 0.1);
+  --vf-shadow-lg: rgba(0, 0, 0, 0.15);
+  
+  --vf-overlay-bg: rgba(17, 24, 39, 0.3);
+  --vf-overlay-border: rgba(75, 85, 99, 0.8);
+  --vf-overlay-text: #6b7280;
+}

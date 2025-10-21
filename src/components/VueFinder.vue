@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {inject, onMounted, provide, watch} from 'vue';
+import {inject, onMounted, provide, watch, ref} from 'vue';
 import {useStore} from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import {useHotkeyActions} from '../composables/useHotkeyActions';
 import {useExternalDragDrop} from '../composables/useExternalDragDrop';
+import {setTheme, getCurrentTheme, initializeTheme, type Theme} from '../utils/theme';
 
 import MenuBar from '../components/MenuBar.vue';
 import Toolbar from '../components/Toolbar.vue';
@@ -22,7 +23,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
   features: true,
   debug: false,
-  theme: 'system',
+  theme: 'default-light',
   contextMenuItems: () => contextMenuItems,
   selectionMode: 'multiple',
   selectionFilterType: 'both',
@@ -48,6 +49,39 @@ const {
   handleDragLeave, 
   handleDrop
 } = useExternalDragDrop();
+
+// Theme management
+const currentTheme = ref<Theme>(props.theme as Theme);
+
+// Initialize theme on mount
+onMounted(() => {
+  const vuefinderElement = document.querySelector('.vuefinder') as HTMLElement;
+  if (vuefinderElement) {
+    setTheme(props.theme as Theme, vuefinderElement);
+    currentTheme.value = props.theme as Theme;
+  }
+});
+
+// Watch for theme changes
+watch(() => props.theme, (newTheme) => {
+  if (newTheme && newTheme !== currentTheme.value) {
+    const vuefinderElement = document.querySelector('.vuefinder') as HTMLElement;
+    if (vuefinderElement) {
+      setTheme(newTheme as Theme, vuefinderElement);
+      currentTheme.value = newTheme as Theme;
+    }
+  }
+}, { immediate: true });
+
+// Provide theme management to child components
+provide('currentTheme', currentTheme);
+provide('setTheme', (theme: Theme) => {
+  const vuefinderElement = document.querySelector('.vuefinder') as HTMLElement;
+  if (vuefinderElement) {
+    setTheme(theme, vuefinderElement);
+    currentTheme.value = theme;
+  }
+});
 
 /** @type {AbortController} */
 let controller: AbortController | null = null;

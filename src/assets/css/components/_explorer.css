@@ -6,11 +6,14 @@
 }
 
 .vuefinder__explorer__header {
-    @apply grid grid-cols-12 px-1 bg-gray-50 dark:bg-gray-800 border-b border-neutral-300 dark:border-gray-700 text-xs select-none divide-x;
+    @apply grid grid-cols-12 px-1 border-b text-xs select-none divide-x;
+    background-color: var(--vf-bg-secondary);
+    border-color: var(--vf-border-primary);
 }
 
 .vuefinder__explorer__sort-button {
-    @apply cursor-pointer border-gray-300 dark:border-gray-700;
+    @apply cursor-pointer;
+    border-color: var(--vf-border-primary);
 }
 
 .vuefinder__explorer__sort-button--name {
@@ -75,19 +78,28 @@
 }
 
 .vf-explorer-item-list {
-    @apply relative grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none pointer-events-auto;
+    @apply relative grid grid-cols-1 border my-0.5 w-full select-none pointer-events-auto;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.vf-explorer-item-list:hover {
+    background-color: var(--vf-bg-hover);
 }
 
 .vf-explorer-item-grid {
-    @apply relative m-1 w-[5.5rem] h-20 md:w-24 border border-transparent hover:bg-neutral-50 dark:hover:bg-gray-700 inline-flex text-center justify-center select-none pointer-events-auto;
+    @apply relative m-1 w-[5.5rem] h-20 md:w-24 border inline-flex text-center justify-center select-none pointer-events-auto;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.vf-explorer-item-grid:hover {
+    background-color: var(--vf-bg-hover);
 }
 
 .vf-explorer-selected {
-  @apply bg-neutral-100 border border-neutral-300;
-}
-
-.dark .vf-explorer-selected {
-  @apply bg-slate-700 border border-slate-600;
+  background-color: var(--vf-bg-selected);
+  border-color: var(--vf-border-primary);
 }
 
 .vuefinder__explorer__scrollbar-container {
@@ -118,5 +130,6 @@
 
 /* Linear loader */
 .vuefinder__linear-loader {
-    @apply absolute h-1 bg-blue-500 dark:bg-blue-400 animate-pulse;
+    @apply absolute h-1 animate-pulse;
+    background-color: var(--vf-accent-primary);
 }

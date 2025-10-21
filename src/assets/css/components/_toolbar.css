@@ -1,5 +1,8 @@
+@reference "tailwindcss";
+
 .vuefinder__toolbar {
-  @apply border-neutral-300 flex justify-between items-center py-1 text-sm grow-0;
+  @apply flex justify-between items-center py-1 text-sm grow-0;
+  border-color: var(--vf-border-primary);
 }
 
 .vuefinder__toolbar__actions {
@@ -15,7 +18,8 @@
 }
 
 .vuefinder__toolbar__search-query {
-  @apply dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded;
+  @apply text-xs px-2 py-1 rounded;
+  background-color: var(--vf-bg-secondary);
 }
 
 .vuefinder__toolbar__controls {
@@ -44,11 +48,15 @@
 }
 
 .vuefinder__toolbar__filter-indicator {
-  @apply absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full;
+  @apply absolute -top-1 -right-1 w-2 h-2 rounded-full;
+  background-color: var(--vf-accent-primary);
 }
 
 .vuefinder__toolbar__dropdown {
-  @apply absolute right-0 z-50 mt-1 w-52 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg;
+  @apply absolute right-0 z-50 mt-1 w-52 rounded shadow-lg;
+  background-color: var(--vf-bg-primary);
+  border-color: var(--vf-border-primary);
+  box-shadow: 0 10px 15px -3px var(--vf-shadow-md), 0 4px 6px -2px var(--vf-shadow-sm);
 }
 
 .vuefinder__toolbar__dropdown-content {
@@ -60,7 +68,8 @@
 }
 
 .vuefinder__toolbar__dropdown-label {
-  @apply text-xs text-gray-500 dark:text-gray-400 mb-1;
+  @apply text-xs mb-1;
+  color: var(--vf-text-secondary);
 }
 
 .vuefinder__toolbar__dropdown-row {
@@ -68,7 +77,9 @@
 }
 
 .vuefinder__toolbar__dropdown-select {
-  @apply flex-1 text-xs border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700;
+  @apply flex-1 text-xs rounded px-2 py-1;
+  background-color: var(--vf-bg-primary);
+  border-color: var(--vf-border-primary);
 }
 
 .vuefinder__toolbar__dropdown-options {
@@ -76,11 +87,15 @@
 }
 
 .vuefinder__toolbar__dropdown-option {
-  @apply flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 p-1 rounded;
+  @apply flex items-center gap-2 cursor-pointer p-1 rounded;
+}
+
+.vuefinder__toolbar__dropdown-option:hover {
+  background-color: var(--vf-bg-hover);
 }
 
 .vuefinder__toolbar__radio {
-  @apply text-blue-600;
+  color: var(--vf-accent-primary);
 }
 
 .vuefinder__toolbar__option-text {
@@ -92,7 +107,8 @@
 }
 
 .vuefinder__toolbar__toggle-label {
-  @apply text-xs text-gray-600 dark:text-gray-400;
+  @apply text-xs;
+  color: var(--vf-text-secondary);
 }
 
 .vuefinder__toolbar__checkbox {
@@ -100,21 +116,40 @@
 }
 
 .vuefinder__toolbar__dropdown-reset {
-  @apply pt-2 border-t border-gray-200 dark:border-gray-700;
+  @apply pt-2;
+  border-color: var(--vf-border-primary);
 }
 
 .vuefinder__toolbar__reset-button {
-  @apply w-full px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-gray-600 dark:text-gray-400;
+  @apply w-full px-2 py-1 text-xs rounded;
+  background-color: var(--vf-bg-secondary);
+  color: var(--vf-text-secondary);
+}
+
+.vuefinder__toolbar__reset-button:hover {
+  background-color: var(--vf-bg-hover);
 }
 
 .vf-sort-button {
-  @apply p-1 leading-6 hover:bg-neutral-100 bg-neutral-50 dark:bg-gray-800 dark:hover:bg-gray-700/10 flex items-center dark:border-gray-700
+  @apply p-1 leading-6 flex items-center;
+  background-color: var(--vf-bg-secondary);
+  border-color: var(--vf-border-primary);
+}
+
+.vf-sort-button:hover {
+  background-color: var(--vf-bg-hover);
 }
 
 .vf-toolbar-icon {
-  @apply cursor-pointer stroke-gray-500 hover:stroke-cyan-700 dark:stroke-gray-400 dark:hover:stroke-gray-300;
+  @apply cursor-pointer;
+  stroke: var(--vf-text-secondary);
+}
+
+.vf-toolbar-icon:hover {
+  stroke: var(--vf-accent-primary);
 }
 
 .vf-toolbar-icon-disabled {
-  @apply cursor-not-allowed stroke-gray-200  dark:stroke-gray-700;
+  @apply cursor-not-allowed;
+  stroke: var(--vf-text-disabled);
 }

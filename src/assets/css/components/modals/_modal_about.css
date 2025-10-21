@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 .vuefinder__about-modal__content {
   @apply sm:items-start select-none;
 }

@@ -9,6 +9,7 @@ import ModalDelete from "./modals/ModalDelete.vue";
 import ModalUpload from "./modals/ModalUpload.vue";
 import ModalUnarchive from "./modals/ModalUnarchive.vue";
 import ModalArchive from "./modals/ModalArchive.vue";
+import ThemeSelector from "./ThemeSelector.vue";
 import NewFolderSVG from "../assets/icons/new_folder.svg";
 import NewFileSVG from "../assets/icons/new_file.svg";
 import RenameSVG from "../assets/icons/rename.svg";
@@ -253,7 +254,7 @@ const resetFilters = () => {
     <div class="vuefinder__toolbar__search-results" v-if="searchState.query">
       <div class="pl-2">
         {{ t('Search results for') }}
-        <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ searchState.query }}</span>
+        <span class="text-xs px-2 py-1 rounded" style="background-color: var(--vf-bg-secondary);">{{ searchState.query }}</span>
       </div>
       <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && fs.isLoading()"/>
     </div>
@@ -342,6 +343,11 @@ const resetFilters = () => {
                      :class="(!searchState.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
         <ListViewSVG v-if="configState.view === 'list'" class="vf-toolbar-icon"
                      :class="(!searchState.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
+      </div>
+
+      <!-- Theme Selector -->
+      <div class="mx-1.5">
+        <ThemeSelector />
       </div>
     </div>
   </div>

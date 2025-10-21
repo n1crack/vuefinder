@@ -1,26 +1,41 @@
 
 .vuefinder__breadcrumb__container {
-  @apply relative space-x-0.5 flex p-1.5 bg-neutral-100 dark:bg-gray-800 border-t border-b border-neutral-300 dark:border-gray-700/50 items-center select-none text-sm grow-0;
+  @apply relative space-x-0.5 flex p-1.5 border-t border-b items-center select-none text-sm grow-0;
+  background-color: var(--vf-bg-secondary);
+  border-color: var(--vf-border-primary);
 }
 
 .vuefinder__breadcrumb__toggle-tree {
-  @apply h-6 w-6 p-0.5 rounded cursor-pointer text-slate-700 dark:text-slate-300;
+  @apply h-6 w-6 p-0.5 rounded cursor-pointer;
+  color: var(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__toggle-tree--active {
-  @apply bg-gray-300 dark:bg-gray-700;
+  background-color: var(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__go-up--active {
-  @apply text-slate-700 hover:bg-neutral-300 dark:text-neutral-200 dark:hover:bg-gray-700 cursor-pointer;
+  @apply cursor-pointer;
+  color: var(--vf-text-primary);
+}
+
+.vuefinder__breadcrumb__go-up--active:hover {
+  background-color: var(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__go-up--inactive {
-  @apply text-gray-400 dark:text-neutral-500;
+  color: var(--vf-text-disabled);
 }
 
 .vuefinder__breadcrumb__search-container {
-  @apply flex bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:shadow-2xs hover:border-gray-300 dark:hover:border-gray-500 items-center rounded p-1 ml-2 w-full overflow-hidden;
+  @apply flex border items-center rounded p-1 ml-2 w-full overflow-hidden;
+  background-color: var(--vf-bg-primary);
+  border-color: var(--vf-border-primary);
+}
+
+.vuefinder__breadcrumb__search-container:hover {
+  border-color: var(--vf-border-focus);
+  box-shadow: 0 1px 3px 0 var(--vf-shadow-sm), 0 1px 2px 0 var(--vf-shadow-sm);
 }
 
 .vuefinder__breadcrumb__list {
@@ -32,11 +47,17 @@
 }
 
 .vuefinder__breadcrumb__separator {
-  @apply text-neutral-300 dark:text-gray-600 mx-0.5;
+  @apply mx-0.5;
+  color: var(--vf-text-tertiary);
 }
 
 .vuefinder__breadcrumb__hidden-toggle {
-  @apply text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer;
+  @apply rounded cursor-pointer;
+  color: var(--vf-text-primary);
+}
+
+.vuefinder__breadcrumb__hidden-toggle:hover {
+  background-color: var(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__hidden-toggle-icon {
@@ -48,26 +69,40 @@
 }
 
 .vuefinder__breadcrumb__item {
-  @apply px-1.5 py-1 text-slate-700 dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-gray-800 rounded cursor-pointer whitespace-nowrap;
+  @apply px-1.5 py-1 rounded cursor-pointer whitespace-nowrap;
+  color: var(--vf-text-primary);
+}
+
+.vuefinder__breadcrumb__item:hover {
+  background-color: var(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__search-mode {
-  @apply relative flex bg-white dark:bg-gray-700 justify-between items-center rounded p-1 ml-2 w-full
-  border shadow-2xs border-gray-300 dark:border-gray-500;
+  @apply relative flex justify-between items-center rounded p-1 ml-2 w-full border;
+  background-color: var(--vf-bg-primary);
+  border-color: var(--vf-border-focus);
+  box-shadow: 0 1px 3px 0 var(--vf-shadow-sm), 0 1px 2px 0 var(--vf-shadow-sm);
 }
 
 .vuefinder__breadcrumb__search-input {
-  @apply w-full pb-0 px-1 border-0 text-base ring-0 outline-0 text-gray-600 focus:ring-transparent focus:border-transparent dark:focus:ring-transparent dark:focus:border-transparent dark:text-gray-300 bg-transparent;
+  @apply w-full pb-0 px-1 border-0 text-base ring-0 outline-0 focus:ring-transparent focus:border-transparent bg-transparent;
+  color: var(--vf-text-primary);
 }
 
 .vuefinder__breadcrumb__hidden-dropdown {
-    @apply z-50 absolute  rounded top-9
-     bg-neutral-50 dark:bg-gray-900 max-w-80 shadow overflow-y-auto text-gray-700 dark:text-gray-200
-     border border-neutral-300 dark:border-gray-600;
+    @apply z-50 absolute rounded top-9 max-w-80 shadow overflow-y-auto;
+    background-color: var(--vf-bg-primary);
+    color: var(--vf-text-primary);
+    border-color: var(--vf-border-primary);
+    box-shadow: 0 10px 15px -3px var(--vf-shadow-md), 0 4px 6px -2px var(--vf-shadow-sm);
 }
 
 .vuefinder__breadcrumb__hidden-item {
-  @apply px-2 py-0.5 hover:bg-gray-400/20 cursor-pointer items-center whitespace-nowrap;
+  @apply px-2 py-0.5 cursor-pointer items-center whitespace-nowrap;
+}
+
+.vuefinder__breadcrumb__hidden-item:hover {
+  background-color: var(--vf-bg-hover);
 }
 
 .vuefinder__breadcrumb__hidden-item-content {

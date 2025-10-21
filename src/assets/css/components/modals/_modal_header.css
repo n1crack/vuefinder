@@ -1,4 +1,6 @@
 
+@reference "tailwindcss";
+
 .vuefinder__modal-header {
   @apply flex items-center my-1 gap-2;
 }
