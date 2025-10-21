@@ -249,7 +249,7 @@ onMounted(() => {
        @dragleave="handleDragLeave"
        @drop="handleExternalDrop"
        :class="{ 'vuefinder--dragging-external': isDraggingExternal }">
-    <div :class="app.theme.actualValue" style="height: 100%; width: 100%;">
+    <div :class="currentTheme" style="height: 100%; width: 100%;">
       <div
           :class="(configState as any)?.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
           class="vuefinder__main__container"

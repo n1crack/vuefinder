@@ -9,7 +9,6 @@ import ModalDelete from "./modals/ModalDelete.vue";
 import ModalUpload from "./modals/ModalUpload.vue";
 import ModalUnarchive from "./modals/ModalUnarchive.vue";
 import ModalArchive from "./modals/ModalArchive.vue";
-import ThemeSelector from "./ThemeSelector.vue";
 import NewFolderSVG from "../assets/icons/new_folder.svg";
 import NewFileSVG from "../assets/icons/new_file.svg";
 import RenameSVG from "../assets/icons/rename.svg";
@@ -343,11 +342,6 @@ const resetFilters = () => {
                      :class="(!searchState.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
         <ListViewSVG v-if="configState.view === 'list'" class="vf-toolbar-icon"
                      :class="(!searchState.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
-      </div>
-
-      <!-- Theme Selector -->
-      <div class="mx-1.5">
-        <ThemeSelector position="right" />
       </div>
     </div>
   </div>

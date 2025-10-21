@@ -3,6 +3,7 @@ import {inject, nextTick, onMounted, ref} from 'vue';
 
 const modalBody = ref<HTMLElement | null>(null);
 const app = inject('ServiceContainer')
+const currentTheme = inject('currentTheme')
 
 // Props for drag overlay
 const props = defineProps<{
@@ -42,7 +43,7 @@ onMounted(() => {
 </script>
 
 <template>  
-    <div :class="app.theme.actualValue" class="vuefinder vuefinder__modal-layout" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+    <div :class="currentTheme" class="vuefinder vuefinder__modal-layout" aria-labelledby="modal-title" role="dialog" aria-modal="true"
         @keyup.esc="app.modal.close()" tabindex="0">
         <div class="vuefinder__modal-layout__overlay"></div>
 

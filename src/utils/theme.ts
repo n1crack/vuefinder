@@ -82,9 +82,6 @@ export function setTheme(theme: Theme, element?: HTMLElement): void {
   
   // Update root CSS variables for selection area
   updateRootSelectionVariables(theme);
-  
-  // Store theme preference
-  localStorage.setItem('vuefinder-theme', theme);
 }
 
 /**
@@ -106,12 +103,6 @@ export function getCurrentTheme(element?: HTMLElement): Theme {
     if (theme && themes.some(t => t.name === theme)) {
       return theme;
     }
-  }
-  
-  // Check localStorage
-  const storedTheme = localStorage.getItem('vuefinder-theme') as Theme;
-  if (storedTheme && themes.some(t => t.name === storedTheme)) {
-    return storedTheme;
   }
   
   return 'default-light';

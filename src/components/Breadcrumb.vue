@@ -16,6 +16,7 @@ import DotsSVG from '../assets/icons/dots.svg';
 import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
+const currentTheme = inject('currentTheme');
 const {t} = app.i18n;
 const search = app.search;
 const fs = app.fs;
@@ -304,7 +305,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
     </div>
 
     <Teleport to="body">
-      <div :class="app.theme.actualValue">
+      <div :class="currentTheme?.value">
         <div v-show="showHiddenBreadcrumbs"
              :style="{position: 'absolute', top: mousePosition.y + 'px', left: mousePosition.x + 'px'}"
              class="vuefinder vuefinder__breadcrumb__hidden-dropdown">

@@ -6,17 +6,14 @@ import {useI18n} from "./composables/useI18n";
 import {FEATURE_ALL_NAMES} from "./features.js";
 import {version} from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize'
-import useTheme from './composables/useTheme';
 import useModal from "./composables/useModal";
 import { createConfigStore } from "./stores/config";
 import {createFilesStore} from "./stores/files.ts";
 import {createSearchStore} from "./stores/search.ts";
 
-
 export default (props: Record<string, unknown>, options: Record<string, unknown>) => {
     const storage = useStorage(props.id as string);
     const emitter = mitt();
-    const theme = useTheme(storage, props.theme as "system" | "light" | "dark" | undefined);
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
 
@@ -76,10 +73,7 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         selectionFilterType: computed(() => props.selectionFilterType || 'both'),
         selectionFilterMimeIncludes: computed(() => props.selectionFilterMimeIncludes || []),
         // treeViewData - temp. opened folders
-        treeViewData: [], 
-
-        // theme state
-        theme: theme,
+        treeViewData: [],
         // human readable file sizes
         filesize: configStore.get('metricUnits') ? filesizeMetric : filesizeDefault,
         // possible items of the context menu
