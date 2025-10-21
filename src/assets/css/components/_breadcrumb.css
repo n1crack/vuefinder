@@ -54,9 +54,6 @@
   box-shadow: 0 1px 3px 0 var(--vf-shadow-sm), 0 1px 2px 0 var(--vf-shadow-sm);
 }
 
-.vuefinder__breadcrumb__search-container:hover .vuefinder__breadcrumb__home-icon {
-  color: var(--vf-accent-primary);
-}
 
 .vuefinder__breadcrumb__search-container:hover .vuefinder__breadcrumb__separator {
   color: var(--vf-text-primary);
