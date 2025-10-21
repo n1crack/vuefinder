@@ -42,7 +42,10 @@ const isSelectableByMime = computed(() => {
   const allowed = app.selectionFilterMimeIncludes;
   if (!allowed || !allowed.length) return true;
   
-  // If MIME filters are active, only allow items with matching MIME types
+  // If it's a directory, MIME filters don't apply - it's always selectable
+  if (props.item.type === 'dir') return true;
+  
+  // For files, check MIME type
   if (!props.item.mime_type) return false;
   return allowed.some((prefix: string) => props.item.mime_type?.startsWith(prefix));
 });

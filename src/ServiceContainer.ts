@@ -1,4 +1,4 @@
-import {reactive, useTemplateRef} from "vue";
+import {reactive, useTemplateRef, computed} from "vue";
 import mitt from "mitt";
 import {buildRequester, type RequestConfig} from "./utils/ajax";
 import {useStorage} from "./composables/useStorage";
@@ -72,9 +72,9 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         features: setFeatures(props.features),
         // selection mode
         selectionMode: props.selectionMode || 'multiple',
-        // selection filters
-        selectionFilterType: props.selectionFilterType || 'both',
-        selectionFilterMimeIncludes: props.selectionFilterMimeIncludes || [],
+        // selection filters - computed properties for better reactivity
+        selectionFilterType: computed(() => props.selectionFilterType || 'both'),
+        selectionFilterMimeIncludes: computed(() => props.selectionFilterMimeIncludes || []),
         // treeViewData - temp. opened folders
         treeViewData: [], 
 

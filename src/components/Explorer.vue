@@ -266,13 +266,19 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
     const allowedMimes = app.selectionFilterMimeIncludes;
     const typeAllowed = !filterType || filterType === 'both' || (filterType === 'files' && item?.type === 'file') || (filterType === 'dirs' && item?.type === 'dir');
     
-    // Check MIME filter - if MIME filters are active, only allow items with matching MIME types
+    // Check MIME filter - only apply to files, not directories
     let mimeAllowed = true;
     if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
-      if (!item?.mime_type) {
-        mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+      // If it's a directory, MIME filters don't apply - it's always selectable
+      if (item?.type === 'dir') {
+        mimeAllowed = true;
       } else {
-        mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
+        // For files, check MIME type
+        if (!item?.mime_type) {
+          mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+        } else {
+          mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
+        }
       }
     }
     
@@ -334,13 +340,19 @@ const handleItemDblClick = (event: MouseEvent | TouchEvent) => {
   const allowedMimes = app.selectionFilterMimeIncludes;
   const typeAllowed = !filterType || filterType === 'both' || (filterType === 'files' && item?.type === 'file') || (filterType === 'dirs' && item?.type === 'dir');
   
-  // Check MIME filter - if MIME filters are active, only allow items with matching MIME types
+  // Check MIME filter - only apply to files, not directories
   let mimeAllowed = true;
   if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
-    if (!item?.mime_type) {
-      mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+    // If it's a directory, MIME filters don't apply - it's always selectable
+    if (item?.type === 'dir') {
+      mimeAllowed = true;
     } else {
-      mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
+      // For files, check MIME type
+      if (!item?.mime_type) {
+        mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+      } else {
+        mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
+      }
     }
   }
   
@@ -361,6 +373,33 @@ const handleItemContextMenu = (event: MouseEvent) => {
   if (el) {
     const key = String(el.getAttribute('data-key'));
     const targetItem = sortedFiles.value?.find((f: DirEntry) => f.path === key);
+    
+    // Check if the item is selectable according to filters
+    const filterType = app.selectionFilterType;
+    const allowedMimes = app.selectionFilterMimeIncludes;
+    const typeAllowed = !filterType || filterType === 'both' || (filterType === 'files' && targetItem?.type === 'file') || (filterType === 'dirs' && targetItem?.type === 'dir');
+    
+    // Check MIME filter - only apply to files, not directories
+    let mimeAllowed = true;
+    if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+      // If it's a directory, MIME filters don't apply - it's always selectable
+      if (targetItem?.type === 'dir') {
+        mimeAllowed = true;
+      } else {
+        // For files, check MIME type
+        if (!targetItem?.mime_type) {
+          mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
+        } else {
+          mimeAllowed = allowedMimes.some((p: string) => (targetItem?.mime_type as string).startsWith(p));
+        }
+      }
+    }
+    
+    // Only allow context menu if item is selectable
+    if (!typeAllowed || !mimeAllowed) {
+      return; // Don't show context menu for unselectable items
+    }
+    
     // Ensure the clicked item is selected if not already
     if (!selectedKeys.value?.has(key)) {
       fs.clearSelection();

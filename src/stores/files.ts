@@ -223,10 +223,16 @@ export const createFilesStore = () => {
                         if (filterType === 'files' && file.type === 'dir') return false;
                         if (filterType === 'dirs' && file.type === 'file') return false;
                         
-                        // Check MIME filter - if MIME filters are active, only allow items with matching MIME types
+                        // Check MIME filter - only apply to files, not directories
                         if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
-                            if (!file.mime_type) return false; // No MIME type means not selectable when MIME filters are active
-                            return allowedMimes.some((prefix: string) => file.mime_type?.startsWith(prefix));
+                            // If it's a directory, MIME filters don't apply - it's always selectable
+                            if (file.type === 'dir') {
+                                // Directory is always selectable when MIME filters are active
+                            } else {
+                                // For files, check MIME type
+                                if (!file.mime_type) return false; // No MIME type means not selectable when MIME filters are active
+                                return allowedMimes.some((prefix: string) => file.mime_type?.startsWith(prefix));
+                            }
                         }
                         
                         return true;

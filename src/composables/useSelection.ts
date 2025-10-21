@@ -63,10 +63,13 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		if (filterType === 'files' && item.type === 'dir') return false;
 		if (filterType === 'dirs' && item.type === 'file') return false;
 
-		// Check MIME filter - if MIME filters are active, only allow items with matching MIME types
+		// Check MIME filter - only apply to files, not directories
 		if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
-			// If item has no MIME type, it's not selectable when MIME filters are active
-			if (!item.mime_type) return false;
+			// If it's a directory, MIME filters don't apply - it's always selectable
+			if (item.type === 'dir') return true;
+			
+			// For files, check MIME type
+			if (!item.mime_type) return false; // No MIME type means not selectable when MIME filters are active
 			return allowedMimes.some((prefix: string) => item.mime_type?.startsWith(prefix));
 		}
 
@@ -142,7 +145,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 		}
 	};
 
-	// Handle scroll events during selection to update selection area boundaries
+	//  This is a temporary solution 
+    //  Handle scroll events during selection to update selection area boundaries
 	const handleScrollDuringSelection = () => {
 		if (selectionObject.value && (isDragging.value || selectionStarted.value)) {
 			// Get the boundaries element
