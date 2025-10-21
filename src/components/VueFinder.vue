@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
   features: true,
   debug: false,
-  theme: 'default-light',
+  theme: 'light',
   contextMenuItems: () => contextMenuItems,
   selectionMode: 'multiple',
   selectionFilterType: 'both',

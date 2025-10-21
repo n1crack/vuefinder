@@ -6,8 +6,8 @@
   --vf-selection-border: #d1d5db;
 }
 
-/* Default Light Theme */
-.vuefinder[data-theme="default-light"] {
+/* Light Theme */
+.vuefinder[data-theme="light"] {
   --vf-selection-bg: #f9fafb;
   --vf-selection-border: #d1d5db;
   /* Background Colors */
@@ -55,8 +55,8 @@
   --vf-overlay-text: #6b7280;
 }
 
-/* Default Dark Theme */
-.vuefinder[data-theme="default-dark"] {
+/* Dark Theme */
+.vuefinder[data-theme="dark"] {
   --vf-selection-bg: #374151;
   --vf-selection-border: #374151;
   /* Background Colors */
@@ -204,7 +204,7 @@
 
 /* Default theme fallback */
 .vuefinder:not([data-theme]) {
-  /* Use default-light as fallback */
+  /* Use light as fallback */
   --vf-bg-primary: #ffffff;
   --vf-bg-secondary: #f9fafb;
   --vf-bg-tertiary: #f3f4f6;

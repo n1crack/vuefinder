@@ -156,7 +156,7 @@
 }
 
 /* Darker background for dark themes */
-.vuefinder[data-theme="default-dark"] .vuefinder__treestorageitem__header,
+.vuefinder[data-theme="dark"] .vuefinder__treestorageitem__header,
 .vuefinder[data-theme="midnight"] .vuefinder__treestorageitem__header,
 .vuefinder[data-theme="ocean"] .vuefinder__treestorageitem__header,
 .vuefinder[data-theme="palenight"] .vuefinder__treestorageitem__header,
@@ -173,8 +173,8 @@
   opacity: 0.7;
 }
 
-/* Very dark background for default dark theme */
-.vuefinder[data-theme="default-dark"] .vuefinder__treestorageitem__header {
+/* Very dark background for dark theme */
+.vuefinder[data-theme="dark"] .vuefinder__treestorageitem__header {
   background-color: var(--vf-bg-primary);
   opacity: 0.5;
 }

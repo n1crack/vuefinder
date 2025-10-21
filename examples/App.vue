@@ -21,10 +21,10 @@ const examples = {
 }
 
 // Theme management
-const currentTheme = ref('default-light')
+const currentTheme = ref('light')
 const themes = [
-  { value: 'default-light', label: 'Default Light' },
-  { value: 'default-dark', label: 'Default Dark' },
+  { value: 'light', label: 'Light' },
+  { value: 'dark', label: 'Dark' },
   { value: 'midnight', label: 'Midnight' },
   { value: 'latte', label: 'Latte' },
   { value: 'rose', label: 'Rose' },

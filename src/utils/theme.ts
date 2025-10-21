@@ -3,7 +3,7 @@
  * Provides utilities for theme management
  */
 
-export type Theme = 'default-light' | 'default-dark' | 'midnight' | 'latte' | 'rose' | 'mythril' | 'lime' | 'dark-plus' | 'ocean' | 'palenight';
+export type Theme = 'light' | 'dark' | 'midnight' | 'latte' | 'rose' | 'mythril' | 'lime' | 'dark-plus' | 'ocean' | 'palenight';
 
 export interface ThemeConfig {
   name: Theme;
@@ -13,13 +13,13 @@ export interface ThemeConfig {
 
 export const themes: ThemeConfig[] = [
   {
-    name: 'default-light',
-    displayName: 'Default Light',
+    name: 'light',
+    displayName: 'Light',
     description: 'Clean and bright interface'
   },
   {
-    name: 'default-dark',
-    displayName: 'Default Dark',
+    name: 'dark',
+    displayName: 'Dark',
     description: 'Dark interface for low-light environments'
   },
   {
@@ -87,7 +87,7 @@ export function setTheme(theme: Theme, element?: HTMLElement): void {
 /**
  * Get the current theme
  * @param element - The VueFinder element (defaults to document)
- * @returns The current theme or default-light if none is set
+ * @returns The current theme or light if none is set
  */
 export function getCurrentTheme(element?: HTMLElement): Theme {
   const targetElement = element || document.documentElement;
@@ -105,7 +105,7 @@ export function getCurrentTheme(element?: HTMLElement): Theme {
     }
   }
   
-  return 'default-light';
+  return 'light';
 }
 
 /**
@@ -116,11 +116,11 @@ function updateRootSelectionVariables(theme: Theme): void {
   const root = document.documentElement;
   
   switch (theme) {
-    case 'default-light':
+    case 'light':
       root.style.setProperty('--vf-selection-bg', '#f9fafb');
       root.style.setProperty('--vf-selection-border', '#d1d5db');
       break;
-    case 'default-dark':
+    case 'dark':
       root.style.setProperty('--vf-selection-bg', '#374151');
       root.style.setProperty('--vf-selection-border', '#374151');
       break;

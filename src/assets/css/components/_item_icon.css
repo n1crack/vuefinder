@@ -39,8 +39,8 @@
   stroke: #f472b6;
 }
 
-/* Default Dark - Different open/closed colors */
-.vuefinder[data-theme="default-dark"] .vuefinder__item-icon__folder--open {
+/* Dark - Different open/closed colors */
+.vuefinder[data-theme="dark"] .vuefinder__item-icon__folder--open {
   fill: var(--vf-accent-primary);
   stroke: #60a5fa;
 }
