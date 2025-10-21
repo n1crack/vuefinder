@@ -28,60 +28,6 @@
   stroke: var(--vf-accent-secondary);
 }
 
-/* Rose Theme - Pink folder colors */
-.vuefinder[data-theme="rose"] .vuefinder__item-icon__folder {
-  fill: #ec4899;
-  stroke: #ec4899;
-}
-
-.vuefinder[data-theme="rose"] .vuefinder__item-icon__folder--open {
-  fill: #ec4899;
-  stroke: #f472b6;
-}
-
-/* Dark - Different open/closed colors */
-.vuefinder[data-theme="dark"] .vuefinder__item-icon__folder--open {
-  fill: var(--vf-accent-primary);
-  stroke: #60a5fa;
-}
-
-/* Midnight - Better folder colors */
-.vuefinder[data-theme="midnight"] .vuefinder__item-icon__folder {
-  fill: #38bdf8;
-  stroke: #38bdf8;
-}
-
-.vuefinder[data-theme="midnight"] .vuefinder__item-icon__folder--open {
-  fill: #38bdf8;
-  stroke: #0ea5e9;
-}
-
-/* Specific fix only for Palenight */
-.vuefinder[data-theme="palenight"] .vuefinder__item-icon__folder--open {
-  fill: #8b5cf6;
-  stroke: #8b5cf6;
-}
-
-.vuefinder[data-theme="palenight"] .vuefinder__item-icon__folder {
-  fill: #8b5cf6;
-  stroke: #8b5cf6;
-}
-
-/* Night Bright Lime - Better folder colors */
-.vuefinder[data-theme="lime"] .vuefinder__item-icon__folder {
-  fill: #84cc16;
-  stroke: #84cc16;
-}
-
-.vuefinder[data-theme="lime"] .vuefinder__item-icon__folder--open {
-  fill: #84cc16;
-  stroke: #a3e635;
-}
-
-/* Palenight - Special icon colors */
-.vuefinder[data-theme="palenight"] .vuefinder__item-icon {
-  color: #a78bfa;
-}
 .vuefinder .vuefinder__item-icon__file {
   color: var(--vf-text-tertiary);
   @apply w-full h-full;

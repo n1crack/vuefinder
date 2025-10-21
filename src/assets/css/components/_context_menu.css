@@ -38,29 +38,3 @@
 .vuefinder__context-menu__action {
     @apply px-2 mx-0.5 h-6 flex items-center overflow-hidden whitespace-nowrap text-ellipsis flex-1;
 }
-
-/* Theme-specific context menu styles */
-.vuefinder[data-theme="ocean"] .vuefinder__context-menu {
-    border-color: #546e7a;
-    box-shadow: 0 4px 6px -1px rgba(0, 188, 212, 0.1), 0 2px 4px -1px rgba(0, 188, 212, 0.06);
-}
-
-.vuefinder[data-theme="palenight"] .vuefinder__context-menu {
-    border-color: #34495e;
-    box-shadow: 0 4px 6px -1px rgba(199, 146, 234, 0.05), 0 2px 4px -1px rgba(199, 146, 234, 0.03);
-}
-
-.vuefinder[data-theme="mythril"] .vuefinder__context-menu {
-    border-color: #cbd5e1;
-    box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
-}
-
-.vuefinder[data-theme="rose"] .vuefinder__context-menu {
-    border: 1px solid #e11d48;
-    box-shadow: 0 4px 6px -1px rgba(225, 29, 72, 0.1), 0 2px 4px -1px rgba(225, 29, 72, 0.06);
-}
-
-.vuefinder[data-theme="midnight"] .vuefinder__context-menu {
-    border-color: #475569;
-    box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
-}

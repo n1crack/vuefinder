@@ -1,0 +1,48 @@
+/* Monokai Theme */
+.vuefinder[data-theme="monokai"] {
+  --vf-selection-bg: #49483e;
+  --vf-selection-border: #f92672;
+  /* Background Colors */
+  --vf-bg-primary: #272822;
+  --vf-bg-secondary: #49483e;
+  --vf-bg-tertiary: #3e3d32;
+  --vf-bg-hover: #49483e;
+  --vf-bg-selected: #3e3d32;
+  --vf-bg-disabled: #49483e;
+  
+  /* Text Colors */
+  --vf-text-primary: #f8f8f2;
+  --vf-text-secondary: #e6db74;
+  --vf-text-tertiary: #a6e22e;
+  --vf-text-disabled: #75715e;
+  --vf-text-inverse: #272822;
+  
+  /* Border Colors */
+  --vf-border-primary: #3e3d32;
+  --vf-border-secondary: #49483e;
+  --vf-border-focus: #f92672;
+  --vf-border-disabled: #49483e;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #f92672;
+  --vf-accent-secondary: #fd971f;
+  --vf-accent-tertiary: #a6e22e;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #3e3d32;
+  --vf-interactive-active: #f92672;
+  --vf-interactive-focus: #3e3d32;
+  
+  --vf-shadow-sm: rgba(249, 38, 114, 0.1);
+  --vf-shadow-md: rgba(249, 38, 114, 0.15);
+  --vf-shadow-lg: rgba(249, 38, 114, 0.2);
+  
+  --vf-overlay-bg: rgba(39, 40, 34, 0.8);
+  --vf-overlay-border: rgba(249, 38, 114, 0.6);
+  --vf-overlay-text: #e6db74;
+}
+
+/* Monokai Theme - Tree View */
+.vuefinder[data-theme="monokai"] .vuefinder__treestorageitem__header {
+  background-color: var(--vf-bg-secondary);
+}

@@ -1,0 +1,49 @@
+/* Mythril Theme */
+.vuefinder[data-theme="mythril"] {
+  --vf-selection-bg: #f0f9ff;
+  --vf-selection-border: #0ea5e9;
+  /* Background Colors */
+  --vf-bg-primary: #f8fafc;
+  --vf-bg-secondary: #f1f5f9;
+  --vf-bg-tertiary: #e2e8f0;
+  --vf-bg-hover: #f1f5f9;
+  --vf-bg-selected: #e2e8f0;
+  --vf-bg-disabled: #f3f4f6;
+  
+  /* Text Colors */
+  --vf-text-primary: #1e293b;
+  --vf-text-secondary: #475569;
+  --vf-text-tertiary: #64748b;
+  --vf-text-disabled: #94a3b8;
+  --vf-text-inverse: #f8fafc;
+  
+  /* Border Colors */
+  --vf-border-primary: #cbd5e1;
+  --vf-border-secondary: #94a3b8;
+  --vf-border-focus: #0ea5e9;
+  --vf-border-disabled: #cbd5e1;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #0ea5e9;
+  --vf-accent-secondary: #0284c7;
+  --vf-accent-tertiary: #0369a1;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #f0f9ff;
+  --vf-interactive-active: #0284c7;
+  --vf-interactive-focus: #e0f2fe;
+  
+  --vf-shadow-sm: rgba(14, 165, 233, 0.08);
+  --vf-shadow-md: rgba(14, 165, 233, 0.12);
+  --vf-shadow-lg: rgba(14, 165, 233, 0.16);
+  
+  --vf-overlay-bg: rgba(14, 165, 233, 0.2);
+  --vf-overlay-border: rgba(14, 165, 233, 0.6);
+  --vf-overlay-text: #0369a1;
+}
+
+/* Mythril Theme - Context Menu */
+.vuefinder[data-theme="mythril"] .vuefinder__context-menu {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
+}

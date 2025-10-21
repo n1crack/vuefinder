@@ -1,14 +1,8 @@
-/* VueFinder Theme System */
-
-/* Global CSS variables for selection area */
-:root {
+/* Light Theme */
+.vuefinder[data-theme="light"] {
   --vf-selection-bg: #f9fafb;
   --vf-selection-border: #d1d5db;
-}
-
-/* Default theme fallback */
-.vuefinder:not([data-theme]) {
-  /* Use light as fallback */
+  /* Background Colors */
   --vf-bg-primary: #ffffff;
   --vf-bg-secondary: #f9fafb;
   --vf-bg-tertiary: #f3f4f6;
@@ -16,44 +10,39 @@
   --vf-bg-selected: #f3f4f6;
   --vf-bg-disabled: #f9fafb;
   
+  /* Text Colors */
   --vf-text-primary: #374151;
   --vf-text-secondary: #6b7280;
   --vf-text-tertiary: #9ca3af;
   --vf-text-disabled: #d1d5db;
   --vf-text-inverse: #ffffff;
   
+  /* Border Colors */
   --vf-border-primary: #d1d5db;
   --vf-border-secondary: #e5e7eb;
   --vf-border-focus: #3b82f6;
   --vf-border-error: #ef4444;
   
+  /* Accent Colors */
   --vf-accent-primary: #3b82f6;
   --vf-accent-secondary: #06b6d4;
   --vf-accent-success: #10b981;
   --vf-accent-warning: #f59e0b;
   --vf-accent-error: #ef4444;
   
+  /* Interactive Colors */
   --vf-interactive-hover: #f3f4f6;
   --vf-interactive-active: #e5e7eb;
   --vf-interactive-focus: #dbeafe;
   
+  /* Shadow Colors */
   --vf-shadow-sm: rgba(0, 0, 0, 0.05);
   --vf-shadow-md: rgba(0, 0, 0, 0.1);
   --vf-shadow-lg: rgba(0, 0, 0, 0.15);
   --vf-shadow-modal: rgba(0, 0, 0, 0.15);
   
+  /* Overlay Colors */
   --vf-overlay-bg: rgba(17, 24, 39, 0.3);
   --vf-overlay-border: rgba(75, 85, 99, 0.8);
   --vf-overlay-text: #6b7280;
 }
-
-/* Import all theme files */
-@import "./themes/light.css";
-@import "./themes/dark.css";
-@import "./themes/rose.css";
-@import "./themes/mythril.css";
-@import "./themes/midnight.css";
-@import "./themes/ocean.css";
-@import "./themes/palenight.css";
-@import "./themes/lime.css";
-@import "./themes/monokai.css";

@@ -155,29 +155,6 @@
   color: var(--vf-text-tertiary);
 }
 
-/* Darker background for dark themes */
-.vuefinder[data-theme="dark"] .vuefinder__treestorageitem__header,
-.vuefinder[data-theme="midnight"] .vuefinder__treestorageitem__header,
-.vuefinder[data-theme="ocean"] .vuefinder__treestorageitem__header,
-.vuefinder[data-theme="palenight"] .vuefinder__treestorageitem__header,
-.vuefinder[data-theme="lime"] .vuefinder__treestorageitem__header,
-.vuefinder[data-theme="monokai"] .vuefinder__treestorageitem__header {
-  background-color: var(--vf-bg-secondary);
-}
-
-/* Much darker background for specific themes */
-.vuefinder[data-theme="ocean"] .vuefinder__treestorageitem__header,
-.vuefinder[data-theme="lime"] .vuefinder__treestorageitem__header,
-.vuefinder[data-theme="midnight"] .vuefinder__treestorageitem__header {
-  background-color: var(--vf-bg-primary);
-  opacity: 0.7;
-}
-
-/* Very dark background for dark theme */
-.vuefinder[data-theme="dark"] .vuefinder__treestorageitem__header {
-  background-color: var(--vf-bg-primary);
-  opacity: 0.5;
-}
 
 .vuefinder__treestorageitem__info {
   @apply flex flex-1 space-x-1 items-center border border-transparent;
