@@ -46,3 +46,9 @@
   --vf-overlay-border: rgba(136, 192, 208, 0.5);
   --vf-overlay-text: #e5e9f0;
 }
+
+/* Arctic Theme - Selection Area */
+.selection-area-container[data-theme="arctic"] {
+  --vf-selection-bg: #3b4252;
+  --vf-selection-border: #88c0d0;
+}

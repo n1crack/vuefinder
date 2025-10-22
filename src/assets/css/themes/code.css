@@ -46,3 +46,9 @@
   --vf-overlay-border: rgba(0, 0, 0, 0.1);
   --vf-overlay-text: #656d76;
 }
+
+/* Code Theme - Selection Area */
+.selection-area-container[data-theme="code"] {
+  --vf-selection-bg: #f6f8fa;
+  --vf-selection-border: #0969da;
+}

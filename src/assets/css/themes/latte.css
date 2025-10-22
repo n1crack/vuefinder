@@ -46,3 +46,9 @@
   --vf-overlay-border: rgba(139, 90, 60, 0.6);
   --vf-overlay-text: #8b5a3c;
 }
+
+/* Latte Theme - Selection Area */
+.selection-area-container[data-theme="latte"] {
+  --vf-selection-bg: #f5f1e8;
+  --vf-selection-border: #8b5a3c;
+}

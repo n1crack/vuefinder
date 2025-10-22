@@ -47,3 +47,9 @@
     border-color: #cbd5e1;
     box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
 }
+
+/* Mythril Theme - Selection Area */
+.selection-area-container[data-theme="mythril"] {
+  --vf-selection-bg: #f0f9ff;
+  --vf-selection-border: #0ea5e9;
+}

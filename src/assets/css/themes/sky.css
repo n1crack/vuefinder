@@ -46,3 +46,9 @@
   --vf-overlay-border: rgba(125, 211, 252, 0.3);
   --vf-overlay-text: #bae6fd;
 }
+
+/* Sky Theme - Selection Area */
+.selection-area-container[data-theme="sky"] {
+  --vf-selection-bg: #0f1419;
+  --vf-selection-border: #7dd3fc;
+}

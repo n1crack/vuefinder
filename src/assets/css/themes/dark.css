@@ -47,6 +47,12 @@
   --vf-overlay-text: #9ca3af;
 }
 
+/* Dark Theme - Selection Area */
+.selection-area-container[data-theme="dark"] {
+  --vf-selection-bg: #374151;
+  --vf-selection-border: #60a5fa;
+}
+
 /* Dark Theme - Tree View */
 .vuefinder[data-theme="dark"] .vuefinder__treestorageitem__header {
   @apply bg-(--vf-bg-primary);

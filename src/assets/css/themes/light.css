@@ -46,3 +46,9 @@
   --vf-overlay-border: rgba(75, 85, 99, 0.8);
   --vf-overlay-text: #6b7280;
 }
+
+/* Light Theme - Selection Area */
+.selection-area-container[data-theme="light"] {
+  --vf-selection-bg: #f9fafb;
+  --vf-selection-border: #3b82f6;
+}

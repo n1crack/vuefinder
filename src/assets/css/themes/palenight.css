@@ -42,6 +42,12 @@
   --vf-overlay-text: #c792ea;
 }
 
+/* Palenight Theme - Selection Area */
+.selection-area-container[data-theme="palenight"] {
+  --vf-selection-bg: #263238;
+  --vf-selection-border: #c792ea;
+}
+
 /* Palenight Theme - Context Menu */
 .vuefinder[data-theme="palenight"] .vuefinder__context-menu {
     border-color: #34495e;

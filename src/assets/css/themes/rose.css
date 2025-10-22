@@ -59,3 +59,9 @@
   fill: #ec4899;
   stroke: #f472b6;
 }
+
+/* Rose Theme - Selection Area */
+.selection-area-container[data-theme="rose"] {
+  --vf-selection-bg: #fef7f7;
+  --vf-selection-border: #e11d48;
+}

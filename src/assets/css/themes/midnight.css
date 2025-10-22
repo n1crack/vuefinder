@@ -47,6 +47,12 @@
   --vf-overlay-text: #94a3b8;
 }
 
+/* Midnight Theme - Selection Area */
+.selection-area-container[data-theme="midnight"] {
+  --vf-selection-bg: #334155;
+  --vf-selection-border: #0ea5e9;
+}
+
 /* Midnight Theme - Context Menu */
 .vuefinder[data-theme="midnight"] .vuefinder__context-menu {
     border-color: #475569;
