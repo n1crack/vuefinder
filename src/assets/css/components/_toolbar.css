@@ -108,10 +108,6 @@
   @apply rounded text-(--vf-accent-primary) accent-(--vf-accent-primary);
 }
 
-.vuefinder__toolbar__radio:hover {
-  @apply text-(--vf-accent-secondary) accent-(--vf-accent-secondary);
-}
-
 .vuefinder__toolbar__radio:focus {
   @apply outline-none;
 }
@@ -130,10 +126,6 @@
 
 .vuefinder__toolbar__checkbox {
   @apply rounded text-(--vf-accent-primary) accent-(--vf-accent-primary);
-}
-
-.vuefinder__toolbar__checkbox:hover {
-  @apply text-(--vf-accent-secondary) accent-(--vf-accent-secondary);
 }
 
 .vuefinder__toolbar__checkbox:focus {
