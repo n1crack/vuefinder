@@ -41,16 +41,13 @@
 }
 
 .vuefinder__image-preview__header {
-  @apply flex items-center mb-2;
+  @apply flex items-center mb-2 px-3 py-3 -mx-3 mt-0 mb-2;
   background-color: var(--vf-bg-secondary);
   border-bottom: 1px solid var(--vf-border-primary);
-  padding: 0.75rem;
-  margin: -0.75rem -0.75rem 0.5rem -0.75rem;
 }
 
 .vuefinder__image-preview__title {
-  @apply text-lg leading-6 font-medium;
-  color: var(--vf-text-primary);
+  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
 .vuefinder__image-preview__actions {
@@ -59,21 +56,19 @@
 
 .vuefinder .vuefinder__image-preview__crop-button {
   @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm text-base font-medium sm:ml-3 sm:w-auto sm:text-sm;
-  background-color: var(--vf-accent-primary);
-  color: var(--vf-text-inverse);
+  @apply bg-(--vf-accent-primary) text-(--vf-text-inverse);
 }
 
 .vuefinder .vuefinder__image-preview__crop-button:hover {
-  background-color: var(--vf-accent-secondary);
+  @apply bg-(--vf-accent-secondary);
 }
 
 .vuefinder .vuefinder__image-preview__edit-button {
-  @apply ml-1 px-2 py-1;
-  color: var(--vf-accent-primary);
+  @apply ml-1 px-2 py-1 text-(--vf-accent-primary);
 }
 
 .vuefinder .vuefinder__image-preview__edit-button:hover {
-  color: var(--vf-accent-secondary);
+  @apply text-(--vf-accent-secondary);
 }
 
 .vuefinder__image-preview__image-container {
