@@ -65,8 +65,7 @@
 }
 
 .vuefinder .vuefinder__about-modal__checkbox {
-  @apply h-4 w-4 rounded focus:ring-2 border-(--vf-border-primary) text-(--vf-accent-primary);
-  accent-color: var(--vf-accent-primary);
+  @apply h-4 w-4 rounded focus:ring-2 border-(--vf-border-primary) text-(--vf-accent-primary) accent-(--vf-accent-primary);
 }
 
 .vuefinder .vuefinder__about-modal__select {

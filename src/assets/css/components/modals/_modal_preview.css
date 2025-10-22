@@ -80,13 +80,11 @@
 }
 
 .vuefinder__preview-modal__loading {
-  @apply text-sm;
-  color: var(--vf-text-primary);
+  @apply text-sm text-(--vf-text-primary);
 }
 
 .vuefinder .vuefinder__preview-modal__spinner {
-  @apply animate-spin -ml-1 mr-3 h-5 w-5;
-  color: var(--vf-text-primary);
+  @apply animate-spin -ml-1 mr-3 h-5 w-5 text-(--vf-text-primary);
 }
 
 .vuefinder__preview-modal__spinner-circle {
@@ -99,11 +97,9 @@
 }
 
 .vuefinder__preview-modal__details {
-  @apply py-2 flex font-normal break-all rounded text-xs;
-  color: var(--vf-text-primary);
+  @apply py-2 flex font-normal break-all rounded text-xs text-(--vf-text-primary);
 }
 
 .vuefinder__preview-modal__note {
-  @apply text-xs;
-  color: var(--vf-text-secondary);
+  @apply text-xs text-(--vf-text-secondary);
 }

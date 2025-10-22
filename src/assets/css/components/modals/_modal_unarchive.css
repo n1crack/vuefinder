@@ -8,35 +8,29 @@
 }
 
 .vuefinder__unarchive-modal__item {
-  @apply flex text-sm;
-  color: var(--vf-text-primary);
+  @apply flex text-sm text-(--vf-text-primary);
 }
 
 .vuefinder__unarchive-modal__icon {
-  @apply h-5 w-5;
-  color: var(--vf-text-tertiary);
+  @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
 .vuefinder .vuefinder__unarchive-modal__icon--dir {
-  @apply fill-current stroke-current;
-  color: var(--vf-text-tertiary);
+  @apply fill-current stroke-current text-(--vf-text-tertiary);
 }
 
 .vuefinder .vuefinder__unarchive-modal__icon--file {
-  @apply h-5 w-5;
-  color: var(--vf-text-tertiary);
+  @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
 .vuefinder__unarchive-modal__item-name {
-  @apply ml-1.5;
-  color: var(--vf-text-primary);
+  @apply ml-1.5 text-(--vf-text-primary);
 }
 
 .vuefinder__unarchive-modal__item-name:hover {
-  color: var(--vf-text-secondary);
+  @apply text-(--vf-text-secondary);
 }
 
 .vuefinder__unarchive-modal__info {
-  @apply my-1 text-sm;
-  color: var(--vf-text-secondary);
+  @apply my-1 text-sm text-(--vf-text-secondary);
 }

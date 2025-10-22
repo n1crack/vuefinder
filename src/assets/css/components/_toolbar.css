@@ -105,13 +105,11 @@
 }
 
 .vuefinder__toolbar__radio {
-  @apply rounded text-(--vf-accent-primary);
-  accent-color: var(--vf-accent-primary);
+  @apply rounded text-(--vf-accent-primary) accent-(--vf-accent-primary);
 }
 
 .vuefinder__toolbar__radio:hover {
-  @apply text-(--vf-accent-secondary);
-  accent-color: var(--vf-accent-secondary);
+  @apply text-(--vf-accent-secondary) accent-(--vf-accent-secondary);
 }
 
 .vuefinder__toolbar__radio:focus {
@@ -131,13 +129,11 @@
 }
 
 .vuefinder__toolbar__checkbox {
-  @apply rounded text-(--vf-accent-primary);
-  accent-color: var(--vf-accent-primary);
+  @apply rounded text-(--vf-accent-primary) accent-(--vf-accent-primary);
 }
 
 .vuefinder__toolbar__checkbox:hover {
-  @apply text-(--vf-accent-secondary);
-  accent-color: var(--vf-accent-secondary);
+  @apply text-(--vf-accent-secondary) accent-(--vf-accent-secondary);
 }
 
 .vuefinder__toolbar__checkbox:focus {

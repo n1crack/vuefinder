@@ -8,37 +8,29 @@
 }
 
 .vuefinder__rename-modal__item-info {
-  @apply flex text-sm py-2;
-  color: var(--vf-text-secondary);
+  @apply flex text-sm py-2 text-(--vf-text-secondary);
 }
 
 .vuefinder__rename-modal__icon {
-  @apply h-5 w-5;
-  color: var(--vf-text-tertiary);
+  @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
 .vuefinder .vuefinder__rename-modal__icon--dir {
-  @apply fill-current stroke-current;
-  color: var(--vf-text-tertiary);
+  @apply fill-current stroke-current text-(--vf-text-tertiary);
 }
 
 .vuefinder__rename-modal__item-name {
-  @apply ml-1.5;
-  color: var(--vf-text-primary);
+  @apply ml-1.5 text-(--vf-text-primary);
 }
 
 .vuefinder__rename-modal__item-name:hover {
-  color: var(--vf-text-secondary);
+  @apply text-(--vf-text-secondary);
 }
 
 .vuefinder .vuefinder__rename-modal__input {
-  @apply px-2 py-1 border rounded w-full;
-  background-color: var(--vf-bg-primary);
-  border-color: var(--vf-border-primary);
-  color: var(--vf-text-primary);
+  @apply px-2 py-1 border rounded w-full bg-(--vf-bg-primary) border-(--vf-border-primary) text-(--vf-text-primary);
 }
 
 .vuefinder .vuefinder__rename-modal__input:focus {
-  border-color: var(--vf-border-focus);
-  ring-color: var(--vf-border-focus);
+  @apply border-(--vf-border-focus) ring-(--vf-border-focus);
 }

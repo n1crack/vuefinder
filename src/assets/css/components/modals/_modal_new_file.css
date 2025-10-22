@@ -8,18 +8,13 @@
 }
 
 .vuefinder__new-file-modal__description {
-  @apply text-sm;
-  color: var(--vf-text-secondary);
+  @apply text-sm text-(--vf-text-secondary);
 }
 
 .vuefinder .vuefinder__new-file-modal__input {
-  @apply px-2 py-1 border rounded w-full;
-  background-color: var(--vf-bg-primary);
-  border-color: var(--vf-border-primary);
-  color: var(--vf-text-primary);
+  @apply px-2 py-1 border rounded w-full bg-(--vf-bg-primary) border-(--vf-border-primary) text-(--vf-text-primary);
 }
 
 .vuefinder .vuefinder__new-file-modal__input:focus {
-  border-color: var(--vf-border-focus);
-  ring-color: var(--vf-border-focus);
+  @apply border-(--vf-border-focus) ring-(--vf-border-focus);
 }
