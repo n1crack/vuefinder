@@ -202,13 +202,22 @@ const menuItems = computed(() => [
         label: t('Copy Path'),
         action: () => {
           if (selectedItems.value.length === 1) {
+            // Seçili item varsa onun path'ini kopyala
             const item = selectedItems.value[0];
             navigator.clipboard.writeText(item.path).catch(err => {
               console.error('Failed to copy path:', err);
             });
+          } else {
+            // Seçili item yoksa mevcut path'i kopyala
+            const currentPath = fs?.path?.get();
+            if (currentPath?.path) {
+              navigator.clipboard.writeText(currentPath.path).catch(err => {
+                console.error('Failed to copy path:', err);
+              });
+            }
           }
         },
-        enabled: () => selectedItems.value.length === 1
+        enabled: () => true // Her zaman aktif
       },
       {
         id: 'copy-download-url',
@@ -225,7 +234,7 @@ const menuItems = computed(() => [
             }
           }
         },
-        enabled: () => selectedItems.value.length === 1
+        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir'
       },
       { type: 'separator' },
       {
