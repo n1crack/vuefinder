@@ -24,18 +24,18 @@
   
   --vf-border-primary: #d1d5db;
   --vf-border-secondary: #e5e7eb;
-  --vf-border-focus: #3b82f6;
+  --vf-border-focus: #aabfd7;
   --vf-border-error: #ef4444;
   
-  --vf-accent-primary: #3b82f6;
-  --vf-accent-secondary: #06b6d4;
+  --vf-accent-primary: #aabfd7;
+  --vf-accent-secondary: #c8d6e6;
   --vf-accent-success: #10b981;
   --vf-accent-warning: #f59e0b;
   --vf-accent-error: #ef4444;
   
   --vf-interactive-hover: #f3f4f6;
   --vf-interactive-active: #e5e7eb;
-  --vf-interactive-focus: #dbeafe;
+  --vf-interactive-focus: #e8eff7;
   
   --vf-shadow-sm: rgba(0, 0, 0, 0.05);
   --vf-shadow-md: rgba(0, 0, 0, 0.1);
