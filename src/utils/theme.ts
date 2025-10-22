@@ -44,7 +44,7 @@ export const themes: ThemeConfig[] = [
   },
   {
     name: 'lime',
-    displayName: 'Night Bright Lime',
+    displayName: 'Dark Lime',
     description: 'Dark theme with bright lime accents'
   },
   {

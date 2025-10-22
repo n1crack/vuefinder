@@ -29,7 +29,7 @@ const themes = [
   { value: 'latte', label: 'Latte' },
   { value: 'rose', label: 'Rose' },
   { value: 'mythril', label: 'Mythril' },
-  { value: 'lime', label: 'Night Bright Lime' },
+  { value: 'lime', label: 'Dark Lime' },
   { value: 'sky', label: 'Sky' },
   { value: 'ocean', label: 'Oceanic' },
   { value: 'palenight', label: 'Palenight' },
