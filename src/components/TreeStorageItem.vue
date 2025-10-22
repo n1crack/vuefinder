@@ -75,7 +75,7 @@ function selectOrToggle(storage: string) {
     <div class="vuefinder__treestorageitem__loader" @click.stop="showSubFolders = !showSubFolders">
       <FolderLoaderIndicator :storage="storage" :path="storage + '://'" v-model="showSubFolders" />
     </div>
-  </div>
+  </div> 
   <TreeSubfolderList :storage="storage" :path="storage + '://'" v-show="showSubFolders" class="vuefinder__treestorageitem__subfolder" />
 </template>
 

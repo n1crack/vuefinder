@@ -56,7 +56,7 @@ const fetchSubFolders = () => {
     <LoadingSVG v-if="loading" class="vuefinder__folder-loader-indicator--loading"/>
     <div class="vuefinder__folder-loader-indicator--icon" v-else>
       <SquareMinusSVG class="vuefinder__folder-loader-indicator--minus"
-                      v-if="opened && getLoadedFolder()?.folders.length"/>
+                      v-if="opened"/>
       <SquarePlusSVG class="vuefinder__folder-loader-indicator--plus" v-if="!opened"/>
     </div>
 

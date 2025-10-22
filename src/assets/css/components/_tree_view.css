@@ -16,6 +16,16 @@
   @apply h-full border-r pb-4 border-(--vf-border-primary);
 }
 
+/* Global Pinned List Styling - Works for all themes */
+.vuefinder__treeview__pinned-list {
+  @apply bg-(--vf-bg-primary) p-2 rounded-lg border border-(--vf-border-primary) mb-2;
+}
+
+/* No Folders Message Styling */
+.vuefinder__treesubfolderlist__no-folders {
+  @apply text-center py-1 px-2 text-(--vf-text-tertiary) text-sm italic;
+}
+
 .vuefinder__treeview__header {
   @apply sticky left-0 border-(--vf-border-primary);
 }
@@ -33,7 +43,7 @@
 }
 
 .vuefinder__treeview__pinned-list {
-  @apply block my-1;
+  @apply block py-1;
 }
 
 .vuefinder__treeview__pinned-item {
@@ -161,5 +171,5 @@
 }
 
 .vuefinder__treestorageitem__subfolder {
-  @apply overflow-x-auto my-1;
+  @apply overflow-x-auto py-1;
 }

@@ -12,6 +12,7 @@ const app = inject('ServiceContainer');
 const fs = app.fs;
 const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 const showSubFolders = ref<Record<string, boolean>>({});
+const {t} = app.i18n;
 
 // Make path reactive
 const currentPath = useStore(fs.path);
@@ -39,6 +40,9 @@ const treeSubFolders = computed(() => {
 
 <template>
   <ul ref="parentSubfolderList" class="vuefinder__treesubfolderlist__container">
+    <li v-if="!treeSubFolders.length">
+        <div class="vuefinder__treesubfolderlist__no-folders">{{ t('Empty') }}</div>
+    </li>
     <li
         v-for="item in treeSubFolders"
         :key="item.path"

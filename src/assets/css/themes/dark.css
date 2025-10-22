@@ -49,8 +49,12 @@
 
 /* Dark Theme - Tree View */
 .vuefinder[data-theme="dark"] .vuefinder__treestorageitem__header {
-  background-color: var(--vf-bg-primary);
+  @apply bg-(--vf-bg-primary);
   opacity: 0.5;
+}
+
+.vuefinder[data-theme="dark"] .vuefinder__treestorageitem__subfolder {
+  @apply bg-(--vf-bg-primary);
 }
 
 /* Dark Theme - Item Icons */
