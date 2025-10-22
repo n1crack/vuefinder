@@ -99,6 +99,7 @@ export default {
     "Select All": "Seleccionar todo",
     "Pinned Folders": "Carpetas fijadas",
     "No folders pinned": "No hay carpetas fijadas",
+    "No folders": "No hay carpetas",
     "Pin Folder": "Fijar carpeta",
     "Unpin Folder": "Desfijar carpeta",
     "Project home": "Inicio del proyecto",

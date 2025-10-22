@@ -6,11 +6,11 @@
 }
 
 .vuefinder__explorer__header {
-    @apply grid grid-cols-12 px-1 bg-gray-50 dark:bg-gray-800 border-b border-neutral-300 dark:border-gray-700 text-xs select-none divide-x;
+    @apply grid grid-cols-12 px-1 border-b text-xs select-none divide-x bg-(--vf-bg-secondary) border-(--vf-border-primary);
 }
 
 .vuefinder__explorer__sort-button {
-    @apply cursor-pointer border-gray-300 dark:border-gray-700;
+    @apply cursor-pointer border-(--vf-border-primary);
 }
 
 .vuefinder__explorer__sort-button--name {
@@ -75,24 +75,27 @@
 }
 
 .vf-explorer-item-list {
-    @apply relative grid grid-cols-1 border hover:bg-neutral-50 dark:hover:bg-gray-700 border-transparent my-0.5 w-full select-none pointer-events-auto;
+    @apply relative grid grid-cols-1 border my-0.5 w-full select-none pointer-events-auto bg-transparent border-transparent;
+}
+
+.vf-explorer-item-list:hover {
+    @apply bg-(--vf-bg-hover);
 }
 
 .vf-explorer-item-grid {
-    @apply relative m-1 w-[5.5rem] h-20 md:w-24 border border-transparent hover:bg-neutral-50 dark:hover:bg-gray-700 inline-flex text-center justify-center select-none pointer-events-auto;
+    @apply relative m-1 w-[5.5rem] h-20 md:w-24 border inline-flex text-center justify-center select-none pointer-events-auto bg-transparent border-transparent;
+}
+
+.vf-explorer-item-grid:hover {
+    @apply bg-(--vf-bg-hover);
 }
 
 .vf-explorer-selected {
-  @apply bg-neutral-100 border border-neutral-300;
-}
-
-.dark .vf-explorer-selected {
-  @apply bg-slate-700 border border-slate-600;
+  @apply bg-(--vf-bg-selected) border-(--vf-border-primary);
 }
 
 .vuefinder__explorer__scrollbar-container {
-    @apply p-1 top-[33px] h-[calc(100%-33px)]
-    absolute right-0 z-[10] pointer-events-none  ;   
+    @apply p-1 top-[33px] h-[calc(100%-33px)] absolute right-0 z-[10] pointer-events-none;   
 }
 .vuefinder__explorer__scrollbar-container.grid-view:not(.search-active) {
     @apply top-0 h-full;
@@ -118,5 +121,5 @@
 
 /* Linear loader */
 .vuefinder__linear-loader {
-    @apply absolute h-1 bg-blue-500 dark:bg-blue-400 animate-pulse;
+    @apply absolute h-1 animate-pulse bg-(--vf-accent-primary);
 }

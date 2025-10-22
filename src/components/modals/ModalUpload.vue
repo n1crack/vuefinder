@@ -142,7 +142,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
         </div>
 
         <!-- Drag and drop hint -->
-        <div class="hidden sm:block text-sm lg:text-base text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">
+        <div class="vuefinder__upload-modal__drag-hint">
           {{ t('You can drag & drop files anywhere while this modal is open.') }}
         </div>
 

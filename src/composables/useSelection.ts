@@ -2,6 +2,7 @@ import { inject, ref, onMounted, onUnmounted, type Ref } from 'vue';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import type { DirEntry } from '@/types';
 import { useStore } from '@nanostores/vue';
+import { getCurrentTheme } from '../utils/theme';
 
 export interface UseSelectionDeps<T> {
     getItemPosition: (itemIndex: number) => { row: number; col: number };
@@ -110,8 +111,11 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     
     const onStart = ({ event, selection }: SelectionEvent) => {
         deltaY.value =  (selectionObject.value?.getAreaLocation().y1 ?? 0) - ((app.root as HTMLElement).getBoundingClientRect().top ?? 0) 
-         
 
+        const selectionAreaContainerElement = document.querySelector('.selection-area-container');
+        if (selectionAreaContainerElement) {
+            selectionAreaContainerElement.dataset.theme = getCurrentTheme();
+        }
         // Disable drag selection in single mode
         if (app.selectionMode === 'single') {
             return;

@@ -1,14 +1,18 @@
 @layer theme, base, components, utilities;
 
 @import "tailwindcss/theme.css" layer(theme);
+
 .vuefinder {
-  @import "tailwindcss/preflight.css" layer(base);
+    @import "tailwindcss/preflight.css" layer(base);
 }
+
 @import "tailwindcss/utilities.css" layer(utilities);
 
+@import "./_themes.css";
 @import "./_effects.css";
 @import "./_forms.css";
 @import "./_scrollbars.css";
+@import "./_drag_over.css";
 
 /** Previews */
 @import "./_previews.css";
@@ -64,14 +68,9 @@
     --os-handle-interactive-area-offset: 4px;
     --os-handle-border-radius: 10px;
 
-    --os-handle-bg: rgba(0, 0, 0, 0.24);
-    --os-handle-bg-hover: rgba(0, 0, 0, 0.35);
-    --os-handle-bg-active: rgba(0, 0, 0, 0.66);
-    @variant dark {
-        --os-handle-bg: rgba(255, 255, 255, 0.24);
-        --os-handle-bg-hover: rgba(255, 255, 255, 0.35);
-        --os-handle-bg-active: rgba(255, 255, 255, 0.66);
-    } 
+    --os-handle-bg: var(--vf-shadow-sm);
+    --os-handle-bg-hover: var(--vf-shadow-md);
+    --os-handle-bg-active: var(--vf-shadow-lg);
 }
 
 @layer base {
@@ -80,7 +79,7 @@
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-gray-200, currentColor);
+        border-color: var(--vf-border-primary, currentColor);
     }
 
     .vuefinder {
@@ -90,21 +89,21 @@
             touch-action: manipulation;
         }
 
-        .vuefinder.dark {
-            color-scheme: dark;
+        .vuefinder {
+            color-scheme: auto;
         }
-        
+
         kbd {
-            @apply px-2 py-1 text-xs font-semibold text-gray-500 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-300 dark:border-gray-500;
+            @apply px-2 py-1 text-xs font-semibold rounded-lg border bg-(--vf-bg-secondary) text-(--vf-text-secondary) border-(--vf-border-primary);
         }
     }
 
     .vuefinder:has(.vuefinder__main__fixed) {
         @apply z-50;
     }
-     
-    .selection-area { 
-        @apply bg-slate-300 opacity-50 !border !border-slate-500 rounded-sm;
+
+    .selection-area {
+        @apply opacity-50 !border rounded-sm bg-(--vf-selection-bg) border-(--vf-selection-border);
     }
 
     .selection-area-container {

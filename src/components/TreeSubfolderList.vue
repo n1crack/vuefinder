@@ -10,8 +10,9 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
 const fs = app.fs;
-const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 const showSubFolders = ref<Record<string, boolean>>({});
+const {t} = app.i18n;
 
 // Make path reactive
 const currentPath = useStore(fs.path);
@@ -39,6 +40,9 @@ const treeSubFolders = computed(() => {
 
 <template>
   <ul ref="parentSubfolderList" class="vuefinder__treesubfolderlist__container">
+    <li v-if="!treeSubFolders.length">
+        <div class="vuefinder__treesubfolderlist__no-folders">{{ t('No folders') }}</div>
+    </li>
     <li
         v-for="item in treeSubFolders"
         :key="item.path"
@@ -60,7 +64,7 @@ const treeSubFolders = computed(() => {
             @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: props.storage, path:item.path}})"
         >
           <div class="vuefinder__treesubfolderlist__item-icon">
-            <OpenFolderSVG v-if="currentPath?.path === item.path"/>
+            <OpenFolderSVG class="vuefinder__item-icon__folder--open" v-if="currentPath?.path === item.path"/>
             <FolderSVG class="vuefinder__item-icon__folder" v-else/>
           </div>
           <div

@@ -8,25 +8,33 @@
 }
 
 .vuefinder__archive-modal__files {
-  @apply text-gray-500 text-sm mb-1 overflow-auto max-h-[200px];
+  @apply text-sm mb-1 overflow-auto max-h-[200px] text-(--vf-text-secondary);
 }
 
 .vuefinder__archive-modal__file {
-  @apply flex text-sm text-gray-800 dark:text-gray-400;
+  @apply flex text-sm text-(--vf-text-primary);
 }
 
 .vuefinder__archive-modal__icon {
-  @apply h-5 w-5 text-neutral-500;
+  @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
 .vuefinder .vuefinder__archive-modal__icon--dir {
-  @apply fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500;
+  @apply fill-current stroke-current text-(--vf-text-tertiary);
 }
 
 .vuefinder__archive-modal__file-name {
-  @apply ml-1.5;
+  @apply ml-1.5 text-(--vf-text-primary);
+}
+
+.vuefinder__archive-modal__file-name:hover {
+  @apply text-(--vf-text-secondary);
 }
 
 .vuefinder .vuefinder__archive-modal__input {
-  @apply my-1 px-2 py-1 border rounded dark:bg-gray-700/25 dark:border-gray-600 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:text-gray-100 w-full;
+  @apply my-1 px-2 py-1 border rounded w-full bg-(--vf-bg-primary) border-(--vf-border-primary) text-(--vf-text-primary);
+}
+
+.vuefinder .vuefinder__archive-modal__input:focus {
+  @apply border-(--vf-border-focus) ring-(--vf-border-focus);
 }

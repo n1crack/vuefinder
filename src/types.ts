@@ -4,6 +4,7 @@ export type ServiceContainer = any;
 import type { RequestConfig } from "./utils/ajax";
 import type { Item as ContextMenuItem } from "./utils/contextmenu";
 import type ServiceContainer from "./ServiceContainer";
+import type { Theme } from "./utils/theme";
 
 
 export type App = ReturnType<typeof ServiceContainer>
@@ -14,7 +15,7 @@ export interface VueFinderProps {
   request: string | RequestConfig;
   features?: boolean | string[];
   debug?: boolean;
-  theme?: "system" | "light" | "dark";
+  theme?: Theme;
   locale?: string;
   contextMenuItems?: ContextMenuItem[];
   selectionMode?: "single" | "multiple";

@@ -4,7 +4,7 @@
 }
 
 .vuefinder__modal-layout__overlay {
-  @apply fixed inset-0 bg-gray-500/75 dark:bg-gray-600/75 transition-opacity;
+  @apply fixed inset-0 transition-opacity bg-(--vf-overlay-bg);
 }
 
 .vuefinder__modal-layout__container {
@@ -16,56 +16,23 @@
 }
 
 .vuefinder__modal-layout__body {
-  @apply relative bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-3xl w-full;
+  @apply relative rounded-lg text-left overflow-hidden transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-3xl w-full bg-(--vf-bg-primary);
+  box-shadow: 0 20px 25px -5px var(--vf-shadow-modal), 0 10px 10px -5px var(--vf-shadow-md);
 }
 
 .vuefinder__modal-layout__content {
-  @apply bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4;
+  @apply px-4 pt-5 pb-4 sm:p-6 sm:pb-4 bg-(--vf-bg-primary);
 }
 
 .vuefinder__modal-layout__footer {
-  @apply bg-gray-50 dark:bg-gray-800 dark:border-t dark:border-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse;
+  @apply px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse bg-(--vf-bg-secondary) border-(--vf-border-primary);
 }
 
 /* Modal drag overlay - full screen coverage */
 .vuefinder__modal-drag-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(17, 24, 39, 0.3);
-  border: 2px dashed rgba(75, 85, 99, 0.8);
-  border-radius: 12px;
-  z-index: 9999;
-  pointer-events: none;
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dark .vuefinder__modal-drag-overlay {
-  background: rgba(0, 0, 0, 0.4);
-  border-color: rgba(107, 114, 128, 0.9);
+  @apply fixed top-0 left-0 right-0 bottom-0 rounded-xl z-[9999] pointer-events-none backdrop-blur-md flex items-center justify-center bg-(--vf-overlay-bg) border-2 border-dashed border-(--vf-overlay-border);
 }
 
 .vuefinder__modal-drag-message {
-  background: transparent;
-  color: #6b7280;
-  padding: 20px 40px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 18px;
-  border: 3px dashed rgba(75, 85, 99, 0.8);
-  backdrop-filter: blur(4px);
-  min-height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dark .vuefinder__modal-drag-message {
-  color: #9ca3af;
-  border-color: rgba(107, 114, 128, 0.9);
+  @apply bg-transparent text-(--vf-overlay-text) px-10 py-5 rounded-xl font-semibold text-lg border-3 border-dashed border-(--vf-overlay-border) backdrop-blur-sm min-h-[60px] flex items-center justify-center;
 }

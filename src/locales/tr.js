@@ -99,6 +99,7 @@ export default {
     "Select All": "Hepsini Seç",
     "Pinned Folders": "Sabitlenmiş Klasörler",
     "No folders pinned": "Sabitlenmiş klasör yok",
+    "No folders": "Klasör yok",
     "Pin Folder": "Klasörü Sabitle",
     "Unpin Folder": "Sabitlemeyi Kaldır",
     "Project home": "Proje ana sayfası",

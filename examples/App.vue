@@ -20,6 +20,23 @@ const examples = {
   selectionFilter: "Selection Filter Demo"
 }
 
+// Theme management
+const currentTheme = ref('light')
+const themes = [
+  { value: 'light', label: 'Light' },
+  { value: 'dark', label: 'Dark' },
+  { value: 'midnight', label: 'Midnight' },
+  { value: 'latte', label: 'Latte' },
+  { value: 'rose', label: 'Rose' },
+  { value: 'mythril', label: 'Mythril' },
+  { value: 'lime', label: 'Dark Lime' },
+  { value: 'sky', label: 'Sky' },
+  { value: 'ocean', label: 'Oceanic' },
+  { value: 'palenight', label: 'Palenight' },
+  { value: 'arctic', label: 'Arctic' },
+  { value: 'code', label: 'Code' }
+]
+
 // Check if we're in a popup window
 const isPopup = computed(() => {
   return new URLSearchParams(window.location.search).get('popup') === 'true';
@@ -293,6 +310,18 @@ const openPopupWindow = () => {
       </div>
 
       <div style="font-weight: bold;padding: 10px">{{ examples[example] }}</div>
+      
+      <!-- Theme Selector -->
+      <div style="margin-top: 1rem; margin-bottom: 1rem;">
+        <label for="theme">
+          Theme
+        </label>
+        <div>
+          <select id="theme" v-model="currentTheme">
+            <option v-for="theme in themes" :key="theme.value" :value="theme.value">{{ theme.label }}</option>
+          </select>
+        </div>
+      </div>
     </div>
 
     <!-- Popup mode: Show only VueFinder -->
@@ -305,6 +334,7 @@ const openPopupWindow = () => {
             maxFileSize: maxFileSize,
         }"
         :features="features"
+        :theme="currentTheme"
         @path-change="handlePathChange"
         @select="handlePopupSelect"
       >
@@ -333,6 +363,7 @@ const openPopupWindow = () => {
             maxFileSize: maxFileSize, 
         }"
         :features="features"
+        :theme="currentTheme"
         @path-change="handlePathChange"
       >
       
@@ -363,6 +394,7 @@ const openPopupWindow = () => {
             loadingIndicator: 'linear'
           }"
           :features="features"
+          :theme="currentTheme"
           @select="handleSelect"
         />
 
@@ -386,6 +418,7 @@ const openPopupWindow = () => {
           maxFileSize: maxFileSize,
         }"
         :features="features"
+        :theme="currentTheme"
         :context-menu-items="customContextMenuItems"
       />
 
@@ -397,6 +430,7 @@ const openPopupWindow = () => {
           maxFileSize: maxFileSize
         }"
         :features="features"
+        :theme="currentTheme"
       >
         <template #icon="{ item }">
             <TextIcon class="vuefinder__item-icon__file" v-if="item.extension === 'txt'" />
@@ -506,6 +540,7 @@ const openPopupWindow = () => {
             maxFileSize: maxFileSize,
           }"
           :features="features"
+          :theme="currentTheme"
           @select="onSelectEvents"
           @path-change="onPathChangeEvents"
           @upload-complete="onUploadCompleteEvents"
@@ -557,6 +592,7 @@ const openPopupWindow = () => {
             maxFileSize: maxFileSize,
           }"
           :features="features"
+          :theme="currentTheme"
           @file-dclick="onCustomFileDclick"
           @folder-dclick="onCustomFolderDclick"
         />
@@ -601,6 +637,7 @@ const openPopupWindow = () => {
             maxFileSize: maxFileSize,
           }"
           :features="features"
+          :theme="currentTheme"
           selection-mode="single"
           @select="handleSingleSelection"
         />
@@ -706,6 +743,7 @@ const openPopupWindow = () => {
             maxFileSize: maxFileSize,
           }"
           :features="features"
+          :theme="currentTheme"
           :selection-filter-type="selectionFilterType"
           :selection-filter-mime-includes="selectionFilterMimeIncludes"
           @select="handleSelectionFilter"

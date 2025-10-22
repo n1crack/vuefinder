@@ -12,7 +12,7 @@
 }
 
 .vuefinder .vuefinder__main__container {
-  @apply  min-h-44 h-full border flex flex-col bg-white dark:bg-gray-800 text-gray-700 dark:text-neutral-400 border-neutral-300 dark:border-gray-900 select-none;
+  @apply min-h-44 h-full border flex flex-col select-none bg-(--vf-bg-primary) text-(--vf-text-primary) border-(--vf-border-primary);
 }
 
 .vuefinder__main__content {
@@ -20,43 +20,9 @@
 }
  
 .vuefinder__external-drop-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(17, 24, 39, 0.3);
-  border: 2px dashed rgba(75, 85, 99, 0.8);
-  border-radius: 12px;
-  z-index: 1000;
-  pointer-events: none;
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dark .vuefinder__external-drop-overlay {
-  background: rgba(0, 0, 0, 0.4);
-  border-color: rgba(107, 114, 128, 0.9);
+  @apply fixed top-0 left-0 right-0 bottom-0 rounded-xl z-[1000] pointer-events-none backdrop-blur-md flex items-center justify-center bg-(--vf-overlay-bg) border-2 border-dashed border-(--vf-overlay-border);
 }
 
 .vuefinder__external-drop-message {
-  background: transparent;
-  color: #6b7280;
-  padding: 20px 40px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 18px;
-  border: 3px dashed rgba(75, 85, 99, 0.8);
-  backdrop-filter: blur(4px);
-  min-height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dark .vuefinder__external-drop-message {
-  color: #9ca3af;
-  border-color: rgba(107, 114, 128, 0.9);
+  @apply bg-transparent text-(--vf-overlay-text) px-10 py-5 rounded-xl font-semibold text-lg border-3 border-dashed border-(--vf-overlay-border) backdrop-blur-sm min-h-[60px] flex items-center justify-center;
 }

@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import {computed, inject, ref} from 'vue';
-import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import ActionMessage from "../../components/ActionMessage.vue";
 import {format as filesizeDefault, metricFormat as filesizeMetric} from '../../utils/filesize'
+import { themes, getThemeConfig, getCurrentTheme, type Theme } from '../../utils/theme';
 
 import AboutSVG from "../../assets/icons/gear.svg";
 import {FEATURES} from '../../features';
 
 const app = inject('ServiceContainer');
+const setTheme = inject('setTheme');
 const config = app.config;
 const {clearStore} = app.storage;
 const {t} = app.i18n;
@@ -37,8 +38,10 @@ const clearLocalStorage = async () => {
     location.reload();
 };
 
-const handleTheme = (key: string) => {
-  app.theme.set(key);
+const handleTheme = (themeName: Theme) => {
+  if (setTheme) {
+    setTheme(themeName);
+  }
   app.emitter.emit('vf-theme-saved');
 }
 
@@ -92,11 +95,12 @@ const supportedLanguages = Object.fromEntries(
     Object.entries(languageList).filter(([key]) => Object.keys(i18n).includes(key))
 );
 
-const themes = computed(() => ({
-  system: t('System'),
-  light: t('Light'),
-  dark: t('Dark'),
-}));
+const themeOptions = computed(() => {
+  return themes.reduce((acc, theme) => {
+    acc[theme.name] = theme.displayName;
+    return acc;
+  }, {} as Record<string, string>);
+});
 
 </script>
 
@@ -201,11 +205,11 @@ const themes = computed(() => ({
                   </label>
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
-                  <select id="theme" v-model="app.theme.value"
-                          @change="(event) => handleTheme((event.target as HTMLSelectElement)?.value || '')"
+                  <select id="theme" :value="getCurrentTheme()"
+                          @change="(event) => handleTheme((event.target as HTMLSelectElement)?.value as Theme)"
                           class="vuefinder__about-modal__select">
                     <optgroup :label="t('Theme')">
-                      <option v-for="(name, key) in themes" :value="key">{{ name }}</option>
+                      <option v-for="(name, key) in themeOptions" :value="key">{{ name }}</option>
                     </optgroup>
                   </select>
                   <action-message class="ms-3" on="vf-theme-saved">{{ t('Saved.') }}</action-message>

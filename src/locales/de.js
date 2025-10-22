@@ -99,6 +99,7 @@ export default {
     "Select All": "Alle auswählen",
     "Pinned Folders": "Angeheftete Ordner",
     "No folders pinned": "Keine Ordner angeheftet",
+    "No folders": "Keine Ordner",
     "Pin Folder": "Ordner anheften",
     "Unpin Folder": "Ordner lösen",
     "Project home": "Projekt-Startseite",

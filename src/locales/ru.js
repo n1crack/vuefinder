@@ -99,6 +99,7 @@ export default {
     "Select All": "Выбрать все",
     "Pinned Folders": "Закрепленные папки",
     "No folders pinned": "Нет закрепленных папок",
+    "No folders": "Нет папок",
     "Pin Folder": "Закрепить папку",
     "Unpin Folder": "Открепить папку",
     "Project home": "Домашняя страница проекта",

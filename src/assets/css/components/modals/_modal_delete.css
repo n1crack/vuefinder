@@ -8,29 +8,33 @@
 }
 
 .vuefinder__delete-modal__description {
-  @apply text-sm text-gray-500;
+  @apply text-sm text-(--vf-text-secondary);
 }
 
 .vuefinder__delete-modal__files {
-  @apply text-gray-500 text-sm mb-1 overflow-auto max-h-[200px];
+  @apply text-sm mb-1 overflow-auto max-h-[200px] text-(--vf-text-secondary);
 }
 
 .vuefinder__delete-modal__file {
-  @apply flex text-sm text-gray-800 dark:text-gray-400;
+  @apply flex text-sm text-(--vf-text-primary);
 }
 
 .vuefinder__delete-modal__icon {
-  @apply h-5 w-5 text-neutral-500;
+  @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
 .vuefinder .vuefinder__delete-modal__icon--dir {
-  @apply fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500;
+  @apply fill-current stroke-current text-(--vf-text-tertiary);
 }
 
 .vuefinder__delete-modal__file-name {
-  @apply ml-1.5;
+  @apply ml-1.5 text-(--vf-text-primary);
+}
+
+.vuefinder__delete-modal__file-name:hover {
+  @apply text-(--vf-text-secondary);
 }
 
 .vuefinder__delete-modal__warning {
-  @apply m-auto font-bold text-red-500 text-sm dark:text-red-200 text-center;
+  @apply m-auto font-bold text-sm text-center text-(--vf-accent-danger);
 }

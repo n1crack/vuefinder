@@ -88,7 +88,7 @@ const selectFolderAndClose = () => {
         @dblclick="selectFolderAndClose"
       >
         <FolderSVG v-if="!isExpanded" class="vuefinder__modal-tree__folder-icon vuefinder__item-icon__folder"/>
-        <OpenFolderSVG v-else class="vuefinder__modal-tree__folder-icon"/>
+        <OpenFolderSVG v-else class="vuefinder__item-icon__folder--open vuefinder__modal-tree__folder-icon"/>
         <span class="vuefinder__modal-tree__folder-text">{{ folder.basename }}</span>
       </div>
     </div>

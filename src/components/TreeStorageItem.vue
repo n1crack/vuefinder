@@ -15,7 +15,7 @@ const props = defineProps<{
   storage: string
 }>()
 
-const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 
 // Make path reactive
 const currentPath = useStore(fs.path);
@@ -75,7 +75,7 @@ function selectOrToggle(storage: string) {
     <div class="vuefinder__treestorageitem__loader" @click.stop="showSubFolders = !showSubFolders">
       <FolderLoaderIndicator :storage="storage" :path="storage + '://'" v-model="showSubFolders" />
     </div>
-  </div>
+  </div> 
   <TreeSubfolderList :storage="storage" :path="storage + '://'" v-show="showSubFolders" class="vuefinder__treestorageitem__subfolder" />
 </template>
 

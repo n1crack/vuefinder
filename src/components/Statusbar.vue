@@ -63,7 +63,7 @@ const totalSelectedSize = computed(() => {
     <div class="vuefinder__status-bar__actions"> 
       <slot name="actions" :path="currentPath.path" :count="selectedCount || 0" :selected="selectedItems || []"></slot>
       <span class="vuefinder__status-bar__about" :title="t('About')" @click="app.modal.open(ModalAbout)">
-        <AboutSVG/>
+        <AboutSVG class="h-5 w-5 stroke-slate-500 cursor-pointer"/>
       </span>
     </div>
   </div>

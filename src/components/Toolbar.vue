@@ -253,7 +253,7 @@ const resetFilters = () => {
     <div class="vuefinder__toolbar__search-results" v-if="searchState.query">
       <div class="pl-2">
         {{ t('Search results for') }}
-        <span class="dark:bg-gray-700 bg-gray-200 text-xs px-2 py-1 rounded">{{ searchState.query }}</span>
+        <span class="text-xs px-2 py-1 rounded" style="background-color: var(--vf-bg-secondary);">{{ searchState.query }}</span>
       </div>
       <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && fs.isLoading()"/>
     </div>
@@ -329,8 +329,8 @@ const resetFilters = () => {
           class="mx-1.5"
           :title="t('Toggle Full Screen')"
       >
-        <MinimizeSVG v-if="configState.fullScreen"/>
-        <FullscreenSVG v-else/>
+        <MinimizeSVG class="vf-toolbar-icon" v-if="configState.fullScreen"/>
+        <FullscreenSVG class="vf-toolbar-icon" v-else/>
       </div>
 
       <div

@@ -1,0 +1,75 @@
+/* Palenight Theme */
+.vuefinder[data-theme="palenight"] {
+  --vf-selection-bg: #263238;
+  --vf-selection-border: #c792ea;
+  /* Background Colors */
+  --vf-bg-primary: #263238;
+  --vf-bg-secondary: #1e2326;
+  --vf-bg-tertiary: #2c3e50;
+  --vf-bg-hover: #1e2326;
+  --vf-bg-selected: #2c3e50;
+  --vf-bg-disabled: #1e2326;
+  
+  /* Text Colors */
+  --vf-text-primary: #a6accd;
+  --vf-text-secondary: #a78bfa;
+  --vf-text-tertiary: #676e95;
+  --vf-text-disabled: #676e95;
+  --vf-text-inverse: #263238;
+  
+  /* Border Colors */
+  --vf-border-primary: #2c3e50;
+  --vf-border-secondary: #34495e;
+  --vf-border-focus: #c792ea;
+  --vf-border-disabled: #34495e;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #c792ea;
+  --vf-accent-secondary: #a78bfa;
+  --vf-accent-tertiary: #8b5cf6;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #2c3e50;
+  --vf-interactive-active: #c792ea;
+  --vf-interactive-focus: #2c3e50;
+  
+  --vf-shadow-sm: rgba(199, 146, 234, 0.15);
+  --vf-shadow-md: rgba(199, 146, 234, 0.2);
+  --vf-shadow-lg: rgba(199, 146, 234, 0.25);
+  
+  --vf-overlay-bg: rgba(30, 35, 38, 0.9);
+  --vf-overlay-border: rgba(199, 146, 234, 0.7);
+  --vf-overlay-text: #c792ea;
+}
+
+/* Palenight Theme - Selection Area */
+.selection-area-container[data-theme="palenight"] {
+  --vf-selection-bg: #263238;
+  --vf-selection-border: #c792ea;
+}
+
+/* Palenight Theme - Context Menu */
+.vuefinder[data-theme="palenight"] .vuefinder__context-menu {
+    border-color: #34495e;
+    box-shadow: 0 4px 6px -1px rgba(199, 146, 234, 0.05), 0 2px 4px -1px rgba(199, 146, 234, 0.03);
+}
+
+/* Palenight Theme - Tree View */
+.vuefinder[data-theme="palenight"] .vuefinder__treestorageitem__header {
+  background-color: var(--vf-bg-secondary);
+}
+
+/* Palenight Theme - Item Icons */
+.vuefinder[data-theme="palenight"] .vuefinder__item-icon__folder {
+  fill: #8b5cf6;
+  stroke: #8b5cf6;
+}
+
+.vuefinder[data-theme="palenight"] .vuefinder__item-icon__folder--open {
+  fill: #8b5cf6;
+  stroke: #8b5cf6;
+}
+
+.vuefinder[data-theme="palenight"] .vuefinder__item-icon {
+  color: #a78bfa;
+}

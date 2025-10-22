@@ -8,25 +8,29 @@
 }
 
 .vuefinder__unarchive-modal__item {
-  @apply flex text-sm text-gray-800 dark:text-gray-400;
+  @apply flex text-sm text-(--vf-text-primary);
 }
 
 .vuefinder__unarchive-modal__icon {
-  @apply h-5 w-5 text-neutral-500;
+  @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
 .vuefinder .vuefinder__unarchive-modal__icon--dir {
-  @apply fill-sky-500 stroke-sky-500 dark:fill-slate-500 dark:stroke-slate-500;
+  @apply fill-current stroke-current text-(--vf-text-tertiary);
 }
 
 .vuefinder .vuefinder__unarchive-modal__icon--file {
-  @apply h-5 w-5 text-neutral-500;
+  @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
 .vuefinder__unarchive-modal__item-name {
-  @apply ml-1.5;
+  @apply ml-1.5 text-(--vf-text-primary);
+}
+
+.vuefinder__unarchive-modal__item-name:hover {
+  @apply text-(--vf-text-secondary);
 }
 
 .vuefinder__unarchive-modal__info {
-  @apply my-1 text-sm text-gray-500;
+  @apply my-1 text-sm text-(--vf-text-secondary);
 }

@@ -3,6 +3,10 @@
   @apply absolute -z-50 -top-96;
 }
 
+.vuefinder__drag-item__icon {
+  @apply absolute h-6 w-6 md:h-12 md:w-12 m-auto z-10 stroke-(--vf-text-tertiary) fill-(--vf-bg-primary);
+}
+
 .vuefinder__drag-item__count {
-  @apply text-neutral-700 dark:text-neutral-300 p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs;
+  @apply p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs text-(--vf-text-primary);
 }

@@ -1,0 +1,77 @@
+/* Midnight Theme */
+.vuefinder[data-theme="midnight"] {
+  --vf-selection-bg: #334155;
+  --vf-selection-border: #334155;
+  /* Background Colors */
+  --vf-bg-primary: #0f172a;
+  --vf-bg-secondary: #1e293b;
+  --vf-bg-tertiary: #334155;
+  --vf-bg-hover: #334155;
+  --vf-bg-selected: #475569;
+  --vf-bg-disabled: #334155;
+  
+  /* Text Colors */
+  --vf-text-primary: #f1f5f9;
+  --vf-text-secondary: #cbd5e1;
+  --vf-text-tertiary: #94a3b8;
+  --vf-text-disabled: #64748b;
+  --vf-text-inverse: #0f172a;
+  
+  /* Border Colors */
+  --vf-border-primary: #334155;
+  --vf-border-secondary: #475569;
+  --vf-border-focus: #0ea5e9;
+  --vf-border-error: #f87171;
+  
+  /* Accent Colors */
+  --vf-accent-primary: #0ea5e9;
+  --vf-accent-secondary: #06b6d4;
+  --vf-accent-success: #22c55e;
+  --vf-accent-warning: #eab308;
+  --vf-accent-error: #f87171;
+  
+  /* Interactive Colors */
+  --vf-interactive-hover: #334155;
+  --vf-interactive-active: #475569;
+  --vf-interactive-focus: #0c4a6e;
+  
+  /* Shadow Colors */
+  --vf-shadow-sm: rgba(0, 0, 0, 0.4);
+  --vf-shadow-md: rgba(0, 0, 0, 0.5);
+  --vf-shadow-lg: rgba(0, 0, 0, 0.6);
+  --vf-shadow-modal: rgba(0, 0, 0, 0.5);
+  
+  /* Overlay Colors */
+  --vf-overlay-bg: rgba(0, 0, 0, 0.5);
+  --vf-overlay-border: rgba(100, 116, 139, 0.8);
+  --vf-overlay-text: #94a3b8;
+}
+
+/* Midnight Theme - Selection Area */
+.selection-area-container[data-theme="midnight"] {
+  --vf-selection-bg: #334155;
+  --vf-selection-border: #0ea5e9;
+}
+
+/* Midnight Theme - Context Menu */
+.vuefinder[data-theme="midnight"] .vuefinder__context-menu {
+    border-color: #475569;
+    box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
+}
+
+/* Midnight Theme - Tree View */
+.vuefinder[data-theme="midnight"] .vuefinder__treestorageitem__header {
+  background-color: var(--vf-bg-primary);
+  opacity: 0.7;
+}
+
+/* Midnight Theme - Item Icons */
+.vuefinder[data-theme="midnight"] .vuefinder__item-icon__folder {
+  fill: #38bdf8;
+  stroke: #38bdf8;
+}
+
+.vuefinder[data-theme="midnight"] .vuefinder__item-icon__folder--open {
+  fill: #38bdf8;
+  stroke: #0ea5e9;
+}

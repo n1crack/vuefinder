@@ -5,23 +5,23 @@
 }
 
 .vuefinder__default-preview__header {
-  @apply flex mb-2;
+  @apply flex mb-4;
 }
 
 .vuefinder__default-preview__file-name {
-    @apply text-center text-sm text-gray-500 dark:text-gray-400;
+    @apply text-center text-sm text-(--vf-text-secondary);
 }
 
 .vuefinder__default-preview__title {
-  @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
+  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
 .vuefinder__default-preview__icon-container {
-  @apply flex flex-col items-center justify-center p-10;
+  @apply flex flex-col items-center justify-center p-8 bg-(--vf-bg-secondary) border-2 border-dashed border-(--vf-border-secondary) rounded-2xl w-[300px] justify-self-center my-4 min-h-[200px];
 }
 
 .vuefinder__default-preview__file-icon {
-  @apply w-30 h-30 text-gray-600 dark:text-gray-400;
+  @apply w-30 h-30 text-(--vf-text-secondary);
 }
 
 /** Image Preview */
@@ -31,11 +31,11 @@
 }
 
 .vuefinder__image-preview__header {
-  @apply flex items-center mb-2;
+  @apply flex items-center mb-2 px-3 py-3 -mx-3 mt-0 mb-2 bg-(--vf-bg-secondary) border-b border-(--vf-border-primary);
 }
 
 .vuefinder__image-preview__title {
-  @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
+  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
 .vuefinder__image-preview__actions {
@@ -43,11 +43,20 @@
 }
 
 .vuefinder .vuefinder__image-preview__crop-button {
-  @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm;
+  @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm text-base font-medium sm:ml-3 sm:w-auto sm:text-sm;
+  @apply bg-(--vf-accent-primary) text-(--vf-text-inverse);
+}
+
+.vuefinder .vuefinder__image-preview__crop-button:hover {
+  @apply bg-(--vf-accent-secondary);
 }
 
 .vuefinder .vuefinder__image-preview__edit-button {
-  @apply ml-1 px-2 py-1 text-blue-500;
+  @apply ml-1 px-2 py-1 text-(--vf-accent-primary);
+}
+
+.vuefinder .vuefinder__image-preview__edit-button:hover {
+  @apply text-(--vf-accent-secondary);
 }
 
 .vuefinder__image-preview__image-container {
@@ -63,7 +72,7 @@
 
 /** Auido Preview */
 .vuefinder__audio-preview__title {
-  @apply mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
+  @apply mb-2 text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
 .vuefinder .vuefinder__audio-preview__audio {
@@ -73,7 +82,7 @@
 /** PDF Preview */
 
 .vuefinder__pdf-preview__title {
-  @apply mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
+  @apply mb-2 text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
 .vuefinder .vuefinder__pdf-preview__object {
@@ -91,11 +100,11 @@
 }
 
 .vuefinder__text-preview__header {
-  @apply flex items-center mb-2;
+  @apply flex items-center mb-2 px-3 py-3 -mx-3 mt-0 mb-2 border-b border-(--vf-border-primary);
 }
 
 .vuefinder__text-preview__title {
-  @apply text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
+  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
 .vuefinder__text-preview__actions {
@@ -103,25 +112,37 @@
 }
 
 .vuefinder .vuefinder__text-preview__save-button {
-  @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm bg-blue-700/75 hover:bg-blue-700 dark:bg-gray-700 dark:hover:bg-gray-700/50 text-base font-medium text-white sm:ml-3 sm:w-auto sm:text-sm;
+  @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm text-base font-medium sm:ml-3 sm:w-auto sm:text-sm bg-(--vf-accent-primary) text-(--vf-text-inverse);
+}
+
+.vuefinder .vuefinder__text-preview__save-button:hover {
+  @apply bg-(--vf-accent-secondary);
 }
 
 .vuefinder .vuefinder__text-preview__edit-button {
-  @apply ml-1 px-2 py-1 text-blue-500;
+  @apply ml-1 px-2 py-1 text-(--vf-accent-primary);
+}
+
+.vuefinder .vuefinder__text-preview__edit-button:hover {
+  @apply text-(--vf-accent-secondary);
 }
 
 .vuefinder__text-preview__content {
-  @apply p-2 border font-normal whitespace-pre-wrap border-gray-100 dark:border-gray-700/50 dark:text-gray-200 rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto;
+  @apply p-2 border font-normal whitespace-pre-wrap rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto border-(--vf-border-primary) text-(--vf-text-primary) bg-(--vf-bg-primary);
 }
 
 .vuefinder .vuefinder__text-preview__textarea {
-  @apply border border-gray-400 dark:border-gray-700/50 w-full p-2 rounded dark:bg-gray-700 dark:text-gray-200 dark:focus:ring-gray-600 dark:focus:border-gray-600 dark:selection:bg-gray-500 min-h-[200px] max-h-[60vh];
+  @apply border w-full p-2 rounded min-h-[200px] max-h-[60vh] border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary);
+}
+
+.vuefinder .vuefinder__text-preview__textarea:focus {
+  @apply border-(--vf-accent-primary) shadow-[0_0_0_1px_var(--vf-accent-primary)];
 }
 
 /** Video Preview */
 
 .vuefinder__video-preview__title {
-  @apply mb-2 text-lg leading-6 font-medium text-gray-900 dark:text-gray-400;
+  @apply mb-2 text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
 .vuefinder .vuefinder__video-preview__video {

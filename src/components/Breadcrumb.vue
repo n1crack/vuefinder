@@ -16,6 +16,7 @@ import DotsSVG from '../assets/icons/dots.svg';
 import {useDragNDrop} from '../composables/useDragNDrop';
 
 const app = inject('ServiceContainer');
+const currentTheme = inject('currentTheme');
 const {t} = app.i18n;
 const search = app.search;
 const fs = app.fs;
@@ -91,7 +92,7 @@ onUnmounted(() => {
   }
 });
 
-const dragNDrop = useDragNDrop(app, ['bg-blue-200', 'dark:bg-slate-600'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 
 function getBreadcrumb(index: number | null = null) {
   index ??= allBreadcrumbs.value.length - 2;
@@ -250,9 +251,10 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-show="!searchMode" class="group vuefinder__breadcrumb__search-container" @click="search.enterSearchMode">
+    <div v-show="!searchMode" class="vuefinder__breadcrumb__search-container" @click="search.enterSearchMode">
       <div>
         <HomeSVG
+            class="vuefinder__breadcrumb__home-icon"
             v-on="dragNDrop.events(getBreadcrumb(-1))"
             @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: currentPath.storage ?? 'local'}})"/>
       </div>
@@ -304,7 +306,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
     </div>
 
     <Teleport to="body">
-      <div :class="app.theme.actualValue">
+      <div :class="currentTheme?.value">
         <div v-show="showHiddenBreadcrumbs"
              :style="{position: 'absolute', top: mousePosition.y + 'px', left: mousePosition.x + 'px'}"
              class="vuefinder vuefinder__breadcrumb__hidden-dropdown">
