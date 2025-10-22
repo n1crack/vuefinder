@@ -99,6 +99,7 @@ export default {
     "Select All": "Seleziona tutto",
     "Pinned Folders": "Cartelle bloccate",
     "No folders pinned": "Nessuna cartella bloccata",
+    "No folders": "Nessuna cartella",
     "Pin Folder": "Blocca cartella",
     "Unpin Folder": "Sblocca cartella",
     "Project home": "Home del progetto",

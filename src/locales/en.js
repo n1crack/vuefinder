@@ -99,6 +99,7 @@ export default {
     "Select All": "Select All",
     "Pinned Folders": "Pinned Folders",
     "No folders pinned": "No folders pinned",
+    "No folders": "No folders",
     "Pin Folder": "Pin Folder",
     "Unpin Folder": "Unpin Folder",
     "Project home": "Project home",

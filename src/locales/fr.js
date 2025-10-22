@@ -100,6 +100,7 @@ export default {
     "Select All": "Tout sélectionner",
     "Pinned Folders": "Dossiers épinglés",
     "No folders pinned": "Aucun dossier épinglé",
+    "No folders": "Aucun dossier",
     "Pin Folder": "Épingler le dossier",
     "Unpin Folder": "Détacher le dossier",
     "Project home": "Accueil du projet",

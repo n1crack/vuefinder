@@ -18,12 +18,17 @@
 
 /* Global Pinned List Styling - Works for all themes */
 .vuefinder__treeview__pinned-list {
-  @apply bg-(--vf-bg-primary) p-2 rounded-lg border border-(--vf-border-primary) mb-2;
+  @apply bg-(--vf-bg-primary) py-1 pb-2;
 }
 
 /* No Folders Message Styling */
 .vuefinder__treesubfolderlist__no-folders {
   @apply text-center py-1 px-2 text-(--vf-text-tertiary) text-sm italic;
+}
+
+/* No Pinned Folders Message Styling */
+.vuefinder__treeview__no-pinned {
+  @apply text-center py-2 px-3 text-(--vf-text-tertiary) text-sm italic ;
 }
 
 .vuefinder__treeview__header {
@@ -40,10 +45,6 @@
 
 .vuefinder__treeview__pin-icon {
   @apply text-(--vf-accent-warning);
-}
-
-.vuefinder__treeview__pinned-list {
-  @apply block py-1;
 }
 
 .vuefinder__treeview__pinned-item {

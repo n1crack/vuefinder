@@ -41,7 +41,7 @@ const treeSubFolders = computed(() => {
 <template>
   <ul ref="parentSubfolderList" class="vuefinder__treesubfolderlist__container">
     <li v-if="!treeSubFolders.length">
-        <div class="vuefinder__treesubfolderlist__no-folders">{{ t('Empty') }}</div>
+        <div class="vuefinder__treesubfolderlist__no-folders">{{ t('No folders') }}</div>
     </li>
     <li
         v-for="item in treeSubFolders"
