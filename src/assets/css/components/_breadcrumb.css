@@ -18,7 +18,10 @@
   @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
 }
  
-
+.vuefinder__breadcrumb__search-icon {
+    @apply h-6 w-6 p-1 rounded cursor-pointer text-white stroke-(--vf-accent-secondary) hover:stroke-(--vf-accent-primary);
+  }
+   
 .vuefinder__breadcrumb__go-up--active {
   @apply cursor-pointer text-(--vf-text-primary) hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
 }

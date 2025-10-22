@@ -292,7 +292,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
     </div>
     <div v-show="searchMode" class="vuefinder__breadcrumb__search-mode">
       <div>
-        <SearchSVG/>
+        <SearchSVG class="vuefinder__breadcrumb__search-icon"/>
       </div>
       <input
           ref="searchInput"
