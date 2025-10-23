@@ -1,0 +1,402 @@
+/* Search Modal Styles - New Dropdown Design */
+.vuefinder__search-modal {
+  @apply flex flex-col h-full;
+}
+
+/* Content wrapper */
+.vuefinder__search-modal__content {
+  @apply flex flex-col flex-1;
+}
+
+/* Search bar */
+.vuefinder__search-modal__search-bar {
+  @apply flex items-center gap-2 px-4 py-3 relative z-10;
+}
+
+/* Search input */
+.vuefinder__search-modal__search-input {
+  @apply flex-1 flex items-center gap-3 px-3 py-2 bg-(--vf-bg-primary) border border-(--vf-border-primary) rounded-lg;
+}
+
+.vuefinder__search-modal__search-input:focus-within {
+  @apply ring-2 ring-(--vf-accent-color);
+}
+
+/* Search icon */
+.vuefinder__search-modal__search-icon {
+  @apply w-4 h-4 text-(--vf-text-secondary) flex-shrink-0;
+}
+
+/* Search input */
+.vuefinder__search-modal__input {
+  @apply flex-1 bg-transparent border-0 outline-none text-(--vf-text-primary) placeholder-(--vf-text-secondary);
+}
+
+/* Loading indicator */
+.vuefinder__search-modal__loading {
+  @apply flex items-center;
+}
+
+.vuefinder__search-modal__loading-icon {
+  @apply w-4 h-4 text-(--vf-text-secondary) animate-spin;
+}
+
+/* Dropdown button */
+.vuefinder__search-modal__dropdown-btn {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  border: 1px solid var(--vf-border-primary) !important;
+  background: var(--vf-bg-primary) !important;
+  color: var(--vf-text-secondary) !important;
+}
+
+.vuefinder__search-modal__dropdown-btn:hover {
+  background: var(--vf-bg-secondary) !important;
+  color: var(--vf-text-primary) !important;
+}
+
+.vuefinder__search-modal__dropdown-btn--active {
+  background: var(--vf-accent-color) !important;
+  color: var(--vf-accent-text) !important;
+  border-color: var(--vf-accent-color) !important;
+}
+
+.vuefinder__search-modal__dropdown-icon {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+/* Dropdown menu */
+.vuefinder__search-modal__dropdown {
+  position: fixed;
+  z-index: 10000;
+  width: 200px;
+}
+
+/* Mobile dropdown positioning */
+@media (max-width: 767px) {
+  .vuefinder__search-modal__dropdown {
+    width: 180px;
+  }
+  
+  .vuefinder__search-modal__dropdown-content {
+    @apply p-2 space-y-2;
+  }
+  
+  .vuefinder__search-modal__dropdown-title {
+    @apply text-xs;
+  }
+  
+  .vuefinder__search-modal__dropdown-option {
+    @apply p-0.5;
+  }
+  
+  .vuefinder__search-modal__radio {
+    @apply w-3 h-3;
+  }
+}
+
+.vuefinder__search-modal__dropdown-content {
+  background: var(--vf-bg-primary) !important;
+  border: 1px solid var(--vf-border-primary) !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.vuefinder__search-modal__dropdown-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--vf-text-primary) !important;
+}
+
+.vuefinder__search-modal__dropdown-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.vuefinder__search-modal__dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  color: var(--vf-text-primary) !important;
+}
+
+.vuefinder__search-modal__dropdown-option:hover {
+  background: var(--vf-bg-secondary) !important;
+}
+
+.vuefinder__search-modal__radio {
+  width: 1rem;
+  height: 1rem;
+  color: var(--vf-accent-color) !important;
+  background: var(--vf-bg-primary) !important;
+  border: 1px solid var(--vf-border-primary) !important;
+}
+
+/* Search options */
+.vuefinder__search-modal__options {
+  @apply flex items-center justify-between px-4 py-2 bg-(--vf-bg-secondary) border-t border-(--vf-border-primary);
+}
+
+.vuefinder__search-modal__search-in {
+  @apply flex items-center gap-2;
+}
+
+.vuefinder__search-modal__search-in-label {
+  @apply text-sm text-(--vf-text-secondary);
+}
+
+.vuefinder__search-modal__path-btn {
+  @apply px-2 py-1 text-sm bg-(--vf-bg-primary) border border-(--vf-border-primary) rounded hover:bg-(--vf-bg-tertiary) transition-colors;
+}
+
+.vuefinder__search-modal__path-text {
+  @apply text-(--vf-text-primary);
+}
+
+.vuefinder__search-modal__subfolders {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+.vuefinder__search-modal__checkbox {
+  @apply w-4 h-4 text-(--vf-accent-color) bg-(--vf-bg-primary) border-(--vf-border-primary) rounded;
+}
+
+/* Instructions */
+.vuefinder__search-modal__instructions {
+  @apply px-4 py-4 sm:px-6;
+}
+
+.vuefinder__search-modal__instructions-tips {
+  @apply flex flex-col gap-2 text-sm text-(--vf-text-secondary);
+}
+
+.vuefinder__search-modal__tip {
+  @apply flex items-center gap-2;
+}
+
+.vuefinder__search-modal__tip-key {
+  @apply px-2 py-1 text-xs bg-(--vf-bg-secondary) text-(--vf-text-primary) rounded font-mono;
+}
+
+/* Results */
+.vuefinder__search-modal__results {
+  @apply flex-1 overflow-y-auto px-4 py-2 sm:px-6 min-h-0;
+}
+
+.vuefinder__search-modal__searching {
+  @apply flex items-center justify-center gap-2 py-4 text-(--vf-text-secondary);
+}
+
+.vuefinder__search-modal__no-results {
+  @apply text-center py-8 text-(--vf-text-secondary);
+}
+
+.vuefinder__search-modal__results-header {
+  @apply text-sm font-medium text-(--vf-text-primary) mb-2 pb-2 border-b border-(--vf-border-primary);
+}
+
+.vuefinder__search-modal__results-items {
+  @apply space-y-1;
+}
+
+.vuefinder__search-modal__result-item {
+  @apply flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-(--vf-bg-secondary) transition-colors;
+}
+
+.vuefinder__search-modal__result-item--selected {
+  background: var(--vf-accent-color);
+  color: var(--vf-accent-text);
+}
+
+.vuefinder__search-modal__result-item--selected .vuefinder__search-modal__result-icon svg {
+  fill: var(--vf-accent-text);
+}
+
+.vuefinder__search-modal__result-item--selected .vuefinder__search-modal__result-path {
+  color: var(--vf-accent-text-secondary);
+}
+
+.vuefinder__search-modal__result-icon {
+  @apply w-4 h-4 flex-shrink-0;
+}
+
+.vuefinder__search-modal__result-icon svg {
+  @apply w-full h-full;
+  fill: var(--vf-text-secondary);
+}
+
+.vuefinder__search-modal__result-content {
+  @apply flex-1 min-w-0;
+}
+
+.vuefinder__search-modal__result-name {
+  @apply text-sm font-medium text-(--vf-text-primary) truncate;
+}
+
+/* Folder Selector */
+.vuefinder__search-modal__folder-selector {
+  @apply border-t border-(--vf-border-primary) bg-(--vf-bg-secondary);
+}
+
+.vuefinder__search-modal__folder-selector-header {
+  @apply flex items-center justify-between px-4 py-3 border-b border-(--vf-border-primary);
+}
+
+.vuefinder__search-modal__folder-selector-title {
+  @apply text-lg font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__search-modal__folder-selector-close {
+  @apply w-8 h-8 flex items-center justify-center text-xl text-(--vf-text-secondary) hover:text-(--vf-text-primary) hover:bg-(--vf-bg-tertiary) rounded transition-colors;
+}
+
+.vuefinder__search-modal__folder-selector-content {
+  @apply max-h-64 overflow-y-auto;
+}
+
+.vuefinder__search-modal__folder-selector-footer {
+  @apply flex items-center justify-center px-4 py-3 border-t border-(--vf-border-primary);
+}
+
+.vuefinder__search-modal__folder-selector-select {
+  @apply px-6 py-2 text-sm bg-(--vf-accent-color) text-(--vf-accent-text) border border-(--vf-accent-color) rounded hover:bg-(--vf-accent-color-hover) transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Mobile positioning - compact modal approach */
+@media (max-width: 767px) {
+  .vuefinder__search-modal-layout .vuefinder__modal-layout__wrapper {
+    align-items: flex-end;
+    padding-bottom: 0.5rem;
+  }
+  
+  .vuefinder__search-modal-layout .vuefinder__modal-layout__body {
+    margin-bottom: 0;
+    margin-top: auto;
+    max-height: 90vh;
+    width: 95%;
+  }
+  
+  /* Mobile content order - results above input */
+  .vuefinder__search-modal__content {
+    @apply flex-col-reverse;
+  }
+  
+  /* Compact search bar */
+  .vuefinder__search-modal__search-bar {
+    @apply px-3 py-2;
+  }
+  
+  .vuefinder__search-modal__search-input {
+    @apply px-2 py-1.5;
+  }
+  
+  .vuefinder__search-modal__input {
+    @apply text-sm;
+  }
+  
+  /* Compact dropdown */
+  .vuefinder__search-modal__dropdown {
+    @apply left-3 right-3;
+  }
+  
+  .vuefinder__search-modal__dropdown-content {
+    @apply p-2 space-y-2;
+  }
+  
+  .vuefinder__search-modal__dropdown-title {
+    @apply text-xs;
+  }
+  
+  .vuefinder__search-modal__dropdown-option {
+    @apply p-0.5;
+  }
+  
+  .vuefinder__search-modal__radio {
+    @apply w-3 h-3;
+  }
+  
+  /* Compact options */
+  .vuefinder__search-modal__options {
+    @apply px-3 py-1.5 flex-col gap-2 items-start;
+  }
+  
+  .vuefinder__search-modal__search-in {
+    @apply gap-1;
+  }
+  
+  .vuefinder__search-modal__search-in-label {
+    @apply text-xs;
+  }
+  
+  .vuefinder__search-modal__path-btn {
+    @apply px-1.5 py-0.5 text-xs;
+  }
+  
+  .vuefinder__search-modal__subfolders {
+    @apply gap-1;
+  }
+  
+  .vuefinder__search-modal__checkbox {
+    @apply w-3 h-3;
+  }
+  
+  /* Compact results */
+  .vuefinder__search-modal__results {
+    @apply px-3 py-1 flex-1 min-h-0;
+  }
+  
+  .vuefinder__search-modal__results-items {
+    @apply flex-1;
+  }
+  
+  /* Compact folder selector on mobile */
+  .vuefinder__search-modal__folder-selector-header {
+    @apply px-3 py-2;
+  }
+  
+  .vuefinder__search-modal__folder-selector-title {
+    @apply text-base;
+  }
+  
+  .vuefinder__search-modal__folder-selector-content {
+    @apply max-h-48;
+  }
+  
+  .vuefinder__search-modal__folder-selector-footer {
+    @apply px-3 py-2;
+  }
+  
+  .vuefinder__search-modal__folder-selector-select {
+    @apply w-full px-4 py-2 text-sm;
+  }
+}
+
+/* Desktop-specific positioning for search modal */
+@media (min-width: 768px) {
+  /* Override modal layout positioning for search modal */
+  .vuefinder__search-modal-layout .vuefinder__modal-layout__wrapper {
+    align-items: flex-start;
+    padding-top: 10vh;
+  }
+  
+  .vuefinder__search-modal-layout .vuefinder__modal-layout__body {
+    margin-top: 0;
+    margin-bottom: auto;
+  }
+  
+  /* Desktop instructions in one line */
+  .vuefinder__search-modal__instructions-tips {
+    @apply flex-row gap-4;
+  }
+}

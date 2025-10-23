@@ -56,7 +56,7 @@ onMounted(() => {
             <div class="vuefinder__modal-layout__content">
                 <slot/>
             </div>
-            <div class="vuefinder__modal-layout__footer">
+            <div class="vuefinder__modal-layout__footer" v-if="$slots.buttons">
                 <slot name="buttons"/>
             </div>
             </div>
