@@ -20,6 +20,7 @@ const config = app.config;
 defineProps<{
   modelValue: DirEntry | null
   showPinnedFolders?: boolean
+  currentPath?: any
 }>()
 
 // Emits
@@ -213,6 +214,7 @@ onMounted(() => {
                 :modelValue="modelValue"
                 :expandedFolders="expandedFolders"
                 :modalTreeData="modalTreeData"
+                :currentPath="currentPath"
                 @update:modelValue="selectFolder"
                 @selectAndClose="selectFolderAndClose"
                 @toggleFolder="toggleFolder"

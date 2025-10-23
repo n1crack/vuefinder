@@ -19,6 +19,7 @@ const props = defineProps<{
   modelValue: DirEntry | null
   expandedFolders: Record<string, boolean>
   modalTreeData: Record<string, DirEntry[]>
+  currentPath?: any
 }>()
 
 // Emits
@@ -39,6 +40,10 @@ const isExpanded = computed(() => {
 
 const isSelected = computed(() => {
   return props.modelValue?.path === props.folder.path;
+});
+
+const isCurrentPath = computed(() => {
+  return props.currentPath?.path === props.folder.path;
 });
 
 const subfolders = computed(() => {
@@ -83,7 +88,10 @@ const selectFolderAndClose = () => {
       
       <div
         class="vuefinder__modal-tree__folder-link"
-        :class="{ 'vuefinder__modal-tree__folder-link--selected': isSelected }"
+        :class="{ 
+          'vuefinder__modal-tree__folder-link--selected': isSelected,
+          'vuefinder__modal-tree__folder-link--current': isCurrentPath
+        }"
         @click="selectFolder"
         @dblclick="selectFolderAndClose"
       >
@@ -103,6 +111,7 @@ const selectFolderAndClose = () => {
         :modelValue="modelValue"
         :expandedFolders="expandedFolders"
         :modalTreeData="modalTreeData"
+        :currentPath="currentPath"
         @update:modelValue="$emit('update:modelValue', $event)"
         @selectAndClose="$emit('selectAndClose', $event)"
         @toggleFolder="(storage, folderPath) => $emit('toggleFolder', storage, folderPath)"

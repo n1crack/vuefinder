@@ -30,7 +30,6 @@ const selectedIndex = ref(-1);
 // Advanced search state
 const showDropdown = ref(false);
 const showFolderSelector = ref(false);
-const targetFolder = ref<string>('');
 const targetFolderEntry = ref<DirEntry | null>(null);
 const typeFilter = ref<'all' | 'files' | 'folders'>('all');
 const sizeFilter = ref<'all' | 'small' | 'medium' | 'large'>('all');
@@ -72,9 +71,10 @@ const performSearch = async (searchQuery: string) => {
       filter: searchQuery
     };
     
-    // Add advanced search parameters
-    if (targetFolder.value) {
-      searchParams.path = targetFolder.value;
+    // Add advanced search parameters - use selected folder or current path
+    const searchPath = targetFolderEntry.value?.path || currentPath.value?.path;
+    if (searchPath) {
+      searchParams.path = searchPath;
     }
     
     if (typeFilter.value !== 'all') {
@@ -178,10 +178,22 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
+// Handle window resize to recalculate dropdown position
+const handleResize = () => {
+  if (showDropdown.value && dropdownBtn.value) {
+    toggleDropdown(); // Close and reopen to recalculate position
+    nextTick(() => {
+      showDropdown.value = true;
+      toggleDropdown(); // This will recalculate the position
+    });
+  }
+};
+
 // Event listeners
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown);
   document.addEventListener('click', handleClickOutside);
+  window.addEventListener('resize', handleResize);
   nextTick(() => {
     if (searchInput.value) {
       searchInput.value.focus();
@@ -198,18 +210,23 @@ const toggleDropdown = () => {
   if (showDropdown.value && dropdownBtn.value) {
     const rect = dropdownBtn.value.getBoundingClientRect();
     const isMobile = window.innerWidth <= 767;
+    const dropdownWidth = isMobile ? 160 : 180;
+    const dropdownHeight = isMobile ? 100 : 120; // Estimated height
     
     if (isMobile) {
-      // Mobile: up-left positioning
+      // Mobile: position above the button, centered horizontally
+      const leftPosition = Math.max(8, rect.left + window.scrollX - dropdownWidth + rect.width);
+      const topPosition = rect.top + window.scrollY - dropdownHeight - 8;
+      
       dropdownPosition.value = {
-        top: rect.top + window.scrollY - 4,
-        left: rect.left + window.scrollX - 200 // 200px is dropdown width
+        top: Math.max(8, topPosition), // Ensure it doesn't go above viewport
+        left: Math.min(leftPosition, window.innerWidth - dropdownWidth - 8) // Ensure it doesn't go off screen
       };
     } else {
-      // Desktop: left-down positioning
+      // Desktop: position below the button, aligned to the right
       dropdownPosition.value = {
         top: rect.bottom + window.scrollY + 4,
-        left: rect.left + window.scrollX - 200 // 200px is dropdown width
+        left: rect.right + window.scrollX - dropdownWidth
       };
     }
   }
@@ -221,36 +238,21 @@ const openFolderSelector = () => {
   showFolderSelector.value = !showFolderSelector.value;
 };
 
-// Simple function to split storage and path (like ModalTransfer)
-const getTargetParts = () => {
-  const path = targetFolder.value;
-  if (!path) return { storage: 'local', path: '' };
-  
-  // For storage roots like "local://", just return the storage name
-  if (path.endsWith('://')) {
-    return { storage: path.replace('://', ''), path: '' };
-  }
-  
-  // Split storage and path
-  const parts = path.split('://');
-  return { 
-    storage: parts[0] || 'local', 
-    path: parts[1] || '' 
-  };
-};
 
 const selectTargetFolder = (folder: DirEntry | null) => {
   if (folder) {
     targetFolderEntry.value = folder;
-    targetFolder.value = folder.path;
   }
 };
 
 // Handle folder selection and close selector
-const handleFolderSelect = (entry: DirEntry) => {
-  console.log('Folder selected:', entry);
-  selectTargetFolder(entry);
-  showFolderSelector.value = false;
+const handleFolderSelect = (entry: DirEntry | null) => {
+  if (entry) {
+    console.log('Folder selected for search:', entry);
+    // Only update the search location, don't change current path
+    selectTargetFolder(entry);
+    showFolderSelector.value = false;
+  }
 };
 
 // Cancel folder selection
@@ -261,6 +263,7 @@ const cancelFolderSelect = () => {
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown);
   document.removeEventListener('click', handleClickOutside);
+  window.removeEventListener('resize', handleResize);
 });
 
 // Handle click outside to close dropdown
@@ -308,7 +311,7 @@ const handleClickOutside = (event: MouseEvent) => {
         </div>
 
         <!-- Dropdown Menu (Teleported outside modal) -->
-        <Teleport to="body">
+     
           <div 
             v-if="showDropdown" 
             class="vuefinder__search-modal__dropdown" 
@@ -404,60 +407,45 @@ const handleClickOutside = (event: MouseEvent) => {
               </div>
             </div>
           </div>
-        </Teleport>
+     
 
         <!-- Search Options -->
         <div class="vuefinder__search-modal__options" @click.stop>
-          <div class="vuefinder__search-modal__search-in">
-            <span class="vuefinder__search-modal__search-in-label">{{ t('Search in:') }}</span>
+          <div class="vuefinder__search-modal__search-location">
             <button 
               @click.stop="openFolderSelector"
-              class="vuefinder__search-modal__path-btn"
+              class="vuefinder__search-modal__location-btn"
+              :class="{ 'vuefinder__search-modal__location-btn--open': showFolderSelector }"
             >
-              <span v-if="!targetFolder" class="vuefinder__search-modal__path-text">{{ t('All folders') }}</span>
-              <span v-else class="vuefinder__search-modal__path-text">{{ targetFolder }}</span>
+              <FolderSVG class="vuefinder__search-modal__location-icon" />
+              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath?.path || '/' }}</span>
+              <svg class="vuefinder__search-modal__location-arrow" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"/>
+              </svg>
             </button>
           </div>
-          <label class="vuefinder__search-modal__subfolders" @click.stop>
+          <label class="vuefinder__search-modal__deep-search" @click.stop>
             <input 
               v-model="deepSearch"
               type="checkbox"
               class="vuefinder__search-modal__checkbox"
               @click.stop
             />
-            <span>{{ t('with subfolders') }}</span>
+            <span>{{ t('Include subfolders') }}</span>
           </label>
         </div>
 
         <!-- Folder Selector (when showFolderSelector is true) -->
         <div v-if="showFolderSelector" class="vuefinder__search-modal__folder-selector">
-          <div class="vuefinder__search-modal__folder-selector-header">
-            <h3 class="vuefinder__search-modal__folder-selector-title">{{ t('Search in folder') }}</h3>
-            <button 
-              @click="cancelFolderSelect"
-              class="vuefinder__search-modal__folder-selector-close"
-            >
-              ×
-            </button>
-          </div>
           
           <div class="vuefinder__search-modal__folder-selector-content">
             <ModalTreeSelector
               v-model="targetFolderEntry"
               :show-pinned-folders="true"
+              :current-path="currentPath"
               @update:modelValue="selectTargetFolder"
               @selectAndClose="handleFolderSelect"
             />
-          </div>
-          
-          <div class="vuefinder__search-modal__folder-selector-footer">
-            <button 
-              @click="targetFolderEntry && handleFolderSelect(targetFolderEntry)"
-              :disabled="!targetFolderEntry"
-              class="vuefinder__search-modal__folder-selector-select"
-            >
-              {{ t('Select') }}
-            </button>
           </div>
         </div>
 
