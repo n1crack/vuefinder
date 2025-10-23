@@ -62,11 +62,11 @@
 
 /* Modal tree styles */
 .vuefinder__modal-tree {
-  @apply border rounded-lg bg-(--vf-bg-primary) border-(--vf-border-primary);
+  @apply border rounded-lg bg-(--vf-bg-primary) border-(--vf-border-primary) flex flex-col;
 }
 
 .vuefinder__modal-tree__header {
-  @apply px-4 py-1 border-b border-(--vf-border-primary);
+  @apply px-4 py-1 border-b border-(--vf-border-primary) flex-shrink-0;
 }
 
 .vuefinder__modal-tree__title {
@@ -74,7 +74,7 @@
 }
 
 .vuefinder__modal-tree__content {
-  @apply p-2 max-h-[200px] overflow-y-auto;
+  @apply p-2 max-h-[200px] overflow-y-auto flex-1 min-h-0;
 }
 
 .vuefinder__modal-tree__section {
