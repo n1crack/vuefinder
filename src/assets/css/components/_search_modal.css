@@ -1,19 +1,17 @@
-/* Search Modal Styles - New Dropdown Design */
+/* Search Modal Styles */
 .vuefinder__search-modal {
   @apply flex flex-col h-full;
 }
 
-/* Content wrapper */
 .vuefinder__search-modal__content {
   @apply flex flex-col flex-1;
 }
 
-/* Search bar */
+/* Search Bar */
 .vuefinder__search-modal__search-bar {
   @apply flex items-center gap-2 py-3 relative z-10;
 }
 
-/* Search input */
 .vuefinder__search-modal__search-input {
   @apply flex-1 flex items-center gap-3 px-3 py-2 bg-(--vf-bg-primary) border border-(--vf-border-primary) rounded-lg;
 }
@@ -22,17 +20,14 @@
   @apply ring-2 ring-(--vf-accent-color);
 }
 
-/* Search icon */
 .vuefinder__search-modal__search-icon {
   @apply w-4 h-4 text-(--vf-text-secondary) flex-shrink-0;
 }
 
-/* Search input */
 .vuefinder__search-modal__input {
   @apply flex-1 bg-transparent border-0 outline-none text-(--vf-text-primary) placeholder-(--vf-text-secondary);
 }
 
-/* Loading indicator */
 .vuefinder__search-modal__loading {
   @apply flex items-center;
 }
@@ -41,120 +36,52 @@
   @apply w-4 h-4 text-(--vf-text-secondary) animate-spin;
 }
 
-/* Dropdown button */
+/* Dropdown */
 .vuefinder__search-modal__dropdown-btn {
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s;
-  border: 1px solid var(--vf-border-primary) !important;
-  background: var(--vf-bg-primary) !important;
-  color: var(--vf-text-secondary) !important;
+  @apply p-2 rounded-lg transition-all duration-200 border border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-secondary);
 }
 
 .vuefinder__search-modal__dropdown-btn:hover {
-  background: var(--vf-bg-secondary) !important;
-  color: var(--vf-text-primary) !important;
+  @apply bg-(--vf-bg-secondary) text-(--vf-text-primary);
 }
 
 .vuefinder__search-modal__dropdown-btn--active {
-  background: var(--vf-accent-color) !important;
-  color: var(--vf-accent-text) !important;
-  border-color: var(--vf-accent-color) !important;
+  @apply bg-(--vf-accent-color) text-(--vf-accent-text) border-(--vf-accent-color);
 }
 
 .vuefinder__search-modal__dropdown-icon {
-  width: 1rem;
-  height: 1rem;
-  fill: currentColor;
+  @apply w-4 h-4 fill-current;
 }
 
-/* Dropdown menu */
 .vuefinder__search-modal__dropdown {
-  position: fixed;
-  z-index: 10000;
-  width: 180px;
-}
-
-/* Mobile dropdown positioning */
-@media (max-width: 767px) {
-  .vuefinder__search-modal__dropdown {
-    width: 160px;
-    /* Ensure dropdown appears above other elements */
-    z-index: 10001;
-  }
-  
-  .vuefinder__search-modal__dropdown-content {
-    padding: 0.375rem;
-    gap: 0.375rem;
-    /* Add subtle shadow for better visibility when positioned above */
-    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
-  }
-  
-  .vuefinder__search-modal__dropdown-title {
-    font-size: 0.625rem;
-    margin-bottom: 0.125rem;
-  }
-  
-  .vuefinder__search-modal__dropdown-option {
-    padding: 0.125rem;
-    font-size: 0.625rem;
-    gap: 0.25rem;
-  }
-  
-  .vuefinder__search-modal__radio {
-    width: 0.75rem;
-    height: 0.75rem;
-  }
+  @apply fixed z-[10000] w-[180px];
 }
 
 .vuefinder__search-modal__dropdown-content {
-  background: var(--vf-bg-primary) !important;
-  border: 1px solid var(--vf-border-primary) !important;
-  border-radius: 0.375rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  @apply bg-(--vf-bg-primary) border border-(--vf-border-primary) rounded-md shadow-lg p-2 flex flex-col gap-2;
 }
 
 .vuefinder__search-modal__dropdown-title {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--vf-text-primary) !important;
-  margin-bottom: 0.25rem;
+  @apply text-xs font-medium text-(--vf-text-primary) mb-1;
 }
 
 .vuefinder__search-modal__dropdown-options {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
+  @apply flex flex-col gap-0.5;
 }
 
 .vuefinder__search-modal__dropdown-option {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  cursor: pointer;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-  color: var(--vf-text-primary) !important;
-  font-size: 0.75rem;
+  @apply flex items-center gap-1.5 cursor-pointer px-1 py-0.5 rounded text-xs text-(--vf-text-primary);
 }
 
 .vuefinder__search-modal__dropdown-option:hover {
-  background: var(--vf-bg-secondary) !important;
+  @apply bg-(--vf-bg-secondary);
 }
 
 .vuefinder__search-modal__radio {
-  width: 0.875rem;
-  height: 0.875rem;
-  color: var(--vf-accent-color) !important;
-  background: var(--vf-bg-primary) !important;
-  border: 1px solid var(--vf-border-primary) !important;
+  @apply w-3.5 h-3.5 text-(--vf-accent-color) bg-(--vf-bg-primary) border border-(--vf-border-primary);
 }
 
-/* Search options */
+/* Search Options */
 .vuefinder__search-modal__options {
   @apply flex items-center justify-between;
 }
@@ -304,26 +231,40 @@
   @apply px-6 py-2 text-sm bg-(--vf-accent-color) text-(--vf-accent-text) border border-(--vf-accent-color) rounded hover:bg-(--vf-accent-color-hover) transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
-/* Mobile positioning - compact modal approach */
+/* Mobile Styles */
 @media (max-width: 767px) {
+  .vuefinder__search-modal__dropdown {
+    @apply w-[160px] z-[10001];
+  }
+  
+  .vuefinder__search-modal__dropdown-content {
+    @apply p-1.5 gap-1.5 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1),0_-2px_4px_-1px_rgba(0,0,0,0.06)];
+  }
+  
+  .vuefinder__search-modal__dropdown-title {
+    @apply text-[0.625rem] mb-0.5;
+  }
+  
+  .vuefinder__search-modal__dropdown-option {
+    @apply p-0.5 text-[0.625rem] gap-1;
+  }
+  
+  .vuefinder__search-modal__radio {
+    @apply w-3 h-3;
+  }
+  
   .vuefinder__search-modal-layout .vuefinder__modal-layout__wrapper {
-    align-items: flex-end;
-    padding-bottom: 0.5rem;
+    @apply items-end pb-2;
   }
   
   .vuefinder__search-modal-layout .vuefinder__modal-layout__body {
-    margin-bottom: 0;
-    margin-top: auto;
-    max-height: 90vh;
-    width: 95%;
+    @apply mb-0 mt-auto max-h-[90vh] w-[95%];
   }
   
-  /* Mobile content order - results above input */
   .vuefinder__search-modal__content {
     @apply flex-col-reverse;
   }
   
-  /* Compact search bar */
   .vuefinder__search-modal__search-bar {
     @apply py-2;
   }
@@ -336,9 +277,6 @@
     @apply text-sm;
   }
   
-  /* Compact dropdown - positioning handled by JavaScript */
-  
-  /* Compact options */
   .vuefinder__search-modal__options {
     @apply flex-col gap-3 items-stretch;
   }
@@ -367,7 +305,6 @@
     @apply w-3 h-3;
   }
   
-  /* Compact results */
   .vuefinder__search-modal__results {
     @apply py-1 flex-1 min-h-0;
   }
@@ -376,7 +313,6 @@
     @apply flex-1;
   }
   
-  /* Compact folder selector on mobile */
   .vuefinder__search-modal__folder-selector-header {
     @apply py-2;
   }
@@ -398,20 +334,16 @@
   }
 }
 
-/* Desktop-specific positioning for search modal */
+/* Desktop Styles */
 @media (min-width: 768px) {
-  /* Override modal layout positioning for search modal */
   .vuefinder__search-modal-layout .vuefinder__modal-layout__wrapper {
-    align-items: flex-start;
-    padding-top: 10vh;
+    @apply items-start pt-[10vh];
   }
   
   .vuefinder__search-modal-layout .vuefinder__modal-layout__body {
-    margin-top: 0;
-    margin-bottom: auto;
+    @apply mt-0 mb-auto;
   }
   
-  /* Desktop instructions in one line */
   .vuefinder__search-modal__instructions-tips {
     @apply flex-row gap-4;
   }
