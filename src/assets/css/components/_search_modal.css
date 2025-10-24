@@ -248,11 +248,7 @@
 .vuefinder__search-modal__folder-selector-close {
   @apply w-8 h-8 flex items-center justify-center text-xl text-(--vf-text-secondary) hover:text-(--vf-text-primary) hover:bg-(--vf-bg-tertiary) rounded transition-colors;
 }
-
-.vuefinder__search-modal__folder-selector-content {
-  @apply max-h-80 overflow-y-auto;
-}
-
+ 
 .vuefinder__search-modal__folder-selector-footer {
   @apply flex items-center justify-center px-4 py-3 border-t border-(--vf-border-primary);
 }
@@ -354,10 +350,7 @@
   .vuefinder__search-modal__folder-selector-title {
     @apply text-base;
   }
-  
-  .vuefinder__search-modal__folder-selector-content {
-    @apply max-h-48;
-  }
+   
   
   .vuefinder__search-modal__folder-selector-footer {
     @apply py-2;
