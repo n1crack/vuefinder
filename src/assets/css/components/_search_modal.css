@@ -21,13 +21,9 @@
 }
 
 .vuefinder__search-modal__search-icon {
-  @apply w-4 h-4 flex-shrink-0 ;
+  @apply w-4 h-4 flex-shrink-0 stroke-(--vf-accent-primary) text-(--vf-bg-primary);
 }
-
-.vuefinder__search-modal__search-icon svg {
-  @apply  text-white stroke-current;
-}
-
+ 
 .vuefinder__search-modal__input {
   @apply flex-1 bg-transparent border-0 outline-none text-(--vf-text-primary) placeholder-(--vf-text-secondary);
 }

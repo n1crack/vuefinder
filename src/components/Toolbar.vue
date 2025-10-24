@@ -269,7 +269,7 @@ const resetFilters = () => {
           @click="app.modal.open(SearchModal)"
       >
         <SearchSVG 
-          class="vf-toolbar-icon text-white"
+          class="vf-toolbar-icon text-(--vf-bg-primary)"
         />
       </div>
 
