@@ -201,7 +201,10 @@
 }
 
 .vuefinder__search-modal__results-scrollable {
-  @apply flex-1 min-h-0 max-h-[300px];
+  @apply flex-1 overflow-y-auto min-h-0 max-h-[300px];
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .vuefinder__search-modal__results-items {
@@ -348,7 +351,10 @@
   }
   
   .vuefinder__search-modal__results-scrollable {
-    @apply flex-1 max-h-[250px];
+    @apply flex-1 overflow-y-auto max-h-[250px];
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   
   .vuefinder__search-modal__results-items {

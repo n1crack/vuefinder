@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, nextTick, watch, useTemplateRef } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { inject } from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef';
-import { OverlayScrollbars } from 'overlayscrollbars';
-import 'overlayscrollbars/overlayscrollbars.css';
 import SearchSVG from '../assets/icons/search.svg';
 import LoadingSVG from '../assets/icons/loading.svg';
 import FileSVG from '../assets/icons/file.svg';
@@ -29,9 +27,8 @@ const searchResults = ref<DirEntry[]>([]);
 const isSearching = ref(false);
 const selectedIndex = ref(-1);
 
-// OverlayScrollbars
-const osInstance = ref<ReturnType<typeof OverlayScrollbars> | null>(null);
-const scrollableContainer = useTemplateRef<HTMLElement>('scrollableContainer');
+// Scrollable container ref
+const scrollableContainer = ref<HTMLElement | null>(null);
 
 // Advanced search state
 const showDropdown = ref(false);
@@ -63,8 +60,6 @@ watch(query, async (newQuery) => {
     if (!showFolderSelector.value) {
       nextTick(() => {
         resultsEnter.value = true;
-        // Initialize OverlayScrollbars after results are shown
-        initializeScrollbar();
         // Ensure first item is visible
         setTimeout(() => scrollSelectedIntoView(), 100);
       });
@@ -77,11 +72,10 @@ watch(query, async (newQuery) => {
   }
 });
 
-// Watch for results changes to reinitialize scrollbar
+// Watch for results changes
 watch(searchResults, () => {
   if (searchResults.value.length > 0 && !showFolderSelector.value) {
     nextTick(() => {
-      initializeScrollbar();
       // Ensure first item is visible when results change
       setTimeout(() => scrollSelectedIntoView(), 100);
     });
@@ -269,35 +263,17 @@ const handleResize = () => {
   }
 };
 
-// Initialize OverlayScrollbars
-const initializeScrollbar = () => {
-  if (scrollableContainer.value && !osInstance.value) {
-    const instance = OverlayScrollbars(scrollableContainer.value, {
-      scrollbars: { theme: 'vf-scrollbars-theme' }
-    });
-    osInstance.value = instance;
-  }
-};
-
 // Scroll selected item into view
 const scrollSelectedIntoView = () => {
-  if (selectedIndex.value >= 0 && osInstance.value) {
-    const scrollElement = osInstance.value.elements().scrollOffsetElement as HTMLElement;
-    const resultItems = scrollElement.querySelectorAll('.vuefinder__search-modal__result-item');
+  if (selectedIndex.value >= 0 && scrollableContainer.value) {
+    const resultItems = scrollableContainer.value.querySelectorAll('.vuefinder__search-modal__result-item');
     const selectedItem = resultItems[selectedIndex.value] as HTMLElement;
     
     if (selectedItem) {
-      const containerRect = scrollElement.getBoundingClientRect();
-      const itemRect = selectedItem.getBoundingClientRect();
-      
-      // Check if item is above visible area
-      if (itemRect.top < containerRect.top) {
-        scrollElement.scrollTop = selectedItem.offsetTop - 10; // 10px padding
-      }
-      // Check if item is below visible area
-      else if (itemRect.bottom > containerRect.bottom) {
-        scrollElement.scrollTop = selectedItem.offsetTop - containerRect.height + selectedItem.offsetHeight + 10; // 10px padding
-      }
+      selectedItem.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
     }
   }
 };
@@ -418,12 +394,6 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown);
   document.removeEventListener('click', handleClickOutside);
   window.removeEventListener('resize', handleResize);
-  
-  // Cleanup OverlayScrollbars
-  if (osInstance.value) {
-    osInstance.value.destroy();
-    osInstance.value = null;
-  }
 });
 
 // Handle click outside to close dropdown
@@ -655,7 +625,7 @@ const handleClickOutside = (event: MouseEvent) => {
               <span>{{ t('Found %s results', resultCount) }}</span>
             </div>
             
-            <div ref="scrollableContainer" class="vuefinder__search-modal__results-scrollable">
+            <div ref="scrollableContainer" class="vuefinder__search-modal__results-scrollable" >
               <div class="vuefinder__search-modal__results-items">
                 <div
                   v-for="(item, index) in searchResults"
