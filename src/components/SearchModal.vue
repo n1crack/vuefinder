@@ -22,7 +22,6 @@ const fs = app.fs;
 // Reactive state
 const searchInput = ref<HTMLInputElement | null>(null);
 const dropdownBtn = ref<HTMLButtonElement | null>(null);
-const dropdownPosition = ref({ top: 0, left: 0 });
 const query = useDebouncedRef('', 300);
 const searchResults = ref<DirEntry[]>([]);
 const isSearching = ref(false);
@@ -39,6 +38,10 @@ const typeFilter = ref<'all' | 'files' | 'folders'>('all');
 const sizeFilter = ref<'all' | 'small' | 'medium' | 'large'>('all');
 const deepSearch = ref(false);
 
+// Dropdown selection state
+const selectedDropdownOption = ref<string | null>(null);
+const selectedItemDropdownOption = ref<string | null>(null);
+
 // Animation states
 const folderSelectorEnter = ref(false);
 const instructionsExit = ref(false);
@@ -47,7 +50,6 @@ const resultsEnter = ref(false);
 // Path expansion and dropdown states
 const expandedPaths = ref<Set<string>>(new Set());
 const activeDropdown = ref<string | null>(null);
-const dropdownPositions = ref<Record<string, { top: number; left: number }>>({});
 
 // Store subscriptions
 const currentPath = useStore(fs.path);
@@ -68,6 +70,10 @@ const shortenPath = (path: string, maxLength: number = 30): string => {
   }
   
   const storage = storageMatch[1]; // e.g., "local://"
+  if (!storage) {
+    return path.substring(0, maxLength - 3) + '...';
+  }
+  
   const pathAfterStorage = path.substring(storage.length); // Everything after "local://"
   const parts = pathAfterStorage.split('/').filter(part => part !== ''); // Remove empty parts
   
@@ -76,6 +82,9 @@ const shortenPath = (path: string, maxLength: number = 30): string => {
   }
   
   const filename = parts[parts.length - 1];
+  if (!filename) {
+    return storage;
+  }
   
   if (parts.length === 1) {
     // Simple case: storage://filename
@@ -94,8 +103,6 @@ const shortenPath = (path: string, maxLength: number = 30): string => {
   }
   
   // Complex case: storage://folder1/folder2/.../filename
-  const folders = parts.slice(0, -1); // Get folders between storage and filename
-  
   // Always show folders with ... when there are folders
   return `${storage}.../${filename}`;
 };
@@ -119,18 +126,20 @@ const toggleItemDropdown = (itemPath: string, event: MouseEvent) => {
     activeDropdown.value = null;
   } else {
     activeDropdown.value = itemPath;
-    
-    // Calculate dropdown position
-    const rect = (event.target as HTMLElement).getBoundingClientRect();
-    dropdownPositions.value[itemPath] = {
-      top: rect.bottom + window.scrollY + 4,
-      left: rect.right + window.scrollX - 150 // Dropdown width
-    };
   }
 };
 
 const closeAllDropdowns = () => {
   activeDropdown.value = null;
+};
+
+// Handle dropdown option selection
+const selectDropdownOption = (option: string) => {
+  selectedDropdownOption.value = option;
+};
+
+const selectItemDropdownOption = (option: string) => {
+  selectedItemDropdownOption.value = option;
 };
 
 // Dropdown action handlers
@@ -185,6 +194,15 @@ watch(searchResults, () => {
       setTimeout(() => scrollSelectedIntoView(), 100);
     });
   }
+});
+
+// Watch for filter changes to update selected state
+watch(typeFilter, (newValue) => {
+  selectedDropdownOption.value = `type-${newValue}`;
+});
+
+watch(sizeFilter, (newValue) => {
+  selectedDropdownOption.value = `size-${newValue}`;
 });
 
 // Perform search
@@ -357,15 +375,9 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
-// Handle window resize to recalculate dropdown position
+// Handle window resize
 const handleResize = () => {
-  if (showDropdown.value && dropdownBtn.value) {
-    toggleDropdown(); // Close and reopen to recalculate position
-    nextTick(() => {
-      showDropdown.value = true;
-      toggleDropdown(); // This will recalculate the position
-    });
-  }
+  // No need for JavaScript positioning anymore
 };
 
 // Scroll selected item into view
@@ -388,6 +400,9 @@ onMounted(() => {
   document.addEventListener('keydown', handleKeydown);
   document.addEventListener('click', handleClickOutside);
   window.addEventListener('resize', handleResize);
+  
+  // Initialize selected state
+  selectedDropdownOption.value = `type-${typeFilter.value}`;
   
   nextTick(() => {
     if (searchInput.value) {
@@ -412,30 +427,6 @@ const toggleDropdown = () => {
         searchInput.value.focus();
       }
     });
-  }
-  
-  if (showDropdown.value && dropdownBtn.value) {
-    const rect = dropdownBtn.value.getBoundingClientRect();
-    const isMobile = window.innerWidth <= 767;
-    const dropdownWidth = isMobile ? 160 : 180;
-    const dropdownHeight = isMobile ? 185 : 169; // Estimated height
-    
-    if (isMobile) {
-      // Mobile: position dropdown above button, aligned to right edge
-      const leftPosition = rect.right + window.scrollX - dropdownWidth; // Align right edge with button's left edge
-      const topPosition = rect.top + window.scrollY - dropdownHeight; // Position above button
-      
-      dropdownPosition.value = {
-        top: Math.max(8, topPosition),
-        left: Math.max(8, leftPosition)
-      };
-    } else {
-      // Desktop: position below the button, aligned to the right
-      dropdownPosition.value = {
-        top: rect.bottom + window.scrollY + 4,
-        left: rect.right + window.scrollX - dropdownWidth
-      };
-    }
   }
 };
 
@@ -559,17 +550,11 @@ const handleClickOutside = (event: MouseEvent) => {
           >
             <GearSVG class="vuefinder__search-modal__dropdown-icon" />
           </button>
-        </div>
-
-        <!-- Dropdown Menu (Teleported outside modal) -->
-     
+          
+          <!-- Dropdown Menu -->
           <div 
             v-if="showDropdown" 
-            class="vuefinder__search-modal__dropdown" 
-            :style="{ 
-              top: dropdownPosition.top + 'px', 
-              left: dropdownPosition.left + 'px' 
-            }"
+            class="vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible" 
             @click.stop
           >
             <div class="vuefinder__search-modal__dropdown-content">
@@ -577,7 +562,11 @@ const handleClickOutside = (event: MouseEvent) => {
               <div class="vuefinder__search-modal__dropdown-section">
                 <div class="vuefinder__search-modal__dropdown-title">{{ t('Type') }}</div>
                 <div class="vuefinder__search-modal__dropdown-options">
-                  <label class="vuefinder__search-modal__dropdown-option" @click.stop>
+                  <label 
+                    class="vuefinder__search-modal__dropdown-option" 
+                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'type-all' }"
+                    @click.stop="selectDropdownOption('type-all')"
+                  >
                     <input 
                       v-model="typeFilter" 
                       type="radio" 
@@ -587,7 +576,11 @@ const handleClickOutside = (event: MouseEvent) => {
                     />
                     <span>{{ t('All') }}</span>
                   </label>
-                  <label class="vuefinder__search-modal__dropdown-option" @click.stop>
+                  <label 
+                    class="vuefinder__search-modal__dropdown-option" 
+                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'type-files' }"
+                    @click.stop="selectDropdownOption('type-files')"
+                  >
                     <input 
                       v-model="typeFilter" 
                       type="radio" 
@@ -597,7 +590,11 @@ const handleClickOutside = (event: MouseEvent) => {
                     />
                     <span>{{ t('Files') }}</span>
                   </label>
-                  <label class="vuefinder__search-modal__dropdown-option" @click.stop>
+                  <label 
+                    class="vuefinder__search-modal__dropdown-option" 
+                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'type-folders' }"
+                    @click.stop="selectDropdownOption('type-folders')"
+                  >
                     <input 
                       v-model="typeFilter" 
                       type="radio" 
@@ -614,7 +611,11 @@ const handleClickOutside = (event: MouseEvent) => {
               <div class="vuefinder__search-modal__dropdown-section">
                 <div class="vuefinder__search-modal__dropdown-title">{{ t('Size') }}</div>
                 <div class="vuefinder__search-modal__dropdown-options">
-                  <label class="vuefinder__search-modal__dropdown-option" @click.stop>
+                  <label 
+                    class="vuefinder__search-modal__dropdown-option" 
+                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'size-all' }"
+                    @click.stop="selectDropdownOption('size-all')"
+                  >
                     <input 
                       v-model="sizeFilter" 
                       type="radio" 
@@ -624,7 +625,11 @@ const handleClickOutside = (event: MouseEvent) => {
                     />
                     <span>{{ t('All') }}</span>
                   </label>
-                  <label class="vuefinder__search-modal__dropdown-option" @click.stop>
+                  <label 
+                    class="vuefinder__search-modal__dropdown-option" 
+                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'size-small' }"
+                    @click.stop="selectDropdownOption('size-small')"
+                  >
                     <input 
                       v-model="sizeFilter" 
                       type="radio" 
@@ -634,7 +639,11 @@ const handleClickOutside = (event: MouseEvent) => {
                     />
                     <span>{{ t('Small') }}</span>
                   </label>
-                  <label class="vuefinder__search-modal__dropdown-option" @click.stop>
+                  <label 
+                    class="vuefinder__search-modal__dropdown-option" 
+                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'size-medium' }"
+                    @click.stop="selectDropdownOption('size-medium')"
+                  >
                     <input 
                       v-model="sizeFilter" 
                       type="radio" 
@@ -644,7 +653,11 @@ const handleClickOutside = (event: MouseEvent) => {
                     />
                     <span>{{ t('Medium') }}</span>
                   </label>
-                  <label class="vuefinder__search-modal__dropdown-option" @click.stop>
+                  <label 
+                    class="vuefinder__search-modal__dropdown-option" 
+                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'size-large' }"
+                    @click.stop="selectDropdownOption('size-large')"
+                  >
                     <input 
                       v-model="sizeFilter" 
                       type="radio" 
@@ -658,7 +671,7 @@ const handleClickOutside = (event: MouseEvent) => {
               </div>
             </div>
           </div>
-     
+        </div>
 
         <!-- Search Options -->
         <div class="vuefinder__search-modal__options" @click.stop>
@@ -773,21 +786,24 @@ const handleClickOutside = (event: MouseEvent) => {
                   <!-- Item Dropdown Menu -->
                   <div 
                     v-if="activeDropdown === item.path"
-                    class="vuefinder__search-modal__item-dropdown"
-                    :style="dropdownPositions[item.path]"
+                    class="vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible"
                     @click.stop
                   >
                     <div class="vuefinder__search-modal__item-dropdown-content">
                       <button 
                         class="vuefinder__search-modal__item-dropdown-option"
-                        @click="openContainingFolder(item)"
+                        :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `open-folder-${item.path}` }"
+                        @click="selectItemDropdownOption(`open-folder-${item.path}`); openContainingFolder(item)"
+                        @focus="selectItemDropdownOption(`open-folder-${item.path}`)"
                       >
                         <FolderSVG class="vuefinder__search-modal__item-dropdown-icon" />
                         <span>{{ t('Open Containing Folder') }}</span>
                       </button>
                       <button 
                         class="vuefinder__search-modal__item-dropdown-option"
-                        @click="previewItem(item)"
+                        :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `preview-${item.path}` }"
+                        @click="selectItemDropdownOption(`preview-${item.path}`); previewItem(item)"
+                        @focus="selectItemDropdownOption(`preview-${item.path}`)"
                       >
                         <FileSVG class="vuefinder__search-modal__item-dropdown-icon" />
                         <span>{{ t('Preview') }}</span>
