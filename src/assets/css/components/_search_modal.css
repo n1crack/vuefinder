@@ -17,7 +17,7 @@
 }
 
 .vuefinder__search-modal__search-input:focus-within {
-  @apply ring-2 ring-(--vf-accent-color);
+  @apply ring-1 ring-(--vf-accent-color);
 }
 
 .vuefinder__search-modal__search-input:has(input:disabled) {
@@ -127,7 +127,7 @@
 }
 
 .vuefinder__search-modal__location-icon {
-  @apply w-4 h-4 text-(--vf-text-secondary) flex-shrink-0;
+  @apply w-5 h-5 text-(--vf-text-secondary) flex-shrink-0;
 }
 
 .vuefinder__search-modal__location-icon svg {
@@ -135,11 +135,11 @@
 }
 
 .vuefinder__search-modal__location-text {
-  @apply text-(--vf-text-primary) font-medium truncate flex-1;
+  @apply text-(--vf-text-primary) text-left font-medium truncate flex-1;
 }
 
 .vuefinder__search-modal__location-arrow {
-  @apply w-4 h-4 text-(--vf-text-secondary) transition-transform duration-200 flex-shrink-0;
+  @apply w-6 h-6 text-(--vf-text-secondary) transition-transform duration-200 flex-shrink-0;
 }
 
 .vuefinder__search-modal__location-btn--open .vuefinder__search-modal__location-arrow {
@@ -327,7 +327,7 @@
   }
   
   .vuefinder__search-modal__location-icon {
-    @apply w-3 h-3 text-(--vf-text-secondary);
+    @apply  text-(--vf-text-secondary);
   }
   
   .vuefinder__search-modal__location-icon svg {
