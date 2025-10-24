@@ -65,6 +65,8 @@ watch(query, async (newQuery) => {
         resultsEnter.value = true;
         // Initialize OverlayScrollbars after results are shown
         initializeScrollbar();
+        // Ensure first item is visible
+        setTimeout(() => scrollSelectedIntoView(), 100);
       });
     }
   } else {
@@ -85,6 +87,8 @@ watch(searchResults, () => {
   if (searchResults.value.length > 0 && !showFolderSelector.value) {
     nextTick(() => {
       initializeScrollbar();
+      // Ensure first item is visible when results change
+      setTimeout(() => scrollSelectedIntoView(), 100);
     });
   }
 });
@@ -178,6 +182,7 @@ const handleInputKeydown = (e: KeyboardEvent) => {
     e.stopPropagation();
     if (selectedIndex.value < searchResults.value.length - 1) {
       selectedIndex.value++;
+      nextTick(() => scrollSelectedIntoView());
     }
     return;
   }
@@ -187,6 +192,7 @@ const handleInputKeydown = (e: KeyboardEvent) => {
     e.stopPropagation();
     if (selectedIndex.value > 0) {
       selectedIndex.value--;
+      nextTick(() => scrollSelectedIntoView());
     }
     return;
   }
@@ -225,6 +231,7 @@ const handleKeydown = (e: KeyboardEvent) => {
     e.stopPropagation();
     if (selectedIndex.value < searchResults.value.length - 1) {
       selectedIndex.value++;
+      nextTick(() => scrollSelectedIntoView());
     }
     return;
   }
@@ -234,6 +241,7 @@ const handleKeydown = (e: KeyboardEvent) => {
     e.stopPropagation();
     if (selectedIndex.value > 0) {
       selectedIndex.value--;
+      nextTick(() => scrollSelectedIntoView());
     }
     return;
   }
@@ -279,6 +287,29 @@ const initializeScrollbar = () => {
     });
     osInstance.value = instance;
     console.log('OverlayScrollbars instance created:', instance);
+  }
+};
+
+// Scroll selected item into view
+const scrollSelectedIntoView = () => {
+  if (selectedIndex.value >= 0 && osInstance.value) {
+    const scrollElement = osInstance.value.elements().scrollOffsetElement as HTMLElement;
+    const resultItems = scrollElement.querySelectorAll('.vuefinder__search-modal__result-item');
+    const selectedItem = resultItems[selectedIndex.value] as HTMLElement;
+    
+    if (selectedItem) {
+      const containerRect = scrollElement.getBoundingClientRect();
+      const itemRect = selectedItem.getBoundingClientRect();
+      
+      // Check if item is above visible area
+      if (itemRect.top < containerRect.top) {
+        scrollElement.scrollTop = selectedItem.offsetTop - 10; // 10px padding
+      }
+      // Check if item is below visible area
+      else if (itemRect.bottom > containerRect.bottom) {
+        scrollElement.scrollTop = selectedItem.offsetTop - containerRect.height + selectedItem.offsetHeight + 10; // 10px padding
+      }
+    }
   }
 };
 
