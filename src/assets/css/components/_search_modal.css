@@ -27,7 +27,7 @@
 .vuefinder__search-modal__search-icon {
   @apply w-4 h-4 flex-shrink-0 stroke-(--vf-accent-primary) text-(--vf-bg-primary);
 }
- 
+
 .vuefinder__search-modal__input {
   @apply flex-1 bg-transparent border-0 outline-none text-(--vf-text-primary) placeholder-(--vf-text-secondary);
 }
@@ -122,6 +122,10 @@
   @apply bg-(--vf-bg-secondary) border-l border-r border-b border-(--vf-border-primary) rounded-t-lg;
 }
 
+.vuefinder__search-modal__location-btn--open .vuefinder__search-modal__location-icon {
+  @apply text-(--vf-accent-color);
+}
+
 .vuefinder__search-modal__location-icon {
   @apply w-4 h-4 text-(--vf-text-secondary) flex-shrink-0;
 }
@@ -130,14 +134,10 @@
   @apply fill-current stroke-current;
 }
 
-.vuefinder__search-modal__location-btn--open .vuefinder__search-modal__location-icon {
-  @apply text-(--vf-accent-color);
-}
-
 .vuefinder__search-modal__location-text {
   @apply text-(--vf-text-primary) font-medium truncate flex-1;
 }
- 
+
 .vuefinder__search-modal__location-arrow {
   @apply w-4 h-4 text-(--vf-text-secondary) transition-transform duration-200 flex-shrink-0;
 }
@@ -150,15 +150,15 @@
   @apply flex items-center gap-2 cursor-pointer text-sm text-(--vf-text-secondary);
 }
 
+.vuefinder__search-modal__deep-search:has(input:disabled) {
+  @apply opacity-60 cursor-not-allowed;
+}
+
 .vuefinder__search-modal__checkbox {
   @apply w-4 h-4 rounded text-(--vf-accent-primary) accent-(--vf-accent-primary);
 }
 
 .vuefinder__search-modal__checkbox:disabled {
-  @apply opacity-60 cursor-not-allowed;
-}
-
-.vuefinder__search-modal__deep-search:has(input:disabled) {
   @apply opacity-60 cursor-not-allowed;
 }
 
@@ -204,8 +204,8 @@
   @apply flex items-center text-xs gap-3 p-2 rounded-lg cursor-pointer hover:bg-(--vf-bg-secondary);
 }
 
-.vuefinder__search-modal__result-item--selected { 
-  @apply  shadow-sm border border-(--vf-accent-secondary);
+.vuefinder__search-modal__result-item--selected {
+  @apply shadow-sm border border-(--vf-accent-secondary);
 }
 
 .vuefinder__search-modal__result-item--selected .vuefinder__search-modal__result-icon {
@@ -338,6 +338,7 @@
   .vuefinder__search-modal__checkbox {
     @apply w-3 h-3;
   }
+  
   .vuefinder__search-modal__results {
     @apply py-1 flex-1 min-h-0;
   }
@@ -368,30 +369,27 @@
   
   /* Mobile-only animations */
   .vuefinder__search-modal__instructions {
-    transform: translateX(0);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    @apply translate-x-0 transition-transform duration-300 ease-out;
   }
   
   .vuefinder__search-modal__instructions--exit {
-    transform: translateX(-100%);
+    @apply -translate-x-full;
   }
   
   .vuefinder__search-modal__results {
-    transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    @apply translate-x-full transition-transform duration-300 ease-out;
   }
   
   .vuefinder__search-modal__results--enter {
-    transform: translateX(0);
+    @apply translate-x-0;
   }
   
   .vuefinder__search-modal__folder-selector {
-    transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    @apply translate-x-full transition-transform duration-300 ease-out;
   }
   
   .vuefinder__search-modal__folder-selector--enter {
-    transform: translateX(0);
+    @apply translate-x-0;
   }
 }
 
