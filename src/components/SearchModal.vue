@@ -225,6 +225,15 @@ const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
   console.log('New dropdown state:', showDropdown.value);
   
+  // Refocus input when dropdown closes
+  if (!showDropdown.value) {
+    nextTick(() => {
+      if (searchInput.value) {
+        searchInput.value.focus();
+      }
+    });
+  }
+  
   if (showDropdown.value && dropdownBtn.value) {
     const rect = dropdownBtn.value.getBoundingClientRect();
     const isMobile = window.innerWidth <= 767;
@@ -318,6 +327,13 @@ onUnmounted(() => {
 const handleClickOutside = (event: MouseEvent) => {
   if (showDropdown.value && dropdownBtn.value && !dropdownBtn.value.contains(event.target as Node)) {
     showDropdown.value = false;
+    
+    // Refocus input when dropdown closes
+    nextTick(() => {
+      if (searchInput.value) {
+        searchInput.value.focus();
+      }
+    });
   }
 };
 </script>
