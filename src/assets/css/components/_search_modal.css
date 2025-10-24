@@ -181,7 +181,7 @@
 
 /* Results */
 .vuefinder__search-modal__results {
-  @apply flex-1 overflow-y-auto py-2 min-h-0;
+  @apply flex-1 flex flex-col min-h-0 max-h-[50vh];
 }
 
 .vuefinder__search-modal__searching {
@@ -192,12 +192,20 @@
   @apply text-center py-8 text-(--vf-text-secondary);
 }
 
+.vuefinder__search-modal__results-list {
+  @apply flex flex-col flex-1 min-h-0;
+}
+
 .vuefinder__search-modal__results-header {
-  @apply text-sm font-medium text-(--vf-text-primary) mb-2 pb-2 border-b border-(--vf-border-primary);
+  @apply text-sm font-medium text-(--vf-text-primary) mb-2 pb-2 border-b border-(--vf-border-primary) flex-shrink-0;
+}
+
+.vuefinder__search-modal__results-scrollable {
+  @apply flex-1 min-h-0 max-h-[300px];
 }
 
 .vuefinder__search-modal__results-items {
-  @apply space-y-1;
+  @apply space-y-1 p-2;
 }
 
 .vuefinder__search-modal__result-item {
@@ -284,7 +292,7 @@
   }
   
   .vuefinder__search-modal-layout .vuefinder__modal-layout__body {
-    @apply mb-0 mt-auto max-h-[90vh] w-[95%];
+    @apply mb-0 mt-auto w-[95%];
   }
   
   .vuefinder__search-modal__content {
@@ -336,11 +344,15 @@
   }
   
   .vuefinder__search-modal__results {
-    @apply py-1 flex-1 min-h-0;
+    @apply py-1 flex-1 min-h-0 max-h-[40vh];
+  }
+  
+  .vuefinder__search-modal__results-scrollable {
+    @apply flex-1 max-h-[250px];
   }
   
   .vuefinder__search-modal__results-items {
-    @apply flex-1;
+    @apply p-1;
   }
   
   .vuefinder__search-modal__folder-selector-header {

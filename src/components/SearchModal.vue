@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch, useTemplateRef } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { inject } from 'vue';
 import useDebouncedRef from '../composables/useDebouncedRef';
+import { OverlayScrollbars } from 'overlayscrollbars';
+import 'overlayscrollbars/overlayscrollbars.css';
 import SearchSVG from '../assets/icons/search.svg';
 import LoadingSVG from '../assets/icons/loading.svg';
 import FileSVG from '../assets/icons/file.svg';
@@ -26,6 +28,10 @@ const query = useDebouncedRef('', 300);
 const searchResults = ref<DirEntry[]>([]);
 const isSearching = ref(false);
 const selectedIndex = ref(-1);
+
+// OverlayScrollbars
+const osInstance = ref<ReturnType<typeof OverlayScrollbars> | null>(null);
+const scrollableContainer = useTemplateRef<HTMLElement>('scrollableContainer');
 
 // Advanced search state
 const showDropdown = ref(false);
@@ -57,6 +63,8 @@ watch(query, async (newQuery) => {
     if (!showFolderSelector.value) {
       nextTick(() => {
         resultsEnter.value = true;
+        // Initialize OverlayScrollbars after results are shown
+        initializeScrollbar();
       });
     }
   } else {
@@ -64,6 +72,20 @@ watch(query, async (newQuery) => {
     isSearching.value = false;
     selectedIndex.value = -1;
     resultsEnter.value = false;
+    // Clean up scrollbar when no results
+    if (osInstance.value) {
+      osInstance.value.destroy();
+      osInstance.value = null;
+    }
+  }
+});
+
+// Watch for results changes to reinitialize scrollbar
+watch(searchResults, () => {
+  if (searchResults.value.length > 0 && !showFolderSelector.value) {
+    nextTick(() => {
+      initializeScrollbar();
+    });
   }
 });
 
@@ -145,21 +167,12 @@ const handleItemClick = (item: DirEntry) => {
   app.modal.close();
 };
 
-// Handle keyboard navigation
-const handleKeydown = (e: KeyboardEvent) => {
-  // Only handle keyboard events if the modal is visible and focused
-  if (!app.modal.visible) return;
-  
+// Handle input-specific keyboard navigation
+const handleInputKeydown = (e: KeyboardEvent) => {
   // Don't handle events if we're currently searching
   if (isSearching.value) return;
   
-  if (e.key === 'Escape') {
-    e.preventDefault();
-    e.stopPropagation();
-    app.modal.close();
-    return;
-  }
-  
+  // Handle arrow keys for result navigation
   if (e.key === 'ArrowDown') {
     e.preventDefault();
     e.stopPropagation();
@@ -189,6 +202,60 @@ const handleKeydown = (e: KeyboardEvent) => {
     }
     return;
   }
+  
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    e.stopPropagation();
+    app.modal.close();
+    return;
+  }
+};
+
+// Handle keyboard navigation
+const handleKeydown = (e: KeyboardEvent) => {
+  // Only handle keyboard events if the modal is visible
+  if (!app.modal.visible) return;
+  
+  // Don't handle events if we're currently searching
+  if (isSearching.value) return;
+  
+  // Handle arrow keys for result navigation (even when input is focused)
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    e.stopPropagation();
+    if (selectedIndex.value < searchResults.value.length - 1) {
+      selectedIndex.value++;
+    }
+    return;
+  }
+  
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    e.stopPropagation();
+    if (selectedIndex.value > 0) {
+      selectedIndex.value--;
+    }
+    return;
+  }
+  
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    e.stopPropagation();
+    if (selectedIndex.value >= 0 && selectedIndex.value < searchResults.value.length) {
+      const selectedItem = searchResults.value[selectedIndex.value];
+      if (selectedItem) {
+        handleItemClick(selectedItem);
+      }
+    }
+    return;
+  }
+  
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    e.stopPropagation();
+    app.modal.close();
+    return;
+  }
 };
 
 // Handle window resize to recalculate dropdown position
@@ -202,11 +269,25 @@ const handleResize = () => {
   }
 };
 
+// Initialize OverlayScrollbars
+const initializeScrollbar = () => {
+  console.log('Initializing scrollbar, container:', scrollableContainer.value, 'instance:', osInstance.value);
+  if (scrollableContainer.value && !osInstance.value) {
+    console.log('Creating OverlayScrollbars instance');
+    const instance = OverlayScrollbars(scrollableContainer.value, {
+      scrollbars: { theme: 'vf-scrollbars-theme' }
+    });
+    osInstance.value = instance;
+    console.log('OverlayScrollbars instance created:', instance);
+  }
+};
+
 // Event listeners
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown);
   document.addEventListener('click', handleClickOutside);
   window.addEventListener('resize', handleResize);
+  
   nextTick(() => {
     if (searchInput.value) {
       searchInput.value.focus();
@@ -306,21 +387,27 @@ const handleFolderSelect = (entry: DirEntry | null) => {
       if (query.value.trim()) {
         nextTick(() => {
           resultsEnter.value = true;
+          // Initialize scrollbar after animation
+          setTimeout(() => {
+            initializeScrollbar();
+          }, 300);
         });
       }
     }, 300);
   }
 };
 
-// Cancel folder selection
-const cancelFolderSelect = () => {
-  showFolderSelector.value = false;
-};
 
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown);
   document.removeEventListener('click', handleClickOutside);
   window.removeEventListener('resize', handleResize);
+  
+  // Cleanup OverlayScrollbars
+  if (osInstance.value) {
+    osInstance.value.destroy();
+    osInstance.value = null;
+  }
 });
 
 // Handle click outside to close dropdown
@@ -356,7 +443,7 @@ const handleClickOutside = (event: MouseEvent) => {
               :placeholder="t('Search files and folders...')"
               :disabled="showFolderSelector"
               class="vuefinder__search-modal__input"
-              @keydown.stop
+              @keydown="handleInputKeydown"
               @keyup.stop
               @input.stop
             />
@@ -552,25 +639,27 @@ const handleClickOutside = (event: MouseEvent) => {
               <span>{{ t('Found %s results', resultCount) }}</span>
             </div>
             
-            <div class="vuefinder__search-modal__results-items">
-              <div
-                v-for="(item, index) in searchResults"
-                :key="item.path"
-                @click="handleItemClick(item)"
-                class="vuefinder__search-modal__result-item"
-                :class="{ 'vuefinder__search-modal__result-item--selected': index === selectedIndex }"
-                :title="item.basename"
-              >
-                <div class="vuefinder__search-modal__result-icon">
-                  <FolderSVG v-if="item.type === 'dir'" />
-                  <FileSVG v-else />
-                </div>
-                <div class="vuefinder__search-modal__result-content">
-                  <div class="vuefinder__search-modal__result-name">
-                    {{ item.basename }}
+            <div ref="scrollableContainer" class="vuefinder__search-modal__results-scrollable">
+              <div class="vuefinder__search-modal__results-items">
+                <div
+                  v-for="(item, index) in searchResults"
+                  :key="item.path"
+                  @click="handleItemClick(item)"
+                  class="vuefinder__search-modal__result-item"
+                  :class="{ 'vuefinder__search-modal__result-item--selected': index === selectedIndex }"
+                  :title="item.basename"
+                >
+                  <div class="vuefinder__search-modal__result-icon">
+                    <FolderSVG v-if="item.type === 'dir'" />
+                    <FileSVG v-else />
                   </div>
-                  <div class="vuefinder__search-modal__result-path">
-                    {{ item.path }}
+                  <div class="vuefinder__search-modal__result-content">
+                    <div class="vuefinder__search-modal__result-name">
+                      {{ item.basename }}
+                    </div>
+                    <div class="vuefinder__search-modal__result-path">
+                      {{ item.path }}
+                    </div>
                   </div>
                 </div>
               </div>
