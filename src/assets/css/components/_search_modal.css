@@ -209,7 +209,7 @@
 }
 
 .vuefinder__search-modal__result-item {
-  @apply flex items-center text-xs gap-3 p-2 rounded-lg cursor-pointer hover:bg-(--vf-bg-secondary);
+  @apply flex items-center text-xs gap-3 p-2 mr-2 rounded-lg cursor-pointer hover:bg-(--vf-bg-secondary);
 }
 
 .vuefinder__search-modal__result-item--selected {
@@ -225,7 +225,7 @@
 }
 
 .vuefinder__search-modal__result-icon {
-  @apply w-4 h-4 flex-shrink-0 text-(--vf-text-secondary);
+  @apply w-6 h-6 flex-shrink-0 text-(--vf-text-secondary);
 }
 
 .vuefinder__search-modal__result-icon svg {

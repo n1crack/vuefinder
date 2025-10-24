@@ -74,11 +74,6 @@ watch(query, async (newQuery) => {
     isSearching.value = false;
     selectedIndex.value = -1;
     resultsEnter.value = false;
-    // Clean up scrollbar when no results
-    if (osInstance.value) {
-      osInstance.value.destroy();
-      osInstance.value = null;
-    }
   }
 });
 
@@ -133,11 +128,8 @@ const performSearch = async (searchQuery: string) => {
       dontCloseModal: true,
       dontChangePath: true,
       onSuccess: (data: { files: DirEntry[] }) => {
-        console.log('Search success, results:', data.files?.length || 0);
-        console.log('Modal visible before setting results:', app.modal.visible);
         searchResults.value = data.files || [];
         isSearching.value = false;
-        console.log('Modal visible after setting results:', app.modal.visible);
       },
       onError: (error: unknown) => {
         console.log('Search error:', error);
@@ -279,14 +271,11 @@ const handleResize = () => {
 
 // Initialize OverlayScrollbars
 const initializeScrollbar = () => {
-  console.log('Initializing scrollbar, container:', scrollableContainer.value, 'instance:', osInstance.value);
   if (scrollableContainer.value && !osInstance.value) {
-    console.log('Creating OverlayScrollbars instance');
     const instance = OverlayScrollbars(scrollableContainer.value, {
       scrollbars: { theme: 'vf-scrollbars-theme' }
     });
     osInstance.value = instance;
-    console.log('OverlayScrollbars instance created:', instance);
   }
 };
 
@@ -333,9 +322,7 @@ const toggleDropdown = () => {
     return;
   }
   
-  console.log('Toggle dropdown clicked, current state:', showDropdown.value);
   showDropdown.value = !showDropdown.value;
-  console.log('New dropdown state:', showDropdown.value);
   
   // Refocus input when dropdown closes
   if (!showDropdown.value) {
@@ -418,10 +405,8 @@ const handleFolderSelect = (entry: DirEntry | null) => {
       if (query.value.trim()) {
         nextTick(() => {
           resultsEnter.value = true;
-          // Initialize scrollbar after animation
-          setTimeout(() => {
-            initializeScrollbar();
-          }, 300);
+          // Ensure first item is visible after animation
+          setTimeout(() => scrollSelectedIntoView(), 350);
         });
       }
     }, 300);
