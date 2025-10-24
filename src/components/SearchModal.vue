@@ -164,6 +164,23 @@ const previewItem = (item: DirEntry) => {
   closeAllDropdowns();
 };
 
+const copyItemPath = async (item: DirEntry) => {
+  try {
+    await navigator.clipboard.writeText(item.path);
+    console.log('Path copied to clipboard:', item.path);
+  } catch (error) {
+    console.error('Failed to copy path:', error);
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea');
+    textArea.value = item.path;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+  }
+  closeAllDropdowns();
+};
+
 // Watch for query changes and trigger search
 watch(query, async (newQuery) => {
   if (newQuery.trim()) {
@@ -790,6 +807,18 @@ const handleClickOutside = (event: MouseEvent) => {
                     @click.stop
                   >
                     <div class="vuefinder__search-modal__item-dropdown-content">
+                      <button 
+                        class="vuefinder__search-modal__item-dropdown-option"
+                        :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `copy-path-${item.path}` }"
+                        @click="selectItemDropdownOption(`copy-path-${item.path}`); copyItemPath(item)"
+                        @focus="selectItemDropdownOption(`copy-path-${item.path}`)"
+                      >
+                        <svg class="vuefinder__search-modal__item-dropdown-icon" viewBox="0 0 16 16" fill="currentColor">
+                          <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6z"/>
+                          <path d="M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
+                        </svg>
+                        <span>{{ t('Copy Path') }}</span>
+                      </button>
                       <button 
                         class="vuefinder__search-modal__item-dropdown-option"
                         :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `open-folder-${item.path}` }"
