@@ -8,6 +8,7 @@ import LoadingSVG from '../assets/icons/loading.svg';
 import FileSVG from '../assets/icons/file.svg';
 import FolderSVG from '../assets/icons/folder.svg';
 import GearSVG from '../assets/icons/gear.svg';
+import DotsSVG from '../assets/icons/dots.svg';
 import ModalLayout from './modals/ModalLayout.vue';
 import ModalHeader from './modals/ModalHeader.vue';
 import ModalPreview from './modals/ModalPreview.vue';
@@ -43,12 +44,116 @@ const folderSelectorEnter = ref(false);
 const instructionsExit = ref(false);
 const resultsEnter = ref(false);
 
+// Path expansion and dropdown states
+const expandedPaths = ref<Set<string>>(new Set());
+const activeDropdown = ref<string | null>(null);
+const dropdownPositions = ref<Record<string, { top: number; left: number }>>({});
+
 // Store subscriptions
 const currentPath = useStore(fs.path);
 
 // Computed values
 const hasResults = computed(() => searchResults.value.length > 0);
 const resultCount = computed(() => searchResults.value.length);
+
+// Utility functions
+const shortenPath = (path: string, maxLength: number = 30): string => {
+  if (path.length <= maxLength) return path;
+  
+  // Handle storage:// format properly
+  const storageMatch = path.match(/^([^/]+:\/\/)/);
+  if (!storageMatch) {
+    // Fallback for paths without storage:// format
+    return path.substring(0, maxLength - 3) + '...';
+  }
+  
+  const storage = storageMatch[1]; // e.g., "local://"
+  const pathAfterStorage = path.substring(storage.length); // Everything after "local://"
+  const parts = pathAfterStorage.split('/').filter(part => part !== ''); // Remove empty parts
+  
+  if (parts.length === 0) {
+    return storage;
+  }
+  
+  const filename = parts[parts.length - 1];
+  
+  if (parts.length === 1) {
+    // Simple case: storage://filename
+    if (storage.length + filename.length > maxLength) {
+      const availableSpace = maxLength - storage.length - 3; // -3 for "..."
+      if (availableSpace > 0) {
+        const keepStart = Math.floor(availableSpace / 2);
+        const keepEnd = Math.floor(availableSpace / 2);
+        const truncatedFilename = filename.substring(0, keepStart) + '...' + filename.substring(filename.length - keepEnd);
+        return `${storage}${truncatedFilename}`;
+      } else {
+        return path.substring(0, maxLength - 3) + '...';
+      }
+    }
+    return path;
+  }
+  
+  // Complex case: storage://folder1/folder2/.../filename
+  const folders = parts.slice(0, -1); // Get folders between storage and filename
+  
+  // Always show folders with ... when there are folders
+  return `${storage}.../${filename}`;
+};
+
+const togglePathExpansion = (path: string) => {
+  if (expandedPaths.value.has(path)) {
+    expandedPaths.value.delete(path);
+  } else {
+    expandedPaths.value.add(path);
+  }
+};
+
+const isPathExpanded = (path: string): boolean => {
+  return expandedPaths.value.has(path);
+};
+
+const toggleItemDropdown = (itemPath: string, event: MouseEvent) => {
+  event.stopPropagation();
+  
+  if (activeDropdown.value === itemPath) {
+    activeDropdown.value = null;
+  } else {
+    activeDropdown.value = itemPath;
+    
+    // Calculate dropdown position
+    const rect = (event.target as HTMLElement).getBoundingClientRect();
+    dropdownPositions.value[itemPath] = {
+      top: rect.bottom + window.scrollY + 4,
+      left: rect.right + window.scrollX - 150 // Dropdown width
+    };
+  }
+};
+
+const closeAllDropdowns = () => {
+  activeDropdown.value = null;
+};
+
+// Dropdown action handlers
+const openContainingFolder = (item: DirEntry) => {
+  const parentPath = item.path.split('/').slice(0, -1).join('/') || '/';
+  app.emitter.emit('vf-fetch', {
+    params: {
+      q: 'index',
+      storage: currentPath?.value?.storage ?? 'local',
+      path: parentPath
+    }
+  });
+  app.modal.close();
+  closeAllDropdowns();
+};
+
+const previewItem = (item: DirEntry) => {
+  app.modal.open(ModalPreview, {
+    storage: currentPath?.value?.storage ?? 'local',
+    item: item
+  });
+  closeAllDropdowns();
+};
 
 // Watch for query changes and trigger search
 watch(query, async (newQuery) => {
@@ -90,7 +195,7 @@ const performSearch = async (searchQuery: string) => {
   isSearching.value = true;
   
   try {
-    const storage = currentPath.value?.storage ?? 'local';
+    const storage = currentPath?.value?.storage ?? 'local';
     
     // Build search parameters
     const searchParams: Record<string, string> = {
@@ -100,7 +205,7 @@ const performSearch = async (searchQuery: string) => {
     };
     
     // Add advanced search parameters - use selected folder or current path
-    const searchPath = targetFolderEntry.value?.path || currentPath.value?.path;
+    const searchPath = targetFolderEntry.value?.path || currentPath?.value?.path;
     if (searchPath) {
       searchParams.path = searchPath;
     }
@@ -144,13 +249,13 @@ const handleItemClick = (item: DirEntry) => {
     app.emitter.emit('vf-fetch', {
       params: {
         q: 'index',
-        storage: currentPath.value?.storage ?? 'local',
+        storage: currentPath?.value?.storage ?? 'local',
         path: item.path
       }
     });
   } else {
     app.modal.open(ModalPreview, {
-      storage: currentPath.value?.storage ?? 'local',
+      storage: currentPath?.value?.storage ?? 'local',
       item: item
     });
   }
@@ -398,6 +503,7 @@ onUnmounted(() => {
 
 // Handle click outside to close dropdown
 const handleClickOutside = (event: MouseEvent) => {
+  // Close search options dropdown
   if (showDropdown.value && dropdownBtn.value && !dropdownBtn.value.contains(event.target as Node)) {
     showDropdown.value = false;
     
@@ -407,6 +513,12 @@ const handleClickOutside = (event: MouseEvent) => {
         searchInput.value.focus();
       }
     });
+  }
+  
+  // Close item dropdowns
+  const target = event.target as HTMLElement;
+  if (activeDropdown.value && !target.closest('.vuefinder__search-modal__result-item')) {
+    closeAllDropdowns();
   }
 };
 </script>
@@ -557,7 +669,7 @@ const handleClickOutside = (event: MouseEvent) => {
               :class="{ 'vuefinder__search-modal__location-btn--open': showFolderSelector }"
             >
               <FolderSVG class="vuefinder__search-modal__location-icon" />
-              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath?.path || '/' }}</span>
+              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath.path }}</span>
               <svg class="vuefinder__search-modal__location-arrow" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"/>
               </svg>
@@ -630,7 +742,6 @@ const handleClickOutside = (event: MouseEvent) => {
                 <div
                   v-for="(item, index) in searchResults"
                   :key="item.path"
-                  @click="handleItemClick(item)"
                   class="vuefinder__search-modal__result-item"
                   :class="{ 'vuefinder__search-modal__result-item--selected': index === selectedIndex }"
                   :title="item.basename"
@@ -643,8 +754,44 @@ const handleClickOutside = (event: MouseEvent) => {
                     <div class="vuefinder__search-modal__result-name">
                       {{ item.basename }}
                     </div>
-                    <div class="vuefinder__search-modal__result-path">
-                      {{ item.path }}
+                    <div 
+                      class="vuefinder__search-modal__result-path"
+                      @click.stop="togglePathExpansion(item.path)"
+                      :title="item.path"
+                    >
+                      {{ isPathExpanded(item.path) ? item.path : shortenPath(item.path) }}
+                    </div>
+                  </div>
+                  <button
+                    class="vuefinder__search-modal__result-actions"
+                    @click="toggleItemDropdown(item.path, $event)"
+                    :title="t('More actions')"
+                  >
+                    <DotsSVG class="vuefinder__search-modal__result-actions-icon" />
+                  </button>
+                  
+                  <!-- Item Dropdown Menu -->
+                  <div 
+                    v-if="activeDropdown === item.path"
+                    class="vuefinder__search-modal__item-dropdown"
+                    :style="dropdownPositions[item.path]"
+                    @click.stop
+                  >
+                    <div class="vuefinder__search-modal__item-dropdown-content">
+                      <button 
+                        class="vuefinder__search-modal__item-dropdown-option"
+                        @click="openContainingFolder(item)"
+                      >
+                        <FolderSVG class="vuefinder__search-modal__item-dropdown-icon" />
+                        <span>{{ t('Open Containing Folder') }}</span>
+                      </button>
+                      <button 
+                        class="vuefinder__search-modal__item-dropdown-option"
+                        @click="previewItem(item)"
+                      >
+                        <FileSVG class="vuefinder__search-modal__item-dropdown-icon" />
+                        <span>{{ t('Preview') }}</span>
+                      </button>
                     </div>
                   </div>
                 </div>
