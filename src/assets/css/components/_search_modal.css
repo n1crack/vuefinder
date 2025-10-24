@@ -20,12 +20,20 @@
   @apply ring-2 ring-(--vf-accent-color);
 }
 
+.vuefinder__search-modal__search-input:has(input:disabled) {
+  @apply opacity-60 cursor-not-allowed;
+}
+
 .vuefinder__search-modal__search-icon {
   @apply w-4 h-4 flex-shrink-0 stroke-(--vf-accent-primary) text-(--vf-bg-primary);
 }
  
 .vuefinder__search-modal__input {
   @apply flex-1 bg-transparent border-0 outline-none text-(--vf-text-primary) placeholder-(--vf-text-secondary);
+}
+
+.vuefinder__search-modal__input:disabled {
+  @apply text-(--vf-text-secondary) cursor-not-allowed opacity-60;
 }
 
 .vuefinder__search-modal__loading {
@@ -51,6 +59,14 @@
 
 .vuefinder__search-modal__dropdown-btn--active {
   @apply bg-(--vf-accent-color) text-(--vf-accent-text) border-(--vf-accent-color);
+}
+
+.vuefinder__search-modal__dropdown-btn:disabled {
+  @apply opacity-60 cursor-not-allowed bg-(--vf-bg-primary) text-(--vf-text-secondary) border-(--vf-border-primary);
+}
+
+.vuefinder__search-modal__dropdown-btn:disabled:hover {
+  @apply bg-(--vf-bg-primary) text-(--vf-text-secondary);
 }
 
 .vuefinder__search-modal__dropdown-icon {
@@ -103,7 +119,7 @@
 }
 
 .vuefinder__search-modal__location-btn--open {
-  @apply bg-(--vf-bg-primary) border-l border-r border-b border-(--vf-border-primary) rounded-t-lg;
+  @apply bg-(--vf-bg-secondary) border-l border-r border-b border-(--vf-border-primary) rounded-t-lg;
 }
 
 .vuefinder__search-modal__location-icon {
@@ -140,6 +156,14 @@
 
 .vuefinder__search-modal__checkbox {
   @apply w-4 h-4 text-(--vf-accent-color) bg-(--vf-bg-primary) border-(--vf-border-primary) rounded;
+}
+
+.vuefinder__search-modal__checkbox:disabled {
+  @apply opacity-60 cursor-not-allowed;
+}
+
+.vuefinder__search-modal__deep-search:has(input:disabled) {
+  @apply opacity-60 cursor-not-allowed;
 }
 
 /* Instructions */
@@ -301,7 +325,7 @@
   }
   
   .vuefinder__search-modal__location-btn--open {
-    @apply rounded-t-lg;
+    @apply rounded-t-lg bg-(--vf-bg-secondary);
   }
   
   .vuefinder__search-modal__location-icon {
@@ -350,6 +374,34 @@
   
   .vuefinder__search-modal__folder-selector-select {
     @apply w-full py-2 text-sm;
+  }
+  
+  /* Mobile-only animations */
+  .vuefinder__search-modal__instructions {
+    transform: translateX(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .vuefinder__search-modal__instructions--exit {
+    transform: translateX(-100%);
+  }
+  
+  .vuefinder__search-modal__results {
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .vuefinder__search-modal__results--enter {
+    transform: translateX(0);
+  }
+  
+  .vuefinder__search-modal__folder-selector {
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .vuefinder__search-modal__folder-selector--enter {
+    transform: translateX(0);
   }
 }
 

@@ -35,6 +35,11 @@ const typeFilter = ref<'all' | 'files' | 'folders'>('all');
 const sizeFilter = ref<'all' | 'small' | 'medium' | 'large'>('all');
 const deepSearch = ref(false);
 
+// Animation states
+const folderSelectorEnter = ref(false);
+const instructionsExit = ref(false);
+const resultsEnter = ref(false);
+
 // Store subscriptions
 const currentPath = useStore(fs.path);
 
@@ -47,10 +52,18 @@ watch(query, async (newQuery) => {
   if (newQuery.trim()) {
     await performSearch(newQuery.trim());
     selectedIndex.value = 0;
+    
+    // Animate results in if not in folder selector
+    if (!showFolderSelector.value) {
+      nextTick(() => {
+        resultsEnter.value = true;
+      });
+    }
   } else {
     searchResults.value = [];
     isSearching.value = false;
     selectedIndex.value = -1;
+    resultsEnter.value = false;
   }
 });
 
@@ -203,6 +216,11 @@ onMounted(() => {
 
 // Advanced search functions
 const toggleDropdown = () => {
+  // Don't toggle if folder selector is open
+  if (showFolderSelector.value) {
+    return;
+  }
+  
   console.log('Toggle dropdown clicked, current state:', showDropdown.value);
   showDropdown.value = !showDropdown.value;
   console.log('New dropdown state:', showDropdown.value);
@@ -211,16 +229,16 @@ const toggleDropdown = () => {
     const rect = dropdownBtn.value.getBoundingClientRect();
     const isMobile = window.innerWidth <= 767;
     const dropdownWidth = isMobile ? 160 : 180;
-    const dropdownHeight = isMobile ? 100 : 120; // Estimated height
+    const dropdownHeight = isMobile ? 185 : 169; // Estimated height
     
     if (isMobile) {
-      // Mobile: position above the button, centered horizontally
-      const leftPosition = Math.max(8, rect.left + window.scrollX - dropdownWidth + rect.width);
-      const topPosition = rect.top + window.scrollY - dropdownHeight - 8;
+      // Mobile: position dropdown above button, aligned to right edge
+      const leftPosition = rect.right + window.scrollX - dropdownWidth; // Align right edge with button's left edge
+      const topPosition = rect.top + window.scrollY - dropdownHeight; // Position above button
       
       dropdownPosition.value = {
-        top: Math.max(8, topPosition), // Ensure it doesn't go above viewport
-        left: Math.min(leftPosition, window.innerWidth - dropdownWidth - 8) // Ensure it doesn't go off screen
+        top: Math.max(8, topPosition),
+        left: Math.max(8, leftPosition)
       };
     } else {
       // Desktop: position below the button, aligned to the right
@@ -235,7 +253,24 @@ const toggleDropdown = () => {
 // Open folder selector modal
 const openFolderSelector = () => {
   console.log('Open folder selector clicked');
-  showFolderSelector.value = !showFolderSelector.value;
+  if (!showFolderSelector.value) {
+    // Opening folder selector - close dropdown first
+    showDropdown.value = false;
+    instructionsExit.value = true;
+    setTimeout(() => {
+      showFolderSelector.value = true;
+      nextTick(() => {
+        folderSelectorEnter.value = true;
+      });
+    }, 150); // Half of animation duration
+  } else {
+    // Closing folder selector
+    folderSelectorEnter.value = false;
+    setTimeout(() => {
+      showFolderSelector.value = false;
+      instructionsExit.value = false;
+    }, 300);
+  }
 };
 
 
@@ -251,7 +286,20 @@ const handleFolderSelect = (entry: DirEntry | null) => {
     console.log('Folder selected for search:', entry);
     // Only update the search location, don't change current path
     selectTargetFolder(entry);
-    showFolderSelector.value = false;
+    
+    // Animate folder selector exit
+    folderSelectorEnter.value = false;
+    setTimeout(() => {
+      showFolderSelector.value = false;
+      instructionsExit.value = false;
+      
+      // If there's a query, animate results in
+      if (query.value.trim()) {
+        nextTick(() => {
+          resultsEnter.value = true;
+        });
+      }
+    }, 300);
   }
 };
 
@@ -290,6 +338,7 @@ const handleClickOutside = (event: MouseEvent) => {
               v-model="query"
               type="text"
               :placeholder="t('Search files and folders...')"
+              :disabled="showFolderSelector"
               class="vuefinder__search-modal__input"
               @keydown.stop
               @keyup.stop
@@ -304,6 +353,7 @@ const handleClickOutside = (event: MouseEvent) => {
             @click.stop="toggleDropdown"
             class="vuefinder__search-modal__dropdown-btn"
             :class="{ 'vuefinder__search-modal__dropdown-btn--active': showDropdown }"
+            :disabled="showFolderSelector"
             :title="t('Search Options')"
           >
             <GearSVG class="vuefinder__search-modal__dropdown-icon" />
@@ -428,6 +478,7 @@ const handleClickOutside = (event: MouseEvent) => {
             <input 
               v-model="deepSearch"
               type="checkbox"
+              :disabled="showFolderSelector"
               class="vuefinder__search-modal__checkbox"
               @click.stop
             />
@@ -436,7 +487,7 @@ const handleClickOutside = (event: MouseEvent) => {
         </div>
 
         <!-- Folder Selector (when showFolderSelector is true) -->
-        <div v-if="showFolderSelector" class="vuefinder__search-modal__folder-selector">
+        <div v-if="showFolderSelector" class="vuefinder__search-modal__folder-selector" :class="{ 'vuefinder__search-modal__folder-selector--enter': folderSelectorEnter }">
           
           <div class="vuefinder__search-modal__folder-selector-content">
             <ModalTreeSelector
@@ -450,7 +501,7 @@ const handleClickOutside = (event: MouseEvent) => {
         </div>
 
         <!-- Instructions (when blank and folder selector closed) -->
-        <div v-if="!query.trim() && !showFolderSelector" class="vuefinder__search-modal__instructions">
+        <div v-if="!query.trim() && !showFolderSelector" class="vuefinder__search-modal__instructions" :class="{ 'vuefinder__search-modal__instructions--exit': instructionsExit }">
           <div class="vuefinder__search-modal__instructions-tips">
             <div class="vuefinder__search-modal__tip">
               <span class="vuefinder__search-modal__tip-key">↑↓</span>
@@ -468,7 +519,7 @@ const handleClickOutside = (event: MouseEvent) => {
         </div>
 
         <!-- Search Results (when query exists and folder selector closed) -->
-        <div v-if="query.trim() && !showFolderSelector" class="vuefinder__search-modal__results">
+        <div v-if="query.trim() && !showFolderSelector" class="vuefinder__search-modal__results" :class="{ 'vuefinder__search-modal__results--enter': resultsEnter }">
           <div v-if="isSearching" class="vuefinder__search-modal__searching">
             <div class="vuefinder__search-modal__loading-icon">
               <LoadingSVG class="vuefinder__search-modal__loading-icon" />
