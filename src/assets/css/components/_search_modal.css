@@ -319,7 +319,7 @@
   }
   
   .vuefinder__search-modal__location-btn {
-    @apply px-3 py-2 text-xs gap-2 rounded-lg;
+    @apply px-3 py-1 text-xs gap-2 rounded-lg;
   }
   
   .vuefinder__search-modal__location-btn--open {
