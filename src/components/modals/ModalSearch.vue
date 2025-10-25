@@ -323,6 +323,7 @@ const previewItem = (item: DirEntry) => {
 
 const selectResultItem = (index: number) => {
   selectedIndex.value = index;
+  closeAllDropdowns(); // Close any open dropdowns when selecting a new item
 };
 
 const copyItemPath = async (item: DirEntry) => {
@@ -713,8 +714,13 @@ const handleClickOutside = (event: MouseEvent) => {
   }
   
   // Close item dropdowns
-  if (activeDropdown.value && !target.closest('.vuefinder__search-modal__result-item')) {
-    closeAllDropdowns();
+  if (activeDropdown.value) {
+    const isClickOnItemDropdown = target.closest('.vuefinder__search-modal__item-dropdown');
+    const isClickOnResultItem = target.closest('.vuefinder__search-modal__result-item');
+    
+    if (!isClickOnItemDropdown && !isClickOnResultItem) {
+      closeAllDropdowns();
+    }
   }
 };
 </script>
