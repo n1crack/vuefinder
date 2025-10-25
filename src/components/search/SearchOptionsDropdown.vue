@@ -9,14 +9,12 @@ defineOptions({ name: 'SearchOptionsDropdown' });
 interface Props {
   visible: boolean;
   disabled?: boolean;
-  typeFilter: 'all' | 'files' | 'folders';
   sizeFilter: 'all' | 'small' | 'medium' | 'large';
   selectedOption: string | null;
 }
 
 interface Emits {
   (e: 'update:visible', value: boolean): void;
-  (e: 'update:typeFilter', value: 'all' | 'files' | 'folders'): void;
   (e: 'update:sizeFilter', value: 'all' | 'small' | 'medium' | 'large'): void;
   (e: 'update:selectedOption', value: string | null): void;
   (e: 'keydown', event: KeyboardEvent): void;
@@ -42,6 +40,12 @@ let cleanupDropdown: (() => void) | null = null;
 
 const selectDropdownOption = (option: string) => {
   emit('update:selectedOption', option);
+  
+  // Handle the actual filter selection
+  if (option.startsWith('size-')) {
+    const filterValue = option.split('-')[1] as 'all' | 'small' | 'medium' | 'large';
+    emit('update:sizeFilter', filterValue);
+  }
 };
 
 const toggleDropdown = async () => {
@@ -131,7 +135,7 @@ const setupDropdownPositioning = async () => {
 const handleDropdownKeydown = (e: KeyboardEvent) => {
   if (!props.visible) return;
   
-  const options = ['type-all', 'type-files', 'type-folders', 'size-all', 'size-small', 'size-medium', 'size-large'];
+  const options = ['size-all', 'size-small', 'size-medium', 'size-large'];
   const currentIndex = options.findIndex(opt => opt === props.selectedOption);
   
   if (e.key === 'ArrowDown') {
@@ -144,10 +148,8 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
     emit('update:selectedOption', options[prevIndex] || null);
   } else if (e.key === 'Enter') {
     e.preventDefault();
-    // Handle main dropdown option selection
-    if (props.selectedOption?.startsWith('type-')) {
-      emit('update:typeFilter', props.selectedOption.split('-')[1] as 'all' | 'files' | 'folders');
-    } else if (props.selectedOption?.startsWith('size-')) {
+    // Handle size filter selection
+    if (props.selectedOption?.startsWith('size-')) {
       emit('update:sizeFilter', props.selectedOption.split('-')[1] as 'all' | 'small' | 'medium' | 'large');
     }
   } else if (e.key === 'Escape') {
@@ -210,112 +212,67 @@ defineExpose({
       tabindex="-1"
     >
     <div class="vuefinder__search-modal__dropdown-content">
-      <!-- Type Filter -->
-      <div class="vuefinder__search-modal__dropdown-section">
-        <div class="vuefinder__search-modal__dropdown-title">{{ t('Type') }}</div>
-        <div class="vuefinder__search-modal__dropdown-options">
-          <label 
-            class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedOption === 'type-all' }"
-            @click.stop="selectDropdownOption('type-all')"
-          >
-            <input 
-              :checked="typeFilter === 'all'"
-              type="radio" 
-              value="all" 
-              class="vuefinder__search-modal__radio"
-              @click.stop
-            />
-            <span>{{ t('All') }}</span>
-          </label>
-          <label 
-            class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedOption === 'type-files' }"
-            @click.stop="selectDropdownOption('type-files')"
-          >
-            <input 
-              :checked="typeFilter === 'files'"
-              type="radio" 
-              value="files" 
-              class="vuefinder__search-modal__radio"
-              @click.stop
-            />
-            <span>{{ t('Files') }}</span>
-          </label>
-          <label 
-            class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedOption === 'type-folders' }"
-            @click.stop="selectDropdownOption('type-folders')"
-          >
-            <input 
-              :checked="typeFilter === 'folders'"
-              type="radio" 
-              value="folders" 
-              class="vuefinder__search-modal__radio"
-              @click.stop
-            />
-            <span>{{ t('Folders') }}</span>
-          </label>
-        </div>
-      </div>
-
       <!-- Size Filter -->
       <div class="vuefinder__search-modal__dropdown-section">
         <div class="vuefinder__search-modal__dropdown-title">{{ t('Size') }}</div>
         <div class="vuefinder__search-modal__dropdown-options">
           <label 
             class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedOption === 'size-all' }"
+            :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'all' }"
             @click.stop="selectDropdownOption('size-all')"
           >
             <input 
               :checked="sizeFilter === 'all'"
               type="radio" 
+              name="sizeFilter"
               value="all" 
               class="vuefinder__search-modal__radio"
-              @click.stop
+              @click.stop="selectDropdownOption('size-all')"
             />
             <span>{{ t('All') }}</span>
           </label>
           <label 
             class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedOption === 'size-small' }"
+            :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'small' }"
             @click.stop="selectDropdownOption('size-small')"
           >
             <input 
               :checked="sizeFilter === 'small'"
               type="radio" 
+              name="sizeFilter"
               value="small" 
               class="vuefinder__search-modal__radio"
-              @click.stop
+              @click.stop="selectDropdownOption('size-small')"
             />
             <span>{{ t('Small') }}</span>
           </label>
           <label 
             class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedOption === 'size-medium' }"
+            :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'medium' }"
             @click.stop="selectDropdownOption('size-medium')"
           >
             <input 
               :checked="sizeFilter === 'medium'"
               type="radio" 
+              name="sizeFilter"
               value="medium" 
               class="vuefinder__search-modal__radio"
-              @click.stop
+              @click.stop="selectDropdownOption('size-medium')"
             />
             <span>{{ t('Medium') }}</span>
           </label>
           <label 
             class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedOption === 'size-large' }"
+            :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'large' }"
             @click.stop="selectDropdownOption('size-large')"
           >
             <input 
               :checked="sizeFilter === 'large'"
               type="radio" 
+              name="sizeFilter"
               value="large" 
               class="vuefinder__search-modal__radio"
-              @click.stop
+              @click.stop="selectDropdownOption('size-large')"
             />
             <span>{{ t('Large') }}</span>
           </label>

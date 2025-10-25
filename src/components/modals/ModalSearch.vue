@@ -36,7 +36,6 @@ const selectedIndex = ref(-1);
 const showDropdown = ref(false);
 const showFolderSelector = ref(false);
 const targetFolderEntry = ref<DirEntry | null>(null);
-const typeFilter = ref<'all' | 'files' | 'folders'>('all');
 const sizeFilter = ref<'all' | 'small' | 'medium' | 'large'>('all');
 const deepSearch = ref(false);
 
@@ -167,13 +166,46 @@ watch(searchResults, () => {
   }
 });
 
-// Watch for filter changes to update selected state
-watch(typeFilter, (newValue) => {
-  selectedDropdownOption.value = `type-${newValue}`;
+// Watch for filter changes to update selected state and trigger search
+watch(sizeFilter, async (newValue) => {
+  selectedDropdownOption.value = `size-${newValue}`;
+  
+  // Trigger search if there's a query and we're not in the folder selector
+  if (query.value.trim() && !showFolderSelector.value) {
+    await performSearch(query.value.trim());
+    selectedIndex.value = 0;
+    
+    // Animate results in
+    nextTick(() => {
+      resultsEnter.value = true;
+      // Ensure first item is visible
+      setTimeout(() => {
+        if (searchResultsListRef.value) {
+          searchResultsListRef.value.scrollSelectedIntoView();
+        }
+      }, 100);
+    });
+  }
 });
 
-watch(sizeFilter, (newValue) => {
-  selectedDropdownOption.value = `size-${newValue}`;
+// Watch for deep search changes to trigger search
+watch(deepSearch, async () => {
+  // Only trigger search if there's a query and we're not in the folder selector
+  if (query.value.trim() && !showFolderSelector.value) {
+    await performSearch(query.value.trim());
+    selectedIndex.value = 0;
+    
+    // Animate results in
+    nextTick(() => {
+      resultsEnter.value = true;
+      // Ensure first item is visible
+      setTimeout(() => {
+        if (searchResultsListRef.value) {
+          searchResultsListRef.value.scrollSelectedIntoView();
+        }
+      }, 100);
+    });
+  }
 });
 
 // Perform search
@@ -196,10 +228,6 @@ const performSearch = async (searchQuery: string) => {
     const searchPath = targetFolderEntry.value?.path || currentPath?.value?.path;
     if (searchPath) {
       searchParams.path = searchPath;
-    }
-    
-    if (typeFilter.value !== 'all') {
-      searchParams.type = typeFilter.value;
     }
     
     if (sizeFilter.value !== 'all') {
@@ -358,7 +386,7 @@ onMounted(() => {
   window.addEventListener('resize', handleResize);
   
   // Initialize selected state
-  selectedDropdownOption.value = `type-${typeFilter.value}`;
+  selectedDropdownOption.value = `size-${sizeFilter.value}`;
   
   nextTick(() => {
     if (searchInputRef.value) {
@@ -507,7 +535,6 @@ const handleClickOutside = (event: MouseEvent) => {
           <SearchOptionsDropdown
             ref="searchOptionsDropdownRef"
             v-model:visible="showDropdown"
-            v-model:type-filter="typeFilter"
             v-model:size-filter="sizeFilter"
             v-model:selected-option="selectedDropdownOption"
             :disabled="showFolderSelector"
