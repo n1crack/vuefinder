@@ -2,7 +2,6 @@
 import { ref, inject } from 'vue';
 import SearchSVG from '../../assets/icons/search.svg';
 import LoadingSVG from '../../assets/icons/loading.svg';
-import GearSVG from '../../assets/icons/gear.svg';
 
 defineOptions({ name: 'SearchInput' });
 
@@ -15,12 +14,9 @@ interface Props {
 interface Emits {
   (e: 'update:modelValue', value: string): void;
   (e: 'keydown', event: KeyboardEvent): void;
-  (e: 'dropdown-click', event: MouseEvent): void;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  disabled: false
-});
+defineProps<Props>();
 
 const emit = defineEmits<Emits>();
 
@@ -36,10 +32,6 @@ const handleInput = (event: Event) => {
 
 const handleKeydown = (event: KeyboardEvent) => {
   emit('keydown', event);
-};
-
-const handleDropdownClick = (event: MouseEvent) => {
-  emit('dropdown-click', event);
 };
 
 defineExpose({
@@ -68,14 +60,5 @@ defineExpose({
     <div v-if="isSearching" class="vuefinder__search-modal__loading">
       <LoadingSVG class="vuefinder__search-modal__loading-icon" />
     </div>
-    <!-- Mobile dropdown button inside search input -->
-    <button 
-      @click.stop="handleDropdownClick"
-      class="vuefinder__search-modal__dropdown-btn-mobile"
-      :disabled="disabled"
-      :title="t('Search Options')"
-    >
-      <GearSVG class="vuefinder__search-modal__dropdown-icon" />
-    </button>
   </div>
 </template>

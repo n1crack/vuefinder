@@ -50,7 +50,7 @@
 
 /* Dropdown */
 .vuefinder__search-modal__dropdown-btn {
-  @apply p-2 rounded-lg transition-all duration-200 border border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-secondary) hidden md:flex;
+  @apply p-2 rounded-lg transition-all duration-200 border border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-secondary) flex;
 }
 
 .vuefinder__search-modal__dropdown-btn:hover {
@@ -358,24 +358,7 @@
   @apply fill-current stroke-current;
 }
 
-/* Mobile dropdown button inside search input */
-.vuefinder__search-modal__dropdown-btn-mobile {
-  @apply absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-(--vf-text-secondary) hover:text-(--vf-text-primary) hover:bg-(--vf-bg-hover) rounded transition-colors md:hidden;
-}
 
-/* Desktop dropdown container */
-.vuefinder__search-modal__desktop-dropdown {
-  @apply hidden md:block;
-}
-
-/* Mobile dropdown - inline on mobile */
-.vuefinder__search-modal__mobile-dropdown {
-  @apply md:hidden rounded-lg mt-2 shadow-lg border border-(--vf-border-primary);
-}
-
-.vuefinder__search-modal__mobile-dropdown .vuefinder__search-modal__dropdown-content {
-  @apply p-1 bg-(--vf-bg-primary);
-}
 
 /* Folder Selector */
 .vuefinder__search-modal__folder-selector {
