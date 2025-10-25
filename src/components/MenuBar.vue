@@ -3,6 +3,7 @@ import {inject, ref, computed, onMounted, onUnmounted} from 'vue';
 import {useStore} from '@nanostores/vue';
 import {FEATURES} from "../features.js";
 import type {DirEntry} from "../types";
+import { copyPath, copyDownloadUrl } from '../utils/clipboard';
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalNewFile from "./modals/ModalNewFile.vue";
 import ModalRename from "./modals/ModalRename.vue";
@@ -198,20 +199,16 @@ const menuItems = computed(() => [
       {
         id: 'copy-path',
         label: t('Copy Path'),
-        action: () => {
+        action: async () => {
           if (selectedItems.value.length === 1) {
-            // Seçili item varsa onun path'ini kopyala
+            // Copy selected item's path
             const item = selectedItems.value[0];
-            navigator.clipboard.writeText(item.path).catch(err => {
-              console.error('Failed to copy path:', err);
-            });
+            await copyPath(item.path);
           } else {
-            // Seçili item yoksa mevcut path'i kopyala
+            // Copy current path if no item selected
             const currentPath = fs?.path?.get();
             if (currentPath?.path) {
-              navigator.clipboard.writeText(currentPath.path).catch(err => {
-                console.error('Failed to copy path:', err);
-              });
+              await copyPath(currentPath.path);
             }
           }
         },
@@ -220,15 +217,13 @@ const menuItems = computed(() => [
       {
         id: 'copy-download-url',
         label: t('Copy Download URL'),
-        action: () => {
+        action: async () => {
           if (selectedItems.value.length === 1) {
             const item = selectedItems.value[0];
             const storage = fs?.path?.get()?.storage ?? 'local';
             const downloadUrl = app?.requester?.getDownloadUrl(storage, item);
             if (downloadUrl) {
-              navigator.clipboard.writeText(downloadUrl).catch(err => {
-                console.error('Failed to copy download URL:', err);
-              });
+              await copyDownloadUrl(downloadUrl);
             }
           }
         },

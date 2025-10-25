@@ -2,6 +2,7 @@
 import {inject, nextTick, onMounted, onUnmounted, ref, watch, computed} from 'vue';
 import {useStore} from '@nanostores/vue';
 import useDebouncedRef from '../composables/useDebouncedRef';
+import { copyPath } from '../utils/clipboard';
 import RefreshSVG from "../assets/icons/refresh.svg";
 import GoUpSVG from "../assets/icons/go_up.svg";
 import CloseSVG from "../assets/icons/close.svg";
@@ -190,11 +191,9 @@ const togglePathCopyMode = () => {
 }
 
 const copyPathToClipboard = async () => {
-  try {
-    await navigator.clipboard.writeText(currentPath.value?.path || '');
-    // You could add a toast notification here if available
-    app.emitter.emit('vf-toast-push', {label: t('Path copied to clipboard')});
-  } catch (err) {}
+  await copyPath(currentPath.value?.path || '');
+  // You could add a toast notification here if available
+  app.emitter.emit('vf-toast-push', {label: t('Path copied to clipboard')});
 }
 
 const exitPathCopyMode = () => {
@@ -273,19 +272,19 @@ const exitPathCopyMode = () => {
     <!-- Path Copy Mode -->
     <div v-show="showPathCopyMode" class="vuefinder__breadcrumb__path-mode">
       <div class="vuefinder__breadcrumb__path-mode-content">
-        <div>
+        <div :title="t('Copy Path')">
             <CopySVG 
                 class="vuefinder__breadcrumb__copy-icon"
                 @click="copyPathToClipboard"
-                :title="t('Copy Path')"
             />
         </div>
-        <span class="vuefinder__breadcrumb__path-text">{{ currentPath.path }}</span>
-        <ExitSVG 
-          class="vuefinder__breadcrumb__exit-icon"
-          @click="exitPathCopyMode"
-          :title="t('Exit')"
-        />
+        <div class="vuefinder__breadcrumb__path-text">{{ currentPath.path }}</div>
+        <div :title="t('Exit')">
+            <ExitSVG 
+                class="vuefinder__breadcrumb__exit-icon"
+                @click="exitPathCopyMode"
+            />
+        </div>
       </div>
     </div>
 

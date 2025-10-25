@@ -115,7 +115,7 @@
 }
 
 .vuefinder__breadcrumb__path-text {
-  @apply overflow-auto max-w-[calc(100vw-160px)] flex-1 px-2 py-0.75 bg-(--vf-bg-secondary) rounded border border-(--vf-border-primary) text-(--vf-text-primary) font-mono text-sm;
+  @apply overflow-auto max-w-[calc(100vw-164px)] flex-1 px-2 py-0.75 bg-(--vf-bg-secondary) rounded border border-(--vf-border-primary) text-(--vf-text-primary) font-mono text-sm;
   @apply select-all cursor-text;
   &::-webkit-scrollbar {
     display: none;

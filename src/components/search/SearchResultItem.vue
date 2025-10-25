@@ -2,10 +2,11 @@
 import { ref, inject, nextTick, watch, onUnmounted } from 'vue';
 import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
 import { getCurrentTheme } from '../../utils/theme.ts';
+import { shortenPath } from '../../utils/path.ts';
+import { copyPath } from '../../utils/clipboard.ts';
 import FileSVG from '../../assets/icons/file.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
 import DotsSVG from '../../assets/icons/dots.svg';
-import ModalPreview from '../modals/ModalPreview.vue';
 import type { DirEntry } from '../../types.ts';
 
 defineOptions({ name: 'SearchResultItem' });
@@ -69,39 +70,6 @@ onUnmounted(() => {
 });
 
 // Utility functions
-const shortenPath = (path: string, max: number = 40): string => {
-  const match = path.match(/^([^:]+:\/\/)(.*)$/);
-  if (!match) return path;
-
-  const prefix = match[1];
-  const rest = match[2] ?? "";
-  const parts = rest.split("/").filter(Boolean); // remove empty segments
-  const filename = parts.pop();
-  if (!filename) return prefix + rest;
-
-  let short = `${prefix}${parts.join("/")}${parts.length ? "/" : ""}${filename}`;
-  if (short.length <= max) return short;
-
-  // Safely split filename and extension
-  const split = filename.split(/\.(?=[^\.]+$)/);
-  const name = split[0] ?? "";
-  const ext = split[1] ?? "";
-
-  const shortName =
-    name.length > 10 ? `${name.slice(0, 6)}...${name.slice(-5)}` : name;
-
-  const shortFilename = ext ? `${shortName}.${ext}` : shortName;
-
-  short = `${prefix}${parts.join("/")}${parts.length ? "/" : ""}${shortFilename}`;
-
-  // Collapse folders if still too long
-  if (short.length > max) {
-    short = `${prefix}.../${shortFilename}`;
-  }
-
-  return short;
-};
-
 const isPathExpanded = (path: string): boolean => {
   return props.expandedPaths.has(path);
 };
@@ -196,18 +164,7 @@ const selectItemDropdownOption = (option: string) => {
 };
 
 const copyItemPath = async (item: DirEntry) => {
-  try {
-    await navigator.clipboard.writeText(item.path);
-  } catch (error) {
-    console.error('Failed to copy path:', error);
-    // Fallback for older browsers
-    const textArea = document.createElement('textarea');
-    textArea.value = item.path;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textArea);
-  }
+  await copyPath(item.path);
   emit('copyPath', item);
 };
 

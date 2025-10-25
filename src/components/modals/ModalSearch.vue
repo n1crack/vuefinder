@@ -15,6 +15,8 @@ import SearchResultsList from '../search/SearchResultsList.vue';
 import type { DirEntry } from '../../types';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
+import { shortenPath } from '../../utils/path';
+import { copyPath } from '../../utils/clipboard';
 
 
 defineOptions({ name: 'ModalSearch' });
@@ -114,18 +116,7 @@ const selectResultItemWithDropdown = (index: number) => {
 };
 
 const copyItemPath = async (item: DirEntry) => {
-  try {
-    await navigator.clipboard.writeText(item.path);
-  } catch (error) {
-    console.error('Failed to copy path:', error);
-    // Fallback for older browsers
-    const textArea = document.createElement('textarea');
-    textArea.value = item.path;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textArea);
-  }
+  await copyPath(item.path);
   closeAllDropdowns();
 };
 
@@ -240,11 +231,6 @@ const performSearch = async (searchQuery: string) => {
   }
 };
 
-// Handle item click
-const handleItemClick = () => {
-  // Handle item click logic here if needed
-};
-
 // Handle input-specific keyboard navigation
 const handleInputKeydown = (e: KeyboardEvent) => {
   // Don't handle events if we're currently searching
@@ -279,17 +265,6 @@ const handleInputKeydown = (e: KeyboardEvent) => {
     return;
   }
   
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    e.stopPropagation();
-    if (selectedIndex.value >= 0 && selectedIndex.value < searchResults.value.length) {
-      const selectedItem = searchResults.value[selectedIndex.value];
-      if (selectedItem) {
-        handleItemClick();
-      }
-    }
-    return;
-  }
   
   if (e.key === 'Escape') {
     e.preventDefault();
@@ -335,18 +310,7 @@ const handleKeydown = (e: KeyboardEvent) => {
     }
     return;
   }
-  
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    e.stopPropagation();
-    if (selectedIndex.value >= 0 && selectedIndex.value < searchResults.value.length) {
-      const selectedItem = searchResults.value[selectedIndex.value];
-      if (selectedItem) {
-        handleItemClick();
-      }
-    }
-    return;
-  }
+
   
   if (e.key === 'Escape') {
     e.preventDefault();
@@ -356,16 +320,11 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
-// Handle window resize
-const handleResize = () => {
-  // No need for JavaScript positioning anymore
-};
 
 // Event listeners
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown);
   document.addEventListener('click', handleClickOutside);
-  window.addEventListener('resize', handleResize);
   
   // Initialize selected state
   selectedDropdownOption.value = `size-${sizeFilter.value}`;
@@ -425,7 +384,6 @@ const handleFolderSelect = (entry: DirEntry | null) => {
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown);
   document.removeEventListener('click', handleClickOutside);
-  window.removeEventListener('resize', handleResize);
   
   // Cleanup child components
   if (searchOptionsDropdownRef.value) {
@@ -468,7 +426,7 @@ const handleClickOutside = (event: MouseEvent) => {
 <template>
   <ModalLayout class="vuefinder__search-modal-layout">
     <div class="vuefinder__search-modal">
-      <ModalHeader :icon="SearchSVG" :title="t('Search Files')"></ModalHeader>
+      <ModalHeader :icon="SearchSVG" :title="t('Search files')"></ModalHeader>
       
       <!-- Content Container (Input + Results) -->
       <div class="vuefinder__search-modal__content">
@@ -500,7 +458,7 @@ const handleClickOutside = (event: MouseEvent) => {
               :class="{ 'vuefinder__search-modal__location-btn--open': showFolderSelector }"
             >
               <FolderSVG class="vuefinder__search-modal__location-icon" />
-              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath.path  }}</span>
+              <span class="vuefinder__search-modal__location-text" :title="targetFolderEntry?.path || currentPath.path">{{ shortenPath(targetFolderEntry?.path || currentPath.path) }}</span>
               <svg class="vuefinder__search-modal__location-arrow" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"/>
               </svg>
