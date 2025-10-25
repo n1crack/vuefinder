@@ -82,19 +82,21 @@ const closeAllDropdowns = () => {
 
 // Dropdown action handlers
 const openContainingFolder = (item: DirEntry) => {
-  // Use the dir property which contains the parent directory path
-  // If dir is empty or root, use the storage root
-  const parentPath = item.dir || `${item.storage}://`;
-  
-  app.emitter.emit('vf-fetch', {
-    params: {
-      q: 'index',
-      storage: item.storage,
-      path: parentPath
-    }
-  });
-  app.modal.close();
-  closeAllDropdowns();
+  try {
+    // Use the dir property from the search result item
+    const parentPath = item.dir || `${item.storage}://`;
+    app.emitter.emit('vf-fetch', {
+      params: {
+        q: 'index',
+        storage: item.storage,
+        path: parentPath
+      }
+    });
+    app.modal.close();
+    closeAllDropdowns();
+  } catch (error) {
+    app.emitter.emit('vf-toast-push', { label: t('Failed to open containing folder') });
+  }
 };
 
 const previewItem = (item: DirEntry) => {
@@ -588,10 +590,6 @@ const handleClickOutside = (event: MouseEvent) => {
             <div class="vuefinder__search-modal__tip">
               <span class="vuefinder__search-modal__tip-key">↑↓</span>
               <span>{{ t('Navigate results') }}</span>
-            </div>
-            <div class="vuefinder__search-modal__tip">
-              <span class="vuefinder__search-modal__tip-key">Enter</span>
-              <span>{{ t('Open selected') }}</span>
             </div>
             <div class="vuefinder__search-modal__tip">
               <span class="vuefinder__search-modal__tip-key">Esc</span>
