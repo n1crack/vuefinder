@@ -12,6 +12,7 @@ import FolderSVG from '../assets/icons/folder.svg';
 import ListTreeSVG from '../assets/icons/list_tree.svg';
 import DotsSVG from '../assets/icons/dots.svg';
 import CopySVG from '../assets/icons/copy.svg';
+import ToggleSVG from '../assets/icons/toggle.svg';
 import {useDragNDrop} from '../composables/useDragNDrop';
 import type {ConfigState} from "@/stores/config.ts";
 import type { StoreValue } from "nanostores";
@@ -227,7 +228,7 @@ const exitPathCopyMode = () => {
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div v-show="!showPathCopyMode" class="vuefinder__breadcrumb__path-container" @click="togglePathCopyMode">
+    <div v-show="!showPathCopyMode" class="vuefinder__breadcrumb__path-container">
       <div>
         <HomeSVG
             class="vuefinder__breadcrumb__home-icon"
@@ -264,17 +265,21 @@ const exitPathCopyMode = () => {
       </div>
 
       <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && loading"/>
-    
+      <span :title="t('Toggle Path Copy Mode')" @click="togglePathCopyMode">
+        <ToggleSVG class="vuefinder__breadcrumb__toggle-icon" />
+      </span>
     </div>
     
     <!-- Path Copy Mode -->
     <div v-show="showPathCopyMode" class="vuefinder__breadcrumb__path-mode">
       <div class="vuefinder__breadcrumb__path-mode-content">
-        <CopySVG 
-          class="vuefinder__breadcrumb__copy-icon"
-          @click="copyPathToClipboard"
-          :title="t('Copy Path')"
-        />
+        <div>
+            <CopySVG 
+                class="vuefinder__breadcrumb__copy-icon"
+                @click="copyPathToClipboard"
+                :title="t('Copy Path')"
+            />
+        </div>
         <span class="vuefinder__breadcrumb__path-text">{{ currentPath.path }}</span>
         <ExitSVG 
           class="vuefinder__breadcrumb__exit-icon"

@@ -28,6 +28,7 @@ export default {
     "Enter folder path:": "Enter folder path:",
     "Copy Path": "Copy Path",
     "Path copied to clipboard": "Path copied to clipboard",
+    "Toggle Path Copy Mode": "Toggle Path Copy Mode",
     "Copy Download URL": "Copy Download URL",
     "Search anything..": "Search anything..",
     "Name": "Name",

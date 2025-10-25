@@ -123,3 +123,9 @@
   @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
   @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
 }
+
+.vuefinder__breadcrumb__toggle-icon {
+  @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+  @apply transition-colors duration-200;
+}
