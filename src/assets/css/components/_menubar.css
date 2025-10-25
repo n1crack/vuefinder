@@ -1,6 +1,6 @@
 /* MenuBar Styles - Compact modern design */
 .vuefinder__menubar {
-  @apply border-b relative z-50 whitespace-nowrap overflow-visible text-[13px] leading-8 bg-(--vf-bg-primary) border-(--vf-border-primary);
+  @apply border-b relative z-40 whitespace-nowrap overflow-visible text-[13px] leading-8 bg-(--vf-bg-primary) border-(--vf-border-primary);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   box-shadow: none;
 }
