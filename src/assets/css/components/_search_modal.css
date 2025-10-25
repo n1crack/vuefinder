@@ -333,7 +333,7 @@
 }
 
 .vuefinder__search-modal__item-dropdown-content {
-  @apply border rounded-md flex flex-col gap-0 w-full box-border p-0;
+  @apply border rounded-md flex flex-col w-full box-border p-2 gap-0.5; 
   background-color: var(--vf-dropdown-bg);
   border-color: var(--vf-dropdown-border);
 }
@@ -421,10 +421,6 @@
   
   .vuefinder__search-modal__item-dropdown {
     @apply w-[160px];
-  }
-  
-  .vuefinder__search-modal__item-dropdown-content {
-    @apply p-1 gap-0.5;
   }
   
   .vuefinder__search-modal__item-dropdown-option {

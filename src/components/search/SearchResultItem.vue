@@ -134,7 +134,7 @@ const setupItemDropdownPositioning = async (itemPath: string, buttonElement: HTM
   // Calculate position immediately
   try {
     const { x, y } = await computePosition(buttonElement, itemDropdownElement, {
-      placement: 'bottom-start',
+      placement: 'left-start',
       middleware: [
         offset(8),
         flip({ padding: 16 }),
@@ -169,7 +169,7 @@ const setupItemDropdownPositioning = async (itemPath: string, buttonElement: HTM
       
       try {
         const { x: newX, y: newY } = await computePosition(buttonElement, itemDropdownElement, {
-          placement: 'bottom-start',
+          placement: 'left-start',
           middleware: [
             offset(8),
             flip({ padding: 16 }),
