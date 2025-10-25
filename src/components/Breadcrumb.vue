@@ -6,12 +6,12 @@ import RefreshSVG from "../assets/icons/refresh.svg";
 import GoUpSVG from "../assets/icons/go_up.svg";
 import CloseSVG from "../assets/icons/close.svg";
 import HomeSVG from "../assets/icons/home.svg";
-import SearchSVG from "../assets/icons/search.svg";
 import LoadingSVG from "../assets/icons/loading.svg";
 import ExitSVG from "../assets/icons/exit.svg";
 import FolderSVG from '../assets/icons/folder.svg';
 import ListTreeSVG from '../assets/icons/list_tree.svg';
 import DotsSVG from '../assets/icons/dots.svg';
+import CopySVG from '../assets/icons/copy.svg';
 import {useDragNDrop} from '../composables/useDragNDrop';
 import type {ConfigState} from "@/stores/config.ts";
 import type { StoreValue } from "nanostores";
@@ -34,6 +34,7 @@ const breadcrumbContainer = ref<HTMLElement | null>(null);
 const breadcrumbContainerWidth = useDebouncedRef(0, 100);
 const breadcrumbItemLimit = ref(5);
 const showHiddenBreadcrumbs = ref(false);
+const showPathCopyMode = ref(false);
 const allBreadcrumbs = computed(() => currentPath.value?.breadcrumb ?? []);
 
 function separateBreadcrumbs<T>(links: T[], show: number): [T[], T[]] {
@@ -179,6 +180,25 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
   }
   showHiddenBreadcrumbs.value = value ?? !showHiddenBreadcrumbs.value;
 }
+
+/**
+ * Path Copy Mode
+ */
+const togglePathCopyMode = () => {
+  showPathCopyMode.value = !showPathCopyMode.value;
+}
+
+const copyPathToClipboard = async () => {
+  try {
+    await navigator.clipboard.writeText(currentPath.value?.path || '');
+    // You could add a toast notification here if available
+    app.emitter.emit('vf-toast-push', {label: t('Path copied to clipboard')});
+  } catch (err) {}
+}
+
+const exitPathCopyMode = () => {
+  showPathCopyMode.value = false;
+}
 </script>
 
 
@@ -207,7 +227,7 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
       <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
     </span>
 
-    <div class="vuefinder__breadcrumb__path-container" @click="console.log('SHOW PATH')">
+    <div v-show="!showPathCopyMode" class="vuefinder__breadcrumb__path-container" @click="togglePathCopyMode">
       <div>
         <HomeSVG
             class="vuefinder__breadcrumb__home-icon"
@@ -246,12 +266,22 @@ const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = n
       <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && loading"/>
     
     </div>
-    <div v-show="false" class="vuefinder__breadcrumb__search-mode">
-      <div>
-        COPYSVG
+    
+    <!-- Path Copy Mode -->
+    <div v-show="showPathCopyMode" class="vuefinder__breadcrumb__path-mode">
+      <div class="vuefinder__breadcrumb__path-mode-content">
+        <CopySVG 
+          class="vuefinder__breadcrumb__copy-icon"
+          @click="copyPathToClipboard"
+          :title="t('Copy Path')"
+        />
+        <span class="vuefinder__breadcrumb__path-text">{{ currentPath.path }}</span>
+        <ExitSVG 
+          class="vuefinder__breadcrumb__exit-icon"
+          @click="exitPathCopyMode"
+          :title="t('Exit')"
+        />
       </div>
-      {{ currentPath.path }}
-      <ExitSVG @click="console.log('EXIT SEARCH')"/>
     </div>
 
     <Teleport to="body">

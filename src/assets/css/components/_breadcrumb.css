@@ -99,3 +99,27 @@
 .vuefinder .vuefinder__breadcrumb__hidden-item-text {
   @apply inline-block w-full text-ellipsis overflow-hidden;
 }
+
+/* Path Copy Mode */
+.vuefinder__breadcrumb__path-mode {
+  @apply flex border items-center rounded p-0.5 ml-2 w-full bg-(--vf-bg-primary) border-(--vf-border-primary);
+}
+
+.vuefinder__breadcrumb__path-mode-content {
+  @apply flex items-center w-full space-x-2;
+}
+
+.vuefinder__breadcrumb__copy-icon {
+  @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__path-text {
+  @apply flex-1 px-2 py-0.75 bg-(--vf-bg-secondary) rounded border border-(--vf-border-primary) text-(--vf-text-primary) font-mono text-sm;
+  @apply select-all cursor-text;
+}
+
+.vuefinder__breadcrumb__exit-icon {
+  @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
