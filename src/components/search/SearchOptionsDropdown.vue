@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, inject, nextTick, watch, onUnmounted } from 'vue';
 import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
-import { getCurrentTheme } from '../../utils/theme';
+import { getCurrentTheme } from '../../utils/theme.ts';
 import GearSVG from '../../assets/icons/gear.svg';
 
 defineOptions({ name: 'SearchOptionsDropdown' });

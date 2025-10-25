@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, inject, nextTick, watch } from 'vue';
-import { getCurrentTheme } from '../../utils/theme';
+import { getCurrentTheme } from '../../utils/theme.ts';
 import FileSVG from '../../assets/icons/file.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
 import DotsSVG from '../../assets/icons/dots.svg';
-import ModalPreview from './ModalPreview.vue';
-import type { DirEntry } from '../../types';
+import ModalPreview from '../modals/ModalPreview.vue';
+import type { DirEntry } from '../../types.ts';
 
 defineOptions({ name: 'SearchResultItem' });
 

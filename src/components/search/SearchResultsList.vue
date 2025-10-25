@@ -2,7 +2,7 @@
 import { ref, inject, computed } from 'vue';
 import LoadingSVG from '../../assets/icons/loading.svg';
 import SearchResultItem from './SearchResultItem.vue';
-import type { DirEntry } from '../../types';
+import type { DirEntry } from '../../types.ts';
 
 defineOptions({ name: 'SearchResultsList' });
 
