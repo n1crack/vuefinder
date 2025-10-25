@@ -981,7 +981,7 @@ const handleClickOutside = (event: MouseEvent) => {
                     </div>
                     <div 
                       class="vuefinder__search-modal__result-path"
-                      @click.stop="togglePathExpansion(item.path)"
+                      @click.stop="selectResultItem(index); togglePathExpansion(item.path)"
                       :title="item.path"
                     >
                       {{ isPathExpanded(item.path) ? item.path : shortenPath(item.path) }}
@@ -989,7 +989,7 @@ const handleClickOutside = (event: MouseEvent) => {
                   </div>
                   <button
                     class="vuefinder__search-modal__result-actions"
-                    @click="toggleItemDropdown(item.path, $event)"
+                    @click="selectResultItem(index); toggleItemDropdown(item.path, $event)"
                     :title="t('More actions')"
                   >
                     <DotsSVG class="vuefinder__search-modal__result-actions-icon" />
