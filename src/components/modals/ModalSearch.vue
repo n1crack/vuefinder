@@ -415,6 +415,11 @@ const handleFolderSelect = (entry: DirEntry | null) => {
   }
 };
 
+// Handle mobile dropdown button click
+const handleMobileDropdownClick = () => {
+  showDropdown.value = !showDropdown.value;
+};
+
 
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown);
@@ -433,7 +438,8 @@ const handleClickOutside = (event: MouseEvent) => {
   
   // Close search options dropdown
   if (showDropdown.value) {
-    const isClickOnDropdown = target.closest('.vuefinder__search-modal__dropdown');
+    const isClickOnDropdown = target.closest('.vuefinder__search-modal__dropdown') || 
+                              target.closest('.vuefinder__search-modal__mobile-dropdown');
     
     if (!isClickOnDropdown) {
       showDropdown.value = false;
@@ -474,14 +480,86 @@ const handleClickOutside = (event: MouseEvent) => {
             :is-searching="isSearching"
             :disabled="showFolderSelector"
             @keydown="handleInputKeydown"
+            @dropdown-click="handleMobileDropdownClick"
           />
-          <SearchOptionsDropdown
-            ref="searchOptionsDropdownRef"
-            v-model:visible="showDropdown"
-            v-model:size-filter="sizeFilter"
-            v-model:selected-option="selectedDropdownOption"
-            :disabled="showFolderSelector"
-          />
+          <!-- Desktop dropdown - hidden on mobile -->
+          <div class="vuefinder__search-modal__desktop-dropdown">
+            <SearchOptionsDropdown
+              ref="searchOptionsDropdownRef"
+              v-model:visible="showDropdown"
+              v-model:size-filter="sizeFilter"
+              v-model:selected-option="selectedDropdownOption"
+              :disabled="showFolderSelector"
+            />
+          </div>
+        </div>
+
+        <!-- Mobile dropdown - shown inline on mobile -->
+        <div v-if="showDropdown" class="vuefinder__search-modal__mobile-dropdown" @click.stop>
+          <div class="vuefinder__search-modal__dropdown-content">
+            <!-- Size Filter -->
+            <div class="vuefinder__search-modal__dropdown-section">
+              <div class="vuefinder__search-modal__dropdown-title">{{ t('Size') }}</div>
+              <div class="vuefinder__search-modal__dropdown-options">
+                <label 
+                  class="vuefinder__search-modal__dropdown-option" 
+                  :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'all' }"
+                >
+                  <input 
+                    type="radio" 
+                    name="sizeFilter" 
+                    value="all" 
+                    :checked="sizeFilter === 'all'"
+                    @change="sizeFilter = 'all'"
+                    class="vuefinder__search-modal__radio"
+                  />
+                  <span>{{ t('All sizes') }}</span>
+                </label>
+                <label 
+                  class="vuefinder__search-modal__dropdown-option" 
+                  :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'small' }"
+                >
+                  <input 
+                    type="radio" 
+                    name="sizeFilter" 
+                    value="small" 
+                    :checked="sizeFilter === 'small'"
+                    @change="sizeFilter = 'small'"
+                    class="vuefinder__search-modal__radio"
+                  />
+                  <span>{{ t('Small (< 1MB)') }}</span>
+                </label>
+                <label 
+                  class="vuefinder__search-modal__dropdown-option" 
+                  :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'medium' }"
+                >
+                  <input 
+                    type="radio" 
+                    name="sizeFilter" 
+                    value="medium" 
+                    :checked="sizeFilter === 'medium'"
+                    @change="sizeFilter = 'medium'"
+                    class="vuefinder__search-modal__radio"
+                  />
+                  <span>{{ t('Medium (1-10MB)') }}</span>
+                </label>
+                <label 
+                  class="vuefinder__search-modal__dropdown-option" 
+                  :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'large' }"
+                >
+                  <input 
+                    type="radio" 
+                    name="sizeFilter" 
+                    value="large" 
+                    :checked="sizeFilter === 'large'"
+                    @change="sizeFilter = 'large'"
+                    class="vuefinder__search-modal__radio"
+                  />
+                  <span>{{ t('Large (> 10MB)') }}</span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Search Options -->
@@ -511,36 +589,32 @@ const handleClickOutside = (event: MouseEvent) => {
           </label>
         </div>
 
-        <!-- Folder Selector with CSS transitions -->
-        <Transition name="slide-right">
-          <div v-if="showFolderSelector" class="vuefinder__search-modal__folder-selector">
-            <div class="vuefinder__search-modal__folder-selector-content">
-              <ModalTreeSelector
-                v-model="targetFolderEntry"
-                :show-pinned-folders="true"
-                :current-path="currentPath"
-                @update:modelValue="selectTargetFolder"
-                @selectAndClose="handleFolderSelect"
-              />
-            </div>
+        <!-- Folder Selector -->
+        <div v-if="showFolderSelector" class="vuefinder__search-modal__folder-selector">
+          <div class="vuefinder__search-modal__folder-selector-content">
+            <ModalTreeSelector
+              v-model="targetFolderEntry"
+              :show-pinned-folders="true"
+              :current-path="currentPath"
+              @update:modelValue="selectTargetFolder"
+              @selectAndClose="handleFolderSelect"
+            />
           </div>
-        </Transition>
+        </div>
 
-        <!-- Instructions with CSS transitions -->
-        <Transition name="slide-left">
-          <div v-if="!query.trim() && !showFolderSelector" class="vuefinder__search-modal__instructions">
-            <div class="vuefinder__search-modal__instructions-tips">
-              <div class="vuefinder__search-modal__tip">
-                <span class="vuefinder__search-modal__tip-key">↑↓</span>
-                <span>{{ t('Navigate results') }}</span>
-              </div>
-              <div class="vuefinder__search-modal__tip">
-                <span class="vuefinder__search-modal__tip-key">Esc</span>
-                <span>{{ t('Close search') }}</span>
-              </div>
+        <!-- Instructions -->
+        <div v-if="!query.trim() && !showFolderSelector" class="vuefinder__search-modal__instructions">
+          <div class="vuefinder__search-modal__instructions-tips">
+            <div class="vuefinder__search-modal__tip">
+              <span class="vuefinder__search-modal__tip-key">↑↓</span>
+              <span>{{ t('Navigate results') }}</span>
+            </div>
+            <div class="vuefinder__search-modal__tip">
+              <span class="vuefinder__search-modal__tip-key">Esc</span>
+              <span>{{ t('Close search') }}</span>
             </div>
           </div>
-        </Transition>
+        </div>
 
         <!-- Search Results (when query exists and folder selector closed) -->
         <SearchResultsList

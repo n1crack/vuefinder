@@ -32,7 +32,7 @@
 }
 
 .vuefinder__move-modal__target-directory {
-  @apply flex text-sm border p-1 rounded text-(--vf-text-primary) border-(--vf-border-primary);
+  @apply flex text-sm p-1  text-(--vf-text-primary)  ;
 }
 
 .vuefinder__move-modal__target-path {
@@ -118,7 +118,7 @@
 }
 
 .vuefinder__modal-tree__text-storage {
-  @apply text-xs truncate ml-1 border rounded-md px-1 py-0.5 text-(--vf-accent-primary) border-(--vf-accent-primary);
+  @apply text-xs truncate ml-1  px-1 py-0.5 text-(--vf-accent-primary) border-(--vf-accent-primary);
 }
 
 /* Storage item styles */
