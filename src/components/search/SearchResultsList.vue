@@ -18,6 +18,7 @@ interface Props {
 
 interface Emits {
   (e: 'selectResultItem', index: number): void;
+  (e: 'selectResultItemWithDropdown', index: number): void;
   (e: 'togglePathExpansion', path: string): void;
   (e: 'toggleItemDropdown', path: string, event: MouseEvent): void;
   (e: 'update:selectedItemDropdownOption', value: string | null): void;
@@ -89,6 +90,7 @@ defineExpose({
             :active-dropdown="activeDropdown"
             :selected-item-dropdown-option="selectedItemDropdownOption"
             @select="emit('selectResultItem', $event)"
+            @select-with-dropdown="emit('selectResultItemWithDropdown', $event)"
             @toggle-path-expansion="emit('togglePathExpansion', $event)"
             @toggle-item-dropdown="(path, event) => emit('toggleItemDropdown', path, event)"
             @update:selected-item-dropdown-option="emit('update:selectedItemDropdownOption', $event)"

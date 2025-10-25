@@ -108,6 +108,11 @@ const selectResultItem = (index: number) => {
   closeAllDropdowns(); // Close any open dropdowns when selecting a new item
 };
 
+const selectResultItemWithDropdown = (index: number) => {
+  selectedIndex.value = index;
+  // Don't close dropdowns when selecting via three dots button
+};
+
 const copyItemPath = async (item: DirEntry) => {
   try {
     await navigator.clipboard.writeText(item.path);
@@ -552,6 +557,7 @@ const handleClickOutside = (event: MouseEvent) => {
           :selected-item-dropdown-option="selectedItemDropdownOption"
           :results-enter="true"
           @select-result-item="selectResultItem"
+          @select-result-item-with-dropdown="selectResultItemWithDropdown"
           @toggle-path-expansion="togglePathExpansion"
           @toggle-item-dropdown="toggleItemDropdown"
           @update:selected-item-dropdown-option="selectedItemDropdownOption = $event"

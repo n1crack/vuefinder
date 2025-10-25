@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, inject, nextTick, watch } from 'vue';
+import { ref, inject, nextTick, watch, onUnmounted } from 'vue';
+import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
 import { getCurrentTheme } from '../../utils/theme.ts';
 import FileSVG from '../../assets/icons/file.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
@@ -20,6 +21,7 @@ interface Props {
 
 interface Emits {
   (e: 'select', index: number): void;
+  (e: 'selectWithDropdown', index: number): void;
   (e: 'togglePathExpansion', path: string): void;
   (e: 'toggleItemDropdown', path: string, event: MouseEvent): void;
   (e: 'update:selectedItemDropdownOption', value: string | null): void;
@@ -40,12 +42,29 @@ const currentTheme = getCurrentTheme();
 // Store button element reference for positioning
 const buttonElementRef = ref<HTMLElement | null>(null);
 
+// Floating UI cleanup functions
+let cleanupDropdown: (() => void) | null = null;
+
 // Watch for activeDropdown changes to position the dropdown
 watch(() => props.activeDropdown, (newActiveDropdown) => {
+  // Clean up previous dropdown if it exists
+  if (cleanupDropdown) {
+    cleanupDropdown();
+    cleanupDropdown = null;
+  }
+  
   if (newActiveDropdown === props.item.path && buttonElementRef.value) {
     nextTick(() => {
       setupItemDropdownPositioning(props.item.path, buttonElementRef.value!);
     });
+  }
+});
+
+// Cleanup on unmount
+onUnmounted(() => {
+  if (cleanupDropdown) {
+    cleanupDropdown();
+    cleanupDropdown = null;
   }
 });
 
@@ -92,33 +111,84 @@ const toggleItemDropdown = (itemPath: string, event: MouseEvent) => {
   emit('toggleItemDropdown', itemPath, event);
 };
 
-const setupItemDropdownPositioning = (itemPath: string, buttonElement: HTMLElement) => {
-  // Use nextTick instead of setTimeout for more immediate positioning
-  nextTick(() => {
-    const itemDropdownElement = document.querySelector(`[data-item-dropdown="${itemPath}"]`) as HTMLElement;
-    
-    if (!itemDropdownElement) return;
-    
-    const rect = buttonElement.getBoundingClientRect();
-    const isMobile = window.innerWidth < 768;
-    const dropdownWidth = isMobile ? 160 : 180; // Responsive width
-    
-    let leftPosition: string;
-    
-    if (isMobile) {
-      const leftPos = rect.left - dropdownWidth - 4;
-      leftPosition = `${Math.max(8, leftPos)}px`;
-    } else {
-      leftPosition = `${rect.right + 4}px`;
-    }
-    
-    Object.assign(itemDropdownElement.style, {
-      position: 'fixed',
-      left: leftPosition,
-      top: `${rect.top - 4}px`,
-      zIndex: '10001'
-    });
+const setupItemDropdownPositioning = async (itemPath: string, buttonElement: HTMLElement) => {
+  const itemDropdownElement = document.querySelector(`[data-item-dropdown="${itemPath}"]`) as HTMLElement;
+  
+  if (!itemDropdownElement || !buttonElement) return;
+  
+  // Wait for DOM to be ready
+  await nextTick();
+  
+  // Double-check elements still exist after nextTick
+  if (!itemDropdownElement || !buttonElement) return;
+  
+  // Set initial styles to prevent flash
+  Object.assign(itemDropdownElement.style, {
+    position: 'fixed',
+    zIndex: '10001',
+    opacity: '0',
+    transform: 'translateY(-8px)',
+    transition: 'opacity 150ms ease-out, transform 150ms ease-out'
   });
+  
+  // Calculate position immediately
+  try {
+    const { x, y } = await computePosition(buttonElement, itemDropdownElement, {
+      placement: 'bottom-start',
+      middleware: [
+        offset(8),
+        flip({ padding: 16 }),
+        shift({ padding: 16 })
+      ]
+    });
+    
+    // Set the correct position
+    Object.assign(itemDropdownElement.style, {
+      left: `${x}px`,
+      top: `${y}px`
+    });
+    
+    // Now make it visible with animation
+    requestAnimationFrame(() => {
+      if (itemDropdownElement) {
+        Object.assign(itemDropdownElement.style, {
+          opacity: '1',
+          transform: 'translateY(0)'
+        });
+      }
+    });
+  } catch (error) {
+    console.warn('Floating UI initial positioning error:', error);
+    return;
+  }
+  
+  // Setup auto-update for dynamic positioning
+  try {
+    cleanupDropdown = autoUpdate(buttonElement, itemDropdownElement, async () => {
+      if (!buttonElement || !itemDropdownElement) return;
+      
+      try {
+        const { x: newX, y: newY } = await computePosition(buttonElement, itemDropdownElement, {
+          placement: 'bottom-start',
+          middleware: [
+            offset(8),
+            flip({ padding: 16 }),
+            shift({ padding: 16 })
+          ]
+        });
+        
+        Object.assign(itemDropdownElement.style, {
+          left: `${newX}px`,
+          top: `${newY}px`
+        });
+      } catch (error) {
+        console.warn('Floating UI positioning error:', error);
+      }
+    });
+  } catch (error) {
+    console.warn('Floating UI autoUpdate setup error:', error);
+    cleanupDropdown = null;
+  }
 };
 
 const selectItemDropdownOption = (option: string) => {
@@ -213,7 +283,7 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
     <button
       ref="buttonElementRef"
       class="vuefinder__search-modal__result-actions"
-      @click="emit('select', index); toggleItemDropdown(item.path, $event)"
+      @click="emit('selectWithDropdown', index); toggleItemDropdown(item.path, $event)"
       :title="t('More actions')"
     >
       <DotsSVG class="vuefinder__search-modal__result-actions-icon" />
