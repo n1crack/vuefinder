@@ -43,10 +43,6 @@ const deepSearch = ref(false);
 const selectedDropdownOption = ref<string | null>(null);
 const selectedItemDropdownOption = ref<string | null>(null);
 
-// Animation states
-const folderSelectorEnter = ref(false);
-const instructionsExit = ref(false);
-const resultsEnter = ref(false);
 
 // Path expansion and dropdown states
 const expandedPaths = ref<Set<string>>(new Set());
@@ -94,7 +90,7 @@ const openContainingFolder = (item: DirEntry) => {
     });
     app.modal.close();
     closeAllDropdowns();
-  } catch (error) {
+  } catch {
     app.emitter.emit('vf-toast-push', { label: t('Failed to open containing folder') });
   }
 };
@@ -134,23 +130,14 @@ watch(query, async (newQuery) => {
     await performSearch(newQuery.trim());
     selectedIndex.value = 0;
     
-    // Animate results in if not in folder selector
-    if (!showFolderSelector.value) {
-      nextTick(() => {
-        resultsEnter.value = true;
-        // Ensure first item is visible
-        setTimeout(() => {
-          if (searchResultsListRef.value) {
-            searchResultsListRef.value.scrollSelectedIntoView();
-          }
-        }, 100);
-      });
+    // Ensure first item is visible
+    if (!showFolderSelector.value && searchResultsListRef.value) {
+      searchResultsListRef.value.scrollSelectedIntoView();
     }
   } else {
     searchResults.value = [];
     isSearching.value = false;
     selectedIndex.value = -1;
-    resultsEnter.value = false;
   }
 });
 
@@ -177,16 +164,10 @@ watch(sizeFilter, async (newValue) => {
     await performSearch(query.value.trim());
     selectedIndex.value = 0;
     
-    // Animate results in
-    nextTick(() => {
-      resultsEnter.value = true;
-      // Ensure first item is visible
-      setTimeout(() => {
-        if (searchResultsListRef.value) {
-          searchResultsListRef.value.scrollSelectedIntoView();
-        }
-      }, 100);
-    });
+    // Ensure first item is visible
+    if (searchResultsListRef.value) {
+      searchResultsListRef.value.scrollSelectedIntoView();
+    }
   }
 });
 
@@ -197,16 +178,10 @@ watch(deepSearch, async () => {
     await performSearch(query.value.trim());
     selectedIndex.value = 0;
     
-    // Animate results in
-    nextTick(() => {
-      resultsEnter.value = true;
-      // Ensure first item is visible
-      setTimeout(() => {
-        if (searchResultsListRef.value) {
-          searchResultsListRef.value.scrollSelectedIntoView();
-        }
-      }, 100);
-    });
+    // Ensure first item is visible
+    if (searchResultsListRef.value) {
+      searchResultsListRef.value.scrollSelectedIntoView();
+    }
   }
 });
 
@@ -401,38 +376,18 @@ onMounted(() => {
 // Open folder selector modal
 const openFolderSelector = () => {
   if (!showFolderSelector.value) {
-    // Opening folder selector - close dropdown first
+    // Opening folder selector
     showDropdown.value = false;
-    instructionsExit.value = true;
-    setTimeout(() => {
-      showFolderSelector.value = true;
-      nextTick(() => {
-        folderSelectorEnter.value = true;
-      });
-    }, 150); // Half of animation duration
+    showFolderSelector.value = true;
   } else {
     // Closing folder selector
-    folderSelectorEnter.value = false;
-    setTimeout(() => {
-      showFolderSelector.value = false;
-      instructionsExit.value = false;
-      
-      // If there's a query, perform search with current folder and animate results in
-      if (query.value.trim()) {
-        performSearch(query.value.trim());
-        selectedIndex.value = 0;
-        
-        nextTick(() => {
-          resultsEnter.value = true;
-          // Ensure first item is visible after animation
-          setTimeout(() => {
-            if (searchResultsListRef.value) {
-              searchResultsListRef.value.scrollSelectedIntoView();
-            }
-          }, 350);
-        });
-      }
-    }, 300);
+    showFolderSelector.value = false;
+    
+    // If there's a query, perform search with current folder
+    if (query.value.trim()) {
+      performSearch(query.value.trim());
+      selectedIndex.value = 0;
+    }
   }
 };
 
@@ -449,28 +404,14 @@ const handleFolderSelect = (entry: DirEntry | null) => {
     // Only update the search location, don't change current path
     selectTargetFolder(entry);
     
-    // Animate folder selector exit
-    folderSelectorEnter.value = false;
-    setTimeout(() => {
-      showFolderSelector.value = false;
-      instructionsExit.value = false;
-      
-      // If there's a query, perform search with new folder and animate results in
-      if (query.value.trim()) {
-        performSearch(query.value.trim());
-        selectedIndex.value = 0;
-        
-        nextTick(() => {
-          resultsEnter.value = true;
-          // Ensure first item is visible after animation
-          setTimeout(() => {
-            if (searchResultsListRef.value) {
-              searchResultsListRef.value.scrollSelectedIntoView();
-            }
-          }, 350);
-        });
-      }
-    }, 300);
+    // Close folder selector
+    showFolderSelector.value = false;
+    
+    // If there's a query, perform search with new folder
+    if (query.value.trim()) {
+      performSearch(query.value.trim());
+      selectedIndex.value = 0;
+    }
   }
 };
 
@@ -570,33 +511,36 @@ const handleClickOutside = (event: MouseEvent) => {
           </label>
         </div>
 
-        <!-- Folder Selector (when showFolderSelector is true) -->
-        <div v-if="showFolderSelector" class="vuefinder__search-modal__folder-selector" :class="{ 'vuefinder__search-modal__folder-selector--enter': folderSelectorEnter }">
-          
-          <div class="vuefinder__search-modal__folder-selector-content">
-            <ModalTreeSelector
-              v-model="targetFolderEntry"
-              :show-pinned-folders="true"
-              :current-path="currentPath"
-              @update:modelValue="selectTargetFolder"
-              @selectAndClose="handleFolderSelect"
-            />
+        <!-- Folder Selector with CSS transitions -->
+        <Transition name="slide-right">
+          <div v-if="showFolderSelector" class="vuefinder__search-modal__folder-selector">
+            <div class="vuefinder__search-modal__folder-selector-content">
+              <ModalTreeSelector
+                v-model="targetFolderEntry"
+                :show-pinned-folders="true"
+                :current-path="currentPath"
+                @update:modelValue="selectTargetFolder"
+                @selectAndClose="handleFolderSelect"
+              />
+            </div>
           </div>
-        </div>
+        </Transition>
 
-        <!-- Instructions (when blank and folder selector closed) -->
-        <div v-if="!query.trim() && !showFolderSelector" class="vuefinder__search-modal__instructions" :class="{ 'vuefinder__search-modal__instructions--exit': instructionsExit }">
-          <div class="vuefinder__search-modal__instructions-tips">
-            <div class="vuefinder__search-modal__tip">
-              <span class="vuefinder__search-modal__tip-key">↑↓</span>
-              <span>{{ t('Navigate results') }}</span>
-            </div>
-            <div class="vuefinder__search-modal__tip">
-              <span class="vuefinder__search-modal__tip-key">Esc</span>
-              <span>{{ t('Close search') }}</span>
+        <!-- Instructions with CSS transitions -->
+        <Transition name="slide-left">
+          <div v-if="!query.trim() && !showFolderSelector" class="vuefinder__search-modal__instructions">
+            <div class="vuefinder__search-modal__instructions-tips">
+              <div class="vuefinder__search-modal__tip">
+                <span class="vuefinder__search-modal__tip-key">↑↓</span>
+                <span>{{ t('Navigate results') }}</span>
+              </div>
+              <div class="vuefinder__search-modal__tip">
+                <span class="vuefinder__search-modal__tip-key">Esc</span>
+                <span>{{ t('Close search') }}</span>
+              </div>
             </div>
           </div>
-        </div>
+        </Transition>
 
         <!-- Search Results (when query exists and folder selector closed) -->
         <SearchResultsList
@@ -608,7 +552,7 @@ const handleClickOutside = (event: MouseEvent) => {
           :expanded-paths="expandedPaths"
           :active-dropdown="activeDropdown"
           :selected-item-dropdown-option="selectedItemDropdownOption"
-          :results-enter="resultsEnter"
+          :results-enter="true"
           @select-result-item="selectResultItem"
           @toggle-path-expansion="togglePathExpansion"
           @toggle-item-dropdown="toggleItemDropdown"

@@ -359,7 +359,7 @@
 
 /* Folder Selector */
 .vuefinder__search-modal__folder-selector {
-  @apply bg-(--vf-bg-primary);
+  @apply bg-(--vf-bg-primary) relative;
 }
 
 .vuefinder__search-modal__folder-selector-header {
@@ -380,6 +380,35 @@
 
 .vuefinder__search-modal__folder-selector-select {
   @apply px-6 py-2 text-sm bg-(--vf-accent-color) text-(--vf-accent-text) border border-(--vf-accent-color) rounded hover:bg-(--vf-accent-color-hover) transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Vue Transition Styles - Mobile Only */
+@media (max-width: 767px) {
+  .slide-right-enter-active,
+  .slide-right-leave-active {
+    transition: transform 0.3s ease-out;
+  }
+
+  .slide-right-enter-from {
+    transform: translateX(100%);
+  }
+
+  .slide-right-leave-to {
+    transform: translateX(100%);
+  }
+
+  .slide-left-enter-active,
+  .slide-left-leave-active {
+    transition: transform 0.3s ease-out;
+  }
+
+  .slide-left-enter-from {
+    transform: translateX(-100%);
+  }
+
+  .slide-left-leave-to {
+    transform: translateX(-100%);
+  }
 }
 
 /* Mobile Styles */
@@ -554,11 +583,7 @@
   }
   
   .vuefinder__search-modal__folder-selector {
-    @apply translate-x-full transition-transform duration-300 ease-out;
-  }
-  
-  .vuefinder__search-modal__folder-selector--enter {
-    @apply translate-x-0;
+    @apply relative;
   }
 }
 
@@ -570,6 +595,14 @@
   
   .vuefinder__search-modal-layout .vuefinder__modal-layout__body {
     @apply mt-0 mb-auto;
+  }
+  
+  .vuefinder__search-modal__folder-selector {
+    @apply absolute inset-0 bg-(--vf-bg-primary) z-10;
+  }
+  
+  .vuefinder__search-modal__folder-selector-content {
+    @apply h-full overflow-y-auto;
   }
   
   .vuefinder__search-modal__instructions-tips {
