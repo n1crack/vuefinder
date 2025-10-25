@@ -68,7 +68,7 @@ export default {
     "Select Folders": "フォルダを選択",
     "Clear all": "すべてクリア",
     "Clear only successful": "成功したもののみクリア",
-    "Drag and drop the files/folders to here or click here.": "ファイル/フォルダをここにドラッグ&ドロップするか、ここをクリックしてください。",
+    "Drag and drop the files/folders to here.": "ファイル/フォルダをここにドラッグ&ドロップするか、ここをクリックしてください。",
     "Release to drop these files.": "これらのファイルをドロップするには離してください。",
     "Canceled": "キャンセルされました",
     "Done": "完了",

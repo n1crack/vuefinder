@@ -65,7 +65,7 @@ export default {
     "Select Folders": "Select Folders",
     "Clear all": "נקה הכל",
     "Clear only successful": "נקה רק הצלחות",
-    "Drag and drop the files/folders to here or click here.": "גרור ושחרר את הקבצים/תיקיות לכאן או לחץ כאן.",
+    "Drag and drop the files/folders to here.": "גרור ושחרר את הקבצים/תיקיות לכאן או לחץ כאן.",
     "Release to drop these files.": "שחרר כדי לשחרר את הקבצים.",
     "Canceled": "בוטל",
     "Done": "הסתיים",

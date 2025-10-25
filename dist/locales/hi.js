@@ -65,7 +65,7 @@ export default {
     "Select Folders": "फ़ोल्डर चुनें",
     "Clear all": "सब कुछ साफ़ करें",
     "Clear only successful": "केवल सफल साफ़ करें",
-    "Drag and drop the files/folders to here or click here.": "फ़ाइलें/फ़ोल्डर्स यहाँ खींचें या यहाँ क्लिक करें।",
+    "Drag and drop the files/folders to here.": "फ़ाइलें/फ़ोल्डर्स यहाँ खींचें या यहाँ क्लिक करें।",
     "Release to drop these files.": "इन फ़ाइलों को छोड़ने के लिए रिलीज़ करें।",
     "Canceled": "रद्द कर दिया गया",
     "Done": "हो गया",

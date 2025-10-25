@@ -69,7 +69,7 @@ export default {
     "Select Folders": "Sélectionner des dossiers",
     "Clear all": "Tout effacer",
     "Clear only successful": "Effacer uniquement les réussites",
-    "Drag and drop the files/folders to here or click here.": "Faites glisser les fichiers/dossiers ici ou cliquez ici.",
+    "Drag and drop the files/folders to here.": "Faites glisser les fichiers/dossiers ici ou cliquez ici.",
     "Release to drop these files.": "Relâchez pour déposer ces fichiers.",
     "Canceled": "Annulé",
     "Done": "Terminé",
