@@ -231,11 +231,11 @@
 }
 
 .vuefinder__search-modal__results-items {
-  @apply space-y-1 p-2;
+  @apply space-y-0.5 p-1;
 }
 
 .vuefinder__search-modal__result-item {
-  @apply flex border border-transparent items-center text-xs gap-3 p-3 mr-2 rounded-lg hover:bg-(--vf-bg-secondary) relative ;
+  @apply flex border border-transparent items-center text-xs gap-2 p-2 mr-2 rounded-lg hover:bg-(--vf-bg-secondary) relative;
 }
 
 .vuefinder__search-modal__result-item:hover {
@@ -272,11 +272,11 @@
 }
 
 .vuefinder__search-modal__result-name {
-  @apply text-sm font-medium text-(--vf-text-primary) truncate;
+  @apply text-sm font-medium text-(--vf-text-primary) overflow-auto whitespace-nowrap;
 }
 
 .vuefinder__search-modal__result-path {
-  @apply text-xs text-(--vf-text-secondary) truncate opacity-75 cursor-pointer hover:opacity-100 transition-opacity;
+  @apply text-xs text-(--vf-text-secondary) overflow-auto whitespace-nowrap opacity-75 cursor-pointer hover:opacity-100 transition-opacity;
 }
 
 .vuefinder__search-modal__result-actions {

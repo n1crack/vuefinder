@@ -73,52 +73,37 @@ const hasResults = computed(() => searchResults.value.length > 0);
 const resultCount = computed(() => searchResults.value.length);
 
 // Utility functions
-const shortenPath = (path: string, maxLength: number = 30): string => {
-  if (path.length <= maxLength) return path;
-  
-  // Handle storage:// format properly
-  const storageMatch = path.match(/^([^/]+:\/\/)/);
-  if (!storageMatch) {
-    // Fallback for paths without storage:// format
-    return path.substring(0, maxLength - 3) + '...';
+export const shortenPath = (path: string, max: number = 40): string => {
+  const match = path.match(/^([^:]+:\/\/)(.*)$/);
+  if (!match) return path;
+
+  const prefix = match[1];
+  const rest = match[2] ?? "";
+  const parts = rest.split("/");
+  const filename = parts.pop();
+  if (!filename) return prefix + rest;
+
+  let short = `${prefix}${parts.join("/")}/${filename}`;
+  if (short.length <= max) return short;
+
+  // Safely split filename and extension
+  const split = filename.split(/\.(?=[^\.]+$)/);
+  const name = split[0] ?? "";
+  const ext = split[1] ?? "";
+
+  const shortName =
+    name.length > 10 ? `${name.slice(0, 6)}...${name.slice(-5)}` : name;
+
+  const shortFilename = ext ? `${shortName}.${ext}` : shortName;
+
+  short = `${prefix}${parts.join("/")}/${shortFilename}`;
+
+  // Collapse folders if still too long
+  if (short.length > max) {
+    short = `${prefix}.../${shortFilename}`;
   }
-  
-  const storage = storageMatch[1]; // e.g., "local://"
-  if (!storage) {
-    return path.substring(0, maxLength - 3) + '...';
-  }
-  
-  const pathAfterStorage = path.substring(storage.length); // Everything after "local://"
-  const parts = pathAfterStorage.split('/').filter(part => part !== ''); // Remove empty parts
-  
-  if (parts.length === 0) {
-    return storage;
-  }
-  
-  const filename = parts[parts.length - 1];
-  if (!filename) {
-    return storage;
-  }
-  
-  if (parts.length === 1) {
-    // Simple case: storage://filename
-    if (storage.length + filename.length > maxLength) {
-      const availableSpace = maxLength - storage.length - 3; // -3 for "..."
-      if (availableSpace > 0) {
-        const keepStart = Math.floor(availableSpace / 2);
-        const keepEnd = Math.floor(availableSpace / 2);
-        const truncatedFilename = filename.substring(0, keepStart) + '...' + filename.substring(filename.length - keepEnd);
-        return `${storage}${truncatedFilename}`;
-      } else {
-        return path.substring(0, maxLength - 3) + '...';
-      }
-    }
-    return path;
-  }
-  
-  // Complex case: storage://folder1/folder2/.../filename
-  // Always show folders with ... when there are folders
-  return `${storage}.../${filename}`;
+
+  return short;
 };
 
 const togglePathExpansion = (path: string) => {
