@@ -81,13 +81,15 @@
   @apply fixed z-[10001] w-[180px];
   opacity: 0;
   transition: opacity 0.15s ease-out;
-  /* Initial positioning to prevent flash - will be overridden by JS */
+  /* Initial positioning to prevent flash - will be overridden by Floating UI */
   left: -9999px;
   top: -9999px;
+  pointer-events: none;
 }
 
 .vuefinder__search-modal__dropdown--visible {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .vuefinder__search-modal__dropdown-content {

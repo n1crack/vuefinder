@@ -7,7 +7,7 @@ import ModalRename from "../components/modals/ModalRename.vue";
 import ModalPreview from "../components/modals/ModalPreview.vue";
 import ModalMove from '../components/modals/ModalMove.vue';
 import ModalCopy from '../components/modals/ModalCopy.vue';
-import SearchModal from '../components/SearchModal.vue';
+import ModalSearch from '../components/modals/ModalSearch.vue';
 
 const KEYBOARD_SHORTCUTS = {
     ESCAPE: 'Escape', F2: 'F2', F5: 'F5', DELETE: 'Delete', ENTER: 'Enter',
@@ -47,7 +47,7 @@ export function useHotkeyActions(app: any) {
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout)
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && app.features.includes(FEATURES.SEARCH)) {
             // Open search modal
-            app.modal.open(SearchModal);
+            app.modal.open(ModalSearch);
             e.preventDefault();
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {

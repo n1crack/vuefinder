@@ -9,7 +9,7 @@ import ModalDelete from "./modals/ModalDelete.vue";
 import ModalUpload from "./modals/ModalUpload.vue";
 import ModalUnarchive from "./modals/ModalUnarchive.vue";
 import ModalArchive from "./modals/ModalArchive.vue";
-import SearchModal from "./SearchModal.vue";
+import ModalSearch from "./modals/ModalSearch.vue";
 import NewFolderSVG from "../assets/icons/new_folder.svg";
 import NewFileSVG from "../assets/icons/new_file.svg";
 import RenameSVG from "../assets/icons/rename.svg";
@@ -266,7 +266,7 @@ const resetFilters = () => {
           v-if="app.features.includes(FEATURES.SEARCH)"
           class="mx-1.5"
           :title="t('Search Files')"
-          @click="app.modal.open(SearchModal)"
+          @click="app.modal.open(ModalSearch)"
       >
         <SearchSVG 
           class="vf-toolbar-icon text-(--vf-bg-primary)"

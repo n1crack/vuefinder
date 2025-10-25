@@ -3,18 +3,20 @@ import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { inject } from 'vue';
 import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
-import useDebouncedRef from '../composables/useDebouncedRef';
-import SearchSVG from '../assets/icons/search.svg';
-import LoadingSVG from '../assets/icons/loading.svg';
-import FileSVG from '../assets/icons/file.svg';
-import FolderSVG from '../assets/icons/folder.svg';
-import GearSVG from '../assets/icons/gear.svg';
-import DotsSVG from '../assets/icons/dots.svg';
-import ModalLayout from './modals/ModalLayout.vue';
-import ModalHeader from './modals/ModalHeader.vue';
-import ModalPreview from './modals/ModalPreview.vue';
-import ModalTreeSelector from './modals/ModalTreeSelector.vue';
-import type { DirEntry } from '../types';
+import useDebouncedRef from '../../composables/useDebouncedRef';
+import SearchSVG from '../../assets/icons/search.svg';
+import LoadingSVG from '../../assets/icons/loading.svg';
+import FileSVG from '../../assets/icons/file.svg';
+import FolderSVG from '../../assets/icons/folder.svg';
+import GearSVG from '../../assets/icons/gear.svg';
+import DotsSVG from '../../assets/icons/dots.svg';
+import ModalLayout from './ModalLayout.vue';
+import ModalHeader from './ModalHeader.vue';
+import ModalPreview from './ModalPreview.vue';
+import ModalTreeSelector from './ModalTreeSelector.vue';
+import type { DirEntry } from '../../types';
+
+defineOptions({ name: 'ModalSearch' });
 
 const app = inject('ServiceContainer');
 const { t } = app.i18n;
@@ -159,7 +161,9 @@ const setupDropdownPositioning = async () => {
   // Set initial position before dropdown becomes visible
   Object.assign(dropdownContent.value.style, {
     left: `${x}px`,
-    top: `${y}px`
+    top: `${y}px`,
+    position: 'fixed',
+    zIndex: '10001'
   });
   
   // Then setup auto-update for dynamic positioning
@@ -585,10 +589,10 @@ const toggleDropdown = async () => {
   }
   
   if (!showDropdown.value) {
-    // Opening dropdown - setup positioning first, then show
+    // Opening dropdown - show first, then setup positioning
+    showDropdown.value = true;
     await nextTick();
     await setupDropdownPositioning();
-    showDropdown.value = true;
   } else {
     // Closing dropdown
     showDropdown.value = false;
