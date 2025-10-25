@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { scanFiles } from '../utils/scanFiles';
 
 export interface ExternalFile {
   name: string;
@@ -60,27 +61,7 @@ export function useExternalDragDrop() {
       if (fileItems.length > 0) {
         externalFiles.value = [];
         
-        // Recursively scan dropped entries (files/folders) - async version
-        const scanFiles = async (resultCallback: (entry: any, file: File) => void, item: any): Promise<void> => {
-          if (!item) return;
-          if (item.isFile) {
-            const file = await new Promise<File>((resolve) => {
-              item.file(resolve);
-            });
-            resultCallback(item, file);
-          }
-          if (item.isDirectory) {
-            const reader = item.createReader();
-            const entries = await new Promise<any[]>((resolve) => {
-              reader.readEntries(resolve);
-            });
-            for (const entry of entries) {
-              await scanFiles(resultCallback, entry);
-            }
-          }
-        };
-        
-        // Process all items
+        // Use shared scanFiles utility
         for (const item of fileItems) {
           const getAsEntry = (item as any).webkitGetAsEntry?.();
           if (getAsEntry) {
