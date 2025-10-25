@@ -58,10 +58,7 @@
 }
 
 .vuefinder__search-modal__dropdown-btn--active {
-  background-color: var(--vf-dropdown-hover);
-  color: var(--vf-dropdown-text);
-  border-color: var(--vf-dropdown-border);
-  box-shadow: 0 1px 2px var(--vf-dropdown-shadow);
+  @apply bg-(--vf-bg-secondary) text-(--vf-text-primary) border-(--vf-border-primary) shadow-sm;
 }
 
 .vuefinder__search-modal__dropdown-btn:disabled {
@@ -144,10 +141,11 @@
 
 .vuefinder__search-modal__location-btn--open {
   @apply bg-(--vf-bg-secondary) border-l border-r border-b border-(--vf-border-primary) rounded-t-lg;
+  box-shadow: 0 1px 2px var(--vf-shadow-sm);
 }
 
 .vuefinder__search-modal__location-btn--open .vuefinder__search-modal__location-icon {
-  @apply text-(--vf-accent-color);
+  @apply text-(--vf-text-primary);
 }
 
 .vuefinder__search-modal__location-icon {
@@ -167,7 +165,7 @@
 }
 
 .vuefinder__search-modal__location-btn--open .vuefinder__search-modal__location-arrow {
-  @apply text-(--vf-accent-color) rotate-180;
+  @apply text-(--vf-text-primary) rotate-180;
 }
 
 .vuefinder__search-modal__deep-search {
