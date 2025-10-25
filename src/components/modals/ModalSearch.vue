@@ -122,42 +122,15 @@ const copyItemPath = async (item: DirEntry) => {
 
 // Watch for query changes and trigger search
 watch(query, async (newQuery) => {
-  if (newQuery.trim()) {
-    // Reset scroll position when starting new search
-    if (searchResultsListRef.value) {
-      searchResultsListRef.value.resetScroll();
-    }
-    
+  if (newQuery.trim()) {    
     await performSearch(newQuery.trim());
     selectedIndex.value = 0;
     
-    // Ensure first item is visible
-    if (!showFolderSelector.value && searchResultsListRef.value) {
-      searchResultsListRef.value.scrollSelectedIntoView();
-    }
+  
   } else {
     searchResults.value = [];
     isSearching.value = false;
     selectedIndex.value = -1;
-    
-    // Reset scroll position when clearing search
-    if (searchResultsListRef.value) {
-      searchResultsListRef.value.resetScroll();
-    }
-  }
-});
-
-// Watch for results changes
-watch(searchResults, () => {
-  if (searchResults.value.length > 0 && !showFolderSelector.value) {
-    nextTick(() => {
-      // Ensure first item is visible when results change
-      setTimeout(() => {
-        if (searchResultsListRef.value) {
-          searchResultsListRef.value.scrollSelectedIntoView();
-        }
-      }, 100);
-    });
   }
 });
 
@@ -169,11 +142,6 @@ watch(sizeFilter, async (newValue) => {
   if (query.value.trim() && !showFolderSelector.value) {
     await performSearch(query.value.trim());
     selectedIndex.value = 0;
-    
-    // Ensure first item is visible
-    if (searchResultsListRef.value) {
-      searchResultsListRef.value.scrollSelectedIntoView();
-    }
   }
 });
 
@@ -183,11 +151,6 @@ watch(deepSearch, async () => {
   if (query.value.trim() && !showFolderSelector.value) {
     await performSearch(query.value.trim());
     selectedIndex.value = 0;
-    
-    // Ensure first item is visible
-    if (searchResultsListRef.value) {
-      searchResultsListRef.value.scrollSelectedIntoView();
-    }
   }
 });
 
@@ -241,135 +204,8 @@ const performSearch = async (searchQuery: string) => {
   }
 };
 
-// Handle input-specific keyboard navigation
-const handleInputKeydown = (e: KeyboardEvent) => {
-  // Don't handle events if we're currently searching
-  if (isSearching.value) return;
-  
-  // Handle arrow keys for result navigation
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (searchResults.value.length === 0) return;
-    
-    // Calculate how many items are visible in the container
-    const containerHeight = searchResultsListRef.value?.getContainerHeight() || 400;
-    const itemsPerPage = Math.floor(containerHeight / 60); // 60px per item
-    
-    // If we're at the end, don't go further
-    if (selectedIndex.value >= searchResults.value.length - 1) return;
-    
-    // Calculate the last visible item index
-    const currentScrollTop = searchResultsListRef.value?.scrollTop() || 0;
-    const lastVisibleIndex = Math.floor(currentScrollTop / 60) + itemsPerPage - 1;
-    
-    // If current selection is the last visible item, scroll to show next page
-    if (selectedIndex.value >= lastVisibleIndex) {
-      selectedIndex.value = Math.min(selectedIndex.value + itemsPerPage, searchResults.value.length - 1);
-    } else {
-      selectedIndex.value++;
-    }
-    
-    nextTick(() => {
-      if (searchResultsListRef.value) {
-        searchResultsListRef.value.scrollSelectedIntoView();
-      }
-    });
-    return;
-  }
-  
-  if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    e.stopPropagation();
-    if (selectedIndex.value > 0) {
-      selectedIndex.value--;
-      nextTick(() => {
-        if (searchResultsListRef.value) {
-          searchResultsListRef.value.scrollSelectedIntoView();
-        }
-      });
-    }
-    return;
-  }
-  
-  
-  if (e.key === 'Escape') {
-    e.preventDefault();
-    e.stopPropagation();
-    app.modal.close();
-    return;
-  }
-};
-
-// Handle keyboard navigation
-const handleKeydown = (e: KeyboardEvent) => {
-  // Only handle keyboard events if the modal is visible
-  if (!app.modal.visible) return;
-  
-  // Don't handle events if we're currently searching
-  if (isSearching.value) return;
-  
-  // Handle arrow keys for result navigation (even when input is focused)
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (searchResults.value.length === 0) return;
-    
-    // Calculate how many items are visible in the container
-    const containerHeight = searchResultsListRef.value?.getContainerHeight() || 400;
-    const itemsPerPage = Math.floor(containerHeight / 60); // 60px per item
-    
-    // If we're at the end, don't go further
-    if (selectedIndex.value >= searchResults.value.length - 1) return;
-    
-    // Calculate the last visible item index
-    const currentScrollTop = searchResultsListRef.value?.scrollTop() || 0;
-    const lastVisibleIndex = Math.floor(currentScrollTop / 60) + itemsPerPage - 1;
-    
-    // If current selection is the last visible item, scroll to show next page
-    if (selectedIndex.value >= lastVisibleIndex) {
-      selectedIndex.value = Math.min(selectedIndex.value + itemsPerPage, searchResults.value.length - 1);
-    } else {
-      selectedIndex.value++;
-    }
-    
-    nextTick(() => {
-      if (searchResultsListRef.value) {
-        searchResultsListRef.value.scrollSelectedIntoView();
-      }
-    });
-    return;
-  }
-  
-  if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    e.stopPropagation();
-    if (selectedIndex.value > 0) {
-      selectedIndex.value--;
-      nextTick(() => {
-        if (searchResultsListRef.value) {
-          searchResultsListRef.value.scrollSelectedIntoView();
-        }
-      });
-    }
-    return;
-  }
-
-  
-  if (e.key === 'Escape') {
-    e.preventDefault();
-    e.stopPropagation();
-    app.modal.close();
-    return;
-  }
-};
-
-
 // Event listeners
 onMounted(() => {
-  document.addEventListener('keydown', handleKeydown);
   document.addEventListener('click', handleClickOutside);
   
   // Initialize selected state
@@ -428,7 +264,6 @@ const handleFolderSelect = (entry: DirEntry | null) => {
 
 
 onUnmounted(() => {
-  document.removeEventListener('keydown', handleKeydown);
   document.removeEventListener('click', handleClickOutside);
   
   // Cleanup child components
@@ -483,7 +318,6 @@ const handleClickOutside = (event: MouseEvent) => {
             v-model="query"
             :is-searching="isSearching"
             :disabled="showFolderSelector"
-            @keydown="handleInputKeydown"
           />
           <!-- Unified dropdown for both desktop and mobile -->
           <SearchOptionsDropdown
