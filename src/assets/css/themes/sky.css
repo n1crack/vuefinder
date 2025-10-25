@@ -42,7 +42,7 @@
   --vf-shadow-modal: rgba(0, 0, 0, 0.6);
   
   /* Overlay Colors */
-  --vf-overlay-bg: rgba(0, 0, 0, 0.7);
+  --vf-overlay-bg: rgba(75, 85, 99, 0.7);
   --vf-overlay-border: rgba(125, 211, 252, 0.3);
   --vf-overlay-text: #bae6fd;
 }

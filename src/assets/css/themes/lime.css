@@ -38,7 +38,7 @@
   --vf-shadow-lg: rgba(132, 204, 22, 0.25);
   --vf-shadow-modal: rgba(0, 0, 0, 0.4);
   
-  --vf-overlay-bg: rgba(15, 20, 25, 0.8);
+  --vf-overlay-bg: rgba(75, 85, 99, 0.7);
   --vf-overlay-border: rgba(132, 204, 22, 0.7);
   --vf-overlay-text: #dcfce7;
 }
