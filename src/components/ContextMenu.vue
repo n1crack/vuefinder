@@ -48,19 +48,15 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}: { event: a
   if (searchState.value.query) {
     if (target) {
       app.emitter.emit('vf-context-selected', [target]);
-      // console.log('search item selected');
     } else {
       return;
     }
   } else if (!target && !searchState.value.query) {
     app.emitter.emit('vf-context-selected', []);
-    // console.log('no files selected');
   } else if (items.length > 1 && items.some((el: any) => el.path === target.path)) {
     app.emitter.emit('vf-context-selected', items);
-    // console.log(items.length + ' selected (more than 1 item.)');
   } else {
     app.emitter.emit('vf-context-selected', [target]);
-    // console.log(target.type + ' is selected');
   }
   showContextMenu(event)
 })

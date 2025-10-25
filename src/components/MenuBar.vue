@@ -17,7 +17,7 @@ import ModalPreview from "./modals/ModalPreview.vue";
 
 const app = inject('ServiceContainer');
 if (!app) {
-  console.error('MenuBar: ServiceContainer not found');
+  throw new Error('MenuBar: ServiceContainer not found');
 }
 
 const {t} = app?.i18n || { t: (key: string) => key };
@@ -120,7 +120,7 @@ const menuItems = computed(() => [
             try {
               window.close();
             } catch (e) {
-              console.log('Cannot close window:', (e as Error).message);
+              // Window cannot be closed programmatically
             }
           },
           enabled: () => true

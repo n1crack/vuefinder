@@ -320,7 +320,6 @@ const selectResultItem = (index: number) => {
 const copyItemPath = async (item: DirEntry) => {
   try {
     await navigator.clipboard.writeText(item.path);
-    console.log('Path copied to clipboard:', item.path);
   } catch (error) {
     console.error('Failed to copy path:', error);
     // Fallback for older browsers
@@ -379,7 +378,6 @@ watch(sizeFilter, (newValue) => {
 const performSearch = async (searchQuery: string) => {
   if (!searchQuery) return;
   
-  console.log('Starting search for:', searchQuery);
   isSearching.value = true;
   
   try {
@@ -418,8 +416,7 @@ const performSearch = async (searchQuery: string) => {
         searchResults.value = data.files || [];
         isSearching.value = false;
       },
-      onError: (error: unknown) => {
-        console.log('Search error:', error);
+      onError: () => {
         searchResults.value = [];
         isSearching.value = false;
       }
@@ -432,8 +429,8 @@ const performSearch = async (searchQuery: string) => {
 };
 
 // Handle item click
-const handleItemClick = (item: DirEntry) => {
- console.log('Item clicked:', item)
+const handleItemClick = () => {
+  // Handle item click logic here if needed
 };
 
 // Handle input-specific keyboard navigation
@@ -468,7 +465,7 @@ const handleInputKeydown = (e: KeyboardEvent) => {
     if (selectedIndex.value >= 0 && selectedIndex.value < searchResults.value.length) {
       const selectedItem = searchResults.value[selectedIndex.value];
       if (selectedItem) {
-        handleItemClick(selectedItem);
+        handleItemClick();
       }
     }
     return;
@@ -517,7 +514,7 @@ const handleKeydown = (e: KeyboardEvent) => {
     if (selectedIndex.value >= 0 && selectedIndex.value < searchResults.value.length) {
       const selectedItem = searchResults.value[selectedIndex.value];
       if (selectedItem) {
-        handleItemClick(selectedItem);
+        handleItemClick();
       }
     }
     return;
@@ -599,7 +596,6 @@ const toggleDropdown = async () => {
 
 // Open folder selector modal
 const openFolderSelector = () => {
-  console.log('Open folder selector clicked');
   if (!showFolderSelector.value) {
     // Opening folder selector - close dropdown first
     showDropdown.value = false;
@@ -630,7 +626,6 @@ const selectTargetFolder = (folder: DirEntry | null) => {
 // Handle folder selection and close selector
 const handleFolderSelect = (entry: DirEntry | null) => {
   if (entry) {
-    console.log('Folder selected for search:', entry);
     // Only update the search location, don't change current path
     selectTargetFolder(entry);
     
