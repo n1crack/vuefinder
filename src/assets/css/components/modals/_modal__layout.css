@@ -4,7 +4,7 @@
 }
 
 .vuefinder__modal-layout__overlay {
-  @apply fixed inset-0 transition-opacity bg-(--vf-overlay-bg);
+  @apply fixed inset-0 transition-opacity bg-(--vf-overlay-bg) backdrop-blur-xs;
 }
 
 .vuefinder__modal-layout__container {
