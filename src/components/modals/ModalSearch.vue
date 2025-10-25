@@ -73,17 +73,17 @@ const hasResults = computed(() => searchResults.value.length > 0);
 const resultCount = computed(() => searchResults.value.length);
 
 // Utility functions
-export const shortenPath = (path: string, max: number = 40): string => {
+const shortenPath = (path: string, max: number = 40): string => {
   const match = path.match(/^([^:]+:\/\/)(.*)$/);
   if (!match) return path;
 
   const prefix = match[1];
   const rest = match[2] ?? "";
-  const parts = rest.split("/");
+  const parts = rest.split("/").filter(Boolean); // remove empty segments
   const filename = parts.pop();
   if (!filename) return prefix + rest;
 
-  let short = `${prefix}${parts.join("/")}/${filename}`;
+  let short = `${prefix}${parts.join("/")}${parts.length ? "/" : ""}${filename}`;
   if (short.length <= max) return short;
 
   // Safely split filename and extension
@@ -96,7 +96,7 @@ export const shortenPath = (path: string, max: number = 40): string => {
 
   const shortFilename = ext ? `${shortName}.${ext}` : shortName;
 
-  short = `${prefix}${parts.join("/")}/${shortFilename}`;
+  short = `${prefix}${parts.join("/")}${parts.length ? "/" : ""}${shortFilename}`;
 
   // Collapse folders if still too long
   if (short.length > max) {
