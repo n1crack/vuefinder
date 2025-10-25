@@ -62,7 +62,7 @@
 
 /* Modal tree styles */
 .vuefinder__modal-tree {
-  @apply border rounded-lg bg-(--vf-bg-primary) border-(--vf-border-primary) flex flex-col;
+  @apply border rounded-lg bg-(--vf-bg-secondary) border-(--vf-border-secondary) flex flex-col;
 }
 
 .vuefinder__modal-tree__header {

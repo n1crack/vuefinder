@@ -445,21 +445,7 @@ const performSearch = async (searchQuery: string) => {
 
 // Handle item click
 const handleItemClick = (item: DirEntry) => {
-  if (item.type === 'dir') {
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'index',
-        storage: currentPath?.value?.storage ?? 'local',
-        path: item.path
-      }
-    });
-  } else {
-    app.modal.open(ModalPreview, {
-      storage: currentPath?.value?.storage ?? 'local',
-      item: item
-    });
-  }
-  app.modal.close();
+ console.log('Item clicked:', item)
 };
 
 // Handle input-specific keyboard navigation
@@ -601,7 +587,8 @@ const toggleDropdown = async () => {
   }
   
   if (!showDropdown.value) {
-    // Opening dropdown - show first, then setup positioning
+    // Opening dropdown - close results dropdown first, then show search options
+    closeAllDropdowns();
     showDropdown.value = true;
     await nextTick();
     await setupDropdownPositioning();
