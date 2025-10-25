@@ -16,12 +16,10 @@ const KEYBOARD_SHORTCUTS = {
 } as const;
 
 export function useHotkeyActions(app: any) {
-    const search = app.search;
     const fs = app.fs;
     const config = app.config;
     
     // Use nanostores reactive values
-    const searchState = useStore(search.state);
     const selectedItems = useStore(fs.selectedItems);
     
     const handleKeyboardShortcuts = (e: KeyboardEvent) => {
@@ -30,7 +28,6 @@ export function useHotkeyActions(app: any) {
             (app.root as HTMLElement).focus(); 
         }
         if (app.modal.visible) return;
-        if (searchState.value?.searchMode) return;
         if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
             if (selectedItems.value.length === 1) {
                 app.modal.open(ModalRename, {items: selectedItems.value})

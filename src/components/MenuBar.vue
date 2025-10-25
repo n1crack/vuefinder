@@ -24,11 +24,9 @@ const {t} = app?.i18n || { t: (key: string) => key };
 
 const fs = app?.fs;
 const config = app?.config;
-const search = app?.search;
 
 // Use nanostores reactive values for template reactivity
 const configState = useStore(config?.state || {});
-const searchState = useStore(search?.state || {});
 const selectedItems = useStore(fs?.selectedItems || []);
 const storages = useStore(fs?.storages || []);
 
@@ -73,7 +71,7 @@ const menuItems = computed(() => [
       {
         id: 'search',
         label: t('Search'),
-        action: () => search?.enterSearchMode(),
+        action: () => console.log('Search clicked'),
         enabled: () => app?.features?.includes(FEATURES.SEARCH)
       },
       { type: 'separator' },
@@ -278,14 +276,12 @@ const menuItems = computed(() => [
         id: 'grid-view',
         label: t('Grid View'),
         action: () => config?.set('view', 'grid'),
-        enabled: () => !searchState.value?.query?.length,
         checked: () => configState.value?.view === 'grid'
       },
       {
         id: 'list-view',
         label: t('List View'),
         action: () => config?.set('view', 'list'),
-        enabled: () => !searchState.value?.query?.length,
         checked: () => configState.value?.view === 'list'
       },
       { type: 'separator' },

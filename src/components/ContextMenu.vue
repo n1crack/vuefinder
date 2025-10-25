@@ -3,10 +3,6 @@ import {inject, nextTick, reactive, ref} from 'vue';
 import {useStore} from '@nanostores/vue';
 
 const app = inject('ServiceContainer');
-const search = app.search;
-
-// Use nanostores reactive values for template reactivity
-const searchState = useStore(search.state);
 
 const contextmenu = ref<HTMLElement | null>(null);
 const selectedItems = ref([]);
@@ -39,19 +35,12 @@ app.emitter.on('vf-contextmenu-show', ({event, items, target = null}: { event: a
 
   context.items = app.contextMenuItems.filter((item: any) => {
     return item.show(app, {
-      searchQuery: searchState.value.query,
       items,
       target
     })
   });
 
-  if (searchState.value.query) {
-    if (target) {
-      app.emitter.emit('vf-context-selected', [target]);
-    } else {
-      return;
-    }
-  } else if (!target && !searchState.value.query) {
+  if (!target) {
     app.emitter.emit('vf-context-selected', []);
   } else if (items.length > 1 && items.some((el: any) => el.path === target.path)) {
     app.emitter.emit('vf-context-selected', items);

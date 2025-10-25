@@ -25,7 +25,6 @@ import ListViewSVG from "../assets/icons/list_view.svg";
 import FilterSVG from "../assets/icons/filter.svg";
 import SearchSVG from "../assets/icons/search.svg";
 import type { StoreValue } from 'nanostores';
-import type { SearchState } from '../stores/search';
 import type { ConfigState } from '../stores/config';
 import type { DirEntry } from '../types';
 import type { SortState, FilterState } from '../stores/files';
@@ -37,11 +36,9 @@ defineOptions({ name: 'VfToolbar' });
 
 const fs = app.fs;
 const config = app.config;
-const search = app.search;
 
 // Use nanostores reactive values for template reactivity
 const configState: StoreValue<ConfigState> = useStore(config.state);
-const searchState: StoreValue<SearchState> = useStore(search.state);
 const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
 const fsSortState: StoreValue<SortState> = useStore(fs.sort);
 const fsFilterState: StoreValue<FilterState> = useStore(fs.filter);
@@ -187,7 +184,7 @@ const resetFilters = () => {
 
 <template>
   <div class="vuefinder__toolbar">
-    <div class="vuefinder__toolbar__actions" v-if="!searchState.query.length">
+    <div class="vuefinder__toolbar__actions">
       <div
           class="mx-1.5"
           :title="t('New Folder')"
@@ -250,14 +247,6 @@ const resetFilters = () => {
       >
         <ArchiveSVG :class="(selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
       </div>
-    </div>
-
-    <div class="vuefinder__toolbar__search-results" v-if="searchState.query">
-      <div class="pl-2">
-        {{ t('Search results for') }}
-        <span class="text-xs px-2 py-1 rounded" style="background-color: var(--vf-bg-secondary);">{{ searchState.query }}</span>
-      </div>
-      <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && fs.isLoading()"/>
     </div>
 
     <div class="vuefinder__toolbar__controls">
@@ -350,12 +339,10 @@ const resetFilters = () => {
       <div
           class="mx-1.5"
           :title="t('Change View')"
-          @click="searchState.query.length || toggleView()"
+          @click="toggleView()"
       >
-        <GridViewSVG v-if="configState.view === 'grid'" class="vf-toolbar-icon"
-                     :class="(!searchState.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
-        <ListViewSVG v-if="configState.view === 'list'" class="vf-toolbar-icon"
-                     :class="(!searchState.query.length) ? '' : 'vf-toolbar-icon-disabled'"/>
+        <GridViewSVG v-if="configState.view === 'grid'" class="vf-toolbar-icon" />
+        <ListViewSVG v-if="configState.view === 'list'" class="vf-toolbar-icon" />
       </div>
     </div>
   </div>
