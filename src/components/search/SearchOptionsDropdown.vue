@@ -248,27 +248,31 @@ defineExpose({
           <label 
             class="vuefinder__search-modal__dropdown-option" 
             :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'medium' }"
-           >
+            @click.stop="selectDropdownOption('size-medium')"
+          >
             <input 
               :checked="sizeFilter === 'medium'"
               type="radio" 
               name="sizeFilter"
               value="medium" 
               class="vuefinder__search-modal__radio"
+              @click.stop="selectDropdownOption('size-medium')"
             />
             <span>{{ t('Medium') }}</span>
           </label>
           <label 
             class="vuefinder__search-modal__dropdown-option" 
             :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'large' }"
-           >
+            @click.stop="selectDropdownOption('size-large')"
+          >
             <input 
               :checked="sizeFilter === 'large'"
               type="radio" 
               name="sizeFilter"
               value="large" 
               class="vuefinder__search-modal__radio"
-             />
+              @click.stop="selectDropdownOption('size-large')"
+            />
             <span>{{ t('Large') }}</span>
           </label>
         </div>

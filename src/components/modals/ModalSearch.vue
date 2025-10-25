@@ -40,7 +40,7 @@ const sizeFilter = ref<'all' | 'small' | 'medium' | 'large'>('all');
 const deepSearch = ref(false);
 
 // Dropdown selection state
-const selectedDropdownOption = ref<string | null>(null);
+const selectedDropdownOption = ref<string | null>(`size-${sizeFilter.value}`);
 const selectedItemDropdownOption = ref<string | null>(null);
 
 
@@ -507,7 +507,7 @@ const handleClickOutside = (event: MouseEvent) => {
                 >
                   <input
                     type="radio"
-                    name="sizeFilter"
+                    name="sizeFilterMobile"
                     value="all"
                     :checked="sizeFilter === 'all'"
                     @change="sizeFilter = 'all'"
@@ -521,7 +521,7 @@ const handleClickOutside = (event: MouseEvent) => {
                 >
                   <input 
                     type="radio" 
-                    name="sizeFilter" 
+                    name="sizeFilterMobile" 
                     value="small" 
                     :checked="sizeFilter === 'small'"
                     @change="sizeFilter = 'small'"
@@ -535,7 +535,7 @@ const handleClickOutside = (event: MouseEvent) => {
                 >
                   <input 
                     type="radio" 
-                    name="sizeFilter" 
+                    name="sizeFilterMobile" 
                     value="medium" 
                     :checked="sizeFilter === 'medium'"
                     @change="sizeFilter = 'medium'"
@@ -549,7 +549,7 @@ const handleClickOutside = (event: MouseEvent) => {
                 >
                   <input 
                     type="radio" 
-                    name="sizeFilter" 
+                    name="sizeFilterMobile" 
                     value="large" 
                     :checked="sizeFilter === 'large'"
                     @change="sizeFilter = 'large'"
