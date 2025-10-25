@@ -81,6 +81,9 @@
   @apply fixed z-[10001] w-[180px];
   opacity: 0;
   transition: opacity 0.15s ease-out;
+  /* Initial positioning to prevent flash - will be overridden by JS */
+  left: -9999px;
+  top: -9999px;
 }
 
 .vuefinder__search-modal__dropdown--visible {
@@ -283,6 +286,9 @@
   @apply fixed z-[10001] w-[180px];
   opacity: 0;
   transition: opacity 0.15s ease-out;
+  /* Initial positioning to prevent flash - will be overridden by JS */
+  left: -9999px;
+  top: -9999px;
 }
 
 .vuefinder__search-modal__item-dropdown--visible {

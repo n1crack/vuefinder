@@ -34,7 +34,6 @@ const scrollableContainer = ref<HTMLElement | null>(null);
 
 // Floating UI cleanup functions
 let cleanupDropdown: (() => void) | null = null;
-let cleanupItemDropdown: (() => void) | null = null;
 
 // Advanced search state
 const showDropdown = ref(false);
@@ -144,11 +143,28 @@ const closeAllDropdowns = () => {
 };
 
 // Floating UI positioning functions
-const setupDropdownPositioning = () => {
+const setupDropdownPositioning = async () => {
   if (!dropdownBtn.value || !dropdownContent.value) return;
   
+  // Calculate initial position immediately
+  const { x, y } = await computePosition(dropdownBtn.value, dropdownContent.value, {
+    placement: 'bottom-end',
+    middleware: [
+      offset(12),
+      flip({ padding: 16 }),
+      shift({ padding: 16 })
+    ]
+  });
+  
+  // Set initial position before dropdown becomes visible
+  Object.assign(dropdownContent.value.style, {
+    left: `${x}px`,
+    top: `${y}px`
+  });
+  
+  // Then setup auto-update for dynamic positioning
   cleanupDropdown = autoUpdate(dropdownBtn.value, dropdownContent.value, async () => {
-    const { x, y } = await computePosition(dropdownBtn.value!, dropdownContent.value!, {
+    const { x: newX, y: newY } = await computePosition(dropdownBtn.value!, dropdownContent.value!, {
       placement: 'bottom-end',
       middleware: [
         offset(12),
@@ -158,14 +174,15 @@ const setupDropdownPositioning = () => {
     });
     
     Object.assign(dropdownContent.value!.style, {
-      left: `${x}px`,
-      top: `${y}px`
+      left: `${newX}px`,
+      top: `${newY}px`
     });
   });
 };
 
 const setupItemDropdownPositioning = (itemPath: string, buttonElement: HTMLElement) => {
-  setTimeout(() => {
+  // Use nextTick instead of setTimeout for more immediate positioning
+  nextTick(() => {
     const itemDropdownElement = document.querySelector(`[data-item-dropdown="${itemPath}"]`) as HTMLElement;
     
     if (!itemDropdownElement) return;
@@ -189,7 +206,7 @@ const setupItemDropdownPositioning = (itemPath: string, buttonElement: HTMLEleme
       top: `${rect.top - 4}px`,
       zIndex: '10001'
     });
-  }, 50);
+  });
 };
 
 // Handle dropdown option selection
@@ -561,20 +578,20 @@ onMounted(() => {
 });
 
 // Advanced search functions
-const toggleDropdown = () => {
+const toggleDropdown = async () => {
   // Don't toggle if folder selector is open
   if (showFolderSelector.value) {
     return;
   }
   
-  showDropdown.value = !showDropdown.value;
-  
-  if (showDropdown.value) {
-    // Setup Floating UI positioning when opening
-    nextTick(() => {
-      setupDropdownPositioning();
-    });
+  if (!showDropdown.value) {
+    // Opening dropdown - setup positioning first, then show
+    await nextTick();
+    await setupDropdownPositioning();
+    showDropdown.value = true;
   } else {
+    // Closing dropdown
+    showDropdown.value = false;
     // Cleanup Floating UI when closing
     if (cleanupDropdown) {
       cleanupDropdown();
@@ -653,9 +670,6 @@ onUnmounted(() => {
   // Cleanup Floating UI
   if (cleanupDropdown) {
     cleanupDropdown();
-  }
-  if (cleanupItemDropdown) {
-    cleanupItemDropdown();
   }
 });
 
