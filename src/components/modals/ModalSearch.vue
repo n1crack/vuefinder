@@ -386,6 +386,22 @@ const openFolderSelector = () => {
     setTimeout(() => {
       showFolderSelector.value = false;
       instructionsExit.value = false;
+      
+      // If there's a query, perform search with current folder and animate results in
+      if (query.value.trim()) {
+        performSearch(query.value.trim());
+        selectedIndex.value = 0;
+        
+        nextTick(() => {
+          resultsEnter.value = true;
+          // Ensure first item is visible after animation
+          setTimeout(() => {
+            if (searchResultsListRef.value) {
+              searchResultsListRef.value.scrollSelectedIntoView();
+            }
+          }, 350);
+        });
+      }
     }, 300);
   }
 };
@@ -409,8 +425,11 @@ const handleFolderSelect = (entry: DirEntry | null) => {
       showFolderSelector.value = false;
       instructionsExit.value = false;
       
-      // If there's a query, animate results in
+      // If there's a query, perform search with new folder and animate results in
       if (query.value.trim()) {
+        performSearch(query.value.trim());
+        selectedIndex.value = 0;
+        
         nextTick(() => {
           resultsEnter.value = true;
           // Ensure first item is visible after animation
