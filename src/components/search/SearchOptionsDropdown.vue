@@ -12,7 +12,6 @@ interface Props {
   sizeFilter: 'all' | 'small' | 'medium' | 'large';
   selectedOption: string | null;
 }
-
 interface Emits {
   (e: 'update:visible', value: boolean): void;
   (e: 'update:sizeFilter', value: 'all' | 'small' | 'medium' | 'large'): void;
@@ -216,16 +215,16 @@ defineExpose({
       <div class="vuefinder__search-modal__dropdown-section">
         <div class="vuefinder__search-modal__dropdown-title">{{ t('Size') }}</div>
         <div class="vuefinder__search-modal__dropdown-options">
-          <label 
-            class="vuefinder__search-modal__dropdown-option" 
+          <label
+            class="vuefinder__search-modal__dropdown-option"
             :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'all' }"
             @click.stop="selectDropdownOption('size-all')"
           >
-            <input 
+            <input
               :checked="sizeFilter === 'all'"
-              type="radio" 
+              type="radio"
               name="sizeFilter"
-              value="all" 
+              value="all"
               class="vuefinder__search-modal__radio"
               @click.stop="selectDropdownOption('size-all')"
             />
@@ -249,31 +248,27 @@ defineExpose({
           <label 
             class="vuefinder__search-modal__dropdown-option" 
             :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'medium' }"
-            @click.stop="selectDropdownOption('size-medium')"
-          >
+           >
             <input 
               :checked="sizeFilter === 'medium'"
               type="radio" 
               name="sizeFilter"
               value="medium" 
               class="vuefinder__search-modal__radio"
-              @click.stop="selectDropdownOption('size-medium')"
             />
             <span>{{ t('Medium') }}</span>
           </label>
           <label 
             class="vuefinder__search-modal__dropdown-option" 
             :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'large' }"
-            @click.stop="selectDropdownOption('size-large')"
-          >
+           >
             <input 
               :checked="sizeFilter === 'large'"
               type="radio" 
               name="sizeFilter"
               value="large" 
               class="vuefinder__search-modal__radio"
-              @click.stop="selectDropdownOption('size-large')"
-            />
+             />
             <span>{{ t('Large') }}</span>
           </label>
         </div>

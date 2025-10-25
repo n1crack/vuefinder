@@ -501,14 +501,14 @@ const handleClickOutside = (event: MouseEvent) => {
             <div class="vuefinder__search-modal__dropdown-section">
               <div class="vuefinder__search-modal__dropdown-title">{{ t('Size') }}</div>
               <div class="vuefinder__search-modal__dropdown-options">
-                <label 
-                  class="vuefinder__search-modal__dropdown-option" 
+                <label
+                  class="vuefinder__search-modal__dropdown-option"
                   :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'all' }"
                 >
-                  <input 
-                    type="radio" 
-                    name="sizeFilter" 
-                    value="all" 
+                  <input
+                    type="radio"
+                    name="sizeFilter"
+                    value="all"
                     :checked="sizeFilter === 'all'"
                     @change="sizeFilter = 'all'"
                     class="vuefinder__search-modal__radio"

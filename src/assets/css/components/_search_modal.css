@@ -94,7 +94,7 @@
 }
 
 .vuefinder__search-modal__dropdown-title {
-  @apply text-sm font-semibold mb-1 px-1;
+  @apply text-sm font-semibold px-4 py-1.5;
   color: var(--vf-dropdown-text);
 }
 
