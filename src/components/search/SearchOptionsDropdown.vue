@@ -78,40 +78,56 @@ const setupDropdownPositioning = async () => {
   // Double-check elements still exist after nextTick
   if (!dropdownBtn.value || !dropdownContent.value) return;
   
-  // Calculate initial position immediately
+  // Set initial styles to prevent flash
+  Object.assign(dropdownContent.value.style, {
+    position: 'fixed',
+    zIndex: '10001',
+    opacity: '0',
+    transform: 'translateY(-8px)',
+    transition: 'opacity 150ms ease-out, transform 150ms ease-out'
+  });
+  
+  // Calculate position immediately
   try {
     const { x, y } = await computePosition(dropdownBtn.value, dropdownContent.value, {
       placement: 'bottom-end',
       middleware: [
-        offset(12),
+        offset(8),
         flip({ padding: 16 }),
         shift({ padding: 16 })
       ]
     });
     
-    // Set initial position before dropdown becomes visible
+    // Set the correct position
     Object.assign(dropdownContent.value.style, {
       left: `${x}px`,
-      top: `${y}px`,
-      position: 'fixed',
-      zIndex: '10001'
+      top: `${y}px`
+    });
+    
+    // Now make it visible with animation
+    requestAnimationFrame(() => {
+      if (dropdownContent.value) {
+        Object.assign(dropdownContent.value.style, {
+          opacity: '1',
+          transform: 'translateY(0)'
+        });
+      }
     });
   } catch (error) {
     console.warn('Floating UI initial positioning error:', error);
     return;
   }
   
-  // Then setup auto-update for dynamic positioning
+  // Setup auto-update for dynamic positioning
   try {
     cleanupDropdown = autoUpdate(dropdownBtn.value, dropdownContent.value, async () => {
-      // Safety check inside the update function
       if (!dropdownBtn.value || !dropdownContent.value) return;
       
       try {
         const { x: newX, y: newY } = await computePosition(dropdownBtn.value, dropdownContent.value, {
           placement: 'bottom-end',
           middleware: [
-            offset(12),
+            offset(8),
             flip({ padding: 16 }),
             shift({ padding: 16 })
           ]
@@ -210,74 +226,65 @@ defineExpose({
       @keydown="handleDropdownKeydown"
       tabindex="-1"
     >
-    <div class="vuefinder__search-modal__dropdown-content">
-      <!-- Size Filter -->
-      <div class="vuefinder__search-modal__dropdown-section">
-        <div class="vuefinder__search-modal__dropdown-title">{{ t('Size') }}</div>
-        <div class="vuefinder__search-modal__dropdown-options">
-          <label
-            class="vuefinder__search-modal__dropdown-option"
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'all' }"
-            @click.stop="selectDropdownOption('size-all')"
-          >
-            <input
-              :checked="sizeFilter === 'all'"
-              type="radio"
-              name="sizeFilter"
-              value="all"
-              class="vuefinder__search-modal__radio"
+      <div class="vuefinder__search-modal__dropdown-content">
+        <!-- Size Filter Section -->
+        <div class="vuefinder__search-modal__dropdown-section">
+          <div class="vuefinder__search-modal__dropdown-title">{{ t('File Size') }}</div>
+          <div class="vuefinder__search-modal__dropdown-options">
+            <div
+              class="vuefinder__search-modal__dropdown-option"
+              :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'all' }"
               @click.stop="selectDropdownOption('size-all')"
-            />
-            <span>{{ t('All') }}</span>
-          </label>
-          <label 
-            class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'small' }"
-            @click.stop="selectDropdownOption('size-small')"
-          >
-            <input 
-              :checked="sizeFilter === 'small'"
-              type="radio" 
-              name="sizeFilter"
-              value="small" 
-              class="vuefinder__search-modal__radio"
+            >
+              <span>{{ t('All Files') }}</span>
+              <div class="vuefinder__search-modal__dropdown-option-check" v-if="sizeFilter === 'all'">
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                </svg>
+              </div>
+            </div>
+            
+            <div 
+              class="vuefinder__search-modal__dropdown-option" 
+              :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'small' }"
               @click.stop="selectDropdownOption('size-small')"
-            />
-            <span>{{ t('Small') }}</span>
-          </label>
-          <label 
-            class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'medium' }"
-            @click.stop="selectDropdownOption('size-medium')"
-          >
-            <input 
-              :checked="sizeFilter === 'medium'"
-              type="radio" 
-              name="sizeFilter"
-              value="medium" 
-              class="vuefinder__search-modal__radio"
+            >
+              <span>{{ t('Small (< 1MB)') }}</span>
+              <div class="vuefinder__search-modal__dropdown-option-check" v-if="sizeFilter === 'small'">
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                </svg>
+              </div>
+            </div>
+            
+            <div 
+              class="vuefinder__search-modal__dropdown-option" 
+              :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'medium' }"
               @click.stop="selectDropdownOption('size-medium')"
-            />
-            <span>{{ t('Medium') }}</span>
-          </label>
-          <label 
-            class="vuefinder__search-modal__dropdown-option" 
-            :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'large' }"
-            @click.stop="selectDropdownOption('size-large')"
-          >
-            <input 
-              :checked="sizeFilter === 'large'"
-              type="radio" 
-              name="sizeFilter"
-              value="large" 
-              class="vuefinder__search-modal__radio"
+            >
+              <span>{{ t('Medium (1-10MB)') }}</span>
+              <div class="vuefinder__search-modal__dropdown-option-check" v-if="sizeFilter === 'medium'">
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                </svg>
+              </div>
+            </div>
+            
+            <div 
+              class="vuefinder__search-modal__dropdown-option" 
+              :class="{ 'vuefinder__search-modal__dropdown-option--selected': sizeFilter === 'large' }"
               @click.stop="selectDropdownOption('size-large')"
-            />
-            <span>{{ t('Large') }}</span>
-          </label>
+            >
+              <span>{{ t('Large (> 10MB)') }}</span>
+              <div class="vuefinder__search-modal__dropdown-option-check" v-if="sizeFilter === 'large'">
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </Teleport>
 </template>

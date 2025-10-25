@@ -75,10 +75,6 @@
 
     --vf-dropdown-bg: #1f2937;
     --vf-dropdown-border: #374151;
-    --vf-dropdown-shadow: rgba(0, 0, 0, 0.3);
     --vf-dropdown-text: #f9fafb;
     --vf-dropdown-hover: #374151;
-    --vf-dropdown-selected-bg: #1e40af;
-    --vf-dropdown-selected-border: #3b82f6;
-    --vf-dropdown-selected-accent: #60a5fa;
 }
