@@ -123,6 +123,11 @@ const copyItemPath = async (item: DirEntry) => {
 // Watch for query changes and trigger search
 watch(query, async (newQuery) => {
   if (newQuery.trim()) {
+    // Reset scroll position when starting new search
+    if (searchResultsListRef.value) {
+      searchResultsListRef.value.resetScroll();
+    }
+    
     await performSearch(newQuery.trim());
     selectedIndex.value = 0;
     
@@ -134,6 +139,11 @@ watch(query, async (newQuery) => {
     searchResults.value = [];
     isSearching.value = false;
     selectedIndex.value = -1;
+    
+    // Reset scroll position when clearing search
+    if (searchResultsListRef.value) {
+      searchResultsListRef.value.resetScroll();
+    }
   }
 });
 
@@ -240,14 +250,32 @@ const handleInputKeydown = (e: KeyboardEvent) => {
   if (e.key === 'ArrowDown') {
     e.preventDefault();
     e.stopPropagation();
-    if (selectedIndex.value < searchResults.value.length - 1) {
+    
+    if (searchResults.value.length === 0) return;
+    
+    // Calculate how many items are visible in the container
+    const containerHeight = searchResultsListRef.value?.getContainerHeight() || 400;
+    const itemsPerPage = Math.floor(containerHeight / 60); // 60px per item
+    
+    // If we're at the end, don't go further
+    if (selectedIndex.value >= searchResults.value.length - 1) return;
+    
+    // Calculate the last visible item index
+    const currentScrollTop = searchResultsListRef.value?.scrollTop() || 0;
+    const lastVisibleIndex = Math.floor(currentScrollTop / 60) + itemsPerPage - 1;
+    
+    // If current selection is the last visible item, scroll to show next page
+    if (selectedIndex.value >= lastVisibleIndex) {
+      selectedIndex.value = Math.min(selectedIndex.value + itemsPerPage, searchResults.value.length - 1);
+    } else {
       selectedIndex.value++;
-      nextTick(() => {
-        if (searchResultsListRef.value) {
-          searchResultsListRef.value.scrollSelectedIntoView();
-        }
-      });
     }
+    
+    nextTick(() => {
+      if (searchResultsListRef.value) {
+        searchResultsListRef.value.scrollSelectedIntoView();
+      }
+    });
     return;
   }
   
@@ -286,14 +314,32 @@ const handleKeydown = (e: KeyboardEvent) => {
   if (e.key === 'ArrowDown') {
     e.preventDefault();
     e.stopPropagation();
-    if (selectedIndex.value < searchResults.value.length - 1) {
+    
+    if (searchResults.value.length === 0) return;
+    
+    // Calculate how many items are visible in the container
+    const containerHeight = searchResultsListRef.value?.getContainerHeight() || 400;
+    const itemsPerPage = Math.floor(containerHeight / 60); // 60px per item
+    
+    // If we're at the end, don't go further
+    if (selectedIndex.value >= searchResults.value.length - 1) return;
+    
+    // Calculate the last visible item index
+    const currentScrollTop = searchResultsListRef.value?.scrollTop() || 0;
+    const lastVisibleIndex = Math.floor(currentScrollTop / 60) + itemsPerPage - 1;
+    
+    // If current selection is the last visible item, scroll to show next page
+    if (selectedIndex.value >= lastVisibleIndex) {
+      selectedIndex.value = Math.min(selectedIndex.value + itemsPerPage, searchResults.value.length - 1);
+    } else {
       selectedIndex.value++;
-      nextTick(() => {
-        if (searchResultsListRef.value) {
-          searchResultsListRef.value.scrollSelectedIntoView();
-        }
-      });
     }
+    
+    nextTick(() => {
+      if (searchResultsListRef.value) {
+        searchResultsListRef.value.scrollSelectedIntoView();
+      }
+    });
     return;
   }
   
