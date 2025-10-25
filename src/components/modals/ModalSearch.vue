@@ -289,11 +289,14 @@ const handleDropdownKeydown = (e: KeyboardEvent, dropdownType: 'main' | 'item') 
 
 // Dropdown action handlers
 const openContainingFolder = (item: DirEntry) => {
-  const parentPath = item.path.split('/').slice(0, -1).join('/') || '/';
+  // Use the dir property which contains the parent directory path
+  // If dir is empty or root, use the storage root
+  const parentPath = item.dir || `${item.storage}://`;
+  
   app.emitter.emit('vf-fetch', {
     params: {
       q: 'index',
-      storage: currentPath?.value?.storage ?? 'local',
+      storage: item.storage,
       path: parentPath
     }
   });
