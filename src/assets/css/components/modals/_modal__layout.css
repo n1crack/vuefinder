@@ -4,7 +4,7 @@
 }
 
 .vuefinder__modal-layout__overlay {
-  @apply fixed inset-0 transition-opacity bg-(--vf-overlay-bg);
+  @apply fixed inset-0 transition-opacity bg-(--vf-overlay-bg) ;
 }
 
 .vuefinder__modal-layout__container {
@@ -16,7 +16,7 @@
 }
 
 .vuefinder__modal-layout__body {
-  @apply relative rounded-lg text-left overflow-hidden transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-3xl w-full bg-(--vf-bg-primary);
+  @apply relative rounded-md text-left overflow-hidden transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-3xl w-full bg-(--vf-bg-primary);
   box-shadow: 0 20px 25px -5px var(--vf-shadow-modal), 0 10px 10px -5px var(--vf-shadow-md);
 }
 
@@ -30,9 +30,9 @@
 
 /* Modal drag overlay - full screen coverage */
 .vuefinder__modal-drag-overlay {
-  @apply fixed top-0 left-0 right-0 bottom-0 rounded-xl z-[9999] pointer-events-none backdrop-blur-md flex items-center justify-center bg-(--vf-overlay-bg) border-2 border-dashed border-(--vf-overlay-border);
+  @apply fixed top-0 left-0 right-0 bottom-0 rounded-xl z-[9999] pointer-events-none flex items-center justify-center bg-(--vf-overlay-bg) border-2 border-dashed border-(--vf-overlay-border);
 }
 
 .vuefinder__modal-drag-message {
-  @apply bg-transparent text-(--vf-overlay-text) px-10 py-5 rounded-xl font-semibold text-lg border-3 border-dashed border-(--vf-overlay-border) backdrop-blur-sm min-h-[60px] flex items-center justify-center;
+  @apply bg-transparent text-shadow-2xs text-white px-10 py-5 rounded-xl font-semibold text-lg border-3 border-dashed border-white/50 min-h-[60px] flex items-center justify-center;
 }

@@ -68,7 +68,7 @@ export default {
     "Select Folders": "Klasörleri Seç",
     "Clear all": "Hepsini Temizle",
     "Clear only successful": "Başarılı Olanları Temizle",
-    "Drag and drop the files/folders to here or click here.": "Dosyaları/klasörleri buraya sürükleyin veya buraya tıklayın.",
+    "Drag and drop the files/folders to here.": "Dosyaları/klasörleri buraya sürükleyin veya buraya tıklayın.",
     "Release to drop these files.": "Dosyaları eklemek için serbest bırakın.",
     "Canceled": "İptal edildi",
     "Done": "Tamamlandı",

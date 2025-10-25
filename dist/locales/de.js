@@ -68,7 +68,7 @@ export default {
     "Select Folders": "Ordner auswählen",
     "Clear all": "Alles löschen",
     "Clear only successful": "Nur erfolgreiche löschen",
-    "Drag and drop the files/folders to here or click here.": "Ziehen Sie die Dateien/Ordner hierher oder klicken Sie hier.",
+    "Drag and drop the files/folders to here.": "Ziehen Sie die Dateien/Ordner hierher oder klicken Sie hier.",
     "Release to drop these files.": "Lassen Sie los, um diese Dateien abzulegen.",
     "Canceled": "Abgebrochen",
     "Done": "Fertig",

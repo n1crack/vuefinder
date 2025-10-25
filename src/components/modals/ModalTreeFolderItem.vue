@@ -19,6 +19,7 @@ const props = defineProps<{
   modelValue: DirEntry | null
   expandedFolders: Record<string, boolean>
   modalTreeData: Record<string, DirEntry[]>
+  currentPath?: any
 }>()
 
 // Emits
@@ -39,6 +40,10 @@ const isExpanded = computed(() => {
 
 const isSelected = computed(() => {
   return props.modelValue?.path === props.folder.path;
+});
+
+const isCurrentPath = computed(() => {
+  return props.currentPath?.path === props.folder.path;
 });
 
 const subfolders = computed(() => {
@@ -62,6 +67,22 @@ const selectFolder = () => {
 const selectFolderAndClose = () => {
   emit('update:modelValue', props.folder);
   emit('selectAndClose', props.folder);
+}
+
+// Touch handling for mobile double-tap
+let lastTouchTime = 0;
+const DOUBLE_TAP_DELAY = 300; // milliseconds
+
+const handleFolderTouch = () => {
+  const currentTime = Date.now();
+  if (currentTime - lastTouchTime < DOUBLE_TAP_DELAY) {
+    // Double tap detected
+    selectFolderAndClose();
+  } else {
+    // Single tap
+    selectFolder();
+  }
+  lastTouchTime = currentTime;
 };
 </script>
 
@@ -83,9 +104,13 @@ const selectFolderAndClose = () => {
       
       <div
         class="vuefinder__modal-tree__folder-link"
-        :class="{ 'vuefinder__modal-tree__folder-link--selected': isSelected }"
+        :class="{ 
+          'vuefinder__modal-tree__folder-link--selected': isSelected,
+          'vuefinder__modal-tree__folder-link--current': isCurrentPath
+        }"
         @click="selectFolder"
         @dblclick="selectFolderAndClose"
+        @touchend="handleFolderTouch"
       >
         <FolderSVG v-if="!isExpanded" class="vuefinder__modal-tree__folder-icon vuefinder__item-icon__folder"/>
         <OpenFolderSVG v-else class="vuefinder__item-icon__folder--open vuefinder__modal-tree__folder-icon"/>
@@ -103,6 +128,7 @@ const selectFolderAndClose = () => {
         :modelValue="modelValue"
         :expandedFolders="expandedFolders"
         :modalTreeData="modalTreeData"
+        :currentPath="currentPath"
         @update:modelValue="$emit('update:modelValue', $event)"
         @selectAndClose="$emit('selectAndClose', $event)"
         @toggleFolder="(storage, folderPath) => $emit('toggleFolder', storage, folderPath)"

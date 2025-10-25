@@ -42,7 +42,7 @@
   --vf-shadow-modal: rgba(0, 0, 0, 0.6);
   
   /* Overlay Colors */
-  --vf-overlay-bg: rgba(0, 0, 0, 0.6);
+  --vf-overlay-bg: rgba(75, 85, 99, 0.7);
   --vf-overlay-border: rgba(125, 211, 252, 0.3);
   --vf-overlay-text: #bae6fd;
 }
@@ -51,4 +51,14 @@
 .selection-area-container[data-theme="sky"] {
   --vf-selection-bg: #0f1419;
   --vf-selection-border: #7dd3fc;
+}
+
+/* Sky Theme - Search Modal Dropdowns */
+.vuefinder__search-modal__item-dropdown[data-theme="sky"],
+.vuefinder__search-modal__dropdown[data-theme="sky"]{
+
+    --vf-dropdown-bg: #0a0e13;
+    --vf-dropdown-border: #1a1f2e;
+    --vf-dropdown-text: #e0f2fe;
+    --vf-dropdown-hover: #0f1419;
 }

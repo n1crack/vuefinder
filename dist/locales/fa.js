@@ -65,7 +65,7 @@ export default {
     "Select Folders": "Select Folders",
     "Clear all": "پاک کردن همه",
     "Clear only successful": "پاک کردن فقط موفق",
-    "Drag and drop the files/folders to here or click here.": "فایل ها/پوشه ها را به اینجا بکشید یا اینجا کلیک کنید.",
+    "Drag and drop the files/folders to here.": "فایل ها/پوشه ها را به اینجا بکشید یا اینجا کلیک کنید.",
     "Release to drop these files.": "رها کنید تا این فایل ها را رها کنید.",
     "Canceled": "لغو شد",
     "Done": "انجام شد",

@@ -1,11 +1,5 @@
 /* VueFinder Theme System */
 
-/* Global CSS variables for selection area */
-:root {
-  --vf-selection-bg: #f9fafb;
-  --vf-selection-border: #d1d5db;
-}
-
 /* Default theme fallback */
 .vuefinder:not([data-theme]) {
   /* Use light as fallback */
@@ -42,10 +36,16 @@
   --vf-shadow-lg: rgba(0, 0, 0, 0.15);
   --vf-shadow-modal: rgba(0, 0, 0, 0.15);
   
-  --vf-overlay-bg: rgba(17, 24, 39, 0.3);
+  --vf-overlay-bg: rgba(17, 24, 39, 0.7);
   --vf-overlay-border: rgba(75, 85, 99, 0.8);
   --vf-overlay-text: #6b7280;
 }
+/* Light Theme - Selection Area */
+.selection-area-container {
+  --vf-selection-bg: #f9fafb;
+  --vf-selection-border: #aabfd7;
+}
+
 
 /* Import all theme files */
 @import "./themes/light.css";

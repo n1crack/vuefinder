@@ -7,6 +7,7 @@ import ModalRename from "../components/modals/ModalRename.vue";
 import ModalPreview from "../components/modals/ModalPreview.vue";
 import ModalMove from '../components/modals/ModalMove.vue';
 import ModalCopy from '../components/modals/ModalCopy.vue';
+import ModalSearch from '../components/modals/ModalSearch.vue';
 
 const KEYBOARD_SHORTCUTS = {
     ESCAPE: 'Escape', F2: 'F2', F5: 'F5', DELETE: 'Delete', ENTER: 'Enter',
@@ -15,12 +16,10 @@ const KEYBOARD_SHORTCUTS = {
 } as const;
 
 export function useHotkeyActions(app: any) {
-    const search = app.search;
     const fs = app.fs;
     const config = app.config;
     
     // Use nanostores reactive values
-    const searchState = useStore(search.state);
     const selectedItems = useStore(fs.selectedItems);
     
     const handleKeyboardShortcuts = (e: KeyboardEvent) => {
@@ -29,7 +28,6 @@ export function useHotkeyActions(app: any) {
             (app.root as HTMLElement).focus(); 
         }
         if (app.modal.visible) return;
-        if (searchState.value?.searchMode) return;
         if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
             if (selectedItems.value.length === 1) {
                 app.modal.open(ModalRename, {items: selectedItems.value})
@@ -45,7 +43,8 @@ export function useHotkeyActions(app: any) {
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout)
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && app.features.includes(FEATURES.SEARCH)) {
-            search.enterSearchMode(); 
+            // Open search modal
+            app.modal.open(ModalSearch);
             e.preventDefault();
         }
         if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {

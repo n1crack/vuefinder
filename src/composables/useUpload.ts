@@ -3,6 +3,7 @@ import Uppy from '@uppy/core';
 import XHR from '@uppy/xhr-upload';
 import {parse} from '../utils/filesize';
 import { useStore } from '@nanostores/vue';
+import { scanFiles } from '../utils/scanFiles';
 
 export const QUEUE_ENTRY_STATUS = { PENDING: 0, CANCELED: 1, UPLOADING: 2, ERROR: 3, DONE: 10 } as const;
 export type QueueEntryStatus = typeof QUEUE_ENTRY_STATUS[keyof typeof QUEUE_ENTRY_STATUS];
@@ -43,13 +44,6 @@ export default function useUpload(): UseUploadReturn {
     const uploadTargetFolder = ref<any>(null);
 
     let uppy: Uppy;
-
-    // Recursively scan dropped entries (files/folders)
-    const scanFiles = (resultCallback: (entry: any, file: File) => void, item: any) => {
-        if (!item) return;
-        if (item.isFile) item.file((f: File) => resultCallback(item, f));
-        if (item.isDirectory) item.createReader().readEntries((entries: any[]) => entries.forEach((entry: any) => scanFiles(resultCallback, entry)));
-    };
 
     // Document-level drag event handlers
     const handleDocumentDragOver = (ev: DragEvent) => {

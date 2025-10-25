@@ -3,6 +3,7 @@ import {inject, ref, computed, onMounted, onUnmounted} from 'vue';
 import {useStore} from '@nanostores/vue';
 import {FEATURES} from "../features.js";
 import type {DirEntry} from "../types";
+import { copyPath, copyDownloadUrl } from '../utils/clipboard';
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
 import ModalNewFile from "./modals/ModalNewFile.vue";
 import ModalRename from "./modals/ModalRename.vue";
@@ -17,18 +18,16 @@ import ModalPreview from "./modals/ModalPreview.vue";
 
 const app = inject('ServiceContainer');
 if (!app) {
-  console.error('MenuBar: ServiceContainer not found');
+  throw new Error('MenuBar: ServiceContainer not found');
 }
 
 const {t} = app?.i18n || { t: (key: string) => key };
 
 const fs = app?.fs;
 const config = app?.config;
-const search = app?.search;
 
 // Use nanostores reactive values for template reactivity
 const configState = useStore(config?.state || {});
-const searchState = useStore(search?.state || {});
 const selectedItems = useStore(fs?.selectedItems || []);
 const storages = useStore(fs?.storages || []);
 
@@ -73,7 +72,7 @@ const menuItems = computed(() => [
       {
         id: 'search',
         label: t('Search'),
-        action: () => search?.enterSearchMode(),
+        action: () => console.log('Search clicked'),
         enabled: () => app?.features?.includes(FEATURES.SEARCH)
       },
       { type: 'separator' },
@@ -120,7 +119,7 @@ const menuItems = computed(() => [
             try {
               window.close();
             } catch (e) {
-              console.log('Cannot close window:', (e as Error).message);
+              // Window cannot be closed programmatically
             }
           },
           enabled: () => true
@@ -200,20 +199,16 @@ const menuItems = computed(() => [
       {
         id: 'copy-path',
         label: t('Copy Path'),
-        action: () => {
+        action: async () => {
           if (selectedItems.value.length === 1) {
-            // Seçili item varsa onun path'ini kopyala
+            // Copy selected item's path
             const item = selectedItems.value[0];
-            navigator.clipboard.writeText(item.path).catch(err => {
-              console.error('Failed to copy path:', err);
-            });
+            await copyPath(item.path);
           } else {
-            // Seçili item yoksa mevcut path'i kopyala
+            // Copy current path if no item selected
             const currentPath = fs?.path?.get();
             if (currentPath?.path) {
-              navigator.clipboard.writeText(currentPath.path).catch(err => {
-                console.error('Failed to copy path:', err);
-              });
+              await copyPath(currentPath.path);
             }
           }
         },
@@ -222,15 +217,13 @@ const menuItems = computed(() => [
       {
         id: 'copy-download-url',
         label: t('Copy Download URL'),
-        action: () => {
+        action: async () => {
           if (selectedItems.value.length === 1) {
             const item = selectedItems.value[0];
             const storage = fs?.path?.get()?.storage ?? 'local';
             const downloadUrl = app?.requester?.getDownloadUrl(storage, item);
             if (downloadUrl) {
-              navigator.clipboard.writeText(downloadUrl).catch(err => {
-                console.error('Failed to copy download URL:', err);
-              });
+              await copyDownloadUrl(downloadUrl);
             }
           }
         },
@@ -278,14 +271,12 @@ const menuItems = computed(() => [
         id: 'grid-view',
         label: t('Grid View'),
         action: () => config?.set('view', 'grid'),
-        enabled: () => !searchState.value?.query?.length,
         checked: () => configState.value?.view === 'grid'
       },
       {
         id: 'list-view',
         label: t('List View'),
         action: () => config?.set('view', 'list'),
-        enabled: () => !searchState.value?.query?.length,
         checked: () => configState.value?.view === 'list'
       },
       { type: 'separator' },

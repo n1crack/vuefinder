@@ -68,7 +68,7 @@ export default {
     "Select Folders": "حدد المجلدات",
     "Clear all": "مسح الجميع",
     "Clear only successful": "مسح الناجح فقط",
-    "Drag and drop the files/folders to here or click here.": "اسحب وأفلت الملفات/المجلدات إلى هنا أو قم بالنقر هنا.",
+    "Drag and drop the files/folders to here.": "اسحب وأفلت الملفات/المجلدات إلى هنا أو قم بالنقر هنا.",
     "Release to drop these files.": "حرر لإسقاط هذه الملفات.",
     "Canceled": "مُلغى",
     "Done": "تم",

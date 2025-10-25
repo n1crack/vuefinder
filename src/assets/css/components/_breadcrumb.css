@@ -17,11 +17,7 @@
   @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
   @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
 }
- 
-.vuefinder__breadcrumb__search-icon {
-    @apply h-6 w-6 p-1 rounded cursor-pointer text-white stroke-(--vf-accent-secondary) hover:stroke-(--vf-accent-primary);
-  }
-   
+
 .vuefinder__breadcrumb__go-up--active {
   @apply cursor-pointer text-(--vf-text-primary) hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
 }
@@ -30,10 +26,9 @@
   @apply text-(--vf-text-disabled);
 }
 
-.vuefinder__breadcrumb__search-container {
-  @apply flex border items-center rounded p-1 ml-2 w-full overflow-hidden cursor-pointer bg-(--vf-bg-primary) border-(--vf-border-primary);
+.vuefinder__breadcrumb__path-container {
+  @apply flex border items-center rounded p-1 ml-2 w-full overflow-hidden bg-(--vf-bg-primary) border-(--vf-border-primary);
 }
-
 
 .vuefinder__breadcrumb__home-icon {
   @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary) ;
@@ -81,18 +76,8 @@
   @apply bg-(--vf-selection-bg) border border-(--vf-selection-border);
 }
 
-.vuefinder__breadcrumb__search-mode {
-  @apply relative flex justify-between items-center rounded p-1 ml-2 w-full border bg-(--vf-bg-primary) border-(--vf-border-focus);
-  box-shadow: 0 1px 3px 0 var(--vf-shadow-sm), 0 1px 2px 0 var(--vf-shadow-sm);
-}
-
-.vuefinder__breadcrumb__search-input {
-  @apply w-full pb-0 px-1 border-0 text-base ring-0 outline-0 focus:ring-transparent focus:border-transparent bg-transparent text-(--vf-text-primary);
-}
-
 .vuefinder__breadcrumb__hidden-dropdown {
-    @apply z-50 absolute rounded top-9 max-w-80 shadow overflow-y-auto bg-(--vf-bg-primary) text-(--vf-text-primary) border-(--vf-border-primary);
-    box-shadow: 0 10px 15px -3px var(--vf-shadow-md), 0 4px 6px -2px var(--vf-shadow-sm);
+    @apply z-50 absolute rounded top-9 max-w-80 shadow-md border overflow-y-auto bg-(--vf-bg-primary) text-(--vf-text-primary) border-(--vf-border-primary);
 }
 
 .vuefinder__breadcrumb__hidden-item {
@@ -113,4 +98,37 @@
 
 .vuefinder .vuefinder__breadcrumb__hidden-item-text {
   @apply inline-block w-full text-ellipsis overflow-hidden;
+}
+
+/* Path Copy Mode */
+.vuefinder__breadcrumb__path-mode {
+  @apply flex border items-center rounded p-0.5 ml-2 w-full bg-(--vf-bg-primary) border-(--vf-border-primary);
+}
+
+.vuefinder__breadcrumb__path-mode-content {
+  @apply flex items-center w-full space-x-2;
+}
+
+.vuefinder__breadcrumb__copy-icon {
+  @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__path-text {
+  @apply overflow-auto max-w-[calc(100vw-164px)] flex-1 px-2 py-0.75 bg-(--vf-bg-secondary) rounded border border-(--vf-border-primary) text-(--vf-text-primary) font-mono text-sm;
+  @apply select-all cursor-text;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.vuefinder__breadcrumb__exit-icon {
+  @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__toggle-icon {
+  @apply h-6 w-6 p-1 rounded cursor-pointer text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+  @apply transition-colors duration-200;
 }

@@ -38,7 +38,7 @@
   --vf-shadow-lg: rgba(132, 204, 22, 0.25);
   --vf-shadow-modal: rgba(0, 0, 0, 0.4);
   
-  --vf-overlay-bg: rgba(15, 20, 25, 0.8);
+  --vf-overlay-bg: rgba(75, 85, 99, 0.7);
   --vf-overlay-border: rgba(132, 204, 22, 0.7);
   --vf-overlay-text: #dcfce7;
 }
@@ -64,4 +64,14 @@
 .selection-area-container[data-theme="lime"] {
   --vf-selection-bg: #1a2e1a;
   --vf-selection-border: #84cc16;
+}
+
+/* Lime Theme - Search Modal Dropdowns */
+.vuefinder__search-modal__item-dropdown[data-theme="lime"],
+.vuefinder__search-modal__dropdown[data-theme="lime"]{
+
+    --vf-dropdown-bg: #0f1419;
+    --vf-dropdown-border: #2d4a2d;
+    --vf-dropdown-text: #f0fdf4;
+    --vf-dropdown-hover: #1a2e1a;
 }

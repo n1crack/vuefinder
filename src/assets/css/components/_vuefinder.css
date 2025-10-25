@@ -20,9 +20,9 @@
 }
  
 .vuefinder__external-drop-overlay {
-  @apply fixed top-0 left-0 right-0 bottom-0 rounded-xl z-[1000] pointer-events-none backdrop-blur-md flex items-center justify-center bg-(--vf-overlay-bg) border-2 border-dashed border-(--vf-overlay-border);
+  @apply absolute top-0 left-0 right-0 bottom-0 rounded-xl z-[1000] pointer-events-none flex items-center justify-center bg-(--vf-overlay-bg) border-2 border-dashed border-(--vf-overlay-border);
 }
 
 .vuefinder__external-drop-message {
-  @apply bg-transparent text-(--vf-overlay-text) px-10 py-5 rounded-xl font-semibold text-lg border-3 border-dashed border-(--vf-overlay-border) backdrop-blur-sm min-h-[60px] flex items-center justify-center;
+  @apply bg-transparent text-shadow-2xs text-white px-10 py-5 rounded-xl font-semibold text-lg border-3 border-dashed border-white/50  min-h-[60px] flex items-center justify-center;
 }

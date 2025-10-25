@@ -2759,7 +2759,7 @@ const Yt = { render: Ca }, Ea = { class: "vuefinder__upload-modal__content" }, M
               onClick: F[2] || (F[2] = //@ts-ignore
               (...C) => t(D) && t(D)(...C))
             }, [
-              t(u) ? (r(), f("div", Ra, h(t(o)("Release to drop these files.")), 1)) : (r(), f("div", La, h(t(o)("Drag and drop the files/folders to here or click here.")), 1))
+              t(u) ? (r(), f("div", Ra, h(t(o)("Release to drop these files.")), 1)) : (r(), f("div", La, h(t(o)("Drag and drop the files/folders to here.")), 1))
             ], 512),
             n("div", {
               ref_key: "container",

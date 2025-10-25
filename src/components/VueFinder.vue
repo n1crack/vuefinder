@@ -230,8 +230,8 @@ onMounted(() => {
 
 
   // External drag & drop handler
-  const handleExternalDrop = (e: DragEvent) => {
-    const droppedFiles = handleDrop(e);
+  const handleExternalDrop = async (e: DragEvent) => {
+    const droppedFiles = await handleDrop(e);
     if (droppedFiles.length > 0) {
       app.modal.open(ModalUpload);
 
@@ -257,7 +257,7 @@ onMounted(() => {
           @touchstart="app.emitter.emit('vf-contextmenu-hide')"
       >
         <!-- External Drag Drop Overlay -->
-        <div v-if="isDraggingExternal" class="vuefinder__external-drop-overlay">
+        <div v-if="isDraggingExternal" class="vuefinder__external-drop-overlay vuefinder__external-drop-overlay--relative">
           <div class="vuefinder__external-drop-message">
             {{ app.i18n.t('Drag and drop the files/folders to here.') }}
           </div>

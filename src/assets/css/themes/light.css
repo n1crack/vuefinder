@@ -42,7 +42,7 @@
   --vf-shadow-modal: rgba(0, 0, 0, 0.15);
   
   /* Overlay Colors */
-  --vf-overlay-bg: rgba(17, 24, 39, 0.3);
+  --vf-overlay-bg: rgba(75, 85, 99, 0.7);
   --vf-overlay-border: rgba(75, 85, 99, 0.8);
   --vf-overlay-text: #6b7280;
 }
@@ -51,4 +51,12 @@
 .selection-area-container[data-theme="light"] {
   --vf-selection-bg: #f9fafb;
   --vf-selection-border: #aabfd7;
+}
+/* Light Theme - Search Modal Dropdowns */
+.vuefinder__search-modal__item-dropdown[data-theme="light"],
+.vuefinder__search-modal__dropdown[data-theme="light"]{
+    --vf-dropdown-bg: #ffffff;
+    --vf-dropdown-border: #e5e7eb;
+    --vf-dropdown-text: #374151;
+    --vf-dropdown-hover: #f9fafb;
 }

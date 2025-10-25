@@ -65,7 +65,7 @@ export default {
     "Select Folders": "Mappen selecteren",
     "Clear all": "Alles wissen",
     "Clear only successful": "Alleen geslaagde wissen",
-    "Drag and drop the files/folders to here or click here.": "Sleep de bestanden/mappen hierheen of klik hier.",
+    "Drag and drop the files/folders to here.": "Sleep de bestanden/mappen hierheen of klik hier.",
     "Release to drop these files.": "Laat los om deze bestanden te plaatsen.",
     "Canceled": "Geannuleerd",
     "Done": "Klaar",

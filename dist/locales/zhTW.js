@@ -65,7 +65,7 @@ export default {
     "Select Folders": "選擇資料夾",
     "Clear all": "全部清除",
     "Clear only successful": "僅清除成功上傳的",
-    "Drag and drop the files/folders to here or click here.": "拖曳或點擊此處上傳檔案/資料夾。",
+    "Drag and drop the files/folders to here.": "拖曳或點擊此處上傳檔案/資料夾。",
     "Release to drop these files.": "放開後添加這些文件。",
     "Canceled": "已取消",
     "Done": "已完成",

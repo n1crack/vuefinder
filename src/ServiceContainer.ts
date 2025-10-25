@@ -9,7 +9,6 @@ import { format as filesizeDefault, metricFormat as filesizeMetric } from './uti
 import useModal from "./composables/useModal";
 import { createConfigStore } from "./stores/config";
 import {createFilesStore} from "./stores/files.ts";
-import {createSearchStore} from "./stores/search.ts";
 
 export default (props: Record<string, unknown>, options: Record<string, unknown>) => {
     const storage = useStorage(props.id as string);
@@ -19,8 +18,7 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
 
     const configStore = createConfigStore(props.id as string, props.config ?? {});
     const filesStore = createFilesStore();
-    const searchStore = createSearchStore();
-    
+
     const setFeatures = (features: unknown) => {
         if (Array.isArray(features)) {
             return features;
@@ -33,7 +31,6 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
             version  -- version
             config -- use config store
             fs  -- use files store
-            search -- use search store
             emitter -- use emitter
             i18n -- use i18n
             modal -- use modal
@@ -49,8 +46,6 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         config: configStore,
         // files store
         fs: filesStore,
-        // search store
-        search: searchStore,
         // root element
         root: useTemplateRef("root"),
         // app id

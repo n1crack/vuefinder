@@ -68,7 +68,7 @@ export default {
     "Select Folders": "Seleziona cartelle",
     "Clear all": "Cancella tutto",
     "Clear only successful": "Cancella solo quelli riusciti",
-    "Drag and drop the files/folders to here or click here.": "Trascina e rilascia i file/cartelle qui o clicca qui.",
+    "Drag and drop the files/folders to here.": "Trascina e rilascia i file/cartelle qui o clicca qui.",
     "Release to drop these files.": "Rilascia per lasciar cadere questi file.",
     "Canceled": "Annullato",
     "Done": "Fatto",

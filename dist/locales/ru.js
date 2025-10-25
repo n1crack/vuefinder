@@ -68,7 +68,7 @@ export default {
     "Select Folders": "Выбрать папки",
     "Clear all": "Очистить все",
     "Clear only successful": "Очистить только успешные",
-    "Drag and drop the files/folders to here or click here.": "Перетащите файлы/папки сюда или нажмите здесь.",
+    "Drag and drop the files/folders to here.": "Перетащите файлы/папки сюда или нажмите здесь.",
     "Release to drop these files.": "Отпустите, чтобы отпустить эти файлы.",
     "Canceled": "Отменено",
     "Done": "Готово",
