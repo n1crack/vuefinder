@@ -95,11 +95,13 @@ const getFoldersForPath = (folderPath: string): DirEntry[] => {
   return modalTreeData.value[folderPath] || [];
 };
 
-const selectFolder = (folder: DirEntry) => {
+const selectFolder = (folder: DirEntry | null) => {
+  if (!folder) return;
   emit('update:modelValue', folder);
 }
 
-const selectFolderAndClose = (folder: DirEntry) => {
+const selectFolderAndClose = (folder: DirEntry | null) => {
+  if (!folder) return;
   emit('update:modelValue', folder);
   emit('selectAndClose', folder);
 }
@@ -137,6 +139,35 @@ const selectStorageAndClose = (storage: string) => {
   emit('selectAndClose', storageItem);
 }
 
+// Touch handling for mobile double-tap
+let lastTouchTime = 0;
+const DOUBLE_TAP_DELAY = 300; // milliseconds
+
+const handleFolderTouch = (folder: DirEntry | null) => {
+  if (!folder) return;
+  const currentTime = Date.now();
+  if (currentTime - lastTouchTime < DOUBLE_TAP_DELAY) {
+    // Double tap detected
+    selectFolderAndClose(folder);
+  } else {
+    // Single tap
+    selectFolder(folder);
+  }
+  lastTouchTime = currentTime;
+}
+
+const handleStorageTouch = (storage: string) => {
+  const currentTime = Date.now();
+  if (currentTime - lastTouchTime < DOUBLE_TAP_DELAY) {
+    // Double tap detected
+    selectStorageAndClose(storage);
+  } else {
+    // Single tap
+    selectStorage(storage);
+  }
+  lastTouchTime = currentTime;
+}
+
 onMounted(() => {
   if (modalContentElement.value) {
     OverlayScrollbars(modalContentElement.value, {
@@ -168,6 +199,7 @@ onMounted(() => {
               class="vuefinder__modal-tree__item"
               @click="selectFolder(folder)"
               @dblclick="selectFolderAndClose(folder)"
+              @touchend="handleFolderTouch(folder)"
               :class="{ 'vuefinder__modal-tree__item--selected': modelValue?.path === folder.path }"
           >
             <FolderSVG class="vuefinder__modal-tree__icon vuefinder__item-icon__folder"/>
@@ -197,6 +229,7 @@ onMounted(() => {
                   class="vuefinder__modal-tree__storage-link"
                   @click="selectStorage(storage)"
                   @dblclick="selectStorageAndClose(storage)"
+                  @touchend="handleStorageTouch(storage)"
                   :class="{ 'vuefinder__modal-tree__storage-link--selected': modelValue?.path === storage + '://' }"
               >
                 <StorageSVG class="vuefinder__modal-tree__storage-icon"/>
