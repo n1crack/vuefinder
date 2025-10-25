@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { inject } from 'vue';
+import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
 import useDebouncedRef from '../composables/useDebouncedRef';
 import SearchSVG from '../assets/icons/search.svg';
 import LoadingSVG from '../assets/icons/loading.svg';
@@ -22,6 +23,7 @@ const fs = app.fs;
 // Reactive state
 const searchInput = ref<HTMLInputElement | null>(null);
 const dropdownBtn = ref<HTMLButtonElement | null>(null);
+const dropdownContent = ref<HTMLElement | null>(null);
 const query = useDebouncedRef('', 300);
 const searchResults = ref<DirEntry[]>([]);
 const isSearching = ref(false);
@@ -29,6 +31,10 @@ const selectedIndex = ref(-1);
 
 // Scrollable container ref
 const scrollableContainer = ref<HTMLElement | null>(null);
+
+// Floating UI cleanup functions
+let cleanupDropdown: (() => void) | null = null;
+let cleanupItemDropdown: (() => void) | null = null;
 
 // Advanced search state
 const showDropdown = ref(false);
@@ -126,11 +132,64 @@ const toggleItemDropdown = (itemPath: string, event: MouseEvent) => {
     activeDropdown.value = null;
   } else {
     activeDropdown.value = itemPath;
+    // Simple positioning with button element
+    nextTick(() => {
+      setupItemDropdownPositioning(itemPath, event.target as HTMLElement);
+    });
   }
 };
 
 const closeAllDropdowns = () => {
   activeDropdown.value = null;
+};
+
+// Floating UI positioning functions
+const setupDropdownPositioning = () => {
+  if (!dropdownBtn.value || !dropdownContent.value) return;
+  
+  cleanupDropdown = autoUpdate(dropdownBtn.value, dropdownContent.value, async () => {
+    const { x, y } = await computePosition(dropdownBtn.value!, dropdownContent.value!, {
+      placement: 'bottom-end',
+      middleware: [
+        offset(12),
+        flip({ padding: 16 }),
+        shift({ padding: 16 })
+      ]
+    });
+    
+    Object.assign(dropdownContent.value!.style, {
+      left: `${x}px`,
+      top: `${y}px`
+    });
+  });
+};
+
+const setupItemDropdownPositioning = (itemPath: string, buttonElement: HTMLElement) => {
+  setTimeout(() => {
+    const itemDropdownElement = document.querySelector(`[data-item-dropdown="${itemPath}"]`) as HTMLElement;
+    
+    if (!itemDropdownElement) return;
+    
+    const rect = buttonElement.getBoundingClientRect();
+    const isMobile = window.innerWidth < 768;
+    const dropdownWidth = isMobile ? 160 : 180; // Responsive width
+    
+    let leftPosition: string;
+    
+    if (isMobile) {
+      const leftPos = rect.left - dropdownWidth - 4;
+      leftPosition = `${Math.max(8, leftPos)}px`;
+    } else {
+      leftPosition = `${rect.right + 4}px`;
+    }
+    
+    Object.assign(itemDropdownElement.style, {
+      position: 'fixed',
+      left: leftPosition,
+      top: `${rect.top - 4}px`,
+      zIndex: '10001'
+    });
+  }, 50);
 };
 
 // Handle dropdown option selection
@@ -140,6 +199,79 @@ const selectDropdownOption = (option: string) => {
 
 const selectItemDropdownOption = (option: string) => {
   selectedItemDropdownOption.value = option;
+};
+
+// Enhanced keyboard navigation for dropdowns
+const handleDropdownKeydown = (e: KeyboardEvent, dropdownType: 'main' | 'item') => {
+  if (!showDropdown.value && dropdownType === 'main') return;
+  if (!activeDropdown.value && dropdownType === 'item') return;
+  
+  const options = dropdownType === 'main' 
+    ? ['type-all', 'type-files', 'type-folders', 'size-all', 'size-small', 'size-medium', 'size-large']
+    : ['copy-path', 'open-folder', 'preview'];
+  
+  const currentSelection = dropdownType === 'main' 
+    ? selectedDropdownOption.value 
+    : selectedItemDropdownOption.value;
+  
+  const currentIndex = options.findIndex(opt => 
+    dropdownType === 'main' 
+      ? opt === currentSelection 
+      : currentSelection?.includes(opt)
+  );
+  
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    const nextIndex = (currentIndex + 1) % options.length;
+    if (dropdownType === 'main') {
+      selectedDropdownOption.value = options[nextIndex] || null;
+    } else {
+      selectedItemDropdownOption.value = activeDropdown.value ? `${options[nextIndex] || ''}-${activeDropdown.value}` : null;
+    }
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    const prevIndex = currentIndex <= 0 ? options.length - 1 : currentIndex - 1;
+    if (dropdownType === 'main') {
+      selectedDropdownOption.value = options[prevIndex] || null;
+    } else {
+      selectedItemDropdownOption.value = activeDropdown.value ? `${options[prevIndex] || ''}-${activeDropdown.value}` : null;
+    }
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (dropdownType === 'main') {
+      // Handle main dropdown option selection
+      if (currentSelection?.startsWith('type-')) {
+        typeFilter.value = currentSelection.split('-')[1] as 'all' | 'files' | 'folders';
+      } else if (currentSelection?.startsWith('size-')) {
+        sizeFilter.value = currentSelection.split('-')[1] as 'all' | 'small' | 'medium' | 'large';
+      }
+    } else {
+      // Handle item dropdown option selection
+      const item = searchResults.value.find(item => activeDropdown.value === item.path);
+      if (item && currentSelection) {
+        if (currentSelection.includes('copy-path')) {
+          copyItemPath(item);
+        } else if (currentSelection.includes('open-folder')) {
+          openContainingFolder(item);
+        } else if (currentSelection.includes('preview')) {
+          previewItem(item);
+        }
+      }
+    }
+  } else if (e.key === 'Escape') {
+    e.preventDefault();
+    if (dropdownType === 'main') {
+      showDropdown.value = false;
+    } else {
+      closeAllDropdowns();
+    }
+    // Refocus input
+    nextTick(() => {
+      if (searchInput.value) {
+        searchInput.value.focus();
+      }
+    });
+  }
 };
 
 // Dropdown action handlers
@@ -437,8 +569,18 @@ const toggleDropdown = () => {
   
   showDropdown.value = !showDropdown.value;
   
-  // Refocus input when dropdown closes
-  if (!showDropdown.value) {
+  if (showDropdown.value) {
+    // Setup Floating UI positioning when opening
+    nextTick(() => {
+      setupDropdownPositioning();
+    });
+  } else {
+    // Cleanup Floating UI when closing
+    if (cleanupDropdown) {
+      cleanupDropdown();
+      cleanupDropdown = null;
+    }
+    // Refocus input when dropdown closes
     nextTick(() => {
       if (searchInput.value) {
         searchInput.value.focus();
@@ -507,6 +649,14 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown);
   document.removeEventListener('click', handleClickOutside);
   window.removeEventListener('resize', handleResize);
+  
+  // Cleanup Floating UI
+  if (cleanupDropdown) {
+    cleanupDropdown();
+  }
+  if (cleanupItemDropdown) {
+    cleanupItemDropdown();
+  }
 });
 
 // Handle click outside to close dropdown
@@ -569,11 +719,15 @@ const handleClickOutside = (event: MouseEvent) => {
           </button>
           
           <!-- Dropdown Menu -->
-          <div 
-            v-if="showDropdown" 
-            class="vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible" 
-            @click.stop
-          >
+          <Teleport to="body">
+            <div 
+              v-if="showDropdown" 
+              ref="dropdownContent"
+              class="vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible" 
+              @click.stop
+              @keydown="handleDropdownKeydown($event, 'main')"
+              tabindex="-1"
+            >
             <div class="vuefinder__search-modal__dropdown-content">
               <!-- Type Filter -->
               <div class="vuefinder__search-modal__dropdown-section">
@@ -688,6 +842,7 @@ const handleClickOutside = (event: MouseEvent) => {
               </div>
             </div>
           </div>
+          </Teleport>
         </div>
 
         <!-- Search Options -->
@@ -699,7 +854,7 @@ const handleClickOutside = (event: MouseEvent) => {
               :class="{ 'vuefinder__search-modal__location-btn--open': showFolderSelector }"
             >
               <FolderSVG class="vuefinder__search-modal__location-icon" />
-              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath.path }}</span>
+              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath?.value?.path }}</span>
               <svg class="vuefinder__search-modal__location-arrow" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"/>
               </svg>
@@ -801,11 +956,15 @@ const handleClickOutside = (event: MouseEvent) => {
                   </button>
                   
                   <!-- Item Dropdown Menu -->
-                  <div 
-                    v-if="activeDropdown === item.path"
-                    class="vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible"
-                    @click.stop
-                  >
+                  <Teleport to="body">
+                    <div 
+                      v-if="activeDropdown === item.path"
+                      :data-item-dropdown="item.path"
+                      class="vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible"
+                      @click.stop
+                      @keydown="handleDropdownKeydown($event, 'item')"
+                      tabindex="-1"
+                    >
                     <div class="vuefinder__search-modal__item-dropdown-content">
                       <button 
                         class="vuefinder__search-modal__item-dropdown-option"
@@ -839,6 +998,7 @@ const handleClickOutside = (event: MouseEvent) => {
                       </button>
                     </div>
                   </div>
+                  </Teleport>
                 </div>
               </div>
             </div>
