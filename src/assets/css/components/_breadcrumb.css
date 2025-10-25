@@ -27,7 +27,7 @@
 }
 
 .vuefinder__breadcrumb__path-container {
-  @apply flex border items-center rounded p-1 ml-2 w-full overflow-hidden cursor-pointer bg-(--vf-bg-primary) border-(--vf-border-primary);
+  @apply flex border items-center rounded p-1 ml-2 w-full overflow-hidden bg-(--vf-bg-primary) border-(--vf-border-primary);
 }
 
 .vuefinder__breadcrumb__home-icon {
