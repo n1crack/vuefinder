@@ -292,6 +292,10 @@
   @apply text-sm font-medium text-(--vf-text-primary) overflow-auto whitespace-nowrap;
 }
 
+.vuefinder__search-modal__result-size {
+  @apply text-xs text-(--vf-text-secondary) ml-2 font-normal opacity-75;
+}
+
 .vuefinder__search-modal__result-path {
   @apply text-xs text-(--vf-text-secondary) overflow-auto whitespace-nowrap opacity-75 cursor-pointer hover:opacity-100 transition-opacity;
 }

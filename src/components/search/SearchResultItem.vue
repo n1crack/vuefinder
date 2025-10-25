@@ -4,6 +4,7 @@ import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/d
 import { getCurrentTheme } from '../../utils/theme.ts';
 import { shortenPath } from '../../utils/path.ts';
 import { copyPath } from '../../utils/clipboard.ts';
+import { format } from '../../utils/filesize.ts';
 import FileSVG from '../../assets/icons/file.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
 import DotsSVG from '../../assets/icons/dots.svg';
@@ -72,6 +73,12 @@ onUnmounted(() => {
 // Utility functions
 const isPathExpanded = (path: string): boolean => {
   return props.expandedPaths.has(path);
+};
+
+const formatFileSize = (item: DirEntry): string => {
+  if (item.type === 'dir') return '';
+  if (!item.file_size) return '';
+  return format(item.file_size);
 };
 
 const toggleItemDropdown = (itemPath: string, event: MouseEvent) => {
@@ -228,6 +235,9 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
     <div class="vuefinder__search-modal__result-content">
       <div class="vuefinder__search-modal__result-name">
         {{ item.basename }}
+        <span v-if="formatFileSize(item)" class="vuefinder__search-modal__result-size">
+          {{ formatFileSize(item) }}
+        </span>
       </div>
       <div 
         class="vuefinder__search-modal__result-path"
