@@ -52,3 +52,14 @@
   --vf-selection-bg: #0f1419;
   --vf-selection-border: #7dd3fc;
 }
+
+/* Sky Theme - Search Modal Dropdowns */
+.vuefinder__search-modal__item-dropdown[data-theme="sky"],
+.vuefinder__search-modal__dropdown[data-theme="sky"]{
+
+    --vf-dropdown-bg: #0a0e13;
+    --vf-dropdown-border: #1a1f2e;
+    --vf-dropdown-shadow: rgba(125, 211, 252, 0.2);
+    --vf-dropdown-text: #e0f2fe;
+    --vf-dropdown-hover: #0f1419;
+}

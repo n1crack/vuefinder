@@ -4,6 +4,7 @@ import { useStore } from '@nanostores/vue';
 import { inject } from 'vue';
 import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
 import useDebouncedRef from '../../composables/useDebouncedRef';
+import { getCurrentTheme } from '../../utils/theme';
 import SearchSVG from '../../assets/icons/search.svg';
 import LoadingSVG from '../../assets/icons/loading.svg';
 import FileSVG from '../../assets/icons/file.svg';
@@ -21,6 +22,9 @@ defineOptions({ name: 'ModalSearch' });
 const app = inject('ServiceContainer');
 const { t } = app.i18n;
 const fs = app.fs;
+
+// Get current theme for teleported dropdowns
+const currentTheme = getCurrentTheme();
 
 // Reactive state
 const searchInput = ref<HTMLInputElement | null>(null);
@@ -315,6 +319,10 @@ const previewItem = (item: DirEntry) => {
     item: item
   });
   closeAllDropdowns();
+};
+
+const selectResultItem = (index: number) => {
+  selectedIndex.value = index;
 };
 
 const copyItemPath = async (item: DirEntry) => {
@@ -754,6 +762,7 @@ const handleClickOutside = (event: MouseEvent) => {
               v-if="showDropdown" 
               ref="dropdownContent"
               class="vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible" 
+              :data-theme="currentTheme"
               @click.stop
               @keydown="handleDropdownKeydown($event, 'main')"
               tabindex="-1"
@@ -960,6 +969,7 @@ const handleClickOutside = (event: MouseEvent) => {
                   class="vuefinder__search-modal__result-item"
                   :class="{ 'vuefinder__search-modal__result-item--selected': index === selectedIndex }"
                   :title="item.basename"
+                  @click="selectResultItem(index)"
                 >
                   <div class="vuefinder__search-modal__result-icon">
                     <FolderSVG v-if="item.type === 'dir'" />
@@ -991,12 +1001,13 @@ const handleClickOutside = (event: MouseEvent) => {
                       v-if="activeDropdown === item.path"
                       :data-item-dropdown="item.path"
                       class="vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible"
+                      :data-theme="currentTheme"
                       @click.stop
                       @keydown="handleDropdownKeydown($event, 'item')"
                       tabindex="-1"
                     >
                     <div class="vuefinder__search-modal__item-dropdown-content">
-                      <button 
+                      <div 
                         class="vuefinder__search-modal__item-dropdown-option"
                         :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `copy-path-${item.path}` }"
                         @click="selectItemDropdownOption(`copy-path-${item.path}`); copyItemPath(item)"
@@ -1007,8 +1018,8 @@ const handleClickOutside = (event: MouseEvent) => {
                           <path d="M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
                         </svg>
                         <span>{{ t('Copy Path') }}</span>
-                      </button>
-                      <button 
+                      </div>
+                      <div 
                         class="vuefinder__search-modal__item-dropdown-option"
                         :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `open-folder-${item.path}` }"
                         @click="selectItemDropdownOption(`open-folder-${item.path}`); openContainingFolder(item)"
@@ -1016,8 +1027,8 @@ const handleClickOutside = (event: MouseEvent) => {
                       >
                         <FolderSVG class="vuefinder__search-modal__item-dropdown-icon" />
                         <span>{{ t('Open Containing Folder') }}</span>
-                      </button>
-                      <button 
+                      </div>
+                      <div 
                         class="vuefinder__search-modal__item-dropdown-option"
                         :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `preview-${item.path}` }"
                         @click="selectItemDropdownOption(`preview-${item.path}`); previewItem(item)"
@@ -1025,7 +1036,7 @@ const handleClickOutside = (event: MouseEvent) => {
                       >
                         <FileSVG class="vuefinder__search-modal__item-dropdown-icon" />
                         <span>{{ t('Preview') }}</span>
-                      </button>
+                      </div>
                     </div>
                   </div>
                   </Teleport>

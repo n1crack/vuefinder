@@ -53,3 +53,14 @@
   --vf-selection-bg: #f0f9ff;
   --vf-selection-border: #0ea5e9;
 }
+
+/* Mythril Theme - Search Modal Dropdowns */
+.vuefinder__search-modal__item-dropdown[data-theme="mythril"],
+.vuefinder__search-modal__dropdown[data-theme="mythril"]{
+
+    --vf-dropdown-bg: #f8fafc;
+    --vf-dropdown-border: #cbd5e1;
+    --vf-dropdown-shadow: rgba(14, 165, 233, 0.2);
+    --vf-dropdown-text: #1e293b;
+    --vf-dropdown-hover: #f1f5f9;
+}

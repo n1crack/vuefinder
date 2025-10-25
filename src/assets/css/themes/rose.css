@@ -65,3 +65,14 @@
   --vf-selection-bg: #fef7f7;
   --vf-selection-border: #e11d48;
 }
+
+/* Rose Theme - Search Modal Dropdowns */
+.vuefinder__search-modal__item-dropdown[data-theme="rose"],
+.vuefinder__search-modal__dropdown[data-theme="rose"]{
+
+    --vf-dropdown-bg: #fefefe;
+    --vf-dropdown-border: #fecaca;
+    --vf-dropdown-shadow: rgba(225, 29, 72, 0.2);
+    --vf-dropdown-text: #7c2d12;
+    --vf-dropdown-hover: #fef7f7;
+}

@@ -75,3 +75,14 @@
   fill: #38bdf8;
   stroke: #0ea5e9;
 }
+
+/* Midnight Theme - Search Modal Dropdowns */
+.vuefinder__search-modal__item-dropdown[data-theme="midnight"],
+.vuefinder__search-modal__dropdown[data-theme="midnight"]{
+
+    --vf-dropdown-bg: #0f172a;
+    --vf-dropdown-border: #334155;
+    --vf-dropdown-shadow: rgba(0, 0, 0, 0.5);
+    --vf-dropdown-text: #f1f5f9;
+    --vf-dropdown-hover: #1e293b;
+}
