@@ -16,6 +16,9 @@ import ModalHeader from './ModalHeader.vue';
 import ModalPreview from './ModalPreview.vue';
 import ModalTreeSelector from './ModalTreeSelector.vue';
 import type { DirEntry } from '../../types';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../../stores/files';
+
 
 defineOptions({ name: 'ModalSearch' });
 
@@ -63,7 +66,7 @@ const expandedPaths = ref<Set<string>>(new Set());
 const activeDropdown = ref<string | null>(null);
 
 // Store subscriptions
-const currentPath = useStore(fs.path);
+const currentPath : StoreValue<CurrentPathState> = useStore(fs.path);
 
 // Computed values
 const hasResults = computed(() => searchResults.value.length > 0);
@@ -899,7 +902,7 @@ const handleClickOutside = (event: MouseEvent) => {
               :class="{ 'vuefinder__search-modal__location-btn--open': showFolderSelector }"
             >
               <FolderSVG class="vuefinder__search-modal__location-icon" />
-              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath?.value?.path }}</span>
+              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath.path }}</span>
               <svg class="vuefinder__search-modal__location-arrow" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"/>
               </svg>

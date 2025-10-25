@@ -1,4 +1,4 @@
-import { atom, computed} from 'nanostores'
+import { atom, computed, type StoreValue} from 'nanostores'
 import type {DirEntry} from '@/types';
 import { useStore } from '@nanostores/vue';
 
@@ -9,6 +9,12 @@ export interface SortState {
     active: boolean;
     column: SortColumn;
     order: SortOrder;
+}
+
+export interface CurrentPathState {
+    storage: string;
+    breadcrumb: {basename: string, name: string, path: string, type: 'dir' | 'file'}[];
+    path: string;
 }
 
 export interface FilterState {
@@ -51,7 +57,7 @@ export const createFilesStore = () => {
     const historyIndex = atom<number>(-1);
 
     // Path info (simple and robust)
-    const path = computed([currentPath], (currentPathValue) => {
+    const path : StoreValue<CurrentPathState> = computed([currentPath], (currentPathValue) => {
         const raw = (currentPathValue || 'local://').trim();
         const idx = raw.indexOf('://');
         const storage = idx >= 0 ? raw.slice(0, idx) : '';
