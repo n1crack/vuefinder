@@ -97,6 +97,9 @@ export default function useVirtualColumns<T = unknown>(
     });
 
     const getRowItems = <T>(items: T[], rowIndex: number): T[] => {
+        if (!items || !Array.isArray(items)) {
+            return [];
+        }
         const startIndex = rowIndex * itemsPerRow.value;
         return items.slice(startIndex, startIndex + itemsPerRow.value);
     };
@@ -108,6 +111,9 @@ export default function useVirtualColumns<T = unknown>(
         minCol: number,
         maxCol: number
     ): T[] => {
+        if (!items || !Array.isArray(items)) {
+            return [];
+        }
         const result: T[] = [];
 
         for (let row = minRow; row <= maxRow; row++) {

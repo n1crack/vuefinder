@@ -37,9 +37,9 @@ const configState : StoreValue<ConfigState> = useStore(config.state);
 const fsSortState : StoreValue<SortState> = useStore(fs.sort);
 
 // Make files store reactive
-const sortedFiles = useStore(fs.sortedFiles);
-const selectedKeys = useStore(fs.selectedKeys);
-const loading = useStore(fs.loading);
+const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
+const selectedKeys: StoreValue<Set<string>> = useStore(fs.selectedKeys);
+const loading: StoreValue<boolean> = useStore(fs.loading);
 
 // Function for isSelected
 const isSelected = (path: string) => {
@@ -472,7 +472,7 @@ const handleItemDragEnd = () => {
               :row-height="rowHeight"
               view="grid"
               :items-per-row="itemsPerRow"
-              :items="getRowItems(sortedFiles.value, rowIndex)"
+              :items="getRowItems(sortedFiles, rowIndex)"
               :show-thumbnails="configState.showThumbnails"
               :is-dragging-item="isDraggingItem"
               :is-selected="isSelected"
