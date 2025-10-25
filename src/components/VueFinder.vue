@@ -230,8 +230,8 @@ onMounted(() => {
 
 
   // External drag & drop handler
-  const handleExternalDrop = (e: DragEvent) => {
-    const droppedFiles = handleDrop(e);
+  const handleExternalDrop = async (e: DragEvent) => {
+    const droppedFiles = await handleDrop(e);
     if (droppedFiles.length > 0) {
       app.modal.open(ModalUpload);
 

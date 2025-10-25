@@ -11,6 +11,11 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   const selectedItems = useStore(fs.selectedItems);
 
   function handleDragOver(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
+    // Skip if this is an external drag
+    if ((e as any).isExternalDrag) {
+      return;
+    }
+    
     e.preventDefault();
 
     const selfTarget = fs.getDraggedItem() === target.path;
@@ -35,6 +40,11 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   }
 
   function handleDragEnter(e: DragEvent & { currentTarget: HTMLElement }) {
+    // Skip if this is an external drag
+    if ((e as any).isExternalDrag) {
+      return;
+    }
+    
     e.preventDefault();
     const el = e.currentTarget;
     const currentCount = Number((el as any).dataset[DATASET_COUNTER_KEY] || 0);
@@ -42,6 +52,11 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   }
 
   function handleDragLeave(e: DragEvent & { currentTarget: HTMLElement }) {
+    // Skip if this is an external drag
+    if ((e as any).isExternalDrag) {
+      return;
+    }
+    
     e.preventDefault();
     const el = e.currentTarget;
     const currentCount = Number((el as any).dataset[DATASET_COUNTER_KEY] || 0);
@@ -55,6 +70,11 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   }
 
   function handleDropZone(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
+    // Skip if this is an external drag
+    if ((e as any).isExternalDrag) {
+      return;
+    }
+    
     if (!target) return;
     e.preventDefault();
     const el = e.currentTarget;
