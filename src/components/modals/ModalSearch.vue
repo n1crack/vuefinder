@@ -679,20 +679,32 @@ onUnmounted(() => {
 
 // Handle click outside to close dropdown
 const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target as HTMLElement;
+  
   // Close search options dropdown
-  if (showDropdown.value && dropdownBtn.value && !dropdownBtn.value.contains(event.target as Node)) {
-    showDropdown.value = false;
+  if (showDropdown.value && dropdownBtn.value && dropdownContent.value) {
+    const isClickOnButton = dropdownBtn.value.contains(target);
+    const isClickOnDropdown = dropdownContent.value.contains(target);
     
-    // Refocus input when dropdown closes
-    nextTick(() => {
-      if (searchInput.value) {
-        searchInput.value.focus();
+    if (!isClickOnButton && !isClickOnDropdown) {
+      showDropdown.value = false;
+      
+      // Cleanup Floating UI when closing
+      if (cleanupDropdown) {
+        cleanupDropdown();
+        cleanupDropdown = null;
       }
-    });
+      
+      // Refocus input when dropdown closes
+      nextTick(() => {
+        if (searchInput.value) {
+          searchInput.value.focus();
+        }
+      });
+    }
   }
   
   // Close item dropdowns
-  const target = event.target as HTMLElement;
   if (activeDropdown.value && !target.closest('.vuefinder__search-modal__result-item')) {
     closeAllDropdowns();
   }
@@ -701,13 +713,13 @@ const handleClickOutside = (event: MouseEvent) => {
 
 <template>
   <ModalLayout class="vuefinder__search-modal-layout">
-    <div class="vuefinder__search-modal" @click.stop>
+    <div class="vuefinder__search-modal">
       <ModalHeader :icon="SearchSVG" :title="t('Search Files')"></ModalHeader>
       
       <!-- Content Container (Input + Results) -->
       <div class="vuefinder__search-modal__content">
         <!-- Search Bar -->
-        <div class="vuefinder__search-modal__search-bar" @click.stop>
+        <div class="vuefinder__search-modal__search-bar">
           <div class="vuefinder__search-modal__search-input">
             <SearchSVG class="vuefinder__search-modal__search-icon" />
             <input
