@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { inject } from 'vue';
-import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
 import useDebouncedRef from '../../composables/useDebouncedRef';
-import { getCurrentTheme } from '../../utils/theme';
 import SearchSVG from '../../assets/icons/search.svg';
-import LoadingSVG from '../../assets/icons/loading.svg';
-import FileSVG from '../../assets/icons/file.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
-import GearSVG from '../../assets/icons/gear.svg';
-import DotsSVG from '../../assets/icons/dots.svg';
 import ModalLayout from './ModalLayout.vue';
 import ModalHeader from './ModalHeader.vue';
 import ModalPreview from './ModalPreview.vue';
 import ModalTreeSelector from './ModalTreeSelector.vue';
+import SearchInput from './SearchInput.vue';
+import SearchOptionsDropdown from './SearchOptionsDropdown.vue';
+import SearchResultsList from './SearchResultsList.vue';
 import type { DirEntry } from '../../types';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
@@ -26,23 +23,14 @@ const app = inject('ServiceContainer');
 const { t } = app.i18n;
 const fs = app.fs;
 
-// Get current theme for teleported dropdowns
-const currentTheme = getCurrentTheme();
-
 // Reactive state
-const searchInput = ref<HTMLInputElement | null>(null);
-const dropdownBtn = ref<HTMLButtonElement | null>(null);
-const dropdownContent = ref<HTMLElement | null>(null);
+const searchInputRef = ref<InstanceType<typeof SearchInput> | null>(null);
+const searchOptionsDropdownRef = ref<InstanceType<typeof SearchOptionsDropdown> | null>(null);
+const searchResultsListRef = ref<InstanceType<typeof SearchResultsList> | null>(null);
 const query = useDebouncedRef('', 300);
 const searchResults = ref<DirEntry[]>([]);
 const isSearching = ref(false);
 const selectedIndex = ref(-1);
-
-// Scrollable container ref
-const scrollableContainer = ref<HTMLElement | null>(null);
-
-// Floating UI cleanup functions
-let cleanupDropdown: (() => void) | null = null;
 
 // Advanced search state
 const showDropdown = ref(false);
@@ -68,44 +56,7 @@ const activeDropdown = ref<string | null>(null);
 // Store subscriptions
 const currentPath : StoreValue<CurrentPathState> = useStore(fs.path);
 
-// Computed values
-const hasResults = computed(() => searchResults.value.length > 0);
-const resultCount = computed(() => searchResults.value.length);
-
 // Utility functions
-const shortenPath = (path: string, max: number = 40): string => {
-  const match = path.match(/^([^:]+:\/\/)(.*)$/);
-  if (!match) return path;
-
-  const prefix = match[1];
-  const rest = match[2] ?? "";
-  const parts = rest.split("/").filter(Boolean); // remove empty segments
-  const filename = parts.pop();
-  if (!filename) return prefix + rest;
-
-  let short = `${prefix}${parts.join("/")}${parts.length ? "/" : ""}${filename}`;
-  if (short.length <= max) return short;
-
-  // Safely split filename and extension
-  const split = filename.split(/\.(?=[^\.]+$)/);
-  const name = split[0] ?? "";
-  const ext = split[1] ?? "";
-
-  const shortName =
-    name.length > 10 ? `${name.slice(0, 6)}...${name.slice(-5)}` : name;
-
-  const shortFilename = ext ? `${shortName}.${ext}` : shortName;
-
-  short = `${prefix}${parts.join("/")}${parts.length ? "/" : ""}${shortFilename}`;
-
-  // Collapse folders if still too long
-  if (short.length > max) {
-    short = `${prefix}.../${shortFilename}`;
-  }
-
-  return short;
-};
-
 const togglePathExpansion = (path: string) => {
   if (expandedPaths.value.has(path)) {
     expandedPaths.value.delete(path);
@@ -114,177 +65,20 @@ const togglePathExpansion = (path: string) => {
   }
 };
 
-const isPathExpanded = (path: string): boolean => {
-  return expandedPaths.value.has(path);
-};
-
 const toggleItemDropdown = (itemPath: string, event: MouseEvent) => {
-  event.stopPropagation();
+  if (event && typeof event.stopPropagation === 'function') {
+    event.stopPropagation();
+  }
   
   if (activeDropdown.value === itemPath) {
     activeDropdown.value = null;
   } else {
     activeDropdown.value = itemPath;
-    // Simple positioning with button element
-    nextTick(() => {
-      setupItemDropdownPositioning(itemPath, event.target as HTMLElement);
-    });
   }
 };
 
 const closeAllDropdowns = () => {
   activeDropdown.value = null;
-};
-
-// Floating UI positioning functions
-const setupDropdownPositioning = async () => {
-  if (!dropdownBtn.value || !dropdownContent.value) return;
-  
-  // Calculate initial position immediately
-  const { x, y } = await computePosition(dropdownBtn.value, dropdownContent.value, {
-    placement: 'bottom-end',
-    middleware: [
-      offset(12),
-      flip({ padding: 16 }),
-      shift({ padding: 16 })
-    ]
-  });
-  
-  // Set initial position before dropdown becomes visible
-  Object.assign(dropdownContent.value.style, {
-    left: `${x}px`,
-    top: `${y}px`,
-    position: 'fixed',
-    zIndex: '10001'
-  });
-  
-  // Then setup auto-update for dynamic positioning
-  cleanupDropdown = autoUpdate(dropdownBtn.value, dropdownContent.value, async () => {
-    const { x: newX, y: newY } = await computePosition(dropdownBtn.value!, dropdownContent.value!, {
-      placement: 'bottom-end',
-      middleware: [
-        offset(12),
-        flip({ padding: 16 }),
-        shift({ padding: 16 })
-      ]
-    });
-    
-    Object.assign(dropdownContent.value!.style, {
-      left: `${newX}px`,
-      top: `${newY}px`
-    });
-  });
-};
-
-const setupItemDropdownPositioning = (itemPath: string, buttonElement: HTMLElement) => {
-  // Use nextTick instead of setTimeout for more immediate positioning
-  nextTick(() => {
-    const itemDropdownElement = document.querySelector(`[data-item-dropdown="${itemPath}"]`) as HTMLElement;
-    
-    if (!itemDropdownElement) return;
-    
-    const rect = buttonElement.getBoundingClientRect();
-    const isMobile = window.innerWidth < 768;
-    const dropdownWidth = isMobile ? 160 : 180; // Responsive width
-    
-    let leftPosition: string;
-    
-    if (isMobile) {
-      const leftPos = rect.left - dropdownWidth - 4;
-      leftPosition = `${Math.max(8, leftPos)}px`;
-    } else {
-      leftPosition = `${rect.right + 4}px`;
-    }
-    
-    Object.assign(itemDropdownElement.style, {
-      position: 'fixed',
-      left: leftPosition,
-      top: `${rect.top - 4}px`,
-      zIndex: '10001'
-    });
-  });
-};
-
-// Handle dropdown option selection
-const selectDropdownOption = (option: string) => {
-  selectedDropdownOption.value = option;
-};
-
-const selectItemDropdownOption = (option: string) => {
-  selectedItemDropdownOption.value = option;
-};
-
-// Enhanced keyboard navigation for dropdowns
-const handleDropdownKeydown = (e: KeyboardEvent, dropdownType: 'main' | 'item') => {
-  if (!showDropdown.value && dropdownType === 'main') return;
-  if (!activeDropdown.value && dropdownType === 'item') return;
-  
-  const options = dropdownType === 'main' 
-    ? ['type-all', 'type-files', 'type-folders', 'size-all', 'size-small', 'size-medium', 'size-large']
-    : ['copy-path', 'open-folder', 'preview'];
-  
-  const currentSelection = dropdownType === 'main' 
-    ? selectedDropdownOption.value 
-    : selectedItemDropdownOption.value;
-  
-  const currentIndex = options.findIndex(opt => 
-    dropdownType === 'main' 
-      ? opt === currentSelection 
-      : currentSelection?.includes(opt)
-  );
-  
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    const nextIndex = (currentIndex + 1) % options.length;
-    if (dropdownType === 'main') {
-      selectedDropdownOption.value = options[nextIndex] || null;
-    } else {
-      selectedItemDropdownOption.value = activeDropdown.value ? `${options[nextIndex] || ''}-${activeDropdown.value}` : null;
-    }
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    const prevIndex = currentIndex <= 0 ? options.length - 1 : currentIndex - 1;
-    if (dropdownType === 'main') {
-      selectedDropdownOption.value = options[prevIndex] || null;
-    } else {
-      selectedItemDropdownOption.value = activeDropdown.value ? `${options[prevIndex] || ''}-${activeDropdown.value}` : null;
-    }
-  } else if (e.key === 'Enter') {
-    e.preventDefault();
-    if (dropdownType === 'main') {
-      // Handle main dropdown option selection
-      if (currentSelection?.startsWith('type-')) {
-        typeFilter.value = currentSelection.split('-')[1] as 'all' | 'files' | 'folders';
-      } else if (currentSelection?.startsWith('size-')) {
-        sizeFilter.value = currentSelection.split('-')[1] as 'all' | 'small' | 'medium' | 'large';
-      }
-    } else {
-      // Handle item dropdown option selection
-      const item = searchResults.value.find(item => activeDropdown.value === item.path);
-      if (item && currentSelection) {
-        if (currentSelection.includes('copy-path')) {
-          copyItemPath(item);
-        } else if (currentSelection.includes('open-folder')) {
-          openContainingFolder(item);
-        } else if (currentSelection.includes('preview')) {
-          previewItem(item);
-        }
-      }
-    }
-  } else if (e.key === 'Escape') {
-    e.preventDefault();
-    if (dropdownType === 'main') {
-      showDropdown.value = false;
-    } else {
-      closeAllDropdowns();
-    }
-    // Refocus input
-    nextTick(() => {
-      if (searchInput.value) {
-        searchInput.value.focus();
-      }
-    });
-  }
 };
 
 // Dropdown action handlers
@@ -344,7 +138,11 @@ watch(query, async (newQuery) => {
       nextTick(() => {
         resultsEnter.value = true;
         // Ensure first item is visible
-        setTimeout(() => scrollSelectedIntoView(), 100);
+        setTimeout(() => {
+          if (searchResultsListRef.value) {
+            searchResultsListRef.value.scrollSelectedIntoView();
+          }
+        }, 100);
       });
     }
   } else {
@@ -360,7 +158,11 @@ watch(searchResults, () => {
   if (searchResults.value.length > 0 && !showFolderSelector.value) {
     nextTick(() => {
       // Ensure first item is visible when results change
-      setTimeout(() => scrollSelectedIntoView(), 100);
+      setTimeout(() => {
+        if (searchResultsListRef.value) {
+          searchResultsListRef.value.scrollSelectedIntoView();
+        }
+      }, 100);
     });
   }
 });
@@ -444,7 +246,11 @@ const handleInputKeydown = (e: KeyboardEvent) => {
     e.stopPropagation();
     if (selectedIndex.value < searchResults.value.length - 1) {
       selectedIndex.value++;
-      nextTick(() => scrollSelectedIntoView());
+      nextTick(() => {
+        if (searchResultsListRef.value) {
+          searchResultsListRef.value.scrollSelectedIntoView();
+        }
+      });
     }
     return;
   }
@@ -454,7 +260,11 @@ const handleInputKeydown = (e: KeyboardEvent) => {
     e.stopPropagation();
     if (selectedIndex.value > 0) {
       selectedIndex.value--;
-      nextTick(() => scrollSelectedIntoView());
+      nextTick(() => {
+        if (searchResultsListRef.value) {
+          searchResultsListRef.value.scrollSelectedIntoView();
+        }
+      });
     }
     return;
   }
@@ -493,7 +303,11 @@ const handleKeydown = (e: KeyboardEvent) => {
     e.stopPropagation();
     if (selectedIndex.value < searchResults.value.length - 1) {
       selectedIndex.value++;
-      nextTick(() => scrollSelectedIntoView());
+      nextTick(() => {
+        if (searchResultsListRef.value) {
+          searchResultsListRef.value.scrollSelectedIntoView();
+        }
+      });
     }
     return;
   }
@@ -503,7 +317,11 @@ const handleKeydown = (e: KeyboardEvent) => {
     e.stopPropagation();
     if (selectedIndex.value > 0) {
       selectedIndex.value--;
-      nextTick(() => scrollSelectedIntoView());
+      nextTick(() => {
+        if (searchResultsListRef.value) {
+          searchResultsListRef.value.scrollSelectedIntoView();
+        }
+      });
     }
     return;
   }
@@ -533,21 +351,6 @@ const handleResize = () => {
   // No need for JavaScript positioning anymore
 };
 
-// Scroll selected item into view
-const scrollSelectedIntoView = () => {
-  if (selectedIndex.value >= 0 && scrollableContainer.value) {
-    const resultItems = scrollableContainer.value.querySelectorAll('.vuefinder__search-modal__result-item');
-    const selectedItem = resultItems[selectedIndex.value] as HTMLElement;
-    
-    if (selectedItem) {
-      selectedItem.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest'
-      });
-    }
-  }
-};
-
 // Event listeners
 onMounted(() => {
   document.addEventListener('keydown', handleKeydown);
@@ -558,41 +361,12 @@ onMounted(() => {
   selectedDropdownOption.value = `type-${typeFilter.value}`;
   
   nextTick(() => {
-    if (searchInput.value) {
-      searchInput.value.focus();
+    if (searchInputRef.value) {
+      searchInputRef.value.focus();
     }
   });
 });
 
-// Advanced search functions
-const toggleDropdown = async () => {
-  // Don't toggle if folder selector is open
-  if (showFolderSelector.value) {
-    return;
-  }
-  
-  if (!showDropdown.value) {
-    // Opening dropdown - close results dropdown first, then show search options
-    closeAllDropdowns();
-    showDropdown.value = true;
-    await nextTick();
-    await setupDropdownPositioning();
-  } else {
-    // Closing dropdown
-    showDropdown.value = false;
-    // Cleanup Floating UI when closing
-    if (cleanupDropdown) {
-      cleanupDropdown();
-      cleanupDropdown = null;
-    }
-    // Refocus input when dropdown closes
-    nextTick(() => {
-      if (searchInput.value) {
-        searchInput.value.focus();
-      }
-    });
-  }
-};
 
 // Open folder selector modal
 const openFolderSelector = () => {
@@ -640,7 +414,11 @@ const handleFolderSelect = (entry: DirEntry | null) => {
         nextTick(() => {
           resultsEnter.value = true;
           // Ensure first item is visible after animation
-          setTimeout(() => scrollSelectedIntoView(), 350);
+          setTimeout(() => {
+            if (searchResultsListRef.value) {
+              searchResultsListRef.value.scrollSelectedIntoView();
+            }
+          }, 350);
         });
       }
     }, 300);
@@ -653,9 +431,9 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
   window.removeEventListener('resize', handleResize);
   
-  // Cleanup Floating UI
-  if (cleanupDropdown) {
-    cleanupDropdown();
+  // Cleanup child components
+  if (searchOptionsDropdownRef.value) {
+    searchOptionsDropdownRef.value.cleanup();
   }
 });
 
@@ -664,23 +442,16 @@ const handleClickOutside = (event: MouseEvent) => {
   const target = event.target as HTMLElement;
   
   // Close search options dropdown
-  if (showDropdown.value && dropdownBtn.value && dropdownContent.value) {
-    const isClickOnButton = dropdownBtn.value.contains(target);
-    const isClickOnDropdown = dropdownContent.value.contains(target);
+  if (showDropdown.value) {
+    const isClickOnDropdown = target.closest('.vuefinder__search-modal__dropdown');
     
-    if (!isClickOnButton && !isClickOnDropdown) {
+    if (!isClickOnDropdown) {
       showDropdown.value = false;
-      
-      // Cleanup Floating UI when closing
-      if (cleanupDropdown) {
-        cleanupDropdown();
-        cleanupDropdown = null;
-      }
       
       // Refocus input when dropdown closes
       nextTick(() => {
-        if (searchInput.value) {
-          searchInput.value.focus();
+        if (searchInputRef.value) {
+          searchInputRef.value.focus();
         }
       });
     }
@@ -707,160 +478,21 @@ const handleClickOutside = (event: MouseEvent) => {
       <div class="vuefinder__search-modal__content">
         <!-- Search Bar -->
         <div class="vuefinder__search-modal__search-bar">
-          <div class="vuefinder__search-modal__search-input">
-            <SearchSVG class="vuefinder__search-modal__search-icon" />
-            <input
-              ref="searchInput"
-              v-model="query"
-              type="text"
-              :placeholder="t('Search files and folders...')"
-              :disabled="showFolderSelector"
-              class="vuefinder__search-modal__input"
-              @keydown="handleInputKeydown"
-              @keyup.stop
-              @input.stop
-            />
-            <div v-if="isSearching" class="vuefinder__search-modal__loading">
-              <LoadingSVG class="vuefinder__search-modal__loading-icon" />
-            </div>
-          </div>
-          <button 
-            ref="dropdownBtn"
-            @click.stop="toggleDropdown"
-            class="vuefinder__search-modal__dropdown-btn"
-            :class="{ 'vuefinder__search-modal__dropdown-btn--active': showDropdown }"
+          <SearchInput
+            ref="searchInputRef"
+            v-model="query"
+            :is-searching="isSearching"
             :disabled="showFolderSelector"
-            :title="t('Search Options')"
-          >
-            <GearSVG class="vuefinder__search-modal__dropdown-icon" />
-          </button>
-          
-          <!-- Dropdown Menu -->
-          <Teleport to="body">
-            <div 
-              v-if="showDropdown" 
-              ref="dropdownContent"
-              class="vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible" 
-              :data-theme="currentTheme"
-              @click.stop
-              @keydown="handleDropdownKeydown($event, 'main')"
-              tabindex="-1"
-            >
-            <div class="vuefinder__search-modal__dropdown-content">
-              <!-- Type Filter -->
-              <div class="vuefinder__search-modal__dropdown-section">
-                <div class="vuefinder__search-modal__dropdown-title">{{ t('Type') }}</div>
-                <div class="vuefinder__search-modal__dropdown-options">
-                  <label 
-                    class="vuefinder__search-modal__dropdown-option" 
-                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'type-all' }"
-                    @click.stop="selectDropdownOption('type-all')"
-                  >
-                    <input 
-                      v-model="typeFilter" 
-                      type="radio" 
-                      value="all" 
-                      class="vuefinder__search-modal__radio"
-                      @click.stop
-                    />
-                    <span>{{ t('All') }}</span>
-                  </label>
-                  <label 
-                    class="vuefinder__search-modal__dropdown-option" 
-                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'type-files' }"
-                    @click.stop="selectDropdownOption('type-files')"
-                  >
-                    <input 
-                      v-model="typeFilter" 
-                      type="radio" 
-                      value="files" 
-                      class="vuefinder__search-modal__radio"
-                      @click.stop
-                    />
-                    <span>{{ t('Files') }}</span>
-                  </label>
-                  <label 
-                    class="vuefinder__search-modal__dropdown-option" 
-                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'type-folders' }"
-                    @click.stop="selectDropdownOption('type-folders')"
-                  >
-                    <input 
-                      v-model="typeFilter" 
-                      type="radio" 
-                      value="folders" 
-                      class="vuefinder__search-modal__radio"
-                      @click.stop
-                    />
-                    <span>{{ t('Folders') }}</span>
-                  </label>
-                </div>
-              </div>
-
-              <!-- Size Filter -->
-              <div class="vuefinder__search-modal__dropdown-section">
-                <div class="vuefinder__search-modal__dropdown-title">{{ t('Size') }}</div>
-                <div class="vuefinder__search-modal__dropdown-options">
-                  <label 
-                    class="vuefinder__search-modal__dropdown-option" 
-                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'size-all' }"
-                    @click.stop="selectDropdownOption('size-all')"
-                  >
-                    <input 
-                      v-model="sizeFilter" 
-                      type="radio" 
-                      value="all" 
-                      class="vuefinder__search-modal__radio"
-                      @click.stop
-                    />
-                    <span>{{ t('All') }}</span>
-                  </label>
-                  <label 
-                    class="vuefinder__search-modal__dropdown-option" 
-                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'size-small' }"
-                    @click.stop="selectDropdownOption('size-small')"
-                  >
-                    <input 
-                      v-model="sizeFilter" 
-                      type="radio" 
-                      value="small" 
-                      class="vuefinder__search-modal__radio"
-                      @click.stop
-                    />
-                    <span>{{ t('Small') }}</span>
-                  </label>
-                  <label 
-                    class="vuefinder__search-modal__dropdown-option" 
-                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'size-medium' }"
-                    @click.stop="selectDropdownOption('size-medium')"
-                  >
-                    <input 
-                      v-model="sizeFilter" 
-                      type="radio" 
-                      value="medium" 
-                      class="vuefinder__search-modal__radio"
-                      @click.stop
-                    />
-                    <span>{{ t('Medium') }}</span>
-                  </label>
-                  <label 
-                    class="vuefinder__search-modal__dropdown-option" 
-                    :class="{ 'vuefinder__search-modal__dropdown-option--selected': selectedDropdownOption === 'size-large' }"
-                    @click.stop="selectDropdownOption('size-large')"
-                  >
-                    <input 
-                      v-model="sizeFilter" 
-                      type="radio" 
-                      value="large" 
-                      class="vuefinder__search-modal__radio"
-                      @click.stop
-                    />
-                    <span>{{ t('Large') }}</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          </Teleport>
+            @keydown="handleInputKeydown"
+          />
+          <SearchOptionsDropdown
+            ref="searchOptionsDropdownRef"
+            v-model:visible="showDropdown"
+            v-model:type-filter="typeFilter"
+            v-model:size-filter="sizeFilter"
+            v-model:selected-option="selectedDropdownOption"
+            :disabled="showFolderSelector"
+          />
         </div>
 
         <!-- Search Options -->
@@ -872,7 +504,7 @@ const handleClickOutside = (event: MouseEvent) => {
               :class="{ 'vuefinder__search-modal__location-btn--open': showFolderSelector }"
             >
               <FolderSVG class="vuefinder__search-modal__location-icon" />
-              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath.path }}</span>
+              <span class="vuefinder__search-modal__location-text">{{ targetFolderEntry?.path || currentPath.path  }}</span>
               <svg class="vuefinder__search-modal__location-arrow" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"/>
               </svg>
@@ -923,107 +555,24 @@ const handleClickOutside = (event: MouseEvent) => {
         </div>
 
         <!-- Search Results (when query exists and folder selector closed) -->
-        <div v-if="query.trim() && !showFolderSelector" class="vuefinder__search-modal__results" :class="{ 'vuefinder__search-modal__results--enter': resultsEnter }">
-          <div v-if="isSearching" class="vuefinder__search-modal__searching">
-            <div class="vuefinder__search-modal__loading-icon">
-              <LoadingSVG class="vuefinder__search-modal__loading-icon" />
-            </div>
-            <span>{{ t('Searching...') }}</span>
-          </div>
-          
-          <div v-else-if="!hasResults" class="vuefinder__search-modal__no-results">
-            <span>{{ t('No results found') }}</span>
-          </div>
-          
-          <div v-else class="vuefinder__search-modal__results-list">
-            <div class="vuefinder__search-modal__results-header">
-              <span>{{ t('Found %s results', resultCount) }}</span>
-            </div>
-            
-            <div ref="scrollableContainer" class="vuefinder__search-modal__results-scrollable" >
-              <div class="vuefinder__search-modal__results-items">
-                <div
-                  v-for="(item, index) in searchResults"
-                  :key="item.path"
-                  class="vuefinder__search-modal__result-item"
-                  :class="{ 'vuefinder__search-modal__result-item--selected': index === selectedIndex }"
-                  :title="item.basename"
-                  @click="selectResultItem(index)"
-                >
-                  <div class="vuefinder__search-modal__result-icon">
-                    <FolderSVG v-if="item.type === 'dir'" />
-                    <FileSVG v-else />
-                  </div>
-                  <div class="vuefinder__search-modal__result-content">
-                    <div class="vuefinder__search-modal__result-name">
-                      {{ item.basename }}
-                    </div>
-                    <div 
-                      class="vuefinder__search-modal__result-path"
-                      @click.stop="selectResultItem(index); togglePathExpansion(item.path)"
-                      :title="item.path"
-                    >
-                      {{ isPathExpanded(item.path) ? item.path : shortenPath(item.path) }}
-                    </div>
-                  </div>
-                  <button
-                    class="vuefinder__search-modal__result-actions"
-                    @click="selectResultItem(index); toggleItemDropdown(item.path, $event)"
-                    :title="t('More actions')"
-                  >
-                    <DotsSVG class="vuefinder__search-modal__result-actions-icon" />
-                  </button>
-                  
-                  <!-- Item Dropdown Menu -->
-                  <Teleport to="body">
-                    <div 
-                      v-if="activeDropdown === item.path"
-                      :data-item-dropdown="item.path"
-                      class="vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible"
-                      :data-theme="currentTheme"
-                      @click.stop
-                      @keydown="handleDropdownKeydown($event, 'item')"
-                      tabindex="-1"
-                    >
-                    <div class="vuefinder__search-modal__item-dropdown-content">
-                      <div 
-                        class="vuefinder__search-modal__item-dropdown-option"
-                        :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `copy-path-${item.path}` }"
-                        @click="selectItemDropdownOption(`copy-path-${item.path}`); copyItemPath(item)"
-                        @focus="selectItemDropdownOption(`copy-path-${item.path}`)"
-                      >
-                        <svg class="vuefinder__search-modal__item-dropdown-icon" viewBox="0 0 16 16" fill="currentColor">
-                          <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6z"/>
-                          <path d="M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
-                        </svg>
-                        <span>{{ t('Copy Path') }}</span>
-                      </div>
-                      <div 
-                        class="vuefinder__search-modal__item-dropdown-option"
-                        :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `open-folder-${item.path}` }"
-                        @click="selectItemDropdownOption(`open-folder-${item.path}`); openContainingFolder(item)"
-                        @focus="selectItemDropdownOption(`open-folder-${item.path}`)"
-                      >
-                        <FolderSVG class="vuefinder__search-modal__item-dropdown-icon" />
-                        <span>{{ t('Open Containing Folder') }}</span>
-                      </div>
-                      <div 
-                        class="vuefinder__search-modal__item-dropdown-option"
-                        :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `preview-${item.path}` }"
-                        @click="selectItemDropdownOption(`preview-${item.path}`); previewItem(item)"
-                        @focus="selectItemDropdownOption(`preview-${item.path}`)"
-                      >
-                        <FileSVG class="vuefinder__search-modal__item-dropdown-icon" />
-                        <span>{{ t('Preview') }}</span>
-                      </div>
-                    </div>
-                  </div>
-                  </Teleport>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <SearchResultsList
+          v-if="query.trim() && !showFolderSelector"
+          ref="searchResultsListRef"
+          :search-results="searchResults"
+          :is-searching="isSearching"
+          :selected-index="selectedIndex"
+          :expanded-paths="expandedPaths"
+          :active-dropdown="activeDropdown"
+          :selected-item-dropdown-option="selectedItemDropdownOption"
+          :results-enter="resultsEnter"
+          @select-result-item="selectResultItem"
+          @toggle-path-expansion="togglePathExpansion"
+          @toggle-item-dropdown="toggleItemDropdown"
+          @update:selected-item-dropdown-option="selectedItemDropdownOption = $event"
+          @copy-path="copyItemPath"
+          @open-containing-folder="openContainingFolder"
+          @preview="previewItem"
+        />
       </div>
 
     </div>
