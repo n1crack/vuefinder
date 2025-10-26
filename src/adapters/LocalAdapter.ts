@@ -1,0 +1,204 @@
+import { BaseAdapter } from './Adapter';
+import type {
+  LocalAdapterConfig,
+  FsData,
+  UploadResult,
+  DeleteResult,
+  FileOperationResult,
+  AdapterError,
+} from './types';
+import type { DirEntry } from '../types';
+
+/**
+ * Local adapter for handling file operations in the browser's local environment
+ * This adapter uses the File System Access API where available
+ */
+export class LocalAdapter extends BaseAdapter {
+  private config: LocalAdapterConfig;
+
+  constructor(config: LocalAdapterConfig) {
+    super();
+    this.config = config;
+  }
+
+  /**
+   * List files and folders at a given path
+   */
+  async list(params?: { storage?: string; path?: string }): Promise<FsData> {
+    try {
+      // Parse path to extract storage and actual path
+      const { path } = this.parsePath(params?.path);
+      
+      // In a real local implementation, you would use File System Access API
+      // or local storage to list files
+      // For now, we'll throw an error indicating this needs to be implemented
+      throw new Error('LocalAdapter.list() is not yet implemented. Local file access requires File System Access API or backend proxy.');
+    } catch (error) {
+      throw new Error(`Failed to list directory: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Upload files to a given path
+   */
+  async upload(params: { storage?: string; path?: string; files: File[] }): Promise<UploadResult> {
+    try {
+      this.validateParam(params.files, 'files');
+      
+      // Validate that files array is not empty
+      if (!Array.isArray(params.files) || params.files.length === 0) {
+        throw new Error('At least one file must be provided');
+      }
+
+      // In a real local implementation, you would write files to local storage
+      // For now, we'll throw an error indicating this needs to be implemented
+      throw new Error('LocalAdapter.upload() is not yet implemented. Local file writes require File System Access API.');
+    } catch (error) {
+      throw new Error(`Failed to upload files: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Delete files/folders
+   */
+  async delete(params: { storage?: string; path: string[] }): Promise<DeleteResult> {
+    try {
+      this.validateParam(params.path, 'path');
+      
+      // Validate that path array is not empty
+      if (!Array.isArray(params.path) || params.path.length === 0) {
+        throw new Error('At least one path must be provided');
+      }
+
+      // In a real local implementation, you would delete files from local storage
+      throw new Error('LocalAdapter.delete() is not yet implemented.');
+    } catch (error) {
+      throw new Error(`Failed to delete files: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Rename a file or folder
+   */
+  async rename(params: { storage?: string; path: string; newName: string }): Promise<FileOperationResult> {
+    try {
+      this.validateParam(params.path, 'path');
+      this.validateParam(params.newName, 'newName');
+      this.validatePath(params.path);
+
+      throw new Error('LocalAdapter.rename() is not yet implemented.');
+    } catch (error) {
+      throw new Error(`Failed to rename file: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Copy files/folders to a destination
+   */
+  async copy(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult> {
+    try {
+      this.validateParam(params.path, 'path');
+      this.validateParam(params.destination, 'destination');
+
+      throw new Error('LocalAdapter.copy() is not yet implemented.');
+    } catch (error) {
+      throw new Error(`Failed to copy files: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Move files/folders to a destination
+   */
+  async move(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult> {
+    try {
+      this.validateParam(params.path, 'path');
+      this.validateParam(params.destination, 'destination');
+
+      throw new Error('LocalAdapter.move() is not yet implemented.');
+    } catch (error) {
+      throw new Error(`Failed to move files: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Create a zip archive from files/folders
+   */
+  async zip(params: { storage?: string; path: string[] }): Promise<FileOperationResult> {
+    try {
+      this.validateParam(params.path, 'path');
+
+      throw new Error('LocalAdapter.zip() is not yet implemented.');
+    } catch (error) {
+      throw new Error(`Failed to create archive: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Extract files from a zip archive
+   */
+  async unzip(params: { storage?: string; path: string[] }): Promise<FileOperationResult> {
+    try {
+      this.validateParam(params.path, 'path');
+
+      throw new Error('LocalAdapter.unzip() is not yet implemented.');
+    } catch (error) {
+      throw new Error(`Failed to extract archive: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Create a new file
+   */
+  async createFile(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult> {
+    try {
+      this.validateParam(params.name, 'name');
+
+      throw new Error('LocalAdapter.createFile() is not yet implemented.');
+    } catch (error) {
+      throw new Error(`Failed to create file: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Create a new folder
+   */
+  async createFolder(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult> {
+    try {
+      this.validateParam(params.name, 'name');
+
+      throw new Error('LocalAdapter.createFolder() is not yet implemented.');
+    } catch (error) {
+      throw new Error(`Failed to create folder: ${(error as Error).message}`);
+    }
+  }
+
+  /**
+   * Get preview URL for a file
+   */
+  getPreviewUrl(params: { storage?: string; path: string }): string {
+    this.validatePath(params.path);
+    
+    // Return a URL that can be used to preview the file locally
+    // This would typically use object URLs or File System Access API
+    const { path, storage } = this.parsePath(params.path);
+    const fullPath = this.combinePath(storage, path);
+    
+    // Return empty string as local preview URLs need to be generated dynamically
+    return '';
+  }
+
+  /**
+   * Get download URL for a file
+   */
+  getDownloadUrl(params: { storage?: string; path: string }): string {
+    this.validatePath(params.path);
+    
+    // Return a URL that can be used to download the file locally
+    const { path, storage } = this.parsePath(params.path);
+    const fullPath = this.combinePath(storage, path);
+    
+    // Return empty string as local download URLs need to be generated dynamically
+    return '';
+  }
+}
+
