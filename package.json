@@ -14,10 +14,12 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/vuefinder.es.js",
+      "import": "./dist/vuefinder.js",
       "require": "./dist/vuefinder.cjs.js",
-      "default": "./dist/vuefinder.es.js"
-    }
+      "default": "./dist/vuefinder.js"
+    },
+    "./dist/vuefinder.css": "./dist/vuefinder.css",
+    "./dist/style.css": "./dist/vuefinder.css"
   },
   "types": "./dist/index.d.ts",
   "scripts": {
