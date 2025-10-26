@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { CloudAdapter, AdapterManager } from '../../src/adapters';
-import type { FsData } from '../../src/types';
 
 interface Props {
   request: Record<string, unknown>;
@@ -10,7 +9,7 @@ interface Props {
   theme: string;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 // Example adapter configuration
 const adapter = ref<CloudAdapter | null>(null);
@@ -23,19 +22,19 @@ const files = ref<Array<{basename: string, path: string, type: string}>>([]);
 const initAdapter = () => {
   try {
     adapter.value = new CloudAdapter({
-      baseURL: 'http://inertia-vuefinder.test/vuefinder',
-      token: 'test-token',
+      baseURL: 'http://inertia-vuefinder.test/api/files',
+      token: '', // Add your auth token here if needed
       url: {
-        list: '/index',
-        upload: '',
-        delete: '',
-        rename: '',
-        zip: '',
-        unzip: '',
-        createFile: '',
-        createFolder: '',
-        preview: 'preview',
-        download: 'download'
+        list: '', // GET /api/files
+        upload: '/upload',
+        delete: '/delete',
+        rename: '/rename',
+        zip: '/archive',
+        unzip: '/unarchive',
+        createFile: '/save',
+        createFolder: '/newfolder',
+        preview: '/preview',
+        download: '/download'
       }
     });
 
@@ -63,8 +62,7 @@ const testList = async () => {
   try {
     addTestLog('Testing list()...', 'info');
     const data = await adapter.value.list({ 
-      storage: 'default',
-      path: '' 
+      path: '' // Storage is embedded in the path (e.g., "storage://path")
     });
     
     files.value = data.files;
@@ -88,7 +86,7 @@ const testManagerList = async () => {
 
   try {
     addTestLog('Testing manager.list()...', 'info');
-    const data = await adapterManager.value.list('default', '');
+    const data = await adapterManager.value.list('');
     
     files.value = data.files;
     addTestLog(`Manager list successful - ${data.files.length} items found (with caching)`, 'success');

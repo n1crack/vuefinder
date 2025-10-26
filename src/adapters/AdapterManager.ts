@@ -99,8 +99,8 @@ export class AdapterManager {
   /**
    * List files with caching and automatic refetching
    */
-  async list(storage?: string, path?: string): Promise<FsData> {
-    const queryKey = QueryKeys.list(storage, path);
+  async list(path?: string): Promise<FsData> {
+    const queryKey = QueryKeys.list(undefined, path);
     
     // Try to get cached data first
     const cachedData = this.queryClient.getQueryData<FsData>(queryKey);
@@ -108,8 +108,8 @@ export class AdapterManager {
       return cachedData;
     }
 
-    // Fetch fresh data
-    const data = await this.adapter.list({ storage, path });
+    // Fetch fresh data - only pass path parameter
+    const data = await this.adapter.list({ path });
     
     // Cache the result
     this.queryClient.setQueryData(queryKey, data);
@@ -124,7 +124,7 @@ export class AdapterManager {
     const result = await this.adapter.upload(params);
     
     // Invalidate and refetch list queries
-    this.invalidateListQueries(params.storage);
+    this.invalidateListQueries();
     
     // Optionally, update the cache optimistically
     const listKey = QueryKeys.list(params.storage, params.path);
@@ -151,7 +151,7 @@ export class AdapterManager {
     const result = await this.adapter.delete(params);
     
     // Invalidate and refetch list queries
-    this.invalidateListQueries(params.storage);
+    this.invalidateListQueries();
     
     return result;
   }
@@ -163,7 +163,7 @@ export class AdapterManager {
     const result = await this.adapter.rename(params);
     
     // Invalidate list queries
-    this.invalidateListQueries(params.storage);
+    this.invalidateListQueries();
     
     return result;
   }
@@ -175,7 +175,7 @@ export class AdapterManager {
     const result = await this.adapter.copy(params);
     
     // Invalidate list queries
-    this.invalidateListQueries(params.storage);
+    this.invalidateListQueries();
     
     return result;
   }
@@ -187,7 +187,7 @@ export class AdapterManager {
     const result = await this.adapter.move(params);
     
     // Invalidate list queries
-    this.invalidateListQueries(params.storage);
+    this.invalidateListQueries();
     
     return result;
   }
@@ -199,7 +199,7 @@ export class AdapterManager {
     const result = await this.adapter.zip(params);
     
     // Invalidate list queries
-    this.invalidateListQueries(params.storage);
+    this.invalidateListQueries();
     
     return result;
   }
@@ -211,7 +211,7 @@ export class AdapterManager {
     const result = await this.adapter.unzip(params);
     
     // Invalidate list queries
-    this.invalidateListQueries(params.storage);
+    this.invalidateListQueries();
     
     return result;
   }
@@ -223,7 +223,7 @@ export class AdapterManager {
     const result = await this.adapter.createFile(params);
     
     // Invalidate list queries
-    this.invalidateListQueries(params.storage);
+    this.invalidateListQueries();
     
     return result;
   }
@@ -235,7 +235,7 @@ export class AdapterManager {
     const result = await this.adapter.createFolder(params);
     
     // Invalidate list queries
-    this.invalidateListQueries(params.storage);
+    this.invalidateListQueries();
     
     return result;
   }
@@ -255,9 +255,9 @@ export class AdapterManager {
   }
 
   /**
-   * Invalidate all list queries for a specific storage (or all)
+   * Invalidate all list queries
    */
-  private invalidateListQueries(storage?: string): void {
+  private invalidateListQueries(): void {
     this.queryClient.invalidateQueries({
       queryKey: ['adapter', 'list'],
       exact: false,
@@ -267,13 +267,37 @@ export class AdapterManager {
   /**
    * Prefetch list data for better UX
    */
-  async prefetchList(storage?: string, path?: string): Promise<void> {
-    const queryKey = QueryKeys.list(storage, path);
+  async prefetchList(path?: string): Promise<void> {
+    const queryKey = QueryKeys.list(undefined, path);
     
     await this.queryClient.prefetchQuery({
       queryKey,
-      queryFn: () => this.adapter.list({ storage, path }),
+      queryFn: () => this.adapter.list({ path }),
     });
+  }
+
+  /**
+   * Remove specific query from cache
+   */
+  removeQuery(path?: string): void {
+    const queryKey = QueryKeys.list(undefined, path);
+    this.queryClient.removeQueries({ queryKey });
+  }
+
+  /**
+   * Get cached data without refetching
+   */
+  getCachedList(path?: string): FsData | undefined {
+    const queryKey = QueryKeys.list(undefined, path);
+    return this.queryClient.getQueryData<FsData>(queryKey);
+  }
+
+  /**
+   * Set data manually in cache
+   */
+  setCachedList(data: FsData, path?: string): void {
+    const queryKey = QueryKeys.list(undefined, path);
+    this.queryClient.setQueryData(queryKey, data);
   }
 
   /**
@@ -283,28 +307,5 @@ export class AdapterManager {
     this.queryClient.clear();
   }
 
-  /**
-   * Remove specific query from cache
-   */
-  removeQuery(storage?: string, path?: string): void {
-    const queryKey = QueryKeys.list(storage, path);
-    this.queryClient.removeQueries({ queryKey });
-  }
-
-  /**
-   * Get cached data without refetching
-   */
-  getCachedList(storage?: string, path?: string): FsData | undefined {
-    const queryKey = QueryKeys.list(storage, path);
-    return this.queryClient.getQueryData<FsData>(queryKey);
-  }
-
-  /**
-   * Set data manually in cache
-   */
-  setCachedList(data: FsData, storage?: string, path?: string): void {
-    const queryKey = QueryKeys.list(storage, path);
-    this.queryClient.setQueryData(queryKey, data);
-  }
 }
 

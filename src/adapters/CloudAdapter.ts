@@ -68,10 +68,7 @@ export class CloudAdapter extends BaseAdapter {
     try {
       const queryParams = new URLSearchParams();
       
-      if (params?.storage) {
-        queryParams.append('storage', params.storage);
-      }
-      
+      // Only send path parameter - storage is embedded in the path (e.g., "storage://path/to/file")
       if (params?.path) {
         queryParams.append('path', params.path);
       }
