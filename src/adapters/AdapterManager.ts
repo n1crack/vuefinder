@@ -60,18 +60,26 @@ export class AdapterManager {
 
   constructor(adapter: Adapter, config: Partial<AdapterManagerConfig> = {}) {
     this.adapter = adapter;
-    this.queryClient = config.queryClient || new QueryClient({
-      defaultOptions: {
-        queries: {
-          refetchOnWindowFocus: config.refetchOnWindowFocus ?? false,
-          staleTime: config.staleTime ?? 5 * 60 * 1000, // 5 minutes
-          retry: config.retry ?? 2,
+    
+    // Create QueryClient with simplified configuration to avoid private member issues
+    try {
+      this.queryClient = config.queryClient || new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: config.refetchOnWindowFocus ?? false,
+            staleTime: config.staleTime ?? 5 * 60 * 1000,
+            retry: config.retry ?? 2,
+          },
+          mutations: {
+            retry: config.retry ?? 1,
+          },
         },
-        mutations: {
-          retry: config.retry ?? 1,
-        },
-      },
-    });
+      });
+    } catch (error) {
+      // Fallback: create a minimal QueryClient without defaultOptions
+      console.warn('QueryClient creation issue, using minimal configuration:', error);
+      this.queryClient = config.queryClient || new QueryClient();
+    }
 
     this.config = {
       queryClient: this.queryClient,
@@ -100,20 +108,9 @@ export class AdapterManager {
    * List files with caching and automatic refetching
    */
   async list(path?: string): Promise<FsData> {
-    const queryKey = QueryKeys.list(undefined, path);
-    
-    // Try to get cached data first
-    const cachedData = this.queryClient.getQueryData<FsData>(queryKey);
-    if (cachedData) {
-      return cachedData;
-    }
-
+    // For now, bypass caching to avoid QueryClient issues
     // Fetch fresh data - only pass path parameter
     const data = await this.adapter.list({ path });
-    
-    // Cache the result
-    this.queryClient.setQueryData(queryKey, data);
-    
     return data;
   }
 

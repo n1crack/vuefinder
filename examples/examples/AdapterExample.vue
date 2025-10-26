@@ -61,8 +61,9 @@ const testList = async () => {
 
   try {
     addTestLog('Testing list()...', 'info');
+    // Use proper path format with storage prefix (e.g., "default://" or "local://")
     const data = await adapter.value.list({ 
-      path: '' // Storage is embedded in the path (e.g., "storage://path")
+      path: 'local://' // Use proper storage:// format
     });
     
     files.value = data.files;
@@ -86,12 +87,14 @@ const testManagerList = async () => {
 
   try {
     addTestLog('Testing manager.list()...', 'info');
-    const data = await adapterManager.value.list('');
+    // Use proper path format with storage prefix
+    const data = await adapterManager.value.list('local://');
     
     files.value = data.files;
-    addTestLog(`Manager list successful - ${data.files.length} items found (with caching)`, 'success');
+    addTestLog(`Manager list successful - ${data.files.length} items found`, 'success');
   } catch (error) {
     addTestLog(`Manager list failed: ${(error as Error).message}`, 'error');
+    console.error('Full error:', error);
   }
 };
 
@@ -102,10 +105,21 @@ const testPreviewUrl = () => {
     return;
   }
 
+  if (!files.value.length) {
+    addTestLog('Please fetch files first using Test List()', 'error');
+    return;
+  }
+
   try {
-    const testPath = 'test/file.jpg';
-    const url = adapter.value.getPreviewUrl({ path: testPath });
-    addTestLog(`Preview URL: ${url}`, 'success');
+    // Find a file from the list to use for preview
+    const testFile = files.value.find(f => f.type === 'file');
+    if (!testFile) {
+      addTestLog('No files found to preview', 'error');
+      return;
+    }
+    
+    const url = adapter.value.getPreviewUrl({ path: testFile.path });
+    addTestLog(`Preview URL for "${testFile.basename}": ${url}`, 'success');
   } catch (error) {
     addTestLog(`Preview URL failed: ${(error as Error).message}`, 'error');
   }
@@ -118,10 +132,21 @@ const testDownloadUrl = () => {
     return;
   }
 
+  if (!files.value.length) {
+    addTestLog('Please fetch files first using Test List()', 'error');
+    return;
+  }
+
   try {
-    const testPath = 'test/file.pdf';
-    const url = adapter.value.getDownloadUrl({ path: testPath });
-    addTestLog(`Download URL: ${url}`, 'success');
+    // Find a file from the list to use for download
+    const testFile = files.value.find(f => f.type === 'file');
+    if (!testFile) {
+      addTestLog('No files found to download', 'error');
+      return;
+    }
+    
+    const url = adapter.value.getDownloadUrl({ path: testFile.path });
+    addTestLog(`Download URL for "${testFile.basename}": ${url}`, 'success');
   } catch (error) {
     addTestLog(`Download URL failed: ${(error as Error).message}`, 'error');
   }
@@ -254,13 +279,13 @@ const resetAdapter = () => {
       <h3>Development Instructions</h3>
       <ol>
         <li>Click "Initialize Adapter" to create a CloudAdapter instance</li>
-        <li>Test individual adapter methods</li>
-        <li>Test the AdapterManager wrapper (with caching)</li>
+        <li>Click "Test List()" to fetch files from your Laravel API</li>
+        <li>Once files are loaded, test Preview URL or Download URL (they will use real paths from the list)</li>
         <li>Check the test log for results</li>
         <li>Modify this component to test other adapter features</li>
       </ol>
       <div style="margin-top: 15px;">
-        <strong>Note:</strong> You can edit this file at <code>examples/examples/AdapterExample.vue</code> to test different adapter configurations and methods.
+        <strong>Note:</strong> You can edit this file at <code>examples/examples/AdapterExample.vue</code> to test different adapter configurations. The preview/download URL tests will use actual file paths from your fetched list.
       </div>
     </div>
   </div>
