@@ -22,7 +22,6 @@ const archive = () => {
       params: {
         q: 'archive',
         m: 'post',
-        storage: currentPath.value.storage,
         path: currentPath.value.path,
       },
       body: {

@@ -86,7 +86,6 @@ const openContainingFolder = (item: DirEntry) => {
     app.emitter.emit('vf-fetch', {
       params: {
         q: 'index',
-        storage: item.storage,
         path: parentPath
       }
     });

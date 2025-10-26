@@ -261,7 +261,7 @@ const menuItems = computed(() => [
         label: t('Refresh'),
         action: () => {
           app?.emitter?.emit('vf-fetch', {
-            params: {q: 'index', storage: fs?.path?.get()?.storage, path: fs?.path?.get()?.path}
+            params: {q: 'index', path: fs?.path?.get()?.path}
           });
         },
         enabled: () => true
@@ -323,7 +323,6 @@ const menuItems = computed(() => [
           app?.emitter?.emit('vf-fetch', {
             params: {
               q: 'index',
-              storage: fs?.path?.get()?.storage ?? 'local',
               path: fs?.currentPath?.get() ?? ''
             }
           });
@@ -338,7 +337,6 @@ const menuItems = computed(() => [
           app?.emitter?.emit('vf-fetch', {
             params: {
               q: 'index',
-              storage: fs?.path?.get()?.storage ?? 'local',
               path: fs?.currentPath?.get() ?? ''
             }
           });
@@ -360,7 +358,6 @@ const menuItems = computed(() => [
             app?.emitter?.emit('vf-fetch', {
               params: {
                 q: 'index',
-                storage: pathInfo.storage ?? 'local',
                 path: parentPath
               }
             });
@@ -396,7 +393,6 @@ const menuItems = computed(() => [
             app?.emitter?.emit('vf-fetch', {
               params: {
                 q: 'index',
-                storage: fs?.path?.get()?.storage ?? 'local',
                 path: folderPath
               }
             });

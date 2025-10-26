@@ -195,7 +195,7 @@ function fetchPath(path: string | undefined) {
   } 
 
   app.emitter.emit('vf-fetch', {
-    params: {q: 'index', storage: fs.path.get().storage, ...pathExists},
+    params: {q: 'index', ...pathExists},
     onError: props.onError ?? ((e: unknown) => {
       if (e && typeof e === 'object' && 'message' in e) {
         app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})

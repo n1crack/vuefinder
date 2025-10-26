@@ -26,7 +26,7 @@ const initAdapter = () => {
       baseURL: 'http://inertia-vuefinder.test/vuefinder',
       token: 'test-token',
       url: {
-        list: '',
+        list: '/index',
         upload: '',
         delete: '',
         rename: '',

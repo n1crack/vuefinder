@@ -14,7 +14,7 @@ import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 import AdapterExample from './examples/AdapterExample.vue';
 
-const example = ref('default')
+const example = ref('adapter')
 const examples = {
   default: "Inline select button example",
   externalSelect: "External select example",

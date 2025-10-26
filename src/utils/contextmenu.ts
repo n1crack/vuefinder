@@ -95,7 +95,7 @@ export const menuItems: Item[] = [
             return;
         }
         app.emitter.emit('vf-fetch', {
-            params: { q: 'index', storage: selectedItem.storage, path: (selectedItem.dir) }
+            params: { q: 'index', path: (selectedItem.dir) }
         });
         app.search.setQuery('', true);
     },
@@ -106,7 +106,7 @@ export const menuItems: Item[] = [
     title: ({t}) => t('Refresh'),
     action: (app) => {
       const fs = app.fs;
-      app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.get().storage, path: fs.path.get().path}});
+      app.emitter.emit('vf-fetch', {params: {q: 'index', path: fs.path.get().path}});
     },
     show: showIfAny(showIf({target: 'none'}), showIf({target: 'many'}))
   },
@@ -137,7 +137,7 @@ export const menuItems: Item[] = [
           return;
       }
       app.emitter.emit('vf-fetch', {
-        params: { q: 'index', storage: selectedItems[0].storage, path: selectedItems[0].path }
+        params: { q: 'index', path: selectedItems[0].path }
       });
     },
     show: showIf({target: 'one', targetType: 'dir'})

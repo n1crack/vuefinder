@@ -20,7 +20,6 @@ const createFile = () => {
       params: {
         q: 'newfile',
         m: 'post',
-        storage: currentPath.value.storage,
         path: currentPath.value.path,
       },
       body: {

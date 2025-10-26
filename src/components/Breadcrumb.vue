@@ -115,7 +115,6 @@ const handleRefresh = () => {
   app.emitter.emit('vf-fetch', {
     params: {
       q: 'index',
-      storage: currentPath.value?.storage,
       path: currentPath.value?.path
     }
   });
@@ -127,7 +126,6 @@ const handleGoUp = () => {
     app.emitter.emit('vf-fetch', {
       params: {
         q: 'index',
-        storage: currentPath.value?.storage ?? 'local',
         path: (allBreadcrumbs.value[allBreadcrumbs.value.length - 2]?.path ?? ((currentPath.value?.storage ?? 'local') + '://'))
       }
     });
@@ -135,7 +133,7 @@ const handleGoUp = () => {
 }
 
 const handleHiddenBreadcrumbsClick = (item: { path: string }) => {
-  app.emitter.emit('vf-fetch', {params: {q: 'index', storage: currentPath.value?.storage, path: item.path}});
+  app.emitter.emit('vf-fetch', {params: {q: 'index', path: item.path}});
   showHiddenBreadcrumbs.value = false;
 }
 
@@ -232,7 +230,7 @@ const exitPathCopyMode = () => {
         <HomeSVG
             class="vuefinder__breadcrumb__home-icon"
             v-on="dragNDrop.events(getBreadcrumb(-1))"
-            @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: currentPath.storage ?? 'local'}})"/>
+            @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index'}})"/>
       </div>
 
       <div class="vuefinder__breadcrumb__list">
@@ -257,7 +255,7 @@ const exitPathCopyMode = () => {
               v-on="dragNDrop.events(item as any)"
               class="vuefinder__breadcrumb__item pointer-events-auto"
               :title="(item as any).basename"
-              @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: currentPath.storage, path:(item as any).path}})">{{
+              @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', path:(item as any).path}})">{{
               (item as any).name
             }}</span>
         </div>

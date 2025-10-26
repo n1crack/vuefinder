@@ -34,7 +34,7 @@ export function useHotkeyActions(app: any) {
             }
         }
         if (e.code === KEYBOARD_SHORTCUTS.F5) {
-            app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.get().storage, path: fs.path.get().path}});
+            app.emitter.emit('vf-fetch', {params: {q: 'index', path: fs.path.get().path}});
         }
         if (e.code === KEYBOARD_SHORTCUTS.DELETE) { 
             if (selectedItems.value.length === 0) {

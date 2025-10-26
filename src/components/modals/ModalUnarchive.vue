@@ -21,7 +21,6 @@ const unarchive = () => {
     params: {
       q: 'unarchive',
       m: 'post',
-      storage: currentPath.value.storage,
       path: currentPath.value.path,
     },
     body: {

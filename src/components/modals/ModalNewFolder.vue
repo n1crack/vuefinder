@@ -20,7 +20,6 @@ const createFolder = () => {
       params: {
         q: 'newfolder',
         m: 'post',
-        storage: currentPath.value.storage,
         path: currentPath.value.path,
       },
       body: {

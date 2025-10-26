@@ -72,7 +72,6 @@ const toggleFolder = (storage: string, folderPath: string) => {
     app.emitter.emit('vf-fetch', {
       params: {
         q: 'index',
-        storage: storage,
         path: folderPath
       },
       dontChangePath: true,

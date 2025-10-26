@@ -255,7 +255,7 @@ export default function useUpload(): UseUploadReturn {
 
             // Fetch updated file list and filter only newly uploaded files
             app.emitter.emit('vf-fetch', { 
-                params: {q: 'index', path: targetPath.path, storage: targetPath.storage}, 
+                params: {q: 'index', path: targetPath.path},
                 dontCloseModal: true,
                 onSuccess: (data: any) => {
                     // Filter data.files to only include the newly uploaded files
