@@ -1,6 +1,7 @@
 import { QueryClient } from '@tanstack/vue-query';
 import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult } from './types';
 import type { FsData } from '../types';
+import type { App } from '../types';
 
 /**
  * Configuration for AdapterManager
@@ -31,6 +32,13 @@ export interface AdapterManagerConfig {
    * Whether to retry failed requests
    */
   retry?: boolean | number;
+
+  /**
+   * Callback to update state when data is fetched
+   * This allows the adapter to trigger state updates without being coupled to VueFinder
+   */
+  onBeforeOpen?: () => void;
+  onAfterOpen?: (data: FsData) => void;
 }
 
 /**
@@ -57,10 +65,14 @@ export class AdapterManager {
   private adapter: Adapter;
   private queryClient: QueryClient;
   private config: Required<AdapterManagerConfig>;
+  private onBeforeOpen?: () => void;
+  private onAfterOpen?: (data: FsData) => void;
 
   constructor(adapter: Adapter, config: Partial<AdapterManagerConfig> = {}) {
     this.adapter = adapter;
-    
+    this.onBeforeOpen = config.onBeforeOpen;
+    this.onAfterOpen = config.onAfterOpen;
+
     // Create QueryClient
     this.queryClient = config.queryClient || new QueryClient({
       defaultOptions: {
@@ -81,6 +93,8 @@ export class AdapterManager {
       staleTime: config.staleTime ?? 5 * 60 * 1000,
       cacheTime: config.cacheTime ?? 10 * 60 * 1000,
       retry: config.retry ?? 2,
+      onBeforeOpen: this.onBeforeOpen ?? (() => {}),
+      onAfterOpen: this.onAfterOpen ?? (() => {}),
     };
   }
 
@@ -103,13 +117,32 @@ export class AdapterManager {
    */
   async list(path?: string): Promise<FsData> {
     const queryKey = QueryKeys.list(path);
-    
+     
     // Use ensureQueryData from TanStack Query
     return await this.queryClient.ensureQueryData({
       queryKey,
       queryFn: () => this.adapter.list({ path }),
       staleTime: this.config.staleTime,
     });
+  }
+
+  /**
+   * Open a path and optionally update state
+   * @param path 
+   * @returns 
+   */
+  async open(path?: string): Promise<FsData> {
+    if (this.onBeforeOpen) {
+      this.onBeforeOpen();
+    }
+    const data = await this.list(path);
+    
+    // Update state if callback is provided
+    if (this.onAfterOpen) {
+      this.onAfterOpen(data);
+    }
+    
+    return data;
   }
 
   /**

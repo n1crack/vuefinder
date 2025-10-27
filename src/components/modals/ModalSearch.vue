@@ -83,12 +83,7 @@ const openContainingFolder = (item: DirEntry) => {
   try {
     // Use the dir property from the search result item
     const parentPath = item.dir || `${item.storage}://`;
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'index',
-        path: parentPath
-      }
-    });
+    app.adapter.open(parentPath);
     app.modal.close();
     closeAllDropdowns();
   } catch {

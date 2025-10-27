@@ -18,6 +18,7 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 import type {ConfigState} from "@/stores/config.ts";
 import type { StoreValue } from "nanostores";
 import type {CurrentPathState} from "@/stores/files.ts";
+import path from 'path';
 
 const app = inject('ServiceContainer');
 const currentTheme = inject('currentTheme');
@@ -112,28 +113,18 @@ function getBreadcrumb(index: number | null = null) {
 }
 
 const handleRefresh = () => {
-  app.emitter.emit('vf-fetch', {
-    params: {
-      q: 'index',
-      path: currentPath.value?.path
-    }
-  });
+  app.adapter.open(currentPath.value.path)
 }
 
 const handleGoUp = () => {
 
   if (visibleBreadcrumbs.value.length > 0) {
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'index',
-        path: (allBreadcrumbs.value[allBreadcrumbs.value.length - 2]?.path ?? ((currentPath.value?.storage ?? 'local') + '://'))
-      }
-    });
+    app.adapter.open((allBreadcrumbs.value[allBreadcrumbs.value.length - 2]?.path ?? ((currentPath.value?.storage ?? 'local') + '://')))
   }
 }
 
 const handleHiddenBreadcrumbsClick = (item: { path: string }) => {
-  app.emitter.emit('vf-fetch', {params: {q: 'index', path: item.path}});
+  app.adapter.open(item.path);
   showHiddenBreadcrumbs.value = false;
 }
 
@@ -230,7 +221,7 @@ const exitPathCopyMode = () => {
         <HomeSVG
             class="vuefinder__breadcrumb__home-icon"
             v-on="dragNDrop.events(getBreadcrumb(-1))"
-            @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index'}})"/>
+            @click.stop="app.adapter.open(currentPath.storage + '://')"/>
       </div>
 
       <div class="vuefinder__breadcrumb__list">
@@ -255,7 +246,7 @@ const exitPathCopyMode = () => {
               v-on="dragNDrop.events(item as any)"
               class="vuefinder__breadcrumb__item pointer-events-auto"
               :title="(item as any).basename"
-              @click.stop="app.emitter.emit('vf-fetch', {params:{q: 'index', path:(item as any).path}})">{{
+              @click.stop="app.adapter.open((item as any).path)">{{
               (item as any).name
             }}</span>
         </div>

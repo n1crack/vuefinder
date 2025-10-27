@@ -47,8 +47,7 @@ function selectOrToggle(storage: string) {
     showSubFolders.value = !showSubFolders.value
   } else {
     // select storage
-    app.emitter.emit('vf-search-exit');
-    app.emitter.emit('vf-fetch', {params:{q: 'index', path: storage + '://'}});
+    app.adapter.open(storage + '://')
   }
 }
 

@@ -19,8 +19,7 @@ const currentPath = useStore(fs.path);
 
 const handleStorageSelect = (event: Event) => {
   const storage = (event.target as HTMLSelectElement).value;
-  app.emitter.emit('vf-search-exit');
-  app.emitter.emit('vf-fetch', {params: {q: 'index', path: storage + '://'}});
+  app.adapter.open(storage + '://');
 };
 
 // Calculate total size of selected items

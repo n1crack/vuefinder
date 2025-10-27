@@ -239,7 +239,7 @@ export default function useUpload(): UseUploadReturn {
 
         uppy.on('error', (error: any) => {
             message.value = error.message; uploading.value = false;
-            app.emitter.emit('vf-fetch', { params: {q: 'index'}, dontCloseModal: true });
+            app.adapter.open(currentPath.value.path);
         });
 
         uppy.on('complete', () => {
@@ -254,6 +254,7 @@ export default function useUpload(): UseUploadReturn {
             const targetPath = uploadTargetFolder.value || currentPath.value;
 
             // Fetch updated file list and filter only newly uploaded files
+            app.adapter.list(targetPath.path);
             app.emitter.emit('vf-fetch', { 
                 params: {q: 'index', path: targetPath.path},
                 dontCloseModal: true,
@@ -262,8 +263,6 @@ export default function useUpload(): UseUploadReturn {
                     const uploadedFiles = (data?.files || []).filter((file: any) => 
                         successfullyUploadedFileNames.includes(file.basename)
                     );
-
-                        
                     // Emit upload-complete event with only the newly uploaded files from backend
                     app.emitter.emit('vf-upload-complete', uploadedFiles);
                 }

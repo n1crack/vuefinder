@@ -260,9 +260,7 @@ const menuItems = computed(() => [
         id: 'refresh',
         label: t('Refresh'),
         action: () => {
-          app?.emitter?.emit('vf-fetch', {
-            params: {q: 'index', path: fs?.path?.get()?.path}
-          });
+          app?.adapter.list(fs?.path?.get()?.path);
         },
         enabled: () => true
       },
@@ -320,12 +318,7 @@ const menuItems = computed(() => [
         label: t('Forward'),
         action: () => {
           fs?.goForward();
-          app?.emitter?.emit('vf-fetch', {
-            params: {
-              q: 'index',
-              path: fs?.currentPath?.get() ?? ''
-            }
-          });
+          app?.adapter.list(fs?.currentPath?.get());
         },
         enabled: () => fs?.canGoForward?.get() ?? false
       },
@@ -334,12 +327,7 @@ const menuItems = computed(() => [
         label: t('Back'),
         action: () => {
           fs?.goBack();
-          app?.emitter?.emit('vf-fetch', {
-            params: {
-              q: 'index',
-              path: fs?.currentPath?.get() ?? ''
-            }
-          });
+          app?.adapter.list(fs?.currentPath?.get());
         },
         enabled: () => fs?.canGoBack?.get() ?? false
       },
@@ -355,12 +343,7 @@ const menuItems = computed(() => [
             const parentPath = parentBreadcrumb?.path ?? `${pathInfo.storage}://`;
             
             fs?.setPath(parentPath);
-            app?.emitter?.emit('vf-fetch', {
-              params: {
-                q: 'index',
-                path: parentPath
-              }
-            });
+            app?.adapter.list(parentPath);
           }
         },
         enabled: () => {
@@ -376,9 +359,7 @@ const menuItems = computed(() => [
         action: () => {
           const storagePath = `${storage}://`;
           fs?.setPath(storagePath);
-          app?.emitter?.emit('vf-fetch', {
-            params: {q: 'index', storage, path: storagePath}
-          });
+          app?.adapter.list(storagePath);
         },
         enabled: () => true
       })),
@@ -390,12 +371,7 @@ const menuItems = computed(() => [
           const folderPath = prompt(t('Enter folder path:'));
           if (folderPath) {
             fs?.setPath(folderPath);
-            app?.emitter?.emit('vf-fetch', {
-              params: {
-                q: 'index',
-                path: folderPath
-              }
-            });
+            app?.adapter.list(folderPath);
           }
         },
         enabled: () => true
