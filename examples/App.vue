@@ -17,7 +17,7 @@ import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 const example = ref('default')
 
 // Create adapter instance
-const rawAdapter = new CloudAdapter({
+const adapter = new CloudAdapter({
       baseURL: 'http://inertia-vuefinder.test/api/files',
       token: '', // Add your auth token here if needed
       url: {
@@ -33,9 +33,7 @@ const rawAdapter = new CloudAdapter({
         download: '/download'
       }
     });
-
-// Wrap with AdapterManager (internally managed by VueFinder)
-const adapter = rawAdapter;
+ 
 const examples = {
   default: "Inline select button example",
   externalSelect: "External select example",
