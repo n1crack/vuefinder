@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
+import type { Adapter } from '../../src/adapters';
 
 interface Props {
-  request: Record<string, unknown>;
+  adapter: Adapter;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -74,7 +75,7 @@ onUnmounted(() => {
   <div v-if="isPopup" class="popup-container">
     <vue-finder
       id='popup-vuefinder'
-      :request="request"
+      :adapter="adapter"
       style="height: 100%; width: 100%;"
       :config="config"
       :features="features"

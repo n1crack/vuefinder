@@ -5,6 +5,7 @@ import type {
   UploadResult,
   DeleteResult,
   FileOperationResult,
+  FileContentResult,
 } from './types';
 
 /**
@@ -294,6 +295,31 @@ export class CloudAdapter extends BaseAdapter {
     const queryParams = new URLSearchParams({ path: params.path });
 
     return `${this.config.baseURL}${this.config.url.preview}?${queryParams.toString()}`;
+  }
+
+  /**
+   * Get file content
+   */
+  async getContent(params: { path: string }): Promise<FileContentResult> {
+    this.validatePath(params.path);
+    
+    const queryParams = new URLSearchParams({ path: params.path });
+    const url = `${this.config.baseURL}${this.config.url.preview}?${queryParams.toString()}`;
+    
+    const response = await fetch(url, {
+      headers: this.getHeaders(),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to get content: ${response.statusText}`);
+    }
+    
+    const content = await response.text();
+    
+    return {
+      content,
+      mimeType: response.headers.get('Content-Type') || undefined,
+    };
   }
 
   /**

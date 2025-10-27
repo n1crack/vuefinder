@@ -5,6 +5,7 @@ import type {
   UploadResult,
   DeleteResult,
   FileOperationResult,
+  FileContentResult,
   AdapterError,
 } from './types';
 import type { DirEntry } from '../types';
@@ -185,6 +186,16 @@ export class LocalAdapter extends BaseAdapter {
     
     // Return empty string as local preview URLs need to be generated dynamically
     return '';
+  }
+
+  /**
+   * Get file content
+   */
+  async getContent(params: { path: string }): Promise<FileContentResult> {
+    this.validatePath(params.path);
+    
+    // In a real local implementation, you would read file content
+    throw new Error('LocalAdapter.getContent() is not yet implemented.');
   }
 
   /**

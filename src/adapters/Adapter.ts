@@ -3,6 +3,7 @@ import type {
   UploadResult,
   DeleteResult,
   FileOperationResult,
+  FileContentResult,
 } from './types';
 import type { FsData } from '../types';
 
@@ -110,6 +111,11 @@ export abstract class BaseAdapter implements Adapter {
    * Get preview URL for a file
    */
   abstract getPreviewUrl(params: { path: string }): string;
+
+  /**
+   * Get file content
+   */
+  abstract getContent(params: { path: string }): Promise<FileContentResult>;
 
   /**
    * Get download URL for a file

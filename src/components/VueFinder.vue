@@ -4,7 +4,7 @@ import {useStore} from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import {useHotkeyActions} from '../composables/useHotkeyActions';
 import {useExternalDragDrop} from '../composables/useExternalDragDrop';
-import {setTheme, getCurrentTheme, initializeTheme, type Theme} from '../utils/theme';
+import {setTheme, type Theme} from '../utils/theme';
 
 import MenuBar from '../components/MenuBar.vue';
 import Toolbar from '../components/Toolbar.vue';
@@ -113,7 +113,7 @@ app.emitter.on('vf-folder-dclick', (item: unknown) => {
 
 // Fetch data
 app.emitter.on('vf-fetch', (event: unknown) => {
-  const {params, body = null, onSuccess = null, onError = null, dontCloseModal = false, dontChangePath = false} = event as {
+  const {params, onSuccess = null, onError = null, dontCloseModal = false, dontChangePath = false} = event as {
     params: Record<string, unknown>,
     body?: unknown,
     onSuccess?: ((data: unknown) => void) | null,
@@ -121,62 +121,66 @@ app.emitter.on('vf-fetch', (event: unknown) => {
     dontCloseModal?: boolean
     dontChangePath?: boolean
   };
-  // Fill missing storage/path for common queries
- if (!dontChangePath) {
-  if (['index', 'search'].includes(params.q as string)) {
-    if (controller) {
-      controller.abort();
-    }
-    fs.setLoading(true);
-  }
- }
 
-  controller = new AbortController();
-  const signal = controller.signal;
-  app.requester.send({
-    url: '',
-    method: (params.m as 'get' | 'post' | 'put' | 'delete' | 'patch') || 'get',
-    params: params as Record<string, string | null | undefined>,
-    body: body as Record<string, string | null | undefined> | FormData | undefined,
-    abortSignal: signal,
-  }).then((data) => {
-    const responseData = data as Record<string, unknown>;
+  // Use adapter for index operation
+  if (params.q === 'index') {
     if (!dontChangePath) {
-      fs.setPath(responseData.dirname as string);
-      if (config.get('persist')) {
-         config.set('path', responseData.dirname as string);
+      if (controller) {
+        controller.abort();
       }
-      fs.setReadOnly(responseData.read_only as boolean);
+      fs.setLoading(true);
+    }
 
-      if (!dontCloseModal) {
-        app.modal.close();
-      }
-      // Sync store path from backend dirname so breadcrumbs render correctly
-      fs.setFiles(responseData.files as DirEntry[]);
+    controller = new AbortController();
 
-      fs.clearSelection();
-      fs.setSelectedCount(0);
-      fs.setStorages(responseData.storages as string[]);
-    }
-    if (onSuccess) {
-      onSuccess(responseData);
-    }
-  }).catch((e: unknown) => {
-    console.error(e)
-    if (onError) {
-      onError(e);
-    } else {
-      if (e && typeof e === 'object' && 'message' in e) {
-        app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
-      }
-    }
-    // Emit error event
-    emit('error', e)
-  }).finally(() => {
-    if (['index', 'search'].includes(params.q as string)) {
-      fs.setLoading(false);
-    }
-  });
+    // Use adapter for listing
+    const path = params.path as string | undefined;
+    app.adapter.list(path)
+      .then((responseData) => {
+        if (!dontChangePath) {
+          fs.setPath(responseData.dirname);
+          if (config.get('persist')) {
+            config.set('path', responseData.dirname);
+          }
+          fs.setReadOnly(responseData.read_only ?? false);
+
+          if (!dontCloseModal) {
+            app.modal.close();
+          }
+          fs.setFiles(responseData.files);
+          fs.clearSelection();
+          fs.setSelectedCount(0);
+          fs.setStorages(responseData.storages);
+        }
+        if (onSuccess) {
+          onSuccess(responseData);
+        }
+      })
+      .catch((e: unknown) => {
+        console.error(e);
+        if (onError) {
+          onError(e);
+        } else {
+          if (e && typeof e === 'object' && 'message' in e) {
+            app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'});
+          }
+        }
+        emit('error', e);
+      })
+      .finally(() => {
+        fs.setLoading(false);
+      });
+    return;
+  }
+
+  // For now, only index is implemented with adapter
+  const error = new Error('Operation not yet implemented with adapter');
+  if (onError) {
+    onError(error);
+  } else {
+    app.emitter.emit('vf-toast-push', {label: error.message, type: 'error'});
+  }
+  emit('error', error);
 });
 
 /**
@@ -185,17 +189,8 @@ app.emitter.on('vf-fetch', (event: unknown) => {
  * @param path {string | undefined} example: 'media://public'
  */
 function fetchPath(path: string | undefined) {
-  let pathExists: Record<string, unknown> = {};
-
-  if (path && path.includes("://")) {
-    pathExists = {
-      storage: path.split("://")[0],
-      path: path
-    };
-  } 
-
   app.emitter.emit('vf-fetch', {
-    params: {q: 'index', ...pathExists},
+    params: {q: 'index', path},
     onError: props.onError ?? ((e: unknown) => {
       if (e && typeof e === 'object' && 'message' in e) {
         app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
@@ -206,7 +201,7 @@ function fetchPath(path: string | undefined) {
 
 // fetch initial data
 onMounted(() => {
-    watch(() => config.get('path'), (path) => {
+    watch(() => config.get('path'), (path: string | undefined) => {
         fetchPath(path)
     })
 
@@ -215,7 +210,7 @@ onMounted(() => {
     fetchPath(initialPath);
 
   // Emit path-change event based on store path
-  fs.path.listen((path) => {
+  fs.path.listen((path: {path: string}) => {
     emit('path-change', path.path)
   })
   

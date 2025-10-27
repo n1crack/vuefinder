@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/vue-query';
-import type { Adapter, UploadResult, DeleteResult, FileOperationResult } from './types';
+import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult } from './types';
 import type { FsData } from '../types';
 
 /**
@@ -61,25 +61,19 @@ export class AdapterManager {
   constructor(adapter: Adapter, config: Partial<AdapterManagerConfig> = {}) {
     this.adapter = adapter;
     
-    // Create QueryClient with simplified configuration to avoid private member issues
-    try {
-      this.queryClient = config.queryClient || new QueryClient({
-        defaultOptions: {
-          queries: {
-            refetchOnWindowFocus: config.refetchOnWindowFocus ?? false,
-            staleTime: config.staleTime ?? 5 * 60 * 1000,
-            retry: config.retry ?? 2,
-          },
-          mutations: {
-            retry: config.retry ?? 1,
-          },
+    // Create QueryClient
+    this.queryClient = config.queryClient || new QueryClient({
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: config.refetchOnWindowFocus ?? false,
+          staleTime: config.staleTime ?? 5 * 60 * 1000,
+          retry: config.retry ?? 2,
         },
-      });
-    } catch (error) {
-      // Fallback: create a minimal QueryClient without defaultOptions
-      console.warn('QueryClient creation issue, using minimal configuration:', error);
-      this.queryClient = config.queryClient || new QueryClient();
-    }
+        mutations: {
+          retry: config.retry ?? 1,
+        },
+      },
+    });
 
     this.config = {
       queryClient: this.queryClient,
@@ -108,10 +102,14 @@ export class AdapterManager {
    * List files with caching and automatic refetching
    */
   async list(path?: string): Promise<FsData> {
-    // For now, bypass caching to avoid QueryClient issues
-    // Fetch fresh data - only pass path parameter
-    const data = await this.adapter.list({ path });
-    return data;
+    const queryKey = QueryKeys.list(path);
+    
+    // Use ensureQueryData from TanStack Query
+    return await this.queryClient.ensureQueryData({
+      queryKey,
+      queryFn: () => this.adapter.list({ path }),
+      staleTime: this.config.staleTime,
+    });
   }
 
   /**
@@ -245,6 +243,20 @@ export class AdapterManager {
   }
 
   /**
+   * Get file content (cached)
+   */
+  async getContent(params: { path: string }): Promise<FileContentResult> {
+    const queryKey = ['adapter', 'content', params.path] as const;
+    
+    // Use ensureQueryData from TanStack Query
+    return await this.queryClient.ensureQueryData({
+      queryKey,
+      queryFn: () => this.adapter.getContent(params),
+      staleTime: this.config.staleTime,
+    });
+  }
+
+  /**
    * Get download URL
    */
   getDownloadUrl(params: { path: string }): string {
@@ -256,46 +268,11 @@ export class AdapterManager {
    */
   private invalidateListQueries(): void {
     this.queryClient.invalidateQueries({
-      queryKey: ['adapter', 'list'],
+      queryKey: ['adapter'],
       exact: false,
     });
   }
 
-  /**
-   * Prefetch list data for better UX
-   */
-  async prefetchList(path?: string): Promise<void> {
-    const queryKey = QueryKeys.list(path);
-    
-    await this.queryClient.prefetchQuery({
-      queryKey,
-      queryFn: () => this.adapter.list({ path }),
-    });
-  }
-
-  /**
-   * Remove specific query from cache
-   */
-  removeQuery(path?: string): void {
-    const queryKey = QueryKeys.list(path);
-    this.queryClient.removeQueries({ queryKey });
-  }
-
-  /**
-   * Get cached data without refetching
-   */
-  getCachedList(path?: string): FsData | undefined {
-    const queryKey = QueryKeys.list(path);
-    return this.queryClient.getQueryData<FsData>(queryKey);
-  }
-
-  /**
-   * Set data manually in cache
-   */
-  setCachedList(data: FsData, path?: string): void {
-    const queryKey = QueryKeys.list(path);
-    this.queryClient.setQueryData(queryKey, data);
-  }
 
   /**
    * Clear all cached queries

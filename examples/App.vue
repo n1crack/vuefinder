@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { FEATURE_ALL_NAMES } from '../src/features.js';
+import { CloudAdapter } from '../src/adapters';
 
 // Import example components
 import DefaultExample from './examples/DefaultExample.vue';
@@ -12,9 +13,29 @@ import EventsDemoExample from './examples/EventsDemoExample.vue';
 import CustomDclickExample from './examples/CustomDclickExample.vue';
 import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
-import AdapterExample from './examples/AdapterExample.vue';
 
-const example = ref('adapter')
+const example = ref('default')
+
+// Create adapter instance
+const rawAdapter = new CloudAdapter({
+      baseURL: 'http://inertia-vuefinder.test/api/files',
+      token: '', // Add your auth token here if needed
+      url: {
+        list: '', // GET /api/files
+        upload: '/upload',
+        delete: '/delete',
+        rename: '/rename',
+        zip: '/archive',
+        unzip: '/unarchive',
+        createFile: '/save',
+        createFolder: '/newfolder',
+        preview: '/preview',
+        download: '/download'
+      }
+    });
+
+// Wrap with AdapterManager (internally managed by VueFinder)
+const adapter = rawAdapter;
 const examples = {
   default: "Inline select button example",
   externalSelect: "External select example",
@@ -24,8 +45,7 @@ const examples = {
   eventsDemo: "Events Demo - All VueFinder Events",
   customDclick: "Custom Double-Click Events Demo",
   singleSelection: "Single Selection Mode Demo",
-  selectionFilter: "Selection Filter Demo",
-  adapter: "🏗️ Adapter API Development (Temporary)"
+  selectionFilter: "Selection Filter Demo"
 }
 
 // Theme management
@@ -47,30 +67,6 @@ const themes = [
 
 // Check if we're in a popup window
 const isPopup = ref(false);
-
-/** @type {import('../src/utils/ajax.js').RequestConfig} */
-const request = {
-  // ----- CHANGE ME! -----
-  // [REQUIRED] Url for development server endpoint
-  baseUrl: "http://inertia-vuefinder.test/vuefinder",
-  // ----- CHANGE ME! -----
-
-  // Additional headers & params & body
-  headers: { "X-ADDITIONAL-HEADER": 'yes' },
-  params: { additionalParam1: 'yes' },
-  body: { additionalBody1: ['yes'] },
-
-  // And/or transform request callback
-  transformRequest: req => {
-    if (req.method === 'get') {
-      req.params.vf = "1"
-    }
-    return req;
-  },
-
-  // XSRF Token header name
-  xsrfHeaderName: "CSRF-TOKEN",
-}
 
 const maxFileSize = ref("500MB")
 
@@ -141,7 +137,7 @@ onUnmounted(() => {
     <!-- Popup mode: Show only VueFinder -->
     <div v-if="isPopup">
       <WindowExamplesExample 
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -152,7 +148,7 @@ onUnmounted(() => {
     <div v-if="!isPopup">
       <DefaultExample 
         v-if="example === 'default'"
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -161,7 +157,7 @@ onUnmounted(() => {
 
       <ExternalSelectExample 
         v-if="example === 'externalSelect'"
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -169,7 +165,7 @@ onUnmounted(() => {
 
       <ContextmenuExample 
         v-if="example === 'contextmenu'"
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -177,7 +173,7 @@ onUnmounted(() => {
 
       <CustomIconsExample 
         v-if="example === 'customIcons'"
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -185,7 +181,7 @@ onUnmounted(() => {
 
       <WindowExamplesExample 
         v-if="example === 'windowExamples'"
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -193,7 +189,7 @@ onUnmounted(() => {
 
       <EventsDemoExample 
         v-if="example === 'eventsDemo'"
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -201,7 +197,7 @@ onUnmounted(() => {
 
       <CustomDclickExample 
         v-if="example === 'customDclick'"
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -209,7 +205,7 @@ onUnmounted(() => {
 
       <SingleSelectionExample 
         v-if="example === 'singleSelection'"
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -217,15 +213,7 @@ onUnmounted(() => {
 
       <SelectionFilterExample 
         v-if="example === 'selectionFilter'"
-        :request="request"
-        :config="config"
-        :features="features"
-        :theme="currentTheme"
-      />
-
-      <AdapterExample 
-        v-if="example === 'adapter'"
-        :request="request"
+        :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"

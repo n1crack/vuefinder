@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 interface Props {
-  request: Record<string, unknown>;
+  adapter: Adapter;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -69,7 +69,7 @@ const clearCustomDclickLog = () => {
   <!-- VueFinder with custom double-click events -->
   <vue-finder
     id='custom-dclick-vuefinder'
-    :request="request"
+    :adapter="adapter"
     :config="config"
     :features="features"
     :theme="theme"

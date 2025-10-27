@@ -107,6 +107,14 @@ export interface ArchiveParams {
 }
 
 /**
+ * Result from getContent operations
+ */
+export interface FileContentResult {
+  content: string;
+  mimeType?: string;
+}
+
+/**
  * Adapter interface that all adapters must implement
  */
 export interface Adapter {
@@ -159,6 +167,11 @@ export interface Adapter {
    * Create a new folder
    */
   createFolder(params: { path: string; name: string }): Promise<FileOperationResult>;
+
+  /**
+   * Get file content
+   */
+  getContent(params: { path: string }): Promise<FileContentResult>;
 
   /**
    * Get preview URL for a file

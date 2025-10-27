@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { Adapter } from '../../src/adapters';
+
 interface Props {
-  request: Record<string, unknown>;
+  adapter: Adapter;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -13,7 +15,7 @@ defineProps<Props>();
 <template>
   <vue-finder
     id='my_vuefinder'
-    :request="request"
+    :adapter="adapter"
     :config="config"
     :features="features"
     :theme="theme"

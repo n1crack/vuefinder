@@ -5,7 +5,7 @@ const emit = defineEmits(['success']);
 const app = inject('ServiceContainer');
 
 const getAudioUrl = () => {
-  return app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)
+  return app.adapter.getPreviewUrl({ path: app.modal.data.item.path })
 }
 
 onMounted(() => {

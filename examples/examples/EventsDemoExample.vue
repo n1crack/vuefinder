@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 interface Props {
-  request: Record<string, unknown>;
+  adapter: Adapter;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -148,7 +148,7 @@ const clearEventLog = () => {
   <!-- VueFinder with all events -->
   <vue-finder
     id='events-demo-vuefinder'
-    :request="request"
+    :adapter="adapter"
     :config="config"
     :features="features"
     :theme="theme"

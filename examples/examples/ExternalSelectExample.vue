@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { Adapter } from '../../src/adapters';
 
 interface Props {
-  request: Record<string, unknown>;
+  adapter: Adapter;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -27,7 +28,7 @@ const handleButton = () => {
 <template>
   <vue-finder
     id='my_vuefinder2'
-    :request="request"
+    :adapter="adapter"
     :config="config"
     :features="features"
     :theme="theme"
@@ -46,4 +47,3 @@ const handleButton = () => {
     </ul>
   </div>
 </template>
-

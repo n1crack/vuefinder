@@ -1,6 +1,5 @@
-import {reactive, useTemplateRef, computed} from "vue";
+import {reactive, useTemplateRef, computed, markRaw} from "vue";
 import mitt from "mitt";
-import {buildRequester, type RequestConfig} from "./utils/ajax";
 import {useStorage} from "./composables/useStorage";
 import {useI18n} from "./composables/useI18n";
 import {FEATURE_ALL_NAMES} from "./features.js";
@@ -9,6 +8,8 @@ import { format as filesizeDefault, metricFormat as filesizeMetric } from './uti
 import useModal from "./composables/useModal";
 import { createConfigStore } from "./stores/config";
 import {createFilesStore} from "./stores/files.ts";
+import type { Adapter } from "./adapters";
+import { AdapterManager } from "./adapters";
 
 export default (props: Record<string, unknown>, options: Record<string, unknown>) => {
     const storage = useStorage(props.id as string);
@@ -26,18 +27,9 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         return FEATURE_ALL_NAMES;
     }
 
-    /** Best way to do this?
-    {
-            version  -- version
-            config -- use config store
-            fs  -- use files store
-            emitter -- use emitter
-            i18n -- use i18n
-            modal -- use modal
-            
-            adapter -- cloud - local - custom ? 
-    }  
-     */
+    // Wrap adapter with AdapterManager internally
+    const rawAdapter = props.adapter as Adapter;
+    const adapterManager = new AdapterManager(rawAdapter);
 
     return reactive({
         // app version
@@ -58,8 +50,9 @@ export default (props: Record<string, unknown>, options: Record<string, unknown>
         i18n: useI18n(storage, initialLang as string, emitter, supportedLocales as Record<string, unknown>),
         // modal state
         modal: useModal(),
-        // http object
-        requester : buildRequester(props.request as string | RequestConfig),
+        // adapter for file operations (always wrapped with AdapterManager)
+        // Use markRaw to prevent TanStack Query from being made reactive
+        adapter: markRaw(adapterManager),
         // active features
         features: setFeatures(props.features),
         // selection mode

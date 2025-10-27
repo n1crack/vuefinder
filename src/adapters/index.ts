@@ -65,6 +65,7 @@ export type {
   UploadResult,
   DeleteResult,
   FileOperationResult,
+  FileContentResult,
   ListParams,
   UploadParams,
   DeleteParams,
