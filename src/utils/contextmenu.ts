@@ -182,7 +182,12 @@ export const menuItems: Item[] = [
   },
   {
     id: ContextMenuIds.download,
-    link: (app, selectedItems) => app.requester.getDownloadUrl(selectedItems[0]?.storage, selectedItems[0]),
+    link: (app, selectedItems) => {
+        if (!selectedItems[0] ){
+            return;
+        }
+       return app.adapter.getDownloadUrl(selectedItems[0]);
+    },
     title: ({t}) => t('Download'),
     action: () => {},
     show: showIfAll(

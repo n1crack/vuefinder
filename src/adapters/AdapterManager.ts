@@ -1,7 +1,6 @@
 import { QueryClient } from '@tanstack/vue-query';
 import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult } from './types';
 import type { FsData } from '../types';
-import type { App } from '../types';
 
 /**
  * Configuration for AdapterManager

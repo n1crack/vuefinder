@@ -196,7 +196,6 @@ export default function useUpload(): UseUploadReturn {
             const reqParams = app.requester.transformRequestParams({
                 url: '', method: 'post', params: {
                     q: 'upload', 
-                    storage: targetPath.storage, 
                     path: targetPath.path
                 },
             });
