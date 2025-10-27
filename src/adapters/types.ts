@@ -18,6 +18,8 @@ export interface CloudAdapterUrls {
   upload: string;
   delete: string;
   rename: string;
+  copy?: string;
+  move?: string;
   zip: string;
   unzip: string;
   createFile: string;
@@ -63,7 +65,6 @@ export interface FileOperationResult {
  * Parameters for listing files
  */
 export interface ListParams {
-  storage?: string;
   path?: string;
 }
 
@@ -71,7 +72,6 @@ export interface ListParams {
  * Parameters for upload operations
  */
 export interface UploadParams {
-  storage?: string;
   path?: string;
   files: File[];
 }
@@ -80,7 +80,6 @@ export interface UploadParams {
  * Parameters for delete operations
  */
 export interface DeleteParams {
-  storage?: string;
   path: string[];
 }
 
@@ -88,7 +87,6 @@ export interface DeleteParams {
  * Parameters for rename operations
  */
 export interface RenameParams {
-  storage?: string;
   path: string;
   newName: string;
 }
@@ -97,7 +95,6 @@ export interface RenameParams {
  * Parameters for copy/move operations
  */
 export interface TransferParams {
-  storage?: string;
   path: string[];
   destination: string;
 }
@@ -106,7 +103,6 @@ export interface TransferParams {
  * Parameters for archive operations
  */
 export interface ArchiveParams {
-  storage?: string;
   path: string[];
 }
 
@@ -157,22 +153,22 @@ export interface Adapter {
   /**
    * Create a new file
    */
-  createFile(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult>;
+  createFile(params: { path: string; name: string }): Promise<FileOperationResult>;
 
   /**
    * Create a new folder
    */
-  createFolder(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult>;
+  createFolder(params: { path: string; name: string }): Promise<FileOperationResult>;
 
   /**
    * Get preview URL for a file
    */
-  getPreviewUrl(params: { storage?: string; path: string }): string;
+  getPreviewUrl(params: { path: string }): string;
 
   /**
    * Get download URL for a file
    */
-  getDownloadUrl(params: { storage?: string; path: string }): string;
+  getDownloadUrl(params: { path: string }): string;
 }
 
 /**

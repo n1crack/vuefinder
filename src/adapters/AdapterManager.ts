@@ -37,8 +37,8 @@ export interface AdapterManagerConfig {
  * Keys for query and mutation caching
  */
 export const QueryKeys = {
-  list: (storage?: string, path?: string) => ['adapter', 'list', storage, path] as const,
-  delete: (storage?: string, paths?: string[]) => ['adapter', 'delete', storage, paths] as const,
+  list: (path?: string) => ['adapter', 'list', path] as const,
+  delete: (paths?: string[]) => ['adapter', 'delete', paths] as const,
   upload: () => ['adapter', 'upload'] as const,
   rename: () => ['adapter', 'rename'] as const,
   copy: () => ['adapter', 'copy'] as const,
@@ -117,14 +117,14 @@ export class AdapterManager {
   /**
    * Upload files with optimistic updates
    */
-  async upload(params: { storage?: string; path?: string; files: File[] }): Promise<UploadResult> {
+  async upload(params: { path?: string; files: File[] }): Promise<UploadResult> {
     const result = await this.adapter.upload(params);
     
     // Invalidate and refetch list queries
     this.invalidateListQueries();
     
     // Optionally, update the cache optimistically
-    const listKey = QueryKeys.list(params.storage, params.path);
+    const listKey = QueryKeys.list(params.path);
     const existingData = this.queryClient.getQueryData<FsData>(listKey);
     
     if (existingData && result.files) {
@@ -144,7 +144,7 @@ export class AdapterManager {
   /**
    * Delete files with optimistic updates
    */
-  async delete(params: { storage?: string; path: string[] }): Promise<DeleteResult> {
+  async delete(params: { path: string[] }): Promise<DeleteResult> {
     const result = await this.adapter.delete(params);
     
     // Invalidate and refetch list queries
@@ -156,7 +156,7 @@ export class AdapterManager {
   /**
    * Rename a file or folder
    */
-  async rename(params: { storage?: string; path: string; newName: string }): Promise<FileOperationResult> {
+  async rename(params: { path: string; newName: string }): Promise<FileOperationResult> {
     const result = await this.adapter.rename(params);
     
     // Invalidate list queries
@@ -168,7 +168,7 @@ export class AdapterManager {
   /**
    * Copy files to a destination
    */
-  async copy(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult> {
+  async copy(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
     const result = await this.adapter.copy(params);
     
     // Invalidate list queries
@@ -180,7 +180,7 @@ export class AdapterManager {
   /**
    * Move files to a destination
    */
-  async move(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult> {
+  async move(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
     const result = await this.adapter.move(params);
     
     // Invalidate list queries
@@ -192,7 +192,7 @@ export class AdapterManager {
   /**
    * Create a zip archive
    */
-  async zip(params: { storage?: string; path: string[] }): Promise<FileOperationResult> {
+  async zip(params: { path: string[] }): Promise<FileOperationResult> {
     const result = await this.adapter.zip(params);
     
     // Invalidate list queries
@@ -204,7 +204,7 @@ export class AdapterManager {
   /**
    * Extract files from a zip archive
    */
-  async unzip(params: { storage?: string; path: string[] }): Promise<FileOperationResult> {
+  async unzip(params: { path: string[] }): Promise<FileOperationResult> {
     const result = await this.adapter.unzip(params);
     
     // Invalidate list queries
@@ -216,7 +216,7 @@ export class AdapterManager {
   /**
    * Create a new file
    */
-  async createFile(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult> {
+  async createFile(params: { path: string; name: string }): Promise<FileOperationResult> {
     const result = await this.adapter.createFile(params);
     
     // Invalidate list queries
@@ -228,7 +228,7 @@ export class AdapterManager {
   /**
    * Create a new folder
    */
-  async createFolder(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult> {
+  async createFolder(params: { path: string; name: string }): Promise<FileOperationResult> {
     const result = await this.adapter.createFolder(params);
     
     // Invalidate list queries
@@ -240,14 +240,14 @@ export class AdapterManager {
   /**
    * Get preview URL
    */
-  getPreviewUrl(params: { storage?: string; path: string }): string {
+  getPreviewUrl(params: { path: string }): string {
     return this.adapter.getPreviewUrl(params);
   }
 
   /**
    * Get download URL
    */
-  getDownloadUrl(params: { storage?: string; path: string }): string {
+  getDownloadUrl(params: { path: string }): string {
     return this.adapter.getDownloadUrl(params);
   }
 
@@ -265,7 +265,7 @@ export class AdapterManager {
    * Prefetch list data for better UX
    */
   async prefetchList(path?: string): Promise<void> {
-    const queryKey = QueryKeys.list(undefined, path);
+    const queryKey = QueryKeys.list(path);
     
     await this.queryClient.prefetchQuery({
       queryKey,
@@ -277,7 +277,7 @@ export class AdapterManager {
    * Remove specific query from cache
    */
   removeQuery(path?: string): void {
-    const queryKey = QueryKeys.list(undefined, path);
+    const queryKey = QueryKeys.list(path);
     this.queryClient.removeQueries({ queryKey });
   }
 
@@ -285,7 +285,7 @@ export class AdapterManager {
    * Get cached data without refetching
    */
   getCachedList(path?: string): FsData | undefined {
-    const queryKey = QueryKeys.list(undefined, path);
+    const queryKey = QueryKeys.list(path);
     return this.queryClient.getQueryData<FsData>(queryKey);
   }
 
@@ -293,7 +293,7 @@ export class AdapterManager {
    * Set data manually in cache
    */
   setCachedList(data: FsData, path?: string): void {
-    const queryKey = QueryKeys.list(undefined, path);
+    const queryKey = QueryKeys.list(path);
     this.queryClient.setQueryData(queryKey, data);
   }
 

@@ -6,7 +6,6 @@ import type {
   DeleteResult,
   FileOperationResult,
 } from './types';
-import type { DirEntry } from '../types';
 
 /**
  * Cloud adapter for handling file operations via HTTP requests
@@ -64,11 +63,11 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * List files and folders at a given path
    */
-  async list(params?: { storage?: string; path?: string }): Promise<FsData> {
+  async list(params?: { path?: string }): Promise<FsData> {
     try {
       const queryParams = new URLSearchParams();
       
-      // Only send path parameter - storage is embedded in the path (e.g., "storage://path/to/file")
+      // Path can contain storage info in format "storage://path/to/file"
       if (params?.path) {
         queryParams.append('path', params.path);
       }
@@ -88,7 +87,7 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Upload files to a given path
    */
-  async upload(params: { storage?: string; path?: string; files: File[] }): Promise<UploadResult> {
+  async upload(params: { path?: string; files: File[] }): Promise<UploadResult> {
     try {
       this.validateParam(params.files, 'files');
       
@@ -102,12 +101,9 @@ export class CloudAdapter extends BaseAdapter {
         formData.append('files[]', file);
       });
 
+      // Path can contain storage info in format "storage://path/to/file"
       if (params.path) {
         formData.append('path', params.path);
-      }
-
-      if (params.storage) {
-        formData.append('storage', params.storage);
       }
 
       const response = await fetch(`${this.config.baseURL}${this.config.url.upload}`, {
@@ -133,7 +129,7 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Delete files/folders
    */
-  async delete(params: { storage?: string; path: string[] }): Promise<DeleteResult> {
+  async delete(params: { path: string[] }): Promise<DeleteResult> {
     try {
       this.validateParam(params.path, 'path');
       
@@ -145,7 +141,6 @@ export class CloudAdapter extends BaseAdapter {
         method: 'DELETE',
         body: JSON.stringify({
           paths: params.path,
-          storage: params.storage,
         }),
       });
     } catch (error) {
@@ -156,7 +151,7 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Rename a file or folder
    */
-  async rename(params: { storage?: string; path: string; newName: string }): Promise<FileOperationResult> {
+  async rename(params: { path: string; newName: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
       this.validateParam(params.newName, 'newName');
@@ -167,7 +162,6 @@ export class CloudAdapter extends BaseAdapter {
         body: JSON.stringify({
           path: params.path,
           newName: params.newName,
-          storage: params.storage,
         }),
       });
     } catch (error) {
@@ -178,7 +172,7 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Copy files/folders to a destination
    */
-  async copy(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult> {
+  async copy(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
       this.validateParam(params.destination, 'destination');
@@ -188,7 +182,6 @@ export class CloudAdapter extends BaseAdapter {
         body: JSON.stringify({
           paths: params.path,
           destination: params.destination,
-          storage: params.storage,
         }),
       });
     } catch (error) {
@@ -199,7 +192,7 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Move files/folders to a destination
    */
-  async move(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult> {
+  async move(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
       this.validateParam(params.destination, 'destination');
@@ -209,7 +202,6 @@ export class CloudAdapter extends BaseAdapter {
         body: JSON.stringify({
           paths: params.path,
           destination: params.destination,
-          storage: params.storage,
         }),
       });
     } catch (error) {
@@ -220,7 +212,7 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Create a zip archive from files/folders
    */
-  async zip(params: { storage?: string; path: string[] }): Promise<FileOperationResult> {
+  async zip(params: { path: string[] }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
 
@@ -228,7 +220,6 @@ export class CloudAdapter extends BaseAdapter {
         method: 'POST',
         body: JSON.stringify({
           paths: params.path,
-          storage: params.storage,
         }),
       });
     } catch (error) {
@@ -239,7 +230,7 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Extract files from a zip archive
    */
-  async unzip(params: { storage?: string; path: string[] }): Promise<FileOperationResult> {
+  async unzip(params: { path: string[] }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
 
@@ -247,7 +238,6 @@ export class CloudAdapter extends BaseAdapter {
         method: 'POST',
         body: JSON.stringify({
           paths: params.path,
-          storage: params.storage,
         }),
       });
     } catch (error) {
@@ -258,7 +248,7 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Create a new file
    */
-  async createFile(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult> {
+  async createFile(params: { path: string; name: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.name, 'name');
       this.validateParam(params.path, 'path');
@@ -268,7 +258,6 @@ export class CloudAdapter extends BaseAdapter {
         body: JSON.stringify({
           path: params.path,
           name: params.name,
-          storage: params.storage,
         }),
       });
     } catch (error) {
@@ -279,7 +268,7 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Create a new folder
    */
-  async createFolder(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult> {
+  async createFolder(params: { path: string; name: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.name, 'name');
       this.validateParam(params.path, 'path');
@@ -289,7 +278,6 @@ export class CloudAdapter extends BaseAdapter {
         body: JSON.stringify({
           path: params.path,
           name: params.name,
-          storage: params.storage,
         }),
       });
     } catch (error) {
@@ -300,14 +288,10 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Get preview URL for a file
    */
-  getPreviewUrl(params: { storage?: string; path: string }): string {
+  getPreviewUrl(params: { path: string }): string {
     this.validatePath(params.path);
     
     const queryParams = new URLSearchParams({ path: params.path });
-    
-    if (params.storage) {
-      queryParams.set('storage', params.storage);
-    }
 
     return `${this.config.baseURL}${this.config.url.preview}?${queryParams.toString()}`;
   }
@@ -315,14 +299,10 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Get download URL for a file
    */
-  getDownloadUrl(params: { storage?: string; path: string }): string {
+  getDownloadUrl(params: { path: string }): string {
     this.validatePath(params.path);
     
     const queryParams = new URLSearchParams({ path: params.path });
-    
-    if (params.storage) {
-      queryParams.set('storage', params.storage);
-    }
 
     return `${this.config.baseURL}${this.config.url.download}?${queryParams.toString()}`;
   }

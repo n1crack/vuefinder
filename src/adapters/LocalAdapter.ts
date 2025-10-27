@@ -24,7 +24,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * List files and folders at a given path
    */
-  async list(params?: { storage?: string; path?: string }): Promise<FsData> {
+  async list(params?: { path?: string }): Promise<FsData> {
     try {
       // Parse path to extract storage and actual path
       const { path } = this.parsePath(params?.path);
@@ -41,7 +41,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Upload files to a given path
    */
-  async upload(params: { storage?: string; path?: string; files: File[] }): Promise<UploadResult> {
+  async upload(params: { path?: string; files: File[] }): Promise<UploadResult> {
     try {
       this.validateParam(params.files, 'files');
       
@@ -61,7 +61,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Delete files/folders
    */
-  async delete(params: { storage?: string; path: string[] }): Promise<DeleteResult> {
+  async delete(params: { path: string[] }): Promise<DeleteResult> {
     try {
       this.validateParam(params.path, 'path');
       
@@ -80,7 +80,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Rename a file or folder
    */
-  async rename(params: { storage?: string; path: string; newName: string }): Promise<FileOperationResult> {
+  async rename(params: { path: string; newName: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
       this.validateParam(params.newName, 'newName');
@@ -95,7 +95,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Copy files/folders to a destination
    */
-  async copy(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult> {
+  async copy(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
       this.validateParam(params.destination, 'destination');
@@ -109,7 +109,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Move files/folders to a destination
    */
-  async move(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult> {
+  async move(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
       this.validateParam(params.destination, 'destination');
@@ -123,7 +123,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Create a zip archive from files/folders
    */
-  async zip(params: { storage?: string; path: string[] }): Promise<FileOperationResult> {
+  async zip(params: { path: string[] }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
 
@@ -136,7 +136,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Extract files from a zip archive
    */
-  async unzip(params: { storage?: string; path: string[] }): Promise<FileOperationResult> {
+  async unzip(params: { path: string[] }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
 
@@ -149,7 +149,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Create a new file
    */
-  async createFile(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult> {
+  async createFile(params: { path: string; name: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.name, 'name');
 
@@ -162,7 +162,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Create a new folder
    */
-  async createFolder(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult> {
+  async createFolder(params: { path: string; name: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.name, 'name');
 
@@ -175,7 +175,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Get preview URL for a file
    */
-  getPreviewUrl(params: { storage?: string; path: string }): string {
+  getPreviewUrl(params: { path: string }): string {
     this.validatePath(params.path);
     
     // Return a URL that can be used to preview the file locally
@@ -190,7 +190,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Get download URL for a file
    */
-  getDownloadUrl(params: { storage?: string; path: string }): string {
+  getDownloadUrl(params: { path: string }): string {
     this.validatePath(params.path);
     
     // Return a URL that can be used to download the file locally

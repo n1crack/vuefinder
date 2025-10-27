@@ -59,61 +59,61 @@ export abstract class BaseAdapter implements Adapter {
   /**
    * List files and folders at a given path
    */
-  abstract list(params?: { storage?: string; path?: string }): Promise<FsData>;
+  abstract list(params?: { path?: string }): Promise<FsData>;
 
   /**
    * Upload files to a given path
    */
-  abstract upload(params: { storage?: string; path?: string; files: File[] }): Promise<UploadResult>;
+  abstract upload(params: { path?: string; files: File[] }): Promise<UploadResult>;
 
   /**
    * Delete files/folders
    */
-  abstract delete(params: { storage?: string; path: string[] }): Promise<DeleteResult>;
+  abstract delete(params: { path: string[] }): Promise<DeleteResult>;
 
   /**
    * Rename a file or folder
    */
-  abstract rename(params: { storage?: string; path: string; newName: string }): Promise<FileOperationResult>;
+  abstract rename(params: { path: string; newName: string }): Promise<FileOperationResult>;
 
   /**
    * Copy files/folders to a destination
    */
-  abstract copy(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult>;
+  abstract copy(params: { path: string[]; destination: string }): Promise<FileOperationResult>;
 
   /**
    * Move files/folders to a destination
    */
-  abstract move(params: { storage?: string; path: string[]; destination: string }): Promise<FileOperationResult>;
+  abstract move(params: { path: string[]; destination: string }): Promise<FileOperationResult>;
 
   /**
    * Create a zip archive from files/folders
    */
-  abstract zip(params: { storage?: string; path: string[] }): Promise<FileOperationResult>;
+  abstract zip(params: { path: string[] }): Promise<FileOperationResult>;
 
   /**
    * Extract files from a zip archive
    */
-  abstract unzip(params: { storage?: string; path: string[] }): Promise<FileOperationResult>;
+  abstract unzip(params: { path: string[] }): Promise<FileOperationResult>;
 
   /**
    * Create a new file
    */
-  abstract createFile(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult>;
+  abstract createFile(params: { path: string; name: string }): Promise<FileOperationResult>;
 
   /**
    * Create a new folder
    */
-  abstract createFolder(params: { storage?: string; path: string; name: string }): Promise<FileOperationResult>;
+  abstract createFolder(params: { path: string; name: string }): Promise<FileOperationResult>;
 
   /**
    * Get preview URL for a file
    */
-  abstract getPreviewUrl(params: { storage?: string; path: string }): string;
+  abstract getPreviewUrl(params: { path: string }): string;
 
   /**
    * Get download URL for a file
    */
-  abstract getDownloadUrl(params: { storage?: string; path: string }): string;
+  abstract getDownloadUrl(params: { path: string }): string;
 }
 
