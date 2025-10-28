@@ -152,17 +152,19 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Rename a file or folder
    */
-  async rename(params: { path: string; newName: string }): Promise<FileOperationResult> {
+  async rename(params: { path: string; item: string; name: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
-      this.validateParam(params.newName, 'newName');
+      this.validateParam(params.item, 'item');
+      this.validateParam(params.name, 'name');
       this.validatePath(params.path);
 
       return await this.request<FileOperationResult>(this.config.url.rename, {
         method: 'PUT',
         body: JSON.stringify({
           path: params.path,
-          newName: params.newName,
+          item: params.item,
+          name: params.name,
         }),
       });
     } catch (error) {

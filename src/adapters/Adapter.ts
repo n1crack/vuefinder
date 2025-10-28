@@ -75,7 +75,7 @@ export abstract class BaseAdapter implements Adapter {
   /**
    * Rename a file or folder
    */
-  abstract rename(params: { path: string; newName: string }): Promise<FileOperationResult>;
+  abstract rename(params: { path: string; name: string }): Promise<FileOperationResult>;
 
   /**
    * Copy files/folders to a destination

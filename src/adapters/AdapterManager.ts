@@ -186,7 +186,7 @@ export class AdapterManager {
   /**
    * Rename a file or folder
    */
-  async rename(params: { path: string; newName: string }): Promise<FileOperationResult> {
+  async rename(params: { path: string; item: string; name: string }): Promise<FileOperationResult> {
     const result = await this.adapter.rename(params);
     
     // Invalidate list queries

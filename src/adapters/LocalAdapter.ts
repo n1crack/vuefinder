@@ -81,10 +81,10 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Rename a file or folder
    */
-  async rename(params: { path: string; newName: string }): Promise<FileOperationResult> {
+  async rename(params: { path: string; name: string }): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
-      this.validateParam(params.newName, 'newName');
+      this.validateParam(params.name, 'name');
       this.validatePath(params.path);
 
       throw new Error('LocalAdapter.rename() is not yet implemented.');

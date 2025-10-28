@@ -16,21 +16,15 @@ const message = ref('');
 
 const createFolder = () => {
   if (name.value !== '') {
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'newfolder',
-        m: 'post',
-        path: currentPath.value.path,
-      },
-      body: {
-        name: name.value
-      },
-      onSuccess: () => {
-        app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
-      },
-      onError: (e: any) => {
-        message.value = t(e.message);
-      }
+    app.adapter.createFolder({
+      path: currentPath.value.path,
+      name: name.value
+    }).then((result) => {
+      app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
+      app.fs.setFiles(result.files);
+      app.modal.close();
+    }).catch((e: any) => {
+      app.emitter.emit('vf-toast-push', {label: t(e.message), type: 'error'});
     });
   }
 };

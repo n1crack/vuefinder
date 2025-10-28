@@ -89,7 +89,8 @@ export interface DeleteParams {
  */
 export interface RenameParams {
   path: string;
-  newName: string;
+  item: string;
+  name: string;
 }
 
 /**
