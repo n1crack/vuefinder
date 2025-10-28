@@ -60,13 +60,10 @@ const getDestinationParts = () => {
 
 const transfer = async () => {
   if (items.value.length) {
-
-    const response = await app.adapter[operation.value]({
+    await app.adapter[operation.value]({
       sources: items.value.map(({path}: { path: string }) => path),
       destination: destination.value.path,
     });
-
-    console.log(response);
   }
 };
 

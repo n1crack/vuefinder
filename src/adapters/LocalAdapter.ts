@@ -2,7 +2,6 @@ import { BaseAdapter } from './Adapter';
 import type {
   LocalAdapterConfig,
   FsData,
-  UploadResult,
   DeleteResult,
   FileOperationResult,
   FileContentResult,
@@ -37,26 +36,6 @@ export class LocalAdapter extends BaseAdapter {
       throw new Error('LocalAdapter.list() is not yet implemented. Local file access requires File System Access API or backend proxy.');
     } catch (error) {
       throw new Error(`Failed to list directory: ${(error as Error).message}`);
-    }
-  }
-
-  /**
-   * Upload files to a given path
-   */
-  async upload(params: { path?: string; files: File[] }): Promise<UploadResult> {
-    try {
-      this.validateParam(params.files, 'files');
-      
-      // Validate that files array is not empty
-      if (!Array.isArray(params.files) || params.files.length === 0) {
-        throw new Error('At least one file must be provided');
-      }
-
-      // In a real local implementation, you would write files to local storage
-      // For now, we'll throw an error indicating this needs to be implemented
-      throw new Error('LocalAdapter.upload() is not yet implemented. Local file writes require File System Access API.');
-    } catch (error) {
-      throw new Error(`Failed to upload files: ${(error as Error).message}`);
     }
   }
 
@@ -214,6 +193,20 @@ export class LocalAdapter extends BaseAdapter {
     
     // Return empty string as local download URLs need to be generated dynamically
     return '';
+  }
+
+  /**
+   * Search files (not implemented for local)
+   */
+  async search(_params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<unknown> {
+    throw new Error('LocalAdapter.search() is not yet implemented.');
+  }
+
+  /**
+   * Save content to file (not implemented for local)
+   */
+  async save(_params: { path: string; content: string }): Promise<unknown> {
+    throw new Error('LocalAdapter.save() is not yet implemented.');
   }
 }
 

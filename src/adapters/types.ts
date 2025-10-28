@@ -41,13 +41,6 @@ export interface CloudAdapterConfig {
 }
 
 /**
- * Result returned by upload operations
- */
-export interface UploadResult {
-  files: DirEntry[];
-}
-
-/**
  * Response from delete operations
  */
 export interface DeleteResult {
@@ -154,11 +147,6 @@ export interface Adapter {
    * List files and folders at a given path
    */
   list(params?: ListParams): Promise<FsData>;
-
-  /**
-   * Upload files to a given path
-   */
-  upload(params: UploadParams): Promise<UploadResult>;
 
   /**
    * Delete files/folders

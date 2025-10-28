@@ -1,6 +1,5 @@
 import {inject, onMounted, onUnmounted, ref, type Ref} from 'vue';
 import Uppy from '@uppy/core';
-import XHR from '@uppy/xhr-upload';
 import {parse} from '../utils/filesize';
 import { useStore } from '@nanostores/vue';
 import { scanFiles } from '../utils/scanFiles';
@@ -232,6 +231,7 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
             const targetPath = uploadTargetFolder.value || currentPath.value;
 
             // Refresh the target folder and emit upload complete
+
              app.adapter.open(targetPath.path);
             
             // Get uploaded file names from queue

@@ -1,14 +1,12 @@
 import { QueryClient } from '@tanstack/vue-query';
 import type {
     Adapter,
-    UploadResult,
     DeleteResult,
     FileOperationResult,
     FileContentResult,
     DeleteParams,
     ArchiveParams,
-    SaveParams,
-    UploadParams
+    SaveParams
 } from './types';
 import type { FsData } from '../types';
 
@@ -57,7 +55,6 @@ export const QueryKeys = {
   list: (path?: string) => ['adapter', 'list', path] as const,
   search: (path?: string, filter?: string, deep?: boolean, size?: string) => ['adapter', 'search', path, filter, deep, size] as const,
   delete: (paths?: string[]) => ['adapter', 'delete', paths] as const,
-  upload: () => ['adapter', 'upload'] as const,
   rename: () => ['adapter', 'rename'] as const,
   copy: () => ['adapter', 'copy'] as const,
   move: () => ['adapter', 'move'] as const,
@@ -153,33 +150,6 @@ export class AdapterManager {
     }
     
     return data;
-  }
-
-  /**
-   * Upload files with optimistic updates
-   */
-  async upload(params: UploadParams): Promise<UploadResult> {
-    const result = await this.adapter.upload(params);
-    
-    // Invalidate and refetch list queries
-    this.invalidateListQueries();
-    
-    // Optionally, update the cache optimistically
-    const listKey = QueryKeys.list(params.path);
-    const existingData = this.queryClient.getQueryData<FsData>(listKey);
-    
-    if (existingData && result.files) {
-      const updatedData: FsData = {
-        ...existingData,
-        files: [...existingData.files, ...result.files],
-      };
-      this.queryClient.setQueryData(listKey, updatedData);
-    } else {
-      // Refetch the list
-      await this.queryClient.refetchQueries({ queryKey: listKey });
-    }
-    
-    return result;
   }
 
   /**

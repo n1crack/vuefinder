@@ -1,6 +1,5 @@
 import type { 
   Adapter,
-  UploadResult,
   DeleteResult,
   FileOperationResult,
   FileContentResult,
@@ -63,11 +62,6 @@ export abstract class BaseAdapter implements Adapter {
    * List files and folders at a given path
    */
   abstract list(params?: { path?: string }): Promise<FsData>;
-
-  /**
-   * Upload files to a given path
-   */
-  abstract upload(params: { path?: string; files: File[] }): Promise<UploadResult>;
 
   /**
    * Delete files/folders

@@ -3,7 +3,6 @@ import XHR from '@uppy/xhr-upload';
 import type {
     CloudAdapterConfig,
     FsData,
-    UploadResult,
     DeleteResult,
     FileOperationResult,
     FileContentResult,
@@ -39,13 +38,14 @@ export class CloudAdapter extends BaseAdapter {
             fieldName: 'file',
             bundle: false,
             headers: uploaderHeaders,
+            formData: true, // Send as FormData
         });
 
-        // Set file metadata on upload
+        // Set file metadata on upload start (path will be sent as form field)
         uppy.on('upload', () => {
             const targetPath = context.getTargetPath();
             uppy.getFiles().forEach((file: UppyFile<Meta, Record<string, never>>) => {
-                uppy.setFileMeta(file.id, {path: targetPath});
+                uppy.setFileMeta(file.id, { path: targetPath });
             });
         });
     }
@@ -124,48 +124,6 @@ export class CloudAdapter extends BaseAdapter {
             });
         } catch (error) {
             throw new Error(`Failed to list directory: ${(error as Error).message}`);
-        }
-    }
-
-    /**
-     * Upload files to a given path
-     */
-    async upload(params: { path?: string; files: File[] }): Promise<UploadResult> {
-        try {
-            this.validateParam(params.files, 'files');
-
-            if (!Array.isArray(params.files) || params.files.length === 0) {
-                throw new Error('At least one file must be provided');
-            }
-
-            const formData = new FormData();
-
-            params.files.forEach((file) => {
-                formData.append('files[]', file);
-            });
-
-            // Path can contain storage info in format "storage://path/to/file"
-            if (params.path) {
-                formData.append('path', params.path);
-            }
-
-            const response = await fetch(`${this.config.baseURL}${this.config.url.upload}`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    ...this.config.headers,
-                    ...(this.config.token && {Authorization: `Bearer ${this.config.token}`}),
-                },
-            });
-
-            if (!response.ok) {
-                const error = await response.json().catch(() => ({message: 'Unknown error'}));
-                throw new Error(error.message || `HTTP ${response.status}`);
-            }
-
-            return await response.json();
-        } catch (error) {
-            throw new Error(`Failed to upload files: ${(error as Error).message}`);
         }
     }
 
