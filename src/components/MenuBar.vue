@@ -15,6 +15,7 @@ import ModalAbout from "./modals/ModalAbout.vue";
 import ModalMove from "./modals/ModalMove.vue";
 import ModalCopy from "./modals/ModalCopy.vue";
 import ModalPreview from "./modals/ModalPreview.vue";
+import ModalSearch from './modals/ModalSearch.vue';
 
 const app = inject('ServiceContainer');
 if (!app) {
@@ -72,7 +73,7 @@ const menuItems = computed(() => [
       {
         id: 'search',
         label: t('Search'),
-        action: () => console.log('Search clicked'),
+        action: () => app.modal.open(ModalSearch),
         enabled: () => app?.features?.includes(FEATURES.SEARCH)
       },
       { type: 'separator' },

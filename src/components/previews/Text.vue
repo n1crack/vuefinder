@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {inject, onMounted, ref} from 'vue';
 import {FEATURES} from "../../features.ts";
-import type { AdapterManager } from "../../adapters";
 
 const emit = defineEmits(['success'])
 const content = ref('');
@@ -18,7 +17,7 @@ const {t} = app.i18n;
 
 onMounted(async () => {
   try {
-    const result = await (app.adapter as AdapterManager).getContent({ path: app.modal.data.item.path });
+    const result = await app.adapter.getContent({ path: app.modal.data.item.path });
     content.value = result.content;
     emit('success');
   } catch (error) {
@@ -38,23 +37,14 @@ const save = async () => {
   isError.value = false;
 
   try {
-    // Convert content to blob and upload using adapter
-    const blob = new Blob([contentTemp.value], { type: 'text/plain' });
-    const file = new File([blob], app.modal.data.item.basename, { type: 'text/plain' });
-    
-    // Extract path from full path
+    // Save content using adapter
     const fullPath = app.modal.data.item.path;
-    const pathParts = fullPath.split('/');
-    pathParts.pop(); // Remove filename
-    const path = pathParts.join('/');
-    
-    await app.adapter.upload({ 
-      path, 
-      files: [file] 
+    await app.adapter.save({ 
+      path: fullPath, 
+      content: contentTemp.value 
     });
-    
-    message.value = t('Updated.');
     content.value = contentTemp.value;
+    message.value = t('Updated.');
     emit('success');
     showEdit.value = !showEdit.value;
   } catch (e: unknown) {

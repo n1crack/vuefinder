@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/vue-query';
-import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult, DeleteParams, ArchiveParams } from './types';
+import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult, DeleteParams, ArchiveParams, SaveParams } from './types';
 import type { FsData } from '../types';
 
 /**
@@ -45,6 +45,7 @@ export interface AdapterManagerConfig {
  */
 export const QueryKeys = {
   list: (path?: string) => ['adapter', 'list', path] as const,
+  search: (path?: string, filter?: string, deep?: boolean, size?: string) => ['adapter', 'search', path, filter, deep, size] as const,
   delete: (paths?: string[]) => ['adapter', 'delete', paths] as const,
   upload: () => ['adapter', 'upload'] as const,
   rename: () => ['adapter', 'rename'] as const,
@@ -294,6 +295,29 @@ export class AdapterManager {
    */
   getDownloadUrl(params: { path: string }): string {
     return this.adapter.getDownloadUrl(params);
+  }
+
+  /**
+   * Search files (cached per path+filter)
+   */
+  async search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<import('../types').DirEntry[]> {
+    const key = QueryKeys.search(params.path, params.filter, params.deep, params.size);
+    return await this.queryClient.ensureQueryData({
+      queryKey: key,
+      queryFn: () => this.adapter.search(params),
+      staleTime: this.config.staleTime,
+    });
+  }
+
+  /**
+   * Save content to file (and invalidate list cache)
+   */
+  async save(params: SaveParams): Promise<string> {
+    const result = await this.adapter.save(params);
+    
+    this.invalidateListQueries();
+
+    return result;
   }
 
   /**

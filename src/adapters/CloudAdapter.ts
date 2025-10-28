@@ -8,6 +8,7 @@ import type {
   FileContentResult,
   DeleteParams,
   ArchiveParams,
+  SaveParams,
 } from './types';
 
 /**
@@ -56,11 +57,23 @@ export class CloudAdapter extends BaseAdapter {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: 'Unknown error' }));
-      throw new Error(error.message || `HTTP ${response.status}: ${response.statusText}`);
+      // Try JSON first, then fallback to text for backend plain responses
+      try {
+        const error = await response.json();
+        throw new Error((error && (error.message || error.error)) || `HTTP ${response.status}: ${response.statusText}`);
+      } catch {
+        const text = await response.text();
+        throw new Error(text || `HTTP ${response.status}: ${response.statusText}`);
+      }
     }
 
-    return response.json();
+    // Parse by content-type; fallback to text if not JSON
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      return await response.json();
+    }
+    // @ts-expect-error allow text responses to pass through when caller doesn't use the value
+    return await response.text();
   }
 
   /**
@@ -337,6 +350,36 @@ export class CloudAdapter extends BaseAdapter {
     const queryParams = new URLSearchParams({ path: params.path });
 
     return `${this.config.baseURL}${this.config.url.download}?${queryParams.toString()}`;
+  }
+
+  /**
+   * Search files (GET with query params)
+   */
+  async search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<import('../types').DirEntry[]> {
+    const base = this.config.url.search || this.config.url.list;
+    const query = new URLSearchParams();
+    if (params.path) query.set('path', params.path);
+    if (params.filter) query.set('filter', params.filter);
+    if (params.deep) query.set('deep', '1');
+    if (params.size && params.size !== 'all') query.set('size', params.size);
+    const url = query.toString() ? `${base}?${query.toString()}` : base;
+    const data = await this.request<{ files: import('../types').DirEntry[] }>(url, {
+      method: 'GET',
+    });
+    return data.files || [];
+  }
+
+  /**
+   * Save content to file
+   */
+  async save(params: SaveParams): Promise<string> {
+    this.validateParam(params.path, 'path');
+
+    return await this.request(this.config.url.save || this.config.url.createFile, {
+      method: 'POST',
+      body: JSON.stringify({ path: params.path, content: params.content }),
+      headers: this.getHeaders(),
+    });
   }
 }
 

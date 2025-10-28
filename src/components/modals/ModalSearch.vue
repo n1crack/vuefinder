@@ -155,42 +155,15 @@ const performSearch = async (searchQuery: string) => {
   isSearching.value = true;
   
   try {
-    const storage = currentPath?.value?.storage ?? 'local';
-    
-    // Build search parameters
-    const searchParams: Record<string, string> = {
-      q: 'search',
-      storage,
-      filter: searchQuery
-    };
-    
-    // Add advanced search parameters - use selected folder or current path
     const searchPath = targetFolderEntry.value?.path || currentPath?.value?.path;
-    if (searchPath) {
-      searchParams.path = searchPath;
-    }
-    
-    if (sizeFilter.value !== 'all') {
-      searchParams.size = sizeFilter.value;
-    }
-    
-    if (deepSearch.value) {
-      searchParams.deep = '1';
-    }
-    
-    app.emitter.emit('vf-fetch', {
-      params: searchParams,
-      dontCloseModal: true,
-      dontChangePath: true,
-      onSuccess: (data: { files: DirEntry[] }) => {
-        searchResults.value = data.files || [];
-        isSearching.value = false;
-      },
-      onError: () => {
-        searchResults.value = [];
-        isSearching.value = false;
-      }
+    const files = await app.adapter.search({
+      path: searchPath,
+      filter: searchQuery,
+      deep: deepSearch.value,
+      size: sizeFilter.value,
     });
+    searchResults.value = files || [];
+    isSearching.value = false;
   } catch (error) {
     console.error('Search error:', error);
     searchResults.value = [];

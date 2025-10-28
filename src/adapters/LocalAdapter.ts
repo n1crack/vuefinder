@@ -63,13 +63,13 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Delete files/folders
    */
-  async delete(params: { path: string[] }): Promise<DeleteResult> {
+  async delete(params: { items: { path: string; type: string }[] }): Promise<DeleteResult> {
     try {
-      this.validateParam(params.path, 'path');
+      this.validateParam(params.items, 'items');
       
-      // Validate that path array is not empty
-      if (!Array.isArray(params.path) || params.path.length === 0) {
-        throw new Error('At least one path must be provided');
+      // Validate that items array is not empty
+      if (!Array.isArray(params.items) || params.items.length === 0) {
+        throw new Error('At least one item must be provided');
       }
 
       // In a real local implementation, you would delete files from local storage

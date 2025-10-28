@@ -26,6 +26,8 @@ export interface CloudAdapterUrls {
   createFolder: string;
   preview: string;
   download: string;
+  search?: string;
+  save?: string;
 }
 
 /**
@@ -110,6 +112,18 @@ export interface ArchiveParams {
   name: string;
 }
 
+export interface SearchParams {
+  path?: string;
+  filter: string;
+  deep?: boolean;
+  size?: 'all'|'small'|'medium'|'large';
+}
+
+export interface SaveParams {
+  path: string; // full file path including storage
+  content: string;
+}
+
 /**
  * Result from getContent operations
  */
@@ -186,6 +200,16 @@ export interface Adapter {
    * Get download URL for a file
    */
   getDownloadUrl(params: { path: string }): string;
+
+  /**
+   * Search for files
+   */
+  search(params: SearchParams): Promise<DirEntry[]>;
+
+  /**
+   * Save text/binary content to a file path
+   */
+  save(params: SaveParams): Promise<string>;
 }
 
 /**
