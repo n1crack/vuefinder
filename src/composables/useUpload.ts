@@ -233,9 +233,12 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
             // Refresh the target folder and emit upload complete
             app.adapter.getQueryClient().invalidateQueries({
               queryKey: ['adapter', 'list', targetPath.path],
-              exact: false,
-            });
+              exact: true,
+            })
+
             app.adapter.open(targetPath.path);
+
+            console.log("refresh Items")
 
             // Get uploaded file names from queue
             const uploadedFiles = queue.value

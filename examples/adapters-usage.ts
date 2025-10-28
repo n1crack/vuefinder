@@ -63,15 +63,31 @@ async function uploadFiles(files: File[]) {
 }
 
 // Example: Delete files
-async function deleteFiles(paths: string[]) {
+async function deleteFiles(paths: string[], types: string[]) {
   try {
     const result = await cloudAdapter.delete({
-      path: paths, // Paths with storage prefix (e.g., "local://file.txt")
+      items: paths.map((path, i) => ({ path, type: types[i] || 'file' })),
     });
     
     console.log('Deleted files:', result.deleted);
   } catch (error) {
     console.error('Failed to delete files:', error);
+  }
+}
+
+// Example: Search files
+async function searchFiles(query: string) {
+  try {
+    const results = await cloudAdapter.search({
+      path: 'local://public',
+      filter: query,
+      deep: true,
+      size: 'all',
+    });
+    
+    console.log('Search results:', results);
+  } catch (error) {
+    console.error('Failed to search files:', error);
   }
 }
 
@@ -284,6 +300,7 @@ export {
   listFiles,
   uploadFiles,
   deleteFiles,
+  searchFiles,
   listFilesWithCache,
   openPath,
   refreshFiles,

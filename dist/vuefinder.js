@@ -4516,8 +4516,8 @@ function Ed(t) {
       const I = p.value || i.value;
       e.adapter.getQueryClient().invalidateQueries({
         queryKey: ["adapter", "list", I.path],
-        exact: !1
-      }), e.adapter.open(I.path);
+        exact: !0
+      }), e.adapter.open(I.path), console.log("refresh Items");
       const V = g.value.filter((W) => W.status === be.DONE).map((W) => W.name);
       e.emitter.emit("vf-upload-complete", V);
     }), d.value?.addEventListener("click", () => c.value?.click()), f.value?.addEventListener("click", () => _.value?.click());
