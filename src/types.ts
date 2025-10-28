@@ -29,6 +29,11 @@ export interface VueFinderProps {
   onReady?: () => void;
   onFileDclick?: (item: DirEntry) => void;
   onFolderDclick?: (item: DirEntry) => void;
+  /**
+   * Custom uploader configuration (optional)
+   * If provided, will override adapter's configureUploader
+   */
+  customUploader?: (uppy: any, context: { getTargetPath: () => string; getHeaders: () => Record<string, string>; t: (key: string) => string }) => void;
 }
 
 export type SelectEvent = (items: DirEntry[]) => void;

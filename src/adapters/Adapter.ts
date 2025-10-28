@@ -123,5 +123,15 @@ export abstract class BaseAdapter implements Adapter {
    * Get download URL for a file
    */
   abstract getDownloadUrl(params: { path: string }): string;
+
+  /**
+   * Search files
+   */
+  abstract search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<unknown>;
+
+  /**
+   * Save content to file
+   */
+  abstract save(params: { path: string; content: string }): Promise<unknown>;
 }
 

@@ -1,5 +1,15 @@
 import { QueryClient } from '@tanstack/vue-query';
-import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult, DeleteParams, ArchiveParams, SaveParams } from './types';
+import type {
+    Adapter,
+    UploadResult,
+    DeleteResult,
+    FileOperationResult,
+    FileContentResult,
+    DeleteParams,
+    ArchiveParams,
+    SaveParams,
+    UploadParams
+} from './types';
 import type { FsData } from '../types';
 
 /**
@@ -148,7 +158,7 @@ export class AdapterManager {
   /**
    * Upload files with optimistic updates
    */
-  async upload(params: { path?: string; files: File[] }): Promise<UploadResult> {
+  async upload(params: UploadParams): Promise<UploadResult> {
     const result = await this.adapter.upload(params);
     
     // Invalidate and refetch list queries

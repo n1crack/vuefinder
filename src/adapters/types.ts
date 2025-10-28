@@ -75,7 +75,7 @@ export interface ListParams {
  * Parameters for upload operations
  */
 export interface UploadParams {
-  path?: string;
+  path: string;
   files: File[];
 }
 
@@ -83,6 +83,7 @@ export interface UploadParams {
  * Parameters for delete operations
  */
 export interface DeleteParams {
+  path: string;
   items: { path: string; type: string }[];
 }
 
@@ -133,9 +134,22 @@ export interface FileContentResult {
 }
 
 /**
+ * Uploader context provided to configureUploader
+ */
+export interface UploaderContext {
+  getTargetPath: () => string;
+}
+
+/**
  * Adapter interface that all adapters must implement
  */
 export interface Adapter {
+  /**
+   * Configure the uploader (Uppy instance)
+   * This allows adapters to customize upload behavior
+   */
+  configureUploader?: (uppy: any, context: UploaderContext) => void;
+
   /**
    * List files and folders at a given path
    */

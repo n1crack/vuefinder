@@ -23,7 +23,7 @@ export interface UseUploadReturn {
     addExternalFiles: (files: File[]) => void;
 }
 
-export default function useUpload(): UseUploadReturn {
+export default function useUpload(customUploader?: any): UseUploadReturn {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const app: any = inject('ServiceContainer');
     const {t} = app.i18n;
@@ -177,41 +177,25 @@ export default function useUpload(): UseUploadReturn {
             }
         });
 
-        uppy.use(XHR, {
-            endpoint: 'WILL_BE_REPLACED_BEFORE_UPLOAD',
-            limit: 5,
-            timeout: 0,
-        });
+        const context = {
+            getTargetPath: () => {
+                const target = uploadTargetFolder.value || currentPath.value;
+                return target.path;
+            }
+        };
+ 
+        if (customUploader) {
+            customUploader(uppy, context);
+        } else if (app.adapter.getAdapter().configureUploader) {
+            app.adapter.getAdapter().configureUploader(uppy, context);
+        } else {
+            throw new Error('No uploader configured');
+        }
 
         uppy.on('restriction-failed', (upFile: any, error: any) => {
             const entry = queue.value[findQueueEntryIndexById(upFile.id)];
             if (entry) remove(entry);
             message.value = error.message;
-        });
-
-        uppy.on('upload', () => {
-            // Use the stored target folder or fallback to current path
-            const targetPath = uploadTargetFolder.value || currentPath.value;
-            
-            const reqParams = app.requester.transformRequestParams({
-                url: '', method: 'post', params: {
-                    q: 'upload', 
-                    path: targetPath.path
-                },
-            });
-            uppy.setMeta({...reqParams.body});
-            const xhrPlugin = uppy.getPlugin('XHRUpload');
-            if (xhrPlugin) {
-                xhrPlugin.opts.method = reqParams.method;
-                xhrPlugin.opts.endpoint = reqParams.url + '?' + new URLSearchParams(reqParams.params);
-                xhrPlugin.opts.headers = reqParams.headers;
-            }
-            delete reqParams.headers['Content-Type'];
-            uploading.value = true;
-            queue.value.forEach(file => {
-                if (file.status === QUEUE_ENTRY_STATUS.DONE) return;
-                file.percent = null; file.status = QUEUE_ENTRY_STATUS.UPLOADING; file.statusName = t('Pending upload');
-            });
         });
 
         uppy.on('upload-progress', (upFile: any, progress: any) => {
@@ -244,28 +228,17 @@ export default function useUpload(): UseUploadReturn {
         uppy.on('complete', () => {
             uploading.value = false;
 
-            // Get the list of successfully uploaded file names from the queue
-            const successfullyUploadedFileNames = queue.value
-                .filter(entry => entry.status === QUEUE_ENTRY_STATUS.DONE)
-                .map(entry => entry.name);
-
             // Use the target folder for refreshing the file list
             const targetPath = uploadTargetFolder.value || currentPath.value;
 
-            // Fetch updated file list and filter only newly uploaded files
-            app.adapter.list(targetPath.path);
-            app.emitter.emit('vf-fetch', { 
-                params: {q: 'index', path: targetPath.path},
-                dontCloseModal: true,
-                onSuccess: (data: any) => {
-                    // Filter data.files to only include the newly uploaded files
-                    const uploadedFiles = (data?.files || []).filter((file: any) => 
-                        successfullyUploadedFileNames.includes(file.basename)
-                    );
-                    // Emit upload-complete event with only the newly uploaded files from backend
-                    app.emitter.emit('vf-upload-complete', uploadedFiles);
-                }
-            });
+            // Refresh the target folder and emit upload complete
+             app.adapter.open(targetPath.path);
+            
+            // Get uploaded file names from queue
+            const uploadedFiles = queue.value
+                .filter(entry => entry.status === QUEUE_ENTRY_STATUS.DONE)
+                .map(entry => entry.name);
+            app.emitter.emit('vf-upload-complete', uploadedFiles);
         });
 
         // Event listeners
