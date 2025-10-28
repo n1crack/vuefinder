@@ -5,6 +5,7 @@ import type {
   FileOperationResult,
   FileContentResult,
   DeleteParams,
+  ArchiveParams,
 } from './types';
 import type { FsData } from '../types';
 
@@ -91,12 +92,12 @@ export abstract class BaseAdapter implements Adapter {
   /**
    * Create a zip archive from files/folders
    */
-  abstract zip(params: { path: string[] }): Promise<FileOperationResult>;
+  abstract archive(params: ArchiveParams): Promise<FileOperationResult>;
 
   /**
    * Extract files from a zip archive
    */
-  abstract unzip(params: { path: string[] }): Promise<FileOperationResult>;
+  abstract unarchive(params: { item: string; path: string }): Promise<FileOperationResult>;
 
   /**
    * Create a new file

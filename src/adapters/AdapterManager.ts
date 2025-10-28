@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/vue-query';
-import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult, DeleteParams } from './types';
+import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult, DeleteParams, ArchiveParams } from './types';
 import type { FsData } from '../types';
 
 /**
@@ -50,8 +50,8 @@ export const QueryKeys = {
   rename: () => ['adapter', 'rename'] as const,
   copy: () => ['adapter', 'copy'] as const,
   move: () => ['adapter', 'move'] as const,
-  zip: () => ['adapter', 'zip'] as const,
-  unzip: () => ['adapter', 'unzip'] as const,
+  archive: () => ['adapter', 'archive'] as const,
+  unarchive: () => ['adapter', 'unarchive'] as const,
   createFile: () => ['adapter', 'createFile'] as const,
   createFolder: () => ['adapter', 'createFolder'] as const,
 };
@@ -222,8 +222,8 @@ export class AdapterManager {
   /**
    * Create a zip archive
    */
-  async zip(params: { path: string[] }): Promise<FileOperationResult> {
-    const result = await this.adapter.zip(params);
+  async archive(params: ArchiveParams): Promise<FileOperationResult> {
+    const result = await this.adapter.archive(params);
     
     // Invalidate list queries
     this.invalidateListQueries();
@@ -234,8 +234,8 @@ export class AdapterManager {
   /**
    * Extract files from a zip archive
    */
-  async unzip(params: { path: string[] }): Promise<FileOperationResult> {
-    const result = await this.adapter.unzip(params);
+  async unarchive(params: { item: string; path: string }): Promise<FileOperationResult> {
+    const result = await this.adapter.unarchive(params);
     
     // Invalidate list queries
     this.invalidateListQueries();

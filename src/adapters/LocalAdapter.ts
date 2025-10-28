@@ -7,6 +7,7 @@ import type {
   FileOperationResult,
   FileContentResult,
   AdapterError,
+  ArchiveParams,
 } from './types';
 import type { DirEntry } from '../types';
 
@@ -124,11 +125,13 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Create a zip archive from files/folders
    */
-  async zip(params: { path: string[] }): Promise<FileOperationResult> {
+  async archive(params: ArchiveParams): Promise<FileOperationResult> {
     try {
       this.validateParam(params.path, 'path');
+      this.validateParam(params.items, 'items');
+      this.validateParam(params.name, 'name');
 
-      throw new Error('LocalAdapter.zip() is not yet implemented.');
+      throw new Error('LocalAdapter.archive() is not yet implemented.');
     } catch (error) {
       throw new Error(`Failed to create archive: ${(error as Error).message}`);
     }
@@ -137,11 +140,12 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Extract files from a zip archive
    */
-  async unzip(params: { path: string[] }): Promise<FileOperationResult> {
+  async unarchive(params: { item: string; path: string }): Promise<FileOperationResult> {
     try {
+      this.validateParam(params.item, 'item');
       this.validateParam(params.path, 'path');
 
-      throw new Error('LocalAdapter.unzip() is not yet implemented.');
+      throw new Error('LocalAdapter.unarchive() is not yet implemented.');
     } catch (error) {
       throw new Error(`Failed to extract archive: ${(error as Error).message}`);
     }

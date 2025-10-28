@@ -7,6 +7,7 @@ import type {
   FileOperationResult,
   FileContentResult,
   DeleteParams,
+  ArchiveParams,
 } from './types';
 
 /**
@@ -212,14 +213,18 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Create a zip archive from files/folders
    */
-  async zip(params: { path: string[] }): Promise<FileOperationResult> {
+  async archive(params: ArchiveParams): Promise<FileOperationResult> {
     try {
+      this.validateParam(params.items, 'items');
+      this.validateParam(params.name, 'name');
       this.validateParam(params.path, 'path');
 
-      return await this.request<FileOperationResult>(this.config.url.zip, {
+      return await this.request<FileOperationResult>(this.config.url.archive, {
         method: 'POST',
         body: JSON.stringify({
-          paths: params.path,
+          items: params.items,
+          path: params.path,
+          name: params.name,
         }),
       });
     } catch (error) {
@@ -230,14 +235,16 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Extract files from a zip archive
    */
-  async unzip(params: { path: string[] }): Promise<FileOperationResult> {
+  async unarchive(params: { item: string; path: string }): Promise<FileOperationResult> {
     try {
+      this.validateParam(params.item, 'item');
       this.validateParam(params.path, 'path');
 
-      return await this.request<FileOperationResult>(this.config.url.unzip, {
+      return await this.request<FileOperationResult>(this.config.url.unarchive, {
         method: 'POST',
         body: JSON.stringify({
-          paths: params.path,
+          item: params.item,
+          path: params.path,
         }),
       });
     } catch (error) {

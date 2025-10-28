@@ -17,22 +17,18 @@ const message = ref('');
 const items = ref<any[]>([]);
 
 const unarchive = () => {
-  app.emitter.emit('vf-fetch', {
-    params: {
-      q: 'unarchive',
-      m: 'post',
-      path: currentPath.value.path,
-    },
-    body: {
-      item: item.value.path
-    },
-    onSuccess: () => {
-      app.emitter.emit('vf-toast-push', {label: t('The file unarchived.')});
-    },
-    onError: (e: any) => {
-      message.value = t(e.message);
-    }
-  });
+
+    app.adapter.unarchive({
+        item: item.value.path,
+        path: currentPath.value.path,
+    }).then((result) => {
+        app.emitter.emit('vf-toast-push', {label: t('The file unarchived.')});
+        app.fs.setFiles(result.files);
+        app.modal.close();
+    }).catch((e: any) => {
+        app.emitter.emit('vf-toast-push', {label: t(e.message), type: 'error'});
+    });
+
 };
 
 </script>

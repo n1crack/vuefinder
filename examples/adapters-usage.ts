@@ -24,8 +24,8 @@ const cloudAdapter = new CloudAdapter({
     upload: '/api/files/upload',
     delete: '/api/files/delete',
     rename: '/api/files/rename',
-    zip: '/api/files/zip',
-    unzip: '/api/files/unzip',
+    archive: '/api/files/archive',
+    unarchive: '/api/files/unarchive',
     createFile: '/api/files/create-file',
     createFolder: '/api/files/create-folder',
     preview: '/api/files/preview',
@@ -160,7 +160,7 @@ class MyCustomAdapter extends BaseAdapter {
     throw new Error('Not implemented');
   }
 
-  async unzip() {
+  async unarchive() {
     throw new Error('Not implemented');
   }
 

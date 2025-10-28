@@ -20,8 +20,8 @@ export interface CloudAdapterUrls {
   rename: string;
   copy?: string;
   move?: string;
-  zip: string;
-  unzip: string;
+  archive: string;
+  unarchive: string;
   createFile: string;
   createFolder: string;
   preview: string;
@@ -105,7 +105,9 @@ export interface TransferParams {
  * Parameters for archive operations
  */
 export interface ArchiveParams {
-  path: string[];
+  items: { path: string; type: string }[];
+  path: string;
+  name: string;
 }
 
 /**
@@ -153,12 +155,12 @@ export interface Adapter {
   /**
    * Create a zip archive from files/folders
    */
-  zip(params: ArchiveParams): Promise<FileOperationResult>;
+  archive(params: ArchiveParams): Promise<FileOperationResult>;
 
   /**
    * Extract files from a zip archive
    */
-  unzip(params: ArchiveParams): Promise<FileOperationResult>;
+  unarchive(params: { item: string; path: string }): Promise<FileOperationResult>;
 
   /**
    * Create a new file

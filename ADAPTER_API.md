@@ -26,8 +26,8 @@ const adapter = new CloudAdapter({
     upload: '/api/files/upload',
     delete: '/api/files/delete',
     rename: '/api/files/rename',
-    zip: '/api/files/zip',
-    unzip: '/api/files/unzip',
+    archive: '/api/files/archive',
+    unarchive: '/api/files/unarchive',
     createFile: '/api/files/create-file',
     createFolder: '/api/files/create-folder',
     preview: '/api/files/preview',
@@ -133,11 +133,11 @@ All adapters implement the following methods:
 - **Purpose**: Move files/folders to a destination
 - **Returns**: `Promise<FileOperationResult>`
 
-### zip(params)
+### archive(params)
 - **Purpose**: Create a zip archive from files/folders
 - **Returns**: `Promise<FileOperationResult>`
 
-### unzip(params)
+### unarchive(params)
 - **Purpose**: Extract files from a zip archive
 - **Returns**: `Promise<FileOperationResult>`
 
