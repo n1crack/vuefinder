@@ -199,7 +199,7 @@ export class AdapterManager {
   /**
    * Copy files to a destination
    */
-  async copy(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
+  async copy(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
     const result = await this.adapter.copy(params);
     
     // Invalidate list queries
@@ -211,7 +211,7 @@ export class AdapterManager {
   /**
    * Move files to a destination
    */
-  async move(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
+  async move(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
     const result = await this.adapter.move(params);
     
     // Invalidate list queries

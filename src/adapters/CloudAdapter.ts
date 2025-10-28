@@ -186,15 +186,15 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Copy files/folders to a destination
    */
-  async copy(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
+  async copy(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
     try {
-      this.validateParam(params.path, 'path');
+      this.validateParam(params.sources, 'sources');
       this.validateParam(params.destination, 'destination');
 
-      return await this.request<FileOperationResult>(this.config.url.copy || this.config.url.upload, {
+      return await this.request<FileOperationResult>(this.config.url.copy, {
         method: 'POST',
         body: JSON.stringify({
-          paths: params.path,
+          sources: params.sources,
           destination: params.destination,
         }),
       });
@@ -206,15 +206,15 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Move files/folders to a destination
    */
-  async move(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
+  async move(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
     try {
-      this.validateParam(params.path, 'path');
+      this.validateParam(params.sources, 'sources');
       this.validateParam(params.destination, 'destination');
 
-      return await this.request<FileOperationResult>(this.config.url.move || this.config.url.rename, {
+      return await this.request<FileOperationResult>(this.config.url.move, {
         method: 'POST',
         body: JSON.stringify({
-          paths: params.path,
+          sources: params.sources,
           destination: params.destination,
         }),
       });
@@ -356,7 +356,7 @@ export class CloudAdapter extends BaseAdapter {
    * Search files (GET with query params)
    */
   async search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<import('../types').DirEntry[]> {
-    const base = this.config.url.search || this.config.url.list;
+    const base = this.config.url.search;
     const query = new URLSearchParams();
     if (params.path) query.set('path', params.path);
     if (params.filter) query.set('filter', params.filter);
@@ -375,7 +375,7 @@ export class CloudAdapter extends BaseAdapter {
   async save(params: SaveParams): Promise<string> {
     this.validateParam(params.path, 'path');
 
-    return await this.request(this.config.url.save || this.config.url.createFile, {
+    return await this.request(this.config.url.save, {
       method: 'POST',
       body: JSON.stringify({ path: params.path, content: params.content }),
       headers: this.getHeaders(),

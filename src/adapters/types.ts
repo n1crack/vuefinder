@@ -18,16 +18,16 @@ export interface CloudAdapterUrls {
   upload: string;
   delete: string;
   rename: string;
-  copy?: string;
-  move?: string;
+  copy: string;
+  move: string;
   archive: string;
   unarchive: string;
   createFile: string;
   createFolder: string;
   preview: string;
   download: string;
-  search?: string;
-  save?: string;
+  search: string;
+  save: string;
 }
 
 /**
@@ -99,7 +99,7 @@ export interface RenameParams {
  * Parameters for copy/move operations
  */
 export interface TransferParams {
-  path: string[];
+  sources: string[];
   destination: string;
 }
 

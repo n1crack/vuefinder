@@ -97,9 +97,9 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Copy files/folders to a destination
    */
-  async copy(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
+  async copy(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
     try {
-      this.validateParam(params.path, 'path');
+      this.validateParam(params.sources, 'sources');
       this.validateParam(params.destination, 'destination');
 
       throw new Error('LocalAdapter.copy() is not yet implemented.');
@@ -111,9 +111,9 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Move files/folders to a destination
    */
-  async move(params: { path: string[]; destination: string }): Promise<FileOperationResult> {
+  async move(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
     try {
-      this.validateParam(params.path, 'path');
+      this.validateParam(params.sources, 'sources');
       this.validateParam(params.destination, 'destination');
 
       throw new Error('LocalAdapter.move() is not yet implemented.');

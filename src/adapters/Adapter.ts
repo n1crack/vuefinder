@@ -82,12 +82,12 @@ export abstract class BaseAdapter implements Adapter {
   /**
    * Copy files/folders to a destination
    */
-  abstract copy(params: { path: string[]; destination: string }): Promise<FileOperationResult>;
+  abstract copy(params: { sources: string[]; destination: string }): Promise<FileOperationResult>;
 
   /**
    * Move files/folders to a destination
    */
-  abstract move(params: { path: string[]; destination: string }): Promise<FileOperationResult>;
+  abstract move(params: { sources: string[]; destination: string }): Promise<FileOperationResult>;
 
   /**
    * Create a zip archive from files/folders
