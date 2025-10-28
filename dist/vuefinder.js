@@ -4514,7 +4514,10 @@ function Ed(t) {
     }), m.on("complete", () => {
       D.value = !1;
       const I = p.value || i.value;
-      e.adapter.open(I.path);
+      e.adapter.getQueryClient().invalidateQueries({
+        queryKey: ["adapter", "list", I.path],
+        exact: !1
+      }), e.adapter.open(I.path);
       const V = g.value.filter((W) => W.status === be.DONE).map((W) => W.name);
       e.emitter.emit("vf-upload-complete", V);
     }), d.value?.addEventListener("click", () => c.value?.click()), f.value?.addEventListener("click", () => _.value?.click());
