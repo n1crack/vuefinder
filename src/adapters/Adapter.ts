@@ -4,6 +4,7 @@ import type {
   DeleteResult,
   FileOperationResult,
   FileContentResult,
+  DeleteParams,
 } from './types';
 import type { FsData } from '../types';
 
@@ -70,7 +71,7 @@ export abstract class BaseAdapter implements Adapter {
   /**
    * Delete files/folders
    */
-  abstract delete(params: { path: string[] }): Promise<DeleteResult>;
+  abstract delete(params: DeleteParams): Promise<DeleteResult>;
 
   /**
    * Rename a file or folder

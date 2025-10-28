@@ -81,7 +81,7 @@ export interface UploadParams {
  * Parameters for delete operations
  */
 export interface DeleteParams {
-  path: string[];
+  items: { path: string; type: string }[];
 }
 
 /**

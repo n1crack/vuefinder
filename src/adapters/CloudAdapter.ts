@@ -6,6 +6,7 @@ import type {
   DeleteResult,
   FileOperationResult,
   FileContentResult,
+  DeleteParams,
 } from './types';
 
 /**
@@ -130,18 +131,14 @@ export class CloudAdapter extends BaseAdapter {
   /**
    * Delete files/folders
    */
-  async delete(params: { path: string[] }): Promise<DeleteResult> {
+  async delete(params: DeleteParams): Promise<DeleteResult> {
     try {
-      this.validateParam(params.path, 'path');
+      this.validateParam(params.items, 'items');
       
-      if (!Array.isArray(params.path) || params.path.length === 0) {
-        throw new Error('At least one path must be provided');
-      }
-
       return await this.request<DeleteResult>(this.config.url.delete, {
         method: 'DELETE',
         body: JSON.stringify({
-          paths: params.path,
+          items: params.items,
         }),
       });
     } catch (error) {

@@ -12,27 +12,22 @@ const items = ref(app.modal.data.items);
 const message = ref('');
 
 const remove = () => {
+console.log(items.value.map(({path, type}: { path: string, type: string }) => ({path, type})))
 
   if (items.value.length) {
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'delete',
-        m: 'post',
-        path: currentPath.value.path,
-      },
-      body: {
-        items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),
-      },
-      onSuccess: () => {
-        app.emitter.emit('vf-toast-push', {label: t('Files deleted.')});
-        // Emit delete-complete event with deleted items
-        app.emitter.emit('vf-delete-complete', items.value);
-      },
-      onError: (e: any) => {
-        message.value = t(e.message);
-      }
+    app.adapter.delete({
+      path: currentPath.value.path,
+      items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),
+    }).then((result) => {
+      app.emitter.emit('vf-toast-push', {label: t('Files deleted.')});
+      app.fs.setFiles(result.files);
+      // app.emitter.emit('vf-delete-complete', items.value);
+      app.modal.close();
+    }).catch((e: any) => {
+      app.emitter.emit('vf-toast-push', {label: t(e.message), type: 'error'});
     });
   }
+
 };
 
 </script>

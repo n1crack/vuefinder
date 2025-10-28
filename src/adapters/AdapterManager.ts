@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/vue-query';
-import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult } from './types';
+import type { Adapter, UploadResult, DeleteResult, FileOperationResult, FileContentResult, DeleteParams } from './types';
 import type { FsData } from '../types';
 
 /**
@@ -174,7 +174,7 @@ export class AdapterManager {
   /**
    * Delete files with optimistic updates
    */
-  async delete(params: { path: string[] }): Promise<DeleteResult> {
+  async delete(params: DeleteParams): Promise<DeleteResult> {
     const result = await this.adapter.delete(params);
     
     // Invalidate and refetch list queries
