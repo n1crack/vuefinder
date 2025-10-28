@@ -18,7 +18,6 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 import type {ConfigState} from "@/stores/config.ts";
 import type { StoreValue } from "nanostores";
 import type {CurrentPathState} from "@/stores/files.ts";
-import path from 'path';
 
 const app = inject('ServiceContainer');
 const currentTheme = inject('currentTheme');

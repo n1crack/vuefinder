@@ -11,12 +11,6 @@ import {
   BaseAdapter, 
   AdapterManager 
 } from '../src/adapters';
-import type { 
-  CloudAdapterUrls, 
-  Adapter,
-  AdapterManagerConfig,
-} from '../src/adapters';
-import type { FsData, DirEntry } from '../src/types';
 
 // ============================================================================
 // Example 1: Using CloudAdapter
@@ -42,9 +36,9 @@ const cloudAdapter = new CloudAdapter({
 // Example: List files in a directory
 async function listFiles() {
   try {
+    // Storage is embedded in the path (e.g., "local://path/to/file")
     const data = await cloudAdapter.list({
-      storage: 'media',
-      path: 'public',
+      path: 'local://public',
     });
     
     console.log('Files:', data.files);
@@ -58,8 +52,7 @@ async function listFiles() {
 async function uploadFiles(files: File[]) {
   try {
     const result = await cloudAdapter.upload({
-      storage: 'media',
-      path: 'public/uploads',
+      path: 'local://public/uploads', // Storage in path
       files: files,
     });
     
@@ -73,8 +66,7 @@ async function uploadFiles(files: File[]) {
 async function deleteFiles(paths: string[]) {
   try {
     const result = await cloudAdapter.delete({
-      storage: 'media',
-      path: paths,
+      path: paths, // Paths with storage prefix (e.g., "local://file.txt")
     });
     
     console.log('Deleted files:', result.deleted);
@@ -111,8 +103,9 @@ class MyCustomAdapter extends BaseAdapter {
     this.config = config;
   }
 
-  async list(params?: { storage?: string; path?: string }) {
+  async list(params?: { path?: string }) {
     // Implement your custom list logic
+    // Note: storage is embedded in path (e.g., "local://path")
     const response = await fetch(`${this.config.endpoint}/list`, {
       method: 'POST',
       headers: {
@@ -120,7 +113,6 @@ class MyCustomAdapter extends BaseAdapter {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        storage: params?.storage,
         path: params?.path,
       }),
     });
@@ -128,14 +120,13 @@ class MyCustomAdapter extends BaseAdapter {
     return response.json();
   }
 
-  async upload(params: { storage?: string; path?: string; files: File[] }) {
+  async upload(params: { path?: string; files: File[] }) {
     // Implement your custom upload logic
     const formData = new FormData();
     params.files.forEach((file) => {
       formData.append('files[]', file);
     });
     formData.append('path', params.path || '');
-    formData.append('storage', params.storage || '');
 
     const response = await fetch(`${this.config.endpoint}/upload`, {
       method: 'POST',
@@ -148,44 +139,44 @@ class MyCustomAdapter extends BaseAdapter {
     return response.json();
   }
 
-  // Implement other required methods...
-  async delete(params: { storage?: string; path: string[] }) {
+  // Implement other required methods (implementation skipped for brevity)...
+  async delete() {
     throw new Error('Not implemented');
   }
 
-  async rename(params: { storage?: string; path: string; newName: string }) {
+  async rename() {
     throw new Error('Not implemented');
   }
 
-  async copy(params: { storage?: string; path: string[]; destination: string }) {
+  async copy() {
     throw new Error('Not implemented');
   }
 
-  async move(params: { storage?: string; path: string[]; destination: string }) {
+  async move() {
     throw new Error('Not implemented');
   }
 
-  async zip(params: { storage?: string; path: string[] }) {
+  async zip() {
     throw new Error('Not implemented');
   }
 
-  async unzip(params: { storage?: string; path: string[] }) {
+  async unzip() {
     throw new Error('Not implemented');
   }
 
-  async createFile(params: { storage?: string; path: string; name: string }) {
+  async createFile() {
     throw new Error('Not implemented');
   }
 
-  async createFolder(params: { storage?: string; path: string; name: string }) {
+  async createFolder() {
     throw new Error('Not implemented');
   }
 
-  getPreviewUrl(params: { storage?: string; path: string }): string {
+  getPreviewUrl() {
     return '';
   }
 
-  getDownloadUrl(params: { storage?: string; path: string }): string {
+  getDownloadUrl() {
     return '';
   }
 }
@@ -241,32 +232,48 @@ const manager = new AdapterManager(cloudAdapter, {
   refetchOnWindowFocus: false,
   staleTime: 5 * 60 * 1000, // 5 minutes
   retry: 2,
+  // Optional: Add callbacks for state updates (useful in VueFinder)
+  // onBeforeOpen: () => { /* set loading state */ },
+  // onAfterOpen: (data) => { /* update state */ },
 });
 
 // Using the manager - it automatically caches results
 async function listFilesWithCache() {
-  const data = await manager.list('media', 'public');
+  // Path includes storage (e.g., "local://public")
+  const data = await manager.list('local://public');
   console.log('Files from cache or fresh fetch:', data);
   
   // Subsequent calls will use cached data if available and not stale
-  const cachedData = await manager.list('media', 'public');
+  const cachedData = await manager.list('local://public');
   console.log('This might be from cache:', cachedData);
+  
+  return data;
+}
+
+// Using open() to fetch and update state (if callbacks are set)
+async function openPath() {
+  // open() calls onAfterOpen callback if provided
+  const data = await manager.open('local://public');
+  console.log('Opened path:', data);
+  
+  return data;
 }
 
 // Invalidate and refetch
 async function refreshFiles() {
-  manager.removeQuery('media', 'public');
-  const freshData = await manager.list('media', 'public');
+  manager.removeQuery('local://public');
+  const freshData = await manager.list('local://public');
   console.log('Fresh data:', freshData);
+  
+  return freshData;
 }
 
 // Use with Vue composition API
-import { useQuery, useMutation } from '@tanstack/vue-query';
-
 // In a Vue component:
+// import { useQuery } from '@tanstack/vue-query';
 // const { data, isLoading, error } = useQuery({
-//   queryKey: ['files', storage, path],
-//   queryFn: () => manager.list(storage, path),
+//   queryKey: ['files', path],
+//   queryFn: () => manager.list(path),
 // });
 
 export {
@@ -278,6 +285,7 @@ export {
   uploadFiles,
   deleteFiles,
   listFilesWithCache,
+  openPath,
   refreshFiles,
 };
 

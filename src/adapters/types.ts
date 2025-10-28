@@ -56,9 +56,10 @@ export interface DeleteResult {
  * Response from file operations
  */
 export interface FileOperationResult {
-  success: boolean;
-  message?: string;
-  data?: unknown;
+  files: DirEntry[];
+  storages: Storage[];
+  read_only: boolean;
+  dirname: string;
 }
 
 /**

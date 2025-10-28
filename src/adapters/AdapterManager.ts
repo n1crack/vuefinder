@@ -268,13 +268,6 @@ export class AdapterManager {
   }
 
   /**
-   * Get preview URL
-   */
-  getPreviewUrl(params: { path: string }): string {
-    return this.adapter.getPreviewUrl(params);
-  }
-
-  /**
    * Get file content (cached)
    */
   async getContent(params: { path: string }): Promise<FileContentResult> {
@@ -286,6 +279,14 @@ export class AdapterManager {
       queryFn: () => this.adapter.getContent(params),
       staleTime: this.config.staleTime,
     });
+  }
+
+
+  /**
+   * Get preview URL
+   */
+  getPreviewUrl(params: { path: string }): string {
+    return this.adapter.getPreviewUrl(params);
   }
 
   /**
