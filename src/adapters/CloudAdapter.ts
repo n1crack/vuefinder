@@ -171,7 +171,7 @@ export class CloudAdapter extends BaseAdapter {
       this.validatePath(params.path);
 
       return await this.request<FileOperationResult>(this.config.url.rename, {
-        method: 'PUT',
+        method: 'POST',
         body: JSON.stringify({
           path: params.path,
           item: params.item,
@@ -212,7 +212,7 @@ export class CloudAdapter extends BaseAdapter {
       this.validateParam(params.destination, 'destination');
 
       return await this.request<FileOperationResult>(this.config.url.move || this.config.url.rename, {
-        method: 'PUT',
+        method: 'POST',
         body: JSON.stringify({
           paths: params.path,
           destination: params.destination,
