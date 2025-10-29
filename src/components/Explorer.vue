@@ -460,7 +460,7 @@ const handleItemDragEnd = () => {
           @click.self="handleContentClick"
       >
         <div ref="dragImage" class="vuefinder__explorer__drag-item">
-          <DragItem :count="currentDragKey && selectedKeys.value?.has(currentDragKey) ? selectedKeys.value?.size : 1"/>
+          <DragItem :count="currentDragKey && selectedKeys.has(currentDragKey) ? selectedKeys.size : 1"/>
         </div>
 
         <!-- Grid View -->
