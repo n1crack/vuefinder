@@ -103,6 +103,7 @@ export const menuItems: Item[] = [
     title: ({t}) => t('Refresh'),
     action: (app) => {
       const fs = app.fs;
+      app.adapter.invalidateListQuery(fs.path.get().path);
       app.adapter.open(fs.path.get().path);
     },
     show: showIfAny(showIf({target: 'none'}), showIf({target: 'many'}))

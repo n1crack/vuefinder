@@ -310,6 +310,12 @@ export class AdapterManager {
     });
   }
 
+  invalidateListQuery(path?: string): void {
+    this.queryClient.invalidateQueries({
+      queryKey: ['adapter', 'list', path],
+      exact: true,
+    });
+  }
 
   /**
    * Clear all cached queries

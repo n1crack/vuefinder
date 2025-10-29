@@ -492,6 +492,12 @@ class No {
       exact: !1
     });
   }
+  invalidateListQuery(e) {
+    this.queryClient.invalidateQueries({
+      queryKey: ["adapter", "list", e],
+      exact: !0
+    });
+  }
   /**
    * Clear all cached queries
    */
@@ -4514,10 +4520,7 @@ function Dd(t) {
     }), m.on("complete", () => {
       E.value = !1;
       const I = p.value || i.value;
-      e.adapter.getQueryClient().invalidateQueries({
-        queryKey: ["adapter", "list", I.path],
-        exact: !0
-      }), e.adapter.open(I.path);
+      e.adapter.invalidateListQuery(I.path), e.adapter.open(I.path);
       const V = g.value.filter((W) => W.status === be.DONE).map((W) => W.name);
       e.emitter.emit("vf-upload-complete", V);
     }), d.value?.addEventListener("click", () => c.value?.click()), f.value?.addEventListener("click", () => _.value?.click());
@@ -6059,7 +6062,7 @@ const tv = { class: "vuefinder__breadcrumb__container" }, nv = ["title"], ov = [
       return E.value[F] ?? $;
     }
     const A = () => {
-      e.adapter.open(u.value.path);
+      e.adapter.invalidateListQuery(u.value.path), e.adapter.open(u.value.path);
     }, H = () => {
       p.value.length > 0 && e.adapter.open(E.value[E.value.length - 2]?.path ?? (u.value?.storage ?? "local") + "://");
     }, U = (F) => {
@@ -7619,7 +7622,7 @@ const e_ = [
     title: ({ t }) => t("Refresh"),
     action: (t) => {
       const e = t.fs;
-      t.adapter.open(e.path.get().path);
+      t.adapter.invalidateListQuery(e.path.get().path), t.adapter.open(e.path.get().path);
     },
     show: st(ge({ target: "none" }), ge({ target: "many" }))
   },

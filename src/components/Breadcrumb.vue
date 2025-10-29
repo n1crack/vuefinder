@@ -112,6 +112,7 @@ function getBreadcrumb(index: number | null = null) {
 }
 
 const handleRefresh = () => {
+  app.adapter.invalidateListQuery(currentPath.value.path)
   app.adapter.open(currentPath.value.path)
 }
 
