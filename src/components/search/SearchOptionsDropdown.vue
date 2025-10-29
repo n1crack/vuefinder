@@ -86,6 +86,7 @@ const setupDropdownPositioning = async () => {
   try {
     const { x, y } = await computePosition(dropdownBtn.value, dropdownContent.value, {
       placement: 'bottom-start',
+      strategy: 'fixed',
       middleware: [
         offset(8),
         flip({ padding: 16 }),
@@ -121,6 +122,7 @@ const setupDropdownPositioning = async () => {
       try {
         const { x: newX, y: newY } = await computePosition(dropdownBtn.value, dropdownContent.value, {
           placement: 'bottom-start',
+          strategy: 'fixed',
           middleware: [
             offset(8),
             flip({ padding: 16 }),
