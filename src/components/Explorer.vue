@@ -7,7 +7,8 @@ import {useSelection} from '../composables/useSelection';
 import SortIcon from './SortIcon.vue';
 import DragItem from './DragItem.vue';
 import FileRow from './FileRow.vue';
-import type {ServiceContainer, DirEntry} from '../types';
+import type {DirEntry, App} from '../types';
+import type { Item as ContextMenuItem } from '../utils/contextmenu';
 import LazyLoad, {type ILazyLoadInstance} from 'vanilla-lazyload';
 import Toast from './Toast.vue';
 import {useDragNDrop} from '../composables/useDragNDrop';
@@ -22,7 +23,7 @@ const props = defineProps<{
   onFolderDclick?: (item: DirEntry) => void;
 }>();
 
-const app = inject('ServiceContainer') as ServiceContainer;
+const app = inject('ServiceContainer');
 const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
 const selectionObject = shallowRef<SelectionArea | null>(null);
@@ -275,15 +276,14 @@ const openItem = (item: DirEntry) => {
   }
   
   // Default behavior - execute context menu action
-  const contextMenuItem = app.contextMenuItems.find((cmi: {
-    show: (app: ServiceContainer, args: { items: DirEntry[]; target: DirEntry }) => boolean;
-    action: (app: ServiceContainer, items: DirEntry[]) => void
-  }) => {
+  const contextMenuItem = app.contextMenuItems?.find((cmi: ContextMenuItem) => {
     return cmi.show(app, {
       items: [item],
       target: item,
+      searchQuery: ''
     })
   })
+
   if (contextMenuItem) {
     contextMenuItem.action(app, [item]);
   }

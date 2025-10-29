@@ -3,7 +3,7 @@ import { inject, computed, ref } from 'vue';
 import ItemIcon from './ItemIcon.vue';
 import PinSVG from "../assets/icons/pin.svg";
 import title_shorten from '../utils/title_shorten';
-import type { ServiceContainer, DirEntry } from '../types';
+import type { DirEntry } from '../types';
 import LockSVG from "../assets/icons/lock.svg";
 
 const props = defineProps<{

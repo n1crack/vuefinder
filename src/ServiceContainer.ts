@@ -13,19 +13,20 @@ import { AdapterManager } from "./adapters";
 import type { Theme } from "./stores/theme.ts";
 import { useTheme } from "./composables/useTheme";
 import type {App} from "@/types.ts";
+import type { Item as ContextMenuItem } from "./utils/contextmenu";
 
 interface ServiceContainerProps {
     id: string;
     adapter: Adapter;
     config?: ConfigDefaults;
-    features?: unknown;
+    features?: boolean | string[];
     debug: boolean;
     theme?: Theme;
     locale?: string;
     selectionMode?: "single" | "multiple";
     selectionFilterType?: 'files' | 'dirs' | 'both';
     selectionFilterMimeIncludes?: string[];
-    contextMenuItems?: unknown[];
+    contextMenuItems?: ContextMenuItem[];
 }
 
 export default (props: ServiceContainerProps, options: Record<string, unknown>) => {
