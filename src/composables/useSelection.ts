@@ -108,11 +108,29 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	};
 
     const deltaY = ref(0);
+
+    // Normalize pointer position from mouse or touch events
+    const getClientPoint = (rawEvent: Event): { x: number; y: number } | null => {
+        const ev = rawEvent as unknown as TouchEvent | MouseEvent | undefined;
+        if (ev && 'touches' in ev) {
+            const t = ev.touches?.[0];
+            if (t) return { x: t.clientX, y: t.clientY };
+        }
+        if (ev && 'changedTouches' in ev) {
+            const ct = ev.changedTouches?.[0];
+            if (ct) return { x: ct.clientX, y: ct.clientY };
+        }
+        if (ev && 'clientX' in (ev as MouseEvent) && 'clientY' in (ev as MouseEvent)) {
+            const me = ev as MouseEvent;
+            return { x: me.clientX, y: me.clientY };
+        }
+        return null;
+    };
     
     const onStart = ({ event, selection }: SelectionEvent) => {
         deltaY.value =  (selectionObject.value?.getAreaLocation().y1 ?? 0) - ((app.root as HTMLElement).getBoundingClientRect().top ?? 0) 
 
-        const selectionAreaContainerElement = document.querySelector('.selection-area-container');
+        const selectionAreaContainerElement = document.querySelector('.selection-area-container') as HTMLElement | null;
         if (selectionAreaContainerElement) {
             selectionAreaContainerElement.dataset.theme = getCurrentTheme();
         }
@@ -124,30 +142,32 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         const maybeTouch = event as unknown as TouchEvent | MouseEvent | undefined;
         if (maybeTouch && 'type' in maybeTouch && maybeTouch.type === 'touchend') {
             maybeTouch.preventDefault();
-		}
+        }
         const mouse = event as MouseEvent | null;
-		if (!mouse?.ctrlKey && !mouse?.metaKey) {
+        if (!mouse?.ctrlKey && !mouse?.metaKey) {
 			fs.clearSelection();
 			selection.clearSelection(true, true);
 		}
 		tempSelection.value.clear();
 		
-		// Calculate start position from mouse coordinates
-		if (mouse && selectionObject.value) {
-			const container = selectionObject.value.getSelectables()[0]?.closest('.scroller-' + explorerId ) as HTMLElement;
-			if (container) {
-				const rect = container.getBoundingClientRect();
-				const relativeY = mouse.clientY - rect.top + container.scrollTop;
-				const relativeX = mouse.clientX - rect.left;
-				
-				// Find the row and column based on mouse position
-				const row = Math.floor(relativeY / rowHeight.value);
-				const col = Math.floor(relativeX / itemWidth);
-				
-				startPosition.value = { row, col };
-
-			}
-		}
+        // Calculate start position from pointer (mouse or touch) coordinates
+        if (selectionObject.value) {
+            const container = selectionObject.value.getSelectables()[0]?.closest('.scroller-' + explorerId ) as HTMLElement;
+            if (container) {
+                const rect = container.getBoundingClientRect();
+                const point = getClientPoint(event as unknown as Event);
+                if (point) {
+                    const relativeY = point.y - rect.top + container.scrollTop;
+                    const relativeX = point.x - rect.left;
+                    
+                    // Find the row and column based on pointer position
+                    const row = Math.floor(relativeY / rowHeight.value);
+                    const col = Math.floor(relativeX / itemWidth);
+                    
+                    startPosition.value = { row, col };
+                }
+            }
+        }
 	};
 
     const onMove = (event: SelectionEvent) => {
@@ -280,8 +300,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 	const updateSelectionArea = () => {
 		if (selectionObject.value) {
 			// Clean up selections that are no longer valid
-			const currentSelection = Array.from(selectedKeys.value || []);
-			currentSelection.forEach((key: string) => {
+            const currentSelection: string[] = Array.from((selectedKeys.value ?? new Set<string>()) as Set<string>);
+            currentSelection.forEach((key) => {
 				if (!isItemSelectable(key)) {
 					fs.deselect(key);
 				}
