@@ -16,6 +16,8 @@ import ModalMove from "./modals/ModalMove.vue";
 import ModalCopy from "./modals/ModalCopy.vue";
 import ModalPreview from "./modals/ModalPreview.vue";
 import ModalSearch from './modals/ModalSearch.vue';
+import ModalSettings from './modals/ModalSettings.vue';
+import ModalShortcuts from './modals/ModalShortcuts.vue';
 
 const app = inject('ServiceContainer');
 if (!app) {
@@ -387,13 +389,13 @@ const menuItems = computed(() => [
       {
         id: 'settings',
         label: t('Settings'),
-        action: async () => app?.modal?.open((await import('./modals/ModalSettings.vue')).default),
+        action: () => app?.modal?.open(ModalSettings),
         enabled: () => true
       },
       {
         id: 'shortcuts',
         label: t('Shortcuts'),
-        action: async () => app?.modal?.open((await import('./modals/ModalShortcuts.vue')).default),
+        action: () => app?.modal?.open(ModalShortcuts),
         enabled: () => true
       },
       {

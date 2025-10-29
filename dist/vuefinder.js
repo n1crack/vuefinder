@@ -1,15 +1,15 @@
-import { reactive as Dt, watch as ue, ref as E, shallowRef as An, computed as G, unref as o, markRaw as _o, useTemplateRef as Ke, defineComponent as X, inject as Z, onMounted as fe, nextTick as Re, createElementBlock as h, openBlock as u, withKeys as vt, createElementVNode as s, createCommentVNode as I, withModifiers as re, renderSlot as De, toDisplayString as b, createBlock as V, resolveDynamicComponent as Mn, onUnmounted as ke, normalizeClass as q, withCtx as Q, createVNode as R, Fragment as de, renderList as ve, createTextVNode as J, withDirectives as me, vModelSelect as qt, vModelText as ft, resolveComponent as In, vModelCheckbox as Jt, customRef as mo, Teleport as Et, normalizeStyle as He, isRef as po, onBeforeUnmount as ho, vModelRadio as Kt, mergeProps as Te, toHandlers as We, vShow as ze, normalizeProps as rt, guardReactiveProps as dt, TransitionGroup as go, onUpdated as wo, mergeModels as yo, useModel as On, provide as bo, Transition as ko } from "vue";
-import { useStore as W } from "@nanostores/vue";
-import xo from "mitt";
-import { persistentAtom as $o } from "@nanostores/persistent";
+import { reactive as Dt, watch as ue, ref as E, shallowRef as An, computed as Y, unref as o, markRaw as mo, useTemplateRef as Ke, defineComponent as Q, inject as J, onMounted as ve, nextTick as Re, createElementBlock as w, openBlock as v, withKeys as vt, createElementVNode as s, createCommentVNode as T, withModifiers as ae, renderSlot as De, toDisplayString as b, createBlock as R, resolveDynamicComponent as Mn, withCtx as q, createVNode as O, Fragment as de, renderList as fe, createTextVNode as ne, withDirectives as me, vModelText as ft, resolveComponent as Tn, normalizeClass as W, vModelCheckbox as Jt, customRef as po, onUnmounted as xe, Teleport as Et, normalizeStyle as He, isRef as ho, onBeforeUnmount as go, vModelSelect as qt, vModelRadio as Kt, mergeProps as Te, toHandlers as je, vShow as ze, normalizeProps as at, guardReactiveProps as dt, TransitionGroup as wo, onUpdated as yo, mergeModels as bo, useModel as In, provide as xo, Transition as ko } from "vue";
+import { useStore as j } from "@nanostores/vue";
+import $o from "mitt";
+import { persistentAtom as Co } from "@nanostores/persistent";
 import { atom as Ce, computed as qe } from "nanostores";
-import { QueryClient as Co } from "@tanstack/vue-query";
-import { Cropper as So } from "vue-advanced-cropper";
-import Rn from "vanilla-lazyload";
-import { OverlayScrollbars as Tt } from "overlayscrollbars";
-import Fo from "@uppy/core";
-import Do from "@viselect/vanilla";
-function Eo(t) {
+import { QueryClient as So } from "@tanstack/vue-query";
+import { Cropper as Fo } from "vue-advanced-cropper";
+import On from "vanilla-lazyload";
+import { OverlayScrollbars as At } from "overlayscrollbars";
+import Do from "@uppy/core";
+import Eo from "@viselect/vanilla";
+function Ao(t) {
   let e = localStorage.getItem(t + "_storage");
   const n = Dt(JSON.parse(e ?? "{}"));
   ue(n, l);
@@ -19,36 +19,36 @@ function Eo(t) {
   function i(d, _) {
     n[d] = _;
   }
-  function r(d) {
+  function a(d) {
     delete n[d];
   }
-  function a() {
-    Object.keys(n).forEach((d) => r(d));
+  function r() {
+    Object.keys(n).forEach((d) => a(d));
   }
-  return { getStore: (d, _ = null) => d in n ? n[d] : _, setStore: i, removeStore: r, clearStore: a };
+  return { getStore: (d, _ = null) => d in n ? n[d] : _, setStore: i, removeStore: a, clearStore: r };
 }
-async function To(t, e) {
+async function Mo(t, e) {
   const n = e[t];
   return typeof n == "function" ? (await n()).default : n;
 }
-function Ao(t, e, n, l) {
-  const { getStore: i, setStore: r } = t, a = E({}), v = E(i("locale", e)), d = (f, p = e) => {
-    To(f, l).then((y) => {
-      a.value = y, r("locale", f), v.value = f, r("translations", y), Object.values(l).length > 1 && (n.emit("vf-toast-push", { label: "The language is set to " + f }), n.emit("vf-language-saved"));
+function To(t, e, n, l) {
+  const { getStore: i, setStore: a } = t, r = E({}), f = E(i("locale", e)), d = (u, h = e) => {
+    Mo(u, l).then((y) => {
+      r.value = y, a("locale", u), f.value = u, a("translations", y), Object.values(l).length > 1 && (n.emit("vf-toast-push", { label: "The language is set to " + u }), n.emit("vf-language-saved"));
     }).catch((y) => {
-      p ? (n.emit("vf-toast-push", { label: "The selected locale is not yet supported!", type: "error" }), d(p, null)) : (console.error(y), n.emit("vf-toast-push", { label: "Locale cannot be loaded!", type: "error" }));
+      h ? (n.emit("vf-toast-push", { label: "The selected locale is not yet supported!", type: "error" }), d(h, null)) : (console.error(y), n.emit("vf-toast-push", { label: "Locale cannot be loaded!", type: "error" }));
     });
   };
-  ue(v, (f) => {
-    d(f);
-  }), !i("locale") && !Object.keys(l).length ? d(e) : a.value = i("translations");
-  const _ = (f, ...p) => p.length ? _(f = f.replace("%s", String(p.shift())), ...p) : f;
-  function c(f, ...p) {
-    return a.value && Object.prototype.hasOwnProperty.call(a.value, f) ? _(a.value[f] || f, ...p) : _(f, ...p);
+  ue(f, (u) => {
+    d(u);
+  }), !i("locale") && !Object.keys(l).length ? d(e) : r.value = i("translations");
+  const _ = (u, ...h) => h.length ? _(u = u.replace("%s", String(h.shift())), ...h) : u;
+  function c(u, ...h) {
+    return r.value && Object.prototype.hasOwnProperty.call(r.value, u) ? _(r.value[u] || u, ...h) : _(u, ...h);
   }
-  return Dt({ t: c, locale: v });
+  return Dt({ t: c, locale: f });
 }
-const ne = {
+const te = {
   EDIT: "edit",
   NEW_FILE: "newfile",
   NEW_FOLDER: "newfolder",
@@ -64,31 +64,31 @@ const ne = {
   LANGUAGE: "language",
   MOVE: "move",
   COPY: "copy"
-}, Mo = Object.values(ne), Io = "4.0.0-dev";
+}, Io = Object.values(te), Oo = "4.0.0-dev";
 function Zt(t, e, n, l, i) {
   return e = Math, n = e.log, l = 1024, i = n(t) / n(l) | 0, (t / e.pow(l, i)).toFixed(0) + " " + (i ? "KMGTPEZY"[--i] + "iB" : "B");
 }
 function Ln(t, e, n, l, i) {
   return e = Math, n = e.log, l = 1e3, i = n(t) / n(l) | 0, (t / e.pow(l, i)).toFixed(0) + " " + (i ? "KMGTPEZY"[--i] + "B" : "B");
 }
-function Oo(t) {
+function Lo(t) {
   if (typeof t == "number") return t;
   const e = { k: 1, m: 2, g: 3, t: 4 }, l = /(\d+(?:\.\d+)?)\s?(k|m|g|t)?b?/i.exec(t);
   if (!l) return 0;
-  const i = parseFloat(l[1] || "0"), r = (l[2] || "").toLowerCase(), a = e[r] ?? 0;
-  return Math.round(i * Math.pow(1024, a));
+  const i = parseFloat(l[1] || "0"), a = (l[2] || "").toLowerCase(), r = e[a] ?? 0;
+  return Math.round(i * Math.pow(1024, r));
 }
 function Ro() {
   const t = An(null), e = E(!1), n = E(), l = E(!1);
-  return { visible: e, type: t, data: n, open: (v, d = null) => {
-    document.querySelector("body").style.overflow = "hidden", e.value = !0, t.value = v, n.value = d;
+  return { visible: e, type: t, data: n, open: (f, d = null) => {
+    document.querySelector("body").style.overflow = "hidden", e.value = !0, t.value = f, n.value = d;
   }, close: () => {
     document.querySelector("body").style.overflow = "", e.value = !1, t.value = null;
-  }, setEditMode: (v) => {
-    l.value = v;
+  }, setEditMode: (f) => {
+    l.value = f;
   }, editMode: l };
 }
-const Wt = {
+const jt = {
   view: "grid",
   theme: void 0,
   fullScreen: !1,
@@ -103,216 +103,216 @@ const Wt = {
   loadingIndicator: "circular",
   maxFileSize: null,
   pinnedFolders: []
-}, Lo = (t, e = {}) => {
-  const n = `vuefinder_config_${t}`, l = $o(n, { ...Wt, ...e }, {
+}, Vo = (t, e = {}) => {
+  const n = `vuefinder_config_${t}`, l = Co(n, { ...jt, ...e }, {
     encode: JSON.stringify,
     decode: JSON.parse
   }), i = (c = {}) => {
-    const f = l.get(), p = { ...Wt, ...c, ...f };
-    l.set(p);
-  }, r = (c) => l.get()[c], a = () => l.get(), v = (c, f) => {
-    const p = l.get();
-    typeof c == "object" && c !== null ? l.set({ ...p, ...c }) : l.set({ ...p, [c]: f });
+    const u = l.get(), h = { ...jt, ...c, ...u };
+    l.set(h);
+  }, a = (c) => l.get()[c], r = () => l.get(), f = (c, u) => {
+    const h = l.get();
+    typeof c == "object" && c !== null ? l.set({ ...h, ...c }) : l.set({ ...h, [c]: u });
   };
   return {
     // Store atom
     state: l,
     // Methods
     init: i,
-    get: r,
-    set: v,
+    get: a,
+    set: f,
     toggle: (c) => {
-      const f = l.get();
-      v(c, !f[c]);
+      const u = l.get();
+      f(c, !u[c]);
     },
-    all: a,
+    all: r,
     reset: () => {
-      l.set({ ...Wt });
+      l.set({ ...jt });
     }
   };
 };
-function Vo(t, e) {
+function Po(t, e) {
   if (typeof t == "string" && typeof e == "string")
     return t.toLowerCase().localeCompare(e.toLowerCase());
   const n = Number(t) || 0, l = Number(e) || 0;
   return n === l ? 0 : n < l ? -1 : 1;
 }
-const Po = () => {
-  const t = Ce(""), e = Ce([]), n = Ce(!1), l = Ce([]), i = Ce({ active: !1, column: "", order: "" }), r = Ce({
+const Bo = () => {
+  const t = Ce(""), e = Ce([]), n = Ce(!1), l = Ce([]), i = Ce({ active: !1, column: "", order: "" }), a = Ce({
     kind: "all",
     showHidden: !1
-  }), a = Ce(/* @__PURE__ */ new Set()), v = Ce({
+  }), r = Ce(/* @__PURE__ */ new Set()), f = Ce({
     type: "copy",
     path: "",
     items: /* @__PURE__ */ new Set()
-  }), d = Ce(null), _ = Ce(0), c = Ce(!1), f = Ce([]), p = Ce(-1), y = qe([t], (O) => {
-    const L = (O || "local://").trim(), N = L.indexOf("://"), K = N >= 0 ? L.slice(0, N) : "", xe = (N >= 0 ? L.slice(N + 3) : L).split("/").filter(Boolean);
+  }), d = Ce(null), _ = Ce(0), c = Ce(!1), u = Ce([]), h = Ce(-1), y = qe([t], (I) => {
+    const V = (I || "local://").trim(), N = V.indexOf("://"), K = N >= 0 ? V.slice(0, N) : "", ke = (N >= 0 ? V.slice(N + 3) : V).split("/").filter(Boolean);
     let $e = "";
-    const Ut = xe.map((Ee) => ($e = $e ? `${$e}/${Ee}` : Ee, { basename: Ee, name: Ee, path: K ? `${K}://${$e}` : $e, type: "dir" }));
-    return { storage: K, breadcrumb: Ut, path: L };
-  }), D = qe([l, i, r], (O, L, N) => {
-    let K = O;
-    N.kind === "files" ? K = K.filter((Ee) => Ee.type === "file") : N.kind === "folders" && (K = K.filter((Ee) => Ee.type === "dir")), N.showHidden || (K = K.filter((Ee) => !Ee.basename.startsWith(".")));
-    const { active: ge, column: xe, order: $e } = L;
-    if (!ge || !xe) return K;
+    const Ut = ke.map((Ae) => ($e = $e ? `${$e}/${Ae}` : Ae, { basename: Ae, name: Ae, path: K ? `${K}://${$e}` : $e, type: "dir" }));
+    return { storage: K, breadcrumb: Ut, path: V };
+  }), F = qe([l, i, a], (I, V, N) => {
+    let K = I;
+    N.kind === "files" ? K = K.filter((Ae) => Ae.type === "file") : N.kind === "folders" && (K = K.filter((Ae) => Ae.type === "dir")), N.showHidden || (K = K.filter((Ae) => !Ae.basename.startsWith(".")));
+    const { active: ge, column: ke, order: $e } = V;
+    if (!ge || !ke) return K;
     const Ut = $e === "asc" ? 1 : -1;
-    return K.slice().sort((Ee, fo) => Vo(Ee[xe], fo[xe]) * Ut);
-  }), w = qe([l, a], (O, L) => L.size === 0 ? [] : O.filter((N) => L.has(N.path))), g = (O, L) => {
+    return K.slice().sort((Ae, _o) => Po(Ae[ke], _o[ke]) * Ut);
+  }), g = qe([l, r], (I, V) => V.size === 0 ? [] : I.filter((N) => V.has(N.path))), p = (I, V) => {
     const N = t.get();
-    if ((L ?? !0) && N !== O) {
-      const K = f.get(), ge = p.get();
-      ge < K.length - 1 && K.splice(ge + 1), K.length === 0 && N && K.push(N), K.push(O), f.set([...K]), p.set(K.length - 1);
+    if ((V ?? !0) && N !== I) {
+      const K = u.get(), ge = h.get();
+      ge < K.length - 1 && K.splice(ge + 1), K.length === 0 && N && K.push(N), K.push(I), u.set([...K]), h.set(K.length - 1);
     }
-    t.set(O);
-  }, m = (O) => {
-    l.set(O ?? []);
-  }, $ = (O) => {
-    e.set(O ?? []);
-  }, k = (O, L) => {
-    i.set({ active: !0, column: O, order: L });
-  }, C = (O) => {
-    const L = i.get();
-    L.active && L.column === O ? i.set({
-      active: L.order === "asc",
-      column: O,
+    t.set(I);
+  }, m = (I) => {
+    l.set(I ?? []);
+  }, $ = (I) => {
+    e.set(I ?? []);
+  }, k = (I, V) => {
+    i.set({ active: !0, column: I, order: V });
+  }, D = (I) => {
+    const V = i.get();
+    V.active && V.column === I ? i.set({
+      active: V.order === "asc",
+      column: I,
       order: "desc"
     }) : i.set({
       active: !0,
-      column: O,
+      column: I,
       order: "asc"
     });
-  }, M = () => {
+  }, L = () => {
     i.set({ active: !1, column: "", order: "" });
-  }, A = (O, L) => {
-    r.set({ kind: O, showHidden: L });
+  }, M = (I, V) => {
+    a.set({ kind: I, showHidden: V });
   }, B = () => {
-    r.set({ kind: "all", showHidden: !1 });
-  }, U = (O, L = "multiple") => {
-    const N = new Set(a.get());
-    L === "single" && N.clear(), N.add(O), a.set(N), _.set(N.size);
-  }, z = (O) => {
-    const L = new Set(a.get());
-    L.delete(O), a.set(L), _.set(L.size);
-  }, oe = (O) => a.get().has(O), ie = (O, L = "multiple") => {
-    const N = new Set(a.get());
-    N.has(O) ? N.delete(O) : (L === "single" && N.clear(), N.add(O)), a.set(N), _.set(N.size);
-  }, he = (O = "multiple", L) => {
-    if (O === "single") {
+    a.set({ kind: "all", showHidden: !1 });
+  }, U = (I, V = "multiple") => {
+    const N = new Set(r.get());
+    V === "single" && N.clear(), N.add(I), r.set(N), _.set(N.size);
+  }, z = (I) => {
+    const V = new Set(r.get());
+    V.delete(I), r.set(V), _.set(V.size);
+  }, oe = (I) => r.get().has(I), ie = (I, V = "multiple") => {
+    const N = new Set(r.get());
+    N.has(I) ? N.delete(I) : (V === "single" && N.clear(), N.add(I)), r.set(N), _.set(N.size);
+  }, he = (I = "multiple", V) => {
+    if (I === "single") {
       const N = l.get()[0];
       if (N) {
         const K = N.path;
-        a.set(/* @__PURE__ */ new Set([K])), _.set(1);
+        r.set(/* @__PURE__ */ new Set([K])), _.set(1);
       }
-    } else if (L?.selectionFilterType || L?.selectionFilterMimeIncludes && L.selectionFilterMimeIncludes.length > 0) {
+    } else if (V?.selectionFilterType || V?.selectionFilterMimeIncludes && V.selectionFilterMimeIncludes.length > 0) {
       const N = l.get().filter((K) => {
-        const ge = L.selectionFilterType, xe = L.selectionFilterMimeIncludes;
-        return ge === "files" && K.type === "dir" || ge === "dirs" && K.type === "file" ? !1 : xe && Array.isArray(xe) && xe.length > 0 && K.type !== "dir" ? K.mime_type ? xe.some(($e) => K.mime_type?.startsWith($e)) : !1 : !0;
+        const ge = V.selectionFilterType, ke = V.selectionFilterMimeIncludes;
+        return ge === "files" && K.type === "dir" || ge === "dirs" && K.type === "file" ? !1 : ke && Array.isArray(ke) && ke.length > 0 && K.type !== "dir" ? K.mime_type ? ke.some(($e) => K.mime_type?.startsWith($e)) : !1 : !0;
       }).map((K) => K.path);
-      a.set(new Set(N)), _.set(N.length);
+      r.set(new Set(N)), _.set(N.length);
     } else {
       const N = new Set(l.get().map((K) => K.path));
-      a.set(N), _.set(N.size);
+      r.set(N), _.set(N.size);
     }
-  }, ee = () => {
-    a.set(/* @__PURE__ */ new Set()), _.set(0);
-  }, le = (O) => {
-    const L = new Set(O ?? []);
-    a.set(L), _.set(L.size);
-  }, _e = (O) => {
-    _.set(O);
-  }, Y = (O) => {
-    c.set(!!O);
-  }, S = () => c.get(), x = (O, L) => {
-    const N = l.get().filter((K) => L.has(K.path));
-    v.set({
-      type: O,
+  }, Z = () => {
+    r.set(/* @__PURE__ */ new Set()), _.set(0);
+  }, le = (I) => {
+    const V = new Set(I ?? []);
+    r.set(V), _.set(V.size);
+  }, _e = (I) => {
+    _.set(I);
+  }, X = (I) => {
+    c.set(!!I);
+  }, C = () => c.get(), x = (I, V) => {
+    const N = l.get().filter((K) => V.has(K.path));
+    f.set({
+      type: I,
       path: y.get().path,
       items: new Set(N)
     });
-  }, F = (O) => qe([v], (L) => L.type === "cut" && Array.from(L.items).some((N) => N.path === O)), T = (O) => qe([v], (L) => L.type === "copy" && Array.from(L.items).some((N) => N.path === O)), H = (O) => {
-    const L = F(O);
-    return W(L).value ?? !1;
-  }, j = (O) => {
-    const L = T(O);
-    return W(L).value ?? !1;
+  }, S = (I) => qe([f], (V) => V.type === "cut" && Array.from(V.items).some((N) => N.path === I)), A = (I) => qe([f], (V) => V.type === "copy" && Array.from(V.items).some((N) => N.path === I)), H = (I) => {
+    const V = S(I);
+    return j(V).value ?? !1;
+  }, G = (I) => {
+    const V = A(I);
+    return j(V).value ?? !1;
   }, pe = () => {
-    v.set({ type: "copy", path: "", items: /* @__PURE__ */ new Set() });
-  }, ce = () => v.get(), Be = (O) => {
-    d.set(O);
+    f.set({ type: "copy", path: "", items: /* @__PURE__ */ new Set() });
+  }, ce = () => f.get(), Be = (I) => {
+    d.set(I);
   }, Ue = () => d.get(), Ze = () => {
     d.set(null);
-  }, lt = () => {
-    const O = f.get(), L = p.get();
-    if (L > 0) {
-      const N = L - 1, K = O[N];
-      K && (p.set(N), g(K, !1));
+  }, st = () => {
+    const I = u.get(), V = h.get();
+    if (V > 0) {
+      const N = V - 1, K = I[N];
+      K && (h.set(N), p(K, !1));
     }
   }, pt = () => {
-    const O = f.get(), L = p.get();
-    if (L < O.length - 1) {
-      const N = L + 1, K = O[N];
-      K && (p.set(N), g(K, !1));
+    const I = u.get(), V = h.get();
+    if (V < I.length - 1) {
+      const N = V + 1, K = I[N];
+      K && (h.set(N), p(K, !1));
     }
-  }, ht = qe([p], (O) => O > 0), P = qe([f, p], (O, L) => L < O.length - 1);
+  }, ht = qe([h], (I) => I > 0), P = qe([u, h], (I, V) => V < I.length - 1);
   return {
     // Atoms (state)
     files: l,
     storages: e,
     currentPath: t,
     sort: i,
-    filter: r,
-    selectedKeys: a,
+    filter: a,
+    selectedKeys: r,
     selectedCount: _,
     loading: c,
     draggedItem: d,
-    clipboardItems: v,
+    clipboardItems: f,
     // Computed values
     path: y,
-    sortedFiles: D,
-    selectedItems: w,
+    sortedFiles: F,
+    selectedItems: g,
     // Actions
-    setPath: g,
+    setPath: p,
     setFiles: m,
     setStorages: $,
     setSort: k,
-    toggleSort: C,
-    clearSort: M,
-    setFilter: A,
+    toggleSort: D,
+    clearSort: L,
+    setFilter: M,
     clearFilter: B,
     select: U,
     deselect: z,
     toggleSelect: ie,
     selectAll: he,
     isSelected: oe,
-    clearSelection: ee,
+    clearSelection: Z,
     setSelection: le,
     setSelectedCount: _e,
-    setLoading: Y,
-    isLoading: S,
+    setLoading: X,
+    isLoading: C,
     setClipboard: x,
-    createIsCut: F,
-    createIsCopied: T,
+    createIsCut: S,
+    createIsCopied: A,
     isCut: H,
-    isCopied: j,
+    isCopied: G,
     clearClipboard: pe,
     getClipboard: ce,
     setDraggedItem: Be,
     getDraggedItem: Ue,
     clearDraggedItem: Ze,
-    setReadOnly: (O) => {
-      n.set(O);
+    setReadOnly: (I) => {
+      n.set(I);
     },
     getReadOnly: () => n.get(),
-    isReadOnly: (O) => n.get() ? !0 : O.read_only ?? !1,
+    isReadOnly: (I) => n.get() ? !0 : I.read_only ?? !1,
     // Navigation
-    goBack: lt,
+    goBack: st,
     goForward: pt,
     canGoBack: ht,
     canGoForward: P,
-    navigationHistory: f,
-    historyIndex: p
+    navigationHistory: u,
+    historyIndex: h
   };
-}, hn = {
+}, pn = {
   list: (t) => ["adapter", "list", t],
   search: (t, e, n, l) => ["adapter", "search", t, e, n, l],
   delete: (t) => ["adapter", "delete", t],
@@ -324,14 +324,14 @@ const Po = () => {
   createFile: () => ["adapter", "createFile"],
   createFolder: () => ["adapter", "createFolder"]
 };
-class Bo {
+class zo {
   adapter;
   queryClient;
   config;
   onBeforeOpen;
   onAfterOpen;
   constructor(e, n = {}) {
-    this.adapter = e, this.onBeforeOpen = n.onBeforeOpen, this.onAfterOpen = n.onAfterOpen, this.queryClient = n.queryClient || new Co({
+    this.adapter = e, this.onBeforeOpen = n.onBeforeOpen, this.onAfterOpen = n.onAfterOpen, this.queryClient = n.queryClient || new So({
       defaultOptions: {
         queries: {
           refetchOnWindowFocus: n.refetchOnWindowFocus ?? !1,
@@ -370,7 +370,7 @@ class Bo {
    * List files with caching and automatic refetching
    */
   async list(e) {
-    const n = hn.list(e);
+    const n = pn.list(e);
     return await this.queryClient.fetchQuery({
       queryKey: n,
       queryFn: () => this.adapter.list({ path: e }),
@@ -470,7 +470,7 @@ class Bo {
    * Search files (cached per path+filter)
    */
   async search(e) {
-    const n = hn.search(e.path, e.filter, e.deep, e.size);
+    const n = pn.search(e.path, e.filter, e.deep, e.size);
     return await this.queryClient.fetchQuery({
       queryKey: n,
       queryFn: () => this.adapter.search(e),
@@ -506,40 +506,40 @@ class Bo {
     this.queryClient.clear();
   }
 }
-function zo(t, e) {
-  const n = W(t.state);
+function Ho(t, e) {
+  const n = j(t.state);
   return {
-    current: G(() => {
-      const r = n.value.theme;
-      return r && r !== "default" ? r : (typeof e == "function" ? e() : o(e)) || "light";
+    current: Y(() => {
+      const a = n.value.theme;
+      return a && a !== "default" ? a : (typeof e == "function" ? e() : o(e)) || "light";
     }),
-    set: (r) => {
-      t.set("theme", r);
+    set: (a) => {
+      t.set("theme", a);
     }
   };
 }
-const Ho = (t, e) => {
-  const n = Eo(t.id), l = xo(), i = e.i18n, r = t.locale ?? e.locale, a = Lo(t.id, t.config ?? {}), v = Po(), d = (f) => Array.isArray(f) ? f : Mo, _ = t.adapter, c = new Bo(_);
+const No = (t, e) => {
+  const n = Ao(t.id), l = $o(), i = e.i18n, a = t.locale ?? e.locale, r = Vo(t.id, t.config ?? {}), f = Bo(), d = (u) => Array.isArray(u) ? u : Io, _ = t.adapter, c = new zo(_);
   return Dt({
     // app version
-    version: Io,
+    version: Oo,
     // config store
-    config: a,
+    config: r,
     // Theme
     theme: (() => {
-      const f = zo(
-        a,
+      const u = Ho(
+        r,
         () => t.theme || "light"
       );
       return {
         get current() {
-          return f.current.value;
+          return u.current.value;
         },
-        set: f.set
+        set: u.set
       };
     })(),
     // files store
-    fs: v,
+    fs: f,
     // root element
     root: Ke("root"),
     // app id
@@ -549,566 +549,198 @@ const Ho = (t, e) => {
     // storage
     storage: n,
     // localization object
-    i18n: Ao(n, r, l, i),
+    i18n: To(n, a, l, i),
     // modal state
     modal: Ro(),
     // adapter for file operations (always wrapped with AdapterManager)
     // Use markRaw to prevent TanStack Query from being made reactive
-    adapter: _o(c),
+    adapter: mo(c),
     // active features
     features: d(t.features),
     // selection mode
     selectionMode: t.selectionMode || "multiple",
     // selection filters - computed properties for better reactivity
-    selectionFilterType: G(() => t.selectionFilterType || "both"),
-    selectionFilterMimeIncludes: G(() => t.selectionFilterMimeIncludes || []),
+    selectionFilterType: Y(() => t.selectionFilterType || "both"),
+    selectionFilterMimeIncludes: Y(() => t.selectionFilterMimeIncludes || []),
     // treeViewData - temp. opened folders
     treeViewData: [],
     // human readable file sizes
-    filesize: a.get("metricUnits") ? Ln : Zt,
+    filesize: r.get("metricUnits") ? Ln : Zt,
     // possible items of the context menu
     contextMenuItems: t.contextMenuItems
   });
-}, No = ["data-theme"], Uo = { class: "vuefinder__modal-layout__container" }, Ko = { class: "vuefinder__modal-layout__content" }, Wo = {
+}, Uo = ["data-theme"], Ko = { class: "vuefinder__modal-layout__container" }, jo = { class: "vuefinder__modal-layout__content" }, Wo = {
   key: 0,
   class: "vuefinder__modal-layout__footer"
-}, jo = {
+}, Go = {
   key: 0,
   class: "vuefinder__modal-drag-overlay"
-}, Go = { class: "vuefinder__modal-drag-message" }, Ie = /* @__PURE__ */ X({
+}, qo = { class: "vuefinder__modal-drag-message" }, Ee = /* @__PURE__ */ Q({
   __name: "ModalLayout",
   props: {
     showDragOverlay: { type: Boolean },
     dragOverlayText: {}
   },
   setup(t) {
-    const e = E(null), n = Z("ServiceContainer");
+    const e = E(null), n = J("ServiceContainer");
     n.config;
     const l = t;
-    fe(() => {
-      const r = document.querySelector(".v-f-modal input");
-      r && r.focus(), Re(() => {
+    ve(() => {
+      const a = document.querySelector(".v-f-modal input");
+      a && a.focus(), Re(() => {
         if (document.querySelector(".v-f-modal input") && window.innerWidth < 768 && e.value) {
-          const a = e.value.getBoundingClientRect().bottom + 16;
+          const r = e.value.getBoundingClientRect().bottom + 16;
           window.scrollTo({
-            top: a,
+            top: r,
             left: 0,
             behavior: "smooth"
           });
         }
       });
     });
-    const i = (r) => {
-      r.target.classList.contains("vuefinder__modal-layout__wrapper") && (r.preventDefault(), r.stopPropagation());
+    const i = (a) => {
+      a.target.classList.contains("vuefinder__modal-layout__wrapper") && (a.preventDefault(), a.stopPropagation());
     };
-    return (r, a) => (u(), h("div", {
+    return (a, r) => (v(), w("div", {
       "data-theme": o(n).theme.current,
       class: "vuefinder__themer vuefinder__modal-layout",
       "aria-labelledby": "modal-title",
       role: "dialog",
       "aria-modal": "true",
-      onKeyup: a[1] || (a[1] = vt((v) => o(n).modal.close(), ["esc"])),
+      onKeyup: r[1] || (r[1] = vt((f) => o(n).modal.close(), ["esc"])),
       tabindex: "0"
     }, [
-      a[2] || (a[2] = s("div", { class: "vuefinder__modal-layout__overlay" }, null, -1)),
-      s("div", Uo, [
+      r[2] || (r[2] = s("div", { class: "vuefinder__modal-layout__overlay" }, null, -1)),
+      s("div", Ko, [
         s("div", {
           class: "vuefinder__modal-layout__wrapper",
           onContextmenu: i,
-          onMousedown: a[0] || (a[0] = re((v) => o(n).modal.close(), ["self"]))
+          onMousedown: r[0] || (r[0] = ae((f) => o(n).modal.close(), ["self"]))
         }, [
           s("div", {
             ref_key: "modalBody",
             ref: e,
             class: "vuefinder__modal-layout__body"
           }, [
-            s("div", Ko, [
-              De(r.$slots, "default")
+            s("div", jo, [
+              De(a.$slots, "default")
             ]),
-            r.$slots.buttons ? (u(), h("div", Wo, [
-              De(r.$slots, "buttons")
-            ])) : I("", !0)
+            a.$slots.buttons ? (v(), w("div", Wo, [
+              De(a.$slots, "buttons")
+            ])) : T("", !0)
           ], 512)
         ], 32)
       ]),
-      l.showDragOverlay ? (u(), h("div", jo, [
-        s("div", Go, b(l.dragOverlayText || "Drag and drop the files/folders to here."), 1)
-      ])) : I("", !0)
-    ], 40, No));
+      l.showDragOverlay ? (v(), w("div", Go, [
+        s("div", qo, b(l.dragOverlayText || "Drag and drop the files/folders to here."), 1)
+      ])) : T("", !0)
+    ], 40, Uo));
   }
-}), qo = { class: "vuefinder__modal-header" }, Yo = { class: "vuefinder__modal-header__icon-container" }, Qo = {
+}), Yo = { class: "vuefinder__modal-header" }, Qo = { class: "vuefinder__modal-header__icon-container" }, Xo = {
   class: "vuefinder__modal-header__title",
   id: "modal-title"
-}, Ve = /* @__PURE__ */ X({
+}, Me = /* @__PURE__ */ Q({
   __name: "ModalHeader",
   props: {
     title: {},
     icon: {}
   },
   setup(t) {
-    return (e, n) => (u(), h("div", qo, [
-      s("div", Yo, [
-        (u(), V(Mn(t.icon), { class: "vuefinder__modal-header__icon" }))
+    return (e, n) => (v(), w("div", Yo, [
+      s("div", Qo, [
+        (v(), R(Mn(t.icon), { class: "vuefinder__modal-header__icon" }))
       ]),
-      s("h3", Qo, b(t.title), 1)
+      s("h3", Xo, b(t.title), 1)
     ]));
   }
-}), Xo = {
-  props: {
-    on: { type: String, required: !0 }
-  },
-  setup(t, { emit: e, slots: n }) {
-    const l = Z("ServiceContainer"), i = E(!1), { t: r } = l.i18n;
-    let a = null;
-    const v = () => {
-      clearTimeout(a), i.value = !0, a = setTimeout(() => {
-        i.value = !1;
-      }, 2e3);
-    };
-    return fe(() => {
-      l.emitter.on(t.on, v);
-    }), ke(() => {
-      clearTimeout(a);
-    }), {
-      shown: i,
-      t: r
-    };
-  }
-}, Jo = (t, e) => {
-  const n = t.__vccOpts || t;
-  for (const [l, i] of e)
-    n[l] = i;
-  return n;
-}, Zo = { key: 1 };
-function es(t, e, n, l, i, r) {
-  return u(), h("div", {
-    class: q(["vuefinder__action-message", { "vuefinder__action-message--hidden": !l.shown }])
-  }, [
-    t.$slots.default ? De(t.$slots, "default", { key: 0 }) : (u(), h("span", Zo, b(l.t("Saved.")), 1))
-  ], 2);
-}
-const et = /* @__PURE__ */ Jo(Xo, [["render", es]]), ts = [
-  { name: "default", displayName: "Default" },
-  { name: "light", displayName: "Light" },
-  { name: "dark", displayName: "Dark" },
-  { name: "midnight", displayName: "Midnight" },
-  { name: "latte", displayName: "Latte" },
-  { name: "rose", displayName: "Rose" },
-  { name: "mythril", displayName: "Mythril" },
-  { name: "lime", displayName: "lime" },
-  { name: "sky", displayName: "Sky" },
-  { name: "ocean", displayName: "Oceanic" },
-  { name: "palenight", displayName: "Palenight" },
-  { name: "arctic", displayName: "Arctic" },
-  { name: "code", displayName: "Code" }
-], ns = {
+}), Jo = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
-  "stroke-width": "1.5",
+  "stroke-width": "1.8",
   viewBox: "0 0 24 24"
 };
-function os(t, e) {
-  return u(), h("svg", ns, [...e[0] || (e[0] = [
-    s("path", {
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      d: "M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87q.11.06.22.127c.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a8 8 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a7 7 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a7 7 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a7 7 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124q.108-.066.22-.128c.332-.183.582-.495.644-.869z"
+function Zo(t, e) {
+  return v(), w("svg", Jo, [...e[0] || (e[0] = [
+    s("circle", {
+      cx: "12",
+      cy: "12",
+      r: "9"
     }, null, -1),
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
-      d: "M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
+      d: "M12 8.2h.01M10.75 11.25H12v4.5m0 0h1.25m-1.25 0h-2"
     }, null, -1)
   ])]);
 }
-const Vn = { render: os }, ss = { class: "vuefinder__about-modal__content" }, ls = { class: "vuefinder__about-modal__main" }, is = {
-  class: "vuefinder__about-modal__tabs",
-  "aria-label": "Tabs"
-}, as = ["onClick", "aria-current"], rs = {
-  key: 0,
-  class: "vuefinder__about-modal__tab-content"
-}, ds = { class: "vuefinder__about-modal__description" }, cs = {
-  href: "https://vuefinder.ozdemir.be",
-  class: "vuefinder__about-modal__link",
-  target: "_blank"
-}, us = {
-  href: "https://github.com/n1crack/vuefinder",
-  class: "vuefinder__about-modal__link",
-  target: "_blank"
-}, vs = {
-  key: 1,
-  class: "vuefinder__about-modal__tab-content"
-}, fs = { class: "vuefinder__about-modal__description" }, _s = { class: "vuefinder__about-modal__settings" }, ms = { class: "vuefinder__about-modal__settings__fieldset" }, ps = { class: "vuefinder__about-modal__setting vuefinder__about-modal__setting--flex" }, hs = { class: "vuefinder__about-modal__setting-input" }, gs = ["checked"], ws = { class: "vuefinder__about-modal__setting-label" }, ys = {
-  for: "metric_unit",
-  class: "vuefinder__about-modal__label"
-}, bs = { class: "vuefinder__about-modal__setting vuefinder__about-modal__setting--flex" }, ks = { class: "vuefinder__about-modal__setting-input" }, xs = ["checked"], $s = { class: "vuefinder__about-modal__setting-label" }, Cs = {
-  for: "large_icons",
-  class: "vuefinder__about-modal__label"
-}, Ss = { class: "vuefinder__about-modal__setting vuefinder__about-modal__setting--flex" }, Fs = { class: "vuefinder__about-modal__setting-input" }, Ds = ["checked"], Es = { class: "vuefinder__about-modal__setting-label" }, Ts = {
-  for: "persist_path",
-  class: "vuefinder__about-modal__label"
-}, As = { class: "vuefinder__about-modal__setting vuefinder__about-modal__setting--flex" }, Ms = { class: "vuefinder__about-modal__setting-input" }, Is = ["checked"], Os = { class: "vuefinder__about-modal__setting-label" }, Rs = {
-  for: "show_thumbnails",
-  class: "vuefinder__about-modal__label"
-}, Ls = { class: "vuefinder__about-modal__setting vuefinder__about-modal__setting--flex" }, Vs = { class: "vuefinder__about-modal__setting-input" }, Ps = {
-  for: "theme",
-  class: "vuefinder__about-modal__label"
-}, Bs = { class: "vuefinder__about-modal__setting-label" }, zs = ["value"], Hs = ["label"], Ns = ["value"], Us = {
-  key: 0,
-  class: "vuefinder__about-modal__setting"
-}, Ks = { class: "vuefinder__about-modal__setting-input" }, Ws = {
-  for: "language",
-  class: "vuefinder__about-modal__label"
-}, js = { class: "vuefinder__about-modal__setting-label" }, Gs = ["label"], qs = ["value"], Ys = {
-  key: 2,
-  class: "vuefinder__about-modal__tab-content"
-}, Qs = { class: "vuefinder__about-modal__shortcuts" }, Xs = { class: "vuefinder__about-modal__shortcut" }, Js = { class: "vuefinder__about-modal__shortcut" }, Zs = { class: "vuefinder__about-modal__shortcut" }, el = { class: "vuefinder__about-modal__shortcut" }, tl = { class: "vuefinder__about-modal__shortcut" }, nl = { class: "vuefinder__about-modal__shortcut" }, ol = { class: "vuefinder__about-modal__shortcut" }, sl = { class: "vuefinder__about-modal__shortcut" }, ll = { class: "vuefinder__about-modal__shortcut" }, il = { class: "vuefinder__about-modal__shortcut" }, al = {
-  key: 3,
-  class: "vuefinder__about-modal__tab-content"
-}, rl = { class: "vuefinder__about-modal__description" }, en = /* @__PURE__ */ X({
+const Rn = { render: Zo }, es = { class: "vuefinder__about-modal__content" }, ts = { class: "vuefinder__about-modal__main" }, ns = { class: "vuefinder__about-modal__tab-content" }, os = { class: "vuefinder__about-modal__meta" }, ss = { class: "vuefinder__about-modal__meta-item" }, ls = { class: "vuefinder__about-modal__meta-value" }, Vn = /* @__PURE__ */ Q({
   __name: "ModalAbout",
   setup(t) {
-    const e = Z("ServiceContainer"), n = e.config, { clearStore: l } = e.storage, { t: i } = e.i18n, r = W(n.state), a = G(() => r.value.theme || "default"), v = {
-      ABOUT: "about",
-      SETTINGS: "settings",
-      SHORTCUTS: "shortcuts",
-      RESET: "reset"
-    }, d = G(() => [
-      { name: i("About"), key: v.ABOUT, current: !1 },
-      { name: i("Settings"), key: v.SETTINGS, current: !1 },
-      { name: i("Shortcuts"), key: v.SHORTCUTS, current: !1 },
-      { name: i("Reset"), key: v.RESET, current: !1 }
-    ]), _ = E("about"), c = async () => {
-      n.reset(), l(), location.reload();
-    }, f = (k) => {
-      k !== "default" ? n.set("theme", k) : n.set("theme", "default"), e.emitter.emit("vf-theme-saved");
-    }, p = () => {
-      n.toggle("metricUnits"), e.filesize = n.get("metricUnits") ? Ln : Zt, e.emitter.emit("vf-metric-units-saved");
-    }, y = () => {
-      n.toggle("compactListView"), e.emitter.emit("vf-compact-view-saved");
-    }, D = () => {
-      n.toggle("showThumbnails"), e.emitter.emit("vf-show-thumbnails-saved");
-    }, w = () => {
-      n.toggle("persist"), e.emitter.emit("vf-persist-path-saved");
-    }, { i18n: g } = Z("VueFinderOptions"), $ = Object.fromEntries(
-      Object.entries({
-        ar: "Arabic (العربيّة)",
-        en: "English",
-        fr: "French (Français)",
-        de: "German (Deutsch)",
-        fa: "Persian (فارسی)",
-        he: "Hebrew (עִברִית)",
-        hi: "Hindi (हिंदी)",
-        pl: "Polish (Polski)",
-        ru: "Russian (Pусский)",
-        sv: "Swedish (Svenska)",
-        tr: "Turkish (Türkçe)",
-        nl: "Dutch (Nederlands)",
-        zhCN: "Simplified Chinese (简体中文)",
-        zhTW: "Traditional Chinese (繁體中文)"
-      }).filter(([k]) => Object.keys(g).includes(k))
-    );
-    return (k, C) => (u(), V(Ie, null, {
-      buttons: Q(() => [
+    const e = J("ServiceContainer"), { t: n } = e.i18n;
+    return (l, i) => (v(), R(Ee, null, {
+      buttons: q(() => [
         s("button", {
           type: "button",
-          onClick: C[2] || (C[2] = (M) => o(e).modal.close()),
+          onClick: i[0] || (i[0] = (a) => o(e).modal.close()),
           class: "vf-btn vf-btn-secondary"
-        }, b(o(i)("Close")), 1)
+        }, b(o(n)("Close")), 1)
       ]),
-      default: Q(() => [
-        s("div", ss, [
-          R(Ve, {
-            icon: o(Vn),
+      default: q(() => [
+        s("div", es, [
+          O(Me, {
+            icon: o(Rn),
             title: "Vuefinder " + o(e).version
           }, null, 8, ["icon", "title"]),
-          s("div", ls, [
-            s("div", null, [
-              s("div", null, [
-                s("nav", is, [
-                  (u(!0), h(de, null, ve(d.value, (M) => (u(), h("button", {
-                    key: M.name,
-                    onClick: (A) => _.value = M.key,
-                    class: q([M.key === _.value ? "vuefinder__about-modal__tab--active" : "vuefinder__about-modal__tab--inactive", "vuefinder__about-modal__tab"]),
-                    "aria-current": M.current ? "page" : void 0
-                  }, b(M.name), 11, as))), 128))
-                ])
+          s("div", ts, [
+            s("div", ns, [
+              i[3] || (i[3] = s("div", { class: "vuefinder__about-modal__lead" }, " A modern, customizable file manager component built for Vue. ", -1)),
+              i[4] || (i[4] = s("div", { class: "vuefinder__about-modal__description" }, " Organize, preview, and manage your files through a beautiful, reactive interface — just like a native file explorer. ", -1)),
+              i[5] || (i[5] = s("div", { class: "vuefinder__about-modal__description" }, " Easily integrate it into your app, connect to any storage (local, S3, etc.), and craft your own cloud experience with full control over uploads, search, and customization. ", -1)),
+              i[6] || (i[6] = s("div", { class: "vuefinder__about-modal__description" }, " If you like it, please follow and ⭐ star on GitHub. ", -1)),
+              i[7] || (i[7] = s("div", { class: "vuefinder__about-modal__links" }, [
+                s("a", {
+                  href: "https://vuefinder.ozdemir.be",
+                  class: "vuefinder__about-modal__link-btn",
+                  target: "_blank",
+                  rel: "noopener noreferrer"
+                }, " Project Home "),
+                s("a", {
+                  href: "https://github.com/n1crack/vuefinder",
+                  class: "vuefinder__about-modal__link-btn",
+                  target: "_blank",
+                  rel: "noopener noreferrer"
+                }, " GitHub ")
+              ], -1)),
+              s("div", os, [
+                s("div", ss, [
+                  i[1] || (i[1] = s("span", { class: "vuefinder__about-modal__meta-label" }, "Version", -1)),
+                  s("span", ls, b(o(e).version), 1)
+                ]),
+                i[2] || (i[2] = s("div", { class: "vuefinder__about-modal__meta-item" }, [
+                  s("span", { class: "vuefinder__about-modal__meta-label" }, "License"),
+                  s("span", { class: "vuefinder__about-modal__meta-value" }, "MIT")
+                ], -1))
               ])
-            ]),
-            _.value === v.ABOUT ? (u(), h("div", rs, [
-              s("div", ds, b(o(i)("Vuefinder is a simple, lightweight, and fast file manager library for Vue.js applications")), 1),
-              s("a", cs, b(o(i)("Project home")), 1),
-              s("a", us, b(o(i)("Follow on GitHub")), 1)
-            ])) : I("", !0),
-            _.value === v.SETTINGS ? (u(), h("div", vs, [
-              s("div", fs, b(o(i)("Customize your experience with the following settings")), 1),
-              s("div", _s, [
-                s("fieldset", ms, [
-                  s("div", ps, [
-                    s("div", hs, [
-                      s("input", {
-                        id: "metric_unit",
-                        name: "metric_unit",
-                        type: "checkbox",
-                        checked: o(n).get("metricUnits"),
-                        onChange: p,
-                        class: "vuefinder__about-modal__checkbox"
-                      }, null, 40, gs)
-                    ]),
-                    s("div", ws, [
-                      s("label", ys, [
-                        J(b(o(i)("Use Metric Units")) + " ", 1),
-                        R(et, {
-                          class: "ms-3",
-                          on: "vf-metric-units-saved"
-                        }, {
-                          default: Q(() => [
-                            J(b(o(i)("Saved.")), 1)
-                          ]),
-                          _: 1
-                        })
-                      ])
-                    ])
-                  ]),
-                  s("div", bs, [
-                    s("div", ks, [
-                      s("input", {
-                        id: "large_icons",
-                        name: "large_icons",
-                        type: "checkbox",
-                        checked: o(n).get("compactListView"),
-                        onChange: y,
-                        class: "vuefinder__about-modal__checkbox"
-                      }, null, 40, xs)
-                    ]),
-                    s("div", $s, [
-                      s("label", Cs, [
-                        J(b(o(i)("Compact list view")) + " ", 1),
-                        R(et, {
-                          class: "ms-3",
-                          on: "vf-compact-view-saved"
-                        }, {
-                          default: Q(() => [
-                            J(b(o(i)("Saved.")), 1)
-                          ]),
-                          _: 1
-                        })
-                      ])
-                    ])
-                  ]),
-                  s("div", Ss, [
-                    s("div", Fs, [
-                      s("input", {
-                        id: "persist_path",
-                        name: "persist_path",
-                        type: "checkbox",
-                        checked: o(n).get("persist"),
-                        onChange: w,
-                        class: "vuefinder__about-modal__checkbox"
-                      }, null, 40, Ds)
-                    ]),
-                    s("div", Es, [
-                      s("label", Ts, [
-                        J(b(o(i)("Persist path on reload")) + " ", 1),
-                        R(et, {
-                          class: "ms-3",
-                          on: "vf-persist-path-saved"
-                        }, {
-                          default: Q(() => [
-                            J(b(o(i)("Saved.")), 1)
-                          ]),
-                          _: 1
-                        })
-                      ])
-                    ])
-                  ]),
-                  s("div", As, [
-                    s("div", Ms, [
-                      s("input", {
-                        id: "show_thumbnails",
-                        name: "show_thumbnails",
-                        type: "checkbox",
-                        checked: o(n).get("showThumbnails"),
-                        onChange: D,
-                        class: "vuefinder__about-modal__checkbox"
-                      }, null, 40, Is)
-                    ]),
-                    s("div", Os, [
-                      s("label", Rs, [
-                        J(b(o(i)("Show thumbnails")) + " ", 1),
-                        R(et, {
-                          class: "ms-3",
-                          on: "vf-show-thumbnails-saved"
-                        }, {
-                          default: Q(() => [
-                            J(b(o(i)("Saved.")), 1)
-                          ]),
-                          _: 1
-                        })
-                      ])
-                    ])
-                  ]),
-                  s("div", Ls, [
-                    s("div", Vs, [
-                      s("label", Ps, b(o(i)("Theme")), 1)
-                    ]),
-                    s("div", Bs, [
-                      s("select", {
-                        id: "theme",
-                        value: a.value,
-                        onChange: C[0] || (C[0] = (M) => f(M.target?.value)),
-                        class: "vuefinder__about-modal__select"
-                      }, [
-                        s("optgroup", {
-                          label: o(i)("Theme")
-                        }, [
-                          (u(!0), h(de, null, ve(o(ts), (M) => (u(), h("option", {
-                            key: M.name,
-                            value: M.name
-                          }, b(M.displayName), 9, Ns))), 128))
-                        ], 8, Hs)
-                      ], 40, zs),
-                      R(et, {
-                        class: "ms-3",
-                        on: "vf-theme-saved"
-                      }, {
-                        default: Q(() => [
-                          J(b(o(i)("Saved.")), 1)
-                        ]),
-                        _: 1
-                      })
-                    ])
-                  ]),
-                  o(e).features.includes(o(ne).LANGUAGE) && Object.keys(o($)).length > 1 ? (u(), h("div", Us, [
-                    s("div", Ks, [
-                      s("label", Ws, b(o(i)("Language")), 1)
-                    ]),
-                    s("div", js, [
-                      me(s("select", {
-                        id: "language",
-                        "onUpdate:modelValue": C[1] || (C[1] = (M) => o(e).i18n.locale = M),
-                        class: "vuefinder__about-modal__select"
-                      }, [
-                        s("optgroup", {
-                          label: o(i)("Language")
-                        }, [
-                          (u(!0), h(de, null, ve(o($), (M, A) => (u(), h("option", {
-                            key: A,
-                            value: A
-                          }, b(M), 9, qs))), 128))
-                        ], 8, Gs)
-                      ], 512), [
-                        [qt, o(e).i18n.locale]
-                      ]),
-                      R(et, {
-                        class: "ms-3",
-                        on: "vf-language-saved"
-                      }, {
-                        default: Q(() => [
-                          J(b(o(i)("Saved.")), 1)
-                        ]),
-                        _: 1
-                      })
-                    ])
-                  ])) : I("", !0)
-                ])
-              ])
-            ])) : I("", !0),
-            _.value === v.SHORTCUTS ? (u(), h("div", Ys, [
-              s("div", Qs, [
-                s("div", Xs, [
-                  s("div", null, b(o(i)("Rename")), 1),
-                  C[3] || (C[3] = s("kbd", null, "F2", -1))
-                ]),
-                s("div", Js, [
-                  s("div", null, b(o(i)("Refresh")), 1),
-                  C[4] || (C[4] = s("kbd", null, "F5", -1))
-                ]),
-                s("div", Zs, [
-                  J(b(o(i)("Delete")) + " ", 1),
-                  C[5] || (C[5] = s("kbd", null, "Del", -1))
-                ]),
-                s("div", el, [
-                  J(b(o(i)("Escape")) + " ", 1),
-                  C[6] || (C[6] = s("div", null, [
-                    s("kbd", null, "Esc")
-                  ], -1))
-                ]),
-                s("div", tl, [
-                  J(b(o(i)("Select All")) + " ", 1),
-                  C[7] || (C[7] = s("div", null, [
-                    s("kbd", null, "Ctrl"),
-                    J(" + "),
-                    s("kbd", null, "A")
-                  ], -1))
-                ]),
-                s("div", nl, [
-                  J(b(o(i)("Search")) + " ", 1),
-                  C[8] || (C[8] = s("div", null, [
-                    s("kbd", null, "Ctrl"),
-                    J(" + "),
-                    s("kbd", null, "F")
-                  ], -1))
-                ]),
-                s("div", ol, [
-                  J(b(o(i)("Toggle Sidebar")) + " ", 1),
-                  C[9] || (C[9] = s("div", null, [
-                    s("kbd", null, "Ctrl"),
-                    J(" + "),
-                    s("kbd", null, "E")
-                  ], -1))
-                ]),
-                s("div", sl, [
-                  J(b(o(i)("Open Settings")) + " ", 1),
-                  C[10] || (C[10] = s("div", null, [
-                    s("kbd", null, "Ctrl"),
-                    J(" + "),
-                    s("kbd", null, ",")
-                  ], -1))
-                ]),
-                s("div", ll, [
-                  J(b(o(i)("Toggle Full Screen")) + " ", 1),
-                  C[11] || (C[11] = s("div", null, [
-                    s("kbd", null, "Ctrl"),
-                    J(" + "),
-                    s("kbd", null, "Enter")
-                  ], -1))
-                ]),
-                s("div", il, [
-                  J(b(o(i)("Preview")) + " ", 1),
-                  C[12] || (C[12] = s("div", null, [
-                    s("kbd", null, "Space")
-                  ], -1))
-                ])
-              ])
-            ])) : I("", !0),
-            _.value === v.RESET ? (u(), h("div", al, [
-              s("div", rl, b(o(i)("Reset all settings to default")), 1),
-              s("button", {
-                onClick: c,
-                type: "button",
-                class: "vf-btn vf-btn-secondary"
-              }, b(o(i)("Reset Settings")), 1)
-            ])) : I("", !0)
+            ])
           ])
         ])
       ]),
       _: 1
     }));
   }
-}), dl = {
+}), is = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
   viewBox: "0 0 24 24"
 };
-function cl(t, e) {
-  return u(), h("svg", dl, [...e[0] || (e[0] = [
+function rs(t, e) {
+  return v(), w("svg", is, [...e[0] || (e[0] = [
     s("path", { d: "m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21q.512.078 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48 48 0 0 0-3.478-.397m-12 .562q.51-.089 1.022-.165m0 0a48 48 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a52 52 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a49 49 0 0 0-7.5 0" }, null, -1)
   ])]);
 }
-const Pn = { render: cl }, ul = { class: "vuefinder__delete-modal__content" }, vl = { class: "vuefinder__delete-modal__form" }, fl = { class: "vuefinder__delete-modal__description" }, _l = { class: "vuefinder__delete-modal__files vf-scrollbar" }, ml = { class: "vuefinder__delete-modal__file" }, pl = {
+const Pn = { render: rs }, as = { class: "vuefinder__delete-modal__content" }, ds = { class: "vuefinder__delete-modal__form" }, cs = { class: "vuefinder__delete-modal__description" }, us = { class: "vuefinder__delete-modal__files vf-scrollbar" }, vs = { class: "vuefinder__delete-modal__file" }, fs = {
   key: 0,
   class: "vuefinder__delete-modal__icon vuefinder__delete-modal__icon--dir",
   xmlns: "http://www.w3.org/2000/svg",
@@ -1116,7 +748,7 @@ const Pn = { render: cl }, ul = { class: "vuefinder__delete-modal__content" }, v
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, hl = {
+}, _s = {
   key: 1,
   class: "vuefinder__delete-modal__icon",
   xmlns: "http://www.w3.org/2000/svg",
@@ -1124,24 +756,24 @@ const Pn = { render: cl }, ul = { class: "vuefinder__delete-modal__content" }, v
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, gl = { class: "vuefinder__delete-modal__file-name" }, wl = { class: "vuefinder__delete-modal__warning" }, At = /* @__PURE__ */ X({
+}, ms = { class: "vuefinder__delete-modal__file-name" }, ps = { class: "vuefinder__delete-modal__warning" }, Mt = /* @__PURE__ */ Q({
   __name: "ModalDelete",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = W(l.path), r = E(e.modal.data.items), a = E(""), v = () => {
-      console.log(r.value.map(({ path: d, type: _ }) => ({ path: d, type: _ }))), r.value.length && e.adapter.delete({
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = j(l.path), a = E(e.modal.data.items), r = E(""), f = () => {
+      console.log(a.value.map(({ path: d, type: _ }) => ({ path: d, type: _ }))), a.value.length && e.adapter.delete({
         path: i.value.path,
-        items: r.value.map(({ path: d, type: _ }) => ({ path: d, type: _ }))
+        items: a.value.map(({ path: d, type: _ }) => ({ path: d, type: _ }))
       }).then((d) => {
         e.emitter.emit("vf-toast-push", { label: n("Files deleted.") }), e.fs.setFiles(d.files), e.modal.close();
       }).catch((d) => {
         e.emitter.emit("vf-toast-push", { label: n(d.message), type: "error" });
       });
     };
-    return (d, _) => (u(), V(Ie, null, {
-      buttons: Q(() => [
+    return (d, _) => (v(), R(Ee, null, {
+      buttons: q(() => [
         s("button", {
           type: "button",
-          onClick: v,
+          onClick: f,
           class: "vf-btn vf-btn-danger"
         }, b(o(n)("Yes, Delete!")), 1),
         s("button", {
@@ -1149,45 +781,45 @@ const Pn = { render: cl }, ul = { class: "vuefinder__delete-modal__content" }, v
           onClick: _[1] || (_[1] = (c) => o(e).modal.close()),
           class: "vf-btn vf-btn-secondary"
         }, b(o(n)("Cancel")), 1),
-        s("div", wl, b(o(n)("This action cannot be undone.")), 1)
+        s("div", ps, b(o(n)("This action cannot be undone.")), 1)
       ]),
-      default: Q(() => [
+      default: q(() => [
         s("div", null, [
-          R(Ve, {
+          O(Me, {
             icon: o(Pn),
             title: o(n)("Delete files")
           }, null, 8, ["icon", "title"]),
-          s("div", ul, [
-            s("div", vl, [
-              s("p", fl, b(o(n)("Are you sure you want to delete these files?")), 1),
-              s("div", _l, [
-                (u(!0), h(de, null, ve(r.value, (c) => (u(), h("p", ml, [
-                  c.type === "dir" ? (u(), h("svg", pl, [..._[2] || (_[2] = [
+          s("div", as, [
+            s("div", ds, [
+              s("p", cs, b(o(n)("Are you sure you want to delete these files?")), 1),
+              s("div", us, [
+                (v(!0), w(de, null, fe(a.value, (c) => (v(), w("p", vs, [
+                  c.type === "dir" ? (v(), w("svg", fs, [..._[2] || (_[2] = [
                     s("path", {
                       "stroke-linecap": "round",
                       "stroke-linejoin": "round",
                       d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
                     }, null, -1)
-                  ])])) : (u(), h("svg", hl, [..._[3] || (_[3] = [
+                  ])])) : (v(), w("svg", _s, [..._[3] || (_[3] = [
                     s("path", {
                       "stroke-linecap": "round",
                       "stroke-linejoin": "round",
                       d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                     }, null, -1)
                   ])])),
-                  s("span", gl, b(c.basename), 1)
+                  s("span", ms, b(c.basename), 1)
                 ]))), 256))
               ]),
-              a.value.length ? (u(), V(o(a), {
+              r.value.length ? (v(), R(o(r), {
                 key: 0,
-                onHidden: _[0] || (_[0] = (c) => a.value = ""),
+                onHidden: _[0] || (_[0] = (c) => r.value = ""),
                 error: ""
               }, {
-                default: Q(() => [
-                  J(b(a.value), 1)
+                default: q(() => [
+                  ne(b(r.value), 1)
                 ]),
                 _: 1
-              })) : I("", !0)
+              })) : T("", !0)
             ])
           ])
         ])
@@ -1195,18 +827,18 @@ const Pn = { render: cl }, ul = { class: "vuefinder__delete-modal__content" }, v
       _: 1
     }));
   }
-}), yl = {
+}), hs = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
   viewBox: "0 0 24 24"
 };
-function bl(t, e) {
-  return u(), h("svg", yl, [...e[0] || (e[0] = [
+function gs(t, e) {
+  return v(), w("svg", hs, [...e[0] || (e[0] = [
     s("path", { d: "m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" }, null, -1)
   ])]);
 }
-const Bn = { render: bl }, kl = { class: "vuefinder__rename-modal__content" }, xl = { class: "vuefinder__rename-modal__item" }, $l = { class: "vuefinder__rename-modal__item-info" }, Cl = {
+const Bn = { render: gs }, ws = { class: "vuefinder__rename-modal__content" }, ys = { class: "vuefinder__rename-modal__item" }, bs = { class: "vuefinder__rename-modal__item-info" }, xs = {
   key: 0,
   class: "vuefinder__rename-modal__icon vuefinder__rename-modal__icon--dir",
   xmlns: "http://www.w3.org/2000/svg",
@@ -1214,7 +846,7 @@ const Bn = { render: bl }, kl = { class: "vuefinder__rename-modal__content" }, x
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Sl = {
+}, ks = {
   key: 1,
   class: "vuefinder__rename-modal__icon",
   xmlns: "http://www.w3.org/2000/svg",
@@ -1222,22 +854,22 @@ const Bn = { render: bl }, kl = { class: "vuefinder__rename-modal__content" }, x
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Fl = { class: "vuefinder__rename-modal__item-name" }, Mt = /* @__PURE__ */ X({
+}, $s = { class: "vuefinder__rename-modal__item-name" }, Tt = /* @__PURE__ */ Q({
   __name: "ModalRename",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = W(l.path), r = E(e.modal.data.items[0]), a = E(r.value.basename), v = E(""), d = () => {
-      a.value != r.value.basename && e.adapter.rename({
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = j(l.path), a = E(e.modal.data.items[0]), r = E(a.value.basename), f = E(""), d = () => {
+      r.value != a.value.basename && e.adapter.rename({
         path: i.value.path,
-        item: r.value.path,
-        name: a.value
+        item: a.value.path,
+        name: r.value
       }).then((_) => {
-        e.emitter.emit("vf-toast-push", { label: n("%s is renamed.", a.value) }), e.fs.setFiles(_.files), e.modal.close();
+        e.emitter.emit("vf-toast-push", { label: n("%s is renamed.", r.value) }), e.fs.setFiles(_.files), e.modal.close();
       }).catch((_) => {
         e.emitter.emit("vf-toast-push", { label: n(_.message), type: "error" });
       });
     };
-    return (_, c) => (u(), V(Ie, null, {
-      buttons: Q(() => [
+    return (_, c) => (v(), R(Ee, null, {
+      buttons: q(() => [
         s("button", {
           type: "button",
           onClick: d,
@@ -1245,53 +877,53 @@ const Bn = { render: bl }, kl = { class: "vuefinder__rename-modal__content" }, x
         }, b(o(n)("Rename")), 1),
         s("button", {
           type: "button",
-          onClick: c[2] || (c[2] = (f) => o(e).modal.close()),
+          onClick: c[2] || (c[2] = (u) => o(e).modal.close()),
           class: "vf-btn vf-btn-secondary"
         }, b(o(n)("Cancel")), 1)
       ]),
-      default: Q(() => [
+      default: q(() => [
         s("div", null, [
-          R(Ve, {
+          O(Me, {
             icon: o(Bn),
             title: o(n)("Rename")
           }, null, 8, ["icon", "title"]),
-          s("div", kl, [
-            s("div", xl, [
-              s("p", $l, [
-                r.value.type === "dir" ? (u(), h("svg", Cl, [...c[3] || (c[3] = [
+          s("div", ws, [
+            s("div", ys, [
+              s("p", bs, [
+                a.value.type === "dir" ? (v(), w("svg", xs, [...c[3] || (c[3] = [
                   s("path", {
                     "stroke-linecap": "round",
                     "stroke-linejoin": "round",
                     d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
                   }, null, -1)
-                ])])) : (u(), h("svg", Sl, [...c[4] || (c[4] = [
+                ])])) : (v(), w("svg", ks, [...c[4] || (c[4] = [
                   s("path", {
                     "stroke-linecap": "round",
                     "stroke-linejoin": "round",
                     d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                   }, null, -1)
                 ])])),
-                s("span", Fl, b(r.value.basename), 1)
+                s("span", $s, b(a.value.basename), 1)
               ]),
               me(s("input", {
-                "onUpdate:modelValue": c[0] || (c[0] = (f) => a.value = f),
+                "onUpdate:modelValue": c[0] || (c[0] = (u) => r.value = u),
                 onKeyup: vt(d, ["enter"]),
                 class: "vuefinder__rename-modal__input",
                 placeholder: "Name",
                 type: "text"
               }, null, 544), [
-                [ft, a.value]
+                [ft, r.value]
               ]),
-              v.value.length ? (u(), V(o(v), {
+              f.value.length ? (v(), R(o(f), {
                 key: 0,
-                onHidden: c[1] || (c[1] = (f) => v.value = ""),
+                onHidden: c[1] || (c[1] = (u) => f.value = ""),
                 error: ""
               }, {
-                default: Q(() => [
-                  J(b(v.value), 1)
+                default: q(() => [
+                  ne(b(f.value), 1)
                 ]),
                 _: 1
-              })) : I("", !0)
+              })) : T("", !0)
             ])
           ])
         ])
@@ -1299,15 +931,15 @@ const Bn = { render: bl }, kl = { class: "vuefinder__rename-modal__content" }, x
       _: 1
     }));
   }
-}), Dl = { class: "vuefinder__text-preview" }, El = { class: "vuefinder__text-preview__header" }, Tl = ["title"], Al = { class: "vuefinder__text-preview__actions" }, Ml = {
+}), Cs = { class: "vuefinder__text-preview" }, Ss = { class: "vuefinder__text-preview__header" }, Fs = ["title"], Ds = { class: "vuefinder__text-preview__actions" }, Es = {
   key: 0,
   class: "vuefinder__text-preview__content"
-}, Il = { key: 1 }, Ol = /* @__PURE__ */ X({
+}, As = { key: 1 }, Ms = /* @__PURE__ */ Q({
   __name: "Text",
   emits: ["success"],
   setup(t, { emit: e }) {
-    const n = e, l = E(""), i = E(""), r = E(null), a = E(!1), v = E(""), d = E(!1), _ = Z("ServiceContainer"), { t: c } = _.i18n;
-    fe(async () => {
+    const n = e, l = E(""), i = E(""), a = E(null), r = E(!1), f = E(""), d = E(!1), _ = J("ServiceContainer"), { t: c } = _.i18n;
+    ve(async () => {
       try {
         const y = await _.adapter.getContent({ path: _.modal.data.item.path });
         l.value = y.content, n("success");
@@ -1315,47 +947,47 @@ const Bn = { render: bl }, kl = { class: "vuefinder__rename-modal__content" }, x
         console.error("Failed to load text content:", y), n("success");
       }
     });
-    const f = () => {
-      a.value = !a.value, i.value = l.value, _.modal.setEditMode(a.value);
-    }, p = async () => {
-      v.value = "", d.value = !1;
+    const u = () => {
+      r.value = !r.value, i.value = l.value, _.modal.setEditMode(r.value);
+    }, h = async () => {
+      f.value = "", d.value = !1;
       try {
         const y = _.modal.data.item.path;
         await _.adapter.save({
           path: y,
           content: i.value
-        }), l.value = i.value, v.value = c("Updated."), n("success"), a.value = !a.value;
+        }), l.value = i.value, f.value = c("Updated."), n("success"), r.value = !r.value;
       } catch (y) {
-        const D = y;
-        v.value = c(D.message || "Error"), d.value = !0;
+        const F = y;
+        f.value = c(F.message || "Error"), d.value = !0;
       }
     };
-    return (y, D) => (u(), h("div", Dl, [
-      s("div", El, [
+    return (y, F) => (v(), w("div", Cs, [
+      s("div", Ss, [
         s("div", {
           class: "vuefinder__text-preview__title",
           id: "modal-title",
           title: o(_).modal.data.item.path
-        }, b(o(_).modal.data.item.basename), 9, Tl),
-        s("div", Al, [
-          a.value ? (u(), h("button", {
+        }, b(o(_).modal.data.item.basename), 9, Fs),
+        s("div", Ds, [
+          r.value ? (v(), w("button", {
             key: 0,
-            onClick: p,
+            onClick: h,
             class: "vuefinder__text-preview__save-button"
-          }, b(o(c)("Save")), 1)) : I("", !0),
-          o(_).features.includes(o(ne).EDIT) ? (u(), h("button", {
+          }, b(o(c)("Save")), 1)) : T("", !0),
+          o(_).features.includes(o(te).EDIT) ? (v(), w("button", {
             key: 1,
             class: "vuefinder__text-preview__edit-button",
-            onClick: D[0] || (D[0] = (w) => f())
-          }, b(a.value ? o(c)("Cancel") : o(c)("Edit")), 1)) : I("", !0)
+            onClick: F[0] || (F[0] = (g) => u())
+          }, b(r.value ? o(c)("Cancel") : o(c)("Edit")), 1)) : T("", !0)
         ])
       ]),
       s("div", null, [
-        a.value ? (u(), h("div", Il, [
+        r.value ? (v(), w("div", As, [
           me(s("textarea", {
             ref_key: "editInput",
-            ref: r,
-            "onUpdate:modelValue": D[1] || (D[1] = (w) => i.value = w),
+            ref: a,
+            "onUpdate:modelValue": F[1] || (F[1] = (g) => i.value = g),
             class: "vuefinder__text-preview__textarea",
             name: "text",
             cols: "30",
@@ -1363,71 +995,71 @@ const Bn = { render: bl }, kl = { class: "vuefinder__rename-modal__content" }, x
           }, null, 512), [
             [ft, i.value]
           ])
-        ])) : (u(), h("pre", Ml, b(l.value), 1)),
-        v.value.length ? (u(), V(o(v), {
+        ])) : (v(), w("pre", Es, b(l.value), 1)),
+        f.value.length ? (v(), R(o(f), {
           key: 2,
-          onHidden: D[2] || (D[2] = (w) => v.value = ""),
+          onHidden: F[2] || (F[2] = (g) => f.value = ""),
           error: d.value
         }, {
-          default: Q(() => [
-            J(b(v.value), 1)
+          default: q(() => [
+            ne(b(f.value), 1)
           ]),
           _: 1
-        }, 8, ["error"])) : I("", !0)
+        }, 8, ["error"])) : T("", !0)
       ])
     ]));
   }
-}), Rl = { class: "vuefinder__image-preview" }, Ll = { class: "vuefinder__image-preview__header" }, Vl = ["title"], Pl = { class: "vuefinder__image-preview__actions" }, Bl = { class: "vuefinder__image-preview__image-container" }, zl = ["src"], Hl = /* @__PURE__ */ X({
+}), Ts = { class: "vuefinder__image-preview" }, Is = { class: "vuefinder__image-preview__header" }, Os = ["title"], Ls = { class: "vuefinder__image-preview__actions" }, Rs = { class: "vuefinder__image-preview__image-container" }, Vs = ["src"], Ps = /* @__PURE__ */ Q({
   name: "ImagePreview",
   __name: "Image",
   emits: ["success"],
   setup(t, { emit: e }) {
-    const n = e, l = Z("ServiceContainer"), { t: i } = l.i18n, r = E(!1), a = E(""), v = E(!1), d = E(l.adapter.getPreviewUrl({ path: l.modal.data.item.path })), _ = E(d.value), c = Ke("cropperRef"), f = async () => {
-      r.value = !r.value, l.modal.setEditMode(r.value);
-    }, p = async () => {
-      const D = c.value?.getResult({ size: { width: 795, height: 341 }, fillColor: "#ffffff" })?.canvas;
-      D && D.toBlob(async (w) => {
-        if (w) {
-          a.value = "", v.value = !1;
+    const n = e, l = J("ServiceContainer"), { t: i } = l.i18n, a = E(!1), r = E(""), f = E(!1), d = E(l.adapter.getPreviewUrl({ path: l.modal.data.item.path })), _ = E(d.value), c = Ke("cropperRef"), u = async () => {
+      a.value = !a.value, l.modal.setEditMode(a.value);
+    }, h = async () => {
+      const F = c.value?.getResult({ size: { width: 795, height: 341 }, fillColor: "#ffffff" })?.canvas;
+      F && F.toBlob(async (g) => {
+        if (g) {
+          r.value = "", f.value = !1;
           try {
-            const g = new File([w], l.modal.data.item.basename, { type: "image/png" }), $ = l.modal.data.item.path.split("/"), k = $.pop(), C = $.join("/");
+            const p = new File([g], l.modal.data.item.basename, { type: "image/png" }), $ = l.modal.data.item.path.split("/"), k = $.pop(), D = $.join("/");
             await l.adapter.upload({
-              path: C,
-              files: [g]
-            }), a.value = i("Updated."), fetch(d.value, { cache: "reload", mode: "no-cors" });
-            const M = l.root.querySelector('[data-src="' + d.value + '"]');
-            M && Rn.resetStatus(M), l.emitter.emit("vf-refresh-thumbnails"), f(), n("success");
-          } catch (g) {
-            const m = g?.message ?? "Error";
-            a.value = i(m), v.value = !0;
+              path: D,
+              files: [p]
+            }), r.value = i("Updated."), fetch(d.value, { cache: "reload", mode: "no-cors" });
+            const L = l.root.querySelector('[data-src="' + d.value + '"]');
+            L && On.resetStatus(L), l.emitter.emit("vf-refresh-thumbnails"), u(), n("success");
+          } catch (p) {
+            const m = p?.message ?? "Error";
+            r.value = i(m), f.value = !0;
           }
         }
       });
     };
-    return fe(() => {
+    return ve(() => {
       n("success");
-    }), (y, D) => (u(), h("div", Rl, [
-      s("div", Ll, [
+    }), (y, F) => (v(), w("div", Ts, [
+      s("div", Is, [
         s("h3", {
           class: "vuefinder__image-preview__title",
           id: "modal-title",
           title: o(l).modal.data.item.path
-        }, b(o(l).modal.data.item.basename), 9, Vl),
-        s("div", Pl, [
-          r.value ? (u(), h("button", {
+        }, b(o(l).modal.data.item.basename), 9, Os),
+        s("div", Ls, [
+          a.value ? (v(), w("button", {
             key: 0,
-            onClick: p,
+            onClick: h,
             class: "vuefinder__image-preview__crop-button"
-          }, b(o(i)("Crop")), 1)) : I("", !0),
-          o(l).features.includes(o(ne).EDIT) ? (u(), h("button", {
+          }, b(o(i)("Crop")), 1)) : T("", !0),
+          o(l).features.includes(o(te).EDIT) ? (v(), w("button", {
             key: 1,
             class: "vuefinder__image-preview__edit-button",
-            onClick: D[0] || (D[0] = (w) => f())
-          }, b(r.value ? o(i)("Cancel") : o(i)("Edit")), 1)) : I("", !0)
+            onClick: F[0] || (F[0] = (g) => u())
+          }, b(a.value ? o(i)("Cancel") : o(i)("Edit")), 1)) : T("", !0)
         ])
       ]),
-      s("div", Bl, [
-        r.value ? (u(), V(o(So), {
+      s("div", Rs, [
+        a.value ? (v(), R(o(Fo), {
           key: 1,
           ref_key: "cropperRef",
           ref: c,
@@ -1437,33 +1069,33 @@ const Bn = { render: bl }, kl = { class: "vuefinder__rename-modal__content" }, x
           "auto-zoom": !0,
           priority: "image",
           transitions: !0
-        }, null, 8, ["src"])) : (u(), h("img", {
+        }, null, 8, ["src"])) : (v(), w("img", {
           key: 0,
           style: {},
           src: o(l).adapter.getPreviewUrl({ path: o(l).modal.data.item.path }),
           class: "vuefinder__image-preview__image w-full h-full"
-        }, null, 8, zl))
+        }, null, 8, Vs))
       ]),
-      a.value.length ? (u(), V(o(a), {
+      r.value.length ? (v(), R(o(r), {
         key: 0,
-        onHidden: D[1] || (D[1] = (w) => a.value = ""),
-        error: v.value
+        onHidden: F[1] || (F[1] = (g) => r.value = ""),
+        error: f.value
       }, {
-        default: Q(() => [
-          J(b(a.value), 1)
+        default: q(() => [
+          ne(b(r.value), 1)
         ]),
         _: 1
-      }, 8, ["error"])) : I("", !0)
+      }, 8, ["error"])) : T("", !0)
     ]));
   }
-}), Nl = {
+}), Bs = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
   viewBox: "0 0 24 24"
 };
-function Ul(t, e) {
-  return u(), h("svg", Nl, [...e[0] || (e[0] = [
+function zs(t, e) {
+  return v(), w("svg", Bs, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -1471,101 +1103,101 @@ function Ul(t, e) {
     }, null, -1)
   ])]);
 }
-const wt = { render: Ul }, Kl = { class: "vuefinder__default-preview" }, Wl = { class: "vuefinder__default-preview__content" }, jl = { class: "vuefinder__default-preview__header" }, Gl = ["title"], ql = { class: "vuefinder__default-preview__icon-container" }, Yl = ["title"], Ql = /* @__PURE__ */ X({
+const wt = { render: zs }, Hs = { class: "vuefinder__default-preview" }, Ns = { class: "vuefinder__default-preview__content" }, Us = { class: "vuefinder__default-preview__header" }, Ks = ["title"], js = { class: "vuefinder__default-preview__icon-container" }, Ws = ["title"], Gs = /* @__PURE__ */ Q({
   __name: "Default",
   emits: ["success"],
   setup(t, { emit: e }) {
-    const n = Z("ServiceContainer"), l = e;
-    return fe(() => {
+    const n = J("ServiceContainer"), l = e;
+    return ve(() => {
       l("success");
-    }), (i, r) => (u(), h("div", Kl, [
-      s("div", Wl, [
-        s("div", jl, [
+    }), (i, a) => (v(), w("div", Hs, [
+      s("div", Ns, [
+        s("div", Us, [
           s("h3", {
             class: "vuefinder__default-preview__title",
             id: "modal-title",
             title: o(n).modal.data.item.path
-          }, b(o(n).modal.data.item.basename), 9, Gl)
+          }, b(o(n).modal.data.item.basename), 9, Ks)
         ]),
-        s("div", ql, [
-          R(o(wt), { class: "vuefinder__default-preview__file-icon" }),
+        s("div", js, [
+          O(o(wt), { class: "vuefinder__default-preview__file-icon" }),
           s("div", {
             class: "vuefinder__default-preview__file-name",
             id: "modal-title",
             title: o(n).modal.data.item.path
-          }, b(o(n).modal.data.item.basename), 9, Yl)
+          }, b(o(n).modal.data.item.basename), 9, Ws)
         ])
       ])
     ]));
   }
-}), Xl = { class: "vuefinder__video-preview" }, Jl = ["title"], Zl = {
+}), qs = { class: "vuefinder__video-preview" }, Ys = ["title"], Qs = {
   class: "vuefinder__video-preview__video",
   preload: "metadata",
   controls: ""
-}, ei = ["src"], ti = /* @__PURE__ */ X({
+}, Xs = ["src"], Js = /* @__PURE__ */ Q({
   __name: "Video",
   emits: ["success"],
   setup(t, { emit: e }) {
-    const n = Z("ServiceContainer"), l = e, i = () => n.adapter.getPreviewUrl({ path: n.modal.data.item.path });
-    return fe(() => {
+    const n = J("ServiceContainer"), l = e, i = () => n.adapter.getPreviewUrl({ path: n.modal.data.item.path });
+    return ve(() => {
       l("success");
-    }), (r, a) => (u(), h("div", Xl, [
+    }), (a, r) => (v(), w("div", qs, [
       s("h3", {
         class: "vuefinder__video-preview__title",
         id: "modal-title",
         title: o(n).modal.data.item.path
-      }, b(o(n).modal.data.item.basename), 9, Jl),
+      }, b(o(n).modal.data.item.basename), 9, Ys),
       s("div", null, [
-        s("video", Zl, [
+        s("video", Qs, [
           s("source", {
             src: i(),
             type: "video/mp4"
-          }, null, 8, ei),
-          a[0] || (a[0] = J(" Your browser does not support the video tag. ", -1))
+          }, null, 8, Xs),
+          r[0] || (r[0] = ne(" Your browser does not support the video tag. ", -1))
         ])
       ])
     ]));
   }
-}), ni = { class: "vuefinder__audio-preview" }, oi = ["title"], si = {
+}), Zs = { class: "vuefinder__audio-preview" }, el = ["title"], tl = {
   class: "vuefinder__audio-preview__audio",
   controls: ""
-}, li = ["src"], ii = /* @__PURE__ */ X({
+}, nl = ["src"], ol = /* @__PURE__ */ Q({
   __name: "Audio",
   emits: ["success"],
   setup(t, { emit: e }) {
-    const n = e, l = Z("ServiceContainer"), i = () => l.adapter.getPreviewUrl({ path: l.modal.data.item.path });
-    return fe(() => {
+    const n = e, l = J("ServiceContainer"), i = () => l.adapter.getPreviewUrl({ path: l.modal.data.item.path });
+    return ve(() => {
       n("success");
-    }), (r, a) => (u(), h("div", ni, [
+    }), (a, r) => (v(), w("div", Zs, [
       s("h3", {
         class: "vuefinder__audio-preview__title",
         id: "modal-title",
         title: o(l).modal.data.item.path
-      }, b(o(l).modal.data.item.basename), 9, oi),
+      }, b(o(l).modal.data.item.basename), 9, el),
       s("div", null, [
-        s("audio", si, [
+        s("audio", tl, [
           s("source", {
             src: i(),
             type: "audio/mpeg"
-          }, null, 8, li),
-          a[0] || (a[0] = J(" Your browser does not support the audio element. ", -1))
+          }, null, 8, nl),
+          r[0] || (r[0] = ne(" Your browser does not support the audio element. ", -1))
         ])
       ])
     ]));
   }
-}), ai = { class: "vuefinder__pdf-preview" }, ri = ["title"], di = ["data"], ci = ["src"], ui = /* @__PURE__ */ X({
+}), sl = { class: "vuefinder__pdf-preview" }, ll = ["title"], il = ["data"], rl = ["src"], al = /* @__PURE__ */ Q({
   __name: "Pdf",
   emits: ["success"],
   setup(t, { emit: e }) {
-    const n = Z("ServiceContainer"), l = e, i = () => n.adapter.getPreviewUrl({ path: n.modal.data.item.path });
-    return fe(() => {
+    const n = J("ServiceContainer"), l = e, i = () => n.adapter.getPreviewUrl({ path: n.modal.data.item.path });
+    return ve(() => {
       l("success");
-    }), (r, a) => (u(), h("div", ai, [
+    }), (a, r) => (v(), w("div", sl, [
       s("h3", {
         class: "vuefinder__pdf-preview__title",
         id: "modal-title",
         title: o(n).modal.data.item.path
-      }, b(o(n).modal.data.item.basename), 9, ri),
+      }, b(o(n).modal.data.item.basename), 9, ll),
       s("div", null, [
         s("object", {
           class: "vuefinder__pdf-preview__object",
@@ -1579,75 +1211,75 @@ const wt = { render: Ul }, Kl = { class: "vuefinder__default-preview" }, Wl = { 
             src: i(),
             width: "100%",
             height: "100%"
-          }, " Your browser does not support PDFs ", 8, ci)
-        ], 8, di)
+          }, " Your browser does not support PDFs ", 8, rl)
+        ], 8, il)
       ])
     ]));
   }
 });
-function vi(t, e = null) {
+function dl(t, e = null) {
   return new Date(t * 1e3).toLocaleString(e ?? navigator.language ?? "en-US");
 }
-const fi = {
+const cl = {
   key: 0,
   class: "vuefinder__preview-modal__nav-overlay"
-}, _i = ["disabled", "title"], mi = ["disabled", "title"], pi = { class: "vuefinder__preview-modal__content" }, hi = { key: 0 }, gi = { class: "vuefinder__preview-modal__loading" }, wi = {
+}, ul = ["disabled", "title"], vl = ["disabled", "title"], fl = { class: "vuefinder__preview-modal__content" }, _l = { key: 0 }, ml = { class: "vuefinder__preview-modal__loading" }, pl = {
   key: 0,
   class: "vuefinder__preview-modal__loading-indicator"
-}, yi = { class: "vuefinder__preview-modal__details" }, bi = { class: "font-bold" }, ki = { class: "font-bold pl-2" }, xi = {
+}, hl = { class: "vuefinder__preview-modal__details" }, gl = { class: "font-bold" }, wl = { class: "font-bold pl-2" }, yl = {
   key: 0,
   class: "vuefinder__preview-modal__note"
-}, $i = ["download", "href"], It = /* @__PURE__ */ X({
+}, bl = ["download", "href"], It = /* @__PURE__ */ Q({
   __name: "ModalPreview",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = E(!1), i = (w) => (e.modal.data.item.mime_type ?? "").startsWith(w), r = e.features.includes(ne.PREVIEW);
-    r || (l.value = !0);
-    const a = G(() => e.modal.data.item), v = W(e.fs.sortedFiles), d = G(() => v.value.filter((w) => w.type === "file")), _ = G(() => d.value.findIndex((w) => w.path === a.value.path)), c = G(() => _.value > 0), f = G(() => _.value < d.value.length - 1), p = () => {
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = E(!1), i = (g) => (e.modal.data.item.mime_type ?? "").startsWith(g), a = e.features.includes(te.PREVIEW);
+    a || (l.value = !0);
+    const r = Y(() => e.modal.data.item), f = j(e.fs.sortedFiles), d = Y(() => f.value.filter((g) => g.type === "file")), _ = Y(() => d.value.findIndex((g) => g.path === r.value.path)), c = Y(() => _.value > 0), u = Y(() => _.value < d.value.length - 1), h = () => {
       if (e.modal.editMode.value || !c.value) return;
-      const w = d.value[_.value - 1];
-      e.fs.clearSelection(), e.fs.select(w.path), e.modal.data.item = w, e.modal.data.storage = e.modal.data.storage;
+      const g = d.value[_.value - 1];
+      e.fs.clearSelection(), e.fs.select(g.path), e.modal.data.item = g, e.modal.data.storage = e.modal.data.storage;
     }, y = () => {
-      if (e.modal.editMode.value || !f.value) return;
-      const w = d.value[_.value + 1];
-      e.fs.clearSelection(), e.fs.select(w.path), e.modal.data.item = w, e.modal.data.storage = e.modal.data.storage;
-    }, D = (w) => {
-      if (w.key === "Escape") {
-        w.preventDefault(), w.stopPropagation(), e.modal.close();
+      if (e.modal.editMode.value || !u.value) return;
+      const g = d.value[_.value + 1];
+      e.fs.clearSelection(), e.fs.select(g.path), e.modal.data.item = g, e.modal.data.storage = e.modal.data.storage;
+    }, F = (g) => {
+      if (g.key === "Escape") {
+        g.preventDefault(), g.stopPropagation(), e.modal.close();
         return;
       }
-      (w.key === "ArrowLeft" || w.key === "ArrowRight") && (w.preventDefault(), w.stopPropagation(), w.key === "ArrowLeft" ? p() : y());
+      (g.key === "ArrowLeft" || g.key === "ArrowRight") && (g.preventDefault(), g.stopPropagation(), g.key === "ArrowLeft" ? h() : y());
     };
-    return fe(() => {
-      const w = document.querySelector(".vuefinder__preview-modal");
-      w && w.focus();
-    }), (w, g) => (u(), V(Ie, null, {
-      buttons: Q(() => [
+    return ve(() => {
+      const g = document.querySelector(".vuefinder__preview-modal");
+      g && g.focus();
+    }), (g, p) => (v(), R(Ee, null, {
+      buttons: q(() => [
         s("button", {
           type: "button",
-          onClick: g[6] || (g[6] = (m) => o(e).modal.close()),
+          onClick: p[6] || (p[6] = (m) => o(e).modal.close()),
           class: "vf-btn vf-btn-secondary"
         }, b(o(n)("Close")), 1),
-        o(e).features.includes(o(ne).DOWNLOAD) ? (u(), h("a", {
+        o(e).features.includes(o(te).DOWNLOAD) ? (v(), w("a", {
           key: 0,
           target: "_blank",
           class: "vf-btn vf-btn-primary",
           download: o(e).adapter.getDownloadUrl({ path: o(e).modal.data.item.path }),
           href: o(e).adapter.getDownloadUrl({ path: o(e).modal.data.item.path })
-        }, b(o(n)("Download")), 9, $i)) : I("", !0)
+        }, b(o(n)("Download")), 9, bl)) : T("", !0)
       ]),
-      default: Q(() => [
+      default: q(() => [
         s("div", {
           class: "vuefinder__preview-modal",
-          onKeydown: D,
+          onKeydown: F,
           tabindex: "0"
         }, [
-          o(e).modal.editMode ? I("", !0) : (u(), h("div", fi, [
+          o(e).modal.editMode ? T("", !0) : (v(), w("div", cl, [
             s("button", {
-              onClick: p,
+              onClick: h,
               disabled: !c.value,
               class: "vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--left",
               title: o(n)("Previous file")
-            }, [...g[7] || (g[7] = [
+            }, [...p[7] || (p[7] = [
               s("svg", {
                 class: "vuefinder__preview-modal__nav-icon",
                 viewBox: "0 0 24 24",
@@ -1657,13 +1289,13 @@ const fi = {
               }, [
                 s("polyline", { points: "15,18 9,12 15,6" })
               ], -1)
-            ])], 8, _i),
+            ])], 8, ul),
             s("button", {
               onClick: y,
-              disabled: !f.value,
+              disabled: !u.value,
               class: "vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--right",
               title: o(n)("Next file")
-            }, [...g[8] || (g[8] = [
+            }, [...p[8] || (p[8] = [
               s("svg", {
                 class: "vuefinder__preview-modal__nav-icon",
                 viewBox: "0 0 24 24",
@@ -1673,33 +1305,33 @@ const fi = {
               }, [
                 s("polyline", { points: "9,18 15,12 9,6" })
               ], -1)
-            ])], 8, mi)
+            ])], 8, vl)
           ])),
-          s("div", pi, [
-            o(r) ? (u(), h("div", hi, [
-              i("text") ? (u(), V(Ol, {
+          s("div", fl, [
+            o(a) ? (v(), w("div", _l, [
+              i("text") ? (v(), R(Ms, {
                 key: 0,
-                onSuccess: g[0] || (g[0] = (m) => l.value = !0)
-              })) : i("image") ? (u(), V(Hl, {
+                onSuccess: p[0] || (p[0] = (m) => l.value = !0)
+              })) : i("image") ? (v(), R(Ps, {
                 key: 1,
-                onSuccess: g[1] || (g[1] = (m) => l.value = !0)
-              })) : i("video") ? (u(), V(ti, {
+                onSuccess: p[1] || (p[1] = (m) => l.value = !0)
+              })) : i("video") ? (v(), R(Js, {
                 key: 2,
-                onSuccess: g[2] || (g[2] = (m) => l.value = !0)
-              })) : i("audio") ? (u(), V(ii, {
+                onSuccess: p[2] || (p[2] = (m) => l.value = !0)
+              })) : i("audio") ? (v(), R(ol, {
                 key: 3,
-                onSuccess: g[3] || (g[3] = (m) => l.value = !0)
-              })) : i("application/pdf") ? (u(), V(ui, {
+                onSuccess: p[3] || (p[3] = (m) => l.value = !0)
+              })) : i("application/pdf") ? (v(), R(al, {
                 key: 4,
-                onSuccess: g[4] || (g[4] = (m) => l.value = !0)
-              })) : (u(), V(Ql, {
+                onSuccess: p[4] || (p[4] = (m) => l.value = !0)
+              })) : (v(), R(Gs, {
                 key: 5,
-                onSuccess: g[5] || (g[5] = (m) => l.value = !0)
+                onSuccess: p[5] || (p[5] = (m) => l.value = !0)
               }))
-            ])) : I("", !0),
-            s("div", gi, [
-              l.value === !1 ? (u(), h("div", wi, [
-                g[9] || (g[9] = s("svg", {
+            ])) : T("", !0),
+            s("div", ml, [
+              l.value === !1 ? (v(), w("div", pl, [
+                p[9] || (p[9] = s("svg", {
                   class: "vuefinder__preview-modal__spinner",
                   xmlns: "http://www.w3.org/2000/svg",
                   fill: "none",
@@ -1720,28 +1352,28 @@ const fi = {
                   })
                 ], -1)),
                 s("span", null, b(o(n)("Loading")), 1)
-              ])) : I("", !0)
+              ])) : T("", !0)
             ])
           ])
         ], 32),
-        s("div", yi, [
+        s("div", hl, [
           s("div", null, [
-            s("span", bi, b(o(n)("File Size")) + ": ", 1),
-            J(b(o(e).filesize(o(e).modal.data.item.file_size)), 1)
+            s("span", gl, b(o(n)("File Size")) + ": ", 1),
+            ne(b(o(e).filesize(o(e).modal.data.item.file_size)), 1)
           ]),
           s("div", null, [
-            s("span", ki, b(o(n)("Last Modified")) + ": ", 1),
-            J(" " + b(o(vi)(o(e).modal.data.item.last_modified)), 1)
+            s("span", wl, b(o(n)("Last Modified")) + ": ", 1),
+            ne(" " + b(o(dl)(o(e).modal.data.item.last_modified)), 1)
           ])
         ]),
-        o(e).features.includes(o(ne).DOWNLOAD) ? (u(), h("div", xi, [
+        o(e).features.includes(o(te).DOWNLOAD) ? (v(), w("div", yl, [
           s("span", null, b(o(n)(`Download doesn't work? You can try right-click "Download" button, select "Save link as...".`)), 1)
-        ])) : I("", !0)
+        ])) : T("", !0)
       ]),
       _: 1
     }));
   }
-}), Ci = {
+}), xl = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
@@ -1750,8 +1382,8 @@ const fi = {
   class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
   viewBox: "0 0 24 24"
 };
-function Si(t, e) {
-  return u(), h("svg", Ci, [...e[0] || (e[0] = [
+function kl(t, e) {
+  return v(), w("svg", xl, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -1759,14 +1391,14 @@ function Si(t, e) {
     }, null, -1)
   ])]);
 }
-const Fi = { render: Si }, Di = {
+const $l = { render: kl }, Cl = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
   viewBox: "0 0 24 24"
 };
-function Ei(t, e) {
-  return u(), h("svg", Di, [...e[0] || (e[0] = [
+function Sl(t, e) {
+  return v(), w("svg", Cl, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -1774,7 +1406,7 @@ function Ei(t, e) {
     }, null, -1)
   ])]);
 }
-const Ne = { render: Ei }, Ti = {
+const Ne = { render: Sl }, Fl = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
@@ -1783,8 +1415,8 @@ const Ne = { render: Ei }, Ti = {
   "stroke-width": "2",
   viewBox: "0 0 24 24"
 };
-function Ai(t, e) {
-  return u(), h("svg", Ti, [...e[0] || (e[0] = [
+function Dl(t, e) {
+  return v(), w("svg", Fl, [...e[0] || (e[0] = [
     s("path", {
       stroke: "none",
       d: "M0 0h24v24H0z"
@@ -1792,7 +1424,7 @@ function Ai(t, e) {
     s("path", { d: "M12 5v14M5 12h14" }, null, -1)
   ])]);
 }
-const Ot = { render: Ai }, Mi = {
+const Ot = { render: Dl }, El = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
@@ -1801,8 +1433,8 @@ const Ot = { render: Ai }, Mi = {
   "stroke-width": "2",
   viewBox: "0 0 24 24"
 };
-function Ii(t, e) {
-  return u(), h("svg", Mi, [...e[0] || (e[0] = [
+function Al(t, e) {
+  return v(), w("svg", El, [...e[0] || (e[0] = [
     s("path", {
       stroke: "none",
       d: "M0 0h24v24H0z"
@@ -1810,7 +1442,7 @@ function Ii(t, e) {
     s("path", { d: "M5 12h14" }, null, -1)
   ])]);
 }
-const Rt = { render: Ii }, Oi = {
+const Lt = { render: Al }, Ml = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
@@ -1820,8 +1452,8 @@ const Rt = { render: Ii }, Oi = {
   class: "h-5 w-5",
   viewBox: "0 0 24 24"
 };
-function Ri(t, e) {
-  return u(), h("svg", Oi, [...e[0] || (e[0] = [
+function Tl(t, e) {
+  return v(), w("svg", Ml, [...e[0] || (e[0] = [
     s("path", {
       stroke: "none",
       d: "M0 0h24v24H0z"
@@ -1829,14 +1461,14 @@ function Ri(t, e) {
     s("path", { d: "m15 4.5-4 4L7 10l-1.5 1.5 7 7L14 17l1.5-4 4-4M9 15l-4.5 4.5M14.5 4 20 9.5" }, null, -1)
   ])]);
 }
-const tn = { render: Ri }, Li = {
+const en = { render: Tl }, Il = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
   viewBox: "0 0 24 24"
 };
-function Vi(t, e) {
-  return u(), h("svg", Li, [...e[0] || (e[0] = [
+function Ol(t, e) {
+  return v(), w("svg", Il, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -1844,15 +1476,15 @@ function Vi(t, e) {
     }, null, -1)
   ])]);
 }
-const nn = { render: Vi }, Pi = {
+const tn = { render: Ol }, Ll = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
   "stroke-width": "1.5",
   viewBox: "0 0 24 24"
 };
-function Bi(t, e) {
-  return u(), h("svg", Pi, [...e[0] || (e[0] = [
+function Rl(t, e) {
+  return v(), w("svg", Ll, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -1860,13 +1492,13 @@ function Bi(t, e) {
     }, null, -1)
   ])]);
 }
-const on = { render: Bi }, zi = { class: "vuefinder__modal-tree__folder-item" }, Hi = { class: "vuefinder__modal-tree__folder-content" }, Ni = {
+const nn = { render: Rl }, Vl = { class: "vuefinder__modal-tree__folder-item" }, Pl = { class: "vuefinder__modal-tree__folder-content" }, Bl = {
   key: 1,
   class: "vuefinder__modal-tree__folder-spacer"
-}, Ui = { class: "vuefinder__modal-tree__folder-text" }, Ki = {
+}, zl = { class: "vuefinder__modal-tree__folder-text" }, Hl = {
   key: 0,
   class: "vuefinder__modal-tree__subfolders"
-}, Wi = 300, ji = /* @__PURE__ */ X({
+}, Nl = 300, Ul = /* @__PURE__ */ Q({
   __name: "ModalTreeFolderItem",
   props: {
     folder: {},
@@ -1878,83 +1510,83 @@ const on = { render: Bi }, zi = { class: "vuefinder__modal-tree__folder-item" },
   },
   emits: ["update:modelValue", "selectAndClose", "toggleFolder"],
   setup(t, { emit: e }) {
-    const n = Z("ServiceContainer"), { t: l } = n.i18n, i = n.fs, r = t, a = e;
-    W(i.path);
-    const v = G(() => {
-      const m = `${r.storage}:${r.folder.path}`;
-      return r.expandedFolders[m] || !1;
-    }), d = G(() => r.modelValue?.path === r.folder.path), _ = G(() => r.currentPath?.path === r.folder.path), c = G(() => r.modalTreeData[r.folder.path] || []), f = G(() => c.value.length > 0 || r.folder.type === "dir"), p = () => {
-      a("toggleFolder", r.storage, r.folder.path);
+    const n = J("ServiceContainer"), { t: l } = n.i18n, i = n.fs, a = t, r = e;
+    j(i.path);
+    const f = Y(() => {
+      const m = `${a.storage}:${a.folder.path}`;
+      return a.expandedFolders[m] || !1;
+    }), d = Y(() => a.modelValue?.path === a.folder.path), _ = Y(() => a.currentPath?.path === a.folder.path), c = Y(() => a.modalTreeData[a.folder.path] || []), u = Y(() => c.value.length > 0 || a.folder.type === "dir"), h = () => {
+      r("toggleFolder", a.storage, a.folder.path);
     }, y = () => {
-      a("update:modelValue", r.folder);
-    }, D = () => {
-      a("update:modelValue", r.folder), a("selectAndClose", r.folder);
+      r("update:modelValue", a.folder);
+    }, F = () => {
+      r("update:modelValue", a.folder), r("selectAndClose", a.folder);
     };
-    let w = 0;
-    const g = () => {
+    let g = 0;
+    const p = () => {
       const m = Date.now();
-      m - w < Wi ? D() : y(), w = m;
+      m - g < Nl ? F() : y(), g = m;
     };
     return (m, $) => {
-      const k = In("ModalTreeFolderItem", !0);
-      return u(), h("div", zi, [
-        s("div", Hi, [
-          f.value ? (u(), h("div", {
+      const k = Tn("ModalTreeFolderItem", !0);
+      return v(), w("div", Vl, [
+        s("div", Pl, [
+          u.value ? (v(), w("div", {
             key: 0,
             class: "vuefinder__modal-tree__folder-toggle",
-            onClick: p
+            onClick: h
           }, [
-            v.value ? (u(), V(o(Rt), {
+            f.value ? (v(), R(o(Lt), {
               key: 1,
               class: "vuefinder__modal-tree__folder-toggle-icon"
-            })) : (u(), V(o(Ot), {
+            })) : (v(), R(o(Ot), {
               key: 0,
               class: "vuefinder__modal-tree__folder-toggle-icon"
             }))
-          ])) : (u(), h("div", Ni)),
+          ])) : (v(), w("div", Bl)),
           s("div", {
-            class: q(["vuefinder__modal-tree__folder-link", {
+            class: W(["vuefinder__modal-tree__folder-link", {
               "vuefinder__modal-tree__folder-link--selected": d.value,
               "vuefinder__modal-tree__folder-link--current": _.value
             }]),
             onClick: y,
-            onDblclick: D,
-            onTouchend: g
+            onDblclick: F,
+            onTouchend: p
           }, [
-            v.value ? (u(), V(o(on), {
+            f.value ? (v(), R(o(nn), {
               key: 1,
               class: "vuefinder__item-icon__folder--open vuefinder__modal-tree__folder-icon"
-            })) : (u(), V(o(Ne), {
+            })) : (v(), R(o(Ne), {
               key: 0,
               class: "vuefinder__modal-tree__folder-icon vuefinder__item-icon__folder"
             })),
-            s("span", Ui, b(t.folder.basename), 1)
+            s("span", zl, b(t.folder.basename), 1)
           ], 34)
         ]),
-        v.value && f.value ? (u(), h("div", Ki, [
-          (u(!0), h(de, null, ve(c.value, (C) => (u(), V(k, {
-            key: C.path,
-            folder: C,
+        f.value && u.value ? (v(), w("div", Hl, [
+          (v(!0), w(de, null, fe(c.value, (D) => (v(), R(k, {
+            key: D.path,
+            folder: D,
             storage: t.storage,
             modelValue: t.modelValue,
             expandedFolders: t.expandedFolders,
             modalTreeData: t.modalTreeData,
             currentPath: t.currentPath,
-            "onUpdate:modelValue": $[0] || ($[0] = (M) => m.$emit("update:modelValue", M)),
-            onSelectAndClose: $[1] || ($[1] = (M) => m.$emit("selectAndClose", M)),
-            onToggleFolder: $[2] || ($[2] = (M, A) => m.$emit("toggleFolder", M, A))
+            "onUpdate:modelValue": $[0] || ($[0] = (L) => m.$emit("update:modelValue", L)),
+            onSelectAndClose: $[1] || ($[1] = (L) => m.$emit("selectAndClose", L)),
+            onToggleFolder: $[2] || ($[2] = (L, M) => m.$emit("toggleFolder", L, M))
           }, null, 8, ["folder", "storage", "modelValue", "expandedFolders", "modalTreeData", "currentPath"]))), 128))
-        ])) : I("", !0)
+        ])) : T("", !0)
       ]);
     };
   }
-}), Gi = { class: "vuefinder__modal-tree" }, qi = { class: "vuefinder__modal-tree__header" }, Yi = { class: "vuefinder__modal-tree__title" }, Qi = {
+}), Kl = { class: "vuefinder__modal-tree" }, jl = { class: "vuefinder__modal-tree__header" }, Wl = { class: "vuefinder__modal-tree__title" }, Gl = {
   key: 0,
   class: "vuefinder__modal-tree__section"
-}, Xi = { class: "vuefinder__modal-tree__section-title" }, Ji = { class: "vuefinder__modal-tree__list" }, Zi = ["onClick", "onDblclick", "onTouchend"], ea = { class: "vuefinder__modal-tree__text" }, ta = { class: "vuefinder__modal-tree__text-storage" }, na = { class: "vuefinder__modal-tree__section-title" }, oa = { class: "vuefinder__modal-tree__list" }, sa = { class: "vuefinder__modal-tree__storage-item" }, la = { class: "vuefinder__modal-tree__storage-content" }, ia = ["onClick"], aa = ["onClick", "onDblclick", "onTouchend"], ra = { class: "vuefinder__modal-tree__storage-text" }, da = {
+}, ql = { class: "vuefinder__modal-tree__section-title" }, Yl = { class: "vuefinder__modal-tree__list" }, Ql = ["onClick", "onDblclick", "onTouchend"], Xl = { class: "vuefinder__modal-tree__text" }, Jl = { class: "vuefinder__modal-tree__text-storage" }, Zl = { class: "vuefinder__modal-tree__section-title" }, ei = { class: "vuefinder__modal-tree__list" }, ti = { class: "vuefinder__modal-tree__storage-item" }, ni = { class: "vuefinder__modal-tree__storage-content" }, oi = ["onClick"], si = ["onClick", "onDblclick", "onTouchend"], li = { class: "vuefinder__modal-tree__storage-text" }, ii = {
   key: 0,
   class: "vuefinder__modal-tree__subfolders"
-}, gn = 300, sn = /* @__PURE__ */ X({
+}, hn = 300, on = /* @__PURE__ */ Q({
   __name: "ModalTreeSelector",
   props: {
     modelValue: {},
@@ -1963,72 +1595,72 @@ const on = { render: Bi }, zi = { class: "vuefinder__modal-tree__folder-item" },
   },
   emits: ["update:modelValue", "selectAndClose"],
   setup(t, { emit: e }) {
-    const n = Z("ServiceContainer"), { t: l } = n.i18n, i = n.fs, r = n.config, a = e, v = W(i.sortedFiles), d = W(i.storages), _ = W(i.path), c = E(null), f = E({}), p = E({});
-    ue(v, (A) => {
-      const B = A.filter((z) => z.type === "dir"), U = _.value?.path || "";
-      U && (p.value[U] = B.map((z) => ({
+    const n = J("ServiceContainer"), { t: l } = n.i18n, i = n.fs, a = n.config, r = e, f = j(i.sortedFiles), d = j(i.storages), _ = j(i.path), c = E(null), u = E({}), h = E({});
+    ue(f, (M) => {
+      const B = M.filter((z) => z.type === "dir"), U = _.value?.path || "";
+      U && (h.value[U] = B.map((z) => ({
         ...z,
         type: "dir"
       })));
     });
-    const y = (A, B) => {
-      const U = `${A}:${B}`;
-      f.value = {
-        ...f.value,
-        [U]: !f.value[U]
-      }, f.value[U] && !p.value[B] && n.adapter.list(B).then(({ files: z }) => {
+    const y = (M, B) => {
+      const U = `${M}:${B}`;
+      u.value = {
+        ...u.value,
+        [U]: !u.value[U]
+      }, u.value[U] && !h.value[B] && n.adapter.list(B).then(({ files: z }) => {
         if (z) {
           const oe = Object.values(z).filter((ie) => ie.type === "dir");
-          p.value[B] = oe.map((ie) => ({
+          h.value[B] = oe.map((ie) => ({
             ...ie,
             type: "dir"
           }));
         }
       });
-    }, D = (A) => p.value[A] || [], w = (A) => {
-      A && a("update:modelValue", A);
-    }, g = (A) => {
-      A && (a("update:modelValue", A), a("selectAndClose", A));
-    }, m = (A) => {
+    }, F = (M) => h.value[M] || [], g = (M) => {
+      M && r("update:modelValue", M);
+    }, p = (M) => {
+      M && (r("update:modelValue", M), r("selectAndClose", M));
+    }, m = (M) => {
       const B = {
-        storage: A,
-        path: A + "://",
-        basename: A,
+        storage: M,
+        path: M + "://",
+        basename: M,
         type: "dir",
         extension: "",
         file_size: null,
         last_modified: null,
         mime_type: null,
         visibility: "public",
-        dir: A + "://"
+        dir: M + "://"
       };
-      a("update:modelValue", B);
-    }, $ = (A) => {
+      r("update:modelValue", B);
+    }, $ = (M) => {
       const B = {
-        storage: A,
-        path: A + "://",
-        basename: A,
+        storage: M,
+        path: M + "://",
+        basename: M,
         type: "dir",
         extension: "",
         file_size: null,
         last_modified: null,
         mime_type: null,
         visibility: "public",
-        dir: A + "://"
+        dir: M + "://"
       };
-      a("update:modelValue", B), a("selectAndClose", B);
+      r("update:modelValue", B), r("selectAndClose", B);
     };
     let k = 0;
-    const C = (A) => {
-      if (!A) return;
+    const D = (M) => {
+      if (!M) return;
       const B = Date.now();
-      B - k < gn ? g(A) : w(A), k = B;
-    }, M = (A) => {
+      B - k < hn ? p(M) : g(M), k = B;
+    }, L = (M) => {
       const B = Date.now();
-      B - k < gn ? $(A) : m(A), k = B;
+      B - k < hn ? $(M) : m(M), k = B;
     };
-    return fe(() => {
-      c.value && Tt(c.value, {
+    return ve(() => {
+      c.value && At(c.value, {
         overflow: {
           x: "hidden"
         },
@@ -2036,83 +1668,83 @@ const on = { render: Bi }, zi = { class: "vuefinder__modal-tree__folder-item" },
           theme: "vf-scrollbars-theme"
         }
       });
-    }), (A, B) => (u(), h("div", Gi, [
-      s("div", qi, [
-        s("div", Yi, b(o(l)("Select Target Folder")), 1)
+    }), (M, B) => (v(), w("div", Kl, [
+      s("div", jl, [
+        s("div", Wl, b(o(l)("Select Target Folder")), 1)
       ]),
       s("div", {
         ref_key: "modalContentElement",
         ref: c,
         class: "vuefinder__modal-tree__content"
       }, [
-        t.showPinnedFolders && o(r).get("pinnedFolders").length ? (u(), h("div", Qi, [
-          s("div", Xi, b(o(l)("Pinned Folders")), 1),
-          s("div", Ji, [
-            (u(!0), h(de, null, ve(o(r).get("pinnedFolders"), (U) => (u(), h("div", {
+        t.showPinnedFolders && o(a).get("pinnedFolders").length ? (v(), w("div", Gl, [
+          s("div", ql, b(o(l)("Pinned Folders")), 1),
+          s("div", Yl, [
+            (v(!0), w(de, null, fe(o(a).get("pinnedFolders"), (U) => (v(), w("div", {
               key: U.path,
-              class: q(["vuefinder__modal-tree__item", { "vuefinder__modal-tree__item--selected": t.modelValue?.path === U.path }]),
-              onClick: (z) => w(U),
-              onDblclick: (z) => g(U),
-              onTouchend: (z) => C(U)
+              class: W(["vuefinder__modal-tree__item", { "vuefinder__modal-tree__item--selected": t.modelValue?.path === U.path }]),
+              onClick: (z) => g(U),
+              onDblclick: (z) => p(U),
+              onTouchend: (z) => D(U)
             }, [
-              R(o(Ne), { class: "vuefinder__modal-tree__icon vuefinder__item-icon__folder" }),
-              s("div", ea, b(U.basename), 1),
-              s("div", ta, b(U.storage), 1),
-              R(o(tn), { class: "vuefinder__modal-tree__icon vuefinder__modal-tree__icon--pin" })
-            ], 42, Zi))), 128))
+              O(o(Ne), { class: "vuefinder__modal-tree__icon vuefinder__item-icon__folder" }),
+              s("div", Xl, b(U.basename), 1),
+              s("div", Jl, b(U.storage), 1),
+              O(o(en), { class: "vuefinder__modal-tree__icon vuefinder__modal-tree__icon--pin" })
+            ], 42, Ql))), 128))
           ])
-        ])) : I("", !0),
-        s("div", na, b(o(l)("Storages")), 1),
-        (u(!0), h(de, null, ve(Array.isArray(o(d)) ? o(d) : o(d).value || [], (U) => (u(), h("div", {
+        ])) : T("", !0),
+        s("div", Zl, b(o(l)("Storages")), 1),
+        (v(!0), w(de, null, fe(Array.isArray(o(d)) ? o(d) : o(d).value || [], (U) => (v(), w("div", {
           class: "vuefinder__modal-tree__section",
           key: U
         }, [
-          s("div", oa, [
-            s("div", sa, [
-              s("div", la, [
+          s("div", ei, [
+            s("div", ti, [
+              s("div", ni, [
                 s("div", {
                   class: "vuefinder__modal-tree__storage-toggle",
-                  onClick: re((z) => y(U, U + "://"), ["stop"])
+                  onClick: ae((z) => y(U, U + "://"), ["stop"])
                 }, [
-                  f.value[`${U}:${U}://`] ? (u(), V(o(Rt), {
+                  u.value[`${U}:${U}://`] ? (v(), R(o(Lt), {
                     key: 1,
                     class: "vuefinder__modal-tree__toggle-icon"
-                  })) : (u(), V(o(Ot), {
+                  })) : (v(), R(o(Ot), {
                     key: 0,
                     class: "vuefinder__modal-tree__toggle-icon"
                   }))
-                ], 8, ia),
+                ], 8, oi),
                 s("div", {
-                  class: q(["vuefinder__modal-tree__storage-link", { "vuefinder__modal-tree__storage-link--selected": t.modelValue?.path === U + "://" }]),
+                  class: W(["vuefinder__modal-tree__storage-link", { "vuefinder__modal-tree__storage-link--selected": t.modelValue?.path === U + "://" }]),
                   onClick: (z) => m(U),
                   onDblclick: (z) => $(U),
-                  onTouchend: (z) => M(U)
+                  onTouchend: (z) => L(U)
                 }, [
-                  R(o(nn), { class: "vuefinder__modal-tree__storage-icon" }),
-                  s("span", ra, b(U), 1)
-                ], 42, aa)
+                  O(o(tn), { class: "vuefinder__modal-tree__storage-icon" }),
+                  s("span", li, b(U), 1)
+                ], 42, si)
               ]),
-              f.value[`${U}:${U}://`] ? (u(), h("div", da, [
-                (u(!0), h(de, null, ve(D(U + "://"), (z) => (u(), V(ji, {
+              u.value[`${U}:${U}://`] ? (v(), w("div", ii, [
+                (v(!0), w(de, null, fe(F(U + "://"), (z) => (v(), R(Ul, {
                   key: z.path,
                   folder: z,
                   storage: U,
                   modelValue: t.modelValue,
-                  expandedFolders: f.value,
-                  modalTreeData: p.value,
+                  expandedFolders: u.value,
+                  modalTreeData: h.value,
                   currentPath: t.currentPath,
-                  "onUpdate:modelValue": w,
-                  onSelectAndClose: g,
+                  "onUpdate:modelValue": g,
+                  onSelectAndClose: p,
                   onToggleFolder: y
                 }, null, 8, ["folder", "storage", "modelValue", "expandedFolders", "modalTreeData", "currentPath"]))), 128))
-              ])) : I("", !0)
+              ])) : T("", !0)
             ])
           ])
         ]))), 128))
       ], 512)
     ]));
   }
-}), ca = { class: "vuefinder__move-modal__content" }, ua = { class: "vuefinder__move-modal__description" }, va = { class: "vuefinder__move-modal__files vf-scrollbar" }, fa = {
+}), ri = { class: "vuefinder__move-modal__content" }, ai = { class: "vuefinder__move-modal__description" }, di = { class: "vuefinder__move-modal__files vf-scrollbar" }, ci = {
   key: 0,
   class: "vuefinder__move-modal__icon vuefinder__move-modal__icon--dir",
   xmlns: "http://www.w3.org/2000/svg",
@@ -2120,7 +1752,7 @@ const on = { render: Bi }, zi = { class: "vuefinder__modal-tree__folder-item" },
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, _a = {
+}, ui = {
   key: 1,
   class: "vuefinder__move-modal__icon",
   xmlns: "http://www.w3.org/2000/svg",
@@ -2128,23 +1760,23 @@ const on = { render: Bi }, zi = { class: "vuefinder__modal-tree__folder-item" },
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, ma = { class: "vuefinder__move-modal__file-name" }, pa = { class: "vuefinder__move-modal__target-title" }, ha = { class: "vuefinder__move-modal__target-container" }, ga = { class: "vuefinder__move-modal__target-path" }, wa = { class: "vuefinder__move-modal__target-storage" }, ya = {
+}, vi = { class: "vuefinder__move-modal__file-name" }, fi = { class: "vuefinder__move-modal__target-title" }, _i = { class: "vuefinder__move-modal__target-container" }, mi = { class: "vuefinder__move-modal__target-path" }, pi = { class: "vuefinder__move-modal__target-storage" }, hi = {
   key: 0,
   class: "vuefinder__move-modal__Destination-folder"
-}, ba = { class: "vuefinder__move-modal__target-badge" }, ka = { class: "vuefinder__move-modal__options" }, xa = { class: "vuefinder__move-modal__checkbox-label" }, $a = { class: "vuefinder__move-modal__checkbox-text" }, Ca = { class: "vuefinder__move-modal__selected-items" }, zn = /* @__PURE__ */ X({
+}, gi = { class: "vuefinder__move-modal__target-badge" }, wi = { class: "vuefinder__move-modal__options" }, yi = { class: "vuefinder__move-modal__checkbox-label" }, bi = { class: "vuefinder__move-modal__checkbox-text" }, xi = { class: "vuefinder__move-modal__selected-items" }, zn = /* @__PURE__ */ Q({
   __name: "ModalTransfer",
   props: {
     copy: { type: Boolean }
   },
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = t, i = E(e.modal.data.items.from), r = E(e.modal.data.items.to), a = E(""), v = E(l.copy || !1), d = G(() => v.value ? "copy" : "move"), _ = E(!1), c = G(() => v.value ? n("Copy files") : n("Move files")), f = G(() => v.value ? n("Are you sure you want to copy these files?") : n("Are you sure you want to move these files?")), p = G(() => v.value ? n("Yes, Copy!") : n("Yes, Move!"));
-    G(() => v.value ? n("Files copied.") : n("Files moved."));
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = t, i = E(e.modal.data.items.from), a = E(e.modal.data.items.to), r = E(""), f = E(l.copy || !1), d = Y(() => f.value ? "copy" : "move"), _ = E(!1), c = Y(() => f.value ? n("Copy files") : n("Move files")), u = Y(() => f.value ? n("Are you sure you want to copy these files?") : n("Are you sure you want to move these files?")), h = Y(() => f.value ? n("Yes, Copy!") : n("Yes, Move!"));
+    Y(() => f.value ? n("Files copied.") : n("Files moved."));
     const y = (m) => {
-      m && (r.value = m);
-    }, D = (m) => {
-      m && (r.value = m, _.value = !1);
-    }, w = () => {
-      const m = r.value.path;
+      m && (a.value = m);
+    }, F = (m) => {
+      m && (a.value = m, _.value = !1);
+    }, g = () => {
+      const m = a.value.path;
       if (!m) return { storage: "local", path: "" };
       if (m.endsWith("://"))
         return { storage: m.replace("://", ""), path: "" };
@@ -2153,47 +1785,47 @@ const on = { render: Bi }, zi = { class: "vuefinder__modal-tree__folder-item" },
         storage: $[0] || "local",
         path: $[1] || ""
       };
-    }, g = async () => {
+    }, p = async () => {
       i.value.length && await e.adapter[d.value]({
         sources: i.value.map(({ path: m }) => m),
-        destination: r.value.path
+        destination: a.value.path
       });
     };
-    return (m, $) => (u(), V(Ie, null, {
-      buttons: Q(() => [
+    return (m, $) => (v(), R(Ee, null, {
+      buttons: q(() => [
         s("button", {
           type: "button",
-          onClick: g,
+          onClick: p,
           class: "vf-btn vf-btn-primary"
-        }, b(p.value), 1),
+        }, b(h.value), 1),
         s("button", {
           type: "button",
           onClick: $[4] || ($[4] = (k) => o(e).modal.close()),
           class: "vf-btn vf-btn-secondary"
         }, b(o(n)("Cancel")), 1),
-        s("div", Ca, b(o(n)("%s item(s) selected.", i.value.length)), 1)
+        s("div", xi, b(o(n)("%s item(s) selected.", i.value.length)), 1)
       ]),
-      default: Q(() => [
+      default: q(() => [
         s("div", null, [
-          R(Ve, {
-            icon: o(Fi),
+          O(Me, {
+            icon: o($l),
             title: c.value
           }, null, 8, ["icon", "title"]),
-          s("div", ca, [
-            s("p", ua, b(f.value), 1),
-            s("div", va, [
-              (u(!0), h(de, null, ve(i.value, (k) => (u(), h("div", {
+          s("div", ri, [
+            s("p", ai, b(u.value), 1),
+            s("div", di, [
+              (v(!0), w(de, null, fe(i.value, (k) => (v(), w("div", {
                 class: "vuefinder__move-modal__file",
                 key: k.path
               }, [
                 s("div", null, [
-                  k.type === "dir" ? (u(), h("svg", fa, [...$[5] || ($[5] = [
+                  k.type === "dir" ? (v(), w("svg", ci, [...$[5] || ($[5] = [
                     s("path", {
                       "stroke-linecap": "round",
                       "stroke-linejoin": "round",
                       d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
                     }, null, -1)
-                  ])])) : (u(), h("svg", _a, [...$[6] || ($[6] = [
+                  ])])) : (v(), w("svg", ui, [...$[6] || ($[6] = [
                     s("path", {
                       "stroke-linecap": "round",
                       "stroke-linejoin": "round",
@@ -2201,74 +1833,74 @@ const on = { render: Bi }, zi = { class: "vuefinder__modal-tree__folder-item" },
                     }, null, -1)
                   ])]))
                 ]),
-                s("div", ma, b(k.path), 1)
+                s("div", vi, b(k.path), 1)
               ]))), 128))
             ]),
-            s("h4", pa, b(o(n)("Target Directory")), 1),
-            s("div", ha, [
+            s("h4", fi, b(o(n)("Target Directory")), 1),
+            s("div", _i, [
               s("div", {
                 class: "vuefinder__move-modal__target-display",
                 onClick: $[0] || ($[0] = (k) => _.value = !_.value)
               }, [
-                s("div", ga, [
-                  s("span", wa, b(w().storage) + "://", 1),
-                  w().path ? (u(), h("span", ya, b(w().path), 1)) : I("", !0)
+                s("div", mi, [
+                  s("span", pi, b(g().storage) + "://", 1),
+                  g().path ? (v(), w("span", hi, b(g().path), 1)) : T("", !0)
                 ]),
-                s("span", ba, b(o(n)("Browse")), 1)
+                s("span", gi, b(o(n)("Browse")), 1)
               ])
             ]),
             s("div", {
-              class: q(["vuefinder__move-modal__tree-selector", _.value ? "vuefinder__move-modal__tree-selector--expanded" : "vuefinder__move-modal__tree-selector--collapsed"])
+              class: W(["vuefinder__move-modal__tree-selector", _.value ? "vuefinder__move-modal__tree-selector--expanded" : "vuefinder__move-modal__tree-selector--collapsed"])
             }, [
-              R(sn, {
-                modelValue: r.value,
+              O(on, {
+                modelValue: a.value,
                 "onUpdate:modelValue": [
-                  $[1] || ($[1] = (k) => r.value = k),
+                  $[1] || ($[1] = (k) => a.value = k),
                   y
                 ],
                 "show-pinned-folders": !0,
-                onSelectAndClose: D
+                onSelectAndClose: F
               }, null, 8, ["modelValue"])
             ], 2),
-            s("div", ka, [
-              s("label", xa, [
+            s("div", wi, [
+              s("label", yi, [
                 me(s("input", {
                   type: "checkbox",
-                  "onUpdate:modelValue": $[2] || ($[2] = (k) => v.value = k),
+                  "onUpdate:modelValue": $[2] || ($[2] = (k) => f.value = k),
                   class: "vuefinder__move-modal__checkbox"
                 }, null, 512), [
-                  [Jt, v.value]
+                  [Jt, f.value]
                 ]),
-                s("span", $a, b(o(n)("Create a copy instead of moving")), 1)
+                s("span", bi, b(o(n)("Create a copy instead of moving")), 1)
               ])
             ]),
-            a.value.length ? (u(), V(o(a), {
+            r.value.length ? (v(), R(o(r), {
               key: 0,
-              onHidden: $[3] || ($[3] = (k) => a.value = ""),
+              onHidden: $[3] || ($[3] = (k) => r.value = ""),
               error: ""
             }, {
-              default: Q(() => [
-                J(b(a.value), 1)
+              default: q(() => [
+                ne(b(r.value), 1)
               ]),
               _: 1
-            })) : I("", !0)
+            })) : T("", !0)
           ])
         ])
       ]),
       _: 1
     }));
   }
-}), nt = /* @__PURE__ */ X({
+}), tt = /* @__PURE__ */ Q({
   __name: "ModalMove",
   setup(t) {
-    return (e, n) => (u(), V(zn, { copy: !1 }));
+    return (e, n) => (v(), R(zn, { copy: !1 }));
   }
-}), ln = /* @__PURE__ */ X({
+}), sn = /* @__PURE__ */ Q({
   __name: "ModalCopy",
   setup(t) {
-    return (e, n) => (u(), V(zn, { copy: !0 }));
+    return (e, n) => (v(), R(zn, { copy: !0 }));
   }
-}), Sa = (t, e = 0, n = !1) => {
+}), ki = (t, e = 0, n = !1) => {
   let l;
   return (...i) => {
     n && !l && t(...i), clearTimeout(l), l = setTimeout(() => {
@@ -2277,32 +1909,32 @@ const on = { render: Bi }, zi = { class: "vuefinder__modal-tree__folder-item" },
   };
 }, Hn = (t, e, n) => {
   const l = E(t);
-  return mo((i, r) => ({
+  return po((i, a) => ({
     get() {
       return i(), l.value;
     },
-    set: Sa((a) => {
-      l.value = a, r();
+    set: ki((r) => {
+      l.value = r, a();
     }, e, !1)
   }));
-}, Fa = {
+}, $i = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "currentColor",
   viewBox: "0 0 20 20"
 };
-function Da(t, e) {
-  return u(), h("svg", Fa, [...e[0] || (e[0] = [
+function Ci(t, e) {
+  return v(), w("svg", $i, [...e[0] || (e[0] = [
     s("path", { d: "m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607" }, null, -1)
   ])]);
 }
-const an = { render: Da }, Ea = {
+const ln = { render: Ci }, Si = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   class: "animate-spin p-0.5 h-5 w-5 text-white ml-auto",
   viewBox: "0 0 24 24"
 };
-function Ta(t, e) {
-  return u(), h("svg", Ea, [...e[0] || (e[0] = [
+function Fi(t, e) {
+  return v(), w("svg", Si, [...e[0] || (e[0] = [
     s("circle", {
       cx: "12",
       cy: "12",
@@ -2318,10 +1950,10 @@ function Ta(t, e) {
     }, null, -1)
   ])]);
 }
-const Lt = { render: Ta }, Aa = { class: "vuefinder__search-modal__search-input" }, Ma = ["value", "placeholder", "disabled"], Ia = {
+const Rt = { render: Fi }, Di = { class: "vuefinder__search-modal__search-input" }, Ei = ["value", "placeholder", "disabled"], Ai = {
   key: 0,
   class: "vuefinder__search-modal__loading"
-}, Oa = /* @__PURE__ */ X({
+}, Mi = /* @__PURE__ */ Q({
   name: "SearchInput",
   __name: "SearchInput",
   props: {
@@ -2331,7 +1963,7 @@ const Lt = { render: Ta }, Aa = { class: "vuefinder__search-modal__search-input"
   },
   emits: ["update:modelValue", "keydown"],
   setup(t, { expose: e, emit: n }) {
-    const l = n, i = Z("ServiceContainer"), { t: r } = i.i18n, a = E(null), v = (_) => {
+    const l = n, i = J("ServiceContainer"), { t: a } = i.i18n, r = E(null), f = (_) => {
       const c = _.target;
       l("update:modelValue", c.value);
     }, d = (_) => {
@@ -2339,41 +1971,41 @@ const Lt = { render: Ta }, Aa = { class: "vuefinder__search-modal__search-input"
     };
     return e({
       focus: () => {
-        a.value && a.value.focus();
+        r.value && r.value.focus();
       }
-    }), (_, c) => (u(), h("div", Aa, [
-      R(o(an), { class: "vuefinder__search-modal__search-icon" }),
+    }), (_, c) => (v(), w("div", Di, [
+      O(o(ln), { class: "vuefinder__search-modal__search-icon" }),
       s("input", {
         ref_key: "searchInput",
-        ref: a,
+        ref: r,
         value: t.modelValue,
         type: "text",
-        placeholder: o(r)("Search Files"),
+        placeholder: o(a)("Search Files"),
         disabled: t.disabled,
         class: "vuefinder__search-modal__input",
         onKeydown: d,
-        onKeyup: c[0] || (c[0] = re(() => {
+        onKeyup: c[0] || (c[0] = ae(() => {
         }, ["stop"])),
-        onInput: v
-      }, null, 40, Ma),
-      t.isSearching ? (u(), h("div", Ia, [
-        R(o(Lt), { class: "vuefinder__search-modal__loading-icon" })
-      ])) : I("", !0)
+        onInput: f
+      }, null, 40, Ei),
+      t.isSearching ? (v(), w("div", Ai, [
+        O(o(Rt), { class: "vuefinder__search-modal__loading-icon" })
+      ])) : T("", !0)
     ]));
   }
-}), yt = Math.min, Qe = Math.max, bt = Math.round, gt = Math.floor, Oe = (t) => ({
+}), yt = Math.min, Qe = Math.max, bt = Math.round, gt = Math.floor, Le = (t) => ({
   x: t,
   y: t
-}), Ra = {
+}), Ti = {
   left: "right",
   right: "left",
   bottom: "top",
   top: "bottom"
-}, La = {
+}, Ii = {
   start: "end",
   end: "start"
 };
-function wn(t, e, n) {
+function gn(t, e, n) {
   return Qe(t, yt(e, n));
 }
 function Vt(t, e) {
@@ -2391,48 +2023,48 @@ function Nn(t) {
 function Un(t) {
   return t === "y" ? "height" : "width";
 }
-const Va = /* @__PURE__ */ new Set(["top", "bottom"]);
-function je(t) {
-  return Va.has(Xe(t)) ? "y" : "x";
+const Oi = /* @__PURE__ */ new Set(["top", "bottom"]);
+function We(t) {
+  return Oi.has(Xe(t)) ? "y" : "x";
 }
 function Kn(t) {
-  return Nn(je(t));
+  return Nn(We(t));
 }
-function Pa(t, e, n) {
+function Li(t, e, n) {
   n === void 0 && (n = !1);
-  const l = Pt(t), i = Kn(t), r = Un(i);
-  let a = i === "x" ? l === (n ? "end" : "start") ? "right" : "left" : l === "start" ? "bottom" : "top";
-  return e.reference[r] > e.floating[r] && (a = kt(a)), [a, kt(a)];
+  const l = Pt(t), i = Kn(t), a = Un(i);
+  let r = i === "x" ? l === (n ? "end" : "start") ? "right" : "left" : l === "start" ? "bottom" : "top";
+  return e.reference[a] > e.floating[a] && (r = xt(r)), [r, xt(r)];
 }
-function Ba(t) {
-  const e = kt(t);
+function Ri(t) {
+  const e = xt(t);
   return [Yt(t), e, Yt(e)];
 }
 function Yt(t) {
-  return t.replace(/start|end/g, (e) => La[e]);
+  return t.replace(/start|end/g, (e) => Ii[e]);
 }
-const yn = ["left", "right"], bn = ["right", "left"], za = ["top", "bottom"], Ha = ["bottom", "top"];
-function Na(t, e, n) {
+const wn = ["left", "right"], yn = ["right", "left"], Vi = ["top", "bottom"], Pi = ["bottom", "top"];
+function Bi(t, e, n) {
   switch (t) {
     case "top":
     case "bottom":
-      return n ? e ? bn : yn : e ? yn : bn;
+      return n ? e ? yn : wn : e ? wn : yn;
     case "left":
     case "right":
-      return e ? za : Ha;
+      return e ? Vi : Pi;
     default:
       return [];
   }
 }
-function Ua(t, e, n, l) {
+function zi(t, e, n, l) {
   const i = Pt(t);
-  let r = Na(Xe(t), n === "start", l);
-  return i && (r = r.map((a) => a + "-" + i), e && (r = r.concat(r.map(Yt)))), r;
+  let a = Bi(Xe(t), n === "start", l);
+  return i && (a = a.map((r) => r + "-" + i), e && (a = a.concat(a.map(Yt)))), a;
 }
-function kt(t) {
-  return t.replace(/left|right|bottom|top/g, (e) => Ra[e]);
+function xt(t) {
+  return t.replace(/left|right|bottom|top/g, (e) => Ti[e]);
 }
-function Ka(t) {
+function Hi(t) {
   return {
     top: 0,
     right: 0,
@@ -2441,15 +2073,15 @@ function Ka(t) {
     ...t
   };
 }
-function Wa(t) {
-  return typeof t != "number" ? Ka(t) : {
+function Ni(t) {
+  return typeof t != "number" ? Hi(t) : {
     top: t,
     right: t,
     bottom: t,
     left: t
   };
 }
-function xt(t) {
+function kt(t) {
   const {
     x: e,
     y: n,
@@ -2467,12 +2099,12 @@ function xt(t) {
     y: n
   };
 }
-function kn(t, e, n) {
+function bn(t, e, n) {
   let {
     reference: l,
     floating: i
   } = t;
-  const r = je(e), a = Kn(e), v = Un(a), d = Xe(e), _ = r === "y", c = l.x + l.width / 2 - i.width / 2, f = l.y + l.height / 2 - i.height / 2, p = l[v] / 2 - i[v] / 2;
+  const a = We(e), r = Kn(e), f = Un(r), d = Xe(e), _ = a === "y", c = l.x + l.width / 2 - i.width / 2, u = l.y + l.height / 2 - i.height / 2, h = l[f] / 2 - i[f] / 2;
   let y;
   switch (d) {
     case "top":
@@ -2490,13 +2122,13 @@ function kn(t, e, n) {
     case "right":
       y = {
         x: l.x + l.width,
-        y: f
+        y: u
       };
       break;
     case "left":
       y = {
         x: l.x - i.width,
-        y: f
+        y: u
       };
       break;
     default:
@@ -2507,121 +2139,121 @@ function kn(t, e, n) {
   }
   switch (Pt(e)) {
     case "start":
-      y[a] -= p * (n && _ ? -1 : 1);
+      y[r] -= h * (n && _ ? -1 : 1);
       break;
     case "end":
-      y[a] += p * (n && _ ? -1 : 1);
+      y[r] += h * (n && _ ? -1 : 1);
       break;
   }
   return y;
 }
-const ja = async (t, e, n) => {
+const Ui = async (t, e, n) => {
   const {
     placement: l = "bottom",
     strategy: i = "absolute",
-    middleware: r = [],
-    platform: a
-  } = n, v = r.filter(Boolean), d = await (a.isRTL == null ? void 0 : a.isRTL(e));
-  let _ = await a.getElementRects({
+    middleware: a = [],
+    platform: r
+  } = n, f = a.filter(Boolean), d = await (r.isRTL == null ? void 0 : r.isRTL(e));
+  let _ = await r.getElementRects({
     reference: t,
     floating: e,
     strategy: i
   }), {
     x: c,
-    y: f
-  } = kn(_, l, d), p = l, y = {}, D = 0;
-  for (let w = 0; w < v.length; w++) {
+    y: u
+  } = bn(_, l, d), h = l, y = {}, F = 0;
+  for (let g = 0; g < f.length; g++) {
     const {
-      name: g,
+      name: p,
       fn: m
-    } = v[w], {
+    } = f[g], {
       x: $,
       y: k,
-      data: C,
-      reset: M
+      data: D,
+      reset: L
     } = await m({
       x: c,
-      y: f,
+      y: u,
       initialPlacement: l,
-      placement: p,
+      placement: h,
       strategy: i,
       middlewareData: y,
       rects: _,
-      platform: a,
+      platform: r,
       elements: {
         reference: t,
         floating: e
       }
     });
-    c = $ ?? c, f = k ?? f, y = {
+    c = $ ?? c, u = k ?? u, y = {
       ...y,
-      [g]: {
-        ...y[g],
-        ...C
+      [p]: {
+        ...y[p],
+        ...D
       }
-    }, M && D <= 50 && (D++, typeof M == "object" && (M.placement && (p = M.placement), M.rects && (_ = M.rects === !0 ? await a.getElementRects({
+    }, L && F <= 50 && (F++, typeof L == "object" && (L.placement && (h = L.placement), L.rects && (_ = L.rects === !0 ? await r.getElementRects({
       reference: t,
       floating: e,
       strategy: i
-    }) : M.rects), {
+    }) : L.rects), {
       x: c,
-      y: f
-    } = kn(_, p, d)), w = -1);
+      y: u
+    } = bn(_, h, d)), g = -1);
   }
   return {
     x: c,
-    y: f,
-    placement: p,
+    y: u,
+    placement: h,
     strategy: i,
     middlewareData: y
   };
 };
-async function Wn(t, e) {
+async function jn(t, e) {
   var n;
   e === void 0 && (e = {});
   const {
     x: l,
     y: i,
-    platform: r,
-    rects: a,
-    elements: v,
+    platform: a,
+    rects: r,
+    elements: f,
     strategy: d
   } = t, {
     boundary: _ = "clippingAncestors",
     rootBoundary: c = "viewport",
-    elementContext: f = "floating",
-    altBoundary: p = !1,
+    elementContext: u = "floating",
+    altBoundary: h = !1,
     padding: y = 0
-  } = Vt(e, t), D = Wa(y), g = v[p ? f === "floating" ? "reference" : "floating" : f], m = xt(await r.getClippingRect({
-    element: (n = await (r.isElement == null ? void 0 : r.isElement(g))) == null || n ? g : g.contextElement || await (r.getDocumentElement == null ? void 0 : r.getDocumentElement(v.floating)),
+  } = Vt(e, t), F = Ni(y), p = f[h ? u === "floating" ? "reference" : "floating" : u], m = kt(await a.getClippingRect({
+    element: (n = await (a.isElement == null ? void 0 : a.isElement(p))) == null || n ? p : p.contextElement || await (a.getDocumentElement == null ? void 0 : a.getDocumentElement(f.floating)),
     boundary: _,
     rootBoundary: c,
     strategy: d
-  })), $ = f === "floating" ? {
+  })), $ = u === "floating" ? {
     x: l,
     y: i,
-    width: a.floating.width,
-    height: a.floating.height
-  } : a.reference, k = await (r.getOffsetParent == null ? void 0 : r.getOffsetParent(v.floating)), C = await (r.isElement == null ? void 0 : r.isElement(k)) ? await (r.getScale == null ? void 0 : r.getScale(k)) || {
+    width: r.floating.width,
+    height: r.floating.height
+  } : r.reference, k = await (a.getOffsetParent == null ? void 0 : a.getOffsetParent(f.floating)), D = await (a.isElement == null ? void 0 : a.isElement(k)) ? await (a.getScale == null ? void 0 : a.getScale(k)) || {
     x: 1,
     y: 1
   } : {
     x: 1,
     y: 1
-  }, M = xt(r.convertOffsetParentRelativeRectToViewportRelativeRect ? await r.convertOffsetParentRelativeRectToViewportRelativeRect({
-    elements: v,
+  }, L = kt(a.convertOffsetParentRelativeRectToViewportRelativeRect ? await a.convertOffsetParentRelativeRectToViewportRelativeRect({
+    elements: f,
     rect: $,
     offsetParent: k,
     strategy: d
   }) : $);
   return {
-    top: (m.top - M.top + D.top) / C.y,
-    bottom: (M.bottom - m.bottom + D.bottom) / C.y,
-    left: (m.left - M.left + D.left) / C.x,
-    right: (M.right - m.right + D.right) / C.x
+    top: (m.top - L.top + F.top) / D.y,
+    bottom: (L.bottom - m.bottom + F.bottom) / D.y,
+    left: (m.left - L.left + F.left) / D.x,
+    right: (L.right - m.right + F.right) / D.x
   };
 }
-const Ga = function(t) {
+const Ki = function(t) {
   return t === void 0 && (t = {}), {
     name: "flip",
     options: t,
@@ -2629,28 +2261,28 @@ const Ga = function(t) {
       var n, l;
       const {
         placement: i,
-        middlewareData: r,
-        rects: a,
-        initialPlacement: v,
+        middlewareData: a,
+        rects: r,
+        initialPlacement: f,
         platform: d,
         elements: _
       } = e, {
         mainAxis: c = !0,
-        crossAxis: f = !0,
-        fallbackPlacements: p,
+        crossAxis: u = !0,
+        fallbackPlacements: h,
         fallbackStrategy: y = "bestFit",
-        fallbackAxisSideDirection: D = "none",
-        flipAlignment: w = !0,
-        ...g
+        fallbackAxisSideDirection: F = "none",
+        flipAlignment: g = !0,
+        ...p
       } = Vt(t, e);
-      if ((n = r.arrow) != null && n.alignmentOffset)
+      if ((n = a.arrow) != null && n.alignmentOffset)
         return {};
-      const m = Xe(i), $ = je(v), k = Xe(v) === v, C = await (d.isRTL == null ? void 0 : d.isRTL(_.floating)), M = p || (k || !w ? [kt(v)] : Ba(v)), A = D !== "none";
-      !p && A && M.push(...Ua(v, w, D, C));
-      const B = [v, ...M], U = await Wn(e, g), z = [];
-      let oe = ((l = r.flip) == null ? void 0 : l.overflows) || [];
-      if (c && z.push(U[m]), f) {
-        const le = Pa(i, a, C);
+      const m = Xe(i), $ = We(f), k = Xe(f) === f, D = await (d.isRTL == null ? void 0 : d.isRTL(_.floating)), L = h || (k || !g ? [xt(f)] : Ri(f)), M = F !== "none";
+      !h && M && L.push(...zi(f, g, F, D));
+      const B = [f, ...L], U = await jn(e, p), z = [];
+      let oe = ((l = a.flip) == null ? void 0 : l.overflows) || [];
+      if (c && z.push(U[m]), u) {
+        const le = Li(i, r, D);
         z.push(U[le[0]], U[le[1]]);
       }
       if (oe = [...oe, {
@@ -2658,10 +2290,10 @@ const Ga = function(t) {
         overflows: z
       }], !z.every((le) => le <= 0)) {
         var ie, he;
-        const le = (((ie = r.flip) == null ? void 0 : ie.index) || 0) + 1, _e = B[le];
-        if (_e && (!(f === "alignment" ? $ !== je(_e) : !1) || // We leave the current main axis only if every placement on that axis
+        const le = (((ie = a.flip) == null ? void 0 : ie.index) || 0) + 1, _e = B[le];
+        if (_e && (!(u === "alignment" ? $ !== We(_e) : !1) || // We leave the current main axis only if every placement on that axis
         // overflows the main axis.
-        oe.every((x) => je(x.placement) === $ ? x.overflows[0] > 0 : !0)))
+        oe.every((x) => We(x.placement) === $ ? x.overflows[0] > 0 : !0)))
           return {
             data: {
               index: le,
@@ -2671,66 +2303,66 @@ const Ga = function(t) {
               placement: _e
             }
           };
-        let Y = (he = oe.filter((S) => S.overflows[0] <= 0).sort((S, x) => S.overflows[1] - x.overflows[1])[0]) == null ? void 0 : he.placement;
-        if (!Y)
+        let X = (he = oe.filter((C) => C.overflows[0] <= 0).sort((C, x) => C.overflows[1] - x.overflows[1])[0]) == null ? void 0 : he.placement;
+        if (!X)
           switch (y) {
             case "bestFit": {
-              var ee;
-              const S = (ee = oe.filter((x) => {
-                if (A) {
-                  const F = je(x.placement);
-                  return F === $ || // Create a bias to the `y` side axis due to horizontal
+              var Z;
+              const C = (Z = oe.filter((x) => {
+                if (M) {
+                  const S = We(x.placement);
+                  return S === $ || // Create a bias to the `y` side axis due to horizontal
                   // reading directions favoring greater width.
-                  F === "y";
+                  S === "y";
                 }
                 return !0;
-              }).map((x) => [x.placement, x.overflows.filter((F) => F > 0).reduce((F, T) => F + T, 0)]).sort((x, F) => x[1] - F[1])[0]) == null ? void 0 : ee[0];
-              S && (Y = S);
+              }).map((x) => [x.placement, x.overflows.filter((S) => S > 0).reduce((S, A) => S + A, 0)]).sort((x, S) => x[1] - S[1])[0]) == null ? void 0 : Z[0];
+              C && (X = C);
               break;
             }
             case "initialPlacement":
-              Y = v;
+              X = f;
               break;
           }
-        if (i !== Y)
+        if (i !== X)
           return {
             reset: {
-              placement: Y
+              placement: X
             }
           };
       }
       return {};
     }
   };
-}, qa = /* @__PURE__ */ new Set(["left", "top"]);
-async function Ya(t, e) {
+}, ji = /* @__PURE__ */ new Set(["left", "top"]);
+async function Wi(t, e) {
   const {
     placement: n,
     platform: l,
     elements: i
-  } = t, r = await (l.isRTL == null ? void 0 : l.isRTL(i.floating)), a = Xe(n), v = Pt(n), d = je(n) === "y", _ = qa.has(a) ? -1 : 1, c = r && d ? -1 : 1, f = Vt(e, t);
+  } = t, a = await (l.isRTL == null ? void 0 : l.isRTL(i.floating)), r = Xe(n), f = Pt(n), d = We(n) === "y", _ = ji.has(r) ? -1 : 1, c = a && d ? -1 : 1, u = Vt(e, t);
   let {
-    mainAxis: p,
+    mainAxis: h,
     crossAxis: y,
-    alignmentAxis: D
-  } = typeof f == "number" ? {
-    mainAxis: f,
+    alignmentAxis: F
+  } = typeof u == "number" ? {
+    mainAxis: u,
     crossAxis: 0,
     alignmentAxis: null
   } : {
-    mainAxis: f.mainAxis || 0,
-    crossAxis: f.crossAxis || 0,
-    alignmentAxis: f.alignmentAxis
+    mainAxis: u.mainAxis || 0,
+    crossAxis: u.crossAxis || 0,
+    alignmentAxis: u.alignmentAxis
   };
-  return v && typeof D == "number" && (y = v === "end" ? D * -1 : D), d ? {
+  return f && typeof F == "number" && (y = f === "end" ? F * -1 : F), d ? {
     x: y * c,
-    y: p * _
+    y: h * _
   } : {
-    x: p * _,
+    x: h * _,
     y: y * c
   };
 }
-const Qa = function(t) {
+const Gi = function(t) {
   return t === void 0 && (t = 0), {
     name: "offset",
     options: t,
@@ -2738,21 +2370,21 @@ const Qa = function(t) {
       var n, l;
       const {
         x: i,
-        y: r,
-        placement: a,
-        middlewareData: v
-      } = e, d = await Ya(e, t);
-      return a === ((n = v.offset) == null ? void 0 : n.placement) && (l = v.arrow) != null && l.alignmentOffset ? {} : {
+        y: a,
+        placement: r,
+        middlewareData: f
+      } = e, d = await Wi(e, t);
+      return r === ((n = f.offset) == null ? void 0 : n.placement) && (l = f.arrow) != null && l.alignmentOffset ? {} : {
         x: i + d.x,
-        y: r + d.y,
+        y: a + d.y,
         data: {
           ...d,
-          placement: a
+          placement: r
         }
       };
     }
   };
-}, Xa = function(t) {
+}, qi = function(t) {
   return t === void 0 && (t = {}), {
     name: "shift",
     options: t,
@@ -2762,14 +2394,14 @@ const Qa = function(t) {
         y: l,
         placement: i
       } = e, {
-        mainAxis: r = !0,
-        crossAxis: a = !1,
-        limiter: v = {
-          fn: (g) => {
+        mainAxis: a = !0,
+        crossAxis: r = !1,
+        limiter: f = {
+          fn: (p) => {
             let {
               x: m,
               y: $
-            } = g;
+            } = p;
             return {
               x: m,
               y: $
@@ -2780,29 +2412,29 @@ const Qa = function(t) {
       } = Vt(t, e), _ = {
         x: n,
         y: l
-      }, c = await Wn(e, d), f = je(Xe(i)), p = Nn(f);
-      let y = _[p], D = _[f];
-      if (r) {
-        const g = p === "y" ? "top" : "left", m = p === "y" ? "bottom" : "right", $ = y + c[g], k = y - c[m];
-        y = wn($, y, k);
-      }
+      }, c = await jn(e, d), u = We(Xe(i)), h = Nn(u);
+      let y = _[h], F = _[u];
       if (a) {
-        const g = f === "y" ? "top" : "left", m = f === "y" ? "bottom" : "right", $ = D + c[g], k = D - c[m];
-        D = wn($, D, k);
+        const p = h === "y" ? "top" : "left", m = h === "y" ? "bottom" : "right", $ = y + c[p], k = y - c[m];
+        y = gn($, y, k);
       }
-      const w = v.fn({
+      if (r) {
+        const p = u === "y" ? "top" : "left", m = u === "y" ? "bottom" : "right", $ = F + c[p], k = F - c[m];
+        F = gn($, F, k);
+      }
+      const g = f.fn({
         ...e,
-        [p]: y,
-        [f]: D
+        [h]: y,
+        [u]: F
       });
       return {
-        ...w,
+        ...g,
         data: {
-          x: w.x - n,
-          y: w.y - l,
+          x: g.x - n,
+          y: g.y - l,
           enabled: {
-            [p]: r,
-            [f]: a
+            [h]: a,
+            [u]: r
           }
         }
       };
@@ -2812,8 +2444,8 @@ const Qa = function(t) {
 function Bt() {
   return typeof window < "u";
 }
-function st(t) {
-  return jn(t) ? (t.nodeName || "").toLowerCase() : "#document";
+function ot(t) {
+  return Wn(t) ? (t.nodeName || "").toLowerCase() : "#document";
 }
 function Fe(t) {
   var e;
@@ -2821,37 +2453,37 @@ function Fe(t) {
 }
 function Pe(t) {
   var e;
-  return (e = (jn(t) ? t.ownerDocument : t.document) || window.document) == null ? void 0 : e.documentElement;
+  return (e = (Wn(t) ? t.ownerDocument : t.document) || window.document) == null ? void 0 : e.documentElement;
 }
-function jn(t) {
+function Wn(t) {
   return Bt() ? t instanceof Node || t instanceof Fe(t).Node : !1;
 }
-function Ae(t) {
+function Ie(t) {
   return Bt() ? t instanceof Element || t instanceof Fe(t).Element : !1;
 }
-function Le(t) {
+function Ve(t) {
   return Bt() ? t instanceof HTMLElement || t instanceof Fe(t).HTMLElement : !1;
 }
 function xn(t) {
   return !Bt() || typeof ShadowRoot > "u" ? !1 : t instanceof ShadowRoot || t instanceof Fe(t).ShadowRoot;
 }
-const Ja = /* @__PURE__ */ new Set(["inline", "contents"]);
+const Yi = /* @__PURE__ */ new Set(["inline", "contents"]);
 function _t(t) {
   const {
     overflow: e,
     overflowX: n,
     overflowY: l,
     display: i
-  } = Me(t);
-  return /auto|scroll|overlay|hidden|clip/.test(e + l + n) && !Ja.has(i);
+  } = Oe(t);
+  return /auto|scroll|overlay|hidden|clip/.test(e + l + n) && !Yi.has(i);
 }
-const Za = /* @__PURE__ */ new Set(["table", "td", "th"]);
-function er(t) {
-  return Za.has(st(t));
+const Qi = /* @__PURE__ */ new Set(["table", "td", "th"]);
+function Xi(t) {
+  return Qi.has(ot(t));
 }
-const tr = [":popover-open", ":modal"];
+const Ji = [":popover-open", ":modal"];
 function zt(t) {
-  return tr.some((e) => {
+  return Ji.some((e) => {
     try {
       return t.matches(e);
     } catch {
@@ -2859,14 +2491,14 @@ function zt(t) {
     }
   });
 }
-const nr = ["transform", "translate", "scale", "rotate", "perspective"], or = ["transform", "translate", "scale", "rotate", "perspective", "filter"], sr = ["paint", "layout", "strict", "content"];
+const Zi = ["transform", "translate", "scale", "rotate", "perspective"], er = ["transform", "translate", "scale", "rotate", "perspective", "filter"], tr = ["paint", "layout", "strict", "content"];
 function rn(t) {
-  const e = dn(), n = Ae(t) ? Me(t) : t;
-  return nr.some((l) => n[l] ? n[l] !== "none" : !1) || (n.containerType ? n.containerType !== "normal" : !1) || !e && (n.backdropFilter ? n.backdropFilter !== "none" : !1) || !e && (n.filter ? n.filter !== "none" : !1) || or.some((l) => (n.willChange || "").includes(l)) || sr.some((l) => (n.contain || "").includes(l));
+  const e = an(), n = Ie(t) ? Oe(t) : t;
+  return Zi.some((l) => n[l] ? n[l] !== "none" : !1) || (n.containerType ? n.containerType !== "normal" : !1) || !e && (n.backdropFilter ? n.backdropFilter !== "none" : !1) || !e && (n.filter ? n.filter !== "none" : !1) || er.some((l) => (n.willChange || "").includes(l)) || tr.some((l) => (n.contain || "").includes(l));
 }
-function lr(t) {
+function nr(t) {
   let e = Ge(t);
-  for (; Le(e) && !ot(e); ) {
+  for (; Ve(e) && !nt(e); ) {
     if (rn(e))
       return e;
     if (zt(e))
@@ -2875,18 +2507,18 @@ function lr(t) {
   }
   return null;
 }
-function dn() {
+function an() {
   return typeof CSS > "u" || !CSS.supports ? !1 : CSS.supports("-webkit-backdrop-filter", "none");
 }
-const ir = /* @__PURE__ */ new Set(["html", "body", "#document"]);
-function ot(t) {
-  return ir.has(st(t));
+const or = /* @__PURE__ */ new Set(["html", "body", "#document"]);
+function nt(t) {
+  return or.has(ot(t));
 }
-function Me(t) {
+function Oe(t) {
   return Fe(t).getComputedStyle(t);
 }
 function Ht(t) {
-  return Ae(t) ? {
+  return Ie(t) ? {
     scrollLeft: t.scrollLeft,
     scrollTop: t.scrollTop
   } : {
@@ -2895,7 +2527,7 @@ function Ht(t) {
   };
 }
 function Ge(t) {
-  if (st(t) === "html")
+  if (ot(t) === "html")
     return t;
   const e = (
     // Step into the shadow DOM of the parent of a slotted node.
@@ -2908,15 +2540,15 @@ function Ge(t) {
 }
 function Gn(t) {
   const e = Ge(t);
-  return ot(e) ? t.ownerDocument ? t.ownerDocument.body : t.body : Le(e) && _t(e) ? e : Gn(e);
+  return nt(e) ? t.ownerDocument ? t.ownerDocument.body : t.body : Ve(e) && _t(e) ? e : Gn(e);
 }
 function ct(t, e, n) {
   var l;
   e === void 0 && (e = []), n === void 0 && (n = !0);
-  const i = Gn(t), r = i === ((l = t.ownerDocument) == null ? void 0 : l.body), a = Fe(i);
-  if (r) {
-    const v = Qt(a);
-    return e.concat(a, a.visualViewport || [], _t(i) ? i : [], v && n ? ct(v) : []);
+  const i = Gn(t), a = i === ((l = t.ownerDocument) == null ? void 0 : l.body), r = Fe(i);
+  if (a) {
+    const f = Qt(r);
+    return e.concat(r, r.visualViewport || [], _t(i) ? i : [], f && n ? ct(f) : []);
   }
   return e.concat(i, ct(i, [], n));
 }
@@ -2924,62 +2556,62 @@ function Qt(t) {
   return t.parent && Object.getPrototypeOf(t.parent) ? t.frameElement : null;
 }
 function qn(t) {
-  const e = Me(t);
+  const e = Oe(t);
   let n = parseFloat(e.width) || 0, l = parseFloat(e.height) || 0;
-  const i = Le(t), r = i ? t.offsetWidth : n, a = i ? t.offsetHeight : l, v = bt(n) !== r || bt(l) !== a;
-  return v && (n = r, l = a), {
+  const i = Ve(t), a = i ? t.offsetWidth : n, r = i ? t.offsetHeight : l, f = bt(n) !== a || bt(l) !== r;
+  return f && (n = a, l = r), {
     width: n,
     height: l,
-    $: v
+    $: f
   };
 }
-function cn(t) {
-  return Ae(t) ? t : t.contextElement;
+function dn(t) {
+  return Ie(t) ? t : t.contextElement;
 }
-function tt(t) {
-  const e = cn(t);
-  if (!Le(e))
-    return Oe(1);
+function et(t) {
+  const e = dn(t);
+  if (!Ve(e))
+    return Le(1);
   const n = e.getBoundingClientRect(), {
     width: l,
     height: i,
-    $: r
+    $: a
   } = qn(e);
-  let a = (r ? bt(n.width) : n.width) / l, v = (r ? bt(n.height) : n.height) / i;
-  return (!a || !Number.isFinite(a)) && (a = 1), (!v || !Number.isFinite(v)) && (v = 1), {
-    x: a,
-    y: v
+  let r = (a ? bt(n.width) : n.width) / l, f = (a ? bt(n.height) : n.height) / i;
+  return (!r || !Number.isFinite(r)) && (r = 1), (!f || !Number.isFinite(f)) && (f = 1), {
+    x: r,
+    y: f
   };
 }
-const ar = /* @__PURE__ */ Oe(0);
+const sr = /* @__PURE__ */ Le(0);
 function Yn(t) {
   const e = Fe(t);
-  return !dn() || !e.visualViewport ? ar : {
+  return !an() || !e.visualViewport ? sr : {
     x: e.visualViewport.offsetLeft,
     y: e.visualViewport.offsetTop
   };
 }
-function rr(t, e, n) {
+function lr(t, e, n) {
   return e === void 0 && (e = !1), !n || e && n !== Fe(t) ? !1 : e;
 }
 function Je(t, e, n, l) {
   e === void 0 && (e = !1), n === void 0 && (n = !1);
-  const i = t.getBoundingClientRect(), r = cn(t);
-  let a = Oe(1);
-  e && (l ? Ae(l) && (a = tt(l)) : a = tt(t));
-  const v = rr(r, n, l) ? Yn(r) : Oe(0);
-  let d = (i.left + v.x) / a.x, _ = (i.top + v.y) / a.y, c = i.width / a.x, f = i.height / a.y;
-  if (r) {
-    const p = Fe(r), y = l && Ae(l) ? Fe(l) : l;
-    let D = p, w = Qt(D);
-    for (; w && l && y !== D; ) {
-      const g = tt(w), m = w.getBoundingClientRect(), $ = Me(w), k = m.left + (w.clientLeft + parseFloat($.paddingLeft)) * g.x, C = m.top + (w.clientTop + parseFloat($.paddingTop)) * g.y;
-      d *= g.x, _ *= g.y, c *= g.x, f *= g.y, d += k, _ += C, D = Fe(w), w = Qt(D);
+  const i = t.getBoundingClientRect(), a = dn(t);
+  let r = Le(1);
+  e && (l ? Ie(l) && (r = et(l)) : r = et(t));
+  const f = lr(a, n, l) ? Yn(a) : Le(0);
+  let d = (i.left + f.x) / r.x, _ = (i.top + f.y) / r.y, c = i.width / r.x, u = i.height / r.y;
+  if (a) {
+    const h = Fe(a), y = l && Ie(l) ? Fe(l) : l;
+    let F = h, g = Qt(F);
+    for (; g && l && y !== F; ) {
+      const p = et(g), m = g.getBoundingClientRect(), $ = Oe(g), k = m.left + (g.clientLeft + parseFloat($.paddingLeft)) * p.x, D = m.top + (g.clientTop + parseFloat($.paddingTop)) * p.y;
+      d *= p.x, _ *= p.y, c *= p.x, u *= p.y, d += k, _ += D, F = Fe(g), g = Qt(F);
     }
   }
-  return xt({
+  return kt({
     width: c,
-    height: f,
+    height: u,
     x: d,
     y: _
   });
@@ -2995,86 +2627,86 @@ function Qn(t, e) {
     y: i
   };
 }
-function dr(t) {
+function ir(t) {
   let {
     elements: e,
     rect: n,
     offsetParent: l,
     strategy: i
   } = t;
-  const r = i === "fixed", a = Pe(l), v = e ? zt(e.floating) : !1;
-  if (l === a || v && r)
+  const a = i === "fixed", r = Pe(l), f = e ? zt(e.floating) : !1;
+  if (l === r || f && a)
     return n;
   let d = {
     scrollLeft: 0,
     scrollTop: 0
-  }, _ = Oe(1);
-  const c = Oe(0), f = Le(l);
-  if ((f || !f && !r) && ((st(l) !== "body" || _t(a)) && (d = Ht(l)), Le(l))) {
+  }, _ = Le(1);
+  const c = Le(0), u = Ve(l);
+  if ((u || !u && !a) && ((ot(l) !== "body" || _t(r)) && (d = Ht(l)), Ve(l))) {
     const y = Je(l);
-    _ = tt(l), c.x = y.x + l.clientLeft, c.y = y.y + l.clientTop;
+    _ = et(l), c.x = y.x + l.clientLeft, c.y = y.y + l.clientTop;
   }
-  const p = a && !f && !r ? Qn(a, d) : Oe(0);
+  const h = r && !u && !a ? Qn(r, d) : Le(0);
   return {
     width: n.width * _.x,
     height: n.height * _.y,
-    x: n.x * _.x - d.scrollLeft * _.x + c.x + p.x,
-    y: n.y * _.y - d.scrollTop * _.y + c.y + p.y
+    x: n.x * _.x - d.scrollLeft * _.x + c.x + h.x,
+    y: n.y * _.y - d.scrollTop * _.y + c.y + h.y
   };
 }
-function cr(t) {
+function rr(t) {
   return Array.from(t.getClientRects());
 }
-function ur(t) {
-  const e = Pe(t), n = Ht(t), l = t.ownerDocument.body, i = Qe(e.scrollWidth, e.clientWidth, l.scrollWidth, l.clientWidth), r = Qe(e.scrollHeight, e.clientHeight, l.scrollHeight, l.clientHeight);
-  let a = -n.scrollLeft + Nt(t);
-  const v = -n.scrollTop;
-  return Me(l).direction === "rtl" && (a += Qe(e.clientWidth, l.clientWidth) - i), {
+function ar(t) {
+  const e = Pe(t), n = Ht(t), l = t.ownerDocument.body, i = Qe(e.scrollWidth, e.clientWidth, l.scrollWidth, l.clientWidth), a = Qe(e.scrollHeight, e.clientHeight, l.scrollHeight, l.clientHeight);
+  let r = -n.scrollLeft + Nt(t);
+  const f = -n.scrollTop;
+  return Oe(l).direction === "rtl" && (r += Qe(e.clientWidth, l.clientWidth) - i), {
     width: i,
-    height: r,
-    x: a,
-    y: v
+    height: a,
+    x: r,
+    y: f
   };
 }
-const $n = 25;
-function vr(t, e) {
+const kn = 25;
+function dr(t, e) {
   const n = Fe(t), l = Pe(t), i = n.visualViewport;
-  let r = l.clientWidth, a = l.clientHeight, v = 0, d = 0;
+  let a = l.clientWidth, r = l.clientHeight, f = 0, d = 0;
   if (i) {
-    r = i.width, a = i.height;
-    const c = dn();
-    (!c || c && e === "fixed") && (v = i.offsetLeft, d = i.offsetTop);
+    a = i.width, r = i.height;
+    const c = an();
+    (!c || c && e === "fixed") && (f = i.offsetLeft, d = i.offsetTop);
   }
   const _ = Nt(l);
   if (_ <= 0) {
-    const c = l.ownerDocument, f = c.body, p = getComputedStyle(f), y = c.compatMode === "CSS1Compat" && parseFloat(p.marginLeft) + parseFloat(p.marginRight) || 0, D = Math.abs(l.clientWidth - f.clientWidth - y);
-    D <= $n && (r -= D);
-  } else _ <= $n && (r += _);
+    const c = l.ownerDocument, u = c.body, h = getComputedStyle(u), y = c.compatMode === "CSS1Compat" && parseFloat(h.marginLeft) + parseFloat(h.marginRight) || 0, F = Math.abs(l.clientWidth - u.clientWidth - y);
+    F <= kn && (a -= F);
+  } else _ <= kn && (a += _);
   return {
-    width: r,
-    height: a,
-    x: v,
+    width: a,
+    height: r,
+    x: f,
     y: d
   };
 }
-const fr = /* @__PURE__ */ new Set(["absolute", "fixed"]);
-function _r(t, e) {
-  const n = Je(t, !0, e === "fixed"), l = n.top + t.clientTop, i = n.left + t.clientLeft, r = Le(t) ? tt(t) : Oe(1), a = t.clientWidth * r.x, v = t.clientHeight * r.y, d = i * r.x, _ = l * r.y;
+const cr = /* @__PURE__ */ new Set(["absolute", "fixed"]);
+function ur(t, e) {
+  const n = Je(t, !0, e === "fixed"), l = n.top + t.clientTop, i = n.left + t.clientLeft, a = Ve(t) ? et(t) : Le(1), r = t.clientWidth * a.x, f = t.clientHeight * a.y, d = i * a.x, _ = l * a.y;
   return {
-    width: a,
-    height: v,
+    width: r,
+    height: f,
     x: d,
     y: _
   };
 }
-function Cn(t, e, n) {
+function $n(t, e, n) {
   let l;
   if (e === "viewport")
-    l = vr(t, n);
+    l = dr(t, n);
   else if (e === "document")
-    l = ur(Pe(t));
-  else if (Ae(e))
-    l = _r(e, n);
+    l = ar(Pe(t));
+  else if (Ie(e))
+    l = ur(e, n);
   else {
     const i = Yn(t);
     l = {
@@ -3084,36 +2716,36 @@ function Cn(t, e, n) {
       height: e.height
     };
   }
-  return xt(l);
+  return kt(l);
 }
 function Xn(t, e) {
   const n = Ge(t);
-  return n === e || !Ae(n) || ot(n) ? !1 : Me(n).position === "fixed" || Xn(n, e);
+  return n === e || !Ie(n) || nt(n) ? !1 : Oe(n).position === "fixed" || Xn(n, e);
 }
-function mr(t, e) {
+function vr(t, e) {
   const n = e.get(t);
   if (n)
     return n;
-  let l = ct(t, [], !1).filter((v) => Ae(v) && st(v) !== "body"), i = null;
-  const r = Me(t).position === "fixed";
-  let a = r ? Ge(t) : t;
-  for (; Ae(a) && !ot(a); ) {
-    const v = Me(a), d = rn(a);
-    !d && v.position === "fixed" && (i = null), (r ? !d && !i : !d && v.position === "static" && !!i && fr.has(i.position) || _t(a) && !d && Xn(t, a)) ? l = l.filter((c) => c !== a) : i = v, a = Ge(a);
+  let l = ct(t, [], !1).filter((f) => Ie(f) && ot(f) !== "body"), i = null;
+  const a = Oe(t).position === "fixed";
+  let r = a ? Ge(t) : t;
+  for (; Ie(r) && !nt(r); ) {
+    const f = Oe(r), d = rn(r);
+    !d && f.position === "fixed" && (i = null), (a ? !d && !i : !d && f.position === "static" && !!i && cr.has(i.position) || _t(r) && !d && Xn(t, r)) ? l = l.filter((c) => c !== r) : i = f, r = Ge(r);
   }
   return e.set(t, l), l;
 }
-function pr(t) {
+function fr(t) {
   let {
     element: e,
     boundary: n,
     rootBoundary: l,
     strategy: i
   } = t;
-  const a = [...n === "clippingAncestors" ? zt(e) ? [] : mr(e, this._c) : [].concat(n), l], v = a[0], d = a.reduce((_, c) => {
-    const f = Cn(e, c, i);
-    return _.top = Qe(f.top, _.top), _.right = yt(f.right, _.right), _.bottom = yt(f.bottom, _.bottom), _.left = Qe(f.left, _.left), _;
-  }, Cn(e, v, i));
+  const r = [...n === "clippingAncestors" ? zt(e) ? [] : vr(e, this._c) : [].concat(n), l], f = r[0], d = r.reduce((_, c) => {
+    const u = $n(e, c, i);
+    return _.top = Qe(u.top, _.top), _.right = yt(u.right, _.right), _.bottom = yt(u.bottom, _.bottom), _.left = Qe(u.left, _.left), _;
+  }, $n(e, f, i));
   return {
     width: d.right - d.left,
     height: d.bottom - d.top,
@@ -3121,7 +2753,7 @@ function pr(t) {
     y: d.top
   };
 }
-function hr(t) {
+function _r(t) {
   const {
     width: e,
     height: n
@@ -3131,35 +2763,35 @@ function hr(t) {
     height: n
   };
 }
-function gr(t, e, n) {
-  const l = Le(e), i = Pe(e), r = n === "fixed", a = Je(t, !0, r, e);
-  let v = {
+function mr(t, e, n) {
+  const l = Ve(e), i = Pe(e), a = n === "fixed", r = Je(t, !0, a, e);
+  let f = {
     scrollLeft: 0,
     scrollTop: 0
   };
-  const d = Oe(0);
+  const d = Le(0);
   function _() {
     d.x = Nt(i);
   }
-  if (l || !l && !r)
-    if ((st(e) !== "body" || _t(i)) && (v = Ht(e)), l) {
-      const y = Je(e, !0, r, e);
+  if (l || !l && !a)
+    if ((ot(e) !== "body" || _t(i)) && (f = Ht(e)), l) {
+      const y = Je(e, !0, a, e);
       d.x = y.x + e.clientLeft, d.y = y.y + e.clientTop;
     } else i && _();
-  r && !l && i && _();
-  const c = i && !l && !r ? Qn(i, v) : Oe(0), f = a.left + v.scrollLeft - d.x - c.x, p = a.top + v.scrollTop - d.y - c.y;
+  a && !l && i && _();
+  const c = i && !l && !a ? Qn(i, f) : Le(0), u = r.left + f.scrollLeft - d.x - c.x, h = r.top + f.scrollTop - d.y - c.y;
   return {
-    x: f,
-    y: p,
-    width: a.width,
-    height: a.height
+    x: u,
+    y: h,
+    width: r.width,
+    height: r.height
   };
 }
-function jt(t) {
-  return Me(t).position === "static";
+function Wt(t) {
+  return Oe(t).position === "static";
 }
-function Sn(t, e) {
-  if (!Le(t) || Me(t).position === "fixed")
+function Cn(t, e) {
+  if (!Ve(t) || Oe(t).position === "fixed")
     return null;
   if (e)
     return e(t);
@@ -3170,24 +2802,24 @@ function Jn(t, e) {
   const n = Fe(t);
   if (zt(t))
     return n;
-  if (!Le(t)) {
+  if (!Ve(t)) {
     let i = Ge(t);
-    for (; i && !ot(i); ) {
-      if (Ae(i) && !jt(i))
+    for (; i && !nt(i); ) {
+      if (Ie(i) && !Wt(i))
         return i;
       i = Ge(i);
     }
     return n;
   }
-  let l = Sn(t, e);
-  for (; l && er(l) && jt(l); )
-    l = Sn(l, e);
-  return l && ot(l) && jt(l) && !rn(l) ? n : l || lr(t) || n;
+  let l = Cn(t, e);
+  for (; l && Xi(l) && Wt(l); )
+    l = Cn(l, e);
+  return l && nt(l) && Wt(l) && !rn(l) ? n : l || nr(t) || n;
 }
-const wr = async function(t) {
+const pr = async function(t) {
   const e = this.getOffsetParent || Jn, n = this.getDimensions, l = await n(t.floating);
   return {
-    reference: gr(t.reference, await e(t.floating), t.strategy),
+    reference: mr(t.reference, await e(t.floating), t.strategy),
     floating: {
       x: 0,
       y: 0,
@@ -3196,122 +2828,143 @@ const wr = async function(t) {
     }
   };
 };
-function yr(t) {
-  return Me(t).direction === "rtl";
+function hr(t) {
+  return Oe(t).direction === "rtl";
 }
-const br = {
-  convertOffsetParentRelativeRectToViewportRelativeRect: dr,
+const gr = {
+  convertOffsetParentRelativeRectToViewportRelativeRect: ir,
   getDocumentElement: Pe,
-  getClippingRect: pr,
+  getClippingRect: fr,
   getOffsetParent: Jn,
-  getElementRects: wr,
-  getClientRects: cr,
-  getDimensions: hr,
-  getScale: tt,
-  isElement: Ae,
-  isRTL: yr
+  getElementRects: pr,
+  getClientRects: rr,
+  getDimensions: _r,
+  getScale: et,
+  isElement: Ie,
+  isRTL: hr
 };
 function Zn(t, e) {
   return t.x === e.x && t.y === e.y && t.width === e.width && t.height === e.height;
 }
-function kr(t, e) {
+function wr(t, e) {
   let n = null, l;
   const i = Pe(t);
-  function r() {
-    var v;
-    clearTimeout(l), (v = n) == null || v.disconnect(), n = null;
+  function a() {
+    var f;
+    clearTimeout(l), (f = n) == null || f.disconnect(), n = null;
   }
-  function a(v, d) {
-    v === void 0 && (v = !1), d === void 0 && (d = 1), r();
+  function r(f, d) {
+    f === void 0 && (f = !1), d === void 0 && (d = 1), a();
     const _ = t.getBoundingClientRect(), {
       left: c,
-      top: f,
-      width: p,
+      top: u,
+      width: h,
       height: y
     } = _;
-    if (v || e(), !p || !y)
+    if (f || e(), !h || !y)
       return;
-    const D = gt(f), w = gt(i.clientWidth - (c + p)), g = gt(i.clientHeight - (f + y)), m = gt(c), k = {
-      rootMargin: -D + "px " + -w + "px " + -g + "px " + -m + "px",
+    const F = gt(u), g = gt(i.clientWidth - (c + h)), p = gt(i.clientHeight - (u + y)), m = gt(c), k = {
+      rootMargin: -F + "px " + -g + "px " + -p + "px " + -m + "px",
       threshold: Qe(0, yt(1, d)) || 1
     };
-    let C = !0;
-    function M(A) {
-      const B = A[0].intersectionRatio;
+    let D = !0;
+    function L(M) {
+      const B = M[0].intersectionRatio;
       if (B !== d) {
-        if (!C)
-          return a();
-        B ? a(!1, B) : l = setTimeout(() => {
-          a(!1, 1e-7);
+        if (!D)
+          return r();
+        B ? r(!1, B) : l = setTimeout(() => {
+          r(!1, 1e-7);
         }, 1e3);
       }
-      B === 1 && !Zn(_, t.getBoundingClientRect()) && a(), C = !1;
+      B === 1 && !Zn(_, t.getBoundingClientRect()) && r(), D = !1;
     }
     try {
-      n = new IntersectionObserver(M, {
+      n = new IntersectionObserver(L, {
         ...k,
         // Handle <iframe>s
         root: i.ownerDocument
       });
     } catch {
-      n = new IntersectionObserver(M, k);
+      n = new IntersectionObserver(L, k);
     }
     n.observe(t);
   }
-  return a(!0), r;
+  return r(!0), a;
 }
 function eo(t, e, n, l) {
   l === void 0 && (l = {});
   const {
     ancestorScroll: i = !0,
-    ancestorResize: r = !0,
-    elementResize: a = typeof ResizeObserver == "function",
-    layoutShift: v = typeof IntersectionObserver == "function",
+    ancestorResize: a = !0,
+    elementResize: r = typeof ResizeObserver == "function",
+    layoutShift: f = typeof IntersectionObserver == "function",
     animationFrame: d = !1
-  } = l, _ = cn(t), c = i || r ? [..._ ? ct(_) : [], ...ct(e)] : [];
+  } = l, _ = dn(t), c = i || a ? [..._ ? ct(_) : [], ...ct(e)] : [];
   c.forEach((m) => {
     i && m.addEventListener("scroll", n, {
       passive: !0
-    }), r && m.addEventListener("resize", n);
+    }), a && m.addEventListener("resize", n);
   });
-  const f = _ && v ? kr(_, n) : null;
-  let p = -1, y = null;
-  a && (y = new ResizeObserver((m) => {
+  const u = _ && f ? wr(_, n) : null;
+  let h = -1, y = null;
+  r && (y = new ResizeObserver((m) => {
     let [$] = m;
-    $ && $.target === _ && y && (y.unobserve(e), cancelAnimationFrame(p), p = requestAnimationFrame(() => {
+    $ && $.target === _ && y && (y.unobserve(e), cancelAnimationFrame(h), h = requestAnimationFrame(() => {
       var k;
       (k = y) == null || k.observe(e);
     })), n();
   }), _ && !d && y.observe(_), y.observe(e));
-  let D, w = d ? Je(t) : null;
-  d && g();
-  function g() {
+  let F, g = d ? Je(t) : null;
+  d && p();
+  function p() {
     const m = Je(t);
-    w && !Zn(w, m) && n(), w = m, D = requestAnimationFrame(g);
+    g && !Zn(g, m) && n(), g = m, F = requestAnimationFrame(p);
   }
   return n(), () => {
     var m;
     c.forEach(($) => {
-      i && $.removeEventListener("scroll", n), r && $.removeEventListener("resize", n);
-    }), f?.(), (m = y) == null || m.disconnect(), y = null, d && cancelAnimationFrame(D);
+      i && $.removeEventListener("scroll", n), a && $.removeEventListener("resize", n);
+    }), u?.(), (m = y) == null || m.disconnect(), y = null, d && cancelAnimationFrame(F);
   };
 }
-const $t = Qa, Ct = Xa, St = Ga, Ft = (t, e, n) => {
+const $t = Gi, Ct = qi, St = Ki, Ft = (t, e, n) => {
   const l = /* @__PURE__ */ new Map(), i = {
-    platform: br,
+    platform: gr,
     ...n
-  }, r = {
+  }, a = {
     ...i.platform,
     _c: l
   };
-  return ja(t, e, {
+  return Ui(t, e, {
     ...i,
-    platform: r
+    platform: a
   });
-}, xr = ["disabled", "title"], $r = ["data-theme"], Cr = { class: "vuefinder__search-modal__dropdown-content" }, Sr = { class: "vuefinder__search-modal__dropdown-section" }, Fr = { class: "vuefinder__search-modal__dropdown-title" }, Dr = { class: "vuefinder__search-modal__dropdown-options" }, Er = {
+}, yr = {
+  xmlns: "http://www.w3.org/2000/svg",
+  fill: "none",
+  stroke: "currentColor",
+  "stroke-width": "1.5",
+  viewBox: "0 0 24 24"
+};
+function br(t, e) {
+  return v(), w("svg", yr, [...e[0] || (e[0] = [
+    s("path", {
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      d: "M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87q.11.06.22.127c.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a8 8 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a7 7 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a7 7 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a7 7 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124q.108-.066.22-.128c.332-.183.582-.495.644-.869z"
+    }, null, -1),
+    s("path", {
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      d: "M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0"
+    }, null, -1)
+  ])]);
+}
+const to = { render: br }, xr = ["disabled", "title"], kr = ["data-theme"], $r = { class: "vuefinder__search-modal__dropdown-content" }, Cr = { class: "vuefinder__search-modal__dropdown-section" }, Sr = { class: "vuefinder__search-modal__dropdown-title" }, Fr = { class: "vuefinder__search-modal__dropdown-options" }, Dr = {
   key: 0,
   class: "vuefinder__search-modal__dropdown-option-check"
-}, Tr = {
+}, Er = {
   key: 0,
   class: "vuefinder__search-modal__dropdown-option-check"
 }, Ar = {
@@ -3320,7 +2973,7 @@ const $t = Qa, Ct = Xa, St = Ga, Ft = (t, e, n) => {
 }, Mr = {
   key: 0,
   class: "vuefinder__search-modal__dropdown-option-check"
-}, Ir = /* @__PURE__ */ X({
+}, Tr = /* @__PURE__ */ Q({
   name: "SearchOptionsDropdown",
   __name: "SearchOptionsDropdown",
   props: {
@@ -3331,17 +2984,17 @@ const $t = Qa, Ct = Xa, St = Ga, Ft = (t, e, n) => {
   },
   emits: ["update:visible", "update:sizeFilter", "update:selectedOption", "keydown"],
   setup(t, { expose: e, emit: n }) {
-    const l = t, i = n, r = Z("ServiceContainer"), { t: a } = r.i18n, v = E(null), d = E(null);
+    const l = t, i = n, a = J("ServiceContainer"), { t: r } = a.i18n, f = E(null), d = E(null);
     let _ = null;
-    const c = (w) => {
-      if (i("update:selectedOption", w), w.startsWith("size-")) {
-        const g = w.split("-")[1];
-        i("update:sizeFilter", g);
+    const c = (g) => {
+      if (i("update:selectedOption", g), g.startsWith("size-")) {
+        const p = g.split("-")[1];
+        i("update:sizeFilter", p);
       }
-    }, f = async () => {
-      l.disabled || (l.visible ? (i("update:visible", !1), _ && (_(), _ = null)) : (i("update:visible", !0), await Re(), await p()));
-    }, p = async () => {
-      if (!(!v.value || !d.value) && (await Re(), !(!v.value || !d.value))) {
+    }, u = async () => {
+      l.disabled || (l.visible ? (i("update:visible", !1), _ && (_(), _ = null)) : (i("update:visible", !0), await Re(), await h()));
+    }, h = async () => {
+      if (!(!f.value || !d.value) && (await Re(), !(!f.value || !d.value))) {
         Object.assign(d.value.style, {
           position: "fixed",
           zIndex: "10001",
@@ -3350,7 +3003,7 @@ const $t = Qa, Ct = Xa, St = Ga, Ft = (t, e, n) => {
           transition: "opacity 150ms ease-out, transform 150ms ease-out"
         });
         try {
-          const { x: w, y: g } = await Ft(v.value, d.value, {
+          const { x: g, y: p } = await Ft(f.value, d.value, {
             placement: "bottom-start",
             strategy: "fixed",
             middleware: [
@@ -3360,23 +3013,23 @@ const $t = Qa, Ct = Xa, St = Ga, Ft = (t, e, n) => {
             ]
           });
           Object.assign(d.value.style, {
-            left: `${w}px`,
-            top: `${g}px`
+            left: `${g}px`,
+            top: `${p}px`
           }), requestAnimationFrame(() => {
             d.value && Object.assign(d.value.style, {
               opacity: "1",
               transform: "translateY(0)"
             });
           });
-        } catch (w) {
-          console.warn("Floating UI initial positioning error:", w);
+        } catch (g) {
+          console.warn("Floating UI initial positioning error:", g);
           return;
         }
         try {
-          _ = eo(v.value, d.value, async () => {
-            if (!(!v.value || !d.value))
+          _ = eo(f.value, d.value, async () => {
+            if (!(!f.value || !d.value))
               try {
-                const { x: w, y: g } = await Ft(v.value, d.value, {
+                const { x: g, y: p } = await Ft(f.value, d.value, {
                   placement: "bottom-start",
                   strategy: "fixed",
                   middleware: [
@@ -3386,150 +3039,150 @@ const $t = Qa, Ct = Xa, St = Ga, Ft = (t, e, n) => {
                   ]
                 });
                 Object.assign(d.value.style, {
-                  left: `${w}px`,
-                  top: `${g}px`
+                  left: `${g}px`,
+                  top: `${p}px`
                 });
-              } catch (w) {
-                console.warn("Floating UI positioning error:", w);
+              } catch (g) {
+                console.warn("Floating UI positioning error:", g);
               }
           });
-        } catch (w) {
-          console.warn("Floating UI autoUpdate setup error:", w), _ = null;
+        } catch (g) {
+          console.warn("Floating UI autoUpdate setup error:", g), _ = null;
         }
       }
-    }, y = (w) => {
+    }, y = (g) => {
       if (!l.visible) return;
-      const g = ["size-all", "size-small", "size-medium", "size-large"], m = g.findIndex(($) => $ === l.selectedOption);
-      if (w.key === "ArrowDown") {
-        w.preventDefault();
-        const $ = (m + 1) % g.length;
-        i("update:selectedOption", g[$] || null);
-      } else if (w.key === "ArrowUp") {
-        w.preventDefault();
-        const $ = m <= 0 ? g.length - 1 : m - 1;
-        i("update:selectedOption", g[$] || null);
-      } else w.key === "Enter" ? (w.preventDefault(), l.selectedOption?.startsWith("size-") && i("update:sizeFilter", l.selectedOption.split("-")[1])) : w.key === "Escape" && (w.preventDefault(), i("update:visible", !1), _ && (_(), _ = null));
-    }, D = () => {
+      const p = ["size-all", "size-small", "size-medium", "size-large"], m = p.findIndex(($) => $ === l.selectedOption);
+      if (g.key === "ArrowDown") {
+        g.preventDefault();
+        const $ = (m + 1) % p.length;
+        i("update:selectedOption", p[$] || null);
+      } else if (g.key === "ArrowUp") {
+        g.preventDefault();
+        const $ = m <= 0 ? p.length - 1 : m - 1;
+        i("update:selectedOption", p[$] || null);
+      } else g.key === "Enter" ? (g.preventDefault(), l.selectedOption?.startsWith("size-") && i("update:sizeFilter", l.selectedOption.split("-")[1])) : g.key === "Escape" && (g.preventDefault(), i("update:visible", !1), _ && (_(), _ = null));
+    }, F = () => {
       _ && (_(), _ = null);
     };
-    return ue(() => l.visible, (w) => {
-      !w && _ && (_(), _ = null);
-    }), ke(() => {
-      D();
+    return ue(() => l.visible, (g) => {
+      !g && _ && (_(), _ = null);
+    }), xe(() => {
+      F();
     }), e({
-      cleanup: D
-    }), (w, g) => (u(), h(de, null, [
+      cleanup: F
+    }), (g, p) => (v(), w(de, null, [
       s("button", {
         ref_key: "dropdownBtn",
-        ref: v,
-        onClick: re(f, ["stop"]),
-        class: q(["vuefinder__search-modal__dropdown-btn", { "vuefinder__search-modal__dropdown-btn--active": t.visible }]),
+        ref: f,
+        onClick: ae(u, ["stop"]),
+        class: W(["vuefinder__search-modal__dropdown-btn", { "vuefinder__search-modal__dropdown-btn--active": t.visible }]),
         disabled: t.disabled,
-        title: o(a)("Search Options")
+        title: o(r)("Search Options")
       }, [
-        R(o(Vn), { class: "vuefinder__search-modal__dropdown-icon" })
+        O(o(to), { class: "vuefinder__search-modal__dropdown-icon" })
       ], 10, xr),
-      (u(), V(Et, { to: "body" }, [
-        t.visible ? (u(), h("div", {
+      (v(), R(Et, { to: "body" }, [
+        t.visible ? (v(), w("div", {
           key: 0,
           ref_key: "dropdownContent",
           ref: d,
           class: "vuefinder__themer vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible",
-          "data-theme": o(r).theme.current,
-          onClick: g[4] || (g[4] = re(() => {
+          "data-theme": o(a).theme.current,
+          onClick: p[4] || (p[4] = ae(() => {
           }, ["stop"])),
           onKeydown: y,
           tabindex: "-1"
         }, [
-          s("div", Cr, [
-            s("div", Sr, [
-              s("div", Fr, b(o(a)("File Size")), 1),
-              s("div", Dr, [
+          s("div", $r, [
+            s("div", Cr, [
+              s("div", Sr, b(o(r)("File Size")), 1),
+              s("div", Fr, [
                 s("div", {
-                  class: q(["vuefinder__search-modal__dropdown-option", { "vuefinder__search-modal__dropdown-option--selected": t.sizeFilter === "all" }]),
-                  onClick: g[0] || (g[0] = re((m) => c("size-all"), ["stop"]))
+                  class: W(["vuefinder__search-modal__dropdown-option", { "vuefinder__search-modal__dropdown-option--selected": t.sizeFilter === "all" }]),
+                  onClick: p[0] || (p[0] = ae((m) => c("size-all"), ["stop"]))
                 }, [
-                  s("span", null, b(o(a)("All Files")), 1),
-                  t.sizeFilter === "all" ? (u(), h("div", Er, [...g[5] || (g[5] = [
+                  s("span", null, b(o(r)("All Files")), 1),
+                  t.sizeFilter === "all" ? (v(), w("div", Dr, [...p[5] || (p[5] = [
                     s("svg", {
                       viewBox: "0 0 16 16",
                       fill: "currentColor"
                     }, [
                       s("path", { d: "M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" })
                     ], -1)
-                  ])])) : I("", !0)
+                  ])])) : T("", !0)
                 ], 2),
                 s("div", {
-                  class: q(["vuefinder__search-modal__dropdown-option", { "vuefinder__search-modal__dropdown-option--selected": t.sizeFilter === "small" }]),
-                  onClick: g[1] || (g[1] = re((m) => c("size-small"), ["stop"]))
+                  class: W(["vuefinder__search-modal__dropdown-option", { "vuefinder__search-modal__dropdown-option--selected": t.sizeFilter === "small" }]),
+                  onClick: p[1] || (p[1] = ae((m) => c("size-small"), ["stop"]))
                 }, [
-                  s("span", null, b(o(a)("Small (< 1MB)")), 1),
-                  t.sizeFilter === "small" ? (u(), h("div", Tr, [...g[6] || (g[6] = [
+                  s("span", null, b(o(r)("Small (< 1MB)")), 1),
+                  t.sizeFilter === "small" ? (v(), w("div", Er, [...p[6] || (p[6] = [
                     s("svg", {
                       viewBox: "0 0 16 16",
                       fill: "currentColor"
                     }, [
                       s("path", { d: "M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" })
                     ], -1)
-                  ])])) : I("", !0)
+                  ])])) : T("", !0)
                 ], 2),
                 s("div", {
-                  class: q(["vuefinder__search-modal__dropdown-option", { "vuefinder__search-modal__dropdown-option--selected": t.sizeFilter === "medium" }]),
-                  onClick: g[2] || (g[2] = re((m) => c("size-medium"), ["stop"]))
+                  class: W(["vuefinder__search-modal__dropdown-option", { "vuefinder__search-modal__dropdown-option--selected": t.sizeFilter === "medium" }]),
+                  onClick: p[2] || (p[2] = ae((m) => c("size-medium"), ["stop"]))
                 }, [
-                  s("span", null, b(o(a)("Medium (1-10MB)")), 1),
-                  t.sizeFilter === "medium" ? (u(), h("div", Ar, [...g[7] || (g[7] = [
+                  s("span", null, b(o(r)("Medium (1-10MB)")), 1),
+                  t.sizeFilter === "medium" ? (v(), w("div", Ar, [...p[7] || (p[7] = [
                     s("svg", {
                       viewBox: "0 0 16 16",
                       fill: "currentColor"
                     }, [
                       s("path", { d: "M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" })
                     ], -1)
-                  ])])) : I("", !0)
+                  ])])) : T("", !0)
                 ], 2),
                 s("div", {
-                  class: q(["vuefinder__search-modal__dropdown-option", { "vuefinder__search-modal__dropdown-option--selected": t.sizeFilter === "large" }]),
-                  onClick: g[3] || (g[3] = re((m) => c("size-large"), ["stop"]))
+                  class: W(["vuefinder__search-modal__dropdown-option", { "vuefinder__search-modal__dropdown-option--selected": t.sizeFilter === "large" }]),
+                  onClick: p[3] || (p[3] = ae((m) => c("size-large"), ["stop"]))
                 }, [
-                  s("span", null, b(o(a)("Large (> 10MB)")), 1),
-                  t.sizeFilter === "large" ? (u(), h("div", Mr, [...g[8] || (g[8] = [
+                  s("span", null, b(o(r)("Large (> 10MB)")), 1),
+                  t.sizeFilter === "large" ? (v(), w("div", Mr, [...p[8] || (p[8] = [
                     s("svg", {
                       viewBox: "0 0 16 16",
                       fill: "currentColor"
                     }, [
                       s("path", { d: "M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" })
                     ], -1)
-                  ])])) : I("", !0)
+                  ])])) : T("", !0)
                 ], 2)
               ])
             ])
           ])
-        ], 40, $r)) : I("", !0)
+        ], 40, kr)) : T("", !0)
       ]))
     ], 64));
   }
 });
-function Or(t) {
-  const [e, n] = Rr(t);
+function Ir(t) {
+  const [e, n] = Or(t);
   if (!n || n === "/") return e + "://";
   const l = n.replace(/\/+$/, ""), i = l.lastIndexOf("/");
   return i === 0 ? e + "://" : e + ":/" + l.slice(0, i);
 }
-function Rr(t) {
+function Or(t) {
   const e = t.indexOf(":/");
   return e === -1 ? [void 0, t] : [t.slice(0, e), t.slice(e + 2) || "/"];
 }
-function to(t, e = 40) {
+function no(t, e = 40) {
   const n = t.match(/^([^:]+:\/\/)(.*)$/);
   if (!n) return t;
-  const l = n[1], i = n[2] ?? "", r = i.split("/").filter(Boolean), a = r.pop();
-  if (!a) return l + i;
-  let v = `${l}${r.join("/")}${r.length ? "/" : ""}${a}`;
-  if (v.length <= e) return v;
-  const d = a.split(/\.(?=[^\.]+$)/), _ = d[0] ?? "", c = d[1] ?? "", f = _.length > 10 ? `${_.slice(0, 6)}...${_.slice(-5)}` : _, p = c ? `${f}.${c}` : f;
-  return v = `${l}${r.join("/")}${r.length ? "/" : ""}${p}`, v.length > e && (v = `${l}.../${p}`), v;
+  const l = n[1], i = n[2] ?? "", a = i.split("/").filter(Boolean), r = a.pop();
+  if (!r) return l + i;
+  let f = `${l}${a.join("/")}${a.length ? "/" : ""}${r}`;
+  if (f.length <= e) return f;
+  const d = r.split(/\.(?=[^\.]+$)/), _ = d[0] ?? "", c = d[1] ?? "", u = _.length > 10 ? `${_.slice(0, 6)}...${_.slice(-5)}` : _, h = c ? `${u}.${c}` : u;
+  return f = `${l}${a.join("/")}${a.length ? "/" : ""}${h}`, f.length > e && (f = `${l}.../${h}`), f;
 }
-async function no(t) {
+async function oo(t) {
   try {
     await navigator.clipboard.writeText(t);
   } catch {
@@ -3538,25 +3191,25 @@ async function no(t) {
   }
 }
 async function ut(t) {
-  await no(t);
+  await oo(t);
 }
 async function Lr(t) {
-  await no(t);
+  await oo(t);
 }
-const Vr = {
+const Rr = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "currentColor",
   viewBox: "0 0 448 512"
 };
-function Pr(t, e) {
-  return u(), h("svg", Vr, [...e[0] || (e[0] = [
+function Vr(t, e) {
+  return v(), w("svg", Rr, [...e[0] || (e[0] = [
     s("path", { d: "M8 256a56 56 0 1 1 112 0 56 56 0 1 1-112 0m160 0a56 56 0 1 1 112 0 56 56 0 1 1-112 0m216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112" }, null, -1)
   ])]);
 }
-const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-modal__result-icon" }, Hr = { class: "vuefinder__search-modal__result-content" }, Nr = { class: "vuefinder__search-modal__result-name" }, Ur = {
+const so = { render: Vr }, Pr = ["title"], Br = { class: "vuefinder__search-modal__result-icon" }, zr = { class: "vuefinder__search-modal__result-content" }, Hr = { class: "vuefinder__search-modal__result-name" }, Nr = {
   key: 0,
   class: "vuefinder__search-modal__result-size"
-}, Kr = ["title"], Wr = ["title"], jr = ["data-item-dropdown", "data-theme"], Gr = { class: "vuefinder__search-modal__item-dropdown-content" }, qr = /* @__PURE__ */ X({
+}, Ur = ["title"], Kr = ["title"], jr = ["data-item-dropdown", "data-theme"], Wr = { class: "vuefinder__search-modal__item-dropdown-content" }, Gr = /* @__PURE__ */ Q({
   name: "SearchResultItem",
   __name: "SearchResultItem",
   props: {
@@ -3569,18 +3222,18 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
   },
   emits: ["select", "selectWithDropdown", "togglePathExpansion", "toggleItemDropdown", "update:selectedItemDropdownOption", "copyPath", "openContainingFolder", "preview"],
   setup(t, { emit: e }) {
-    const n = t, l = e, i = Z("ServiceContainer"), { t: r } = i.i18n, a = E(null);
-    let v = null;
+    const n = t, l = e, i = J("ServiceContainer"), { t: a } = i.i18n, r = E(null);
+    let f = null;
     ue(() => n.activeDropdown, (m) => {
-      v && (v(), v = null), m === n.item.path && a.value && Re(() => {
-        f(n.item.path, a.value);
+      f && (f(), f = null), m === n.item.path && r.value && Re(() => {
+        u(n.item.path, r.value);
       });
-    }), ke(() => {
-      v && (v(), v = null);
+    }), xe(() => {
+      f && (f(), f = null);
     });
     const d = (m) => n.expandedPaths.has(m), _ = (m) => m.type === "dir" || !m.file_size ? "" : Zt(m.file_size), c = (m, $) => {
       $.stopPropagation(), l("toggleItemDropdown", m, $);
-    }, f = async (m, $) => {
+    }, u = async (m, $) => {
       const k = document.querySelector(`[data-item-dropdown="${m}"]`);
       if (!(!k || !$) && (await Re(), !(!k || !$))) {
         Object.assign(k.style, {
@@ -3591,7 +3244,7 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
           transition: "opacity 150ms ease-out, transform 150ms ease-out"
         });
         try {
-          const { x: C, y: M } = await Ft($, k, {
+          const { x: D, y: L } = await Ft($, k, {
             placement: "left-start",
             strategy: "fixed",
             middleware: [
@@ -3601,23 +3254,23 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
             ]
           });
           Object.assign(k.style, {
-            left: `${C}px`,
-            top: `${M}px`
+            left: `${D}px`,
+            top: `${L}px`
           }), requestAnimationFrame(() => {
             k && Object.assign(k.style, {
               opacity: "1",
               transform: "translateY(0)"
             });
           });
-        } catch (C) {
-          console.warn("Floating UI initial positioning error:", C);
+        } catch (D) {
+          console.warn("Floating UI initial positioning error:", D);
           return;
         }
         try {
-          v = eo($, k, async () => {
+          f = eo($, k, async () => {
             if (!(!$ || !k))
               try {
-                const { x: C, y: M } = await Ft($, k, {
+                const { x: D, y: L } = await Ft($, k, {
                   placement: "left-start",
                   strategy: "fixed",
                   middleware: [
@@ -3627,90 +3280,90 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
                   ]
                 });
                 Object.assign(k.style, {
-                  left: `${C}px`,
-                  top: `${M}px`
+                  left: `${D}px`,
+                  top: `${L}px`
                 });
-              } catch (C) {
-                console.warn("Floating UI positioning error:", C);
+              } catch (D) {
+                console.warn("Floating UI positioning error:", D);
               }
           });
-        } catch (C) {
-          console.warn("Floating UI autoUpdate setup error:", C), v = null;
+        } catch (D) {
+          console.warn("Floating UI autoUpdate setup error:", D), f = null;
         }
       }
-    }, p = (m) => {
+    }, h = (m) => {
       l("update:selectedItemDropdownOption", m);
     }, y = async (m) => {
       await ut(m.path), l("copyPath", m);
-    }, D = (m) => {
+    }, F = (m) => {
       l("openContainingFolder", m);
-    }, w = (m) => {
-      l("preview", m);
     }, g = (m) => {
+      l("preview", m);
+    }, p = (m) => {
       if (!n.activeDropdown) return;
-      const $ = ["copy-path", "open-folder", "preview"], k = n.selectedItemDropdownOption, C = $.findIndex(
-        (M) => k?.includes(M)
+      const $ = ["copy-path", "open-folder", "preview"], k = n.selectedItemDropdownOption, D = $.findIndex(
+        (L) => k?.includes(L)
       );
       if (m.key === "ArrowDown") {
         m.preventDefault();
-        const M = (C + 1) % $.length;
-        l("update:selectedItemDropdownOption", `${$[M] || ""}-${n.activeDropdown}`);
+        const L = (D + 1) % $.length;
+        l("update:selectedItemDropdownOption", `${$[L] || ""}-${n.activeDropdown}`);
       } else if (m.key === "ArrowUp") {
         m.preventDefault();
-        const M = C <= 0 ? $.length - 1 : C - 1;
-        l("update:selectedItemDropdownOption", `${$[M] || ""}-${n.activeDropdown}`);
-      } else m.key === "Enter" ? (m.preventDefault(), k && (k.includes("copy-path") ? y(n.item) : k.includes("open-folder") ? D(n.item) : k.includes("preview") && w(n.item))) : m.key === "Escape" && (m.preventDefault(), l("update:selectedItemDropdownOption", null));
+        const L = D <= 0 ? $.length - 1 : D - 1;
+        l("update:selectedItemDropdownOption", `${$[L] || ""}-${n.activeDropdown}`);
+      } else m.key === "Enter" ? (m.preventDefault(), k && (k.includes("copy-path") ? y(n.item) : k.includes("open-folder") ? F(n.item) : k.includes("preview") && g(n.item))) : m.key === "Escape" && (m.preventDefault(), l("update:selectedItemDropdownOption", null));
     };
-    return (m, $) => (u(), h("div", {
-      class: q(["vuefinder__search-modal__result-item", { "vuefinder__search-modal__result-item--selected": t.index === t.selectedIndex }]),
+    return (m, $) => (v(), w("div", {
+      class: W(["vuefinder__search-modal__result-item", { "vuefinder__search-modal__result-item--selected": t.index === t.selectedIndex }]),
       title: t.item.basename,
       onClick: $[9] || ($[9] = (k) => l("select", t.index))
     }, [
-      s("div", zr, [
-        t.item.type === "dir" ? (u(), V(o(Ne), { key: 0 })) : (u(), V(o(wt), { key: 1 }))
+      s("div", Br, [
+        t.item.type === "dir" ? (v(), R(o(Ne), { key: 0 })) : (v(), R(o(wt), { key: 1 }))
       ]),
-      s("div", Hr, [
-        s("div", Nr, [
-          J(b(t.item.basename) + " ", 1),
-          _(t.item) ? (u(), h("span", Ur, b(_(t.item)), 1)) : I("", !0)
+      s("div", zr, [
+        s("div", Hr, [
+          ne(b(t.item.basename) + " ", 1),
+          _(t.item) ? (v(), w("span", Nr, b(_(t.item)), 1)) : T("", !0)
         ]),
         s("div", {
           class: "vuefinder__search-modal__result-path",
-          onClick: $[0] || ($[0] = re((k) => {
+          onClick: $[0] || ($[0] = ae((k) => {
             l("select", t.index), l("togglePathExpansion", t.item.path);
           }, ["stop"])),
           title: t.item.path
-        }, b(d(t.item.path) ? t.item.path : o(to)(t.item.path)), 9, Kr)
+        }, b(d(t.item.path) ? t.item.path : o(no)(t.item.path)), 9, Ur)
       ]),
       s("button", {
         ref_key: "buttonElementRef",
-        ref: a,
+        ref: r,
         class: "vuefinder__search-modal__result-actions",
         onClick: $[1] || ($[1] = (k) => {
           l("selectWithDropdown", t.index), c(t.item.path, k);
         }),
-        title: o(r)("More actions")
+        title: o(a)("More actions")
       }, [
-        R(o(oo), { class: "vuefinder__search-modal__result-actions-icon" })
-      ], 8, Wr),
-      (u(), V(Et, { to: "body" }, [
-        t.activeDropdown === t.item.path ? (u(), h("div", {
+        O(o(so), { class: "vuefinder__search-modal__result-actions-icon" })
+      ], 8, Kr),
+      (v(), R(Et, { to: "body" }, [
+        t.activeDropdown === t.item.path ? (v(), w("div", {
           key: 0,
           "data-item-dropdown": t.item.path,
           class: "vuefinder__themer vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible",
           "data-theme": o(i).theme.current,
-          onClick: $[8] || ($[8] = re(() => {
+          onClick: $[8] || ($[8] = ae(() => {
           }, ["stop"])),
-          onKeydown: g,
+          onKeydown: p,
           tabindex: "-1"
         }, [
-          s("div", Gr, [
+          s("div", Wr, [
             s("div", {
-              class: q(["vuefinder__search-modal__item-dropdown-option", { "vuefinder__search-modal__item-dropdown-option--selected": t.selectedItemDropdownOption === `copy-path-${t.item.path}` }]),
+              class: W(["vuefinder__search-modal__item-dropdown-option", { "vuefinder__search-modal__item-dropdown-option--selected": t.selectedItemDropdownOption === `copy-path-${t.item.path}` }]),
               onClick: $[2] || ($[2] = (k) => {
-                p(`copy-path-${t.item.path}`), y(t.item);
+                h(`copy-path-${t.item.path}`), y(t.item);
               }),
-              onFocus: $[3] || ($[3] = (k) => p(`copy-path-${t.item.path}`))
+              onFocus: $[3] || ($[3] = (k) => h(`copy-path-${t.item.path}`))
             }, [
               $[10] || ($[10] = s("svg", {
                 class: "vuefinder__search-modal__item-dropdown-icon",
@@ -3720,43 +3373,43 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
                 s("path", { d: "M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6z" }),
                 s("path", { d: "M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z" })
               ], -1)),
-              s("span", null, b(o(r)("Copy Path")), 1)
+              s("span", null, b(o(a)("Copy Path")), 1)
             ], 34),
             s("div", {
-              class: q(["vuefinder__search-modal__item-dropdown-option", { "vuefinder__search-modal__item-dropdown-option--selected": t.selectedItemDropdownOption === `open-folder-${t.item.path}` }]),
+              class: W(["vuefinder__search-modal__item-dropdown-option", { "vuefinder__search-modal__item-dropdown-option--selected": t.selectedItemDropdownOption === `open-folder-${t.item.path}` }]),
               onClick: $[4] || ($[4] = (k) => {
-                p(`open-folder-${t.item.path}`), D(t.item);
+                h(`open-folder-${t.item.path}`), F(t.item);
               }),
-              onFocus: $[5] || ($[5] = (k) => p(`open-folder-${t.item.path}`))
+              onFocus: $[5] || ($[5] = (k) => h(`open-folder-${t.item.path}`))
             }, [
-              R(o(Ne), { class: "vuefinder__search-modal__item-dropdown-icon" }),
-              s("span", null, b(o(r)("Open Containing Folder")), 1)
+              O(o(Ne), { class: "vuefinder__search-modal__item-dropdown-icon" }),
+              s("span", null, b(o(a)("Open Containing Folder")), 1)
             ], 34),
             s("div", {
-              class: q(["vuefinder__search-modal__item-dropdown-option", { "vuefinder__search-modal__item-dropdown-option--selected": t.selectedItemDropdownOption === `preview-${t.item.path}` }]),
+              class: W(["vuefinder__search-modal__item-dropdown-option", { "vuefinder__search-modal__item-dropdown-option--selected": t.selectedItemDropdownOption === `preview-${t.item.path}` }]),
               onClick: $[6] || ($[6] = (k) => {
-                p(`preview-${t.item.path}`), w(t.item);
+                h(`preview-${t.item.path}`), g(t.item);
               }),
-              onFocus: $[7] || ($[7] = (k) => p(`preview-${t.item.path}`))
+              onFocus: $[7] || ($[7] = (k) => h(`preview-${t.item.path}`))
             }, [
-              R(o(wt), { class: "vuefinder__search-modal__item-dropdown-icon" }),
-              s("span", null, b(o(r)("Preview")), 1)
+              O(o(wt), { class: "vuefinder__search-modal__item-dropdown-icon" }),
+              s("span", null, b(o(a)("Preview")), 1)
             ], 34)
           ])
-        ], 40, jr)) : I("", !0)
+        ], 40, jr)) : T("", !0)
       ]))
-    ], 10, Br));
+    ], 10, Pr));
   }
-}), Yr = {
+}), qr = {
   key: 0,
   class: "vuefinder__search-modal__searching"
-}, Qr = { class: "vuefinder__search-modal__loading-icon" }, Xr = {
+}, Yr = { class: "vuefinder__search-modal__loading-icon" }, Qr = {
   key: 1,
   class: "vuefinder__search-modal__no-results"
-}, Jr = {
+}, Xr = {
   key: 2,
   class: "vuefinder__search-modal__results-list"
-}, Zr = { class: "vuefinder__search-modal__results-header" }, Ye = 60, Fn = 5, ed = /* @__PURE__ */ X({
+}, Jr = { class: "vuefinder__search-modal__results-header" }, Ye = 60, Sn = 5, Zr = /* @__PURE__ */ Q({
   name: "SearchResultsList",
   __name: "SearchResultsList",
   props: {
@@ -3770,129 +3423,129 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
   },
   emits: ["selectResultItem", "selectResultItemWithDropdown", "togglePathExpansion", "toggleItemDropdown", "update:selectedItemDropdownOption", "copyPath", "openContainingFolder", "preview"],
   setup(t, { expose: e, emit: n }) {
-    const l = t, i = n, r = Z("ServiceContainer"), { t: a } = r.i18n, v = Ke("scrollableContainer"), d = G(() => l.searchResults.length > 0), _ = G(() => l.searchResults.length), c = E(0), f = E(600), p = G(() => l.searchResults.length * Ye), y = G(() => {
-      const k = Math.max(0, Math.floor(c.value / Ye) - Fn), C = Math.min(
+    const l = t, i = n, a = J("ServiceContainer"), { t: r } = a.i18n, f = Ke("scrollableContainer"), d = Y(() => l.searchResults.length > 0), _ = Y(() => l.searchResults.length), c = E(0), u = E(600), h = Y(() => l.searchResults.length * Ye), y = Y(() => {
+      const k = Math.max(0, Math.floor(c.value / Ye) - Sn), D = Math.min(
         l.searchResults.length,
-        Math.ceil((c.value + f.value) / Ye) + Fn
+        Math.ceil((c.value + u.value) / Ye) + Sn
       );
-      return { start: k, end: C };
-    }), D = G(() => {
-      const { start: k, end: C } = y.value;
-      return l.searchResults.slice(k, C).map((M, A) => ({
-        item: M,
-        index: k + A,
-        top: (k + A) * Ye
+      return { start: k, end: D };
+    }), F = Y(() => {
+      const { start: k, end: D } = y.value;
+      return l.searchResults.slice(k, D).map((L, M) => ({
+        item: L,
+        index: k + M,
+        top: (k + M) * Ye
       }));
-    }), w = (k) => {
-      const C = k.target;
-      c.value = C.scrollTop;
-    }, g = () => {
-      v.value && (f.value = v.value.clientHeight);
+    }), g = (k) => {
+      const D = k.target;
+      c.value = D.scrollTop;
+    }, p = () => {
+      f.value && (u.value = f.value.clientHeight);
     }, m = () => {
-      if (l.selectedIndex >= 0 && v.value) {
-        const k = l.selectedIndex * Ye, C = k + Ye, M = v.value.scrollTop, A = v.value.clientHeight, B = M + A;
-        let U = M;
-        k < M ? U = k : C > B && (U = C - A), U !== M && v.value.scrollTo({
+      if (l.selectedIndex >= 0 && f.value) {
+        const k = l.selectedIndex * Ye, D = k + Ye, L = f.value.scrollTop, M = f.value.clientHeight, B = L + M;
+        let U = L;
+        k < L ? U = k : D > B && (U = D - M), U !== L && f.value.scrollTo({
           top: U,
           behavior: "smooth"
         });
       }
     }, $ = () => {
-      v.value && (v.value.scrollTop = 0, c.value = 0);
+      f.value && (f.value.scrollTop = 0, c.value = 0);
     };
-    return fe(() => {
-      g(), window.addEventListener("resize", g);
-    }), ke(() => {
-      window.removeEventListener("resize", g);
-    }), ue(() => v.value, () => {
-      g();
+    return ve(() => {
+      p(), window.addEventListener("resize", p);
+    }), xe(() => {
+      window.removeEventListener("resize", p);
+    }), ue(() => f.value, () => {
+      p();
     }), e({
       scrollSelectedIntoView: m,
       resetScroll: $,
-      getContainerHeight: () => f.value,
+      getContainerHeight: () => u.value,
       scrollTop: () => c.value
-    }), (k, C) => (u(), h("div", {
-      class: q(["vuefinder__search-modal__results", { "vuefinder__search-modal__results--enter": t.resultsEnter }])
+    }), (k, D) => (v(), w("div", {
+      class: W(["vuefinder__search-modal__results", { "vuefinder__search-modal__results--enter": t.resultsEnter }])
     }, [
-      t.isSearching ? (u(), h("div", Yr, [
-        s("div", Qr, [
-          R(o(Lt), { class: "vuefinder__search-modal__loading-icon" })
+      t.isSearching ? (v(), w("div", qr, [
+        s("div", Yr, [
+          O(o(Rt), { class: "vuefinder__search-modal__loading-icon" })
         ]),
-        s("span", null, b(o(a)("Searching...")), 1)
-      ])) : d.value ? (u(), h("div", Jr, [
-        s("div", Zr, [
-          s("span", null, b(o(a)("Found %s results", _.value)), 1)
+        s("span", null, b(o(r)("Searching...")), 1)
+      ])) : d.value ? (v(), w("div", Xr, [
+        s("div", Jr, [
+          s("span", null, b(o(r)("Found %s results", _.value)), 1)
         ]),
         s("div", {
           ref_key: "scrollableContainer",
-          ref: v,
+          ref: f,
           class: "vuefinder__search-modal__results-scrollable",
-          onScroll: w
+          onScroll: g
         }, [
           s("div", {
             class: "vuefinder__search-modal__results-items",
-            style: He({ height: `${p.value}px`, position: "relative" })
+            style: He({ height: `${h.value}px`, position: "relative" })
           }, [
-            (u(!0), h(de, null, ve(D.value, (M) => (u(), h("div", {
-              key: M.item.path,
+            (v(!0), w(de, null, fe(F.value, (L) => (v(), w("div", {
+              key: L.item.path,
               style: He({
                 position: "absolute",
-                top: `${M.top}px`,
+                top: `${L.top}px`,
                 left: "0",
                 width: "100%",
                 height: `${Ye}px`
               })
             }, [
-              R(qr, {
-                item: M.item,
-                index: M.index,
+              O(Gr, {
+                item: L.item,
+                index: L.index,
                 "selected-index": t.selectedIndex,
                 "expanded-paths": t.expandedPaths,
                 "active-dropdown": t.activeDropdown,
                 "selected-item-dropdown-option": t.selectedItemDropdownOption,
-                onSelect: C[0] || (C[0] = (A) => i("selectResultItem", A)),
-                onSelectWithDropdown: C[1] || (C[1] = (A) => i("selectResultItemWithDropdown", A)),
-                onTogglePathExpansion: C[2] || (C[2] = (A) => i("togglePathExpansion", A)),
-                onToggleItemDropdown: C[3] || (C[3] = (A, B) => i("toggleItemDropdown", A, B)),
-                "onUpdate:selectedItemDropdownOption": C[4] || (C[4] = (A) => i("update:selectedItemDropdownOption", A)),
-                onCopyPath: C[5] || (C[5] = (A) => i("copyPath", A)),
-                onOpenContainingFolder: C[6] || (C[6] = (A) => i("openContainingFolder", A)),
-                onPreview: C[7] || (C[7] = (A) => i("preview", A))
+                onSelect: D[0] || (D[0] = (M) => i("selectResultItem", M)),
+                onSelectWithDropdown: D[1] || (D[1] = (M) => i("selectResultItemWithDropdown", M)),
+                onTogglePathExpansion: D[2] || (D[2] = (M) => i("togglePathExpansion", M)),
+                onToggleItemDropdown: D[3] || (D[3] = (M, B) => i("toggleItemDropdown", M, B)),
+                "onUpdate:selectedItemDropdownOption": D[4] || (D[4] = (M) => i("update:selectedItemDropdownOption", M)),
+                onCopyPath: D[5] || (D[5] = (M) => i("copyPath", M)),
+                onOpenContainingFolder: D[6] || (D[6] = (M) => i("openContainingFolder", M)),
+                onPreview: D[7] || (D[7] = (M) => i("preview", M))
               }, null, 8, ["item", "index", "selected-index", "expanded-paths", "active-dropdown", "selected-item-dropdown-option"])
             ], 4))), 128))
           ], 4)
         ], 544)
-      ])) : (u(), h("div", Xr, [
-        s("span", null, b(o(a)("No results found")), 1)
+      ])) : (v(), w("div", Qr, [
+        s("span", null, b(o(r)("No results found")), 1)
       ]))
     ], 2));
   }
-}), td = { class: "vuefinder__search-modal" }, nd = { class: "vuefinder__search-modal__content" }, od = { class: "vuefinder__search-modal__search-bar" }, sd = { class: "vuefinder__search-modal__search-location" }, ld = ["title"], id = ["disabled"], ad = {
+}), ea = { class: "vuefinder__search-modal" }, ta = { class: "vuefinder__search-modal__content" }, na = { class: "vuefinder__search-modal__search-bar" }, oa = { class: "vuefinder__search-modal__search-location" }, sa = ["title"], la = ["disabled"], ia = {
   key: 0,
   class: "vuefinder__search-modal__folder-selector"
-}, rd = { class: "vuefinder__search-modal__folder-selector-content" }, dd = {
+}, ra = { class: "vuefinder__search-modal__folder-selector-content" }, aa = {
   key: 1,
   class: "vuefinder__search-modal__instructions"
-}, cd = { class: "vuefinder__search-modal__instructions-tips" }, ud = { class: "vuefinder__search-modal__tip" }, vd = { class: "vuefinder__search-modal__tip" }, un = /* @__PURE__ */ X({
+}, da = { class: "vuefinder__search-modal__instructions-tips" }, ca = { class: "vuefinder__search-modal__tip" }, ua = { class: "vuefinder__search-modal__tip" }, cn = /* @__PURE__ */ Q({
   name: "ModalSearch",
   __name: "ModalSearch",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = E(null), r = E(null), a = E(null), v = Hn("", 300), d = E([]), _ = E(!1), c = E(-1), f = E(!1), p = E(!1), y = E(null), D = E("all"), w = E(!1), g = E(`size-${D.value}`), m = E(null), $ = E(/* @__PURE__ */ new Set()), k = E(null), C = W(l.path), M = (x) => {
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = E(null), a = E(null), r = E(null), f = Hn("", 300), d = E([]), _ = E(!1), c = E(-1), u = E(!1), h = E(!1), y = E(null), F = E("all"), g = E(!1), p = E(`size-${F.value}`), m = E(null), $ = E(/* @__PURE__ */ new Set()), k = E(null), D = j(l.path), L = (x) => {
       $.value.has(x) ? $.value.delete(x) : $.value.add(x);
-    }, A = (x, F) => {
-      F && typeof F.stopPropagation == "function" && F.stopPropagation(), k.value === x ? k.value = null : k.value = x;
+    }, M = (x, S) => {
+      S && typeof S.stopPropagation == "function" && S.stopPropagation(), k.value === x ? k.value = null : k.value = x;
     }, B = () => {
       k.value = null;
     }, U = (x) => {
       try {
-        const F = x.dir || `${x.storage}://`;
-        e.adapter.open(F), e.modal.close(), B();
+        const S = x.dir || `${x.storage}://`;
+        e.adapter.open(S), e.modal.close(), B();
       } catch {
         e.emitter.emit("vf-toast-push", { label: n("Failed to open containing folder") });
       }
     }, z = (x) => {
       e.modal.open(It, {
-        storage: C?.value?.storage ?? "local",
+        storage: D?.value?.storage ?? "local",
         item: x
       }), B();
     }, oe = (x) => {
@@ -3902,98 +3555,98 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
     }, he = async (x) => {
       await ut(x.path), B();
     };
-    ue(v, async (x) => {
-      x.trim() ? (await ee(x.trim()), c.value = 0) : (d.value = [], _.value = !1, c.value = -1);
-    }), ue(D, async (x) => {
-      g.value = `size-${x}`, v.value.trim() && !p.value && (await ee(v.value.trim()), c.value = 0);
-    }), ue(w, async () => {
-      v.value.trim() && !p.value && (await ee(v.value.trim()), c.value = 0);
+    ue(f, async (x) => {
+      x.trim() ? (await Z(x.trim()), c.value = 0) : (d.value = [], _.value = !1, c.value = -1);
+    }), ue(F, async (x) => {
+      p.value = `size-${x}`, f.value.trim() && !h.value && (await Z(f.value.trim()), c.value = 0);
+    }), ue(g, async () => {
+      f.value.trim() && !h.value && (await Z(f.value.trim()), c.value = 0);
     });
-    const ee = async (x) => {
+    const Z = async (x) => {
       if (x) {
         _.value = !0;
         try {
-          const F = y.value?.path || C?.value?.path, T = await e.adapter.search({
-            path: F,
+          const S = y.value?.path || D?.value?.path, A = await e.adapter.search({
+            path: S,
             filter: x,
-            deep: w.value,
-            size: D.value
+            deep: g.value,
+            size: F.value
           });
-          d.value = T || [], _.value = !1;
-        } catch (F) {
-          console.error("Search error:", F), d.value = [], _.value = !1;
+          d.value = A || [], _.value = !1;
+        } catch (S) {
+          console.error("Search error:", S), d.value = [], _.value = !1;
         }
       }
     };
-    fe(() => {
-      document.addEventListener("click", S), g.value = `size-${D.value}`, Re(() => {
+    ve(() => {
+      document.addEventListener("click", C), p.value = `size-${F.value}`, Re(() => {
         i.value && i.value.focus();
       });
     });
     const le = () => {
-      p.value ? (p.value = !1, v.value.trim() && (ee(v.value.trim()), c.value = 0)) : (f.value = !1, p.value = !0);
+      h.value ? (h.value = !1, f.value.trim() && (Z(f.value.trim()), c.value = 0)) : (u.value = !1, h.value = !0);
     }, _e = (x) => {
       x && (y.value = x);
-    }, Y = (x) => {
-      x && (_e(x), p.value = !1, v.value.trim() && (ee(v.value.trim()), c.value = 0));
+    }, X = (x) => {
+      x && (_e(x), h.value = !1, f.value.trim() && (Z(f.value.trim()), c.value = 0));
     };
-    ke(() => {
-      document.removeEventListener("click", S), r.value && r.value.cleanup();
+    xe(() => {
+      document.removeEventListener("click", C), a.value && a.value.cleanup();
     });
-    const S = (x) => {
-      const F = x.target;
-      if (f.value && (F.closest(".vuefinder__search-modal__dropdown") || (f.value = !1, Re(() => {
+    const C = (x) => {
+      const S = x.target;
+      if (u.value && (S.closest(".vuefinder__search-modal__dropdown") || (u.value = !1, Re(() => {
         i.value && i.value.focus();
       }))), k.value) {
-        const T = F.closest(".vuefinder__search-modal__item-dropdown"), H = F.closest(".vuefinder__search-modal__result-item");
-        !T && !H && B();
+        const A = S.closest(".vuefinder__search-modal__item-dropdown"), H = S.closest(".vuefinder__search-modal__result-item");
+        !A && !H && B();
       }
     };
-    return (x, F) => (u(), V(Ie, { class: "vuefinder__search-modal-layout" }, {
-      default: Q(() => [
-        s("div", td, [
-          R(Ve, {
-            icon: o(an),
+    return (x, S) => (v(), R(Ee, { class: "vuefinder__search-modal-layout" }, {
+      default: q(() => [
+        s("div", ea, [
+          O(Me, {
+            icon: o(ln),
             title: o(n)("Search files")
           }, null, 8, ["icon", "title"]),
-          s("div", nd, [
-            s("div", od, [
-              R(Oa, {
+          s("div", ta, [
+            s("div", na, [
+              O(Mi, {
                 ref_key: "searchInputRef",
                 ref: i,
-                modelValue: o(v),
-                "onUpdate:modelValue": F[0] || (F[0] = (T) => po(v) ? v.value = T : null),
+                modelValue: o(f),
+                "onUpdate:modelValue": S[0] || (S[0] = (A) => ho(f) ? f.value = A : null),
                 "is-searching": _.value,
-                disabled: p.value
+                disabled: h.value
               }, null, 8, ["modelValue", "is-searching", "disabled"]),
-              R(Ir, {
+              O(Tr, {
                 ref_key: "searchOptionsDropdownRef",
-                ref: r,
-                visible: f.value,
-                "onUpdate:visible": F[1] || (F[1] = (T) => f.value = T),
-                "size-filter": D.value,
-                "onUpdate:sizeFilter": F[2] || (F[2] = (T) => D.value = T),
-                "selected-option": g.value,
-                "onUpdate:selectedOption": F[3] || (F[3] = (T) => g.value = T),
-                disabled: p.value
+                ref: a,
+                visible: u.value,
+                "onUpdate:visible": S[1] || (S[1] = (A) => u.value = A),
+                "size-filter": F.value,
+                "onUpdate:sizeFilter": S[2] || (S[2] = (A) => F.value = A),
+                "selected-option": p.value,
+                "onUpdate:selectedOption": S[3] || (S[3] = (A) => p.value = A),
+                disabled: h.value
               }, null, 8, ["visible", "size-filter", "selected-option", "disabled"])
             ]),
             s("div", {
               class: "vuefinder__search-modal__options",
-              onClick: F[7] || (F[7] = re(() => {
+              onClick: S[7] || (S[7] = ae(() => {
               }, ["stop"]))
             }, [
-              s("div", sd, [
+              s("div", oa, [
                 s("button", {
-                  onClick: re(le, ["stop"]),
-                  class: q(["vuefinder__search-modal__location-btn", { "vuefinder__search-modal__location-btn--open": p.value }])
+                  onClick: ae(le, ["stop"]),
+                  class: W(["vuefinder__search-modal__location-btn", { "vuefinder__search-modal__location-btn--open": h.value }])
                 }, [
-                  R(o(Ne), { class: "vuefinder__search-modal__location-icon" }),
+                  O(o(Ne), { class: "vuefinder__search-modal__location-icon" }),
                   s("span", {
                     class: "vuefinder__search-modal__location-text",
-                    title: y.value?.path || o(C).path
-                  }, b(o(to)(y.value?.path || o(C).path)), 9, ld),
-                  F[10] || (F[10] = s("svg", {
+                    title: y.value?.path || o(D).path
+                  }, b(o(no)(y.value?.path || o(D).path)), 9, sa),
+                  S[10] || (S[10] = s("svg", {
                     class: "vuefinder__search-modal__location-arrow",
                     viewBox: "0 0 16 16",
                     fill: "currentColor"
@@ -4004,52 +3657,52 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
               ]),
               s("label", {
                 class: "vuefinder__search-modal__deep-search",
-                onClick: F[6] || (F[6] = re(() => {
+                onClick: S[6] || (S[6] = ae(() => {
                 }, ["stop"]))
               }, [
                 me(s("input", {
-                  "onUpdate:modelValue": F[4] || (F[4] = (T) => w.value = T),
+                  "onUpdate:modelValue": S[4] || (S[4] = (A) => g.value = A),
                   type: "checkbox",
-                  disabled: p.value,
+                  disabled: h.value,
                   class: "vuefinder__search-modal__checkbox",
-                  onClick: F[5] || (F[5] = re(() => {
+                  onClick: S[5] || (S[5] = ae(() => {
                   }, ["stop"]))
-                }, null, 8, id), [
-                  [Jt, w.value]
+                }, null, 8, la), [
+                  [Jt, g.value]
                 ]),
                 s("span", null, b(o(n)("Include subfolders")), 1)
               ])
             ]),
-            p.value ? (u(), h("div", ad, [
-              s("div", rd, [
-                R(sn, {
+            h.value ? (v(), w("div", ia, [
+              s("div", ra, [
+                O(on, {
                   modelValue: y.value,
                   "onUpdate:modelValue": [
-                    F[8] || (F[8] = (T) => y.value = T),
+                    S[8] || (S[8] = (A) => y.value = A),
                     _e
                   ],
                   "show-pinned-folders": !0,
-                  "current-path": o(C),
-                  onSelectAndClose: Y
+                  "current-path": o(D),
+                  onSelectAndClose: X
                 }, null, 8, ["modelValue", "current-path"])
               ])
-            ])) : I("", !0),
-            !o(v).trim() && !p.value ? (u(), h("div", dd, [
-              s("div", cd, [
-                s("div", ud, [
-                  F[11] || (F[11] = s("span", { class: "vuefinder__search-modal__tip-key" }, "↑↓", -1)),
+            ])) : T("", !0),
+            !o(f).trim() && !h.value ? (v(), w("div", aa, [
+              s("div", da, [
+                s("div", ca, [
+                  S[11] || (S[11] = s("span", { class: "vuefinder__search-modal__tip-key" }, "↑↓", -1)),
                   s("span", null, b(o(n)("Navigate results")), 1)
                 ]),
-                s("div", vd, [
-                  F[12] || (F[12] = s("span", { class: "vuefinder__search-modal__tip-key" }, "Esc", -1)),
+                s("div", ua, [
+                  S[12] || (S[12] = s("span", { class: "vuefinder__search-modal__tip-key" }, "Esc", -1)),
                   s("span", null, b(o(n)("Close search")), 1)
                 ])
               ])
-            ])) : I("", !0),
-            o(v).trim() && !p.value ? (u(), V(ed, {
+            ])) : T("", !0),
+            o(f).trim() && !h.value ? (v(), R(Zr, {
               key: 2,
               ref_key: "searchResultsListRef",
-              ref: a,
+              ref: r,
               "search-results": d.value,
               "is-searching": _.value,
               "selected-index": c.value,
@@ -4059,13 +3712,13 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
               "results-enter": !0,
               onSelectResultItem: oe,
               onSelectResultItemWithDropdown: ie,
-              onTogglePathExpansion: M,
-              onToggleItemDropdown: A,
-              "onUpdate:selectedItemDropdownOption": F[9] || (F[9] = (T) => m.value = T),
+              onTogglePathExpansion: L,
+              onToggleItemDropdown: M,
+              "onUpdate:selectedItemDropdownOption": S[9] || (S[9] = (A) => m.value = A),
               onCopyPath: he,
               onOpenContainingFolder: U,
               onPreview: z
-            }, null, 8, ["search-results", "is-searching", "selected-index", "expanded-paths", "active-dropdown", "selected-item-dropdown-option"])) : I("", !0)
+            }, null, 8, ["search-results", "is-searching", "selected-index", "expanded-paths", "active-dropdown", "selected-item-dropdown-option"])) : T("", !0)
           ])
         ])
       ]),
@@ -4087,24 +3740,24 @@ const oo = { render: Pr }, Br = ["title"], zr = { class: "vuefinder__search-moda
   KEY_X: "KeyX",
   KEY_V: "KeyV"
 };
-function fd(t) {
-  const e = t.fs, n = t.config, l = W(e.selectedItems), i = (r) => {
-    if (r.code === Se.ESCAPE && (t.modal.close(), t.root.focus()), !t.modal.visible) {
-      if (r.code === Se.F2 && t.features.includes(ne.RENAME) && l.value.length === 1 && t.modal.open(Mt, { items: l.value }), r.code === Se.F5 && t.adapter.open(e.path.get().path), r.code === Se.DELETE && l.value.length === 0 && t.modal.open(At, { items: l.value }), r.ctrlKey && r.code === Se.BACKSLASH && t.modal.open(en), r.ctrlKey && r.code === Se.KEY_F && t.features.includes(ne.SEARCH) && (t.modal.open(un), r.preventDefault()), r.ctrlKey && r.code === Se.KEY_E && (n.toggle("showTreeView"), r.preventDefault()), r.ctrlKey && r.code === Se.ENTER && (n.toggle("fullScreen"), t.root.focus()), r.ctrlKey && r.code === Se.KEY_A && (e.selectAll(t.selectionMode || "multiple", t), r.preventDefault()), r.code === Se.SPACE && l.value.length === 1 && l.value[0]?.type !== "dir" && t.modal.open(It, { storage: e.path.get().storage, item: l.value[0] }), r.metaKey && r.code === Se.KEY_C) {
+function va(t) {
+  const e = t.fs, n = t.config, l = j(e.selectedItems), i = (a) => {
+    if (a.code === Se.ESCAPE && (t.modal.close(), t.root.focus()), !t.modal.visible) {
+      if (a.code === Se.F2 && t.features.includes(te.RENAME) && l.value.length === 1 && t.modal.open(Tt, { items: l.value }), a.code === Se.F5 && t.adapter.open(e.path.get().path), a.code === Se.DELETE && l.value.length === 0 && t.modal.open(Mt, { items: l.value }), a.ctrlKey && a.code === Se.BACKSLASH && t.modal.open(Vn), a.ctrlKey && a.code === Se.KEY_F && t.features.includes(te.SEARCH) && (t.modal.open(cn), a.preventDefault()), a.ctrlKey && a.code === Se.KEY_E && (n.toggle("showTreeView"), a.preventDefault()), a.ctrlKey && a.code === Se.ENTER && (n.toggle("fullScreen"), t.root.focus()), a.ctrlKey && a.code === Se.KEY_A && (e.selectAll(t.selectionMode || "multiple", t), a.preventDefault()), a.code === Se.SPACE && l.value.length === 1 && l.value[0]?.type !== "dir" && t.modal.open(It, { storage: e.path.get().storage, item: l.value[0] }), a.metaKey && a.code === Se.KEY_C) {
         if (l.value.length === 0) {
           t.emitter.emit("vf-toast-push", { type: "error", label: t.i18n.t("No items selected") });
           return;
         }
-        e.setClipboard("copy", new Set(l.value.map((a) => a.path))), t.emitter.emit("vf-toast-push", { label: l.value.length === 1 ? t.i18n.t("Item copied to clipboard") : t.i18n.t("%s items copied to clipboard", l.value.length) }), r.preventDefault();
+        e.setClipboard("copy", new Set(l.value.map((r) => r.path))), t.emitter.emit("vf-toast-push", { label: l.value.length === 1 ? t.i18n.t("Item copied to clipboard") : t.i18n.t("%s items copied to clipboard", l.value.length) }), a.preventDefault();
       }
-      if (r.metaKey && r.code === Se.KEY_X) {
+      if (a.metaKey && a.code === Se.KEY_X) {
         if (l.value.length === 0) {
           t.emitter.emit("vf-toast-push", { type: "error", label: t.i18n.t("No items selected") });
           return;
         }
-        e.setClipboard("cut", new Set(l.value.map((a) => a.path))), t.emitter.emit("vf-toast-push", { label: l.value.length === 1 ? t.i18n.t("Item cut to clipboard") : t.i18n.t("%s items cut to clipboard", l.value.length) }), r.preventDefault();
+        e.setClipboard("cut", new Set(l.value.map((r) => r.path))), t.emitter.emit("vf-toast-push", { label: l.value.length === 1 ? t.i18n.t("Item cut to clipboard") : t.i18n.t("%s items cut to clipboard", l.value.length) }), a.preventDefault();
       }
-      if (r.metaKey && r.code === Se.KEY_V) {
+      if (a.metaKey && a.code === Se.KEY_V) {
         if (e.getClipboard().items.size === 0) {
           t.emitter.emit("vf-toast-push", { type: "error", label: t.i18n.t("No items in clipboard") });
           return;
@@ -4114,24 +3767,24 @@ function fd(t) {
           return;
         }
         if (e.getClipboard().type === "cut") {
-          t.modal.open(nt, { items: { from: Array.from(e.getClipboard().items), to: e.path.get() } }), e.clearClipboard();
+          t.modal.open(tt, { items: { from: Array.from(e.getClipboard().items), to: e.path.get() } }), e.clearClipboard();
           return;
         }
         if (e.getClipboard().type === "copy") {
-          t.modal.open(ln, { items: { from: Array.from(e.getClipboard().items), to: e.path.get() } });
+          t.modal.open(sn, { items: { from: Array.from(e.getClipboard().items), to: e.path.get() } });
           return;
         }
-        r.preventDefault();
+        a.preventDefault();
       }
     }
   };
-  fe(() => {
+  ve(() => {
     t.root.addEventListener("keydown", i);
-  }), ho(() => {
+  }), go(() => {
     t.root.removeEventListener("keydown", i);
   });
 }
-const vn = async (t, e) => {
+const un = async (t, e) => {
   if (e) {
     if (e.isFile) {
       const n = await new Promise((l) => {
@@ -4144,39 +3797,39 @@ const vn = async (t, e) => {
         n.readEntries(i);
       });
       for (const i of l)
-        await vn(t, i);
+        await un(t, i);
     }
   }
 };
-function _d() {
+function fa() {
   const t = E(!1), e = E([]);
   return {
     isDraggingExternal: t,
     externalFiles: e,
-    handleDragEnter: (v) => {
-      v.preventDefault(), v.stopPropagation();
-      const d = v.dataTransfer?.items;
-      d && Array.from(d).some((c) => c.kind === "file") && (t.value = !0, v.isExternalDrag = !0);
+    handleDragEnter: (f) => {
+      f.preventDefault(), f.stopPropagation();
+      const d = f.dataTransfer?.items;
+      d && Array.from(d).some((c) => c.kind === "file") && (t.value = !0, f.isExternalDrag = !0);
     },
-    handleDragOver: (v) => {
-      t.value && v.dataTransfer && (v.dataTransfer.dropEffect = "copy", v.preventDefault(), v.stopPropagation());
+    handleDragOver: (f) => {
+      t.value && f.dataTransfer && (f.dataTransfer.dropEffect = "copy", f.preventDefault(), f.stopPropagation());
     },
-    handleDragLeave: (v) => {
-      v.preventDefault();
-      const d = v.currentTarget.getBoundingClientRect(), _ = v.clientX, c = v.clientY;
+    handleDragLeave: (f) => {
+      f.preventDefault();
+      const d = f.currentTarget.getBoundingClientRect(), _ = f.clientX, c = f.clientY;
       (_ < d.left || _ > d.right || c < d.top || c > d.bottom) && (t.value = !1);
     },
-    handleDrop: async (v) => {
-      v.preventDefault(), v.stopPropagation(), t.value = !1;
-      const d = v.dataTransfer?.items;
+    handleDrop: async (f) => {
+      f.preventDefault(), f.stopPropagation(), t.value = !1;
+      const d = f.dataTransfer?.items;
       if (d) {
         const _ = Array.from(d).filter((c) => c.kind === "file");
         if (_.length > 0) {
           e.value = [];
           for (const c of _) {
-            const f = c.webkitGetAsEntry?.();
-            if (f)
-              await vn((p, y) => {
+            const u = c.webkitGetAsEntry?.();
+            if (u)
+              await un((h, y) => {
                 e.value.push({
                   name: y.name,
                   size: y.size,
@@ -4184,15 +3837,15 @@ function _d() {
                   lastModified: new Date(y.lastModified),
                   file: y
                 });
-              }, f);
+              }, u);
             else {
-              const p = c.getAsFile();
-              p && e.value.push({
-                name: p.name,
-                size: p.size,
-                type: p.type,
-                lastModified: new Date(p.lastModified),
-                file: p
+              const h = c.getAsFile();
+              h && e.value.push({
+                name: h.name,
+                size: h.size,
+                type: h.type,
+                lastModified: new Date(h.lastModified),
+                file: h
               });
             }
           }
@@ -4206,36 +3859,36 @@ function _d() {
     }
   };
 }
-const md = {
+const _a = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
   class: "h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon",
   viewBox: "0 0 24 24"
 };
-function pd(t, e) {
-  return u(), h("svg", md, [...e[0] || (e[0] = [
+function ma(t, e) {
+  return v(), w("svg", _a, [...e[0] || (e[0] = [
     s("path", { d: "M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44z" }, null, -1)
   ])]);
 }
-const so = { render: pd }, hd = { class: "vuefinder__new-folder-modal__content" }, gd = { class: "vuefinder__new-folder-modal__form" }, wd = { class: "vuefinder__new-folder-modal__description" }, yd = ["placeholder"], fn = /* @__PURE__ */ X({
+const lo = { render: ma }, pa = { class: "vuefinder__new-folder-modal__content" }, ha = { class: "vuefinder__new-folder-modal__form" }, ga = { class: "vuefinder__new-folder-modal__description" }, wa = ["placeholder"], vn = /* @__PURE__ */ Q({
   __name: "ModalNewFolder",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = W(l.path), r = E(""), a = E(""), v = () => {
-      r.value !== "" && e.adapter.createFolder({
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = j(l.path), a = E(""), r = E(""), f = () => {
+      a.value !== "" && e.adapter.createFolder({
         path: i.value.path,
-        name: r.value
+        name: a.value
       }).then((d) => {
-        e.emitter.emit("vf-toast-push", { label: n("%s is created.", r.value) }), e.fs.setFiles(d.files), e.modal.close();
+        e.emitter.emit("vf-toast-push", { label: n("%s is created.", a.value) }), e.fs.setFiles(d.files), e.modal.close();
       }).catch((d) => {
         e.emitter.emit("vf-toast-push", { label: n(d.message), type: "error" });
       });
     };
-    return (d, _) => (u(), V(Ie, null, {
-      buttons: Q(() => [
+    return (d, _) => (v(), R(Ee, null, {
+      buttons: q(() => [
         s("button", {
           type: "button",
-          onClick: v,
+          onClick: f,
           class: "vf-btn vf-btn-primary"
         }, b(o(n)("Create")), 1),
         s("button", {
@@ -4244,34 +3897,35 @@ const so = { render: pd }, hd = { class: "vuefinder__new-folder-modal__content" 
           class: "vf-btn vf-btn-secondary"
         }, b(o(n)("Cancel")), 1)
       ]),
-      default: Q(() => [
+      default: q(() => [
         s("div", null, [
-          R(Ve, {
-            icon: o(so),
+          O(Me, {
+            icon: o(lo),
             title: o(n)("New Folder")
           }, null, 8, ["icon", "title"]),
-          s("div", hd, [
-            s("div", gd, [
-              s("p", wd, b(o(n)("Create a new folder")), 1),
+          s("div", pa, [
+            s("div", ha, [
+              s("p", ga, b(o(n)("Create a new folder")), 1),
               me(s("input", {
-                "onUpdate:modelValue": _[0] || (_[0] = (c) => r.value = c),
-                onKeyup: vt(v, ["enter"]),
+                "onUpdate:modelValue": _[0] || (_[0] = (c) => a.value = c),
+                onKeyup: vt(f, ["enter"]),
                 class: "vuefinder__new-folder-modal__input",
                 placeholder: o(n)("Folder Name"),
-                type: "text"
-              }, null, 40, yd), [
-                [ft, r.value]
+                type: "text",
+                autofocus: ""
+              }, null, 40, wa), [
+                [ft, a.value]
               ]),
-              a.value.length ? (u(), V(o(a), {
+              r.value.length ? (v(), R(o(r), {
                 key: 0,
-                onHidden: _[1] || (_[1] = (c) => a.value = ""),
+                onHidden: _[1] || (_[1] = (c) => r.value = ""),
                 error: ""
               }, {
-                default: Q(() => [
-                  J(b(a.value), 1)
+                default: q(() => [
+                  ne(b(r.value), 1)
                 ]),
                 _: 1
-              })) : I("", !0)
+              })) : T("", !0)
             ])
           ])
         ])
@@ -4279,36 +3933,36 @@ const so = { render: pd }, hd = { class: "vuefinder__new-folder-modal__content" 
       _: 1
     }));
   }
-}), bd = {
+}), ya = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
   class: "h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon",
   viewBox: "0 0 24 24"
 };
-function kd(t, e) {
-  return u(), h("svg", bd, [...e[0] || (e[0] = [
+function ba(t, e) {
+  return v(), w("svg", ya, [...e[0] || (e[0] = [
     s("path", { d: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9" }, null, -1)
   ])]);
 }
-const lo = { render: kd }, xd = { class: "vuefinder__new-file-modal__content" }, $d = { class: "vuefinder__new-file-modal__form" }, Cd = { class: "vuefinder__new-file-modal__description" }, Sd = ["placeholder"], io = /* @__PURE__ */ X({
+const io = { render: ba }, xa = { class: "vuefinder__new-file-modal__content" }, ka = { class: "vuefinder__new-file-modal__form" }, $a = { class: "vuefinder__new-file-modal__description" }, Ca = ["placeholder"], ro = /* @__PURE__ */ Q({
   __name: "ModalNewFile",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = W(l.path), r = E(""), a = E(""), v = () => {
-      r.value !== "" && e.adapter.createFile({
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = j(l.path), a = E(""), r = E(""), f = () => {
+      a.value !== "" && e.adapter.createFile({
         path: i.value.path,
-        name: r.value
+        name: a.value
       }).then((d) => {
-        e.emitter.emit("vf-toast-push", { label: n("%s is created.", r.value) }), e.fs.setFiles(d.files), e.modal.close();
+        e.emitter.emit("vf-toast-push", { label: n("%s is created.", a.value) }), e.fs.setFiles(d.files), e.modal.close();
       }).catch((d) => {
         e.emitter.emit("vf-toast-push", { label: n(d.message), type: "error" });
       });
     };
-    return (d, _) => (u(), V(Ie, null, {
-      buttons: Q(() => [
+    return (d, _) => (v(), R(Ee, null, {
+      buttons: q(() => [
         s("button", {
           type: "button",
-          onClick: v,
+          onClick: f,
           class: "vf-btn vf-btn-primary"
         }, b(o(n)("Create")), 1),
         s("button", {
@@ -4317,34 +3971,34 @@ const lo = { render: kd }, xd = { class: "vuefinder__new-file-modal__content" },
           class: "vf-btn vf-btn-secondary"
         }, b(o(n)("Cancel")), 1)
       ]),
-      default: Q(() => [
+      default: q(() => [
         s("div", null, [
-          R(Ve, {
-            icon: o(lo),
+          O(Me, {
+            icon: o(io),
             title: o(n)("New File")
           }, null, 8, ["icon", "title"]),
-          s("div", xd, [
-            s("div", $d, [
-              s("p", Cd, b(o(n)("Create a new file")), 1),
+          s("div", xa, [
+            s("div", ka, [
+              s("p", $a, b(o(n)("Create a new file")), 1),
               me(s("input", {
-                "onUpdate:modelValue": _[0] || (_[0] = (c) => r.value = c),
-                onKeyup: vt(v, ["enter"]),
+                "onUpdate:modelValue": _[0] || (_[0] = (c) => a.value = c),
+                onKeyup: vt(f, ["enter"]),
                 class: "vuefinder__new-file-modal__input",
                 placeholder: o(n)("File Name"),
                 type: "text"
-              }, null, 40, Sd), [
-                [ft, r.value]
+              }, null, 40, Ca), [
+                [ft, a.value]
               ]),
-              a.value.length ? (u(), V(o(a), {
+              r.value.length ? (v(), R(o(r), {
                 key: 0,
-                onHidden: _[1] || (_[1] = (c) => a.value = ""),
+                onHidden: _[1] || (_[1] = (c) => r.value = ""),
                 error: ""
               }, {
-                default: Q(() => [
-                  J(b(a.value), 1)
+                default: q(() => [
+                  ne(b(r.value), 1)
                 ]),
                 _: 1
-              })) : I("", !0)
+              })) : T("", !0)
             ])
           ])
         ])
@@ -4352,24 +4006,24 @@ const lo = { render: kd }, xd = { class: "vuefinder__new-file-modal__content" },
       _: 1
     }));
   }
-}), Fd = ["title"], Dd = /* @__PURE__ */ X({
+}), Sa = ["title"], Fa = /* @__PURE__ */ Q({
   __name: "Message",
   props: {
     error: { type: Boolean }
   },
   emits: ["hidden"],
   setup(t, { emit: e }) {
-    const n = e, l = Z("ServiceContainer"), { t: i } = l.i18n, r = E(!1), a = E(null), v = E(a.value?.innerHTML);
-    ue(v, () => r.value = !1);
+    const n = e, l = J("ServiceContainer"), { t: i } = l.i18n, a = E(!1), r = E(null), f = E(r.value?.innerHTML);
+    ue(f, () => a.value = !1);
     const d = () => {
-      n("hidden"), r.value = !0;
+      n("hidden"), a.value = !0;
     };
-    return (_, c) => (u(), h("div", null, [
-      r.value ? I("", !0) : (u(), h("div", {
+    return (_, c) => (v(), w("div", null, [
+      a.value ? T("", !0) : (v(), w("div", {
         key: 0,
         ref_key: "strMessage",
-        ref: a,
-        class: q(["vuefinder__message", t.error ? "vuefinder__message--error" : "vuefinder__message--success"])
+        ref: r,
+        class: W(["vuefinder__message", t.error ? "vuefinder__message--error" : "vuefinder__message--success"])
       }, [
         De(_.$slots, "default"),
         s("div", {
@@ -4391,253 +4045,253 @@ const lo = { render: kd }, xd = { class: "vuefinder__new-file-modal__content" },
               d: "M6 18L18 6M6 6l12 12"
             })
           ], -1)
-        ])], 8, Fd)
+        ])], 8, Sa)
       ], 2))
     ]));
   }
 }), ye = { PENDING: 0, CANCELED: 1, UPLOADING: 2, ERROR: 3, DONE: 10 };
-function Ed(t) {
-  const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = W(l.path), r = e.config, a = E({ QUEUE_ENTRY_STATUS: ye }), v = E(null), d = E(null), _ = E(null), c = E(null), f = E(null), p = E([]), y = E(""), D = E(!1), w = E(!1), g = E(null);
+function Da(t) {
+  const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = j(l.path), a = e.config, r = E({ QUEUE_ENTRY_STATUS: ye }), f = E(null), d = E(null), _ = E(null), c = E(null), u = E(null), h = E([]), y = E(""), F = E(!1), g = E(!1), p = E(null);
   let m;
-  const $ = (S) => {
-    S.preventDefault(), S.stopPropagation(), w.value = !0;
-  }, k = (S) => {
-    S.preventDefault(), S.stopPropagation(), w.value = !0;
-  }, C = (S) => {
-    S.preventDefault(), S.stopPropagation(), (!S.relatedTarget || S.relatedTarget === document.body) && (w.value = !1);
-  }, M = (S) => {
-    S.preventDefault(), S.stopPropagation(), w.value = !1;
-    const x = /^[/\\](.+)/, F = S.dataTransfer;
-    F && (F.items && F.items.length ? Array.from(F.items).forEach((T) => {
-      if (T.kind === "file") {
-        const H = T.webkitGetAsEntry?.();
+  const $ = (C) => {
+    C.preventDefault(), C.stopPropagation(), g.value = !0;
+  }, k = (C) => {
+    C.preventDefault(), C.stopPropagation(), g.value = !0;
+  }, D = (C) => {
+    C.preventDefault(), C.stopPropagation(), (!C.relatedTarget || C.relatedTarget === document.body) && (g.value = !1);
+  }, L = (C) => {
+    C.preventDefault(), C.stopPropagation(), g.value = !1;
+    const x = /^[/\\](.+)/, S = C.dataTransfer;
+    S && (S.items && S.items.length ? Array.from(S.items).forEach((A) => {
+      if (A.kind === "file") {
+        const H = A.webkitGetAsEntry?.();
         if (H)
-          vn((j, pe) => {
-            const ce = x.exec(j?.fullPath || "");
+          un((G, pe) => {
+            const ce = x.exec(G?.fullPath || "");
             B(pe, ce ? ce[1] : pe.name);
           }, H);
         else {
-          const j = T.getAsFile?.();
-          j && B(j);
+          const G = A.getAsFile?.();
+          G && B(G);
         }
       }
-    }) : F.files && F.files.length && Array.from(F.files).forEach((T) => B(T)));
-  }, A = (S) => p.value.findIndex((x) => x.id === S), B = (S, x) => m.addFile({ name: x || S.name, type: S.type, data: S, source: "Local" }), U = (S) => S.status === ye.DONE ? "text-green-600" : S.status === ye.ERROR || S.status === ye.CANCELED ? "text-red-600" : "", z = (S) => S.status === ye.DONE ? "✓" : S.status === ye.ERROR || S.status === ye.CANCELED ? "!" : "...", oe = () => c.value?.click(), ie = () => e.modal.close(), he = (S) => {
-    if (D.value || !p.value.filter((x) => x.status !== ye.DONE).length) {
-      D.value || (y.value = n("Please select file to upload first."));
+    }) : S.files && S.files.length && Array.from(S.files).forEach((A) => B(A)));
+  }, M = (C) => h.value.findIndex((x) => x.id === C), B = (C, x) => m.addFile({ name: x || C.name, type: C.type, data: C, source: "Local" }), U = (C) => C.status === ye.DONE ? "text-green-600" : C.status === ye.ERROR || C.status === ye.CANCELED ? "text-red-600" : "", z = (C) => C.status === ye.DONE ? "✓" : C.status === ye.ERROR || C.status === ye.CANCELED ? "!" : "...", oe = () => c.value?.click(), ie = () => e.modal.close(), he = (C) => {
+    if (F.value || !h.value.filter((x) => x.status !== ye.DONE).length) {
+      F.value || (y.value = n("Please select file to upload first."));
       return;
     }
-    y.value = "", g.value = S || i.value, m.upload();
-  }, ee = () => {
-    m.cancelAll(), p.value.forEach((S) => {
-      S.status !== ye.DONE && (S.status = ye.CANCELED, S.statusName = n("Canceled"));
-    }), D.value = !1;
-  }, le = (S) => {
-    D.value || (m.removeFile(S.id), p.value.splice(A(S.id), 1));
-  }, _e = (S) => {
-    if (!D.value)
-      if (m.cancelAll(), S) {
-        const x = p.value.filter((F) => F.status !== ye.DONE);
-        p.value = [], x.forEach((F) => B(F.originalFile, F.name));
+    y.value = "", p.value = C || i.value, m.upload();
+  }, Z = () => {
+    m.cancelAll(), h.value.forEach((C) => {
+      C.status !== ye.DONE && (C.status = ye.CANCELED, C.statusName = n("Canceled"));
+    }), F.value = !1;
+  }, le = (C) => {
+    F.value || (m.removeFile(C.id), h.value.splice(M(C.id), 1));
+  }, _e = (C) => {
+    if (!F.value)
+      if (m.cancelAll(), C) {
+        const x = h.value.filter((S) => S.status !== ye.DONE);
+        h.value = [], x.forEach((S) => B(S.originalFile, S.name));
       } else
-        p.value = [];
-  }, Y = (S) => {
-    S.forEach((x) => {
+        h.value = [];
+  }, X = (C) => {
+    C.forEach((x) => {
       B(x);
     });
   };
-  return fe(() => {
-    m = new Fo({
+  return ve(() => {
+    m = new Do({
       debug: e.debug,
-      restrictions: { maxFileSize: Oo(r.maxFileSize ?? "10mb") },
+      restrictions: { maxFileSize: Lo(a.maxFileSize ?? "10mb") },
       locale: e.i18n.t("uppy"),
-      onBeforeFileAdded: (T, H) => {
-        if (H[T.id] != null) {
-          const pe = A(T.id);
-          p.value[pe]?.status === ye.PENDING && (y.value = m.i18n("noDuplicates", { fileName: T.name })), p.value = p.value.filter((ce) => ce.id !== T.id);
+      onBeforeFileAdded: (A, H) => {
+        if (H[A.id] != null) {
+          const pe = M(A.id);
+          h.value[pe]?.status === ye.PENDING && (y.value = m.i18n("noDuplicates", { fileName: A.name })), h.value = h.value.filter((ce) => ce.id !== A.id);
         }
-        return p.value.push({
-          id: T.id,
-          name: T.name,
-          size: e.filesize(T.size),
+        return h.value.push({
+          id: A.id,
+          name: A.name,
+          size: e.filesize(A.size),
           status: ye.PENDING,
           statusName: n("Pending upload"),
           percent: null,
-          originalFile: T.data
+          originalFile: A.data
         }), !0;
       }
     });
-    const S = {
-      getTargetPath: () => (g.value || i.value).path
+    const C = {
+      getTargetPath: () => (p.value || i.value).path
     };
     if (t)
-      t(m, S);
+      t(m, C);
     else if (e.adapter.getAdapter().configureUploader)
-      e.adapter.getAdapter().configureUploader(m, S);
+      e.adapter.getAdapter().configureUploader(m, C);
     else
       throw new Error("No uploader configured");
-    m.on("restriction-failed", (T, H) => {
-      const j = p.value[A(T.id)];
-      j && le(j), y.value = H.message;
-    }), m.on("upload-progress", (T, H) => {
-      const j = H.bytesTotal ?? 1, pe = Math.floor(H.bytesUploaded / j * 100), ce = A(T.id);
-      ce !== -1 && p.value[ce] && (p.value[ce].percent = `${pe}%`);
-    }), m.on("upload-success", (T) => {
-      const H = p.value[A(T.id)];
+    m.on("restriction-failed", (A, H) => {
+      const G = h.value[M(A.id)];
+      G && le(G), y.value = H.message;
+    }), m.on("upload-progress", (A, H) => {
+      const G = H.bytesTotal ?? 1, pe = Math.floor(H.bytesUploaded / G * 100), ce = M(A.id);
+      ce !== -1 && h.value[ce] && (h.value[ce].percent = `${pe}%`);
+    }), m.on("upload-success", (A) => {
+      const H = h.value[M(A.id)];
       H && (H.status = ye.DONE, H.statusName = n("Done"));
-    }), m.on("upload-error", (T, H) => {
-      const j = p.value[A(T.id)];
-      j && (j.percent = null, j.status = ye.ERROR, j.statusName = H?.isNetworkError ? n("Network Error, Unable establish connection to the server or interrupted.") : H?.message || n("Unknown Error"));
-    }), m.on("error", (T) => {
-      y.value = T.message, D.value = !1, e.adapter.open(i.value.path);
+    }), m.on("upload-error", (A, H) => {
+      const G = h.value[M(A.id)];
+      G && (G.percent = null, G.status = ye.ERROR, G.statusName = H?.isNetworkError ? n("Network Error, Unable establish connection to the server or interrupted.") : H?.message || n("Unknown Error"));
+    }), m.on("error", (A) => {
+      y.value = A.message, F.value = !1, e.adapter.open(i.value.path);
     }), m.on("complete", () => {
-      D.value = !1;
-      const T = g.value || i.value;
-      e.adapter.invalidateListQuery(T.path), e.adapter.open(T.path);
-      const H = p.value.filter((j) => j.status === ye.DONE).map((j) => j.name);
+      F.value = !1;
+      const A = p.value || i.value;
+      e.adapter.invalidateListQuery(A.path), e.adapter.open(A.path);
+      const H = h.value.filter((G) => G.status === ye.DONE).map((G) => G.name);
       e.emitter.emit("vf-upload-complete", H);
-    }), c.value?.addEventListener("click", () => d.value?.click()), f.value?.addEventListener("click", () => _.value?.click());
+    }), c.value?.addEventListener("click", () => d.value?.click()), u.value?.addEventListener("click", () => _.value?.click());
     const x = { capture: !0 };
-    document.addEventListener("dragover", $, x), document.addEventListener("dragenter", k, x), document.addEventListener("dragleave", C, x), document.addEventListener("drop", M, x);
-    const F = (T) => {
-      const H = T.target, j = H.files;
-      if (j) {
-        for (const pe of j) B(pe);
+    document.addEventListener("dragover", $, x), document.addEventListener("dragenter", k, x), document.addEventListener("dragleave", D, x), document.addEventListener("drop", L, x);
+    const S = (A) => {
+      const H = A.target, G = H.files;
+      if (G) {
+        for (const pe of G) B(pe);
         H.value = "";
       }
     };
-    d.value?.addEventListener("change", F), _.value?.addEventListener("change", F);
-  }), ke(() => {
-    const S = { capture: !0 };
-    document.removeEventListener("dragover", $, S), document.removeEventListener("dragenter", k, S), document.removeEventListener("dragleave", C, S), document.removeEventListener("drop", M, S);
+    d.value?.addEventListener("change", S), _.value?.addEventListener("change", S);
+  }), xe(() => {
+    const C = { capture: !0 };
+    document.removeEventListener("dragover", $, C), document.removeEventListener("dragenter", k, C), document.removeEventListener("dragleave", D, C), document.removeEventListener("drop", L, C);
   }), {
-    container: v,
+    container: f,
     internalFileInput: d,
     internalFolderInput: _,
     pickFiles: c,
-    pickFolders: f,
-    queue: p,
+    pickFolders: u,
+    queue: h,
     message: y,
-    uploading: D,
-    hasFilesInDropArea: w,
-    definitions: a,
+    uploading: F,
+    hasFilesInDropArea: g,
+    definitions: r,
     openFileSelector: oe,
     upload: he,
-    cancel: ee,
+    cancel: Z,
     remove: le,
     clear: _e,
     close: ie,
     getClassNameForEntry: U,
     getIconForEntry: z,
-    addExternalFiles: Y
+    addExternalFiles: X
   };
 }
 function Xt(t, e = 14) {
   const n = `((?=([\\w\\W]{0,${e}}))([\\w\\W]{${e + 1},})([\\w\\W]{8,}))`;
   return t.replace(new RegExp(n), "$2..$4");
 }
-const Td = {
+const Ea = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
   class: "h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon",
   viewBox: "0 0 24 24"
 };
-function Ad(t, e) {
-  return u(), h("svg", Td, [...e[0] || (e[0] = [
+function Aa(t, e) {
+  return v(), w("svg", Ea, [...e[0] || (e[0] = [
     s("path", { d: "M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" }, null, -1)
   ])]);
 }
-const ao = { render: Ad }, Md = { class: "vuefinder__upload-modal__content relative" }, Id = { class: "vuefinder__upload-modal__target-section" }, Od = { class: "vuefinder__upload-modal__target-label" }, Rd = { class: "vuefinder__upload-modal__target-container" }, Ld = { class: "vuefinder__upload-modal__target-path" }, Vd = { class: "vuefinder__upload-modal__target-storage" }, Pd = {
+const ao = { render: Aa }, Ma = { class: "vuefinder__upload-modal__content relative" }, Ta = { class: "vuefinder__upload-modal__target-section" }, Ia = { class: "vuefinder__upload-modal__target-label" }, Oa = { class: "vuefinder__upload-modal__target-container" }, La = { class: "vuefinder__upload-modal__target-path" }, Ra = { class: "vuefinder__upload-modal__target-storage" }, Va = {
   key: 0,
   class: "vuefinder__upload-modal__target-folder"
-}, Bd = { class: "vuefinder__upload-modal__target-badge" }, zd = { class: "vuefinder__upload-modal__drag-hint" }, Hd = { class: "vuefinder__upload-modal__file-list vf-scrollbar" }, Nd = ["textContent"], Ud = { class: "vuefinder__upload-modal__file-info" }, Kd = { class: "vuefinder__upload-modal__file-name hidden md:block" }, Wd = { class: "vuefinder__upload-modal__file-name md:hidden" }, jd = {
+}, Pa = { class: "vuefinder__upload-modal__target-badge" }, Ba = { class: "vuefinder__upload-modal__drag-hint" }, za = { class: "vuefinder__upload-modal__file-list vf-scrollbar" }, Ha = ["textContent"], Na = { class: "vuefinder__upload-modal__file-info" }, Ua = { class: "vuefinder__upload-modal__file-name hidden md:block" }, Ka = { class: "vuefinder__upload-modal__file-name md:hidden" }, ja = {
   key: 0,
   class: "ml-auto"
-}, Gd = ["title", "disabled", "onClick"], qd = {
+}, Wa = ["title", "disabled", "onClick"], Ga = {
   key: 0,
   class: "py-2"
-}, Yd = ["aria-expanded"], Qd = {
+}, qa = ["aria-expanded"], Ya = {
   key: 0,
   class: "vuefinder__upload-actions__menu left-0 right-0 absolute bottom-full mb-2"
-}, Xd = ["disabled"], Jd = ["disabled"], Zd = ["disabled"], ec = ["aria-expanded"], tc = {
+}, Qa = ["disabled"], Xa = ["aria-expanded"], Ja = {
   key: 0,
-  class: "vuefinder__upload-actions__menu absolute bottom-full mb-2 left-0"
-}, nc = ["disabled"], oc = ["disabled"], _n = /* @__PURE__ */ X({
+  class: "vuefinder__upload-actions__menu"
+}, fn = /* @__PURE__ */ Q({
   __name: "ModalUpload",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = W(l.path), r = E(i.value), a = E(!1), v = () => {
-      const S = r.value.path;
-      if (!S) return { storage: "local", path: "" };
-      if (S.endsWith("://"))
-        return { storage: S.replace("://", ""), path: "" };
-      const x = S.split("://");
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = j(l.path), a = E(i.value), r = E(!1), f = () => {
+      const C = a.value.path;
+      if (!C) return { storage: "local", path: "" };
+      if (C.endsWith("://"))
+        return { storage: C.replace("://", ""), path: "" };
+      const x = C.split("://");
       return {
         storage: x[0] || "local",
         path: x[1] || ""
       };
-    }, d = (S) => {
-      S && (r.value = S);
-    }, _ = (S) => {
-      S && (r.value = S, a.value = !1);
+    }, d = (C) => {
+      C && (a.value = C);
+    }, _ = (C) => {
+      C && (a.value = C, r.value = !1);
     }, {
       container: c,
-      internalFileInput: f,
-      internalFolderInput: p,
+      internalFileInput: u,
+      internalFolderInput: h,
       pickFiles: y,
-      queue: D,
-      message: w,
-      uploading: g,
+      queue: F,
+      message: g,
+      uploading: p,
       hasFilesInDropArea: m,
       definitions: $,
       openFileSelector: k,
-      upload: C,
-      cancel: M,
-      remove: A,
+      upload: D,
+      cancel: L,
+      remove: M,
       clear: B,
       close: U,
       getClassNameForEntry: z,
       getIconForEntry: oe,
       addExternalFiles: ie
-    } = Ed(e.customUploader), he = () => {
-      C(r.value);
+    } = Da(e.customUploader), he = () => {
+      D(a.value);
     };
-    fe(() => {
-      e.emitter.on("vf-external-files-dropped", (S) => {
-        ie(S);
+    ve(() => {
+      e.emitter.on("vf-external-files-dropped", (C) => {
+        ie(C);
       });
-    }), ke(() => {
+    }), xe(() => {
       e.emitter.off("vf-external-files-dropped");
     });
-    const ee = E(!1), le = E(null), _e = E(null), Y = (S) => {
-      if (!ee.value) return;
-      const x = S.target, F = le.value?.contains(x) ?? !1, T = _e.value?.contains(x) ?? !1;
-      !F && !T && (ee.value = !1);
+    const Z = E(!1), le = E(null), _e = E(null), X = (C) => {
+      if (!Z.value) return;
+      const x = C.target, S = le.value?.contains(x) ?? !1, A = _e.value?.contains(x) ?? !1;
+      !S && !A && (Z.value = !1);
     };
-    return fe(() => document.addEventListener("click", Y)), ke(() => document.removeEventListener("click", Y)), (S, x) => (u(), V(Ie, {
+    return ve(() => document.addEventListener("click", X)), xe(() => document.removeEventListener("click", X)), (C, x) => (v(), R(Ee, {
       showDragOverlay: o(m),
       dragOverlayText: o(n)("Drag and drop the files/folders to here.")
     }, {
-      buttons: Q(() => [
+      buttons: q(() => [
         s("div", {
           class: "sm:hidden relative w-full mb-2",
           ref_key: "actionsMenuMobileRef",
           ref: le
         }, [
           s("div", {
-            class: q(["vuefinder__upload-actions", "vuefinder__upload-actions--block", ee.value ? "vuefinder__upload-actions--ring" : ""])
+            class: W(["vuefinder__upload-actions", "vuefinder__upload-actions--block", Z.value ? "vuefinder__upload-actions--ring" : ""])
           }, [
             s("button", {
               type: "button",
               class: "vuefinder__upload-actions__main",
-              onClick: x[3] || (x[3] = (F) => o(k)())
+              onClick: x[3] || (x[3] = (S) => o(k)())
             }, b(o(n)("Select Files")), 1),
             s("button", {
               type: "button",
               class: "vuefinder__upload-actions__trigger",
-              onClick: x[4] || (x[4] = re((F) => ee.value = !ee.value, ["stop"])),
+              onClick: x[4] || (x[4] = ae((S) => Z.value = !Z.value, ["stop"])),
               "aria-haspopup": "menu",
-              "aria-expanded": ee.value ? "true" : "false"
+              "aria-expanded": Z.value ? "true" : "false"
             }, [...x[17] || (x[17] = [
               s("svg", {
                 xmlns: "http://www.w3.org/2000/svg",
@@ -4651,64 +4305,54 @@ const ao = { render: Ad }, Md = { class: "vuefinder__upload-modal__content relat
                   "clip-rule": "evenodd"
                 })
               ], -1)
-            ])], 8, Yd)
+            ])], 8, qa)
           ], 2),
-          ee.value ? (u(), h("div", Qd, [
-            s("button", {
-              type: "button",
+          Z.value ? (v(), w("div", Ya, [
+            s("div", {
               class: "vuefinder__upload-actions__item",
-              onClick: x[5] || (x[5] = (F) => {
-                o(k)(), ee.value = !1;
+              onClick: x[5] || (x[5] = (S) => {
+                o(k)(), Z.value = !1;
               })
             }, b(o(n)("Select Files")), 1),
-            s("button", {
-              type: "button",
+            s("div", {
               class: "vuefinder__upload-actions__item",
-              onClick: x[6] || (x[6] = (F) => {
-                o(p)?.click(), ee.value = !1;
+              onClick: x[6] || (x[6] = (S) => {
+                o(h)?.click(), Z.value = !1;
               })
             }, b(o(n)("Select Folders")), 1),
             x[18] || (x[18] = s("div", { class: "vuefinder__upload-actions__separator" }, null, -1)),
-            s("button", {
-              type: "button",
-              class: "vuefinder__upload-actions__item",
-              disabled: o(g),
-              onClick: x[7] || (x[7] = (F) => {
-                o(B)(!1), ee.value = !1;
-              })
-            }, b(o(n)("Clear all")), 9, Xd),
-            s("button", {
-              type: "button",
-              class: "vuefinder__upload-actions__item",
-              disabled: o(g),
-              onClick: x[8] || (x[8] = (F) => {
-                o(B)(!0), ee.value = !1;
-              })
-            }, b(o(n)("Clear only successful")), 9, Jd)
-          ])) : I("", !0)
+            s("div", {
+              class: W(["vuefinder__upload-actions__item", o(p) ? "disabled" : ""]),
+              onClick: x[7] || (x[7] = (S) => o(p) ? null : (o(B)(!1), Z.value = !1))
+            }, b(o(n)("Clear all")), 3),
+            s("div", {
+              class: W(["vuefinder__upload-actions__item", o(p) ? "disabled" : ""]),
+              onClick: x[8] || (x[8] = (S) => o(p) ? null : (o(B)(!0), Z.value = !1))
+            }, b(o(n)("Clear only successful")), 3)
+          ])) : T("", !0)
         ], 512),
         s("button", {
           type: "button",
           class: "vf-btn vf-btn-primary",
-          disabled: o(g) || !o(D).length,
-          onClick: re(he, ["prevent"])
-        }, b(o(n)("Upload")), 9, Zd),
-        o(g) ? (u(), h("button", {
+          disabled: o(p) || !o(F).length,
+          onClick: ae(he, ["prevent"])
+        }, b(o(n)("Upload")), 9, Qa),
+        o(p) ? (v(), w("button", {
           key: 0,
           type: "button",
           class: "vf-btn vf-btn-secondary",
-          onClick: x[9] || (x[9] = re(
+          onClick: x[9] || (x[9] = ae(
             //@ts-ignore
-            (...F) => o(M) && o(M)(...F),
+            (...S) => o(L) && o(L)(...S),
             ["prevent"]
           ))
-        }, b(o(n)("Cancel")), 1)) : (u(), h("button", {
+        }, b(o(n)("Cancel")), 1)) : (v(), w("button", {
           key: 1,
           type: "button",
           class: "vf-btn vf-btn-secondary",
-          onClick: x[10] || (x[10] = re(
+          onClick: x[10] || (x[10] = ae(
             //@ts-ignore
-            (...F) => o(U) && o(U)(...F),
+            (...S) => o(U) && o(U)(...S),
             ["prevent"]
           ))
         }, b(o(n)("Close")), 1)),
@@ -4718,7 +4362,7 @@ const ao = { render: Ad }, Md = { class: "vuefinder__upload-modal__content relat
           ref: _e
         }, [
           s("div", {
-            class: q(["vuefinder__upload-actions", ee.value ? "vuefinder__upload-actions--ring" : ""])
+            class: W(["vuefinder__upload-actions", Z.value ? "vuefinder__upload-actions--ring" : ""])
           }, [
             s("button", {
               ref_key: "pickFiles",
@@ -4729,9 +4373,9 @@ const ao = { render: Ad }, Md = { class: "vuefinder__upload-modal__content relat
             s("button", {
               type: "button",
               class: "vuefinder__upload-actions__trigger",
-              onClick: x[11] || (x[11] = re((F) => ee.value = !ee.value, ["stop"])),
+              onClick: x[11] || (x[11] = ae((S) => Z.value = !Z.value, ["stop"])),
               "aria-haspopup": "menu",
-              "aria-expanded": ee.value ? "true" : "false"
+              "aria-expanded": Z.value ? "true" : "false"
             }, [...x[19] || (x[19] = [
               s("svg", {
                 xmlns: "http://www.w3.org/2000/svg",
@@ -4745,71 +4389,61 @@ const ao = { render: Ad }, Md = { class: "vuefinder__upload-modal__content relat
                   "clip-rule": "evenodd"
                 })
               ], -1)
-            ])], 8, ec)
+            ])], 8, Xa)
           ], 2),
-          ee.value ? (u(), h("div", tc, [
-            s("button", {
-              type: "button",
+          Z.value ? (v(), w("div", Ja, [
+            s("div", {
               class: "vuefinder__upload-actions__item",
-              onClick: x[12] || (x[12] = (F) => {
-                o(k)(), ee.value = !1;
+              onClick: x[12] || (x[12] = (S) => {
+                o(k)(), Z.value = !1;
               })
             }, b(o(n)("Select Files")), 1),
-            s("button", {
-              type: "button",
+            s("div", {
               class: "vuefinder__upload-actions__item",
-              onClick: x[13] || (x[13] = (F) => {
-                o(p)?.click(), ee.value = !1;
+              onClick: x[13] || (x[13] = (S) => {
+                o(h)?.click(), Z.value = !1;
               })
             }, b(o(n)("Select Folders")), 1),
             x[20] || (x[20] = s("div", { class: "vuefinder__upload-actions__separator" }, null, -1)),
-            s("button", {
-              type: "button",
-              class: "vuefinder__upload-actions__item",
-              disabled: o(g),
-              onClick: x[14] || (x[14] = (F) => {
-                o(B)(!1), ee.value = !1;
-              })
-            }, b(o(n)("Clear all")), 9, nc),
-            s("button", {
-              type: "button",
-              class: "vuefinder__upload-actions__item",
-              disabled: o(g),
-              onClick: x[15] || (x[15] = (F) => {
-                o(B)(!0), ee.value = !1;
-              })
-            }, b(o(n)("Clear only successful")), 9, oc)
-          ])) : I("", !0)
+            s("div", {
+              class: W(["vuefinder__upload-actions__item", o(p) ? "disabled" : ""]),
+              onClick: x[14] || (x[14] = (S) => o(p) ? null : (o(B)(!1), Z.value = !1))
+            }, b(o(n)("Clear all")), 3),
+            s("div", {
+              class: W(["vuefinder__upload-actions__item", o(p) ? "disabled" : ""]),
+              onClick: x[15] || (x[15] = (S) => o(p) ? null : (o(B)(!0), Z.value = !1))
+            }, b(o(n)("Clear only successful")), 3)
+          ])) : T("", !0)
         ], 512)
       ]),
-      default: Q(() => [
+      default: q(() => [
         s("div", null, [
-          R(Ve, {
+          O(Me, {
             icon: o(ao),
             title: o(n)("Upload Files")
           }, null, 8, ["icon", "title"]),
-          s("div", Md, [
-            s("div", Id, [
-              s("div", Od, b(o(n)("Hedef Klasör")), 1),
-              s("div", Rd, [
+          s("div", Ma, [
+            s("div", Ta, [
+              s("div", Ia, b(o(n)("Hedef Klasör")), 1),
+              s("div", Oa, [
                 s("div", {
                   class: "vuefinder__upload-modal__target-display",
-                  onClick: x[0] || (x[0] = (F) => a.value = !a.value)
+                  onClick: x[0] || (x[0] = (S) => r.value = !r.value)
                 }, [
-                  s("div", Ld, [
-                    s("span", Vd, b(v().storage) + "://", 1),
-                    v().path ? (u(), h("span", Pd, b(v().path), 1)) : I("", !0)
+                  s("div", La, [
+                    s("span", Ra, b(f().storage) + "://", 1),
+                    f().path ? (v(), w("span", Va, b(f().path), 1)) : T("", !0)
                   ]),
-                  s("span", Bd, b(o(n)("Browse")), 1)
+                  s("span", Pa, b(o(n)("Browse")), 1)
                 ])
               ]),
               s("div", {
-                class: q(["vuefinder__upload-modal__tree-selector", a.value ? "vuefinder__upload-modal__tree-selector--expanded" : "vuefinder__upload-modal__tree-selector--collapsed"])
+                class: W(["vuefinder__upload-modal__tree-selector", r.value ? "vuefinder__upload-modal__tree-selector--expanded" : "vuefinder__upload-modal__tree-selector--collapsed"])
               }, [
-                R(sn, {
-                  modelValue: r.value,
+                O(on, {
+                  modelValue: a.value,
                   "onUpdate:modelValue": [
-                    x[1] || (x[1] = (F) => r.value = F),
+                    x[1] || (x[1] = (S) => a.value = S),
                     d
                   ],
                   "show-pinned-folders": !0,
@@ -4817,41 +4451,41 @@ const ao = { render: Ad }, Md = { class: "vuefinder__upload-modal__content relat
                 }, null, 8, ["modelValue"])
               ], 2)
             ]),
-            s("div", zd, b(o(n)("You can drag & drop files anywhere while this modal is open.")), 1),
+            s("div", Ba, b(o(n)("You can drag & drop files anywhere while this modal is open.")), 1),
             s("div", {
               ref_key: "container",
               ref: c,
               class: "hidden"
             }, null, 512),
-            s("div", Hd, [
-              (u(!0), h(de, null, ve(o(D), (F) => (u(), h("div", {
+            s("div", za, [
+              (v(!0), w(de, null, fe(o(F), (S) => (v(), w("div", {
                 class: "vuefinder__upload-modal__file-entry",
-                key: F.id
+                key: S.id
               }, [
                 s("span", {
-                  class: q(["vuefinder__upload-modal__file-icon", o(z)(F)])
+                  class: W(["vuefinder__upload-modal__file-icon", o(z)(S)])
                 }, [
                   s("span", {
                     class: "vuefinder__upload-modal__file-icon-text",
-                    textContent: b(o(oe)(F))
-                  }, null, 8, Nd)
+                    textContent: b(o(oe)(S))
+                  }, null, 8, Ha)
                 ], 2),
-                s("div", Ud, [
-                  s("div", Kd, b(o(Xt)(F.name, 40)) + " (" + b(F.size) + ") ", 1),
-                  s("div", Wd, b(o(Xt)(F.name, 16)) + " (" + b(F.size) + ") ", 1),
+                s("div", Na, [
+                  s("div", Ua, b(o(Xt)(S.name, 40)) + " (" + b(S.size) + ") ", 1),
+                  s("div", Ka, b(o(Xt)(S.name, 16)) + " (" + b(S.size) + ") ", 1),
                   s("div", {
-                    class: q(["vuefinder__upload-modal__file-status", o(z)(F)])
+                    class: W(["vuefinder__upload-modal__file-status", o(z)(S)])
                   }, [
-                    J(b(F.statusName) + " ", 1),
-                    F.status === o($).QUEUE_ENTRY_STATUS.UPLOADING ? (u(), h("b", jd, b(F.percent), 1)) : I("", !0)
+                    ne(b(S.statusName) + " ", 1),
+                    S.status === o($).QUEUE_ENTRY_STATUS.UPLOADING ? (v(), w("b", ja, b(S.percent), 1)) : T("", !0)
                   ], 2)
                 ]),
                 s("button", {
                   type: "button",
-                  class: q(["vuefinder__upload-modal__file-remove", o(g) ? "disabled" : ""]),
+                  class: W(["vuefinder__upload-modal__file-remove", o(p) ? "disabled" : ""]),
                   title: o(n)("Delete"),
-                  disabled: o(g),
-                  onClick: (T) => o(A)(F)
+                  disabled: o(p),
+                  onClick: (A) => o(M)(S)
                 }, [...x[16] || (x[16] = [
                   s("svg", {
                     xmlns: "http://www.w3.org/2000/svg",
@@ -4867,32 +4501,32 @@ const ao = { render: Ad }, Md = { class: "vuefinder__upload-modal__content relat
                       d: "M6 18L18 6M6 6l12 12"
                     })
                   ], -1)
-                ])], 10, Gd)
+                ])], 10, Wa)
               ]))), 128)),
-              o(D).length ? I("", !0) : (u(), h("div", qd, b(o(n)("No files selected!")), 1))
+              o(F).length ? T("", !0) : (v(), w("div", Ga, b(o(n)("No files selected!")), 1))
             ]),
-            o(w).length ? (u(), V(Dd, {
+            o(g).length ? (v(), R(Fa, {
               key: 0,
-              onHidden: x[2] || (x[2] = (F) => w.value = ""),
+              onHidden: x[2] || (x[2] = (S) => g.value = ""),
               error: ""
             }, {
-              default: Q(() => [
-                J(b(o(w)), 1)
+              default: q(() => [
+                ne(b(o(g)), 1)
               ]),
               _: 1
-            })) : I("", !0)
+            })) : T("", !0)
           ])
         ]),
         s("input", {
           ref_key: "internalFileInput",
-          ref: f,
+          ref: u,
           type: "file",
           multiple: "",
           class: "hidden"
         }, null, 512),
         s("input", {
           ref_key: "internalFolderInput",
-          ref: p,
+          ref: h,
           type: "file",
           multiple: "",
           webkitdirectory: "",
@@ -4902,19 +4536,19 @@ const ao = { render: Ad }, Md = { class: "vuefinder__upload-modal__content relat
       _: 1
     }, 8, ["showDragOverlay", "dragOverlayText"]));
   }
-}), sc = {
+}), Za = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
   class: "h-6 w-6 md:h-8 md:w-8 m-auto",
   viewBox: "0 0 24 24"
 };
-function lc(t, e) {
-  return u(), h("svg", sc, [...e[0] || (e[0] = [
+function ed(t, e) {
+  return v(), w("svg", Za, [...e[0] || (e[0] = [
     s("path", { d: "m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125" }, null, -1)
   ])]);
 }
-const ro = { render: lc }, ic = { class: "vuefinder__unarchive-modal__content" }, ac = { class: "vuefinder__unarchive-modal__items" }, rc = {
+const co = { render: ed }, td = { class: "vuefinder__unarchive-modal__content" }, nd = { class: "vuefinder__unarchive-modal__items" }, od = {
   key: 0,
   class: "vuefinder__unarchive-modal__icon vuefinder__unarchive-modal__icon--dir",
   xmlns: "http://www.w3.org/2000/svg",
@@ -4922,7 +4556,7 @@ const ro = { render: lc }, ic = { class: "vuefinder__unarchive-modal__content" }
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, dc = {
+}, sd = {
   key: 1,
   class: "vuefinder__unarchive-modal__icon vuefinder__unarchive-modal__icon--file",
   xmlns: "http://www.w3.org/2000/svg",
@@ -4930,12 +4564,12 @@ const ro = { render: lc }, ic = { class: "vuefinder__unarchive-modal__content" }
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, cc = { class: "vuefinder__unarchive-modal__item-name" }, uc = { class: "vuefinder__unarchive-modal__info" }, mn = /* @__PURE__ */ X({
+}, ld = { class: "vuefinder__unarchive-modal__item-name" }, id = { class: "vuefinder__unarchive-modal__info" }, _n = /* @__PURE__ */ Q({
   __name: "ModalUnarchive",
   setup(t) {
-    const e = Z("ServiceContainer"), n = e.fs, l = W(n.path), { t: i } = e.i18n, r = E(e.modal.data.items[0]), a = E(""), v = E([]), d = () => {
+    const e = J("ServiceContainer"), n = e.fs, l = j(n.path), { t: i } = e.i18n, a = E(e.modal.data.items[0]), r = E(""), f = E([]), d = () => {
       e.adapter.unarchive({
-        item: r.value.path,
+        item: a.value.path,
         path: l.value.path
       }).then((_) => {
         e.emitter.emit("vf-toast-push", { label: i("The file unarchived.") }), e.fs.setFiles(_.files), e.modal.close();
@@ -4943,8 +4577,8 @@ const ro = { render: lc }, ic = { class: "vuefinder__unarchive-modal__content" }
         e.emitter.emit("vf-toast-push", { label: i(_.message), type: "error" });
       });
     };
-    return (_, c) => (u(), V(Ie, null, {
-      buttons: Q(() => [
+    return (_, c) => (v(), R(Ee, null, {
+      buttons: q(() => [
         s("button", {
           type: "button",
           onClick: d,
@@ -4952,48 +4586,48 @@ const ro = { render: lc }, ic = { class: "vuefinder__unarchive-modal__content" }
         }, b(o(i)("Unarchive")), 1),
         s("button", {
           type: "button",
-          onClick: c[1] || (c[1] = (f) => o(e).modal.close()),
+          onClick: c[1] || (c[1] = (u) => o(e).modal.close()),
           class: "vf-btn vf-btn-secondary"
         }, b(o(i)("Cancel")), 1)
       ]),
-      default: Q(() => [
+      default: q(() => [
         s("div", null, [
-          R(Ve, {
-            icon: o(ro),
+          O(Me, {
+            icon: o(co),
             title: o(i)("Unarchive")
           }, null, 8, ["icon", "title"]),
-          s("div", ic, [
-            s("div", ac, [
-              (u(!0), h(de, null, ve(v.value, (f) => (u(), h("p", {
+          s("div", td, [
+            s("div", nd, [
+              (v(!0), w(de, null, fe(f.value, (u) => (v(), w("p", {
                 class: "vuefinder__unarchive-modal__item",
-                key: f.path
+                key: u.path
               }, [
-                f.type === "dir" ? (u(), h("svg", rc, [...c[2] || (c[2] = [
+                u.type === "dir" ? (v(), w("svg", od, [...c[2] || (c[2] = [
                   s("path", {
                     "stroke-linecap": "round",
                     "stroke-linejoin": "round",
                     d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
                   }, null, -1)
-                ])])) : (u(), h("svg", dc, [...c[3] || (c[3] = [
+                ])])) : (v(), w("svg", sd, [...c[3] || (c[3] = [
                   s("path", {
                     "stroke-linecap": "round",
                     "stroke-linejoin": "round",
                     d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                   }, null, -1)
                 ])])),
-                s("span", cc, b(f.basename), 1)
+                s("span", ld, b(u.basename), 1)
               ]))), 128)),
-              s("p", uc, b(o(i)("The archive will be unarchived at")) + " (" + b(o(l).path) + ")", 1),
-              a.value.length ? (u(), V(o(a), {
+              s("p", id, b(o(i)("The archive will be unarchived at")) + " (" + b(o(l).path) + ")", 1),
+              r.value.length ? (v(), R(o(r), {
                 key: 0,
-                onHidden: c[0] || (c[0] = (f) => a.value = ""),
+                onHidden: c[0] || (c[0] = (u) => r.value = ""),
                 error: ""
               }, {
-                default: Q(() => [
-                  J(b(a.value), 1)
+                default: q(() => [
+                  ne(b(r.value), 1)
                 ]),
                 _: 1
-              })) : I("", !0)
+              })) : T("", !0)
             ])
           ])
         ])
@@ -5001,18 +4635,18 @@ const ro = { render: lc }, ic = { class: "vuefinder__unarchive-modal__content" }
       _: 1
     }));
   }
-}), vc = {
+}), rd = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
   viewBox: "0 0 24 24"
 };
-function fc(t, e) {
-  return u(), h("svg", vc, [...e[0] || (e[0] = [
+function ad(t, e) {
+  return v(), w("svg", rd, [...e[0] || (e[0] = [
     s("path", { d: "m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125" }, null, -1)
   ])]);
 }
-const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, mc = { class: "vuefinder__archive-modal__form" }, pc = { class: "vuefinder__archive-modal__files vf-scrollbar" }, hc = {
+const uo = { render: ad }, dd = { class: "vuefinder__archive-modal__content" }, cd = { class: "vuefinder__archive-modal__form" }, ud = { class: "vuefinder__archive-modal__files vf-scrollbar" }, vd = {
   key: 0,
   class: "vuefinder__archive-modal__icon vuefinder__archive-modal__icon--dir",
   xmlns: "http://www.w3.org/2000/svg",
@@ -5020,7 +4654,7 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, gc = {
+}, fd = {
   key: 1,
   class: "vuefinder__archive-modal__icon",
   xmlns: "http://www.w3.org/2000/svg",
@@ -5028,22 +4662,22 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, wc = { class: "vuefinder__archive-modal__file-name" }, yc = ["placeholder"], pn = /* @__PURE__ */ X({
+}, _d = { class: "vuefinder__archive-modal__file-name" }, md = ["placeholder"], mn = /* @__PURE__ */ Q({
   __name: "ModalArchive",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = W(l.path), r = E(""), a = E(""), v = E(e.modal.data.items), d = () => {
-      v.value.length && e.adapter.archive({
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = j(l.path), a = E(""), r = E(""), f = E(e.modal.data.items), d = () => {
+      f.value.length && e.adapter.archive({
         path: i.value.path,
-        items: v.value.map(({ path: _, type: c }) => ({ path: _, type: c })),
-        name: r.value
+        items: f.value.map(({ path: _, type: c }) => ({ path: _, type: c })),
+        name: a.value
       }).then((_) => {
         e.emitter.emit("vf-toast-push", { label: n("The file(s) archived.") }), e.fs.setFiles(_.files), e.modal.close();
       }).catch((_) => {
         e.emitter.emit("vf-toast-push", { label: n(_.message), type: "error" });
       });
     };
-    return (_, c) => (u(), V(Ie, null, {
-      buttons: Q(() => [
+    return (_, c) => (v(), R(Ee, null, {
+      buttons: q(() => [
         s("button", {
           type: "button",
           onClick: d,
@@ -5051,58 +4685,58 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
         }, b(o(n)("Archive")), 1),
         s("button", {
           type: "button",
-          onClick: c[2] || (c[2] = (f) => o(e).modal.close()),
+          onClick: c[2] || (c[2] = (u) => o(e).modal.close()),
           class: "vf-btn vf-btn-secondary"
         }, b(o(n)("Cancel")), 1)
       ]),
-      default: Q(() => [
+      default: q(() => [
         s("div", null, [
-          R(Ve, {
-            icon: o(co),
+          O(Me, {
+            icon: o(uo),
             title: o(n)("Archive the files")
           }, null, 8, ["icon", "title"]),
-          s("div", _c, [
-            s("div", mc, [
-              s("div", pc, [
-                (u(!0), h(de, null, ve(v.value, (f) => (u(), h("p", {
+          s("div", dd, [
+            s("div", cd, [
+              s("div", ud, [
+                (v(!0), w(de, null, fe(f.value, (u) => (v(), w("p", {
                   class: "vuefinder__archive-modal__file",
-                  key: f.path
+                  key: u.path
                 }, [
-                  f.type === "dir" ? (u(), h("svg", hc, [...c[3] || (c[3] = [
+                  u.type === "dir" ? (v(), w("svg", vd, [...c[3] || (c[3] = [
                     s("path", {
                       "stroke-linecap": "round",
                       "stroke-linejoin": "round",
                       d: "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
                     }, null, -1)
-                  ])])) : (u(), h("svg", gc, [...c[4] || (c[4] = [
+                  ])])) : (v(), w("svg", fd, [...c[4] || (c[4] = [
                     s("path", {
                       "stroke-linecap": "round",
                       "stroke-linejoin": "round",
                       d: "M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
                     }, null, -1)
                   ])])),
-                  s("span", wc, b(f.basename), 1)
+                  s("span", _d, b(u.basename), 1)
                 ]))), 128))
               ]),
               me(s("input", {
-                "onUpdate:modelValue": c[0] || (c[0] = (f) => r.value = f),
+                "onUpdate:modelValue": c[0] || (c[0] = (u) => a.value = u),
                 onKeyup: vt(d, ["enter"]),
                 class: "vuefinder__archive-modal__input",
                 placeholder: o(n)("Archive name. (.zip file will be created)"),
                 type: "text"
-              }, null, 40, yc), [
-                [ft, r.value]
+              }, null, 40, md), [
+                [ft, a.value]
               ]),
-              a.value.length ? (u(), V(o(a), {
+              r.value.length ? (v(), R(o(r), {
                 key: 0,
-                onHidden: c[1] || (c[1] = (f) => a.value = ""),
+                onHidden: c[1] || (c[1] = (u) => r.value = ""),
                 error: ""
               }, {
-                default: Q(() => [
-                  J(b(a.value), 1)
+                default: q(() => [
+                  ne(b(r.value), 1)
                 ]),
                 _: 1
-              })) : I("", !0)
+              })) : T("", !0)
             ])
           ])
         ])
@@ -5110,19 +4744,371 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
       _: 1
     }));
   }
-}), bc = { class: "vuefinder__menubar__container" }, kc = ["onClick", "onMouseenter"], xc = { class: "vuefinder__menubar__label" }, $c = ["onMouseenter"], Cc = ["onClick"], Sc = {
+}), pd = {
+  props: {
+    on: { type: String, required: !0 }
+  },
+  setup(t, { emit: e, slots: n }) {
+    const l = J("ServiceContainer"), i = E(!1), { t: a } = l.i18n;
+    let r = null;
+    const f = () => {
+      clearTimeout(r), i.value = !0, r = setTimeout(() => {
+        i.value = !1;
+      }, 2e3);
+    };
+    return ve(() => {
+      l.emitter.on(t.on, f);
+    }), xe(() => {
+      clearTimeout(r);
+    }), {
+      shown: i,
+      t: a
+    };
+  }
+}, hd = (t, e) => {
+  const n = t.__vccOpts || t;
+  for (const [l, i] of e)
+    n[l] = i;
+  return n;
+}, gd = { key: 1 };
+function wd(t, e, n, l, i, a) {
+  return v(), w("div", {
+    class: W(["vuefinder__action-message", { "vuefinder__action-message--hidden": !l.shown }])
+  }, [
+    t.$slots.default ? De(t.$slots, "default", { key: 0 }) : (v(), w("span", gd, b(l.t("Saved.")), 1))
+  ], 2);
+}
+const lt = /* @__PURE__ */ hd(pd, [["render", wd]]), yd = [
+  { name: "default", displayName: "Default" },
+  { name: "light", displayName: "Light" },
+  { name: "dark", displayName: "Dark" },
+  { name: "midnight", displayName: "Midnight" },
+  { name: "latte", displayName: "Latte" },
+  { name: "rose", displayName: "Rose" },
+  { name: "mythril", displayName: "Mythril" },
+  { name: "lime", displayName: "lime" },
+  { name: "sky", displayName: "Sky" },
+  { name: "ocean", displayName: "Oceanic" },
+  { name: "palenight", displayName: "Palenight" },
+  { name: "arctic", displayName: "Arctic" },
+  { name: "code", displayName: "Code" }
+], bd = { class: "vuefinder__about-modal__content" }, xd = { class: "vuefinder__about-modal__main" }, kd = { class: "vuefinder__about-modal__description" }, $d = { class: "vuefinder__about-modal__settings" }, Cd = { class: "vuefinder__about-modal__settings__fieldset" }, Sd = { class: "vuefinder__about-modal__settings__section-title" }, Fd = { class: "vuefinder__about-modal__setting" }, Dd = { class: "vuefinder__about-modal__setting-label" }, Ed = {
+  for: "metric_unit",
+  class: "vuefinder__about-modal__label"
+}, Ad = { class: "vuefinder__about-modal__setting-input justify-end" }, Md = ["checked"], Td = { class: "vuefinder__about-modal__setting" }, Id = { class: "vuefinder__about-modal__setting-label" }, Od = {
+  for: "large_icons",
+  class: "vuefinder__about-modal__label"
+}, Ld = { class: "vuefinder__about-modal__setting-input justify-end" }, Rd = ["checked"], Vd = { class: "vuefinder__about-modal__setting" }, Pd = { class: "vuefinder__about-modal__setting-label" }, Bd = {
+  for: "persist_path",
+  class: "vuefinder__about-modal__label"
+}, zd = { class: "vuefinder__about-modal__setting-input justify-end" }, Hd = ["checked"], Nd = { class: "vuefinder__about-modal__settings__section-title" }, Ud = { class: "vuefinder__about-modal__setting" }, Kd = { class: "vuefinder__about-modal__setting-input justify-end" }, jd = ["value"], Wd = ["label"], Gd = ["value"], qd = {
+  key: 0,
+  class: "vuefinder__about-modal__settings__section-title"
+}, Yd = {
+  key: 1,
+  class: "vuefinder__about-modal__setting"
+}, Qd = { class: "vuefinder__about-modal__setting-input justify-end" }, Xd = ["label"], Jd = ["value"], Zd = { class: "vuefinder__about-modal__tab-content" }, ec = { class: "vuefinder__about-modal__settings__section-title" }, tc = { class: "vuefinder__about-modal__description" }, nc = /* @__PURE__ */ Q({
+  __name: "ModalSettings",
+  setup(t) {
+    const e = J("ServiceContainer"), n = e.config, { clearStore: l } = e.storage, { t: i } = e.i18n, a = j(n.state), r = Y(() => a.value.theme || "default"), f = async () => {
+      n.reset(), l(), location.reload();
+    }, d = (g) => {
+      g !== "default" ? n.set("theme", g) : n.set("theme", "default"), e.emitter.emit("vf-theme-saved");
+    }, _ = () => {
+      n.toggle("metricUnits"), e.filesize = n.get("metricUnits") ? Ln : Zt, e.emitter.emit("vf-metric-units-saved");
+    }, c = () => {
+      n.toggle("compactListView"), e.emitter.emit("vf-compact-view-saved");
+    }, u = () => {
+      n.toggle("persist"), e.emitter.emit("vf-persist-path-saved");
+    }, { i18n: h } = J("VueFinderOptions"), F = Object.fromEntries(
+      Object.entries({
+        ar: "Arabic (العربيّة)",
+        en: "English",
+        fr: "French (Français)",
+        de: "German (Deutsch)",
+        fa: "Persian (فارسی)",
+        he: "Hebrew (עִברִית)",
+        hi: "Hindi (हिंदी)",
+        pl: "Polish (Polski)",
+        ru: "Russian (Pусский)",
+        sv: "Swedish (Svenska)",
+        tr: "Turkish (Türkçe)",
+        nl: "Dutch (Nederlands)",
+        zhCN: "Simplified Chinese (简体中文)",
+        zhTW: "Traditional Chinese (繁體中文)"
+      }).filter(([g]) => Object.keys(h).includes(g))
+    );
+    return (g, p) => (v(), R(Ee, null, {
+      buttons: q(() => [
+        s("button", {
+          type: "button",
+          onClick: p[2] || (p[2] = (m) => o(e).modal.close()),
+          class: "vf-btn vf-btn-secondary"
+        }, b(o(i)("Close")), 1)
+      ]),
+      default: q(() => [
+        s("div", bd, [
+          O(Me, {
+            icon: o(to),
+            title: o(i)("Settings")
+          }, null, 8, ["icon", "title"]),
+          s("div", xd, [
+            s("div", kd, b(o(i)("Customize your experience with the following settings")), 1),
+            s("div", $d, [
+              s("fieldset", Cd, [
+                s("div", Sd, b(o(i)("General")), 1),
+                s("div", Fd, [
+                  s("div", Dd, [
+                    s("label", Ed, b(o(i)("Use Metric Units")), 1)
+                  ]),
+                  s("div", Ad, [
+                    s("input", {
+                      id: "metric_unit",
+                      name: "metric_unit",
+                      type: "checkbox",
+                      checked: o(n).get("metricUnits"),
+                      onChange: _,
+                      class: "vuefinder__about-modal__checkbox"
+                    }, null, 40, Md),
+                    O(lt, {
+                      class: "ms-3",
+                      on: "vf-metric-units-saved"
+                    }, {
+                      default: q(() => [
+                        ne(b(o(i)("Saved.")), 1)
+                      ]),
+                      _: 1
+                    })
+                  ])
+                ]),
+                s("div", Td, [
+                  s("div", Id, [
+                    s("label", Od, b(o(i)("Compact list view")), 1)
+                  ]),
+                  s("div", Ld, [
+                    s("input", {
+                      id: "large_icons",
+                      name: "large_icons",
+                      type: "checkbox",
+                      checked: o(n).get("compactListView"),
+                      onChange: c,
+                      class: "vuefinder__about-modal__checkbox"
+                    }, null, 40, Rd),
+                    O(lt, {
+                      class: "ms-3",
+                      on: "vf-compact-view-saved"
+                    }, {
+                      default: q(() => [
+                        ne(b(o(i)("Saved.")), 1)
+                      ]),
+                      _: 1
+                    })
+                  ])
+                ]),
+                s("div", Vd, [
+                  s("div", Pd, [
+                    s("label", Bd, b(o(i)("Persist path on reload")), 1)
+                  ]),
+                  s("div", zd, [
+                    s("input", {
+                      id: "persist_path",
+                      name: "persist_path",
+                      type: "checkbox",
+                      checked: o(n).get("persist"),
+                      onChange: u,
+                      class: "vuefinder__about-modal__checkbox"
+                    }, null, 40, Hd),
+                    O(lt, {
+                      class: "ms-3",
+                      on: "vf-persist-path-saved"
+                    }, {
+                      default: q(() => [
+                        ne(b(o(i)("Saved.")), 1)
+                      ]),
+                      _: 1
+                    })
+                  ])
+                ]),
+                s("div", Nd, b(o(i)("Theme")), 1),
+                s("div", Ud, [
+                  s("div", Kd, [
+                    s("select", {
+                      id: "theme",
+                      value: r.value,
+                      onChange: p[0] || (p[0] = (m) => d(m.target?.value)),
+                      class: "vuefinder__about-modal__select"
+                    }, [
+                      s("optgroup", {
+                        label: o(i)("Theme")
+                      }, [
+                        (v(!0), w(de, null, fe(o(yd), (m) => (v(), w("option", {
+                          key: m.name,
+                          value: m.name
+                        }, b(m.displayName), 9, Gd))), 128))
+                      ], 8, Wd)
+                    ], 40, jd),
+                    O(lt, {
+                      class: "ms-3",
+                      on: "vf-theme-saved"
+                    }, {
+                      default: q(() => [
+                        ne(b(o(i)("Saved.")), 1)
+                      ]),
+                      _: 1
+                    })
+                  ])
+                ]),
+                o(e).features.includes(o(te).LANGUAGE) && Object.keys(o(F)).length > 1 ? (v(), w("div", qd, b(o(i)("Language")), 1)) : T("", !0),
+                o(e).features.includes(o(te).LANGUAGE) && Object.keys(o(F)).length > 1 ? (v(), w("div", Yd, [
+                  s("div", Qd, [
+                    me(s("select", {
+                      id: "language",
+                      "onUpdate:modelValue": p[1] || (p[1] = (m) => o(e).i18n.locale = m),
+                      class: "vuefinder__about-modal__select"
+                    }, [
+                      s("optgroup", {
+                        label: o(i)("Language")
+                      }, [
+                        (v(!0), w(de, null, fe(o(F), (m, $) => (v(), w("option", {
+                          key: $,
+                          value: $
+                        }, b(m), 9, Jd))), 128))
+                      ], 8, Xd)
+                    ], 512), [
+                      [qt, o(e).i18n.locale]
+                    ]),
+                    O(lt, {
+                      class: "ms-3",
+                      on: "vf-language-saved"
+                    }, {
+                      default: q(() => [
+                        ne(b(o(i)("Saved.")), 1)
+                      ]),
+                      _: 1
+                    })
+                  ])
+                ])) : T("", !0)
+              ])
+            ]),
+            s("div", Zd, [
+              s("div", ec, b(o(i)("Reset")), 1),
+              s("div", tc, b(o(i)("Reset all settings to default")), 1),
+              s("button", {
+                onClick: f,
+                type: "button",
+                class: "vf-btn vf-btn-secondary"
+              }, b(o(i)("Reset Settings")), 1)
+            ])
+          ])
+        ])
+      ]),
+      _: 1
+    }));
+  }
+}), oc = { class: "vuefinder__about-modal__content" }, sc = { class: "vuefinder__about-modal__main" }, lc = { class: "vuefinder__about-modal__shortcuts" }, ic = { class: "vuefinder__about-modal__shortcut" }, rc = { class: "vuefinder__about-modal__shortcut" }, ac = { class: "vuefinder__about-modal__shortcut" }, dc = { class: "vuefinder__about-modal__shortcut" }, cc = { class: "vuefinder__about-modal__shortcut" }, uc = { class: "vuefinder__about-modal__shortcut" }, vc = { class: "vuefinder__about-modal__shortcut" }, fc = { class: "vuefinder__about-modal__shortcut" }, _c = { class: "vuefinder__about-modal__shortcut" }, mc = { class: "vuefinder__about-modal__shortcut" }, pc = /* @__PURE__ */ Q({
+  __name: "ModalShortcuts",
+  setup(t) {
+    const e = J("ServiceContainer"), { t: n } = e.i18n;
+    return (l, i) => (v(), R(Ee, null, {
+      buttons: q(() => [
+        s("button", {
+          type: "button",
+          onClick: i[0] || (i[0] = (a) => o(e).modal.close()),
+          class: "vf-btn vf-btn-secondary"
+        }, b(o(n)("Close")), 1)
+      ]),
+      default: q(() => [
+        s("div", oc, [
+          O(Me, {
+            icon: o(Rn),
+            title: o(n)("Shortcuts")
+          }, null, 8, ["icon", "title"]),
+          s("div", sc, [
+            s("div", lc, [
+              s("div", ic, [
+                s("div", null, b(o(n)("Rename")), 1),
+                i[1] || (i[1] = s("kbd", null, "F2", -1))
+              ]),
+              s("div", rc, [
+                s("div", null, b(o(n)("Refresh")), 1),
+                i[2] || (i[2] = s("kbd", null, "F5", -1))
+              ]),
+              s("div", ac, [
+                ne(b(o(n)("Delete")) + " ", 1),
+                i[3] || (i[3] = s("kbd", null, "Del", -1))
+              ]),
+              s("div", dc, [
+                ne(b(o(n)("Escape")) + " ", 1),
+                i[4] || (i[4] = s("div", null, [
+                  s("kbd", null, "Esc")
+                ], -1))
+              ]),
+              s("div", cc, [
+                ne(b(o(n)("Select All")) + " ", 1),
+                i[5] || (i[5] = s("div", null, [
+                  s("kbd", null, "Ctrl"),
+                  ne(" + "),
+                  s("kbd", null, "A")
+                ], -1))
+              ]),
+              s("div", uc, [
+                ne(b(o(n)("Search")) + " ", 1),
+                i[6] || (i[6] = s("div", null, [
+                  s("kbd", null, "Ctrl"),
+                  ne(" + "),
+                  s("kbd", null, "F")
+                ], -1))
+              ]),
+              s("div", vc, [
+                ne(b(o(n)("Toggle Sidebar")) + " ", 1),
+                i[7] || (i[7] = s("div", null, [
+                  s("kbd", null, "Ctrl"),
+                  ne(" + "),
+                  s("kbd", null, "E")
+                ], -1))
+              ]),
+              s("div", fc, [
+                ne(b(o(n)("Open Settings")) + " ", 1),
+                i[8] || (i[8] = s("div", null, [
+                  s("kbd", null, "Ctrl"),
+                  ne(" + "),
+                  s("kbd", null, ",")
+                ], -1))
+              ]),
+              s("div", _c, [
+                ne(b(o(n)("Toggle Full Screen")) + " ", 1),
+                i[9] || (i[9] = s("div", null, [
+                  s("kbd", null, "Ctrl"),
+                  ne(" + "),
+                  s("kbd", null, "Enter")
+                ], -1))
+              ]),
+              s("div", mc, [
+                ne(b(o(n)("Preview")) + " ", 1),
+                i[10] || (i[10] = s("div", null, [
+                  s("kbd", null, "Space")
+                ], -1))
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _: 1
+    }));
+  }
+}), hc = { class: "vuefinder__menubar__container" }, gc = ["onClick", "onMouseenter"], wc = { class: "vuefinder__menubar__label" }, yc = ["onMouseenter"], bc = ["onClick"], xc = {
   key: 0,
   class: "vuefinder__menubar__dropdown__label"
-}, Fc = {
+}, kc = {
   key: 1,
   class: "vuefinder__menubar__dropdown__checkmark"
-}, Dc = /* @__PURE__ */ X({
+}, $c = /* @__PURE__ */ Q({
   __name: "MenuBar",
   setup(t) {
-    const e = Z("ServiceContainer");
+    const e = J("ServiceContainer");
     if (!e)
       throw new Error("MenuBar: ServiceContainer not found");
-    const { t: n } = e?.i18n || { t: (m) => m }, l = e?.fs, i = e?.config, r = W(i?.state || {}), a = W(l?.selectedItems || []), v = W(l?.storages || []), d = E(null), _ = E(!1), c = G(() => window.opener !== null || window.name !== "" || window.history.length <= 1), f = G(() => [
+    const { t: n } = e?.i18n || { t: (m) => m }, l = e?.fs, i = e?.config, a = j(i?.state || {}), r = j(l?.selectedItems || []), f = j(l?.storages || []), d = E(null), _ = E(!1), c = Y(() => window.opener !== null || window.name !== "" || window.history.length <= 1), u = Y(() => [
       {
         id: "file",
         label: n("File"),
@@ -5130,54 +5116,54 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
           {
             id: "new-folder",
             label: n("New Folder"),
-            action: () => e?.modal?.open(fn, { items: a.value }),
-            enabled: () => e?.features?.includes(ne.NEW_FOLDER) || !1
+            action: () => e?.modal?.open(vn, { items: r.value }),
+            enabled: () => e?.features?.includes(te.NEW_FOLDER) || !1
           },
           {
             id: "new-file",
             label: n("New File"),
-            action: () => e?.modal?.open(io, { items: a.value }),
-            enabled: () => e?.features?.includes(ne.NEW_FILE) || !1
+            action: () => e?.modal?.open(ro, { items: r.value }),
+            enabled: () => e?.features?.includes(te.NEW_FILE) || !1
           },
           { type: "separator" },
           {
             id: "upload",
             label: n("Upload"),
-            action: () => e?.modal?.open(_n, { items: a.value }),
-            enabled: () => e?.features?.includes(ne.UPLOAD) || !1
+            action: () => e?.modal?.open(fn, { items: r.value }),
+            enabled: () => e?.features?.includes(te.UPLOAD) || !1
           },
           { type: "separator" },
           {
             id: "search",
             label: n("Search"),
-            action: () => e.modal.open(un),
-            enabled: () => e?.features?.includes(ne.SEARCH)
+            action: () => e.modal.open(cn),
+            enabled: () => e?.features?.includes(te.SEARCH)
           },
           { type: "separator" },
           {
             id: "archive",
             label: n("Archive"),
             action: () => {
-              a.value.length > 0 && e?.modal?.open(pn, { items: a.value });
+              r.value.length > 0 && e?.modal?.open(mn, { items: r.value });
             },
-            enabled: () => a.value.length > 0 && e?.features?.includes(ne.ARCHIVE)
+            enabled: () => r.value.length > 0 && e?.features?.includes(te.ARCHIVE)
           },
           {
             id: "unarchive",
             label: n("Unarchive"),
             action: () => {
-              a.value.length === 1 && a.value[0]?.mime_type === "application/zip" && e?.modal?.open(mn, { items: a.value });
+              r.value.length === 1 && r.value[0]?.mime_type === "application/zip" && e?.modal?.open(_n, { items: r.value });
             },
-            enabled: () => a.value.length === 1 && a.value[0]?.mime_type === "application/zip" && e?.features?.includes(ne.UNARCHIVE)
+            enabled: () => r.value.length === 1 && r.value[0]?.mime_type === "application/zip" && e?.features?.includes(te.UNARCHIVE)
           },
           { type: "separator" },
           {
             id: "preview",
             label: n("Preview"),
             action: () => {
-              a.value.length === 1 && a.value[0]?.type !== "dir" && e?.modal?.open(It, { storage: l?.path?.get()?.storage, item: a.value[0] });
+              r.value.length === 1 && r.value[0]?.type !== "dir" && e?.modal?.open(It, { storage: l?.path?.get()?.storage, item: r.value[0] });
             },
-            enabled: () => a.value.length === 1 && a.value[0]?.type !== "dir"
+            enabled: () => r.value.length === 1 && r.value[0]?.type !== "dir"
           },
           // Only show exit option if we can actually close the window
           ...c.value ? [
@@ -5212,7 +5198,7 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
               id: "deselect",
               label: n("Deselect All"),
               action: () => l?.clearSelection(),
-              enabled: () => a.value.length > 0
+              enabled: () => r.value.length > 0
             },
             { type: "separator" }
           ] : [],
@@ -5220,24 +5206,24 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
             id: "cut",
             label: n("Cut"),
             action: () => {
-              a.value.length > 0 && l?.setClipboard("cut", new Set(a.value.map((m) => m.path)));
+              r.value.length > 0 && l?.setClipboard("cut", new Set(r.value.map((m) => m.path)));
             },
-            enabled: () => a.value.length > 0
+            enabled: () => r.value.length > 0
           },
           {
             id: "copy",
             label: n("Copy"),
             action: () => {
-              a.value.length > 0 && l?.setClipboard("copy", new Set(a.value.map((m) => m.path)));
+              r.value.length > 0 && l?.setClipboard("copy", new Set(r.value.map((m) => m.path)));
             },
-            enabled: () => a.value.length > 0
+            enabled: () => r.value.length > 0
           },
           {
             id: "paste",
             label: n("Paste"),
             action: () => {
               const m = l?.getClipboard();
-              m?.items?.size > 0 && e?.modal?.open(m.type === "cut" ? nt : ln, {
+              m?.items?.size > 0 && e?.modal?.open(m.type === "cut" ? tt : sn, {
                 items: { from: Array.from(m.items), to: l?.path?.get() }
               });
             },
@@ -5247,20 +5233,20 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
             id: "move",
             label: n("Move"),
             action: () => {
-              if (a.value.length > 0) {
+              if (r.value.length > 0) {
                 const m = e?.fs, $ = { storage: m?.path?.get()?.storage || "", path: m?.path?.get()?.path || "", type: "dir" };
-                e?.modal?.open(nt, { items: { from: a.value, to: $ } });
+                e?.modal?.open(tt, { items: { from: r.value, to: $ } });
               }
             },
-            enabled: () => a.value.length > 0 && e?.features?.includes(ne.MOVE)
+            enabled: () => r.value.length > 0 && e?.features?.includes(te.MOVE)
           },
           { type: "separator" },
           {
             id: "copy-path",
             label: n("Copy Path"),
             action: async () => {
-              if (a.value.length === 1) {
-                const m = a.value[0];
+              if (r.value.length === 1) {
+                const m = r.value[0];
                 await ut(m.path);
               } else {
                 const m = l?.path?.get();
@@ -5274,29 +5260,29 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
             id: "copy-download-url",
             label: n("Copy Download URL"),
             action: async () => {
-              if (a.value.length === 1) {
-                const m = a.value[0], $ = l?.path?.get()?.storage ?? "local", k = e?.requester?.getDownloadUrl($, m);
+              if (r.value.length === 1) {
+                const m = r.value[0], $ = l?.path?.get()?.storage ?? "local", k = e?.requester?.getDownloadUrl($, m);
                 k && await Lr(k);
               }
             },
-            enabled: () => a.value.length === 1 && a.value[0]?.type !== "dir"
+            enabled: () => r.value.length === 1 && r.value[0]?.type !== "dir"
           },
           { type: "separator" },
           {
             id: "rename",
             label: n("Rename"),
             action: () => {
-              a.value.length === 1 && e?.modal?.open(Mt, { items: a.value });
+              r.value.length === 1 && e?.modal?.open(Tt, { items: r.value });
             },
-            enabled: () => a.value.length === 1 && e?.features?.includes(ne.RENAME)
+            enabled: () => r.value.length === 1 && e?.features?.includes(te.RENAME)
           },
           {
             id: "delete",
             label: n("Delete"),
             action: () => {
-              a.value.length > 0 && e?.modal?.open(At, { items: a.value });
+              r.value.length > 0 && e?.modal?.open(Mt, { items: r.value });
             },
-            enabled: () => a.value.length > 0 && e?.features?.includes(ne.DELETE)
+            enabled: () => r.value.length > 0 && e?.features?.includes(te.DELETE)
           }
         ]
       },
@@ -5317,13 +5303,13 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
             id: "grid-view",
             label: n("Grid View"),
             action: () => i?.set("view", "grid"),
-            checked: () => r.value?.view === "grid"
+            checked: () => a.value?.view === "grid"
           },
           {
             id: "list-view",
             label: n("List View"),
             action: () => i?.set("view", "list"),
-            checked: () => r.value?.view === "list"
+            checked: () => a.value?.view === "list"
           },
           { type: "separator" },
           {
@@ -5331,29 +5317,29 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
             label: n("Tree View"),
             action: () => i?.toggle("showTreeView"),
             enabled: () => !0,
-            checked: () => r.value?.showTreeView
+            checked: () => a.value?.showTreeView
           },
           {
             id: "thumbnails",
             label: n("Show Thumbnails"),
             action: () => i?.toggle("showThumbnails"),
             enabled: () => !0,
-            checked: () => r.value?.showThumbnails
+            checked: () => a.value?.showThumbnails
           },
           {
             id: "show-hidden-files",
             label: n("Show Hidden Files"),
             action: () => i?.toggle("showHiddenFiles"),
             enabled: () => !0,
-            checked: () => r.value?.showHiddenFiles
+            checked: () => a.value?.showHiddenFiles
           },
           { type: "separator" },
           {
             id: "fullscreen",
             label: n("Full Screen"),
             action: () => i?.toggle("fullScreen"),
-            enabled: () => e?.features?.includes(ne.FULL_SCREEN),
-            checked: () => r.value?.fullScreen
+            enabled: () => e?.features?.includes(te.FULL_SCREEN),
+            checked: () => a.value?.fullScreen
           }
         ]
       },
@@ -5394,7 +5380,7 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
           },
           { type: "separator" },
           // Dynamic storage list items will be added here
-          ...(v.value || []).map((m) => ({
+          ...(f.value || []).map((m) => ({
             id: `storage-${m}`,
             label: m,
             action: () => {
@@ -5420,87 +5406,111 @@ const co = { render: fc }, _c = { class: "vuefinder__archive-modal__content" }, 
         label: n("Help"),
         items: [
           {
+            id: "settings",
+            label: n("Settings"),
+            action: () => e?.modal?.open(nc),
+            enabled: () => !0
+          },
+          {
+            id: "shortcuts",
+            label: n("Shortcuts"),
+            action: () => e?.modal?.open(pc),
+            enabled: () => !0
+          },
+          {
             id: "about",
             label: n("About"),
-            action: () => e?.modal?.open(en),
+            action: () => e?.modal?.open(Vn),
             enabled: () => !0
           }
         ]
       }
-    ]), p = (m) => {
-      d.value === m ? D() : (d.value = m, _.value = !0);
+    ]), h = (m) => {
+      d.value === m ? F() : (d.value = m, _.value = !0);
     }, y = (m) => {
       _.value && (d.value = m);
-    }, D = () => {
+    }, F = () => {
       d.value = null, _.value = !1;
-    }, w = (m) => {
-      D(), m();
     }, g = (m) => {
-      m.target.closest(".vuefinder__menubar") || D();
+      F(), m();
+    }, p = (m) => {
+      m.target.closest(".vuefinder__menubar") || F();
     };
-    return fe(() => {
-      document.addEventListener("click", g);
-    }), ke(() => {
-      document.removeEventListener("click", g);
-    }), (m, $) => (u(), h("div", {
+    return ve(() => {
+      document.addEventListener("click", p);
+    }), xe(() => {
+      document.removeEventListener("click", p);
+    }), (m, $) => (v(), w("div", {
       class: "vuefinder__menubar",
-      onClick: $[0] || ($[0] = re(() => {
+      onClick: $[0] || ($[0] = ae(() => {
       }, ["stop"]))
     }, [
-      s("div", bc, [
-        (u(!0), h(de, null, ve(f.value, (k) => (u(), h("div", {
+      s("div", hc, [
+        (v(!0), w(de, null, fe(u.value, (k) => (v(), w("div", {
           key: k.id,
-          class: q(["vuefinder__menubar__item", { "vuefinder__menubar__item--active": d.value === k.id }]),
-          onClick: (C) => p(k.id),
-          onMouseenter: (C) => y(k.id)
+          class: W(["vuefinder__menubar__item", { "vuefinder__menubar__item--active": d.value === k.id }]),
+          onClick: (D) => h(k.id),
+          onMouseenter: (D) => y(k.id)
         }, [
-          s("span", xc, b(k.label), 1),
-          d.value === k.id ? (u(), h("div", {
+          s("span", wc, b(k.label), 1),
+          d.value === k.id ? (v(), w("div", {
             key: 0,
             class: "vuefinder__menubar__dropdown",
-            onMouseenter: (C) => y(k.id)
+            onMouseenter: (D) => y(k.id)
           }, [
-            (u(!0), h(de, null, ve(k.items, (C) => (u(), h("div", {
-              key: C.id || C.type,
-              class: q(["vuefinder__menubar__dropdown__item", {
-                "vuefinder__menubar__dropdown__item--separator": C.type === "separator",
-                "vuefinder__menubar__dropdown__item--disabled": C.enabled && !C.enabled(),
-                "vuefinder__menubar__dropdown__item--checked": C.checked && C.checked()
+            (v(!0), w(de, null, fe(k.items, (D) => (v(), w("div", {
+              key: D.id || D.type,
+              class: W(["vuefinder__menubar__dropdown__item", {
+                "vuefinder__menubar__dropdown__item--separator": D.type === "separator",
+                "vuefinder__menubar__dropdown__item--disabled": D.enabled && !D.enabled(),
+                "vuefinder__menubar__dropdown__item--checked": D.checked && D.checked()
               }]),
-              onClick: re((M) => C.type !== "separator" && C.enabled && C.enabled() ? w(C.action) : null, ["stop"])
+              onClick: ae((L) => D.type !== "separator" && D.enabled && D.enabled() ? g(D.action) : null, ["stop"])
             }, [
-              C.type !== "separator" ? (u(), h("span", Sc, b(C.label), 1)) : I("", !0),
-              C.checked && C.checked() ? (u(), h("span", Fc, " ✓ ")) : I("", !0)
-            ], 10, Cc))), 128))
-          ], 40, $c)) : I("", !0)
-        ], 42, kc))), 128))
+              D.type !== "separator" ? (v(), w("span", xc, b(D.label), 1)) : T("", !0),
+              D.checked && D.checked() ? (v(), w("span", kc, " ✓ ")) : T("", !0)
+            ], 10, bc))), 128))
+          ], 40, yc)) : T("", !0)
+        ], 42, gc))), 128))
       ])
     ]));
   }
-}), Ec = {
+}), Cc = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
   viewBox: "0 0 24 24"
 };
-function Tc(t, e) {
-  return u(), h("svg", Ec, [...e[0] || (e[0] = [
+function Sc(t, e) {
+  return v(), w("svg", Cc, [...e[0] || (e[0] = [
     s("path", { d: "M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" }, null, -1)
   ])]);
 }
-const Ac = { render: Tc }, Mc = {
+const Fc = { render: Sc }, Dc = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
   class: "h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon",
   viewBox: "0 0 24 24"
 };
-function Ic(t, e) {
-  return u(), h("svg", Mc, [...e[0] || (e[0] = [
+function Ec(t, e) {
+  return v(), w("svg", Dc, [...e[0] || (e[0] = [
     s("path", { d: "M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" }, null, -1)
   ])]);
 }
-const Oc = { render: Ic }, Rc = {
+const Ac = { render: Ec }, Mc = {
+  xmlns: "http://www.w3.org/2000/svg",
+  fill: "none",
+  "stroke-width": "1.5",
+  class: "h-6 w-6 md:h-8 md:w-8 m-auto",
+  viewBox: "0 0 24 24"
+};
+function Tc(t, e) {
+  return v(), w("svg", Mc, [...e[0] || (e[0] = [
+    s("path", { d: "M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25zm0 9.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18zM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25zm0 9.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18z" }, null, -1)
+  ])]);
+}
+const Ic = { render: Tc }, Oc = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   "stroke-width": "1.5",
@@ -5508,29 +5518,17 @@ const Oc = { render: Ic }, Rc = {
   viewBox: "0 0 24 24"
 };
 function Lc(t, e) {
-  return u(), h("svg", Rc, [...e[0] || (e[0] = [
-    s("path", { d: "M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25zm0 9.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18zM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25zm0 9.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18z" }, null, -1)
-  ])]);
-}
-const Vc = { render: Lc }, Pc = {
-  xmlns: "http://www.w3.org/2000/svg",
-  fill: "none",
-  "stroke-width": "1.5",
-  class: "h-6 w-6 md:h-8 md:w-8 m-auto",
-  viewBox: "0 0 24 24"
-};
-function Bc(t, e) {
-  return u(), h("svg", Pc, [...e[0] || (e[0] = [
+  return v(), w("svg", Oc, [...e[0] || (e[0] = [
     s("path", { d: "M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75" }, null, -1)
   ])]);
 }
-const zc = { render: Bc }, Hc = {
+const Rc = { render: Lc }, Vc = {
   fill: "none",
   stroke: "currentColor",
   viewBox: "0 0 24 24"
 };
-function Nc(t, e) {
-  return u(), h("svg", Hc, [...e[0] || (e[0] = [
+function Pc(t, e) {
+  return v(), w("svg", Vc, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -5539,73 +5537,73 @@ function Nc(t, e) {
     }, null, -1)
   ])]);
 }
-const Uc = { render: Nc }, Kc = { class: "vuefinder__toolbar" }, Wc = { class: "vuefinder__toolbar__actions" }, jc = ["title"], Gc = ["title"], qc = ["title"], Yc = ["title"], Qc = ["title"], Xc = ["title"], Jc = ["title"], Zc = { class: "vuefinder__toolbar__controls" }, eu = ["title"], tu = { class: "vuefinder__toolbar__control vuefinder__toolbar__dropdown-container" }, nu = ["title"], ou = { class: "relative" }, su = {
+const Bc = { render: Pc }, zc = { class: "vuefinder__toolbar" }, Hc = { class: "vuefinder__toolbar__actions" }, Nc = ["title"], Uc = ["title"], Kc = ["title"], jc = ["title"], Wc = ["title"], Gc = ["title"], qc = ["title"], Yc = { class: "vuefinder__toolbar__controls" }, Qc = ["title"], Xc = { class: "vuefinder__toolbar__control vuefinder__toolbar__dropdown-container" }, Jc = ["title"], Zc = { class: "relative" }, eu = {
   key: 0,
   class: "vuefinder__toolbar__filter-indicator"
-}, lu = {
+}, tu = {
   key: 0,
   class: "vuefinder__toolbar__dropdown"
-}, iu = { class: "vuefinder__toolbar__dropdown-content" }, au = { class: "vuefinder__toolbar__dropdown-section" }, ru = { class: "vuefinder__toolbar__dropdown-label" }, du = { class: "vuefinder__toolbar__dropdown-row" }, cu = { value: "name" }, uu = { value: "size" }, vu = { value: "modified" }, fu = { value: "" }, _u = { value: "asc" }, mu = { value: "desc" }, pu = { class: "vuefinder__toolbar__dropdown-section" }, hu = { class: "vuefinder__toolbar__dropdown-label" }, gu = { class: "vuefinder__toolbar__dropdown-options" }, wu = { class: "vuefinder__toolbar__dropdown-option" }, yu = { class: "vuefinder__toolbar__option-text" }, bu = { class: "vuefinder__toolbar__dropdown-option" }, ku = { class: "vuefinder__toolbar__option-text" }, xu = { class: "vuefinder__toolbar__dropdown-option" }, $u = { class: "vuefinder__toolbar__option-text" }, Cu = { class: "vuefinder__toolbar__dropdown-toggle" }, Su = {
+}, nu = { class: "vuefinder__toolbar__dropdown-content" }, ou = { class: "vuefinder__toolbar__dropdown-section" }, su = { class: "vuefinder__toolbar__dropdown-label" }, lu = { class: "vuefinder__toolbar__dropdown-row" }, iu = { value: "name" }, ru = { value: "size" }, au = { value: "modified" }, du = { value: "" }, cu = { value: "asc" }, uu = { value: "desc" }, vu = { class: "vuefinder__toolbar__dropdown-section" }, fu = { class: "vuefinder__toolbar__dropdown-label" }, _u = { class: "vuefinder__toolbar__dropdown-options" }, mu = { class: "vuefinder__toolbar__dropdown-option" }, pu = { class: "vuefinder__toolbar__option-text" }, hu = { class: "vuefinder__toolbar__dropdown-option" }, gu = { class: "vuefinder__toolbar__option-text" }, wu = { class: "vuefinder__toolbar__dropdown-option" }, yu = { class: "vuefinder__toolbar__option-text" }, bu = { class: "vuefinder__toolbar__dropdown-toggle" }, xu = {
   for: "showHidden",
   class: "vuefinder__toolbar__toggle-label"
-}, Fu = { class: "vuefinder__toolbar__dropdown-reset" }, Du = ["title"], Eu = ["title"], Tu = /* @__PURE__ */ X({
+}, ku = { class: "vuefinder__toolbar__dropdown-reset" }, $u = ["title"], Cu = ["title"], Su = /* @__PURE__ */ Q({
   name: "VfToolbar",
   __name: "Toolbar",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = e.config, r = W(i.state), a = W(l.selectedItems), v = W(l.sort), d = W(l.filter);
-    ue(() => r.value.fullScreen, () => {
-      if (r.value.fullScreen) {
-        const w = document.querySelector("body");
-        w && (w.style.overflow = "hidden");
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = e.config, a = j(i.state), r = j(l.selectedItems), f = j(l.sort), d = j(l.filter);
+    ue(() => a.value.fullScreen, () => {
+      if (a.value.fullScreen) {
+        const g = document.querySelector("body");
+        g && (g.style.overflow = "hidden");
       } else {
-        const w = document.querySelector("body");
-        w && (w.style.overflow = "");
+        const g = document.querySelector("body");
+        g && (g.style.overflow = "");
       }
       e.emitter.emit("vf-fullscreen-toggle");
     });
-    const _ = E(!1), c = (w) => {
-      w.target.closest(".vuefinder__toolbar__dropdown-container") || (_.value = !1);
+    const _ = E(!1), c = (g) => {
+      g.target.closest(".vuefinder__toolbar__dropdown-container") || (_.value = !1);
     };
-    fe(() => {
+    ve(() => {
       document.addEventListener("click", c);
-    }), ke(() => {
+    }), xe(() => {
       document.removeEventListener("click", c);
     });
-    const f = E({
+    const u = E({
       sortBy: "name",
       // name | size | type | modified
       sortOrder: "",
       // '' | asc | desc (empty means no sorting)
       filterKind: "all",
       // all | files | folders
-      showHidden: r.value.showHiddenFiles
+      showHidden: a.value.showHiddenFiles
       // Initialize with config store default
     });
-    ue(() => f.value.sortBy, (w) => {
-      if (!f.value.sortOrder) {
+    ue(() => u.value.sortBy, (g) => {
+      if (!u.value.sortOrder) {
         l.clearSort();
         return;
       }
-      w === "name" ? l.setSort("basename", f.value.sortOrder) : w === "size" ? l.setSort("file_size", f.value.sortOrder) : w === "modified" && l.setSort("last_modified", f.value.sortOrder);
-    }), ue(() => f.value.sortOrder, (w) => {
-      if (!w) {
+      g === "name" ? l.setSort("basename", u.value.sortOrder) : g === "size" ? l.setSort("file_size", u.value.sortOrder) : g === "modified" && l.setSort("last_modified", u.value.sortOrder);
+    }), ue(() => u.value.sortOrder, (g) => {
+      if (!g) {
         l.clearSort();
         return;
       }
-      f.value.sortBy === "name" ? l.setSort("basename", w) : f.value.sortBy === "size" ? l.setSort("file_size", w) : f.value.sortBy === "modified" && l.setSort("last_modified", w);
-    }), ue(v, (w) => {
-      w.active ? (w.column === "basename" ? f.value.sortBy = "name" : w.column === "file_size" ? f.value.sortBy = "size" : w.column === "last_modified" && (f.value.sortBy = "modified"), f.value.sortOrder = w.order) : f.value.sortOrder = "";
-    }, { immediate: !0 }), ue(() => f.value.filterKind, (w) => {
-      l.setFilter(w, r.value.showHiddenFiles);
-    }), ue(() => f.value.showHidden, (w) => {
-      i.set("showHiddenFiles", w), l.setFilter(f.value.filterKind, w);
-    }), ue(d, (w) => {
-      f.value.filterKind = w.kind;
-    }, { immediate: !0 }), ue(() => r.value.showHiddenFiles, (w) => {
-      f.value.showHidden = w, l.setFilter(f.value.filterKind, w);
+      u.value.sortBy === "name" ? l.setSort("basename", g) : u.value.sortBy === "size" ? l.setSort("file_size", g) : u.value.sortBy === "modified" && l.setSort("last_modified", g);
+    }), ue(f, (g) => {
+      g.active ? (g.column === "basename" ? u.value.sortBy = "name" : g.column === "file_size" ? u.value.sortBy = "size" : g.column === "last_modified" && (u.value.sortBy = "modified"), u.value.sortOrder = g.order) : u.value.sortOrder = "";
+    }, { immediate: !0 }), ue(() => u.value.filterKind, (g) => {
+      l.setFilter(g, a.value.showHiddenFiles);
+    }), ue(() => u.value.showHidden, (g) => {
+      i.set("showHiddenFiles", g), l.setFilter(u.value.filterKind, g);
+    }), ue(d, (g) => {
+      u.value.filterKind = g.kind;
+    }, { immediate: !0 }), ue(() => a.value.showHiddenFiles, (g) => {
+      u.value.showHidden = g, l.setFilter(u.value.filterKind, g);
     }, { immediate: !0 });
-    const p = () => i.set("view", r.value.view === "grid" ? "list" : "grid"), y = G(() => d.value.kind !== "all" || !r.value.showHiddenFiles || v.value.active), D = () => {
-      f.value = {
+    const h = () => i.set("view", a.value.view === "grid" ? "list" : "grid"), y = Y(() => d.value.kind !== "all" || !a.value.showHiddenFiles || f.value.active), F = () => {
+      u.value = {
         sortBy: "name",
         sortOrder: "",
         // No sorting by default
@@ -5614,231 +5612,231 @@ const Uc = { render: Nc }, Kc = { class: "vuefinder__toolbar" }, Wc = { class: "
         // Reset to default value
       }, i.set("showHiddenFiles", !0), l.clearSort(), l.clearFilter();
     };
-    return (w, g) => (u(), h("div", Kc, [
-      s("div", Wc, [
-        o(e).features.includes(o(ne).NEW_FOLDER) ? (u(), h("div", {
+    return (g, p) => (v(), w("div", zc, [
+      s("div", Hc, [
+        o(e).features.includes(o(te).NEW_FOLDER) ? (v(), w("div", {
           key: 0,
           class: "mx-1.5",
           title: o(n)("New Folder"),
-          onClick: g[0] || (g[0] = (m) => o(e).modal.open(fn, { items: o(a) }))
+          onClick: p[0] || (p[0] = (m) => o(e).modal.open(vn, { items: o(r) }))
         }, [
-          R(o(so))
-        ], 8, jc)) : I("", !0),
-        o(e).features.includes(o(ne).NEW_FILE) ? (u(), h("div", {
+          O(o(lo))
+        ], 8, Nc)) : T("", !0),
+        o(e).features.includes(o(te).NEW_FILE) ? (v(), w("div", {
           key: 1,
           class: "mx-1.5",
           title: o(n)("New File"),
-          onClick: g[1] || (g[1] = (m) => o(e).modal.open(io, { items: o(a) }))
+          onClick: p[1] || (p[1] = (m) => o(e).modal.open(ro, { items: o(r) }))
         }, [
-          R(o(lo))
-        ], 8, Gc)) : I("", !0),
-        o(e).features.includes(o(ne).RENAME) ? (u(), h("div", {
+          O(o(io))
+        ], 8, Uc)) : T("", !0),
+        o(e).features.includes(o(te).RENAME) ? (v(), w("div", {
           key: 2,
           class: "mx-1.5",
           title: o(n)("Rename"),
-          onClick: g[2] || (g[2] = (m) => o(a).length !== 1 || o(e).modal.open(Mt, { items: o(a) }))
+          onClick: p[2] || (p[2] = (m) => o(r).length !== 1 || o(e).modal.open(Tt, { items: o(r) }))
         }, [
-          R(o(Bn), {
-            class: q(o(a).length === 1 ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
+          O(o(Bn), {
+            class: W(o(r).length === 1 ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
           }, null, 8, ["class"])
-        ], 8, qc)) : I("", !0),
-        o(e).features.includes(o(ne).DELETE) ? (u(), h("div", {
+        ], 8, Kc)) : T("", !0),
+        o(e).features.includes(o(te).DELETE) ? (v(), w("div", {
           key: 3,
           class: "mx-1.5",
           title: o(n)("Delete"),
-          onClick: g[3] || (g[3] = (m) => !o(a).length || o(e).modal.open(At, { items: o(a) }))
+          onClick: p[3] || (p[3] = (m) => !o(r).length || o(e).modal.open(Mt, { items: o(r) }))
         }, [
-          R(o(Pn), {
-            class: q(o(a).length ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
+          O(o(Pn), {
+            class: W(o(r).length ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
           }, null, 8, ["class"])
-        ], 8, Yc)) : I("", !0),
-        o(e).features.includes(o(ne).UPLOAD) ? (u(), h("div", {
+        ], 8, jc)) : T("", !0),
+        o(e).features.includes(o(te).UPLOAD) ? (v(), w("div", {
           key: 4,
           class: "mx-1.5",
           title: o(n)("Upload"),
-          onClick: g[4] || (g[4] = (m) => o(e).modal.open(_n, { items: o(a) }))
+          onClick: p[4] || (p[4] = (m) => o(e).modal.open(fn, { items: o(r) }))
         }, [
-          R(o(ao))
-        ], 8, Qc)) : I("", !0),
-        o(e).features.includes(o(ne).UNARCHIVE) && o(a).length === 1 && o(a)[0].mime_type === "application/zip" ? (u(), h("div", {
+          O(o(ao))
+        ], 8, Wc)) : T("", !0),
+        o(e).features.includes(o(te).UNARCHIVE) && o(r).length === 1 && o(r)[0].mime_type === "application/zip" ? (v(), w("div", {
           key: 5,
           class: "mx-1.5",
           title: o(n)("Unarchive"),
-          onClick: g[5] || (g[5] = (m) => !o(a).length || o(e).modal.open(mn, { items: o(a) }))
+          onClick: p[5] || (p[5] = (m) => !o(r).length || o(e).modal.open(_n, { items: o(r) }))
         }, [
-          R(o(ro), {
-            class: q(o(a).length ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
+          O(o(co), {
+            class: W(o(r).length ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
           }, null, 8, ["class"])
-        ], 8, Xc)) : I("", !0),
-        o(e).features.includes(o(ne).ARCHIVE) ? (u(), h("div", {
+        ], 8, Gc)) : T("", !0),
+        o(e).features.includes(o(te).ARCHIVE) ? (v(), w("div", {
           key: 6,
           class: "mx-1.5",
           title: o(n)("Archive"),
-          onClick: g[6] || (g[6] = (m) => !o(a).length || o(e).modal.open(pn, { items: o(a) }))
+          onClick: p[6] || (p[6] = (m) => !o(r).length || o(e).modal.open(mn, { items: o(r) }))
         }, [
-          R(o(co), {
-            class: q(o(a).length ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
+          O(o(uo), {
+            class: W(o(r).length ? "vf-toolbar-icon" : "vf-toolbar-icon-disabled")
           }, null, 8, ["class"])
-        ], 8, Jc)) : I("", !0)
+        ], 8, qc)) : T("", !0)
       ]),
-      s("div", Zc, [
-        o(e).features.includes(o(ne).SEARCH) ? (u(), h("div", {
+      s("div", Yc, [
+        o(e).features.includes(o(te).SEARCH) ? (v(), w("div", {
           key: 0,
           class: "mx-1.5",
           title: o(n)("Search Files"),
-          onClick: g[7] || (g[7] = (m) => o(e).modal.open(un))
+          onClick: p[7] || (p[7] = (m) => o(e).modal.open(cn))
         }, [
-          R(o(an), { class: "vf-toolbar-icon text-(--vf-bg-primary)" })
-        ], 8, eu)) : I("", !0),
-        s("div", tu, [
+          O(o(ln), { class: "vf-toolbar-icon text-(--vf-bg-primary)" })
+        ], 8, Qc)) : T("", !0),
+        s("div", Xc, [
           s("div", {
             title: o(n)("Filter"),
-            onClick: g[8] || (g[8] = (m) => _.value = !_.value),
+            onClick: p[8] || (p[8] = (m) => _.value = !_.value),
             class: "vuefinder__toolbar__dropdown-trigger"
           }, [
-            s("div", ou, [
-              R(o(Uc), { class: "vf-toolbar-icon vuefinder__toolbar__icon w-6 h-6" }),
-              y.value ? (u(), h("div", su)) : I("", !0)
+            s("div", Zc, [
+              O(o(Bc), { class: "vf-toolbar-icon vuefinder__toolbar__icon w-6 h-6" }),
+              y.value ? (v(), w("div", eu)) : T("", !0)
             ])
-          ], 8, nu),
-          _.value ? (u(), h("div", lu, [
-            s("div", iu, [
-              s("div", au, [
-                s("div", ru, b(o(n)("Sorting")), 1),
-                s("div", du, [
+          ], 8, Jc),
+          _.value ? (v(), w("div", tu, [
+            s("div", nu, [
+              s("div", ou, [
+                s("div", su, b(o(n)("Sorting")), 1),
+                s("div", lu, [
                   me(s("select", {
-                    "onUpdate:modelValue": g[9] || (g[9] = (m) => f.value.sortBy = m),
+                    "onUpdate:modelValue": p[9] || (p[9] = (m) => u.value.sortBy = m),
                     class: "vuefinder__toolbar__dropdown-select"
                   }, [
-                    s("option", cu, b(o(n)("Name")), 1),
-                    s("option", uu, b(o(n)("Size")), 1),
-                    s("option", vu, b(o(n)("Date")), 1)
+                    s("option", iu, b(o(n)("Name")), 1),
+                    s("option", ru, b(o(n)("Size")), 1),
+                    s("option", au, b(o(n)("Date")), 1)
                   ], 512), [
-                    [qt, f.value.sortBy]
+                    [qt, u.value.sortBy]
                   ]),
                   me(s("select", {
-                    "onUpdate:modelValue": g[10] || (g[10] = (m) => f.value.sortOrder = m),
+                    "onUpdate:modelValue": p[10] || (p[10] = (m) => u.value.sortOrder = m),
                     class: "vuefinder__toolbar__dropdown-select"
                   }, [
-                    s("option", fu, b(o(n)("None")), 1),
-                    s("option", _u, b(o(n)("Asc")), 1),
-                    s("option", mu, b(o(n)("Desc")), 1)
+                    s("option", du, b(o(n)("None")), 1),
+                    s("option", cu, b(o(n)("Asc")), 1),
+                    s("option", uu, b(o(n)("Desc")), 1)
                   ], 512), [
-                    [qt, f.value.sortOrder]
+                    [qt, u.value.sortOrder]
                   ])
                 ])
               ]),
-              s("div", pu, [
-                s("div", hu, b(o(n)("Show")), 1),
-                s("div", gu, [
-                  s("label", wu, [
+              s("div", vu, [
+                s("div", fu, b(o(n)("Show")), 1),
+                s("div", _u, [
+                  s("label", mu, [
                     me(s("input", {
                       type: "radio",
                       name: "filterKind",
                       value: "all",
-                      "onUpdate:modelValue": g[11] || (g[11] = (m) => f.value.filterKind = m),
+                      "onUpdate:modelValue": p[11] || (p[11] = (m) => u.value.filterKind = m),
                       class: "vuefinder__toolbar__radio"
                     }, null, 512), [
-                      [Kt, f.value.filterKind]
+                      [Kt, u.value.filterKind]
                     ]),
-                    s("span", yu, b(o(n)("All items")), 1)
+                    s("span", pu, b(o(n)("All items")), 1)
                   ]),
-                  s("label", bu, [
+                  s("label", hu, [
                     me(s("input", {
                       type: "radio",
                       name: "filterKind",
                       value: "files",
-                      "onUpdate:modelValue": g[12] || (g[12] = (m) => f.value.filterKind = m),
+                      "onUpdate:modelValue": p[12] || (p[12] = (m) => u.value.filterKind = m),
                       class: "vuefinder__toolbar__radio"
                     }, null, 512), [
-                      [Kt, f.value.filterKind]
+                      [Kt, u.value.filterKind]
                     ]),
-                    s("span", ku, b(o(n)("Files only")), 1)
+                    s("span", gu, b(o(n)("Files only")), 1)
                   ]),
-                  s("label", xu, [
+                  s("label", wu, [
                     me(s("input", {
                       type: "radio",
                       name: "filterKind",
                       value: "folders",
-                      "onUpdate:modelValue": g[13] || (g[13] = (m) => f.value.filterKind = m),
+                      "onUpdate:modelValue": p[13] || (p[13] = (m) => u.value.filterKind = m),
                       class: "vuefinder__toolbar__radio"
                     }, null, 512), [
-                      [Kt, f.value.filterKind]
+                      [Kt, u.value.filterKind]
                     ]),
-                    s("span", $u, b(o(n)("Folders only")), 1)
+                    s("span", yu, b(o(n)("Folders only")), 1)
                   ])
                 ])
               ]),
-              s("div", Cu, [
-                s("label", Su, b(o(n)("Show hidden files")), 1),
+              s("div", bu, [
+                s("label", xu, b(o(n)("Show hidden files")), 1),
                 me(s("input", {
                   type: "checkbox",
                   id: "showHidden",
-                  "onUpdate:modelValue": g[14] || (g[14] = (m) => f.value.showHidden = m),
+                  "onUpdate:modelValue": p[14] || (p[14] = (m) => u.value.showHidden = m),
                   class: "vuefinder__toolbar__checkbox"
                 }, null, 512), [
-                  [Jt, f.value.showHidden]
+                  [Jt, u.value.showHidden]
                 ])
               ]),
-              s("div", Fu, [
+              s("div", ku, [
                 s("button", {
-                  onClick: D,
+                  onClick: F,
                   class: "vuefinder__toolbar__reset-button"
                 }, b(o(n)("Reset")), 1)
               ])
             ])
-          ])) : I("", !0)
+          ])) : T("", !0)
         ]),
-        o(e).features.includes(o(ne).FULL_SCREEN) ? (u(), h("div", {
+        o(e).features.includes(o(te).FULL_SCREEN) ? (v(), w("div", {
           key: 1,
-          onClick: g[15] || (g[15] = (m) => o(i).toggle("fullScreen")),
+          onClick: p[15] || (p[15] = (m) => o(i).toggle("fullScreen")),
           class: "mx-1.5",
           title: o(n)("Toggle Full Screen")
         }, [
-          o(r).fullScreen ? (u(), V(o(Oc), {
+          o(a).fullScreen ? (v(), R(o(Ac), {
             key: 0,
             class: "vf-toolbar-icon"
-          })) : (u(), V(o(Ac), {
+          })) : (v(), R(o(Fc), {
             key: 1,
             class: "vf-toolbar-icon"
           }))
-        ], 8, Du)) : I("", !0),
+        ], 8, $u)) : T("", !0),
         s("div", {
           class: "mx-1.5",
           title: o(n)("Change View"),
-          onClick: g[16] || (g[16] = (m) => p())
+          onClick: p[16] || (p[16] = (m) => h())
         }, [
-          o(r).view === "grid" ? (u(), V(o(Vc), {
+          o(a).view === "grid" ? (v(), R(o(Ic), {
             key: 0,
             class: "vf-toolbar-icon"
-          })) : I("", !0),
-          o(r).view === "list" ? (u(), V(o(zc), {
+          })) : T("", !0),
+          o(a).view === "list" ? (v(), R(o(Rc), {
             key: 1,
             class: "vf-toolbar-icon"
-          })) : I("", !0)
-        ], 8, Eu)
+          })) : T("", !0)
+        ], 8, Cu)
       ])
     ]));
   }
-}), Au = {
+}), Fu = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "currentColor",
   class: "vuefinder__breadcrumb__refresh-icon",
   viewBox: "-40 -40 580 580"
 };
-function Mu(t, e) {
-  return u(), h("svg", Au, [...e[0] || (e[0] = [
+function Du(t, e) {
+  return v(), w("svg", Fu, [...e[0] || (e[0] = [
     s("path", { d: "M463.5 224h8.5c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2S461.9 48.1 455 55l-41.6 41.6c-87.6-86.5-228.7-86.2-315.8 1-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2S334.3 224 344 224z" }, null, -1)
   ])]);
 }
-const Iu = { render: Mu }, Ou = {
+const Eu = { render: Du }, Au = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "currentColor",
   class: "h-6 w-6 p-0.5 rounded",
   viewBox: "0 0 20 20"
 };
-function Ru(t, e) {
-  return u(), h("svg", Ou, [...e[0] || (e[0] = [
+function Mu(t, e) {
+  return v(), w("svg", Au, [...e[0] || (e[0] = [
     s("path", {
       "fill-rule": "evenodd",
       d: "M5.293 9.707a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1-1.414 1.414L11 7.414V15a1 1 0 1 1-2 0V7.414L6.707 9.707a1 1 0 0 1-1.414 0",
@@ -5847,7 +5845,7 @@ function Ru(t, e) {
     }, null, -1)
   ])]);
 }
-const Lu = { render: Ru }, Vu = {
+const Tu = { render: Mu }, Iu = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
@@ -5855,8 +5853,8 @@ const Lu = { render: Ru }, Vu = {
   class: "vuefinder__breadcrumb__close-icon",
   viewBox: "0 0 24 24"
 };
-function Pu(t, e) {
-  return u(), h("svg", Vu, [...e[0] || (e[0] = [
+function Ou(t, e) {
+  return v(), w("svg", Iu, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -5864,20 +5862,20 @@ function Pu(t, e) {
     }, null, -1)
   ])]);
 }
-const Bu = { render: Pu }, zu = {
+const Lu = { render: Ou }, Ru = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "currentColor",
   viewBox: "0 0 20 20"
 };
-function Hu(t, e) {
-  return u(), h("svg", zu, [...e[0] || (e[0] = [
+function Vu(t, e) {
+  return v(), w("svg", Ru, [...e[0] || (e[0] = [
     s("path", {
       d: "M10.707 2.293a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 1.414 1.414L4 10.414V17a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-6.586l.293.293a1 1 0 0 0 1.414-1.414z",
       class: "pointer-events-none"
     }, null, -1)
   ])]);
 }
-const Nu = { render: Hu }, Uu = {
+const Pu = { render: Vu }, Bu = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
@@ -5885,8 +5883,8 @@ const Nu = { render: Hu }, Uu = {
   class: "w-6 h-6 cursor-pointer",
   viewBox: "0 0 24 24"
 };
-function Ku(t, e) {
-  return u(), h("svg", Uu, [...e[0] || (e[0] = [
+function zu(t, e) {
+  return v(), w("svg", Bu, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -5894,7 +5892,7 @@ function Ku(t, e) {
     }, null, -1)
   ])]);
 }
-const Wu = { render: Ku }, ju = {
+const Hu = { render: zu }, Nu = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
@@ -5903,8 +5901,8 @@ const Wu = { render: Ku }, ju = {
   "stroke-width": "2",
   viewBox: "0 0 24 24"
 };
-function Gu(t, e) {
-  return u(), h("svg", ju, [...e[0] || (e[0] = [
+function Uu(t, e) {
+  return v(), w("svg", Nu, [...e[0] || (e[0] = [
     s("path", {
       stroke: "none",
       d: "M0 0h24v24H0z"
@@ -5912,14 +5910,14 @@ function Gu(t, e) {
     s("path", { d: "M9 6h11M12 12h8M15 18h5M5 6v.01M8 12v.01M11 18v.01" }, null, -1)
   ])]);
 }
-const qu = { render: Gu }, Yu = {
+const Ku = { render: Uu }, ju = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
   viewBox: "0 0 24 24"
 };
-function Qu(t, e) {
-  return u(), h("svg", Yu, [...e[0] || (e[0] = [
+function Wu(t, e) {
+  return v(), w("svg", ju, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -5928,14 +5926,14 @@ function Qu(t, e) {
     }, null, -1)
   ])]);
 }
-const Xu = { render: Qu }, Ju = {
+const Gu = { render: Wu }, qu = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
   viewBox: "0 0 24 24"
 };
-function Zu(t, e) {
-  return u(), h("svg", Ju, [...e[0] || (e[0] = [
+function Yu(t, e) {
+  return v(), w("svg", qu, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -5944,429 +5942,429 @@ function Zu(t, e) {
     }, null, -1)
   ])]);
 }
-const ev = { render: Zu };
+const Qu = { render: Yu };
 function mt(t, e = []) {
-  const n = "vfDragEnterCounter", l = t.fs, i = W(l.selectedItems);
-  function r(c, f) {
+  const n = "vfDragEnterCounter", l = t.fs, i = j(l.selectedItems);
+  function a(c, u) {
     if (c.isExternalDrag)
       return;
-    c.preventDefault(), l.getDraggedItem() === f.path || !f || f.type !== "dir" || i.value.some((y) => y.path === f.path || Or(y.path) === f.path) ? c.dataTransfer && (c.dataTransfer.dropEffect = "none", c.dataTransfer.effectAllowed = "none") : (c.dataTransfer && (c.dataTransfer.dropEffect = "copy", c.dataTransfer.effectAllowed = "all"), c.currentTarget.classList.add(...e));
+    c.preventDefault(), l.getDraggedItem() === u.path || !u || u.type !== "dir" || i.value.some((y) => y.path === u.path || Ir(y.path) === u.path) ? c.dataTransfer && (c.dataTransfer.dropEffect = "none", c.dataTransfer.effectAllowed = "none") : (c.dataTransfer && (c.dataTransfer.dropEffect = "copy", c.dataTransfer.effectAllowed = "all"), c.currentTarget.classList.add(...e));
   }
-  function a(c) {
-    if (c.isExternalDrag)
-      return;
-    c.preventDefault();
-    const f = c.currentTarget, p = Number(f.dataset[n] || 0);
-    f.dataset[n] = String(p + 1);
-  }
-  function v(c) {
+  function r(c) {
     if (c.isExternalDrag)
       return;
     c.preventDefault();
-    const f = c.currentTarget, y = Number(f.dataset[n] || 0) - 1;
-    y <= 0 ? (delete f.dataset[n], f.classList.remove(...e)) : f.dataset[n] = String(y);
+    const u = c.currentTarget, h = Number(u.dataset[n] || 0);
+    u.dataset[n] = String(h + 1);
   }
-  function d(c, f) {
-    if (c.isExternalDrag || !f) return;
+  function f(c) {
+    if (c.isExternalDrag)
+      return;
     c.preventDefault();
-    const p = c.currentTarget;
-    delete p.dataset[n], p.classList.remove(...e);
-    const y = c.dataTransfer?.getData("items") || "[]", w = JSON.parse(y).map((g) => l.sortedFiles.get().find((m) => m.path === g));
-    l.clearDraggedItem(), t.modal.open(nt, { items: { from: w, to: f } });
+    const u = c.currentTarget, y = Number(u.dataset[n] || 0) - 1;
+    y <= 0 ? (delete u.dataset[n], u.classList.remove(...e)) : u.dataset[n] = String(y);
+  }
+  function d(c, u) {
+    if (c.isExternalDrag || !u) return;
+    c.preventDefault();
+    const h = c.currentTarget;
+    delete h.dataset[n], h.classList.remove(...e);
+    const y = c.dataTransfer?.getData("items") || "[]", g = JSON.parse(y).map((p) => l.sortedFiles.get().find((m) => m.path === p));
+    l.clearDraggedItem(), t.modal.open(tt, { items: { from: g, to: u } });
   }
   function _(c) {
     return {
-      dragover: (f) => r(f, c),
-      dragenter: a,
-      dragleave: v,
-      drop: (f) => d(f, c)
+      dragover: (u) => a(u, c),
+      dragenter: r,
+      dragleave: f,
+      drop: (u) => d(u, c)
     };
   }
   return { events: _ };
 }
-const tv = { class: "vuefinder__breadcrumb__container" }, nv = ["title"], ov = ["title"], sv = ["title"], lv = ["title"], iv = { class: "vuefinder__breadcrumb__path-container" }, av = { class: "vuefinder__breadcrumb__list" }, rv = {
+const Xu = { class: "vuefinder__breadcrumb__container" }, Ju = ["title"], Zu = ["title"], ev = ["title"], tv = ["title"], nv = { class: "vuefinder__breadcrumb__path-container" }, ov = { class: "vuefinder__breadcrumb__list" }, sv = {
   key: 0,
   class: "vuefinder__breadcrumb__hidden-list"
-}, dv = { class: "relative" }, cv = ["title", "onClick"], uv = ["title"], vv = { class: "vuefinder__breadcrumb__path-mode" }, fv = { class: "vuefinder__breadcrumb__path-mode-content" }, _v = ["title"], mv = { class: "vuefinder__breadcrumb__path-text" }, pv = ["title"], hv = ["data-theme"], gv = ["onClick"], wv = { class: "vuefinder__breadcrumb__hidden-item-content" }, yv = { class: "vuefinder__breadcrumb__hidden-item-text" }, bv = /* @__PURE__ */ X({
+}, lv = { class: "relative" }, iv = ["title", "onClick"], rv = ["title"], av = { class: "vuefinder__breadcrumb__path-mode" }, dv = { class: "vuefinder__breadcrumb__path-mode-content" }, cv = ["title"], uv = { class: "vuefinder__breadcrumb__path-text" }, vv = ["title"], fv = ["data-theme"], _v = ["onClick"], mv = { class: "vuefinder__breadcrumb__hidden-item-content" }, pv = { class: "vuefinder__breadcrumb__hidden-item-text" }, hv = /* @__PURE__ */ Q({
   __name: "Breadcrumb",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = e.config, r = W(i.state), a = W(l.path), v = W(l.loading), d = E(null), _ = Hn(0, 100), c = E(5), f = E(!1), p = E(!1), y = G(() => a.value?.breadcrumb ?? []);
-    function D(Y, S) {
-      return Y.length > S ? [Y.slice(-S), Y.slice(0, -S)] : [Y, []];
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = e.config, a = j(i.state), r = j(l.path), f = j(l.loading), d = E(null), _ = Hn(0, 100), c = E(5), u = E(!1), h = E(!1), y = Y(() => r.value?.breadcrumb ?? []);
+    function F(X, C) {
+      return X.length > C ? [X.slice(-C), X.slice(0, -C)] : [X, []];
     }
-    const w = G(() => D(y.value, c.value)[0]), g = G(() => D(y.value, c.value)[1]);
+    const g = Y(() => F(y.value, c.value)[0]), p = Y(() => F(y.value, c.value)[1]);
     ue(_, () => {
       if (!d.value) return;
-      const Y = d.value.children;
-      let S = 0, x = 0;
-      const F = 5, T = 1;
-      c.value = F, Re(() => {
-        for (let H = Y.length - 1; H >= 0; H--) {
-          const j = Y[H];
-          if (S + j.offsetWidth > _.value - 40)
+      const X = d.value.children;
+      let C = 0, x = 0;
+      const S = 5, A = 1;
+      c.value = S, Re(() => {
+        for (let H = X.length - 1; H >= 0; H--) {
+          const G = X[H];
+          if (C + G.offsetWidth > _.value - 40)
             break;
-          S += parseInt(j.offsetWidth.toString(), 10), x++;
+          C += parseInt(G.offsetWidth.toString(), 10), x++;
         }
-        x < T && (x = T), x > F && (x = F), c.value = x;
+        x < A && (x = A), x > S && (x = S), c.value = x;
       });
     });
     const m = () => {
       d.value && (_.value = d.value.offsetWidth);
     }, $ = E(null);
-    fe(() => {
+    ve(() => {
       $.value = new ResizeObserver(m), d.value && $.value.observe(d.value);
-    }), ke(() => {
+    }), xe(() => {
       $.value && $.value.disconnect();
     });
     const k = mt(e, ["vuefinder__drag-over"]);
-    function C(Y = null) {
-      Y ??= y.value.length - 2;
-      const S = {
-        basename: a.value?.storage ?? "local",
+    function D(X = null) {
+      X ??= y.value.length - 2;
+      const C = {
+        basename: r.value?.storage ?? "local",
         extension: "",
-        path: (a.value?.storage ?? "local") + "://",
-        storage: a.value?.storage ?? "local",
+        path: (r.value?.storage ?? "local") + "://",
+        storage: r.value?.storage ?? "local",
         type: "dir",
         file_size: null,
         last_modified: null,
         mime_type: null,
         visibility: ""
       };
-      return y.value[Y] ?? S;
+      return y.value[X] ?? C;
     }
-    const M = () => {
-      e.adapter.invalidateListQuery(a.value.path), e.adapter.open(a.value.path);
-    }, A = () => {
-      w.value.length > 0 && e.adapter.open(y.value[y.value.length - 2]?.path ?? (a.value?.storage ?? "local") + "://");
-    }, B = (Y) => {
-      e.adapter.open(Y.path), f.value = !1;
+    const L = () => {
+      e.adapter.invalidateListQuery(r.value.path), e.adapter.open(r.value.path);
+    }, M = () => {
+      g.value.length > 0 && e.adapter.open(y.value[y.value.length - 2]?.path ?? (r.value?.storage ?? "local") + "://");
+    }, B = (X) => {
+      e.adapter.open(X.path), u.value = !1;
     }, U = () => {
-      f.value && (f.value = !1);
+      u.value && (u.value = !1);
     }, z = {
-      mounted(Y, S) {
-        Y.clickOutsideEvent = function(x) {
-          Y === x.target || Y.contains(x.target) || S.value();
-        }, document.body.addEventListener("click", Y.clickOutsideEvent);
+      mounted(X, C) {
+        X.clickOutsideEvent = function(x) {
+          X === x.target || X.contains(x.target) || C.value();
+        }, document.body.addEventListener("click", X.clickOutsideEvent);
       },
-      beforeUnmount(Y) {
-        document.body.removeEventListener("click", Y.clickOutsideEvent);
+      beforeUnmount(X) {
+        document.body.removeEventListener("click", X.clickOutsideEvent);
       }
     }, oe = () => {
       i.toggle("showTreeView");
     }, ie = E({
       x: 0,
       y: 0
-    }), he = (Y, S = null) => {
-      if (Y.currentTarget instanceof HTMLElement) {
-        const { x, y: F, height: T } = Y.currentTarget.getBoundingClientRect();
-        ie.value = { x, y: F + T };
+    }), he = (X, C = null) => {
+      if (X.currentTarget instanceof HTMLElement) {
+        const { x, y: S, height: A } = X.currentTarget.getBoundingClientRect();
+        ie.value = { x, y: S + A };
       }
-      f.value = S ?? !f.value;
-    }, ee = () => {
-      p.value = !p.value;
+      u.value = C ?? !u.value;
+    }, Z = () => {
+      h.value = !h.value;
     }, le = async () => {
-      await ut(a.value?.path || ""), e.emitter.emit("vf-toast-push", { label: n("Path copied to clipboard") });
+      await ut(r.value?.path || ""), e.emitter.emit("vf-toast-push", { label: n("Path copied to clipboard") });
     }, _e = () => {
-      p.value = !1;
+      h.value = !1;
     };
-    return (Y, S) => (u(), h("div", tv, [
+    return (X, C) => (v(), w("div", Xu, [
       s("span", {
         title: o(n)("Toggle Tree View")
       }, [
-        R(o(qu), {
+        O(o(Ku), {
           onClick: oe,
-          class: q(["vuefinder__breadcrumb__toggle-tree", o(r).showTreeView ? "vuefinder__breadcrumb__toggle-tree--active" : ""])
+          class: W(["vuefinder__breadcrumb__toggle-tree", o(a).showTreeView ? "vuefinder__breadcrumb__toggle-tree--active" : ""])
         }, null, 8, ["class"])
-      ], 8, nv),
+      ], 8, Ju),
       s("span", {
         title: o(n)("Go up a directory")
       }, [
-        R(o(Lu), Te(We(y.value.length ? o(k).events(C()) : {}), {
-          onClick: A,
+        O(o(Tu), Te(je(y.value.length ? o(k).events(D()) : {}), {
+          onClick: M,
           class: y.value.length ? "vuefinder__breadcrumb__go-up--active" : "vuefinder__breadcrumb__go-up--inactive"
         }), null, 16, ["class"])
-      ], 8, ov),
-      o(l).isLoading() ? (u(), h("span", {
+      ], 8, Zu),
+      o(l).isLoading() ? (v(), w("span", {
         key: 1,
         title: o(n)("Cancel")
       }, [
-        R(o(Bu), {
-          onClick: S[0] || (S[0] = (x) => o(e).emitter.emit("vf-fetch-abort"))
+        O(o(Lu), {
+          onClick: C[0] || (C[0] = (x) => o(e).emitter.emit("vf-fetch-abort"))
         })
-      ], 8, lv)) : (u(), h("span", {
+      ], 8, tv)) : (v(), w("span", {
         key: 0,
         title: o(n)("Refresh")
       }, [
-        R(o(Iu), { onClick: M })
-      ], 8, sv)),
-      me(s("div", iv, [
+        O(o(Eu), { onClick: L })
+      ], 8, ev)),
+      me(s("div", nv, [
         s("div", null, [
-          R(o(Nu), Te({ class: "vuefinder__breadcrumb__home-icon" }, We(o(k).events(C(-1))), {
-            onClick: S[1] || (S[1] = re((x) => o(e).adapter.open(o(a).storage + "://"), ["stop"]))
+          O(o(Pu), Te({ class: "vuefinder__breadcrumb__home-icon" }, je(o(k).events(D(-1))), {
+            onClick: C[1] || (C[1] = ae((x) => o(e).adapter.open(o(r).storage + "://"), ["stop"]))
           }), null, 16)
         ]),
-        s("div", av, [
-          g.value.length ? me((u(), h("div", rv, [
-            S[3] || (S[3] = s("div", { class: "vuefinder__breadcrumb__separator" }, "/", -1)),
-            s("div", dv, [
+        s("div", ov, [
+          p.value.length ? me((v(), w("div", sv, [
+            C[3] || (C[3] = s("div", { class: "vuefinder__breadcrumb__separator" }, "/", -1)),
+            s("div", lv, [
               s("span", {
-                onDragenter: S[2] || (S[2] = (x) => he(x, !0)),
-                onClick: re(he, ["stop"]),
+                onDragenter: C[2] || (C[2] = (x) => he(x, !0)),
+                onClick: ae(he, ["stop"]),
                 class: "vuefinder__breadcrumb__hidden-toggle"
               }, [
-                R(o(oo), { class: "vuefinder__breadcrumb__hidden-toggle-icon" })
+                O(o(so), { class: "vuefinder__breadcrumb__hidden-toggle-icon" })
               ], 32)
             ])
           ])), [
             [z, U]
-          ]) : I("", !0)
+          ]) : T("", !0)
         ]),
         s("div", {
           ref_key: "breadcrumbContainer",
           ref: d,
           class: "vuefinder__breadcrumb__visible-list pointer-events-none"
         }, [
-          (u(!0), h(de, null, ve(w.value, (x, F) => (u(), h("div", { key: F }, [
-            S[4] || (S[4] = s("span", { class: "vuefinder__breadcrumb__separator" }, "/", -1)),
-            s("span", Te(We(o(k).events(x), !0), {
+          (v(!0), w(de, null, fe(g.value, (x, S) => (v(), w("div", { key: S }, [
+            C[4] || (C[4] = s("span", { class: "vuefinder__breadcrumb__separator" }, "/", -1)),
+            s("span", Te(je(o(k).events(x), !0), {
               class: "vuefinder__breadcrumb__item pointer-events-auto",
               title: x.basename,
-              onClick: re((T) => o(e).adapter.open(x.path), ["stop"])
-            }), b(x.name), 17, cv)
+              onClick: ae((A) => o(e).adapter.open(x.path), ["stop"])
+            }), b(x.name), 17, iv)
           ]))), 128))
         ], 512),
-        o(i).get("loadingIndicator") === "circular" && o(v) ? (u(), V(o(Lt), { key: 0 })) : I("", !0),
+        o(i).get("loadingIndicator") === "circular" && o(f) ? (v(), R(o(Rt), { key: 0 })) : T("", !0),
         s("span", {
           title: o(n)("Toggle Path Copy Mode"),
-          onClick: ee
+          onClick: Z
         }, [
-          R(o(ev), { class: "vuefinder__breadcrumb__toggle-icon" })
-        ], 8, uv)
+          O(o(Qu), { class: "vuefinder__breadcrumb__toggle-icon" })
+        ], 8, rv)
       ], 512), [
-        [ze, !p.value]
+        [ze, !h.value]
       ]),
-      me(s("div", vv, [
-        s("div", fv, [
+      me(s("div", av, [
+        s("div", dv, [
           s("div", {
             title: o(n)("Copy Path")
           }, [
-            R(o(Xu), {
+            O(o(Gu), {
               class: "vuefinder__breadcrumb__copy-icon",
               onClick: le
             })
-          ], 8, _v),
-          s("div", mv, b(o(a).path), 1),
+          ], 8, cv),
+          s("div", uv, b(o(r).path), 1),
           s("div", {
             title: o(n)("Exit")
           }, [
-            R(o(Wu), {
+            O(o(Hu), {
               class: "vuefinder__breadcrumb__exit-icon",
               onClick: _e
             })
-          ], 8, pv)
+          ], 8, vv)
         ])
       ], 512), [
-        [ze, p.value]
+        [ze, h.value]
       ]),
-      (u(), V(Et, { to: "body" }, [
+      (v(), R(Et, { to: "body" }, [
         s("div", null, [
           me(s("div", {
             style: He({ position: "absolute", top: ie.value.y + "px", left: ie.value.x + "px" }),
             class: "vuefinder__themer vuefinder__breadcrumb__hidden-dropdown",
             "data-theme": o(e).theme.current
           }, [
-            (u(!0), h(de, null, ve(g.value, (x, F) => (u(), h("div", Te({ key: F }, We(o(k).events(x), !0), {
-              onClick: (T) => B(x),
+            (v(!0), w(de, null, fe(p.value, (x, S) => (v(), w("div", Te({ key: S }, je(o(k).events(x), !0), {
+              onClick: (A) => B(x),
               class: "vuefinder__breadcrumb__hidden-item"
             }), [
-              s("div", wv, [
+              s("div", mv, [
                 s("span", null, [
-                  R(o(Ne), { class: "vuefinder__breadcrumb__hidden-item-icon" })
+                  O(o(Ne), { class: "vuefinder__breadcrumb__hidden-item-icon" })
                 ]),
-                S[5] || (S[5] = J()),
-                s("span", yv, b(x.name), 1)
+                C[5] || (C[5] = ne()),
+                s("span", pv, b(x.name), 1)
               ])
-            ], 16, gv))), 128))
-          ], 12, hv), [
-            [ze, f.value]
+            ], 16, _v))), 128))
+          ], 12, fv), [
+            [ze, u.value]
           ])
         ])
       ]))
     ]));
   }
 });
-function kv(t, e) {
+function gv(t, e) {
   const {
     scrollContainer: n,
     itemWidth: l = 100,
     rowHeight: i,
-    overscan: r = 2,
-    containerPadding: a = 48,
-    lockItemsPerRow: v
-  } = e, d = t, _ = () => typeof i == "number" ? i : i.value, c = E(0), f = E(6), p = E(600);
+    overscan: a = 2,
+    containerPadding: r = 48,
+    lockItemsPerRow: f
+  } = e, d = t, _ = () => typeof i == "number" ? i : i.value, c = E(0), u = E(6), h = E(600);
   let y = null;
-  const D = G(() => Math.ceil(d.value.length / f.value)), w = G(() => D.value * _()), g = G(() => {
-    const z = _(), oe = Math.max(0, Math.floor(c.value / z) - r), ie = Math.min(D.value, Math.ceil((c.value + p.value) / z) + r);
+  const F = Y(() => Math.ceil(d.value.length / u.value)), g = Y(() => F.value * _()), p = Y(() => {
+    const z = _(), oe = Math.max(0, Math.floor(c.value / z) - a), ie = Math.min(F.value, Math.ceil((c.value + h.value) / z) + a);
     return { start: oe, end: ie };
-  }), m = G(() => {
-    const { start: z, end: oe } = g.value;
+  }), m = Y(() => {
+    const { start: z, end: oe } = p.value;
     return Array.from({ length: oe - z }, (ie, he) => z + he);
-  }), $ = () => p.value, k = () => v.value, C = () => {
+  }), $ = () => h.value, k = () => f.value, D = () => {
     if (k()) {
-      f.value = 1;
+      u.value = 1;
       return;
     }
     if (n.value) {
-      const z = n.value.clientWidth - a;
-      f.value = Math.max(Math.floor(z / l), 2);
+      const z = n.value.clientWidth - r;
+      u.value = Math.max(Math.floor(z / l), 2);
     }
-  }, M = (z) => {
+  }, L = (z) => {
     const oe = z.target;
     c.value = oe.scrollTop;
   };
   ue(() => d.value.length, () => {
-    C();
+    D();
   });
-  const A = (z, oe) => {
+  const M = (z, oe) => {
     if (!z || !Array.isArray(z))
       return [];
-    const ie = oe * f.value;
-    return z.slice(ie, ie + f.value);
-  }, B = (z, oe, ie, he, ee) => {
+    const ie = oe * u.value;
+    return z.slice(ie, ie + u.value);
+  }, B = (z, oe, ie, he, Z) => {
     if (!z || !Array.isArray(z))
       return [];
     const le = [];
     for (let _e = oe; _e <= ie; _e++)
-      for (let Y = he; Y <= ee; Y++) {
-        const S = _e * f.value + Y;
-        S < z.length && z[S] && le.push(z[S]);
+      for (let X = he; X <= Z; X++) {
+        const C = _e * u.value + X;
+        C < z.length && z[C] && le.push(z[C]);
       }
     return le;
   }, U = (z) => ({
-    row: Math.floor(z / f.value),
-    col: z % f.value
+    row: Math.floor(z / u.value),
+    col: z % u.value
   });
-  return fe(async () => {
-    await Re(), n.value && (p.value = n.value.clientHeight || 600), C(), window.addEventListener("resize", () => {
-      n.value && (p.value = n.value.clientHeight || 600), C();
+  return ve(async () => {
+    await Re(), n.value && (h.value = n.value.clientHeight || 600), D(), window.addEventListener("resize", () => {
+      n.value && (h.value = n.value.clientHeight || 600), D();
     }), n.value && "ResizeObserver" in window && (y = new ResizeObserver((z) => {
       const oe = z[0];
-      oe && (p.value = Math.round(oe.contentRect.height)), C();
+      oe && (h.value = Math.round(oe.contentRect.height)), D();
     }), y.observe(n.value));
-  }), ke(() => {
-    window.removeEventListener("resize", C), y && (y.disconnect(), y = null);
+  }), xe(() => {
+    window.removeEventListener("resize", D), y && (y.disconnect(), y = null);
   }), {
     scrollTop: c,
-    itemsPerRow: f,
-    totalRows: D,
-    totalHeight: w,
-    visibleRange: g,
+    itemsPerRow: u,
+    totalRows: F,
+    totalHeight: g,
+    visibleRange: p,
     visibleRows: m,
-    updateItemsPerRow: C,
-    handleScroll: M,
-    getRowItems: A,
+    updateItemsPerRow: D,
+    handleScroll: L,
+    getRowItems: M,
     getItemsInRange: B,
     getItemPosition: U,
     getContainerHeight: $
   };
 }
-function xv(t) {
-  const { getItemPosition: e, getItemsInRange: n, getKey: l, selectionObject: i, rowHeight: r, itemWidth: a } = t, v = Math.floor(Math.random() * 2 ** 32).toString(), d = Z("ServiceContainer"), _ = d.fs, c = W(_.selectedKeys), f = W(_.sortedFiles), p = E(/* @__PURE__ */ new Set()), y = E(!1), D = E(!1), w = E(null), g = (S) => S.map((x) => x.getAttribute("data-key")).filter((x) => !!x), m = (S) => {
-    S.selection.getSelection().forEach((x) => {
-      S.selection.deselect(x, !0);
+function wv(t) {
+  const { getItemPosition: e, getItemsInRange: n, getKey: l, selectionObject: i, rowHeight: a, itemWidth: r } = t, f = Math.floor(Math.random() * 2 ** 32).toString(), d = J("ServiceContainer"), _ = d.fs, c = j(_.selectedKeys), u = j(_.sortedFiles), h = E(/* @__PURE__ */ new Set()), y = E(!1), F = E(!1), g = E(null), p = (C) => C.map((x) => x.getAttribute("data-key")).filter((x) => !!x), m = (C) => {
+    C.selection.getSelection().forEach((x) => {
+      C.selection.deselect(x, !0);
     });
-  }, $ = (S) => {
+  }, $ = (C) => {
     c.value && c.value.forEach((x) => {
-      const F = document.querySelector(`[data-key="${x}"]`);
-      F && k(x) && S.selection.select(F, !0);
+      const S = document.querySelector(`[data-key="${x}"]`);
+      S && k(x) && C.selection.select(S, !0);
     });
-  }, k = (S) => {
-    const x = f.value?.find((H) => l(H) === S);
+  }, k = (C) => {
+    const x = u.value?.find((H) => l(H) === C);
     if (!x) return !1;
-    const F = d.selectionFilterType, T = d.selectionFilterMimeIncludes;
-    return F === "files" && x.type === "dir" || F === "dirs" && x.type === "file" ? !1 : T && Array.isArray(T) && T.length > 0 ? x.type === "dir" ? !0 : x.mime_type ? T.some((H) => x.mime_type?.startsWith(H)) : !1 : !0;
-  }, C = (S) => {
-    if (S.size === 0) return null;
-    const F = Array.from(S).map((ce) => {
-      const Be = f.value?.findIndex((Ue) => l(Ue) === ce) ?? -1;
+    const S = d.selectionFilterType, A = d.selectionFilterMimeIncludes;
+    return S === "files" && x.type === "dir" || S === "dirs" && x.type === "file" ? !1 : A && Array.isArray(A) && A.length > 0 ? x.type === "dir" ? !0 : x.mime_type ? A.some((H) => x.mime_type?.startsWith(H)) : !1 : !0;
+  }, D = (C) => {
+    if (C.size === 0) return null;
+    const S = Array.from(C).map((ce) => {
+      const Be = u.value?.findIndex((Ue) => l(Ue) === ce) ?? -1;
       return e(Be >= 0 ? Be : 0);
-    }), T = Math.min(...F.map((ce) => ce.row)), H = Math.max(...F.map((ce) => ce.row)), j = Math.min(...F.map((ce) => ce.col)), pe = Math.max(...F.map((ce) => ce.col));
-    return { minRow: T, maxRow: H, minCol: j, maxCol: pe };
-  }, M = (S) => {
+    }), A = Math.min(...S.map((ce) => ce.row)), H = Math.max(...S.map((ce) => ce.row)), G = Math.min(...S.map((ce) => ce.col)), pe = Math.max(...S.map((ce) => ce.col));
+    return { minRow: A, maxRow: H, minCol: G, maxCol: pe };
+  }, L = (C) => {
     if (d.selectionMode === "single")
       return !1;
-    y.value = !1, !S.event?.metaKey && !S.event?.ctrlKey && (D.value = !0), S.selection.resolveSelectables(), m(S), $(S);
-  }, A = E(0), B = (S) => {
-    const x = S;
+    y.value = !1, !C.event?.metaKey && !C.event?.ctrlKey && (F.value = !0), C.selection.resolveSelectables(), m(C), $(C);
+  }, M = E(0), B = (C) => {
+    const x = C;
     if (x && "touches" in x) {
-      const F = x.touches?.[0];
-      if (F) return { x: F.clientX, y: F.clientY };
+      const S = x.touches?.[0];
+      if (S) return { x: S.clientX, y: S.clientY };
     }
     if (x && "changedTouches" in x) {
-      const F = x.changedTouches?.[0];
-      if (F) return { x: F.clientX, y: F.clientY };
+      const S = x.changedTouches?.[0];
+      if (S) return { x: S.clientX, y: S.clientY };
     }
     if (x && "clientX" in x && "clientY" in x) {
-      const F = x;
-      return { x: F.clientX, y: F.clientY };
+      const S = x;
+      return { x: S.clientX, y: S.clientY };
     }
     return null;
-  }, U = ({ event: S, selection: x }) => {
-    A.value = (i.value?.getAreaLocation().y1 ?? 0) - (d.root.getBoundingClientRect().top ?? 0);
-    const F = document.querySelector(".selection-area-container");
-    if (F && (F.dataset.theme = d.theme.current), d.selectionMode === "single")
+  }, U = ({ event: C, selection: x }) => {
+    M.value = (i.value?.getAreaLocation().y1 ?? 0) - (d.root.getBoundingClientRect().top ?? 0);
+    const S = document.querySelector(".selection-area-container");
+    if (S && (S.dataset.theme = d.theme.current), d.selectionMode === "single")
       return;
-    const T = S;
-    T && "type" in T && T.type === "touchend" && T.preventDefault();
-    const H = S;
-    if (!H?.ctrlKey && !H?.metaKey && (_.clearSelection(), x.clearSelection(!0, !0)), p.value.clear(), i.value) {
-      const j = i.value.getSelectables()[0]?.closest(".scroller-" + v);
-      if (j) {
-        const pe = j.getBoundingClientRect(), ce = B(S);
+    const A = C;
+    A && "type" in A && A.type === "touchend" && A.preventDefault();
+    const H = C;
+    if (!H?.ctrlKey && !H?.metaKey && (_.clearSelection(), x.clearSelection(!0, !0)), h.value.clear(), i.value) {
+      const G = i.value.getSelectables()[0]?.closest(".scroller-" + f);
+      if (G) {
+        const pe = G.getBoundingClientRect(), ce = B(C);
         if (ce) {
-          const Be = ce.y - pe.top + j.scrollTop, Ue = ce.x - pe.left, Ze = Math.floor(Be / r.value), lt = Math.floor(Ue / a);
-          w.value = { row: Ze, col: lt };
+          const Be = ce.y - pe.top + G.scrollTop, Ue = ce.x - pe.left, Ze = Math.floor(Be / a.value), st = Math.floor(Ue / r);
+          g.value = { row: Ze, col: st };
         }
       }
     }
-  }, z = (S) => {
+  }, z = (C) => {
     if (d.selectionMode === "single")
       return;
-    const x = S.selection, F = g(S.store.changed.added), T = g(S.store.changed.removed);
-    D.value = !1, y.value = !0, F.forEach((H) => {
-      c.value && !c.value.has(H) && k(H) && (p.value.add(H), _.select(H, d.selectionMode || "multiple"));
-    }), T.forEach((H) => {
-      document.querySelector(`[data-key="${H}"]`) && f.value?.find((pe) => l(pe) === H) && p.value.delete(H), _.deselect(H);
-    }), x.resolveSelectables(), $(S);
+    const x = C.selection, S = p(C.store.changed.added), A = p(C.store.changed.removed);
+    F.value = !1, y.value = !0, S.forEach((H) => {
+      c.value && !c.value.has(H) && k(H) && (h.value.add(H), _.select(H, d.selectionMode || "multiple"));
+    }), A.forEach((H) => {
+      document.querySelector(`[data-key="${H}"]`) && u.value?.find((pe) => l(pe) === H) && h.value.delete(H), _.deselect(H);
+    }), x.resolveSelectables(), $(C);
   }, oe = () => {
-    p.value.clear();
-  }, ie = (S) => {
-    if (S.event && w.value && p.value.size > 0) {
-      const F = Array.from(p.value).map((T) => {
-        const H = f.value?.findIndex((j) => l(j) === T) ?? -1;
+    h.value.clear();
+  }, ie = (C) => {
+    if (C.event && g.value && h.value.size > 0) {
+      const S = Array.from(h.value).map((A) => {
+        const H = u.value?.findIndex((G) => l(G) === A) ?? -1;
         return H >= 0 ? e(H) : null;
-      }).filter((T) => T !== null);
-      if (F.length > 0) {
-        const T = [...F, w.value], H = {
-          minRow: Math.min(...T.map((j) => j.row)),
-          maxRow: Math.max(...T.map((j) => j.row)),
-          minCol: Math.min(...T.map((j) => j.col)),
-          maxCol: Math.max(...T.map((j) => j.col))
+      }).filter((A) => A !== null);
+      if (S.length > 0) {
+        const A = [...S, g.value], H = {
+          minRow: Math.min(...A.map((G) => G.row)),
+          maxRow: Math.max(...A.map((G) => G.row)),
+          minCol: Math.min(...A.map((G) => G.col)),
+          maxCol: Math.max(...A.map((G) => G.col))
         };
-        n(f.value || [], H.minRow, H.maxRow, H.minCol, H.maxCol).forEach(
-          (j) => {
-            const pe = l(j);
+        n(u.value || [], H.minRow, H.maxRow, H.minCol, H.maxCol).forEach(
+          (G) => {
+            const pe = l(G);
             document.querySelector(`[data-key="${pe}"]`) || _.select(pe, d.selectionMode || "multiple");
           }
         );
       }
     }
-  }, he = (S) => {
-    ie(S), m(S), $(S), _.setSelectedCount(c.value?.size || 0), y.value = !1, w.value = null;
-  }, ee = () => {
-    i.value = new Do({
-      selectables: [".file-item-" + v + ":not(.vf-explorer-item--unselectable)"],
-      boundaries: [".scroller-" + v],
+  }, he = (C) => {
+    ie(C), m(C), $(C), _.setSelectedCount(c.value?.size || 0), y.value = !1, g.value = null;
+  }, Z = () => {
+    i.value = new Eo({
+      selectables: [".file-item-" + f + ":not(.vf-explorer-item--unselectable)"],
+      boundaries: [".scroller-" + f],
       selectionContainerClass: "selection-area-container",
       behaviour: {
         overlap: "invert",
@@ -6388,48 +6386,48 @@ function xv(t) {
           intersect: "native"
         }
       }
-    }), i.value.on("beforestart", M), i.value.on("start", U), i.value.on("move", z), i.value.on("stop", he);
+    }), i.value.on("beforestart", L), i.value.on("start", U), i.value.on("move", z), i.value.on("stop", he);
   }, le = () => {
     i.value && (i.value.destroy(), i.value = null);
   }, _e = () => {
     i.value && (Array.from(c.value ?? /* @__PURE__ */ new Set()).forEach((x) => {
       k(x) || _.deselect(x);
-    }), le(), ee());
-  }, Y = (S) => {
-    D.value && (i.value?.clearSelection(), oe(), D.value = !1);
-    const x = S;
-    !p.value.size && !D.value && !x?.ctrlKey && !x?.metaKey && (_.clearSelection(), i.value?.clearSelection());
+    }), le(), Z());
+  }, X = (C) => {
+    F.value && (i.value?.clearSelection(), oe(), F.value = !1);
+    const x = C;
+    !h.value.size && !F.value && !x?.ctrlKey && !x?.metaKey && (_.clearSelection(), i.value?.clearSelection());
   };
-  return fe(() => {
-    const S = (x) => {
+  return ve(() => {
+    const C = (x) => {
       !x.buttons && y.value && (y.value = !1);
     };
-    document.addEventListener("dragleave", S), ke(() => {
-      document.removeEventListener("dragleave", S);
+    document.addEventListener("dragleave", C), xe(() => {
+      document.removeEventListener("dragleave", C);
     });
   }), {
     isDragging: y,
-    selectionStarted: D,
-    explorerId: v,
-    extractIds: g,
+    selectionStarted: F,
+    explorerId: f,
+    extractIds: p,
     cleanupSelection: m,
     refreshSelection: $,
-    getSelectionRange: C,
+    getSelectionRange: D,
     selectSelectionRange: ie,
-    initializeSelectionArea: ee,
+    initializeSelectionArea: Z,
     destroySelectionArea: le,
     updateSelectionArea: _e,
-    handleContentClick: Y
+    handleContentClick: X
   };
 }
-const $v = {
+const yv = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "currentColor",
   class: "h-5 w-5",
   viewBox: "0 0 20 20"
 };
-function Cv(t, e) {
-  return u(), h("svg", $v, [...e[0] || (e[0] = [
+function bv(t, e) {
+  return v(), w("svg", yv, [...e[0] || (e[0] = [
     s("path", {
       "fill-rule": "evenodd",
       d: "M5.293 7.293a1 1 0 0 1 1.414 0L10 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414",
@@ -6437,14 +6435,14 @@ function Cv(t, e) {
     }, null, -1)
   ])]);
 }
-const Sv = { render: Cv }, Fv = {
+const xv = { render: bv }, kv = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "currentColor",
   class: "h-5 w-5",
   viewBox: "0 0 20 20"
 };
-function Dv(t, e) {
-  return u(), h("svg", Fv, [...e[0] || (e[0] = [
+function $v(t, e) {
+  return v(), w("svg", kv, [...e[0] || (e[0] = [
     s("path", {
       "fill-rule": "evenodd",
       d: "M14.707 12.707a1 1 0 0 1-1.414 0L10 9.414l-3.293 3.293a1 1 0 0 1-1.414-1.414l4-4a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414",
@@ -6452,25 +6450,25 @@ function Dv(t, e) {
     }, null, -1)
   ])]);
 }
-const Ev = { render: Dv }, Gt = /* @__PURE__ */ X({
+const Cv = { render: $v }, Gt = /* @__PURE__ */ Q({
   __name: "SortIcon",
   props: {
     direction: {}
   },
   setup(t) {
-    return (e, n) => (u(), h("div", null, [
-      t.direction === "asc" ? (u(), V(o(Sv), { key: 0 })) : I("", !0),
-      t.direction === "desc" ? (u(), V(o(Ev), { key: 1 })) : I("", !0)
+    return (e, n) => (v(), w("div", null, [
+      t.direction === "asc" ? (v(), R(o(xv), { key: 0 })) : T("", !0),
+      t.direction === "desc" ? (v(), R(o(Cv), { key: 1 })) : T("", !0)
     ]));
   }
-}), Tv = {
+}), Sv = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   stroke: "currentColor",
   viewBox: "0 0 24 24"
 };
-function Av(t, e) {
-  return u(), h("svg", Tv, [...e[0] || (e[0] = [
+function Fv(t, e) {
+  return v(), w("svg", Sv, [...e[0] || (e[0] = [
     s("path", {
       "stroke-linecap": "round",
       "stroke-linejoin": "round",
@@ -6478,22 +6476,22 @@ function Av(t, e) {
     }, null, -1)
   ])]);
 }
-const Mv = { render: Av }, Iv = { class: "vuefinder__drag-item__container" }, Ov = { class: "vuefinder__drag-item__count" }, Rv = /* @__PURE__ */ X({
+const Dv = { render: Fv }, Ev = { class: "vuefinder__drag-item__container" }, Av = { class: "vuefinder__drag-item__count" }, Mv = /* @__PURE__ */ Q({
   __name: "DragItem",
   props: {
     count: {}
   },
   setup(t) {
     const e = t;
-    return (n, l) => (u(), h("div", Iv, [
-      R(o(Mv), { class: "vuefinder__drag-item__icon" }),
-      s("div", Ov, b(e.count), 1)
+    return (n, l) => (v(), w("div", Ev, [
+      O(o(Dv), { class: "vuefinder__drag-item__icon" }),
+      s("div", Av, b(e.count), 1)
     ]));
   }
-}), Lv = {
+}), Tv = {
   key: 2,
   class: "vuefinder__item-icon__extension"
-}, Dn = /* @__PURE__ */ X({
+}, Fn = /* @__PURE__ */ Q({
   __name: "ItemIcon",
   props: {
     item: {},
@@ -6501,33 +6499,33 @@ const Mv = { render: Av }, Iv = { class: "vuefinder__drag-item__container" }, Ov
     small: { type: Boolean }
   },
   setup(t) {
-    const e = t, n = Z("ServiceContainer"), l = W(n.config.state), i = {
+    const e = t, n = J("ServiceContainer"), l = j(n.config.state), i = {
       app: n,
       config: l.value,
       item: e.item
     };
-    return (r, a) => (u(), h("div", {
-      class: q(["vuefinder__item-icon", t.small ? "vuefinder__item-icon--small" : "vuefinder__item-icon--large"])
+    return (a, r) => (v(), w("div", {
+      class: W(["vuefinder__item-icon", t.small ? "vuefinder__item-icon--small" : "vuefinder__item-icon--large"])
     }, [
-      De(r.$slots, "icon", rt(dt(i)), () => [
-        t.item.type === "dir" ? (u(), V(o(Ne), {
+      De(a.$slots, "icon", at(dt(i)), () => [
+        t.item.type === "dir" ? (v(), R(o(Ne), {
           key: 0,
           class: "vuefinder__item-icon__folder"
-        })) : (u(), V(o(wt), {
+        })) : (v(), R(o(wt), {
           key: 1,
           class: "vuefinder__item-icon__file"
         })),
-        t.ext && t.item.type !== "dir" && t.item.extension ? (u(), h("div", Lv, b(t.item.extension.substring(0, 3)), 1)) : I("", !0)
+        t.ext && t.item.type !== "dir" && t.item.extension ? (v(), w("div", Tv, b(t.item.extension.substring(0, 3)), 1)) : T("", !0)
       ])
     ], 2));
   }
-}), Vv = {
+}), Iv = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "currentColor",
   viewBox: "0 0 24 24"
 };
-function Pv(t, e) {
-  return u(), h("svg", Vv, [...e[0] || (e[0] = [
+function Ov(t, e) {
+  return v(), w("svg", Iv, [...e[0] || (e[0] = [
     s("path", {
       fill: "none",
       d: "M0 0h24v24H0z"
@@ -6535,19 +6533,19 @@ function Pv(t, e) {
     s("path", { d: "M12 2a5 5 0 0 1 5 5v3a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3V7a5 5 0 0 1 5-5m0 12a2 2 0 0 0-1.995 1.85L10 16a2 2 0 1 0 2-2m0-10a3 3 0 0 0-3 3v3h6V7a3 3 0 0 0-3-3" }, null, -1)
   ])]);
 }
-const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"], zv = { key: 0 }, Hv = { class: "vuefinder__explorer__item-grid-content" }, Nv = ["data-src", "alt"], Uv = { class: "vuefinder__explorer__item-title" }, Kv = {
+const Dn = { render: Ov }, Lv = ["data-key", "data-row", "data-col", "draggable"], Rv = { key: 0 }, Vv = { class: "vuefinder__explorer__item-grid-content" }, Pv = ["data-src", "alt"], Bv = { class: "vuefinder__explorer__item-title" }, zv = {
   key: 1,
   class: "vuefinder__explorer__item-list-content"
-}, Wv = { class: "vuefinder__explorer__item-list-name" }, jv = { class: "vuefinder__explorer__item-list-icon" }, Gv = { class: "vuefinder__explorer__item-name" }, qv = {
+}, Hv = { class: "vuefinder__explorer__item-list-name" }, Nv = { class: "vuefinder__explorer__item-list-icon" }, Uv = { class: "vuefinder__explorer__item-name" }, Kv = {
   key: 0,
   class: "vuefinder__explorer__item-path"
-}, Yv = {
+}, jv = {
   key: 1,
   class: "vuefinder__explorer__item-size"
-}, Qv = { key: 0 }, Xv = {
+}, Wv = { key: 0 }, Gv = {
   key: 2,
   class: "vuefinder__explorer__item-date"
-}, Jv = /* @__PURE__ */ X({
+}, qv = /* @__PURE__ */ Q({
   __name: "FileItem",
   props: {
     item: {},
@@ -6563,37 +6561,37 @@ const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"
   },
   emits: ["click", "dblclick", "contextmenu", "dragstart", "dragend"],
   setup(t, { emit: e }) {
-    const n = t, l = e, i = Z("ServiceContainer"), r = i.fs, a = i.config, v = G(() => {
+    const n = t, l = e, i = J("ServiceContainer"), a = i.fs, r = i.config, f = Y(() => {
       const $ = i.selectionFilterType;
       return !$ || $ === "both" ? !0 : $ === "files" && n.item.type === "file" || $ === "dirs" && n.item.type === "dir";
-    }), d = G(() => {
+    }), d = Y(() => {
       const $ = i.selectionFilterMimeIncludes;
       return !$ || !$.length || n.item.type === "dir" ? !0 : n.item.mime_type ? $.some((k) => n.item.mime_type?.startsWith(k)) : !1;
-    }), _ = G(() => v.value && d.value), c = G(() => [
+    }), _ = Y(() => f.value && d.value), c = Y(() => [
       "file-item-" + n.explorerId,
       n.view === "grid" ? "vf-explorer-item-grid" : "vf-explorer-item-list",
       n.isSelected ? "vf-explorer-selected" : "",
       _.value ? "" : "vf-explorer-item--unselectable"
-    ]), f = G(() => ({
-      opacity: n.isDragging || r.isCut(n.item.path) || !_.value ? 0.5 : ""
+    ]), u = Y(() => ({
+      opacity: n.isDragging || a.isCut(n.item.path) || !_.value ? 0.5 : ""
     }));
-    let p = null;
+    let h = null;
     const y = E(null);
-    let D = !1;
-    const w = () => {
-      p && clearTimeout(p), g.value = !0;
-    }, g = E(!0), m = ($) => {
-      if (g.value = !1, p && ($.preventDefault(), clearTimeout(p)), !D)
-        D = !0, l("click", $), y.value = setTimeout(() => {
-          D = !1;
+    let F = !1;
+    const g = () => {
+      h && clearTimeout(h), p.value = !0;
+    }, p = E(!0), m = ($) => {
+      if (p.value = !1, h && ($.preventDefault(), clearTimeout(h)), !F)
+        F = !0, l("click", $), y.value = setTimeout(() => {
+          F = !1;
         }, 300);
       else
-        return D = !1, l("dblclick", $), p && clearTimeout(p), !1;
+        return F = !1, l("dblclick", $), h && clearTimeout(h), !1;
       if ($.currentTarget && $.currentTarget instanceof HTMLElement) {
         const k = $.currentTarget.getBoundingClientRect();
-        $.preventDefault(), p = setTimeout(() => {
-          let A = k.y + k.height;
-          A + 146 > window.innerHeight - 10 && (A = k.y - 146), A < 10 && (A = 10);
+        $.preventDefault(), h = setTimeout(() => {
+          let M = k.y + k.height;
+          M + 146 > window.innerHeight - 10 && (M = k.y - 146), M < 10 && (M = 10);
           const B = new MouseEvent("contextmenu", {
             bubbles: !0,
             cancelable: !0,
@@ -6601,88 +6599,88 @@ const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"
             button: 2,
             buttons: 0,
             clientX: k.x,
-            clientY: A
+            clientY: M
           });
           $.target?.dispatchEvent(B);
         }, 300);
       }
     };
-    return ($, k) => (u(), h("div", {
-      class: q(c.value),
-      style: He(f.value),
+    return ($, k) => (v(), w("div", {
+      class: W(c.value),
+      style: He(u.value),
       "data-key": t.item.path,
       "data-row": t.rowIndex,
       "data-col": t.colIndex,
-      draggable: g.value,
-      onTouchstart: k[1] || (k[1] = (C) => m(C)),
-      onTouchend: k[2] || (k[2] = (C) => w()),
-      onClick: k[3] || (k[3] = (C) => l("click", C)),
-      onDblclick: k[4] || (k[4] = (C) => l("dblclick", C)),
-      onContextmenu: k[5] || (k[5] = re((C) => l("contextmenu", C), ["prevent", "stop"])),
-      onDragstart: k[6] || (k[6] = (C) => l("dragstart", C)),
-      onDragend: k[7] || (k[7] = (C) => l("dragend", C))
+      draggable: p.value,
+      onTouchstart: k[1] || (k[1] = (D) => m(D)),
+      onTouchend: k[2] || (k[2] = (D) => g()),
+      onClick: k[3] || (k[3] = (D) => l("click", D)),
+      onDblclick: k[4] || (k[4] = (D) => l("dblclick", D)),
+      onContextmenu: k[5] || (k[5] = ae((D) => l("contextmenu", D), ["prevent", "stop"])),
+      onDragstart: k[6] || (k[6] = (D) => l("dragstart", D)),
+      onDragend: k[7] || (k[7] = (D) => l("dragend", D))
     }, [
-      t.view === "grid" ? (u(), h("div", zv, [
-        o(r).isReadOnly(t.item) ? (u(), V(o(En), {
+      t.view === "grid" ? (v(), w("div", Rv, [
+        o(a).isReadOnly(t.item) ? (v(), R(o(Dn), {
           key: 0,
           class: "vuefinder__item--readonly vuefinder__item--readonly--left",
           title: "Read Only"
-        })) : I("", !0),
-        s("div", Hv, [
-          (t.item.mime_type ?? "").startsWith("image") && t.showThumbnails ? (u(), h("img", {
+        })) : T("", !0),
+        s("div", Vv, [
+          (t.item.mime_type ?? "").startsWith("image") && t.showThumbnails ? (v(), w("img", {
             key: 0,
-            onTouchstart: k[0] || (k[0] = (C) => C.preventDefault()),
+            onTouchstart: k[0] || (k[0] = (D) => D.preventDefault()),
             src: "data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             class: "vuefinder__explorer__item-thumbnail lazy",
             "data-src": o(i).adapter.getPreviewUrl({ path: t.item.path }),
             alt: t.item.basename
-          }, null, 40, Nv)) : (u(), V(Dn, {
+          }, null, 40, Pv)) : (v(), R(Fn, {
             key: 1,
             item: t.item,
             ext: !0
           }, {
-            icon: Q((C) => [
-              De($.$slots, "icon", rt(dt(C)))
+            icon: q((D) => [
+              De($.$slots, "icon", at(dt(D)))
             ]),
             _: 3
           }, 8, ["item"]))
         ]),
-        s("span", Uv, b(o(Xt)(t.item.basename)), 1)
-      ])) : (u(), h("div", Kv, [
-        s("div", Wv, [
-          s("div", jv, [
-            R(Dn, {
+        s("span", Bv, b(o(Xt)(t.item.basename)), 1)
+      ])) : (v(), w("div", zv, [
+        s("div", Hv, [
+          s("div", Nv, [
+            O(Fn, {
               item: t.item,
               small: t.compact
             }, {
-              icon: Q((C) => [
-                De($.$slots, "icon", rt(dt(C)))
+              icon: q((D) => [
+                De($.$slots, "icon", at(dt(D)))
               ]),
               _: 3
             }, 8, ["item", "small"])
           ]),
-          s("span", Gv, b(t.item.basename), 1),
+          s("span", Uv, b(t.item.basename), 1),
           s("div", null, [
-            o(r).isReadOnly(t.item) ? (u(), V(o(En), {
+            o(a).isReadOnly(t.item) ? (v(), R(o(Dn), {
               key: 0,
               class: "vuefinder__item--readonly vuefinder__item--readonly--list",
               title: "Read Only"
-            })) : I("", !0)
+            })) : T("", !0)
           ])
         ]),
-        t.showPath ? (u(), h("div", qv, b(t.item.path), 1)) : I("", !0),
-        t.showPath ? I("", !0) : (u(), h("div", Yv, [
-          t.item.file_size ? (u(), h("div", Qv, b(o(i).filesize(t.item.file_size)), 1)) : I("", !0)
+        t.showPath ? (v(), w("div", Kv, b(t.item.path), 1)) : T("", !0),
+        t.showPath ? T("", !0) : (v(), w("div", jv, [
+          t.item.file_size ? (v(), w("div", Wv, b(o(i).filesize(t.item.file_size)), 1)) : T("", !0)
         ])),
-        !t.showPath && t.item.last_modified ? (u(), h("div", Xv, b(new Date(t.item.last_modified * 1e3).toLocaleString()), 1)) : I("", !0)
+        !t.showPath && t.item.last_modified ? (v(), w("div", Gv, b(new Date(t.item.last_modified * 1e3).toLocaleString()), 1)) : T("", !0)
       ])),
-      o(a).get("pinnedFolders").find((C) => C.path === t.item.path) ? (u(), V(o(tn), {
+      o(r).get("pinnedFolders").find((D) => D.path === t.item.path) ? (v(), R(o(en), {
         key: 2,
         class: "vuefinder__item--pinned"
-      })) : I("", !0)
-    ], 46, Bv));
+      })) : T("", !0)
+    ], 46, Lv));
   }
-}), Zv = ["data-row"], Tn = /* @__PURE__ */ X({
+}), Yv = ["data-row"], En = /* @__PURE__ */ Q({
   __name: "FileRow",
   props: {
     rowIndex: {},
@@ -6700,31 +6698,31 @@ const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"
   },
   emits: ["click", "dblclick", "contextmenu", "dragstart", "dragend"],
   setup(t, { emit: e }) {
-    const n = t, l = e, i = G(() => [
+    const n = t, l = e, i = Y(() => [
       n.view === "grid" ? "vf-explorer-item-grid-row" : "vf-explorer-item-list-row",
       "pointer-events-none"
-    ]), r = G(() => ({
+    ]), a = Y(() => ({
       position: "absolute",
       top: 0,
       left: 0,
       width: "100%",
       height: `${n.rowHeight}px`,
       transform: `translateY(${n.rowIndex * n.rowHeight}px)`
-    })), a = G(() => n.view === "grid" ? {
+    })), r = Y(() => n.view === "grid" ? {
       gridTemplateColumns: `repeat(${n.itemsPerRow || 1}, 1fr)`
     } : {
       gridTemplateColumns: "1fr"
     });
-    return (v, d) => (u(), h("div", {
-      class: q(i.value),
+    return (f, d) => (v(), w("div", {
+      class: W(i.value),
       "data-row": t.rowIndex,
-      style: He(r.value)
+      style: He(a.value)
     }, [
       s("div", {
-        class: q(["grid justify-self-start", { "w-full": t.view === "list" }]),
-        style: He(a.value)
+        class: W(["grid justify-self-start", { "w-full": t.view === "list" }]),
+        style: He(r.value)
       }, [
-        (u(!0), h(de, null, ve(t.items, (_, c) => (u(), V(Jv, Te({
+        (v(!0), w(de, null, fe(t.items, (_, c) => (v(), R(qv, Te({
           key: _.path,
           item: _,
           view: t.view,
@@ -6735,174 +6733,174 @@ const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"
           "is-dragging": t.isDraggingItem(_.path),
           "row-index": t.rowIndex,
           "col-index": c
-        }, We(t.dragNDropEvents(_)), {
-          onClick: d[0] || (d[0] = (f) => l("click", f)),
-          onDblclick: d[1] || (d[1] = (f) => l("dblclick", f)),
-          onContextmenu: d[2] || (d[2] = (f) => l("contextmenu", f)),
-          onDragstart: d[3] || (d[3] = (f) => l("dragstart", f)),
-          onDragend: d[4] || (d[4] = (f) => l("dragend", f)),
+        }, je(t.dragNDropEvents(_)), {
+          onClick: d[0] || (d[0] = (u) => l("click", u)),
+          onDblclick: d[1] || (d[1] = (u) => l("dblclick", u)),
+          onContextmenu: d[2] || (d[2] = (u) => l("contextmenu", u)),
+          onDragstart: d[3] || (d[3] = (u) => l("dragstart", u)),
+          onDragend: d[4] || (d[4] = (u) => l("dragend", u)),
           explorerId: t.explorerId
         }), {
-          icon: Q((f) => [
-            De(v.$slots, "icon", Te({ ref_for: !0 }, f))
+          icon: q((u) => [
+            De(f.$slots, "icon", Te({ ref_for: !0 }, u))
           ]),
           _: 3
         }, 16, ["item", "view", "compact", "show-thumbnails", "show-path", "is-selected", "is-dragging", "row-index", "col-index", "explorerId"]))), 128))
       ], 6)
-    ], 14, Zv));
+    ], 14, Yv));
   }
-}), ef = ["onClick"], tf = /* @__PURE__ */ X({
+}), Qv = ["onClick"], Xv = /* @__PURE__ */ Q({
   __name: "Toast",
   setup(t) {
-    const e = Z("ServiceContainer"), { getStore: n } = e.storage, l = E(n("full-screen", !1)), i = E([]), r = (d) => d === "error" ? "text-red-400 border-red-400 dark:text-red-300 dark:border-red-300" : "text-lime-600 border-lime-600 dark:text-lime-300 dark:border-lime-1300", a = (d) => {
+    const e = J("ServiceContainer"), { getStore: n } = e.storage, l = E(n("full-screen", !1)), i = E([]), a = (d) => d === "error" ? "text-red-400 border-red-400 dark:text-red-300 dark:border-red-300" : "text-lime-600 border-lime-600 dark:text-lime-300 dark:border-lime-1300", r = (d) => {
       i.value.splice(d, 1);
-    }, v = (d) => {
+    }, f = (d) => {
       let _ = i.value.findIndex((c) => c.id === d);
-      _ !== -1 && a(_);
+      _ !== -1 && r(_);
     };
     return e.emitter.on("vf-toast-clear", () => {
       i.value = [];
     }), e.emitter.on("vf-toast-push", (d) => {
       let _ = (/* @__PURE__ */ new Date()).getTime().toString(36).concat(performance.now().toString(), Math.random().toString()).replace(/\./g, "");
       d.id = _, i.value.push(d), setTimeout(() => {
-        v(_);
+        f(_);
       }, 5e3);
-    }), (d, _) => (u(), h("div", {
-      class: q(["vuefinder__toast", l.value.value ? "vuefinder__toast--fixed" : "vuefinder__toast--absolute"])
+    }), (d, _) => (v(), w("div", {
+      class: W(["vuefinder__toast", l.value.value ? "vuefinder__toast--fixed" : "vuefinder__toast--absolute"])
     }, [
-      R(go, {
+      O(wo, {
         name: "vuefinder__toast-item",
         "enter-active-class": "vuefinder__toast-item--enter-active",
         "leave-active-class": "vuefinder__toast-item--leave-active",
         "leave-to-class": "vuefinder__toast-item--leave-to"
       }, {
-        default: Q(() => [
-          (u(!0), h(de, null, ve(i.value, (c, f) => (u(), h("div", {
-            key: f,
-            onClick: (p) => a(f),
-            class: q(["vuefinder__toast__message", r(c.type)])
-          }, b(c.label), 11, ef))), 128))
+        default: q(() => [
+          (v(!0), w(de, null, fe(i.value, (c, u) => (v(), w("div", {
+            key: u,
+            onClick: (h) => r(u),
+            class: W(["vuefinder__toast__message", a(c.type)])
+          }, b(c.label), 11, Qv))), 128))
         ]),
         _: 1
       })
     ], 2));
   }
-}), nf = { class: "vuefinder__explorer__container" }, of = {
+}), Jv = { class: "vuefinder__explorer__container" }, Zv = {
   ref: "customScrollBar",
   class: "vuefinder__explorer__scrollbar"
-}, sf = {
+}, ef = {
   key: 0,
   class: "vuefinder__explorer__header"
-}, lf = {
+}, tf = {
   key: 0,
   class: "vuefinder__linear-loader"
-}, af = /* @__PURE__ */ X({
+}, nf = /* @__PURE__ */ Q({
   __name: "Explorer",
   props: {
     onFileDclick: { type: Function },
     onFolderDclick: { type: Function }
   },
   setup(t) {
-    const e = t, n = Z("ServiceContainer"), l = mt(n, ["vuefinder__drag-over"]), i = Ke("dragImage"), r = An(null), a = Ke("scrollContainer"), v = Ke("scrollContent"), d = n.fs, _ = n.config, c = W(_.state), f = W(d.sort), p = W(d.sortedFiles), y = W(d.selectedKeys), D = W(d.loading), w = (P) => y.value?.has(P) ?? !1;
-    let g = null;
-    const m = E(null), $ = Ke("customScrollBar"), k = Ke("customScrollBarContainer"), C = G(() => {
-      const P = c.value.view, te = c.value.compactListView;
-      return P === "grid" ? 88 : te ? 24 : 50;
-    }), { t: M } = n.i18n, {
-      itemsPerRow: A,
+    const e = t, n = J("ServiceContainer"), l = mt(n, ["vuefinder__drag-over"]), i = Ke("dragImage"), a = An(null), r = Ke("scrollContainer"), f = Ke("scrollContent"), d = n.fs, _ = n.config, c = j(_.state), u = j(d.sort), h = j(d.sortedFiles), y = j(d.selectedKeys), F = j(d.loading), g = (P) => y.value?.has(P) ?? !1;
+    let p = null;
+    const m = E(null), $ = Ke("customScrollBar"), k = Ke("customScrollBarContainer"), D = Y(() => {
+      const P = c.value.view, ee = c.value.compactListView;
+      return P === "grid" ? 88 : ee ? 24 : 50;
+    }), { t: L } = n.i18n, {
+      itemsPerRow: M,
       totalHeight: B,
       visibleRows: U,
       handleScroll: z,
       getRowItems: oe,
       getItemsInRange: ie,
       getItemPosition: he,
-      updateItemsPerRow: ee
-    } = kv(
-      G(() => p.value ?? []),
+      updateItemsPerRow: Z
+    } = gv(
+      Y(() => h.value ?? []),
       {
-        scrollContainer: a,
+        scrollContainer: r,
         itemWidth: 104,
-        rowHeight: C,
+        rowHeight: D,
         overscan: 2,
         containerPadding: 0,
-        lockItemsPerRow: G(() => c.value.view === "list")
+        lockItemsPerRow: Y(() => c.value.view === "list")
       }
     ), {
       explorerId: le,
       isDragging: _e,
-      initializeSelectionArea: Y,
-      destroySelectionArea: S,
+      initializeSelectionArea: X,
+      destroySelectionArea: C,
       updateSelectionArea: x,
-      handleContentClick: F
-    } = xv({
+      handleContentClick: S
+    } = wv({
       getItemPosition: he,
       getItemsInRange: ie,
       getKey: (P) => P.path,
-      selectionObject: r,
-      rowHeight: C,
+      selectionObject: a,
+      rowHeight: D,
       itemWidth: 104
-    }), T = E(null), H = (P) => {
-      if (!P || !T.value) return !1;
-      const te = y.value?.has(T.value) ?? !1;
-      return _e.value && (te ? y.value?.has(P) ?? !1 : P === T.value);
+    }), A = E(null), H = (P) => {
+      if (!P || !A.value) return !1;
+      const ee = y.value?.has(A.value) ?? !1;
+      return _e.value && (ee ? y.value?.has(P) ?? !1 : P === A.value);
     };
     ue(() => _.get("view"), (P) => {
-      P === "list" ? A.value = 1 : ee();
-    }, { immediate: !0 }), ue(A, (P) => {
-      _.get("view") === "list" && P !== 1 && (A.value = 1);
+      P === "list" ? M.value = 1 : Z();
+    }, { immediate: !0 }), ue(M, (P) => {
+      _.get("view") === "list" && P !== 1 && (M.value = 1);
     });
-    const j = (P) => p.value?.[P];
-    fe(() => {
-      if (Y(), r.value && r.value.on("beforestart", ({ event: P }) => {
-        const te = P?.target === v.value;
-        if (!P?.metaKey && !P?.ctrlKey && !P?.altKey && !te)
+    const G = (P) => h.value?.[P];
+    ve(() => {
+      if (X(), a.value && a.value.on("beforestart", ({ event: P }) => {
+        const ee = P?.target === f.value;
+        if (!P?.metaKey && !P?.ctrlKey && !P?.altKey && !ee)
           return !1;
-      }), a.value && (g = new Rn({
+      }), r.value && (p = new On({
         elements_selector: ".lazy",
-        container: a.value
+        container: r.value
       })), ue(() => [n.selectionFilterType, n.selectionFilterMimeIncludes], () => {
         x();
       }, { deep: !0 }), k.value) {
-        const P = Tt(k.value, {
+        const P = At(k.value, {
           scrollbars: { theme: "vf-scrollbars-theme" }
         }, {
-          initialized: (te) => {
-            m.value = te;
+          initialized: (ee) => {
+            m.value = ee;
           },
-          scroll: (te) => {
-            const { scrollOffsetElement: se } = te.elements();
-            a.value && a.value.scrollTo({ top: se.scrollTop, left: 0 });
+          scroll: (ee) => {
+            const { scrollOffsetElement: se } = ee.elements();
+            r.value && r.value.scrollTo({ top: se.scrollTop, left: 0 });
           }
         });
         m.value = P;
       }
-      a.value && a.value.addEventListener("scroll", () => {
+      r.value && r.value.addEventListener("scroll", () => {
         const P = m.value;
         if (!P) return;
-        const { scrollOffsetElement: te } = P.elements();
-        te.scrollTo({ top: a.value.scrollTop, left: 0 });
+        const { scrollOffsetElement: ee } = P.elements();
+        ee.scrollTo({ top: r.value.scrollTop, left: 0 });
       });
-    }), fe(() => {
+    }), ve(() => {
       n.emitter.on("vf-refresh-thumbnails", () => {
-        g && g.update();
+        p && p.update();
       });
-    }), wo(() => {
-      if (g && g.update(), m.value && $.value && a.value) {
-        const te = a.value.scrollHeight > a.value.clientHeight, se = $.value;
-        se.style.display = te ? "block" : "none", se.style.height = `${B.value}px`;
+    }), yo(() => {
+      if (p && p.update(), m.value && $.value && r.value) {
+        const ee = r.value.scrollHeight > r.value.clientHeight, se = $.value;
+        se.style.display = ee ? "block" : "none", se.style.height = `${B.value}px`;
       }
-    }), ke(() => {
-      S(), g && (g.destroy(), g = null), m.value && (m.value.destroy(), m.value = null);
+    }), xe(() => {
+      C(), p && (p.destroy(), p = null), m.value && (m.value.destroy(), m.value = null);
     });
     const pe = (P) => {
-      const te = P.target?.closest(".file-item-" + le), se = P;
-      if (te) {
-        const ae = String(te.getAttribute("data-key")), O = p.value?.find(($e) => $e.path === ae), L = n.selectionFilterType, N = n.selectionFilterMimeIncludes, K = !L || L === "both" || L === "files" && O?.type === "file" || L === "dirs" && O?.type === "dir";
+      const ee = P.target?.closest(".file-item-" + le), se = P;
+      if (ee) {
+        const re = String(ee.getAttribute("data-key")), I = h.value?.find(($e) => $e.path === re), V = n.selectionFilterType, N = n.selectionFilterMimeIncludes, K = !V || V === "both" || V === "files" && I?.type === "file" || V === "dirs" && I?.type === "dir";
         let ge = !0;
-        if (N && Array.isArray(N) && N.length > 0 && (O?.type === "dir" ? ge = !0 : O?.mime_type ? ge = N.some(($e) => (O?.mime_type).startsWith($e)) : ge = !1), !K || !ge)
+        if (N && Array.isArray(N) && N.length > 0 && (I?.type === "dir" ? ge = !0 : I?.mime_type ? ge = N.some(($e) => (I?.mime_type).startsWith($e)) : ge = !1), !K || !ge)
           return;
-        const xe = n.selectionMode || "multiple";
-        !se?.ctrlKey && !se?.metaKey && (P.type !== "touchstart" || !d.isSelected(ae)) && (d.clearSelection(), r.value?.clearSelection(!0, !0)), r.value?.resolveSelectables(), P.type === "touchstart" && d.isSelected(ae) ? d.select(ae, xe) : d.toggleSelect(ae, xe);
+        const ke = n.selectionMode || "multiple";
+        !se?.ctrlKey && !se?.metaKey && (P.type !== "touchstart" || !d.isSelected(re)) && (d.clearSelection(), a.value?.clearSelection(!0, !0)), a.value?.resolveSelectables(), P.type === "touchstart" && d.isSelected(re) ? d.select(re, ke) : d.toggleSelect(re, ke);
       }
       d.setSelectedCount(y.value?.size || 0);
     }, ce = (P) => {
@@ -6914,104 +6912,105 @@ const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"
         n.emitter.emit("vf-folder-dclick", P);
         return;
       }
-      const te = n.contextMenuItems.find((se) => se.show(n, {
+      const ee = n.contextMenuItems?.find((se) => se.show(n, {
         items: [P],
-        target: P
+        target: P,
+        searchQuery: ""
       }));
-      te && te.action(n, [P]);
+      ee && ee.action(n, [P]);
     }, Be = (P) => {
-      const te = P.target?.closest(".file-item-" + le), se = te ? String(te.getAttribute("data-key")) : null;
+      const ee = P.target?.closest(".file-item-" + le), se = ee ? String(ee.getAttribute("data-key")) : null;
       if (!se) return;
-      const ae = p.value?.find((ge) => ge.path === se), O = n.selectionFilterType, L = n.selectionFilterMimeIncludes, N = !O || O === "both" || O === "files" && ae?.type === "file" || O === "dirs" && ae?.type === "dir";
+      const re = h.value?.find((ge) => ge.path === se), I = n.selectionFilterType, V = n.selectionFilterMimeIncludes, N = !I || I === "both" || I === "files" && re?.type === "file" || I === "dirs" && re?.type === "dir";
       let K = !0;
-      L && Array.isArray(L) && L.length > 0 && (ae?.type === "dir" ? K = !0 : ae?.mime_type ? K = L.some((ge) => (ae?.mime_type).startsWith(ge)) : K = !1), !(!N || !K) && ae && ce(ae);
+      V && Array.isArray(V) && V.length > 0 && (re?.type === "dir" ? K = !0 : re?.mime_type ? K = V.some((ge) => (re?.mime_type).startsWith(ge)) : K = !1), !(!N || !K) && re && ce(re);
     }, Ue = () => {
       const P = y.value;
-      return p.value?.filter((te) => P?.has(te.path)) || [];
+      return h.value?.filter((ee) => P?.has(ee.path)) || [];
     }, Ze = (P) => {
       P.preventDefault();
-      const te = P.target?.closest(".file-item-" + le);
-      if (te) {
-        const se = String(te.getAttribute("data-key")), ae = p.value?.find((ge) => ge.path === se), O = n.selectionFilterType, L = n.selectionFilterMimeIncludes, N = !O || O === "both" || O === "files" && ae?.type === "file" || O === "dirs" && ae?.type === "dir";
+      const ee = P.target?.closest(".file-item-" + le);
+      if (ee) {
+        const se = String(ee.getAttribute("data-key")), re = h.value?.find((ge) => ge.path === se), I = n.selectionFilterType, V = n.selectionFilterMimeIncludes, N = !I || I === "both" || I === "files" && re?.type === "file" || I === "dirs" && re?.type === "dir";
         let K = !0;
-        if (L && Array.isArray(L) && L.length > 0 && (ae?.type === "dir" ? K = !0 : ae?.mime_type ? K = L.some((ge) => (ae?.mime_type).startsWith(ge)) : K = !1), !N || !K)
+        if (V && Array.isArray(V) && V.length > 0 && (re?.type === "dir" ? K = !0 : re?.mime_type ? K = V.some((ge) => (re?.mime_type).startsWith(ge)) : K = !1), !N || !K)
           return;
-        y.value?.has(se) || (d.clearSelection(), d.select(se)), n.emitter.emit("vf-contextmenu-show", { event: P, items: Ue(), target: ae });
+        y.value?.has(se) || (d.clearSelection(), d.select(se)), n.emitter.emit("vf-contextmenu-show", { event: P, items: Ue(), target: re });
       }
-    }, lt = (P) => {
+    }, st = (P) => {
       P.preventDefault(), n.emitter.emit("vf-contextmenu-show", { event: P, items: Ue() });
     }, pt = (P) => {
       if (P.altKey || P.ctrlKey || P.metaKey)
         return P.preventDefault(), !1;
       _e.value = !0;
-      const te = P.target?.closest(".file-item-" + le);
-      if (T.value = te ? String(te.dataset.key) : null, P.dataTransfer && T.value) {
+      const ee = P.target?.closest(".file-item-" + le);
+      if (A.value = ee ? String(ee.dataset.key) : null, P.dataTransfer && A.value) {
         P.dataTransfer.setDragImage(i.value, 0, 15), P.dataTransfer.effectAllowed = "all", P.dataTransfer.dropEffect = "copy";
-        const se = y.value?.has(T.value) ? Array.from(y.value) : [T.value];
-        P.dataTransfer.setData("items", JSON.stringify(se)), d.setDraggedItem(T.value);
+        const se = y.value?.has(A.value) ? Array.from(y.value) : [A.value];
+        P.dataTransfer.setData("items", JSON.stringify(se)), d.setDraggedItem(A.value);
       }
     }, ht = () => {
-      T.value = null;
+      A.value = null;
     };
-    return (P, te) => (u(), h("div", nf, [
+    return (P, ee) => (v(), w("div", Jv, [
       s("div", {
         ref: "customScrollBarContainer",
-        class: q(["vuefinder__explorer__scrollbar-container", [{ "grid-view": o(c).view === "grid" }]])
+        class: W(["vuefinder__explorer__scrollbar-container", [{ "grid-view": o(c).view === "grid" }]])
       }, [
-        s("div", of, null, 512)
+        s("div", Zv, null, 512)
       ], 2),
-      o(c).view === "list" ? (u(), h("div", sf, [
+      o(c).view === "list" ? (v(), w("div", ef, [
         s("div", {
-          onClick: te[0] || (te[0] = (se) => o(d).toggleSort("basename")),
+          onClick: ee[0] || (ee[0] = (se) => o(d).toggleSort("basename")),
           class: "vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button"
         }, [
-          J(b(o(M)("Name")) + " ", 1),
-          me(R(Gt, {
-            direction: o(f).order
+          ne(b(o(L)("Name")) + " ", 1),
+          me(O(Gt, {
+            direction: o(u).order
           }, null, 8, ["direction"]), [
-            [ze, o(f).active && o(f).column === "basename"]
+            [ze, o(u).active && o(u).column === "basename"]
           ])
         ]),
         s("div", {
-          onClick: te[1] || (te[1] = (se) => o(d).toggleSort("file_size")),
+          onClick: ee[1] || (ee[1] = (se) => o(d).toggleSort("file_size")),
           class: "vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button"
         }, [
-          J(b(o(M)("Size")) + " ", 1),
-          me(R(Gt, {
-            direction: o(f).order
+          ne(b(o(L)("Size")) + " ", 1),
+          me(O(Gt, {
+            direction: o(u).order
           }, null, 8, ["direction"]), [
-            [ze, o(f).active && o(f).column === "file_size"]
+            [ze, o(u).active && o(u).column === "file_size"]
           ])
         ]),
         s("div", {
-          onClick: te[2] || (te[2] = (se) => o(d).toggleSort("last_modified")),
+          onClick: ee[2] || (ee[2] = (se) => o(d).toggleSort("last_modified")),
           class: "vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button"
         }, [
-          J(b(o(M)("Date")) + " ", 1),
-          me(R(Gt, {
-            direction: o(f).order
+          ne(b(o(L)("Date")) + " ", 1),
+          me(O(Gt, {
+            direction: o(u).order
           }, null, 8, ["direction"]), [
-            [ze, o(f).active && o(f).column === "last_modified"]
+            [ze, o(u).active && o(u).column === "last_modified"]
           ])
         ])
-      ])) : I("", !0),
+      ])) : T("", !0),
       s("div", {
         ref_key: "scrollContainer",
-        ref: a,
-        class: q(["vuefinder__explorer__selector-area", "scroller-" + o(le)]),
-        onScroll: te[4] || (te[4] = //@ts-ignore
+        ref: r,
+        class: W(["vuefinder__explorer__selector-area", "scroller-" + o(le)]),
+        onScroll: ee[4] || (ee[4] = //@ts-ignore
         (...se) => o(z) && o(z)(...se))
       }, [
-        o(_).get("loadingIndicator") === "linear" && o(D) ? (u(), h("div", lf)) : I("", !0),
+        o(_).get("loadingIndicator") === "linear" && o(F) ? (v(), w("div", tf)) : T("", !0),
         s("div", {
           ref_key: "scrollContent",
-          ref: v,
+          ref: f,
           class: "scrollContent min-h-full",
           style: He({ height: `${o(B)}px`, position: "relative", width: "100%" }),
-          onContextmenu: re(lt, ["self", "prevent"]),
-          onClick: te[3] || (te[3] = re(
+          onContextmenu: ae(st, ["self", "prevent"]),
+          onClick: ee[3] || (ee[3] = ae(
             //@ts-ignore
-            (...se) => o(F) && o(F)(...se),
+            (...se) => o(S) && o(S)(...se),
             ["self"]
           ))
         }, [
@@ -7020,21 +7019,21 @@ const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"
             ref: i,
             class: "vuefinder__explorer__drag-item"
           }, [
-            R(Rv, {
-              count: T.value && o(y).has(T.value) ? o(y).size : 1
+            O(Mv, {
+              count: A.value && o(y).has(A.value) ? o(y).size : 1
             }, null, 8, ["count"])
           ], 512),
-          o(c).view === "grid" ? (u(!0), h(de, { key: 0 }, ve(o(U), (se) => (u(), V(Tn, {
+          o(c).view === "grid" ? (v(!0), w(de, { key: 0 }, fe(o(U), (se) => (v(), R(En, {
             key: se,
             "row-index": se,
-            "row-height": C.value,
+            "row-height": D.value,
             view: "grid",
-            "items-per-row": o(A),
-            items: o(oe)(o(p), se),
+            "items-per-row": o(M),
+            items: o(oe)(o(h), se),
             "show-thumbnails": o(c).showThumbnails,
             "is-dragging-item": H,
-            "is-selected": w,
-            "drag-n-drop-events": (ae) => o(l).events(ae),
+            "is-selected": g,
+            "drag-n-drop-events": (re) => o(l).events(re),
             explorerId: o(le),
             onClick: pe,
             onDblclick: Be,
@@ -7042,20 +7041,20 @@ const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"
             onDragstart: pt,
             onDragend: ht
           }, {
-            icon: Q((ae) => [
-              De(P.$slots, "icon", Te({ ref_for: !0 }, ae))
+            icon: q((re) => [
+              De(P.$slots, "icon", Te({ ref_for: !0 }, re))
             ]),
             _: 3
-          }, 8, ["row-index", "row-height", "items-per-row", "items", "show-thumbnails", "drag-n-drop-events", "explorerId"]))), 128)) : (u(!0), h(de, { key: 1 }, ve(o(U), (se) => (u(), V(Tn, {
+          }, 8, ["row-index", "row-height", "items-per-row", "items", "show-thumbnails", "drag-n-drop-events", "explorerId"]))), 128)) : (v(!0), w(de, { key: 1 }, fe(o(U), (se) => (v(), R(En, {
             key: se,
             "row-index": se,
-            "row-height": C.value,
+            "row-height": D.value,
             view: "list",
-            items: j(se) ? [j(se)] : [],
+            items: G(se) ? [G(se)] : [],
             compact: o(c).compactListView,
             "is-dragging-item": H,
-            "is-selected": w,
-            "drag-n-drop-events": (ae) => o(l).events(ae),
+            "is-selected": g,
+            "drag-n-drop-events": (re) => o(l).events(re),
             explorerId: o(le),
             onClick: pe,
             onDblclick: Be,
@@ -7063,20 +7062,20 @@ const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"
             onDragstart: pt,
             onDragend: ht
           }, {
-            icon: Q((ae) => [
-              De(P.$slots, "icon", Te({ ref_for: !0 }, ae))
+            icon: q((re) => [
+              De(P.$slots, "icon", Te({ ref_for: !0 }, re))
             ]),
             _: 3
           }, 8, ["row-index", "row-height", "items", "compact", "drag-n-drop-events", "explorerId"]))), 128))
         ], 36)
       ], 34),
-      R(tf)
+      O(Xv)
     ]));
   }
-}), rf = ["href", "download"], df = ["onClick"], cf = /* @__PURE__ */ X({
+}), of = ["href", "download"], sf = ["onClick"], lf = /* @__PURE__ */ Q({
   __name: "ContextMenu",
   setup(t) {
-    const e = Z("ServiceContainer"), n = E(null), l = E([]), i = Dt({
+    const e = J("ServiceContainer"), n = E(null), l = E([]), i = Dt({
       active: !1,
       items: [],
       positions: {
@@ -7087,142 +7086,119 @@ const En = { render: Pv }, Bv = ["data-key", "data-row", "data-col", "draggable"
     e.emitter.on("vf-context-selected", (d) => {
       l.value = d;
     });
-    const r = (d) => d.link(e, l.value), a = (d) => {
+    const a = (d) => d.link(e, l.value), r = (d) => {
       e.emitter.emit("vf-contextmenu-hide"), d.action(e, l.value);
     };
     e.emitter.on("vf-contextmenu-show", ({ event: d, items: _, target: c = null }) => {
-      i.items = e.contextMenuItems.filter((f) => f.show(e, {
+      i.items = e.contextMenuItems.filter((u) => u.show(e, {
         items: _,
         target: c
-      })), c ? _.length > 1 && _.some((f) => f.path === c.path) ? e.emitter.emit("vf-context-selected", _) : e.emitter.emit("vf-context-selected", [c]) : e.emitter.emit("vf-context-selected", []), v(d);
+      })), c ? _.length > 1 && _.some((u) => u.path === c.path) ? e.emitter.emit("vf-context-selected", _) : e.emitter.emit("vf-context-selected", [c]) : e.emitter.emit("vf-context-selected", []), f(d);
     }), e.emitter.on("vf-contextmenu-hide", () => {
       i.active = !1;
     });
-    const v = (d) => {
-      const _ = e.root, c = e.root.getBoundingClientRect(), f = _.getBoundingClientRect();
-      let p = d.clientX - c.left, y = d.clientY - c.top;
+    const f = (d) => {
+      const _ = e.root, c = e.root.getBoundingClientRect(), u = _.getBoundingClientRect();
+      let h = d.clientX - c.left, y = d.clientY - c.top;
       i.active = !0, Re(() => {
-        const D = n.value?.getBoundingClientRect();
-        let w = D?.height ?? 0, g = D?.width ?? 0;
-        p = f.right - d.pageX + window.scrollX < g ? p - g : p, y = f.bottom - d.pageY + window.scrollY < w ? y - w : y, i.positions = {
-          left: String(p) + "px",
+        const F = n.value?.getBoundingClientRect();
+        let g = F?.height ?? 0, p = F?.width ?? 0;
+        h = u.right - d.pageX + window.scrollX < p ? h - p : h, y = u.bottom - d.pageY + window.scrollY < g ? y - g : y, i.positions = {
+          left: String(h) + "px",
           top: String(y) + "px"
         };
       });
     };
-    return (d, _) => me((u(), h("ul", {
+    return (d, _) => me((v(), w("ul", {
       ref_key: "contextmenu",
       ref: n,
-      class: q([{
+      class: W([{
         "vuefinder__context-menu--active": i.active,
         "vuefinder__context-menu--inactive": !i.active
       }, "vuefinder__context-menu"]),
       style: He(i.positions)
     }, [
-      (u(!0), h(de, null, ve(i.items, (c) => (u(), h("li", {
+      (v(!0), w(de, null, fe(i.items, (c) => (v(), w("li", {
         class: "vuefinder__context-menu__item",
         key: c.title
       }, [
-        c.link ? (u(), h("a", {
+        c.link ? (v(), w("a", {
           key: 0,
           class: "vuefinder__context-menu__link",
           target: "_blank",
-          href: r(c),
-          download: r(c),
-          onClick: _[0] || (_[0] = (f) => o(e).emitter.emit("vf-contextmenu-hide"))
+          href: a(c),
+          download: a(c),
+          onClick: _[0] || (_[0] = (u) => o(e).emitter.emit("vf-contextmenu-hide"))
         }, [
           s("span", null, b(c.title(o(e).i18n)), 1)
-        ], 8, rf)) : (u(), h("div", {
+        ], 8, of)) : (v(), w("div", {
           key: 1,
           class: "vuefinder__context-menu__action",
-          onClick: (f) => a(c)
+          onClick: (u) => r(c)
         }, [
           s("span", null, b(c.title(o(e).i18n)), 1)
-        ], 8, df))
+        ], 8, sf))
       ]))), 128))
     ], 6)), [
       [ze, i.active]
     ]);
   }
-}), uf = {
-  xmlns: "http://www.w3.org/2000/svg",
-  fill: "none",
-  stroke: "currentColor",
-  "stroke-width": "2",
-  viewBox: "0 0 24 24"
-};
-function vf(t, e) {
-  return u(), h("svg", uf, [...e[0] || (e[0] = [
-    s("path", {
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      d: "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0"
-    }, null, -1)
-  ])]);
-}
-const ff = { render: vf }, _f = { class: "vuefinder__status-bar__wrapper" }, mf = { class: "vuefinder__status-bar__storage" }, pf = ["title"], hf = { class: "vuefinder__status-bar__storage-icon" }, gf = ["value"], wf = ["value"], yf = { class: "vuefinder__status-bar__info space-x-2" }, bf = { key: 0 }, kf = { key: 1 }, xf = {
+}), rf = { class: "vuefinder__status-bar__wrapper" }, af = { class: "vuefinder__status-bar__storage" }, df = ["title"], cf = { class: "vuefinder__status-bar__storage-icon" }, uf = ["value"], vf = ["value"], ff = { class: "vuefinder__status-bar__info space-x-2" }, _f = { key: 0 }, mf = { key: 1 }, pf = {
   key: 0,
   class: "vuefinder__status-bar__size"
-}, $f = { class: "vuefinder__status-bar__actions" }, Cf = ["title"], Sf = /* @__PURE__ */ X({
+}, hf = { class: "vuefinder__status-bar__actions" }, gf = /* @__PURE__ */ Q({
   __name: "Statusbar",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = W(l.sortedFiles), r = W(l.path), a = W(l.selectedCount), v = W(l.storages), d = W(l.selectedItems), _ = W(l.path), c = (p) => {
-      const y = p.target.value;
+    const e = J("ServiceContainer"), { t: n } = e.i18n, l = e.fs, i = j(l.sortedFiles), a = j(l.path), r = j(l.selectedCount), f = j(l.storages), d = j(l.selectedItems), _ = j(l.path), c = (h) => {
+      const y = h.target.value;
       e.adapter.open(y + "://");
-    }, f = G(() => !d.value || d.value.length === 0 ? 0 : d.value.reduce((p, y) => p + (y.file_size || 0), 0));
-    return (p, y) => (u(), h("div", _f, [
-      s("div", mf, [
+    }, u = Y(() => !d.value || d.value.length === 0 ? 0 : d.value.reduce((h, y) => h + (y.file_size || 0), 0));
+    return (h, y) => (v(), w("div", rf, [
+      s("div", af, [
         s("div", {
           class: "vuefinder__status-bar__storage-container",
           title: o(n)("Storage")
         }, [
-          s("div", hf, [
-            R(o(nn))
+          s("div", cf, [
+            O(o(tn))
           ]),
           s("select", {
             name: "vuefinder-media-selector",
-            value: o(r)?.storage,
+            value: o(a)?.storage,
             onChange: c,
             class: "vuefinder__status-bar__storage-select",
             tabindex: "-1"
           }, [
-            (u(!0), h(de, null, ve(o(v), (D) => (u(), h("option", {
-              value: D,
-              key: D
-            }, b(D), 9, wf))), 128))
-          ], 40, gf)
-        ], 8, pf),
-        s("div", yf, [
-          o(a) === 0 ? (u(), h("span", bf, b(o(i).length) + " " + b(o(n)("items")), 1)) : (u(), h("span", kf, [
-            J(b(o(a)) + " " + b(o(n)("selected")) + " ", 1),
-            f.value ? (u(), h("span", xf, b(o(e).filesize(f.value)), 1)) : I("", !0)
+            (v(!0), w(de, null, fe(o(f), (F) => (v(), w("option", {
+              value: F,
+              key: F
+            }, b(F), 9, vf))), 128))
+          ], 40, uf)
+        ], 8, df),
+        s("div", ff, [
+          o(r) === 0 ? (v(), w("span", _f, b(o(i).length) + " " + b(o(n)("items")), 1)) : (v(), w("span", mf, [
+            ne(b(o(r)) + " " + b(o(n)("selected")) + " ", 1),
+            u.value ? (v(), w("span", pf, b(o(e).filesize(u.value)), 1)) : T("", !0)
           ]))
         ])
       ]),
-      s("div", $f, [
-        De(p.$slots, "actions", {
+      s("div", hf, [
+        De(h.$slots, "actions", {
           path: o(_).path,
-          count: o(a) || 0,
+          count: o(r) || 0,
           selected: o(d) || []
-        }),
-        s("span", {
-          class: "vuefinder__status-bar__about",
-          title: o(n)("About"),
-          onClick: y[0] || (y[0] = (D) => o(e).modal.open(en))
-        }, [
-          R(o(ff), { class: "h-5 w-5 stroke-slate-500 cursor-pointer" })
-        ], 8, Cf)
+        })
       ])
     ]));
   }
-}), Ff = {
+}), wf = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "currentColor",
   class: "h-5 w-5",
   viewBox: "0 0 24 24"
 };
-function Df(t, e) {
-  return u(), h("svg", Ff, [...e[0] || (e[0] = [
+function yf(t, e) {
+  return v(), w("svg", wf, [...e[0] || (e[0] = [
     s("path", {
       fill: "none",
       d: "M0 0h24v24H0z"
@@ -7230,17 +7206,17 @@ function Df(t, e) {
     s("path", { d: "M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m3.6 5.2a1 1 0 0 0-1.4.2L12 10.333 9.8 7.4a1 1 0 1 0-1.6 1.2l2.55 3.4-2.55 3.4a1 1 0 1 0 1.6 1.2l2.2-2.933 2.2 2.933a1 1 0 0 0 1.6-1.2L13.25 12l2.55-3.4a1 1 0 0 0-.2-1.4" }, null, -1)
   ])]);
 }
-const Ef = { render: Df };
-function uo(t, e) {
+const bf = { render: yf };
+function vo(t, e) {
   const n = t.findIndex((l) => l.path === e.path);
   n > -1 ? t[n] = e : t.push(e);
 }
-const Tf = { class: "vuefinder__folder-loader-indicator" }, Af = {
+const xf = { class: "vuefinder__folder-loader-indicator" }, kf = {
   key: 1,
   class: "vuefinder__folder-loader-indicator--icon"
-}, vo = /* @__PURE__ */ X({
+}, fo = /* @__PURE__ */ Q({
   __name: "FolderLoaderIndicator",
-  props: /* @__PURE__ */ yo({
+  props: /* @__PURE__ */ bo({
     storage: {},
     path: {}
   }, {
@@ -7249,102 +7225,102 @@ const Tf = { class: "vuefinder__folder-loader-indicator" }, Af = {
   }),
   emits: ["update:modelValue"],
   setup(t) {
-    const e = t, n = Z("ServiceContainer"), l = On(t, "modelValue"), i = E(!1);
-    ue(() => l.value, () => r());
-    const r = async () => {
+    const e = t, n = J("ServiceContainer"), l = In(t, "modelValue"), i = E(!1);
+    ue(() => l.value, () => a());
+    const a = async () => {
       i.value = !0;
       try {
-        const v = (await n.adapter.list(e.path)).files.filter((d) => d.type === "dir");
-        uo(n.treeViewData, { path: e.path, type: "dir", folders: v });
-      } catch (a) {
-        console.error("Failed to fetch subfolders:", a);
+        const f = (await n.adapter.list(e.path)).files.filter((d) => d.type === "dir");
+        vo(n.treeViewData, { path: e.path, type: "dir", folders: f });
+      } catch (r) {
+        console.error("Failed to fetch subfolders:", r);
       } finally {
         i.value = !1;
       }
     };
-    return (a, v) => (u(), h("div", Tf, [
-      i.value ? (u(), V(o(Lt), {
+    return (r, f) => (v(), w("div", xf, [
+      i.value ? (v(), R(o(Rt), {
         key: 0,
         class: "vuefinder__folder-loader-indicator--loading"
-      })) : (u(), h("div", Af, [
-        l.value ? (u(), V(o(Rt), {
+      })) : (v(), w("div", kf, [
+        l.value ? (v(), R(o(Lt), {
           key: 0,
           class: "vuefinder__folder-loader-indicator--minus"
-        })) : I("", !0),
-        l.value ? I("", !0) : (u(), V(o(Ot), {
+        })) : T("", !0),
+        l.value ? T("", !0) : (v(), R(o(Ot), {
           key: 1,
           class: "vuefinder__folder-loader-indicator--plus"
         }))
       ]))
     ]));
   }
-}), Mf = { key: 0 }, If = { class: "vuefinder__treesubfolderlist__no-folders" }, Of = ["onClick"], Rf = ["title", "onDblclick", "onClick"], Lf = { class: "vuefinder__treesubfolderlist__item-icon" }, Vf = { class: "vuefinder__treesubfolderlist__subfolder" }, Pf = /* @__PURE__ */ X({
+}), $f = { key: 0 }, Cf = { class: "vuefinder__treesubfolderlist__no-folders" }, Sf = ["onClick"], Ff = ["title", "onDblclick", "onClick"], Df = { class: "vuefinder__treesubfolderlist__item-icon" }, Ef = { class: "vuefinder__treesubfolderlist__subfolder" }, Af = /* @__PURE__ */ Q({
   __name: "TreeSubfolderList",
   props: {
     storage: {},
     path: {}
   },
   setup(t) {
-    const e = Z("ServiceContainer"), n = e.fs, l = mt(e, ["vuefinder__drag-over"]), i = E({}), { t: r } = e.i18n, a = W(n.path), v = t, d = E(null);
-    fe(() => {
-      v.path === v.storage + "://" && d.value && Tt(d.value, {
+    const e = J("ServiceContainer"), n = e.fs, l = mt(e, ["vuefinder__drag-over"]), i = E({}), { t: a } = e.i18n, r = j(n.path), f = t, d = E(null);
+    ve(() => {
+      f.path === f.storage + "://" && d.value && At(d.value, {
         scrollbars: {
           theme: "vf-scrollbars-theme"
         }
       });
     });
-    const _ = G(() => e.treeViewData.find((c) => c.path === v.path)?.folders || []);
-    return (c, f) => {
-      const p = In("TreeSubfolderList", !0);
-      return u(), h("ul", {
+    const _ = Y(() => e.treeViewData.find((c) => c.path === f.path)?.folders || []);
+    return (c, u) => {
+      const h = Tn("TreeSubfolderList", !0);
+      return v(), w("ul", {
         ref_key: "parentSubfolderList",
         ref: d,
         class: "vuefinder__treesubfolderlist__container"
       }, [
-        _.value.length ? I("", !0) : (u(), h("li", Mf, [
-          s("div", If, b(o(r)("No folders")), 1)
+        _.value.length ? T("", !0) : (v(), w("li", $f, [
+          s("div", Cf, b(o(a)("No folders")), 1)
         ])),
-        (u(!0), h(de, null, ve(_.value, (y) => (u(), h("li", {
+        (v(!0), w(de, null, fe(_.value, (y) => (v(), w("li", {
           key: y.path,
           class: "vuefinder__treesubfolderlist__item"
         }, [
-          s("div", Te(We(o(l).events({ ...y, type: "dir" }), !0), { class: "vuefinder__treesubfolderlist__item-content" }), [
+          s("div", Te(je(o(l).events({ ...y, type: "dir" }), !0), { class: "vuefinder__treesubfolderlist__item-content" }), [
             s("div", {
               class: "vuefinder__treesubfolderlist__item-toggle",
-              onClick: (D) => i.value[y.path] = !i.value[y.path]
+              onClick: (F) => i.value[y.path] = !i.value[y.path]
             }, [
-              R(vo, {
+              O(fo, {
                 storage: t.storage,
                 path: y.path,
                 modelValue: i.value[y.path],
-                "onUpdate:modelValue": (D) => i.value[y.path] = D
+                "onUpdate:modelValue": (F) => i.value[y.path] = F
               }, null, 8, ["storage", "path", "modelValue", "onUpdate:modelValue"])
-            ], 8, Of),
+            ], 8, Sf),
             s("div", {
               class: "vuefinder__treesubfolderlist__item-link",
               title: y.path,
-              onDblclick: (D) => i.value[y.path] = !i.value[y.path],
-              onClick: (D) => o(e).adapter.open(y.path)
+              onDblclick: (F) => i.value[y.path] = !i.value[y.path],
+              onClick: (F) => o(e).adapter.open(y.path)
             }, [
-              s("div", Lf, [
-                o(a)?.path === y.path ? (u(), V(o(on), {
+              s("div", Df, [
+                o(r)?.path === y.path ? (v(), R(o(nn), {
                   key: 0,
                   class: "vuefinder__item-icon__folder--open"
-                })) : (u(), V(o(Ne), {
+                })) : (v(), R(o(Ne), {
                   key: 1,
                   class: "vuefinder__item-icon__folder"
                 }))
               ]),
               s("div", {
-                class: q(["vuefinder__treesubfolderlist__item-text", {
-                  "vuefinder__treesubfolderlist__item-text--active": o(a)?.path === y.path
+                class: W(["vuefinder__treesubfolderlist__item-text", {
+                  "vuefinder__treesubfolderlist__item-text--active": o(r)?.path === y.path
                 }])
               }, b(y.basename), 3)
-            ], 40, Rf)
+            ], 40, Ff)
           ], 16),
-          s("div", Vf, [
-            me(R(p, {
-              storage: v.storage,
+          s("div", Ef, [
+            me(O(h, {
+              storage: f.storage,
               path: y.path
             }, null, 8, ["storage", "path"]), [
               [ze, i.value[y.path]]
@@ -7354,13 +7330,13 @@ const Tf = { class: "vuefinder__folder-loader-indicator" }, Af = {
       ], 512);
     };
   }
-}), Bf = /* @__PURE__ */ X({
+}), Mf = /* @__PURE__ */ Q({
   __name: "TreeStorageItem",
   props: {
     storage: {}
   },
   setup(t) {
-    const e = Z("ServiceContainer"), n = e.fs, l = E(!1), i = t, r = mt(e, ["vuefinder__drag-over"]), a = W(n.path), v = G(() => i.storage === a.value?.storage), d = {
+    const e = J("ServiceContainer"), n = e.fs, l = E(!1), i = t, a = mt(e, ["vuefinder__drag-over"]), r = j(n.path), f = Y(() => i.storage === r.value?.storage), d = {
       storage: i.storage,
       path: i.storage + "://",
       type: "dir",
@@ -7372,36 +7348,36 @@ const Tf = { class: "vuefinder__folder-loader-indicator" }, Af = {
       visibility: "public"
     };
     function _(c) {
-      c === a.value?.storage ? l.value = !l.value : e.adapter.open(c + "://");
+      c === r.value?.storage ? l.value = !l.value : e.adapter.open(c + "://");
     }
-    return (c, f) => (u(), h(de, null, [
+    return (c, u) => (v(), w(de, null, [
       s("div", {
-        onClick: f[2] || (f[2] = (p) => _(t.storage)),
+        onClick: u[2] || (u[2] = (h) => _(t.storage)),
         class: "vuefinder__treestorageitem__header"
       }, [
-        s("div", Te(We(o(r).events(d), !0), {
-          class: ["vuefinder__treestorageitem__info", v.value ? "vuefinder__treestorageitem__info--active" : ""]
+        s("div", Te(je(o(a).events(d), !0), {
+          class: ["vuefinder__treestorageitem__info", f.value ? "vuefinder__treestorageitem__info--active" : ""]
         }), [
           s("div", {
-            class: q(["vuefinder__treestorageitem__icon", v.value ? "vuefinder__treestorageitem__icon--active" : ""])
+            class: W(["vuefinder__treestorageitem__icon", f.value ? "vuefinder__treestorageitem__icon--active" : ""])
           }, [
-            R(o(nn))
+            O(o(tn))
           ], 2),
           s("div", null, b(t.storage), 1)
         ], 16),
         s("div", {
           class: "vuefinder__treestorageitem__loader",
-          onClick: f[1] || (f[1] = re((p) => l.value = !l.value, ["stop"]))
+          onClick: u[1] || (u[1] = ae((h) => l.value = !l.value, ["stop"]))
         }, [
-          R(vo, {
+          O(fo, {
             storage: t.storage,
             path: t.storage + "://",
             modelValue: l.value,
-            "onUpdate:modelValue": f[0] || (f[0] = (p) => l.value = p)
+            "onUpdate:modelValue": u[0] || (u[0] = (h) => l.value = h)
           }, null, 8, ["storage", "path", "modelValue"])
         ])
       ]),
-      me(R(Pf, {
+      me(O(Af, {
         storage: t.storage,
         path: t.storage + "://",
         class: "vuefinder__treestorageitem__subfolder"
@@ -7410,7 +7386,7 @@ const Tf = { class: "vuefinder__folder-loader-indicator" }, Af = {
       ])
     ], 64));
   }
-}), zf = { class: "vuefinder__folder-indicator" }, Hf = { class: "vuefinder__folder-indicator--icon" }, Nf = /* @__PURE__ */ X({
+}), Tf = { class: "vuefinder__folder-indicator" }, If = { class: "vuefinder__folder-indicator--icon" }, Of = /* @__PURE__ */ Q({
   __name: "FolderIndicator",
   props: {
     modelValue: {},
@@ -7418,45 +7394,45 @@ const Tf = { class: "vuefinder__folder-loader-indicator" }, Af = {
   },
   emits: ["update:modelValue"],
   setup(t) {
-    const e = On(t, "modelValue");
-    return (n, l) => (u(), h("div", zf, [
-      s("div", Hf, [
-        e.value ? (u(), V(o(Rt), {
+    const e = In(t, "modelValue");
+    return (n, l) => (v(), w("div", Tf, [
+      s("div", If, [
+        e.value ? (v(), R(o(Lt), {
           key: 0,
           class: "vuefinder__folder-indicator--minus"
-        })) : I("", !0),
-        e.value ? I("", !0) : (u(), V(o(Ot), {
+        })) : T("", !0),
+        e.value ? T("", !0) : (v(), R(o(Ot), {
           key: 1,
           class: "vuefinder__folder-indicator--plus"
         }))
       ])
     ]));
   }
-}), Uf = { class: "vuefinder__treeview__header" }, Kf = { class: "vuefinder__treeview__pinned-label" }, Wf = { class: "vuefinder__treeview__pin-text text-nowrap" }, jf = {
+}), Lf = { class: "vuefinder__treeview__header" }, Rf = { class: "vuefinder__treeview__pinned-label" }, Vf = { class: "vuefinder__treeview__pin-text text-nowrap" }, Pf = {
   key: 0,
   class: "vuefinder__treeview__pinned-list"
-}, Gf = ["onClick"], qf = ["title"], Yf = ["onClick"], Qf = { key: 0 }, Xf = { class: "vuefinder__treeview__no-pinned" }, Jf = /* @__PURE__ */ X({
+}, Bf = ["onClick"], zf = ["title"], Hf = ["onClick"], Nf = { key: 0 }, Uf = { class: "vuefinder__treeview__no-pinned" }, Kf = /* @__PURE__ */ Q({
   __name: "TreeView",
   setup(t) {
-    const e = Z("ServiceContainer"), { t: n } = e.i18n, { getStore: l, setStore: i } = e.storage, r = e.fs, a = e.config, v = W(a.state), d = W(r.sortedFiles), _ = W(r.storages), c = W(r.path), f = mt(e, ["vuefinder__drag-over"]), p = E(190), y = E(l("pinned-folders-opened", !0));
+    const e = J("ServiceContainer"), { t: n } = e.i18n, { getStore: l, setStore: i } = e.storage, a = e.fs, r = e.config, f = j(r.state), d = j(a.sortedFiles), _ = j(a.storages), c = j(a.path), u = mt(e, ["vuefinder__drag-over"]), h = E(190), y = E(l("pinned-folders-opened", !0));
     ue(y, (m) => i("pinned-folders-opened", m));
-    const D = (m) => {
-      a.set("pinnedFolders", a.get("pinnedFolders").filter(($) => $.path !== m.path));
-    }, w = (m) => {
+    const F = (m) => {
+      r.set("pinnedFolders", r.get("pinnedFolders").filter(($) => $.path !== m.path));
+    }, g = (m) => {
       const $ = m.clientX, k = m.target.parentElement;
       if (!k) return;
-      const C = k.getBoundingClientRect().width;
+      const D = k.getBoundingClientRect().width;
       k.classList.remove("transition-[width]"), k.classList.add("transition-none");
-      const M = (B) => {
-        p.value = C + B.clientX - $, p.value < 50 && (p.value = 0, a.set("showTreeView", !1)), p.value > 50 && a.set("showTreeView", !0);
-      }, A = () => {
+      const L = (B) => {
+        h.value = D + B.clientX - $, h.value < 50 && (h.value = 0, r.set("showTreeView", !1)), h.value > 50 && r.set("showTreeView", !0);
+      }, M = () => {
         const B = k.getBoundingClientRect();
-        p.value = B.width, k.classList.add("transition-[width]"), k.classList.remove("transition-none"), window.removeEventListener("mousemove", M), window.removeEventListener("mouseup", A);
+        h.value = B.width, k.classList.add("transition-[width]"), k.classList.remove("transition-none"), window.removeEventListener("mousemove", L), window.removeEventListener("mouseup", M);
       };
-      window.addEventListener("mousemove", M), window.addEventListener("mouseup", A);
-    }, g = E(null);
-    return fe(() => {
-      g.value && Tt(g.value, {
+      window.addEventListener("mousemove", L), window.addEventListener("mouseup", M);
+    }, p = E(null);
+    return ve(() => {
+      p.value && At(p.value, {
         overflow: {
           x: "hidden"
         },
@@ -7466,7 +7442,7 @@ const Tf = { class: "vuefinder__folder-loader-indicator" }, Af = {
       });
     }), ue(d, (m) => {
       const $ = m.filter((k) => k.type === "dir");
-      uo(e.treeViewData, {
+      vo(e.treeViewData, {
         path: c.value?.path || "",
         folders: $.map((k) => ({
           storage: k.storage,
@@ -7475,79 +7451,79 @@ const Tf = { class: "vuefinder__folder-loader-indicator" }, Af = {
           type: "dir"
         }))
       });
-    }), (m, $) => (u(), h(de, null, [
+    }), (m, $) => (v(), w(de, null, [
       s("div", {
-        onClick: $[0] || ($[0] = (k) => o(a).toggle("showTreeView")),
-        class: q(["vuefinder__treeview__overlay", o(v).showTreeView ? "vuefinder__treeview__backdrop" : "hidden"])
+        onClick: $[0] || ($[0] = (k) => o(r).toggle("showTreeView")),
+        class: W(["vuefinder__treeview__overlay", o(f).showTreeView ? "vuefinder__treeview__backdrop" : "hidden"])
       }, null, 2),
       s("div", {
-        style: He(o(v).showTreeView ? "min-width:100px;max-width:75%; width: " + p.value + "px" : "width: 0"),
+        style: He(o(f).showTreeView ? "min-width:100px;max-width:75%; width: " + h.value + "px" : "width: 0"),
         class: "vuefinder__treeview__container"
       }, [
         s("div", {
           ref_key: "treeViewScrollElement",
-          ref: g,
+          ref: p,
           class: "vuefinder__treeview__scroll"
         }, [
-          s("div", Uf, [
+          s("div", Lf, [
             s("div", {
               onClick: $[2] || ($[2] = (k) => y.value = !y.value),
               class: "vuefinder__treeview__pinned-toggle"
             }, [
-              s("div", Kf, [
-                R(o(tn), { class: "vuefinder__treeview__pin-icon" }),
-                s("div", Wf, b(o(n)("Pinned Folders")), 1)
+              s("div", Rf, [
+                O(o(en), { class: "vuefinder__treeview__pin-icon" }),
+                s("div", Vf, b(o(n)("Pinned Folders")), 1)
               ]),
-              R(Nf, {
+              O(Of, {
                 modelValue: y.value,
                 "onUpdate:modelValue": $[1] || ($[1] = (k) => y.value = k)
               }, null, 8, ["modelValue"])
             ]),
-            y.value ? (u(), h("ul", jf, [
-              (u(!0), h(de, null, ve(o(v).pinnedFolders, (k) => (u(), h("li", {
+            y.value ? (v(), w("ul", Pf, [
+              (v(!0), w(de, null, fe(o(f).pinnedFolders, (k) => (v(), w("li", {
                 key: k.path,
                 class: "vuefinder__treeview__pinned-item"
               }, [
-                s("div", Te(We(o(f).events(k), !0), {
+                s("div", Te(je(o(u).events(k), !0), {
                   class: "vuefinder__treeview__pinned-folder",
-                  onClick: (C) => o(e).adapter.open(k.path)
+                  onClick: (D) => o(e).adapter.open(k.path)
                 }), [
-                  o(c)?.path !== k.path ? (u(), V(o(Ne), {
+                  o(c)?.path !== k.path ? (v(), R(o(Ne), {
                     key: 0,
                     class: "vuefinder__treeview__folder-icon vuefinder__item-icon__folder"
-                  })) : I("", !0),
-                  o(c)?.path === k.path ? (u(), V(o(on), {
+                  })) : T("", !0),
+                  o(c)?.path === k.path ? (v(), R(o(nn), {
                     key: 1,
                     class: "vuefinder__item-icon__folder--open vuefinder__treeview__open-folder-icon"
-                  })) : I("", !0),
+                  })) : T("", !0),
                   s("div", {
                     title: k.path,
-                    class: q(["vuefinder__treeview__folder-name", {
+                    class: W(["vuefinder__treeview__folder-name", {
                       "vuefinder__treeview__folder-name--active": o(c)?.path === k.path
                     }])
-                  }, b(k.basename), 11, qf)
-                ], 16, Gf),
+                  }, b(k.basename), 11, zf)
+                ], 16, Bf),
                 s("div", {
                   class: "vuefinder__treeview__remove-folder",
-                  onClick: (C) => D(k)
+                  onClick: (D) => F(k)
                 }, [
-                  R(o(Ef), { class: "vuefinder__treeview__remove-icon" })
-                ], 8, Yf)
+                  O(o(bf), { class: "vuefinder__treeview__remove-icon" })
+                ], 8, Hf)
               ]))), 128)),
-              o(v).pinnedFolders.length ? I("", !0) : (u(), h("li", Qf, [
-                s("div", Xf, b(o(n)("No folders pinned")), 1)
+              o(f).pinnedFolders.length ? T("", !0) : (v(), w("li", Nf, [
+                s("div", Uf, b(o(n)("No folders pinned")), 1)
               ]))
-            ])) : I("", !0)
+            ])) : T("", !0)
           ]),
-          (u(!0), h(de, null, ve(o(_), (k) => (u(), h("div", {
+          (v(!0), w(de, null, fe(o(_), (k) => (v(), w("div", {
             class: "vuefinder__treeview__storage",
             key: k
           }, [
-            R(Bf, { storage: k }, null, 8, ["storage"])
+            O(Mf, { storage: k }, null, 8, ["storage"])
           ]))), 128))
         ], 512),
         s("div", {
-          onMousedown: w,
+          onMousedown: g,
           class: "vuefinder__treeview__resize-handle"
         }, null, 32)
       ], 4)
@@ -7572,22 +7548,22 @@ const Tf = { class: "vuefinder__folder-loader-indicator" }, Af = {
   copy: "copy",
   paste: "paste"
 };
-function Zf(t) {
+function jf(t) {
   return t.items.length > 1 && t.items.some((e) => e.path === t.target?.path) ? "many" : t.target ? "one" : "none";
 }
 function we(t) {
   const e = Object.assign({
     needsSearchQuery: !1
   }, t);
-  return (n, l) => !(e.needsSearchQuery !== !!l.searchQuery || e.target !== void 0 && e.target !== Zf(l) || e.targetType !== void 0 && e.targetType !== l.target?.type || e.mimeType !== void 0 && e.mimeType !== l.target?.mime_type || e.feature !== void 0 && !n.features.includes(e.feature));
+  return (n, l) => !(e.needsSearchQuery !== !!l.searchQuery || e.target !== void 0 && e.target !== jf(l) || e.targetType !== void 0 && e.targetType !== l.target?.type || e.mimeType !== void 0 && e.mimeType !== l.target?.mime_type || e.feature !== void 0 && !n.features.includes(e.feature));
 }
 function it(...t) {
   return (e, n) => t.some((l) => l(e, n));
 }
-function at(...t) {
+function rt(...t) {
   return (e, n) => t.every((l) => l(e, n));
 }
-const e_ = [
+const Wf = [
   {
     id: be.openDir,
     title: ({ t }) => t("Open containing folder"),
@@ -7617,8 +7593,8 @@ const e_ = [
   {
     id: be.newfolder,
     title: ({ t }) => t("New Folder"),
-    action: (t) => t.modal.open(fn),
-    show: we({ target: "none", feature: ne.NEW_FOLDER })
+    action: (t) => t.modal.open(vn),
+    show: we({ target: "none", feature: te.NEW_FOLDER })
   },
   {
     id: be.open,
@@ -7632,10 +7608,10 @@ const e_ = [
     id: be.pinFolder,
     title: ({ t }) => t("Pin Folder"),
     action: (t, e) => {
-      const n = t.config, l = n.get("pinnedFolders"), i = l.concat(e.filter((r) => l.findIndex((a) => a.path === r.path) === -1));
+      const n = t.config, l = n.get("pinnedFolders"), i = l.concat(e.filter((a) => l.findIndex((r) => r.path === a.path) === -1));
       n.set("pinnedFolders", i);
     },
-    show: at(
+    show: rt(
       we({ target: "one", targetType: "dir" }),
       (t, e) => t.config.get("pinnedFolders").findIndex((i) => i.path === e.target?.path) === -1
     )
@@ -7645,9 +7621,9 @@ const e_ = [
     title: ({ t }) => t("Unpin Folder"),
     action: (t, e) => {
       const n = t.config, l = n.get("pinnedFolders");
-      n.set("pinnedFolders", l.filter((i) => !e.find((r) => r.path === i.path)));
+      n.set("pinnedFolders", l.filter((i) => !e.find((a) => a.path === i.path)));
     },
-    show: at(
+    show: rt(
       we({ target: "one", targetType: "dir" }),
       (t, e) => t.config.get("pinnedFolders").findIndex((i) => i.path === e.target?.path) !== -1
     )
@@ -7656,8 +7632,8 @@ const e_ = [
     id: be.preview,
     title: ({ t }) => t("Preview"),
     action: (t, e) => t.modal.open(It, { storage: e[0]?.storage, item: e[0] }),
-    show: at(
-      we({ target: "one", feature: ne.PREVIEW }),
+    show: rt(
+      we({ target: "one", feature: te.PREVIEW }),
       (t, e) => e.target?.type !== "dir"
     )
   },
@@ -7670,27 +7646,27 @@ const e_ = [
     title: ({ t }) => t("Download"),
     action: () => {
     },
-    show: at(
-      we({ target: "one", feature: ne.DOWNLOAD }),
+    show: rt(
+      we({ target: "one", feature: te.DOWNLOAD }),
       (t, e) => e.target?.type !== "dir"
     )
   },
   {
     id: be.rename,
     title: ({ t }) => t("Rename"),
-    action: (t, e) => t.modal.open(Mt, { items: e }),
-    show: we({ target: "one", feature: ne.RENAME })
+    action: (t, e) => t.modal.open(Tt, { items: e }),
+    show: we({ target: "one", feature: te.RENAME })
   },
   {
     id: be.move,
     title: ({ t }) => t("Move"),
     action: (t, e) => {
       const n = t.fs, l = { storage: n.path.get().storage || "", path: n.path.get().path || "", type: "dir" };
-      t.modal.open(nt, { items: { from: e, to: l } });
+      t.modal.open(tt, { items: { from: e, to: l } });
     },
     show: it(
-      we({ target: "one", feature: ne.MOVE }),
-      we({ target: "many", feature: ne.MOVE })
+      we({ target: "one", feature: te.MOVE }),
+      we({ target: "many", feature: te.MOVE })
     )
   },
   {
@@ -7700,8 +7676,8 @@ const e_ = [
       e.length > 0 && t.fs.setClipboard("copy", new Set(e.map((n) => n.path)));
     },
     show: it(
-      we({ target: "one", feature: ne.COPY }),
-      we({ target: "many", feature: ne.COPY })
+      we({ target: "one", feature: te.COPY }),
+      we({ target: "many", feature: te.COPY })
     )
   },
   {
@@ -7711,11 +7687,11 @@ const e_ = [
       const n = t.fs.getClipboard();
       if (n?.items?.size > 0) {
         const i = t.fs.path.get();
-        let r = i.path, a = i.storage;
-        e.length === 1 && e[0].type === "dir" && (r = e[0].path, a = e[0].storage);
-        const v = { storage: a || "", path: r || "", type: "dir" };
-        t.modal.open(n.type === "cut" ? nt : ln, {
-          items: { from: Array.from(n.items), to: v }
+        let a = i.path, r = i.storage;
+        e.length === 1 && e[0].type === "dir" && (a = e[0].path, r = e[0].storage);
+        const f = { storage: r || "", path: a || "", type: "dir" };
+        t.modal.open(n.type === "cut" ? tt : sn, {
+          items: { from: Array.from(n.items), to: f }
         });
       }
     },
@@ -7724,11 +7700,11 @@ const e_ = [
   {
     id: be.archive,
     title: ({ t }) => t("Archive"),
-    action: (t, e) => t.modal.open(pn, { items: e }),
+    action: (t, e) => t.modal.open(mn, { items: e }),
     show: it(
-      we({ target: "many", feature: ne.ARCHIVE }),
-      at(
-        we({ target: "one", feature: ne.ARCHIVE }),
+      we({ target: "many", feature: te.ARCHIVE }),
+      rt(
+        we({ target: "one", feature: te.ARCHIVE }),
         (t, e) => e.target?.mime_type !== "application/zip"
       )
     )
@@ -7736,24 +7712,24 @@ const e_ = [
   {
     id: be.unarchive,
     title: ({ t }) => t("Unarchive"),
-    action: (t, e) => t.modal.open(mn, { items: e }),
-    show: we({ target: "one", feature: ne.UNARCHIVE, mimeType: "application/zip" })
+    action: (t, e) => t.modal.open(_n, { items: e }),
+    show: we({ target: "one", feature: te.UNARCHIVE, mimeType: "application/zip" })
   },
   {
     id: be.delete,
     title: ({ t }) => t("Delete"),
     action: (t, e) => {
-      t.modal.open(At, { items: e });
+      t.modal.open(Mt, { items: e });
     },
     show: it(
-      we({ feature: ne.DELETE, target: "one" }),
-      we({ feature: ne.DELETE, target: "many" })
+      we({ feature: te.DELETE, target: "one" }),
+      we({ feature: te.DELETE, target: "many" })
     )
   }
-], t_ = ["data-theme"], n_ = {
+], Gf = ["data-theme"], qf = {
   key: 0,
   class: "vuefinder__external-drop-overlay vuefinder__external-drop-overlay--relative"
-}, o_ = { class: "vuefinder__external-drop-message" }, s_ = { class: "vuefinder__main__content" }, l_ = /* @__PURE__ */ X({
+}, Yf = { class: "vuefinder__external-drop-message" }, Qf = { class: "vuefinder__main__content" }, Xf = /* @__PURE__ */ Q({
   __name: "VueFinder",
   props: {
     id: { default: "vf" },
@@ -7763,7 +7739,7 @@ const e_ = [
     debug: { type: Boolean, default: !1 },
     theme: { default: "light" },
     locale: {},
-    contextMenuItems: { default: () => e_ },
+    contextMenuItems: { default: () => Wf },
     selectionMode: { default: "multiple" },
     selectionFilterType: { default: "both" },
     selectionFilterMimeIncludes: { default: () => [] },
@@ -7779,109 +7755,109 @@ const e_ = [
   },
   emits: ["select", "path-change", "upload-complete", "delete-complete", "error", "ready", "file-dclick", "folder-dclick"],
   setup(t, { emit: e }) {
-    const n = e, l = t, i = Ho(l, Z("VueFinderOptions") || {});
-    bo("ServiceContainer", i);
-    const r = i.config, a = i.fs, v = W(r.state);
-    fd(i);
+    const n = e, l = t, i = No(l, J("VueFinderOptions") || {});
+    xo("ServiceContainer", i);
+    const a = i.config, r = i.fs, f = j(a.state);
+    va(i);
     const {
       isDraggingExternal: d,
       handleDragEnter: _,
       handleDragOver: c,
-      handleDragLeave: f,
-      handleDrop: p
-    } = _d();
-    function y(w) {
-      a.setPath(w.dirname), r.get("persist") && r.set("path", w.dirname), a.setReadOnly(w.read_only ?? !1), i.modal.close(), a.setFiles(w.files), a.clearSelection(), a.setSelectedCount(0), a.setStorages(w.storages);
+      handleDragLeave: u,
+      handleDrop: h
+    } = fa();
+    function y(g) {
+      r.setPath(g.dirname), a.get("persist") && a.set("path", g.dirname), r.setReadOnly(g.read_only ?? !1), i.modal.close(), r.setFiles(g.files), r.clearSelection(), r.setSelectedCount(0), r.setStorages(g.storages);
     }
     i.adapter.onBeforeOpen = () => {
-      a.setLoading(!0);
-    }, i.adapter.onAfterOpen = (w) => {
-      y(w), a.setLoading(!1);
-    }, i.emitter.on("vf-upload-complete", (w) => {
-      n("upload-complete", w);
-    }), i.emitter.on("vf-delete-complete", (w) => {
-      n("delete-complete", w);
-    }), i.emitter.on("vf-file-dclick", (w) => {
-      n("file-dclick", w);
-    }), i.emitter.on("vf-folder-dclick", (w) => {
-      n("folder-dclick", w);
-    }), fe(() => {
-      ue(() => r.get("path"), (g) => {
-        i.adapter.open(g);
+      r.setLoading(!0);
+    }, i.adapter.onAfterOpen = (g) => {
+      y(g), r.setLoading(!1);
+    }, i.emitter.on("vf-upload-complete", (g) => {
+      n("upload-complete", g);
+    }), i.emitter.on("vf-delete-complete", (g) => {
+      n("delete-complete", g);
+    }), i.emitter.on("vf-file-dclick", (g) => {
+      n("file-dclick", g);
+    }), i.emitter.on("vf-folder-dclick", (g) => {
+      n("folder-dclick", g);
+    }), ve(() => {
+      ue(() => a.get("path"), (p) => {
+        i.adapter.open(p);
       });
-      const w = r.get("persist") ? r.get("path") : r.get("initialPath") ?? "";
-      a.setPath(w), i.adapter.open(w), a.path.listen((g) => {
-        n("path-change", g.path);
-      }), a.selectedItems.listen((g) => {
-        n("select", g);
+      const g = a.get("persist") ? a.get("path") : a.get("initialPath") ?? "";
+      r.setPath(g), i.adapter.open(g), r.path.listen((p) => {
+        n("path-change", p.path);
+      }), r.selectedItems.listen((p) => {
+        n("select", p);
       }), n("ready");
     });
-    const D = async (w) => {
-      const g = await p(w);
-      g.length > 0 && (i.modal.open(_n), setTimeout(() => {
-        i.emitter.emit("vf-external-files-dropped", g.map((m) => m.file));
+    const F = async (g) => {
+      const p = await h(g);
+      p.length > 0 && (i.modal.open(fn), setTimeout(() => {
+        i.emitter.emit("vf-external-files-dropped", p.map((m) => m.file));
       }, 100));
     };
-    return (w, g) => (u(), h("div", {
+    return (g, p) => (v(), w("div", {
       ref: "root",
       tabindex: "0",
-      class: q(["vuefinder vuefinder__main vuefinder__themer", { "vuefinder--dragging-external": o(d) }]),
+      class: W(["vuefinder vuefinder__main vuefinder__themer", { "vuefinder--dragging-external": o(d) }]),
       "data-theme": o(i).theme.current,
-      onDragenter: g[2] || (g[2] = //@ts-ignore
+      onDragenter: p[2] || (p[2] = //@ts-ignore
       (...m) => o(_) && o(_)(...m)),
-      onDragover: g[3] || (g[3] = //@ts-ignore
+      onDragover: p[3] || (p[3] = //@ts-ignore
       (...m) => o(c) && o(c)(...m)),
-      onDragleave: g[4] || (g[4] = //@ts-ignore
-      (...m) => o(f) && o(f)(...m)),
-      onDrop: D
+      onDragleave: p[4] || (p[4] = //@ts-ignore
+      (...m) => o(u) && o(u)(...m)),
+      onDrop: F
     }, [
       s("div", {
-        class: q(o(v).value && o(v).value.theme || "light"),
+        class: W(o(f).value && o(f).value.theme || "light"),
         style: { height: "100%", width: "100%" }
       }, [
         s("div", {
-          class: q([o(v)?.fullScreen ? "vuefinder__main__fixed" : "vuefinder__main__relative", "vuefinder__main__container"]),
-          onMousedown: g[0] || (g[0] = (m) => o(i).emitter.emit("vf-contextmenu-hide")),
-          onTouchstart: g[1] || (g[1] = (m) => o(i).emitter.emit("vf-contextmenu-hide"))
+          class: W([o(f)?.fullScreen ? "vuefinder__main__fixed" : "vuefinder__main__relative", "vuefinder__main__container"]),
+          onMousedown: p[0] || (p[0] = (m) => o(i).emitter.emit("vf-contextmenu-hide")),
+          onTouchstart: p[1] || (p[1] = (m) => o(i).emitter.emit("vf-contextmenu-hide"))
         }, [
-          o(d) ? (u(), h("div", n_, [
-            s("div", o_, b(o(i).i18n.t("Drag and drop the files/folders to here.")), 1)
-          ])) : I("", !0),
-          R(Dc),
-          R(Tu),
-          R(bv),
-          s("div", s_, [
-            R(Jf),
-            R(af, {
+          o(d) ? (v(), w("div", qf, [
+            s("div", Yf, b(o(i).i18n.t("Drag and drop the files/folders to here.")), 1)
+          ])) : T("", !0),
+          O($c),
+          O(Su),
+          O(hv),
+          s("div", Qf, [
+            O(Kf),
+            O(nf, {
               "on-file-dclick": l.onFileDclick,
               "on-folder-dclick": l.onFolderDclick
             }, {
-              icon: Q((m) => [
-                De(w.$slots, "icon", rt(dt(m)))
+              icon: q((m) => [
+                De(g.$slots, "icon", at(dt(m)))
               ]),
               _: 3
             }, 8, ["on-file-dclick", "on-folder-dclick"])
           ]),
-          R(Sf, null, {
-            actions: Q((m) => [
-              De(w.$slots, "status-bar", rt(dt(m)))
+          O(gf, null, {
+            actions: q((m) => [
+              De(g.$slots, "status-bar", at(dt(m)))
             ]),
             _: 3
           })
         ], 34),
-        (u(), V(Et, { to: "body" }, [
-          R(ko, { name: "fade" }, {
-            default: Q(() => [
-              o(i).modal.visible ? (u(), V(Mn(o(i).modal.type), { key: 0 })) : I("", !0)
+        (v(), R(Et, { to: "body" }, [
+          O(ko, { name: "fade" }, {
+            default: q(() => [
+              o(i).modal.visible ? (v(), R(Mn(o(i).modal.type), { key: 0 })) : T("", !0)
             ]),
             _: 1
           })
         ])),
-        R(cf)
+        O(lf)
       ], 2)
-    ], 42, t_));
+    ], 42, Gf));
   }
-}), h_ = {
+}), d_ = {
   /**
    * @param {import('vue').App} app
    * @param options
@@ -7889,13 +7865,13 @@ const e_ = [
   install(t, e = {}) {
     e.i18n = e.i18n ?? {};
     let [n] = Object.keys(e.i18n);
-    e.locale = e.locale ?? n ?? "en", t.provide("VueFinderOptions", e), t.component("VueFinder", l_);
+    e.locale = e.locale ?? n ?? "en", t.provide("VueFinderOptions", e), t.component("VueFinder", Xf);
   }
 };
 export {
   be as ContextMenuIds,
-  l_ as VueFinder,
-  h_ as VueFinderPlugin,
-  e_ as contextMenuItems,
-  h_ as default
+  Xf as VueFinder,
+  d_ as VueFinderPlugin,
+  Wf as contextMenuItems,
+  d_ as default
 };
