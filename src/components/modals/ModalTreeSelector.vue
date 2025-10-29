@@ -69,24 +69,16 @@ const toggleFolder = (storage: string, folderPath: string) => {
   // Load subfolders if not already loaded and we're expanding
   if (expandedFolders.value[key] && !modalTreeData.value[folderPath]) {
     // Use a custom event that won't affect the main directory
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'index',
-        storage: storage,
-        path: folderPath
-      },
-      dontChangePath: true,
-      onSuccess: (data: { files: DirEntry[] }) => {
-        // Store the data in modalTreeData instead of changing main directory
-        if (data.files) {
-          const folders = data.files.filter((e: DirEntry) => e.type === 'dir');
+    app.adapter.list(folderPath).then(({files}) => {
+      if (files) {
+          const folders = Object.values(files).filter((e: DirEntry) => e.type === 'dir');
           modalTreeData.value[folderPath] = folders.map((item: DirEntry) => ({
             ...item,
             type: 'dir' as const
           }));
         }
-      }
     });
+
   }
 };
 

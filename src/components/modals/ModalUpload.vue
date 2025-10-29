@@ -22,18 +22,18 @@ const showTreeSelector = ref(false);
 // Simple function to split storage and path
 const getTargetParts = () => {
   const path = target.value.path;
-  if (!path) return { storage: 'local', path: '' };
-  
+  if (!path) return {storage: 'local', path: ''};
+
   // For storage roots like "local://", just return the storage name
   if (path.endsWith('://')) {
-    return { storage: path.replace('://', ''), path: '' };
+    return {storage: path.replace('://', ''), path: ''};
   }
-  
+
   // Split storage and path
   const parts = path.split('://');
-  return { 
-    storage: parts[0] || 'local', 
-    path: parts[1] || '' 
+  return {
+    storage: parts[0] || 'local',
+    path: parts[1] || ''
   };
 };
 
@@ -69,7 +69,7 @@ const {
   getClassNameForEntry,
   getIconForEntry,
   addExternalFiles,
-} = useUpload();
+} = useUpload(app.customUploader);
 
 // Override upload function to use target folder
 const upload = () => {
@@ -121,16 +121,17 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
             >
               <div class="vuefinder__upload-modal__target-path">
                 <span class="vuefinder__upload-modal__target-storage">{{ getTargetParts().storage }}://</span>
-                <span v-if="getTargetParts().path" class="vuefinder__upload-modal__target-folder">{{ getTargetParts().path }}</span>
+                <span v-if="getTargetParts().path"
+                      class="vuefinder__upload-modal__target-folder">{{ getTargetParts().path }}</span>
               </div>
               <span class="vuefinder__upload-modal__target-badge">{{ t('Browse') }}</span>
             </div>
           </div>
 
           <!-- Tree selector -->
-          <div 
-            class="vuefinder__upload-modal__tree-selector"
-            :class="showTreeSelector ? 'vuefinder__upload-modal__tree-selector--expanded' : 'vuefinder__upload-modal__tree-selector--collapsed'"
+          <div
+              class="vuefinder__upload-modal__tree-selector"
+              :class="showTreeSelector ? 'vuefinder__upload-modal__tree-selector--expanded' : 'vuefinder__upload-modal__tree-selector--collapsed'"
           >
             <ModalTreeSelector
                 v-model="target"
@@ -187,41 +188,75 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
     <template v-slot:buttons>
       <!-- Mobile group: above Upload -->
       <div class="sm:hidden relative w-full mb-2" ref="actionsMenuMobileRef">
-        <div :class="['vuefinder__upload-actions','vuefinder__upload-actions--block', showActions ? 'vuefinder__upload-actions--ring' : '']">
-          <button type="button" class="vuefinder__upload-actions__main" @click="openFileSelector()">{{ t('Select Files') }}</button>
-          <button type="button" class="vuefinder__upload-actions__trigger" @click.stop="showActions = !showActions" aria-haspopup="menu" :aria-expanded="showActions ? 'true' : 'false'">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" /></svg>
+        <div
+            :class="['vuefinder__upload-actions','vuefinder__upload-actions--block', showActions ? 'vuefinder__upload-actions--ring' : '']">
+          <button type="button" class="vuefinder__upload-actions__main" @click="openFileSelector()">{{
+              t('Select Files')
+            }}
+          </button>
+          <button type="button" class="vuefinder__upload-actions__trigger" @click.stop="showActions = !showActions"
+                  aria-haspopup="menu" :aria-expanded="showActions ? 'true' : 'false'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
           </button>
         </div>
         <div v-if="showActions" class="vuefinder__upload-actions__menu left-0 right-0 absolute bottom-full mb-2">
-          <button type="button" class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">{{ t('Select Files') }}</button>
-          <button type="button" class="vuefinder__upload-actions__item" @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}</button>
+          <button type="button" class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">
+            {{ t('Select Files') }}
+          </button>
+          <button type="button" class="vuefinder__upload-actions__item"
+                  @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}
+          </button>
           <div class="vuefinder__upload-actions__separator"></div>
-          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading" @click="clear(false); showActions=false">{{ t('Clear all') }}</button>
-          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading" @click="clear(true); showActions=false">{{ t('Clear only successful') }}</button>
+          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading"
+                  @click="clear(false); showActions=false">{{ t('Clear all') }}
+          </button>
+          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading"
+                  @click="clear(true); showActions=false">{{ t('Clear only successful') }}
+          </button>
         </div>
       </div>
 
-      <button type="button" class="vf-btn vf-btn-primary" :disabled="uploading || !queue.length" @click.prevent="upload">
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="uploading || !queue.length"
+              @click.prevent="upload">
         {{ t('Upload') }}
       </button>
-      <button type="button" class="vf-btn vf-btn-secondary" v-if="uploading" @click.prevent="cancel">{{ t('Cancel') }}</button>
+      <button type="button" class="vf-btn vf-btn-secondary" v-if="uploading" @click.prevent="cancel">{{
+          t('Cancel')
+        }}
+      </button>
       <button type="button" class="vf-btn vf-btn-secondary" v-else @click.prevent="close">{{ t('Close') }}</button>
 
       <!-- Desktop group: far left (row-reverse makes last child appear leftmost) -->
       <div class="hidden sm:block relative mr-auto" ref="actionsMenuDesktopRef">
         <div class="vuefinder__upload-actions" :class="showActions ? 'vuefinder__upload-actions--ring' : ''">
           <button ref="pickFiles" type="button" class="vuefinder__upload-actions__main">{{ t('Select Files') }}</button>
-          <button type="button" class="vuefinder__upload-actions__trigger" @click.stop="showActions = !showActions" aria-haspopup="menu" :aria-expanded="showActions ? 'true' : 'false'">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" /></svg>
+          <button type="button" class="vuefinder__upload-actions__trigger" @click.stop="showActions = !showActions"
+                  aria-haspopup="menu" :aria-expanded="showActions ? 'true' : 'false'">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd"/>
+            </svg>
           </button>
         </div>
         <div v-if="showActions" class="vuefinder__upload-actions__menu absolute bottom-full mb-2 left-0">
-          <button type="button" class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">{{ t('Select Files') }}</button>
-          <button type="button" class="vuefinder__upload-actions__item" @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}</button>
+          <button type="button" class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">
+            {{ t('Select Files') }}
+          </button>
+          <button type="button" class="vuefinder__upload-actions__item"
+                  @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}
+          </button>
           <div class="vuefinder__upload-actions__separator"></div>
-          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading" @click="clear(false); showActions=false">{{ t('Clear all') }}</button>
-          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading" @click="clear(true); showActions=false">{{ t('Clear only successful') }}</button>
+          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading"
+                  @click="clear(false); showActions=false">{{ t('Clear all') }}
+          </button>
+          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading"
+                  @click="clear(true); showActions=false">{{ t('Clear only successful') }}
+          </button>
         </div>
       </div>
     </template>

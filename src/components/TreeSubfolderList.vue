@@ -61,7 +61,7 @@ const treeSubFolders = computed(() => {
             class="vuefinder__treesubfolderlist__item-link"
             :title="item.path"
             @dblclick="showSubFolders[item.path] = !showSubFolders[item.path]"
-            @click="app.emitter.emit('vf-fetch', {params:{q: 'index', storage: props.storage, path:item.path}})"
+            @click="app.adapter.open(item.path)"
         >
           <div class="vuefinder__treesubfolderlist__item-icon">
             <OpenFolderSVG class="vuefinder__item-icon__folder--open" v-if="currentPath?.path === item.path"/>

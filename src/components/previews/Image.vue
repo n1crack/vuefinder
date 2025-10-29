@@ -15,7 +15,7 @@ const {t} = app.i18n;
 const showEdit = ref(false);
 const message = ref('');
 const isError = ref(false);
-const previewUrl = ref(app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item));
+const previewUrl = ref(app.adapter.getPreviewUrl({ path: app.modal.data.item.path }));
 const tempImageData = ref(previewUrl.value);
 
 const cropperRef = useTemplateRef<{ getResult: (options?: { size?: { width?: number; height?: number }; fillColor?: string }) => { canvas?: HTMLCanvasElement } } | null>('cropperRef');
@@ -29,39 +29,42 @@ const crop = async () => {
   const result = cropperRef.value?.getResult({ size: { width: 795, height: 341 }, fillColor: '#ffffff' });
   const canvas = result?.canvas;
   if (!canvas) return;
-  canvas.toBlob((blob) => {
+  canvas.toBlob(async (blob) => {
     if (!blob) return;
     message.value = '';
     isError.value = false;
-    const body = new FormData();
-    body.set('file', blob);
-    app.requester.send({
-      url: '',
-      method: 'post',
-      params: {
-        q: 'upload',
-        storage: app.modal.data.storage,
-        path: app.modal.data.item.path,
-      },
-      body,
-    })
-        .then(() => {
-          message.value = t('Updated.');
-          fetch(previewUrl.value, {cache: 'reload', mode: 'no-cors'})
-          const image = app.root.querySelector('[data-src="'+previewUrl.value+'"]');
-          if (image) {
-            LazyLoad.resetStatus(image);
-          }
-          app.emitter.emit('vf-refresh-thumbnails');
-          
-          toggleEditMode();
-          emit('success');
-        })
-        .catch((e: unknown) => {
-          const msg = (e as { message?: string })?.message ?? 'Error';
-          message.value = t(msg);
-          isError.value = true;
-        });
+    
+    try {
+      // Convert blob to File
+      const file = new File([blob], app.modal.data.item.basename, { type: 'image/png' });
+      
+      // Extract path from full path
+      const fullPath = app.modal.data.item.path;
+      const pathParts = fullPath.split('/');
+      const filename = pathParts.pop();
+      const path = pathParts.join('/');
+      
+      // Upload using adapter
+      await app.adapter.upload({ 
+        path, 
+        files: [file] 
+      });
+      
+      message.value = t('Updated.');
+      fetch(previewUrl.value, {cache: 'reload', mode: 'no-cors'})
+      const image = app.root.querySelector('[data-src="'+previewUrl.value+'"]');
+      if (image) {
+        LazyLoad.resetStatus(image);
+      }
+      app.emitter.emit('vf-refresh-thumbnails');
+      
+      toggleEditMode();
+      emit('success');
+    } catch (e: unknown) {
+      const msg = (e as { message?: string })?.message ?? 'Error';
+      message.value = t(msg);
+      isError.value = true;
+    }
   });
 };
 
@@ -89,7 +92,7 @@ onMounted(() => {
     </div>
 
     <div class="vuefinder__image-preview__image-container">
-      <img v-if="!showEdit" style="" :src="app.requester.getPreviewUrl(app.modal.data.storage, app.modal.data.item)" 
+      <img v-if="!showEdit" style="" :src="app.adapter.getPreviewUrl({ path: app.modal.data.item.path })" 
         class="vuefinder__image-preview__image w-full h-full" />
 
       <Cropper v-else ref="cropperRef"

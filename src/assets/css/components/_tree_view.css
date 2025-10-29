@@ -110,7 +110,7 @@
 }
 
 .vuefinder__treesubfolderlist__item {
-  @apply flex flex-col space-x-0.5 py-0.5 text-sm;
+  @apply flex flex-col space-x-0.5 text-sm;
 }
 
 .vuefinder__treesubfolderlist__item-content {

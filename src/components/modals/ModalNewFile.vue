@@ -4,6 +4,7 @@ import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import NewFileSVG from "../../assets/icons/new_file.svg";
+import type { FileOperationResult } from '@/adapters';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -16,23 +17,18 @@ const message = ref('');
 
 const createFile = () => {
   if (name.value !== '') {
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'newfile',
-        m: 'post',
-        storage: currentPath.value.storage,
-        path: currentPath.value.path,
-      },
-      body: {
-        name: name.value
-      },
-      onSuccess: () => {
-        app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
-      },
-      onError: (e: any) => {
-        message.value = t(e.message);
-      }
+
+    app.adapter.createFile({
+      path: currentPath.value.path,
+      name: name.value
+    }).then((result) => {
+      app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
+      app.fs.setFiles(result.files);
+      app.modal.close();
+    }).catch((e: any) => {
+      app.emitter.emit('vf-toast-push', {label: t(e.message), type: 'error'});
     });
+
   }
 };
 

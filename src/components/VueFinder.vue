@@ -4,7 +4,7 @@ import {useStore} from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import {useHotkeyActions} from '../composables/useHotkeyActions';
 import {useExternalDragDrop} from '../composables/useExternalDragDrop';
-import {setTheme, getCurrentTheme, initializeTheme, type Theme} from '../utils/theme';
+import {setTheme, type Theme} from '../utils/theme';
 
 import MenuBar from '../components/MenuBar.vue';
 import Toolbar from '../components/Toolbar.vue';
@@ -16,6 +16,7 @@ import TreeView from '../components/TreeView.vue';
 import ModalUpload from '../components/modals/ModalUpload.vue';
 import {menuItems as contextMenuItems} from '../utils/contextmenu';
 import type {VueFinderProps, DirEntry} from '../types';
+import type { FsData } from '../adapters/types';
 
 const emit = defineEmits(['select', 'path-change', 'upload-complete', 'delete-complete', 'error', 'ready', 'file-dclick', 'folder-dclick'])
 
@@ -82,15 +83,32 @@ provide('setTheme', (theme: Theme) => {
     currentTheme.value = theme;
   }
 });
+ 
 
-/** @type {AbortController} */
-let controller: AbortController | null = null;
-app.emitter.on('vf-fetch-abort', () => {
-  if (controller) {
-    controller.abort();
+// Helper function to update state after adapter operation
+function updateState(responseData: FsData) {
+  fs.setPath(responseData.dirname);
+  if (config.get('persist')) {
+    config.set('path', responseData.dirname);
   }
+  fs.setReadOnly(responseData.read_only ?? false);
+  app.modal.close();
+  fs.setFiles(responseData.files);
+  fs.clearSelection();
+  fs.setSelectedCount(0);
+  fs.setStorages(responseData.storages);
+}
+
+// Set the callback on adapter manager to update state
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(app.adapter as any).onBeforeOpen = () => {
+  fs.setLoading(true);
+};
+(app.adapter as any).onAfterOpen = (responseData: FsData) => {
+  updateState(responseData);
   fs.setLoading(false);
-});
+};
+
 
 // Listen for upload-complete event
 app.emitter.on('vf-upload-complete', (files: unknown) => {
@@ -111,111 +129,20 @@ app.emitter.on('vf-folder-dclick', (item: unknown) => {
   emit('folder-dclick', item as DirEntry);
 });
 
-// Fetch data
-app.emitter.on('vf-fetch', (event: unknown) => {
-  const {params, body = null, onSuccess = null, onError = null, dontCloseModal = false, dontChangePath = false} = event as {
-    params: Record<string, unknown>,
-    body?: unknown,
-    onSuccess?: ((data: unknown) => void) | null,
-    onError?: ((error: unknown) => void) | null,
-    dontCloseModal?: boolean
-    dontChangePath?: boolean
-  };
-  // Fill missing storage/path for common queries
- if (!dontChangePath) {
-  if (['index', 'search'].includes(params.q as string)) {
-    if (controller) {
-      controller.abort();
-    }
-    fs.setLoading(true);
-  }
- }
-
-  controller = new AbortController();
-  const signal = controller.signal;
-  app.requester.send({
-    url: '',
-    method: (params.m as 'get' | 'post' | 'put' | 'delete' | 'patch') || 'get',
-    params: params as Record<string, string | null | undefined>,
-    body: body as Record<string, string | null | undefined> | FormData | undefined,
-    abortSignal: signal,
-  }).then((data) => {
-    const responseData = data as Record<string, unknown>;
-    if (!dontChangePath) {
-      fs.setPath(responseData.dirname as string);
-      if (config.get('persist')) {
-         config.set('path', responseData.dirname as string);
-      }
-      fs.setReadOnly(responseData.read_only as boolean);
-
-      if (!dontCloseModal) {
-        app.modal.close();
-      }
-      // Sync store path from backend dirname so breadcrumbs render correctly
-      fs.setFiles(responseData.files as DirEntry[]);
-
-      fs.clearSelection();
-      fs.setSelectedCount(0);
-      fs.setStorages(responseData.storages as string[]);
-    }
-    if (onSuccess) {
-      onSuccess(responseData);
-    }
-  }).catch((e: unknown) => {
-    console.error(e)
-    if (onError) {
-      onError(e);
-    } else {
-      if (e && typeof e === 'object' && 'message' in e) {
-        app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
-      }
-    }
-    // Emit error event
-    emit('error', e)
-  }).finally(() => {
-    if (['index', 'search'].includes(params.q as string)) {
-      fs.setLoading(false);
-    }
-  });
-});
-
-/**
- * fetchPath fetches the items of the given path
- * if no path is given, the backend should return the root of the current storage
- * @param path {string | undefined} example: 'media://public'
- */
-function fetchPath(path: string | undefined) {
-  let pathExists: Record<string, unknown> = {};
-
-  if (path && path.includes("://")) {
-    pathExists = {
-      storage: path.split("://")[0],
-      path: path
-    };
-  } 
-
-  app.emitter.emit('vf-fetch', {
-    params: {q: 'index', storage: fs.path.get().storage, ...pathExists},
-    onError: props.onError ?? ((e: unknown) => {
-      if (e && typeof e === 'object' && 'message' in e) {
-        app.emitter.emit('vf-toast-push', {label: (e as {message: string}).message, type: 'error'})
-      }
-    })
-  });
-}
-
 // fetch initial data
 onMounted(() => {
-    watch(() => config.get('path'), (path) => {
-        fetchPath(path)
-    })
+    watch(() => config.get('path'), (path: string | undefined) => {
+        // fetchPath(path);
+        app.adapter.open(path);
+    });
 
     const initialPath = config.get('persist') ? config.get('path') : (config.get('initialPath') ?? '');
     fs.setPath(initialPath); 
-    fetchPath(initialPath);
+    app.adapter.open(initialPath);
+    //fetchPath(initialPath);
 
   // Emit path-change event based on store path
-  fs.path.listen((path) => {
+  fs.path.listen((path: {path: string}) => {
     emit('path-change', path.path)
   })
   

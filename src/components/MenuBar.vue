@@ -15,6 +15,7 @@ import ModalAbout from "./modals/ModalAbout.vue";
 import ModalMove from "./modals/ModalMove.vue";
 import ModalCopy from "./modals/ModalCopy.vue";
 import ModalPreview from "./modals/ModalPreview.vue";
+import ModalSearch from './modals/ModalSearch.vue';
 
 const app = inject('ServiceContainer');
 if (!app) {
@@ -72,7 +73,7 @@ const menuItems = computed(() => [
       {
         id: 'search',
         label: t('Search'),
-        action: () => console.log('Search clicked'),
+        action: () => app.modal.open(ModalSearch),
         enabled: () => app?.features?.includes(FEATURES.SEARCH)
       },
       { type: 'separator' },
@@ -260,9 +261,7 @@ const menuItems = computed(() => [
         id: 'refresh',
         label: t('Refresh'),
         action: () => {
-          app?.emitter?.emit('vf-fetch', {
-            params: {q: 'index', storage: fs?.path?.get()?.storage, path: fs?.path?.get()?.path}
-          });
+          app?.adapter.list(fs?.path?.get()?.path);
         },
         enabled: () => true
       },
@@ -320,13 +319,7 @@ const menuItems = computed(() => [
         label: t('Forward'),
         action: () => {
           fs?.goForward();
-          app?.emitter?.emit('vf-fetch', {
-            params: {
-              q: 'index',
-              storage: fs?.path?.get()?.storage ?? 'local',
-              path: fs?.currentPath?.get() ?? ''
-            }
-          });
+          app?.adapter.list(fs?.currentPath?.get());
         },
         enabled: () => fs?.canGoForward?.get() ?? false
       },
@@ -335,13 +328,7 @@ const menuItems = computed(() => [
         label: t('Back'),
         action: () => {
           fs?.goBack();
-          app?.emitter?.emit('vf-fetch', {
-            params: {
-              q: 'index',
-              storage: fs?.path?.get()?.storage ?? 'local',
-              path: fs?.currentPath?.get() ?? ''
-            }
-          });
+          app?.adapter.list(fs?.currentPath?.get());
         },
         enabled: () => fs?.canGoBack?.get() ?? false
       },
@@ -357,13 +344,7 @@ const menuItems = computed(() => [
             const parentPath = parentBreadcrumb?.path ?? `${pathInfo.storage}://`;
             
             fs?.setPath(parentPath);
-            app?.emitter?.emit('vf-fetch', {
-              params: {
-                q: 'index',
-                storage: pathInfo.storage ?? 'local',
-                path: parentPath
-              }
-            });
+            app?.adapter.list(parentPath);
           }
         },
         enabled: () => {
@@ -379,9 +360,7 @@ const menuItems = computed(() => [
         action: () => {
           const storagePath = `${storage}://`;
           fs?.setPath(storagePath);
-          app?.emitter?.emit('vf-fetch', {
-            params: {q: 'index', storage, path: storagePath}
-          });
+          app?.adapter.list(storagePath);
         },
         enabled: () => true
       })),
@@ -393,13 +372,7 @@ const menuItems = computed(() => [
           const folderPath = prompt(t('Enter folder path:'));
           if (folderPath) {
             fs?.setPath(folderPath);
-            app?.emitter?.emit('vf-fetch', {
-              params: {
-                q: 'index',
-                storage: fs?.path?.get()?.storage ?? 'local',
-                path: folderPath
-              }
-            });
+            app?.adapter.list(folderPath);
           }
         },
         enabled: () => true

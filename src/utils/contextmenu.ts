@@ -94,10 +94,7 @@ export const menuItems: Item[] = [
         if (!selectedItem) {
             return;
         }
-        app.emitter.emit('vf-fetch', {
-            params: { q: 'index', storage: selectedItem.storage, path: (selectedItem.dir) }
-        });
-        app.search.setQuery('', true);
+        app.adapter.open(selectedItem.dir);
     },
     show: showIf({ target: 'one', needsSearchQuery: true })
   },
@@ -106,7 +103,8 @@ export const menuItems: Item[] = [
     title: ({t}) => t('Refresh'),
     action: (app) => {
       const fs = app.fs;
-      app.emitter.emit('vf-fetch', {params: {q: 'index', storage: fs.path.get().storage, path: fs.path.get().path}});
+      app.adapter.invalidateListQuery(fs.path.get().path);
+      app.adapter.open(fs.path.get().path);
     },
     show: showIfAny(showIf({target: 'none'}), showIf({target: 'many'}))
   },
@@ -132,13 +130,10 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.open,
     title: ({t}) => t('Open'),
     action: (app, selectedItems) => {
-      app.emitter.emit('vf-search-exit');
       if (!selectedItems[0]) {
           return;
       }
-      app.emitter.emit('vf-fetch', {
-        params: { q: 'index', storage: selectedItems[0].storage, path: selectedItems[0].path }
-      });
+      app.adapter.open(selectedItems[0].path);
     },
     show: showIf({target: 'one', targetType: 'dir'})
   },
@@ -188,7 +183,12 @@ export const menuItems: Item[] = [
   },
   {
     id: ContextMenuIds.download,
-    link: (app, selectedItems) => app.requester.getDownloadUrl(selectedItems[0]?.storage, selectedItems[0]),
+    link: (app, selectedItems) => {
+        if (!selectedItems[0] ){
+            return;
+        }
+       return app.adapter.getDownloadUrl(selectedItems[0]);
+    },
     title: ({t}) => t('Download'),
     action: () => {},
     show: showIfAll(

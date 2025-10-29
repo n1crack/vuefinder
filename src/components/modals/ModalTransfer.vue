@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, inject, ref} from 'vue';
-import {useStore} from '@nanostores/vue';
+// import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import MoveSVG from "../../assets/icons/move.svg";
@@ -9,17 +9,17 @@ import type {DirEntry} from '../../types';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
-const fs = app.fs;
-const currentPath = useStore(fs.path);
-
+// const fs = app.fs;
+// const currentPath = useStore(fs.path);
 const props = defineProps<{
-  q?: string
-}>()
+  copy: boolean;
+}>();
 
 const items = ref(app.modal.data.items.from);
-const target = ref<DirEntry>(app.modal.data.items.to);
+const destination = ref<DirEntry>(app.modal.data.items.to);
 const message = ref('');
-const createCopy = ref(false);
+const createCopy = ref(props.copy || false);
+const operation = computed(() => createCopy.value ? 'copy' : 'move');
 const showTreeSelector = ref(false);
 
 const title = computed(() => createCopy.value ? t('Copy files') : t('Move files') );
@@ -27,23 +27,22 @@ const body = computed(() => createCopy.value ? t('Are you sure you want to copy 
 const successBtn = computed(() => createCopy.value ? t('Yes, Copy!') : t('Yes, Move!') );
 const successText = computed(() => createCopy.value ? t('Files copied.') : t('Files moved.') );
 
-
-const selectTargetFolder = (folder: DirEntry | null) => {
+const selectDestinationFolder = (folder: DirEntry | null) => {
   if (folder) {
-    target.value = folder;
+    destination.value = folder;
   }
 };
 
-const selectTargetFolderAndClose = (folder: DirEntry | null) => {
+const selectDestinationFolderAndClose = (folder: DirEntry | null) => {
   if (folder) {
-    target.value = folder;
+    destination.value = folder;
     showTreeSelector.value = false;
   }
 };
 
 // Simple function to split storage and path
-const getTargetParts = () => {
-  const path = target.value.path;
+const getDestinationParts = () => {
+  const path = destination.value.path;
   if (!path) return { storage: 'local', path: '' };
   
   // For storage roots like "local://", just return the storage name
@@ -59,28 +58,11 @@ const getTargetParts = () => {
   };
 };
 
-const transfer = () => {
+const transfer = async () => {
   if (items.value.length) {
-    // Determine the operation based on createCopy checkbox or original q prop
-    const operation = createCopy.value ? 'copy' : (props.q || 'move');
-
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: operation,
-        m: 'post',
-        storage: currentPath.value.storage,
-        path: currentPath.value.path,
-      },
-      body: {
-        items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),
-        item: target.value.path
-      },
-      onSuccess: () => {
-        app.emitter.emit('vf-toast-push', {label: successText});
-      },
-      onError: (e: Error) => {
-        message.value = t(e.message);
-      }
+    await app.adapter[operation.value]({
+      sources: items.value.map(({path}: { path: string }) => path),
+      destination: destination.value.path,
     });
   }
 };
@@ -119,8 +101,8 @@ const transfer = () => {
               @click="showTreeSelector = !showTreeSelector"
           >
             <div class="vuefinder__move-modal__target-path">
-              <span class="vuefinder__move-modal__target-storage">{{ getTargetParts().storage }}://</span>
-              <span v-if="getTargetParts().path" class="vuefinder__move-modal__target-folder">{{ getTargetParts().path }}</span>
+              <span class="vuefinder__move-modal__target-storage">{{ getDestinationParts().storage }}://</span>
+              <span v-if="getDestinationParts().path" class="vuefinder__move-modal__Destination-folder">{{ getDestinationParts().path }}</span>
             </div>
             <span class="vuefinder__move-modal__target-badge">{{ t('Browse') }}</span>
           </div>
@@ -132,10 +114,10 @@ const transfer = () => {
           :class="showTreeSelector ? 'vuefinder__move-modal__tree-selector--expanded' : 'vuefinder__move-modal__tree-selector--collapsed'"
         >
           <ModalTreeSelector
-              v-model="target"
+              v-model="destination"
               :show-pinned-folders="true"
-              @update:modelValue="selectTargetFolder"
-              @selectAndClose="selectTargetFolderAndClose"
+              @update:modelValue="selectDestinationFolder"
+              @selectAndClose="selectDestinationFolderAndClose"
           />
         </div>
 

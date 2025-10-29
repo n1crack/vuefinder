@@ -1,7 +1,5 @@
 <script setup lang="ts">
-
 import {inject, onMounted, ref} from 'vue';
-import Message from '../../components/Message.vue';
 import {FEATURES} from "../../features.ts";
 
 const emit = defineEmits(['success'])
@@ -17,21 +15,15 @@ const app = inject('ServiceContainer');
 
 const {t} = app.i18n;
 
-onMounted(() => {
-  app.requester.send({
-    url: '',
-    method: 'get',
-    params: {
-        q: 'preview', 
-        storage: app.modal.data.storage, 
-        path: app.modal.data.item.path
-    },
-    responseType: 'text',
-  })
-      .then((data: any) => {
-        content.value = data;
-        emit('success');
-      });
+onMounted(async () => {
+  try {
+    const result = await app.adapter.getContent({ path: app.modal.data.item.path });
+    content.value = result.content;
+    emit('success');
+  } catch (error) {
+    console.error('Failed to load text content:', error);
+    emit('success');
+  }
 });
 
 const toggleEditMode = () => {
@@ -40,33 +32,26 @@ const toggleEditMode = () => {
   app.modal.setEditMode(showEdit.value);
 };
 
-const save = () => {
+const save = async () => {
   message.value = '';
   isError.value = false;
 
-  app.requester.send({
-    url: '',
-    method: 'post',
-    params: {
-      q: 'save',
-      storage: app.modal.data.storage,
-      path: app.modal.data.item.path,
-    },
-    body: {
-      content: contentTemp.value
-    },
-    responseType: 'text',
-  })
-      .then((data: any) => {
-        message.value = t('Updated.');
-        content.value = data;
-        emit('success');
-        showEdit.value = !showEdit.value;
-      })
-      .catch((e: any) => {
-        message.value = t(e.message);
-        isError.value = true;
-      });
+  try {
+    // Save content using adapter
+    const fullPath = app.modal.data.item.path;
+    await app.adapter.save({ 
+      path: fullPath, 
+      content: contentTemp.value 
+    });
+    content.value = contentTemp.value;
+    message.value = t('Updated.');
+    emit('success');
+    showEdit.value = !showEdit.value;
+  } catch (e: unknown) {
+    const error = e as { message?: string };
+    message.value = t(error.message || 'Error');
+    isError.value = true;
+  }
 }
 
 </script>

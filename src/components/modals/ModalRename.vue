@@ -11,28 +11,21 @@ const fs = app.fs;
 const currentPath = useStore(fs.path);
 
 const item = ref(app.modal.data.items[0]);
-const name = ref(app.modal.data.items[0].basename);
+const name = ref(item.value.basename);
 const message = ref('');
 
 const rename = () => {
-  if (name.value != '') {
-    app.emitter.emit('vf-fetch', {
-      params: {
-        q: 'rename',
-        m: 'post',
-        storage: currentPath.value.storage,
-        path: currentPath.value.path,
-      },
-      body: {
-        item: item.value.path,
-        name: name.value
-      },
-      onSuccess: () => {
-        app.emitter.emit('vf-toast-push', {label: t('%s is renamed.', name.value)});
-      },
-      onError: (e: any) => {
-        message.value = t(e.message);
-      }
+  if (name.value != item.value.basename) {
+    app.adapter.rename({
+      path: currentPath.value.path,
+      item: item.value.path,
+      name: name.value
+    }).then((result) => {
+      app.emitter.emit('vf-toast-push', {label: t('%s is renamed.', name.value)});
+      app.fs.setFiles(result.files);
+      app.modal.close();
+    }).catch((e: any) => {
+      app.emitter.emit('vf-toast-push', {label: t(e.message), type: 'error'});
     });
   }
 };

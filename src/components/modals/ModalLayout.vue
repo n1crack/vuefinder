@@ -43,24 +43,33 @@ onMounted(() => {
     }
   });
 });
+
+const handleContextMenu = (event: MouseEvent) => { 
+    const isWrapper = (event.target as HTMLElement).classList.contains('vuefinder__modal-layout__wrapper');
+    if (isWrapper) {
+        event.preventDefault();
+        event.stopPropagation(); 
+    }
+} 
+
 </script>
 
 <template>  
     <div :data-theme="currentTheme" class="vuefinder vuefinder__modal-layout" aria-labelledby="modal-title" role="dialog" aria-modal="true"
-        @keyup.esc="app.modal.close()" tabindex="0">
+        @keyup.esc="app.modal.close()" tabindex="0" >
         <div class="vuefinder__modal-layout__overlay"></div>
 
         <div class="vuefinder__modal-layout__container">
-        <div class="vuefinder__modal-layout__wrapper" @mousedown.self="app.modal.close()">
-            <div ref="modalBody" class="vuefinder__modal-layout__body">
-            <div class="vuefinder__modal-layout__content">
-                <slot/>
+            <div class="vuefinder__modal-layout__wrapper"  @contextmenu="handleContextMenu" @mousedown.self="app.modal.close()" >
+                <div ref="modalBody" class="vuefinder__modal-layout__body">
+                <div class="vuefinder__modal-layout__content">
+                    <slot/>
+                </div>
+                <div class="vuefinder__modal-layout__footer" v-if="$slots.buttons">
+                    <slot name="buttons"/>
+                </div>
+                </div>
             </div>
-            <div class="vuefinder__modal-layout__footer" v-if="$slots.buttons">
-                <slot name="buttons"/>
-            </div>
-            </div>
-        </div>
         </div>
         
         <!-- Full screen drag overlay (similar to VueFinder external drop overlay) -->

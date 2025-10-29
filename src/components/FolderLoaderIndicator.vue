@@ -5,6 +5,7 @@ import SquarePlusSVG from "../assets/icons/plus.svg";
 import SquareMinusSVG from "../assets/icons/minus.svg";
 import LoadingSVG from "../assets/icons/loading.svg";
 import upsert from "../utils/upsert";
+import type { DirEntry } from '@/types';
 
 const props = defineProps<{
   storage: string
@@ -12,40 +13,23 @@ const props = defineProps<{
 }>()
 
 const app = inject('ServiceContainer');
-const {t} = app.i18n;
 const opened = defineModel();
 const loading = ref(false)
 
-// loading..
+watch(() => opened.value, () =>  fetchSubFolders() ); 
 
-watch(() => opened.value, () =>
-    getLoadedFolder()?.folders.length || fetchSubFolders()
-); 
-
-function getLoadedFolder() {
-  return app.treeViewData.find((e: any) => e.path === props.path);
-}
-
-const fetchSubFolders = () => {
+const fetchSubFolders = async () => {
   loading.value = true;
-  app.requester.send({
-    url: '',
-    method: 'get',
-    params: {
-      q: 'subfolders',
-      storage: props.storage,
-      path: props.path,
-    },
-  })
-      .then((data: any) => {
-        upsert(app.treeViewData, {path: props.path, type: 'dir', ...data})
-      })
-      .catch((e: any) => {
-      })
-      .finally(() => {
-        loading.value = false;
-      });
-
+  try {
+    const data = await app.adapter.list(props.path);
+    const folders = data.files.filter((file: DirEntry) => file.type === 'dir');
+ 
+    upsert(app.treeViewData, {path: props.path, type: 'dir', folders})
+  } catch (e: unknown) {
+    console.error('Failed to fetch subfolders:', e);
+  } finally {
+    loading.value = false;
+  }
 }
 </script>
 

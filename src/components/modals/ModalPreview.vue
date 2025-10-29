@@ -169,8 +169,8 @@ onMounted(() => {
       <a
           target="_blank"
           class="vf-btn vf-btn-primary"
-          :download="app.requester.getDownloadUrl(app.modal.data.storage, app.modal.data.item)"
-          :href="app.requester.getDownloadUrl(app.modal.data.storage, app.modal.data.item)"
+          :download="app.adapter.getDownloadUrl({ path: app.modal.data.item.path })"
+          :href="app.adapter.getDownloadUrl({ path: app.modal.data.item.path })"
           v-if="app.features.includes(FEATURES.DOWNLOAD)">{{ t('Download') }}</a>
     </template>
   </ModalLayout>

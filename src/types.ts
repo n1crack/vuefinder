@@ -1,10 +1,10 @@
 import type { Component } from "vue";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ServiceContainer = any;
-import type { RequestConfig } from "./utils/ajax";
 import type { Item as ContextMenuItem } from "./utils/contextmenu";
 import type ServiceContainer from "./ServiceContainer";
 import type { Theme } from "./utils/theme";
+import type { Adapter } from "./adapters";
 
 
 export type App = ReturnType<typeof ServiceContainer>
@@ -12,7 +12,7 @@ export type App = ReturnType<typeof ServiceContainer>
 export interface VueFinderProps {
   id?: string;
   config?: Record<string, unknown>;
-  request: string | RequestConfig;
+  adapter: Adapter;
   features?: boolean | string[];
   debug?: boolean;
   theme?: Theme;
@@ -29,6 +29,11 @@ export interface VueFinderProps {
   onReady?: () => void;
   onFileDclick?: (item: DirEntry) => void;
   onFolderDclick?: (item: DirEntry) => void;
+  /**
+   * Custom uploader configuration (optional)
+   * If provided, will override adapter's configureUploader
+   */
+  customUploader?: (uppy: any, context: { getTargetPath: () => string; getHeaders: () => Record<string, string>; t: (key: string) => string }) => void;
 }
 
 export type SelectEvent = (items: DirEntry[]) => void;
@@ -79,4 +84,5 @@ export interface FsData {
   storage_info: Record<string, StorageInfo>;
   dirname: string;
   files: DirEntry[];
+  read_only?: boolean;
 }
