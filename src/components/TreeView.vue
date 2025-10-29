@@ -13,7 +13,7 @@ import FolderIndicator from "./FolderIndicator.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
 import type {App, PinnedFolder} from '../types';
 
-const app = inject('ServiceContainer') as App;
+const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const {getStore, setStore} = app.storage;
 

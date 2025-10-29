@@ -12,6 +12,7 @@ import type { Adapter } from "./adapters";
 import { AdapterManager } from "./adapters";
 import type { Theme } from "./stores/theme.ts";
 import { useTheme } from "./composables/useTheme";
+import type {App} from "@/types.ts";
 
 interface ServiceContainerProps {
     id: string;

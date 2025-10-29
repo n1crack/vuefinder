@@ -27,7 +27,7 @@ const emit = defineEmits<{
   dragend: [event: DragEvent];
 }>();
 
-const app = inject('ServiceContainer') as ServiceContainer;
+const app = inject('ServiceContainer');
 const fs = app.fs;
 const config = app.config;
 

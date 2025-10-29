@@ -1,5 +1,4 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ServiceContainer = any;
 import type { Item as ContextMenuItem } from "./utils/contextmenu";
 import type ServiceContainer from "./ServiceContainer";
 import type { Theme } from "./stores/theme";

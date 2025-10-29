@@ -5,9 +5,9 @@ import FolderSVG from '../../assets/icons/folder.svg';
 import OpenFolderSVG from '../../assets/icons/open_folder.svg';
 import PlusSVG from "../../assets/icons/plus.svg";
 import MinusSVG from "../../assets/icons/minus.svg";
-import type {App, DirEntry} from '../../types';
+import type {DirEntry} from '../../types';
 
-const app = inject('ServiceContainer') as App;
+const app = inject('ServiceContainer');
 const {t} = app.i18n;
 
 const fs = app.fs;
