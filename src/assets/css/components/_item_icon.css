@@ -11,18 +11,18 @@
   @apply h-10 w-10 md:h-12 md:w-12 m-auto;
 }
 
-.vuefinder .vuefinder__item-icon__extension {
+.vuefinder__themer .vuefinder__item-icon__extension {
   @apply absolute md:block top-1/2 left-0 w-full text-center text-(--vf-text-tertiary);
 }
 
-.vuefinder .vuefinder__item-icon__folder {
+.vuefinder__themer .vuefinder__item-icon__folder {
   @apply text-(--vf-text-tertiary) fill-(--vf-accent-primary) stroke-(--vf-accent-primary);
 }
 
-.vuefinder .vuefinder__item-icon__folder--open {
+.vuefinder__themer .vuefinder__item-icon__folder--open {
   @apply text-(--vf-text-tertiary) fill-(--vf-accent-primary) stroke-(--vf-accent-secondary);
 }
 
-.vuefinder .vuefinder__item-icon__file {
+.vuefinder__themer .vuefinder__item-icon__file {
   @apply text-(--vf-text-tertiary) w-full h-full;
 }

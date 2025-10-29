@@ -92,11 +92,11 @@
   @apply flex pointer-events-none items-center;
 }
 
-.vuefinder .vuefinder__breadcrumb__hidden-item-icon {
+.vuefinder__breadcrumb__hidden-item-icon {
   @apply h-5 w-5;
 }
 
-.vuefinder .vuefinder__breadcrumb__hidden-item-text {
+.vuefinder__breadcrumb__hidden-item-text {
   @apply inline-block w-full text-ellipsis overflow-hidden;
 }
 

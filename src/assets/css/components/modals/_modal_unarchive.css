@@ -15,11 +15,11 @@
   @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
-.vuefinder .vuefinder__unarchive-modal__icon--dir {
+.vuefinder__themer .vuefinder__unarchive-modal__icon--dir {
   @apply fill-current stroke-current text-(--vf-text-tertiary);
 }
 
-.vuefinder .vuefinder__unarchive-modal__icon--file {
+.vuefinder__themer .vuefinder__unarchive-modal__icon--file {
   @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 

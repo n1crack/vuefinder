@@ -143,7 +143,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Regular examples (only show if not in popup) -->
-    <div v-if="!isPopup">
+    <div v-if="!isPopup" class="flex flex-col [&>*]:flex-1 [&>*]:h-full min-h-80 max-h-120 ">
       <DefaultExample 
         v-if="example === 'default'"
         :adapter="adapter"
@@ -230,10 +230,6 @@ body {
 .wrapper {
   max-width: 800px;
   margin: 80px auto;
-}
-
-.vuefinder {
-  height: 500px;
 }
 
 .btn{

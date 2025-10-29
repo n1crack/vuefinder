@@ -12,19 +12,19 @@
   @apply flex overflow-auto;
 }
 
-.vuefinder .vuefinder__about-modal__tab {
+.vuefinder__about-modal__tab {
   @apply px-3 py-2 font-medium text-sm;
 }
 
-.vuefinder .vuefinder__about-modal__tab--active {
+.vuefinder__about-modal__tab--active {
   @apply border-b-2 bg-(--vf-bg-hover) text-(--vf-text-primary) border-(--vf-accent-primary);
 }
 
-.vuefinder .vuefinder__about-modal__tab--inactive {
-  @apply border-b-2 text-(--vf-text-secondary) border-(--vf-border-primary);
+.vuefinder__about-modal__tab--inactive {
+  @apply border-b-2 text-(--vf-text-secondary) border-(--vf-border-primary) bg-(--vf-bg-primary);
 }
 
-.vuefinder .vuefinder__about-modal__tab--inactive:hover {
+.vuefinder__about-modal__tab--inactive:hover {
   @apply text-(--vf-text-primary);
 }
 
@@ -44,6 +44,10 @@
   @apply mt-3 text-left;
 }
 
+.vuefinder__about-modal__settings__fieldset {
+  @apply bg-(--vf-bg-primary) border-0 ;
+}
+
 .vuefinder__about-modal__setting {
   @apply block relative gap-x-3 items-center;
 }
@@ -60,15 +64,15 @@
   @apply flex flex-1 text-sm;
 }
 
-.vuefinder .vuefinder__about-modal__label {
+.vuefinder__about-modal__label {
   @apply flex w-full text-sm text-(--vf-text-primary);
 }
 
-.vuefinder .vuefinder__about-modal__checkbox {
+.vuefinder__about-modal__checkbox {
   @apply h-4 w-4 rounded focus:ring-2 border-(--vf-border-primary) text-(--vf-accent-primary) accent-(--vf-accent-primary);
 }
 
-.vuefinder .vuefinder__about-modal__select {
+.vuefinder__about-modal__select {
   @apply shrink-0 sm:w-1/2 w-full text-sm rounded border text-(--vf-text-primary) bg-(--vf-bg-primary) border-(--vf-border-primary);
 }
 

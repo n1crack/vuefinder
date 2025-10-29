@@ -19,7 +19,7 @@
   @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
-.vuefinder .vuefinder__archive-modal__icon--dir {
+.vuefinder__themer .vuefinder__archive-modal__icon--dir {
   @apply fill-current stroke-current text-(--vf-text-tertiary);
 }
 
@@ -31,10 +31,10 @@
   @apply text-(--vf-text-secondary);
 }
 
-.vuefinder .vuefinder__archive-modal__input {
+.vuefinder__themer .vuefinder__archive-modal__input {
   @apply my-1 px-2 py-1 border rounded w-full bg-(--vf-bg-primary) border-(--vf-border-primary) text-(--vf-text-primary);
 }
 
-.vuefinder .vuefinder__archive-modal__input:focus {
+.vuefinder__themer .vuefinder__archive-modal__input:focus {
   @apply border-(--vf-border-focus) ring-(--vf-border-focus);
 }

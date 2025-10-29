@@ -1,10 +1,12 @@
 import { persistentAtom } from '@nanostores/persistent'
 import type { DirEntry } from "@/types.ts"
+import type { Theme } from './theme.ts'
 
 type Viewport = 'grid' | 'list'
 
 export interface ConfigState {
     view: Viewport
+    theme: Theme | undefined
     fullScreen: boolean
     showTreeView: boolean
     showHiddenFiles: boolean
@@ -23,6 +25,7 @@ export type ConfigDefaults = Partial<ConfigState>
 
 const DEFAULT_STATE: ConfigState = {
     view: 'grid',
+    theme: undefined,
     fullScreen: false,
     showTreeView: false,
     showHiddenFiles: true,

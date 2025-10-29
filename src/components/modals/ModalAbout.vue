@@ -1,19 +1,32 @@
 <script setup lang="ts">
 import {computed, inject, ref} from 'vue';
+import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import ActionMessage from "../../components/ActionMessage.vue";
 import {format as filesizeDefault, metricFormat as filesizeMetric} from '../../utils/filesize'
-import { themes, getThemeConfig, getCurrentTheme, type Theme } from '../../utils/theme';
+import { themes, type Theme } from '../../stores/theme';
 
 import AboutSVG from "../../assets/icons/gear.svg";
 import {FEATURES} from '../../features';
 
 const app = inject('ServiceContainer');
-const setTheme = inject('setTheme');
 const config = app.config;
 const {clearStore} = app.storage;
 const {t} = app.i18n;
+
+// Use nanostores reactive values for template reactivity
+const configState = useStore(config.state);
+
+// Computed theme value for select: shows stored theme or 'default' if undefined
+// This ensures props.theme changes don't affect the dropdown selection
+const selectedTheme = computed<Theme>(() => {
+  const stored = configState.value.theme;
+  // If theme is undefined, show 'default'
+  // If theme is 'default', show 'default'
+  // Otherwise show the stored theme
+  return stored || 'default';
+});
 
 const TAB = {
   ABOUT: 'about',
@@ -38,10 +51,14 @@ const clearLocalStorage = async () => {
     location.reload();
 };
 
-const handleTheme = (themeName: Theme) => {
-  if (setTheme) {
-    setTheme(themeName);
+const handleTheme = (source: Theme) => {
+    // If it's a custom theme, also update the theme value
+  if (source !== 'default') {
+    config.set('theme', source as Theme);
+  } else {
+    config.set('theme', 'default');
   }
+
   app.emitter.emit('vf-theme-saved');
 }
 
@@ -95,13 +112,6 @@ const supportedLanguages = Object.fromEntries(
     Object.entries(languageList).filter(([key]) => Object.keys(i18n).includes(key))
 );
 
-const themeOptions = computed(() => {
-  return themes.reduce((acc, theme) => {
-    acc[theme.name] = theme.displayName;
-    return acc;
-  }, {} as Record<string, string>);
-});
-
 </script>
 
 <template>
@@ -137,7 +147,7 @@ const themeOptions = computed(() => {
             {{ t('Customize your experience with the following settings') }}
           </div>
           <div class="vuefinder__about-modal__settings">
-            <fieldset>
+            <fieldset class="vuefinder__about-modal__settings__fieldset">
               <div class="vuefinder__about-modal__setting vuefinder__about-modal__setting--flex">
                 <div class="vuefinder__about-modal__setting-input">
                   <input id="metric_unit" name="metric_unit" type="checkbox"
@@ -205,11 +215,11 @@ const themeOptions = computed(() => {
                   </label>
                 </div>
                 <div class="vuefinder__about-modal__setting-label">
-                  <select id="theme" :value="getCurrentTheme()"
+                  <select id="theme" :value="selectedTheme"
                           @change="(event) => handleTheme((event.target as HTMLSelectElement)?.value as Theme)"
                           class="vuefinder__about-modal__select">
                     <optgroup :label="t('Theme')">
-                      <option v-for="(name, key) in themeOptions" :value="key">{{ name }}</option>
+                      <option v-for="theme in themes" :key="theme.name" :value="theme.name">{{ theme.displayName }}</option>
                     </optgroup>
                   </select>
                   <action-message class="ms-3" on="vf-theme-saved">{{ t('Saved.') }}</action-message>
@@ -227,7 +237,7 @@ const themeOptions = computed(() => {
                   <select id="language" v-model="app.i18n.locale"
                           class="vuefinder__about-modal__select">
                     <optgroup :label="t('Language')">
-                      <option v-for="(language, code) in supportedLanguages" :value="code">{{ language }}</option>
+                      <option v-for="(language, code) in supportedLanguages" :key="code" :value="code">{{ language }}</option>
                     </optgroup>
                   </select>
                   <action-message class="ms-3" on="vf-language-saved">{{ t('Saved.') }}</action-message>

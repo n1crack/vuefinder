@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import {inject, nextTick, onMounted, ref} from 'vue';
-import {getCurrentTheme} from '../../utils/theme';
 
 const modalBody = ref<HTMLElement | null>(null);
 const app = inject('ServiceContainer')
+const config = app.config;
 
 // Props for drag overlay
 const props = defineProps<{
   showDragOverlay?: boolean;
   dragOverlayText?: string;
 }>()
-
-// Get current theme from the main VueFinder element
-const currentTheme = getCurrentTheme();
 
 onMounted(() => {
   // Select the first input element in the modal
@@ -55,7 +52,7 @@ const handleContextMenu = (event: MouseEvent) => {
 </script>
 
 <template>  
-    <div :data-theme="currentTheme" class="vuefinder vuefinder__modal-layout" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+    <div :data-theme="app.theme.current" class="vuefinder__themer vuefinder__modal-layout" aria-labelledby="modal-title" role="dialog" aria-modal="true"
         @keyup.esc="app.modal.close()" tabindex="0" >
         <div class="vuefinder__modal-layout__overlay"></div>
 

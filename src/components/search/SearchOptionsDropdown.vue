@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, inject, nextTick, watch, onUnmounted } from 'vue';
 import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
-import { getCurrentTheme } from '../../utils/theme.ts';
 import GearSVG from '../../assets/icons/gear.svg';
 
 defineOptions({ name: 'SearchOptionsDropdown' });
@@ -30,10 +29,6 @@ const { t } = app.i18n;
 
 const dropdownBtn = ref<HTMLButtonElement | null>(null);
 const dropdownContent = ref<HTMLElement | null>(null);
-
-// Get current theme for teleported dropdowns
-const currentTheme = getCurrentTheme();
-
 // Floating UI cleanup functions
 let cleanupDropdown: (() => void) | null = null;
 
@@ -220,8 +215,8 @@ defineExpose({
     <div 
       v-if="visible" 
       ref="dropdownContent"
-      class="vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible" 
-      :data-theme="currentTheme"
+      class="vuefinder__themer vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible"
+      :data-theme="app.theme.current"
       @click.stop
       @keydown="handleDropdownKeydown"
       tabindex="-1"

@@ -20,13 +20,10 @@ import type { StoreValue } from "nanostores";
 import type {CurrentPathState} from "@/stores/files.ts";
 
 const app = inject('ServiceContainer');
-const currentTheme = inject('currentTheme');
 const {t} = app.i18n;
 const fs = app.fs;
 const config = app.config;
 
-
-// Use nanostores reactive values for template reactivity
 const configStore: StoreValue<ConfigState> = useStore(config.state)
 const currentPath : StoreValue<CurrentPathState> = useStore(fs.path);
 const loading = useStore(fs.loading);
@@ -281,7 +278,7 @@ const exitPathCopyMode = () => {
       <div>
         <div v-show="showHiddenBreadcrumbs"
              :style="{position: 'absolute', top: mousePosition.y + 'px', left: mousePosition.x + 'px'}"
-             class="vuefinder vuefinder__breadcrumb__hidden-dropdown" :data-theme="currentTheme">
+             class="vuefinder__themer vuefinder__breadcrumb__hidden-dropdown" :data-theme="app.theme.current">
           <div
               v-for="(item, index) in hiddenBreadcrumbs" :key="index"
               v-on="dragNDrop.events(item as any)"

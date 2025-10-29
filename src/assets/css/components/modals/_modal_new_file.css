@@ -11,10 +11,10 @@
   @apply text-sm text-(--vf-text-secondary);
 }
 
-.vuefinder .vuefinder__new-file-modal__input {
+.vuefinder__new-file-modal__input {
   @apply px-2 py-1 border rounded w-full bg-(--vf-bg-primary) border-(--vf-border-primary) text-(--vf-text-primary);
 }
 
-.vuefinder .vuefinder__new-file-modal__input:focus {
+.vuefinder__new-file-modal__input:focus {
   @apply border-(--vf-border-focus) ring-(--vf-border-focus);
 }

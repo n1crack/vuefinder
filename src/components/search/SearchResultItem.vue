@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, inject, nextTick, watch, onUnmounted } from 'vue';
 import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
-import { getCurrentTheme } from '../../utils/theme.ts';
 import { shortenPath } from '../../utils/path.ts';
 import { copyPath } from '../../utils/clipboard.ts';
 import { format } from '../../utils/filesize.ts';
@@ -37,9 +36,6 @@ const emit = defineEmits<Emits>();
 
 const app = inject('ServiceContainer');
 const { t } = app.i18n;
-
-// Get current theme for teleported dropdowns
-const currentTheme = getCurrentTheme();
 
 // Store button element reference for positioning
 const buttonElementRef = ref<HTMLElement | null>(null);
@@ -261,8 +257,8 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
       <div 
         v-if="activeDropdown === item.path"
         :data-item-dropdown="item.path"
-        class="vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible"
-        :data-theme="currentTheme"
+        class="vuefinder__themer vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible"
+        :data-theme="app.theme.current"
         @click.stop
         @keydown="handleDropdownKeydown"
         tabindex="-1"

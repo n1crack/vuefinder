@@ -1,45 +1,50 @@
 /* Ocean Theme */
-.vuefinder[data-theme="ocean"] {
-  --vf-selection-bg: #263238;
-  --vf-selection-border: #00bcd4;
-  /* Background Colors */
-  --vf-bg-primary: #263238;
-  --vf-bg-secondary: #37474f;
-  --vf-bg-tertiary: #455a64;
-  --vf-bg-hover: #37474f;
-  --vf-bg-selected: #455a64;
-  --vf-bg-disabled: #37474f;
-  
-  /* Text Colors */
-  --vf-text-primary: #eceff1;
-  --vf-text-secondary: #b0bec5;
-  --vf-text-tertiary: #90a4ae;
-  --vf-text-disabled: #78909c;
-  --vf-text-inverse: #263238;
-  
-  /* Border Colors */
-  --vf-border-primary: #455a64;
-  --vf-border-secondary: #546e7a;
-  --vf-border-focus: #00bcd4;
-  --vf-border-disabled: #546e7a;
-  
-  /* Accent Colors */
-  --vf-accent-primary: #00bcd4;
-  --vf-accent-secondary: #26c6da;
-  --vf-accent-tertiary: #4dd0e1;
-  
-  /* Interactive Colors */
-  --vf-interactive-hover: #455a64;
-  --vf-interactive-active: #00bcd4;
-  --vf-interactive-focus: #455a64;
-  
-  --vf-shadow-sm: rgba(0, 188, 212, 0.1);
-  --vf-shadow-md: rgba(0, 188, 212, 0.15);
-  --vf-shadow-lg: rgba(0, 188, 212, 0.2);
-  
-  --vf-overlay-bg: rgba(75, 85, 99, 0.7);
-  --vf-overlay-border: rgba(0, 188, 212, 0.6);
-  --vf-overlay-text: #b0bec5;
+.vuefinder__themer[data-theme="ocean"] {
+    --vf-selection-bg: #263238;
+    --vf-selection-border: #00bcd4;
+    /* Background Colors */
+    --vf-bg-primary: #263238;
+    --vf-bg-secondary: #37474f;
+    --vf-bg-tertiary: #455a64;
+    --vf-bg-hover: #37474f;
+    --vf-bg-selected: #455a64;
+    --vf-bg-disabled: #37474f;
+
+    /* Text Colors */
+    --vf-text-primary: #eceff1;
+    --vf-text-secondary: #b0bec5;
+    --vf-text-tertiary: #90a4ae;
+    --vf-text-disabled: #78909c;
+    --vf-text-inverse: #263238;
+
+    /* Border Colors */
+    --vf-border-primary: #455a64;
+    --vf-border-secondary: #546e7a;
+    --vf-border-focus: #00bcd4;
+    --vf-border-disabled: #546e7a;
+
+    /* Accent Colors */
+    --vf-accent-primary: #00bcd4;
+    --vf-accent-secondary: #26c6da;
+    --vf-accent-tertiary: #4dd0e1;
+
+    /* Interactive Colors */
+    --vf-interactive-hover: #455a64;
+    --vf-interactive-active: #00bcd4;
+    --vf-interactive-focus: #455a64;
+
+    --vf-shadow-sm: rgba(0, 188, 212, 0.1);
+    --vf-shadow-md: rgba(0, 188, 212, 0.15);
+    --vf-shadow-lg: rgba(0, 188, 212, 0.2);
+
+    --vf-overlay-bg: rgba(75, 85, 99, 0.7);
+    --vf-overlay-border: rgba(0, 188, 212, 0.6);
+    --vf-overlay-text: #b0bec5;
+
+    --vf-dropdown-bg: #263238;
+    --vf-dropdown-border: #455a64;
+    --vf-dropdown-text: #eceff1;
+    --vf-dropdown-hover: #37474f;
 }
 
 /* Ocean Theme - Context Menu */
@@ -50,22 +55,12 @@
 
 /* Ocean Theme - Tree View */
 .vuefinder[data-theme="ocean"] .vuefinder__treestorageitem__header {
-  background-color: var(--vf-bg-primary);
-  opacity: 0.7;
+    background-color: var(--vf-bg-primary);
+    opacity: 0.7;
 }
 
 /* Ocean Theme - Selection Area */
 .selection-area-container[data-theme="ocean"] {
-  --vf-selection-bg: #263238;
-  --vf-selection-border: #00bcd4;
-}
-
-/* Ocean Theme - Search Modal Dropdowns */
-.vuefinder__search-modal__item-dropdown[data-theme="ocean"],
-.vuefinder__search-modal__dropdown[data-theme="ocean"]{
-
-    --vf-dropdown-bg: #263238;
-    --vf-dropdown-border: #455a64;
-    --vf-dropdown-text: #eceff1;
-    --vf-dropdown-hover: #37474f;
+    --vf-selection-bg: #263238;
+    --vf-selection-border: #00bcd4;
 }

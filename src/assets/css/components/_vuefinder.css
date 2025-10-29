@@ -11,7 +11,7 @@
   @apply relative md:rounded;
 }
 
-.vuefinder .vuefinder__main__container {
+.vuefinder__main__container {
   @apply min-h-44 h-full border flex flex-col select-none bg-(--vf-bg-primary) text-(--vf-text-primary) border-(--vf-border-primary);
 }
 

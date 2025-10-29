@@ -8,7 +8,7 @@
   @apply backdrop-blur-sm absolute md:hidden;
 }
 
-.vuefinder .vuefinder__treeview__container {
+.vuefinder__treeview__container {
   @apply absolute h-full md:h-auto md:relative shadow-lg shrink-0 ease-in-out duration-200 z-[1] bg-(--vf-bg-secondary);
 }
 

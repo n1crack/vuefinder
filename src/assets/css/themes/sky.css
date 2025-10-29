@@ -1,64 +1,59 @@
 /* Sky Theme */
-.vuefinder[data-theme="sky"] {
-  --vf-selection-bg: #0f1419;
-  --vf-selection-border: #7dd3fc;
-  /* Background Colors */
-  --vf-bg-primary: #0a0e13;
-  --vf-bg-secondary: #0f1419;
-  --vf-bg-tertiary: #1a1f2e;
-  --vf-bg-hover: #0f1419;
-  --vf-bg-selected: #1a1f2e;
-  --vf-bg-disabled: #0f1419;
-  
-  /* Text Colors */
-  --vf-text-primary: #e0f2fe;
-  --vf-text-secondary: #bae6fd;
-  --vf-text-tertiary: #7dd3fc;
-  --vf-text-disabled: #6b7280;
-  --vf-text-inverse: #0a0e13;
-  
-  /* Border Colors */
-  --vf-border-primary: #1a1f2e;
-  --vf-border-secondary: #2a3441;
-  --vf-border-focus: #7dd3fc;
-  --vf-border-error: #f87171;
-  
-  /* Accent Colors */
-  --vf-accent-primary: #7dd3fc;
-  --vf-accent-secondary: #bae6fd;
-  --vf-accent-success: #86efac;
-  --vf-accent-warning: #fde047;
-  --vf-accent-error: #fca5a5;
-  
-  /* Interactive Colors */
-  --vf-interactive-hover: #1a1f2e;
-  --vf-interactive-active: #7dd3fc;
-  --vf-interactive-focus: #0f1419;
-  
-  /* Shadow Colors */
-  --vf-shadow-sm: rgba(125, 211, 252, 0.08);
-  --vf-shadow-md: rgba(125, 211, 252, 0.12);
-  --vf-shadow-lg: rgba(125, 211, 252, 0.16);
-  --vf-shadow-modal: rgba(0, 0, 0, 0.6);
-  
-  /* Overlay Colors */
-  --vf-overlay-bg: rgba(75, 85, 99, 0.7);
-  --vf-overlay-border: rgba(125, 211, 252, 0.3);
-  --vf-overlay-text: #bae6fd;
-}
+.vuefinder__themer[data-theme="sky"] {
+    --vf-selection-bg: #0f1419;
+    --vf-selection-border: #7dd3fc;
+    /* Background Colors */
+    --vf-bg-primary: #0a0e13;
+    --vf-bg-secondary: #0f1419;
+    --vf-bg-tertiary: #1a1f2e;
+    --vf-bg-hover: #0f1419;
+    --vf-bg-selected: #1a1f2e;
+    --vf-bg-disabled: #0f1419;
 
-/* Sky Theme - Selection Area */
-.selection-area-container[data-theme="sky"] {
-  --vf-selection-bg: #0f1419;
-  --vf-selection-border: #7dd3fc;
-}
+    /* Text Colors */
+    --vf-text-primary: #e0f2fe;
+    --vf-text-secondary: #bae6fd;
+    --vf-text-tertiary: #7dd3fc;
+    --vf-text-disabled: #6b7280;
+    --vf-text-inverse: #0a0e13;
 
-/* Sky Theme - Search Modal Dropdowns */
-.vuefinder__search-modal__item-dropdown[data-theme="sky"],
-.vuefinder__search-modal__dropdown[data-theme="sky"]{
+    /* Border Colors */
+    --vf-border-primary: #1a1f2e;
+    --vf-border-secondary: #2a3441;
+    --vf-border-focus: #7dd3fc;
+    --vf-border-error: #f87171;
+
+    /* Accent Colors */
+    --vf-accent-primary: #7dd3fc;
+    --vf-accent-secondary: #bae6fd;
+    --vf-accent-success: #86efac;
+    --vf-accent-warning: #fde047;
+    --vf-accent-error: #fca5a5;
+
+    /* Interactive Colors */
+    --vf-interactive-hover: #1a1f2e;
+    --vf-interactive-active: #7dd3fc;
+    --vf-interactive-focus: #0f1419;
+
+    /* Shadow Colors */
+    --vf-shadow-sm: rgba(125, 211, 252, 0.08);
+    --vf-shadow-md: rgba(125, 211, 252, 0.12);
+    --vf-shadow-lg: rgba(125, 211, 252, 0.16);
+    --vf-shadow-modal: rgba(0, 0, 0, 0.6);
+
+    /* Overlay Colors */
+    --vf-overlay-bg: rgba(75, 85, 99, 0.7);
+    --vf-overlay-border: rgba(125, 211, 252, 0.3);
+    --vf-overlay-text: #bae6fd;
 
     --vf-dropdown-bg: #0a0e13;
     --vf-dropdown-border: #1a1f2e;
     --vf-dropdown-text: #e0f2fe;
     --vf-dropdown-hover: #0f1419;
+}
+
+/* Sky Theme - Selection Area */
+.selection-area-container[data-theme="sky"] {
+    --vf-selection-bg: #0f1419;
+    --vf-selection-border: #7dd3fc;
 }

@@ -23,7 +23,7 @@
   @apply h-5 w-5 text-(--vf-text-tertiary);
 }
 
-.vuefinder .vuefinder__delete-modal__icon--dir {
+.vuefinder__delete-modal__icon--dir {
   @apply fill-current stroke-current text-(--vf-text-tertiary);
 }
 

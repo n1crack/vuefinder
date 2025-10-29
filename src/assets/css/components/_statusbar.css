@@ -31,6 +31,6 @@
   @apply flex leading-5 items-center justify-end;
 }
 
-.vuefinder .vuefinder__status-bar__about {
+.vuefinder__themer .vuefinder__status-bar__about {
   @apply mr-1;
 }

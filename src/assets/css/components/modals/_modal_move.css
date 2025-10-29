@@ -19,7 +19,7 @@
   @apply h-5 w-5 text-(--vf-text-secondary);
 }
 
-.vuefinder .vuefinder__move-modal__icon--dir {
+.vuefinder__move-modal__icon--dir {
   @apply fill-(--vf-accent-primary) stroke-(--vf-accent-primary);
 }
 

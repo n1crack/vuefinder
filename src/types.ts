@@ -1,9 +1,8 @@
-import type { Component } from "vue";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ServiceContainer = any;
 import type { Item as ContextMenuItem } from "./utils/contextmenu";
 import type ServiceContainer from "./ServiceContainer";
-import type { Theme } from "./utils/theme";
+import type { Theme } from "./stores/theme";
 import type { Adapter } from "./adapters";
 
 

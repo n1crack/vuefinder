@@ -1,5 +1,5 @@
 /* Dark Theme */
-.vuefinder[data-theme="dark"] {
+.vuefinder__themer[data-theme="dark"] {
   --vf-selection-bg: #374151;
   --vf-selection-border: #374151;
   /* Background Colors */
@@ -45,6 +45,11 @@
   --vf-overlay-bg: rgba(75, 85, 99, 0.7);
   --vf-overlay-border: rgba(107, 114, 128, 0.9);
   --vf-overlay-text: #9ca3af;
+
+    --vf-dropdown-bg: #1f2937;
+    --vf-dropdown-border: #374151;
+    --vf-dropdown-text: #f9fafb;
+    --vf-dropdown-hover: #374151;
 }
 
 /* Dark Theme - Selection Area */
@@ -67,14 +72,4 @@
 .vuefinder[data-theme="dark"] .vuefinder__item-icon__folder--open {
   fill: var(--vf-accent-primary);
   stroke: #60a5fa;
-}
-
-/* Dark Theme - Search Modal Dropdowns */
-.vuefinder__search-modal__item-dropdown[data-theme="dark"],
-.vuefinder__search-modal__dropdown[data-theme="dark"]{
-
-    --vf-dropdown-bg: #1f2937;
-    --vf-dropdown-border: #374151;
-    --vf-dropdown-text: #f9fafb;
-    --vf-dropdown-hover: #374151;
 }

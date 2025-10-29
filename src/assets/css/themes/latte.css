@@ -1,5 +1,5 @@
 /* Latte Theme */
-.vuefinder[data-theme="latte"] {
+.vuefinder__themer[data-theme="latte"] {
   --vf-selection-bg: #f5f1e8;
   --vf-selection-border: #d4c4a8;
   /* Background Colors */
@@ -45,20 +45,14 @@
   --vf-overlay-bg: rgba(75, 85, 99, 0.7);
   --vf-overlay-border: rgba(139, 90, 60, 0.6);
   --vf-overlay-text: #8b5a3c;
+    --vf-dropdown-bg: #faf7f0;
+    --vf-dropdown-border: #d4c4a8;
+    --vf-dropdown-text: #4c2a1a;
+    --vf-dropdown-hover: #f5f1e8;
 }
 
 /* Latte Theme - Selection Area */
 .selection-area-container[data-theme="latte"] {
   --vf-selection-bg: #f5f1e8;
   --vf-selection-border: #8b5a3c;
-}
-
-/* Latte Theme - Search Modal Dropdowns */
-.vuefinder__search-modal__item-dropdown[data-theme="latte"],
-.vuefinder__search-modal__dropdown[data-theme="latte"]{
-
-    --vf-dropdown-bg: #faf7f0;
-    --vf-dropdown-border: #d4c4a8;
-    --vf-dropdown-text: #4c2a1a;
-    --vf-dropdown-hover: #f5f1e8;
 }

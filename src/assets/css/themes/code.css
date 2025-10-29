@@ -1,5 +1,5 @@
 /* Code Theme */
-.vuefinder[data-theme="code"] {
+.vuefinder__themer[data-theme="code"] {
   --vf-selection-bg: #f6f8fa;
   --vf-selection-border: #d0d7de;
   /* Background Colors */
@@ -45,20 +45,15 @@
   --vf-overlay-bg: rgba(75, 85, 99, 0.7);
   --vf-overlay-border: rgba(0, 0, 0, 0.1);
   --vf-overlay-text: #656d76;
+
+    --vf-dropdown-bg: #ffffff;
+    --vf-dropdown-border: #d0d7de;
+    --vf-dropdown-text: #24292f;
+    --vf-dropdown-hover: #f6f8fa;
 }
 
 /* Code Theme - Selection Area */
 .selection-area-container[data-theme="code"] {
   --vf-selection-bg: #f6f8fa;
   --vf-selection-border: #0969da;
-}
-
-/* Code Theme - Search Modal Dropdowns */
-.vuefinder__search-modal__item-dropdown[data-theme="code"],
-.vuefinder__search-modal__dropdown[data-theme="code"]{
-
-    --vf-dropdown-bg: #ffffff;
-    --vf-dropdown-border: #d0d7de;
-    --vf-dropdown-text: #24292f;
-    --vf-dropdown-hover: #f6f8fa;
 }

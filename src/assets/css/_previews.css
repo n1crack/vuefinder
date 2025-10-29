@@ -42,20 +42,20 @@
   @apply ml-auto flex items-center;
 }
 
-.vuefinder .vuefinder__image-preview__crop-button {
+.vuefinder__themer .vuefinder__image-preview__crop-button {
   @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm text-base font-medium sm:ml-3 sm:w-auto sm:text-sm;
   @apply bg-(--vf-accent-primary) text-(--vf-text-inverse);
 }
 
-.vuefinder .vuefinder__image-preview__crop-button:hover {
+.vuefinder__themer .vuefinder__image-preview__crop-button:hover {
   @apply bg-(--vf-accent-secondary);
 }
 
-.vuefinder .vuefinder__image-preview__edit-button {
+.vuefinder__themer .vuefinder__image-preview__edit-button {
   @apply ml-1 px-2 py-1 text-(--vf-accent-primary);
 }
 
-.vuefinder .vuefinder__image-preview__edit-button:hover {
+.vuefinder__themer .vuefinder__image-preview__edit-button:hover {
   @apply text-(--vf-accent-secondary);
 }
 
@@ -63,10 +63,10 @@
   @apply w-full flex justify-center;
 }
 
-.vuefinder .vuefinder__image-preview__image {
+.vuefinder__themer .vuefinder__image-preview__image {
   @apply max-h-[70vh];
 }
-.vuefinder .vuefinder__image-preview__image-container cropper-canvas {
+.vuefinder__themer .vuefinder__image-preview__image-container cropper-canvas {
     @apply h-full w-full;
 }
 
@@ -75,7 +75,7 @@
   @apply mb-2 text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
-.vuefinder .vuefinder__audio-preview__audio {
+.vuefinder__themer .vuefinder__audio-preview__audio {
   @apply w-full;
 }
 
@@ -85,11 +85,11 @@
   @apply mb-2 text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
-.vuefinder .vuefinder__pdf-preview__object {
+.vuefinder__themer .vuefinder__pdf-preview__object {
   @apply h-[60vh];
 }
 
-.vuefinder .vuefinder__pdf-preview__iframe {
+.vuefinder__themer .vuefinder__pdf-preview__iframe {
   @apply border-0;
 }
 
@@ -111,19 +111,19 @@
   @apply ml-auto flex items-center;
 }
 
-.vuefinder .vuefinder__text-preview__save-button {
+.vuefinder__themer .vuefinder__text-preview__save-button {
   @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm text-base font-medium sm:ml-3 sm:w-auto sm:text-sm bg-(--vf-accent-primary) text-(--vf-text-inverse);
 }
 
-.vuefinder .vuefinder__text-preview__save-button:hover {
+.vuefinder__themer .vuefinder__text-preview__save-button:hover {
   @apply bg-(--vf-accent-secondary);
 }
 
-.vuefinder .vuefinder__text-preview__edit-button {
+.vuefinder__themer .vuefinder__text-preview__edit-button {
   @apply ml-1 px-2 py-1 text-(--vf-accent-primary);
 }
 
-.vuefinder .vuefinder__text-preview__edit-button:hover {
+.vuefinder__themer .vuefinder__text-preview__edit-button:hover {
   @apply text-(--vf-accent-secondary);
 }
 
@@ -131,11 +131,11 @@
   @apply p-2 border font-normal whitespace-pre-wrap rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto border-(--vf-border-primary) text-(--vf-text-primary) bg-(--vf-bg-primary);
 }
 
-.vuefinder .vuefinder__text-preview__textarea {
+.vuefinder__themer .vuefinder__text-preview__textarea {
   @apply border w-full p-2 rounded min-h-[200px] max-h-[60vh] border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary);
 }
 
-.vuefinder .vuefinder__text-preview__textarea:focus {
+.vuefinder__themer .vuefinder__text-preview__textarea:focus {
   @apply border-(--vf-accent-primary) shadow-[0_0_0_1px_var(--vf-accent-primary)];
 }
 
@@ -145,7 +145,7 @@
   @apply mb-2 text-lg leading-6 font-medium text-(--vf-text-primary);
 }
 
-.vuefinder .vuefinder__video-preview__video {
+.vuefinder__themer .vuefinder__video-preview__video {
   @apply w-full aspect-video;
 }
 
