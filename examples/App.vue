@@ -232,6 +232,10 @@ body {
   margin: 80px auto;
 }
 
+.vuefinder {
+  height: 300px;
+}
+
 .btn{
   display: block;
   margin: 20px auto;
