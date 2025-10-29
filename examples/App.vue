@@ -233,7 +233,7 @@ body {
 }
 
 .vuefinder {
-  height: 300px;
+  height: 500px;
 }
 
 .btn{

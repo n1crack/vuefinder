@@ -1,7 +1,7 @@
 /**  TreeView */
 
 .vuefinder__treeview__overlay {
-  @apply w-full h-full z-[1] bg-(--vf-bg-tertiary);
+  @apply w-full h-full z-[1];
 }
 
 .vuefinder__treeview__backdrop {
