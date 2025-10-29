@@ -5,8 +5,9 @@ import type {
   FileContentResult,
   DeleteParams,
   ArchiveParams,
+  SaveParams,
 } from './types';
-import type { FsData } from '../types';
+import type { DirEntry, FsData } from '../types';
 
 /**
  * Base abstract adapter class that provides common functionality
@@ -121,11 +122,11 @@ export abstract class BaseAdapter implements Adapter {
   /**
    * Search files
    */
-  abstract search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<unknown>;
+  abstract search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<DirEntry[]>;
 
   /**
    * Save content to file
    */
-  abstract save(params: { path: string; content: string }): Promise<unknown>;
+  abstract save(params: SaveParams): Promise<string>;
 }
 

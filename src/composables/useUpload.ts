@@ -238,8 +238,6 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
 
             app.adapter.open(targetPath.path);
 
-            console.log("refresh Items")
-
             // Get uploaded file names from queue
             const uploadedFiles = queue.value
                 .filter(entry => entry.status === QUEUE_ENTRY_STATUS.DONE)

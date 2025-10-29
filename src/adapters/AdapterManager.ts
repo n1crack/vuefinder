@@ -125,8 +125,8 @@ export class AdapterManager {
   async list(path?: string): Promise<FsData> {
     const queryKey = QueryKeys.list(path);
      
-    // Use ensureQueryData from TanStack Query
-    return await this.queryClient.ensureQueryData({
+    // Use fetchQuery from TanStack Query
+    return await this.queryClient.fetchQuery({
       queryKey,
       queryFn: () => this.adapter.list({ path }),
       staleTime: this.config.staleTime,
@@ -254,8 +254,8 @@ export class AdapterManager {
   async getContent(params: { path: string }): Promise<FileContentResult> {
     const queryKey = ['adapter', 'content', params.path] as const;
     
-    // Use ensureQueryData from TanStack Query
-    return await this.queryClient.ensureQueryData({
+    // Use fetchQuery from TanStack Query
+    return await this.queryClient.fetchQuery({
       queryKey,
       queryFn: () => this.adapter.getContent(params),
       staleTime: this.config.staleTime,
@@ -282,7 +282,7 @@ export class AdapterManager {
    */
   async search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<import('../types').DirEntry[]> {
     const key = QueryKeys.search(params.path, params.filter, params.deep, params.size);
-    return await this.queryClient.ensureQueryData({
+    return await this.queryClient.fetchQuery({
       queryKey: key,
       queryFn: () => this.adapter.search(params),
       staleTime: this.config.staleTime,

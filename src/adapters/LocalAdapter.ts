@@ -1,3 +1,4 @@
+import type { DirEntry } from '@/types';
 import { BaseAdapter } from './Adapter';
 import type {
   LocalAdapterConfig,
@@ -5,10 +6,9 @@ import type {
   DeleteResult,
   FileOperationResult,
   FileContentResult,
-  AdapterError,
   ArchiveParams,
+  SaveParams,
 } from './types';
-import type { DirEntry } from '../types';
 
 /**
  * Local adapter for handling file operations in the browser's local environment
@@ -198,14 +198,14 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Search files (not implemented for local)
    */
-  async search(_params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<unknown> {
+  async search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<DirEntry[]> {
     throw new Error('LocalAdapter.search() is not yet implemented.');
   }
 
   /**
    * Save content to file (not implemented for local)
    */
-  async save(_params: { path: string; content: string }): Promise<unknown> {
+  async save(params: SaveParams): Promise<string> {
     throw new Error('LocalAdapter.save() is not yet implemented.');
   }
 }
