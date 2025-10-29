@@ -12,7 +12,7 @@
 }
 
 .vuefinder__new-file-modal__input {
-  @apply px-2 py-1 border rounded w-full bg-(--vf-bg-primary) border-(--vf-border-primary) text-(--vf-text-primary);
+  @apply px-2 py-1 border box-border rounded w-full bg-(--vf-bg-primary) border-(--vf-border-primary) text-(--vf-text-primary);
 }
 
 .vuefinder__new-file-modal__input:focus {

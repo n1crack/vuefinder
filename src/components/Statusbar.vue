@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import {computed, inject, ref, onMounted, onUnmounted} from 'vue';
 import {useStore} from '@nanostores/vue';
-import ModalAbout from "./modals/ModalAbout.vue";
 import StorageSVG from "../assets/icons/storage.svg";
-import AboutSVG from "../assets/icons/about.svg";
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -61,9 +59,6 @@ const totalSelectedSize = computed(() => {
 
     <div class="vuefinder__status-bar__actions"> 
       <slot name="actions" :path="currentPath.path" :count="selectedCount || 0" :selected="selectedItems || []"></slot>
-      <span class="vuefinder__status-bar__about" :title="t('About')" @click="app.modal.open(ModalAbout)">
-        <AboutSVG class="h-5 w-5 stroke-slate-500 cursor-pointer"/>
-      </span>
     </div>
   </div>
 </template>

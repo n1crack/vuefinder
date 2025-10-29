@@ -1,7 +1,7 @@
 {
   "name": "vuefinder",
   "version": "4.0.0-dev",
-  "description": "A modern file manager component for Vue.js, designed for seamless integration and flexible file handling.",
+  "description": "A sleek, developer-friendly file manager for Vue — organize, preview, and manage files with ease.",
   "type": "module",
   "engines": {
     "node": "^20.19.0 || >=22.12.0"

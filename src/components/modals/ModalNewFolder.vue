@@ -39,7 +39,7 @@ const createFolder = () => {
         <div class="vuefinder__new-folder-modal__form">
           <p class="vuefinder__new-folder-modal__description">{{ t('Create a new folder') }}</p>
           <input v-model="name" @keyup.enter="createFolder"
-                 class="vuefinder__new-folder-modal__input" :placeholder="t('Folder Name')" type="text">
+                 class="vuefinder__new-folder-modal__input" :placeholder="t('Folder Name')" type="text" autofocus>
           <message v-if="message.length" @hidden="message=''" error>{{ message }}</message>
         </div>
       </div>

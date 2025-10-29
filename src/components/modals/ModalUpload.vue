@@ -204,19 +204,19 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
           </button>
         </div>
         <div v-if="showActions" class="vuefinder__upload-actions__menu left-0 right-0 absolute bottom-full mb-2">
-          <button type="button" class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">
+          <div class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">
             {{ t('Select Files') }}
-          </button>
-          <button type="button" class="vuefinder__upload-actions__item"
-                  @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}
-          </button>
+          </div>
+          <div class="vuefinder__upload-actions__item"
+               @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}
+          </div>
           <div class="vuefinder__upload-actions__separator"></div>
-          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading"
-                  @click="clear(false); showActions=false">{{ t('Clear all') }}
-          </button>
-          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading"
-                  @click="clear(true); showActions=false">{{ t('Clear only successful') }}
-          </button>
+          <div :class="['vuefinder__upload-actions__item', uploading ? 'disabled' : '']"
+               @click="uploading ? null : (clear(false), showActions=false)">{{ t('Clear all') }}
+          </div>
+          <div :class="['vuefinder__upload-actions__item', uploading ? 'disabled' : '']"
+               @click="uploading ? null : (clear(true), showActions=false)">{{ t('Clear only successful') }}
+          </div>
         </div>
       </div>
 
@@ -243,20 +243,20 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
             </svg>
           </button>
         </div>
-        <div v-if="showActions" class="vuefinder__upload-actions__menu absolute bottom-full mb-2 left-0">
-          <button type="button" class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">
+        <div v-if="showActions" class="vuefinder__upload-actions__menu ">
+          <div class="vuefinder__upload-actions__item" @click="openFileSelector(); showActions=false">
             {{ t('Select Files') }}
-          </button>
-          <button type="button" class="vuefinder__upload-actions__item"
-                  @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}
-          </button>
+          </div>
+          <div class="vuefinder__upload-actions__item"
+               @click="internalFolderInput?.click(); showActions=false">{{ t('Select Folders') }}
+          </div>
           <div class="vuefinder__upload-actions__separator"></div>
-          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading"
-                  @click="clear(false); showActions=false">{{ t('Clear all') }}
-          </button>
-          <button type="button" class="vuefinder__upload-actions__item" :disabled="uploading"
-                  @click="clear(true); showActions=false">{{ t('Clear only successful') }}
-          </button>
+          <div :class="['vuefinder__upload-actions__item', uploading ? 'disabled' : '']"
+               @click="uploading ? null : (clear(false), showActions=false)">{{ t('Clear all') }}
+          </div>
+          <div :class="['vuefinder__upload-actions__item', uploading ? 'disabled' : '']"
+               @click="uploading ? null : (clear(true), showActions=false)">{{ t('Clear only successful') }}
+          </div>
         </div>
       </div>
     </template>

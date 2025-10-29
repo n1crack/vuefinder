@@ -379,10 +379,23 @@ const menuItems = computed(() => [
       }
     ]
   },
+  
   {
     id: 'help',
     label: t('Help'),
     items: [
+      {
+        id: 'settings',
+        label: t('Settings'),
+        action: async () => app?.modal?.open((await import('./modals/ModalSettings.vue')).default),
+        enabled: () => true
+      },
+      {
+        id: 'shortcuts',
+        label: t('Shortcuts'),
+        action: async () => app?.modal?.open((await import('./modals/ModalShortcuts.vue')).default),
+        enabled: () => true
+      },
       {
         id: 'about',
         label: t('About'),

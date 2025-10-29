@@ -13,7 +13,7 @@
 }
 
 .vf-btn-primary:hover {
-  @apply bg-(--vf-accent-secondary) border-(--vf-accent-secondary) text-(--vf-text-inverse);
+  @apply bg-(--vf-accent-primary) border-(--vf-accent-primary) text-(--vf-text-inverse);
 }
 
 .vf-btn-primary:focus {
@@ -45,7 +45,7 @@
 }
 
 .vf-btn-danger:hover {
-  @apply bg-(--vf-interactive-active) border-(--vf-interactive-active);
+  @apply bg-(--vf-accent-error) border-(--vf-accent-error);
 }
 
 .vf-btn-danger:focus {

@@ -86,11 +86,11 @@
 }
 
 .vuefinder__upload-actions__menu {
-  @apply absolute z-10 min-w-[12rem] rounded-md border shadow-lg py-1 text-sm bg-(--vf-bg-primary) border-(--vf-border-primary) shadow-[0_10px_15px_-3px_var(--vf-shadow-md),0_4px_6px_-2px_var(--vf-shadow-sm)];
+  @apply absolute bottom-full mb-2 left-0 z-10 min-w-[12rem] rounded-md border shadow-lg py-1 text-sm bg-(--vf-bg-primary) border-(--vf-border-primary);
 }
 
 .vuefinder__upload-actions__item {
-  @apply block w-full text-left px-3 py-2 text-(--vf-text-primary);
+  @apply block text-left px-3 py-2 text-(--vf-text-primary);
 }
 
 .vuefinder__upload-actions__item:hover {
