@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// @ts-nocheck
 import { inject, onMounted, provide, watch } from 'vue';
 import { ServiceContainerKey } from '../composables/useApp';
 import { useStore } from '@nanostores/vue';
@@ -125,7 +124,7 @@ onMounted(() => {
   });
 
   // Emit select event based on store selected items
-  fs.selectedItems.listen((items) => {
+  fs.selectedItems.listen((items: DirEntry[] | null) => {
     emit('select', items);
   });
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// @ts-nocheck
 import { computed, ref } from 'vue';
 import ItemIcon from './ItemIcon.vue';
 import PinSVG from '../assets/icons/pin.svg';

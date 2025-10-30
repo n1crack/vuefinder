@@ -27,7 +27,7 @@ export abstract class BaseAdapter implements Adapter {
    * Validate that a file path is provided
    */
   protected validatePath(path: string): void {
-    if (!path || typeof path !== 'string') {
+    if (!path) {
       throw new Error('Path must be a non-empty string');
     }
   }

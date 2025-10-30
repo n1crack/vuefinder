@@ -5,6 +5,7 @@
  * with VueFinder.
  */
 
+/** @ts-ignore */
 import { LocalAdapter, CloudAdapter, BaseAdapter, AdapterManager } from '../src/adapters';
 
 // ============================================================================

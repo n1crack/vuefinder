@@ -12,7 +12,7 @@ import type { App, DirEntry } from '../types';
 type TargetKey = 'none' | 'one' | 'many';
 
 export const ContextMenuIds = {
-  newfolder: 'newfolder',
+  new_folder: 'new_folder',
   selectAll: 'selectAll',
   pinFolder: 'pinFolder',
   unpinFolder: 'unpinFolder',
@@ -124,7 +124,7 @@ export const menuItems: Item[] = [
     },
   },
   {
-    id: ContextMenuIds.newfolder,
+    id: ContextMenuIds.new_folder,
     title: ({ t }) => t('New Folder'),
     action: (app) => app.modal.open(ModalNewFolder),
     show: showIf({ target: 'none', feature: FEATURES.NEW_FOLDER }),

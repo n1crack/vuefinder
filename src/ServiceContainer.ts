@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { reactive, useTemplateRef, computed, markRaw } from 'vue';
 import mitt from 'mitt';
 import { useStorage } from './composables/useStorage';
