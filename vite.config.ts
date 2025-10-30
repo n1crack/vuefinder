@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 import tailwindcss from '@tailwindcss/vite';
 import svgLoader from 'vite-svg-loader';
 import copy from 'rollup-plugin-copy';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
 // https://vite.dev/config/
 export default defineConfig({
