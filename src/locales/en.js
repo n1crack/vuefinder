@@ -78,7 +78,7 @@ export default {
     'Network Error, Unable establish connection to the server or interrupted.',
   'Pending upload': 'Pending',
   'Please select file to upload first.': 'Please select file to upload first.',
-  
+
   Settings: 'Settings',
   Shortcuts: 'Shortcuts',
   Reset: 'Reset',
