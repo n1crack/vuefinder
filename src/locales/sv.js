@@ -1,6 +1,9 @@
 import uppyLocaleSv from '@uppy/locales/lib/sv_SE.js';
 
 export default {
+    "A modern, customizable file manager component built for Vue.": "En modern, anpassningsbar filhanterarkomponent byggd för Vue.",
+    "Project Home": "Projektsida",
+    "If you like it, please follow and ⭐ star on GitHub.": "Om du gillar den, följ och ge en ⭐ stjärna på GitHub.",
     "Language": "Språk",
     "Create": "Skapa",
     "Close": "Stäng",
@@ -43,7 +46,7 @@ export default {
     "Unarchive the files": "Avarkivera filer",
     "The archive will be unarchived at": "Arkivet kommer att avarkiveras i",
     "Archive name. (.zip file will be created)": "Arkivnamn. (.zip-fil kommer att skapas)",
-    "Vuefinder is a file manager component for vue 3.": "Vuefinder är en filhanteringskomponent för Vue 3.",
+    
     "Create a new folder": "Skapa en ny mapp",
     "Create a new file": "Skapa en ny fil",
     "Are you sure you want to delete these files?": "Är du säker på att du vill radera dessa filer?",

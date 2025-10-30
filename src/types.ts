@@ -10,7 +10,7 @@ export type App = ReturnType<typeof ServiceContainer>
 export interface VueFinderProps {
   id?: string;
   config?: Record<string, unknown>;
-  adapter: Adapter;
+  adapter?: Adapter;
   features?: boolean | string[];
   debug?: boolean;
   theme?: Theme;
@@ -31,7 +31,7 @@ export interface VueFinderProps {
    * Custom uploader configuration (optional)
    * If provided, will override adapter's configureUploader
    */
-  customUploader?: (uppy: any, context: { getTargetPath: () => string; getHeaders: () => Record<string, string>; t: (key: string) => string }) => void;
+  customUploader?: (uppy: any, context: { getTargetPath: () => string; getHeaders?: () => Record<string, string>; t: (key: string) => string }) => void;
 }
 
 export type SelectEvent = (items: DirEntry[]) => void;

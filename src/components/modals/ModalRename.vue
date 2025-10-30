@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
+import { useApp } from '../../composables/useApp';
 import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import RenameSVG from "../../assets/icons/rename.svg";
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 const fs = app.fs;
 const currentPath = useStore(fs.path);
@@ -20,7 +21,7 @@ const rename = () => {
       path: currentPath.value.path,
       item: item.value.path,
       name: name.value
-    }).then((result) => {
+    }).then((result: any) => {
       app.emitter.emit('vf-toast-push', {label: t('%s is renamed.', name.value)});
       app.fs.setFiles(result.files);
       app.modal.close();

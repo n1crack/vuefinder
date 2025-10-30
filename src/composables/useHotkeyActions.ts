@@ -70,7 +70,7 @@ export function useHotkeyActions(app: any) {
                 app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('No items selected')});
                 return;
             };
-            fs.setClipboard('copy', new Set(selectedItems.value.map(item => item.path)));
+            fs.setClipboard('copy', new Set(selectedItems.value.map((item: any) => item.path)));
             app.emitter.emit('vf-toast-push', {label: selectedItems.value.length === 1 ? app.i18n.t('Item copied to clipboard') : app.i18n.t('%s items copied to clipboard', selectedItems.value.length)});
             e.preventDefault();
         }
@@ -80,7 +80,7 @@ export function useHotkeyActions(app: any) {
                 app.emitter.emit('vf-toast-push', {type: 'error', label: app.i18n.t('No items selected')});
                 return;
             };
-            fs.setClipboard('cut', new Set(selectedItems.value.map(item => item.path)));
+            fs.setClipboard('cut', new Set(selectedItems.value.map((item: any) => item.path)));
             app.emitter.emit('vf-toast-push', {label: selectedItems.value.length === 1 ? app.i18n.t('Item cut to clipboard') : app.i18n.t('%s items cut to clipboard', selectedItems.value.length)});
             e.preventDefault();
         }

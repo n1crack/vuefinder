@@ -1,6 +1,7 @@
-import { inject, ref, onMounted, onUnmounted, type Ref } from 'vue';
+import { ref, onMounted, onUnmounted, type Ref } from 'vue';
+import { useApp } from '../composables/useApp';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
-import type { DirEntry } from '@/types';
+import type { DirEntry } from '../types';
 import { useStore } from '@nanostores/vue';
 
 export interface UseSelectionDeps<T> {
@@ -16,7 +17,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const {  getItemPosition, getItemsInRange, getKey, selectionObject, rowHeight, itemWidth } = deps;
 
     const explorerId = Math.floor(Math.random() * 2 ** 32).toString();
-    const app = inject('ServiceContainer');
+    const app = useApp();
     const fs = app.fs;
     
     // Make nanostores reactive in Vue context
@@ -226,7 +227,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 						minCol: Math.min(...allPositions.map(p => p.col)),
 						maxCol: Math.max(...allPositions.map(p => p.col)),
 					};
-					getItemsInRange(sortedFiles.value || [], minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol).forEach(
+                    (getItemsInRange((sortedFiles.value as any[]) || [], minMaxIds.minRow, minMaxIds.maxRow, minMaxIds.minCol, minMaxIds.maxCol) as any[]).forEach(
 						(item) => {
 							const key = getKey(item as T);
 							const el = document.querySelector(`[data-key="${key}"]`);

@@ -44,7 +44,9 @@ export class CloudAdapter extends BaseAdapter {
         // Set file metadata on upload start (path will be sent as form field)
         uppy.on('upload', () => {
             const targetPath = context.getTargetPath();
-            uppy.getFiles().forEach((file: UppyFile<Meta, Record<string, never>>) => {
+            type FileWithId = { id: string };
+            const filesWithId = uppy.getFiles() as FileWithId[];
+            filesWithId.forEach((file) => {
                 uppy.setFileMeta(file.id, { path: targetPath });
             });
         });

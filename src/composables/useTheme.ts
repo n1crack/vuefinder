@@ -1,12 +1,7 @@
 import { computed, type ComputedRef, type Ref, unref } from 'vue';
 import { useStore } from '@nanostores/vue';
 import type { Theme } from '../stores/theme';
-import type { ConfigState } from '../stores/config';
-
-interface ConfigStore {
-    state: { get: () => ConfigState };
-    set: <K extends keyof ConfigState>(keyOrPatch: K | Partial<ConfigState>, value?: ConfigState[K]) => void;
-}
+import type { ConfigStore } from '../stores/config';
 
 /**
  * Theme management

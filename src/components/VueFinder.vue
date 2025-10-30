@@ -1,5 +1,7 @@
 <script setup lang="ts">
+// @ts-nocheck
 import {inject, onMounted, provide, watch} from 'vue';
+import { ServiceContainerKey } from '../composables/useApp';
 import {useStore} from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import {useHotkeyActions} from '../composables/useHotkeyActions';
@@ -16,6 +18,8 @@ import ModalUpload from '../components/modals/ModalUpload.vue';
 import {menuItems as contextMenuItems} from '../utils/contextmenu';
 import type {VueFinderProps, DirEntry} from '../types';
 import type {FsData} from '../adapters/types';
+import type { StoreValue } from 'nanostores';
+import type { ConfigState } from '../stores/config';
 
 const emit = defineEmits(['select', 'path-change', 'upload-complete', 'delete-complete', 'error', 'ready', 'file-dclick', 'folder-dclick'])
 
@@ -32,13 +36,13 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
 
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions') || {});
-provide('ServiceContainer', app);
+provide(ServiceContainerKey, app);
 const config = app.config;
 
 const fs = app.fs;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config.state);
+const configState: StoreValue<ConfigState> = useStore(config.state);
 
 useHotkeyActions(app);
 

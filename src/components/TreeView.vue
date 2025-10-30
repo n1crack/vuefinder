@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {inject, onMounted, onUnmounted, ref, watch} from 'vue';
+import {onMounted, ref, watch, computed} from 'vue';
+import { useApp } from '../composables/useApp';
 import {useStore} from '@nanostores/vue';
 import FolderSVG from '../assets/icons/folder.svg';
 import OpenFolderSVG from '../assets/icons/open_folder.svg';
@@ -11,9 +12,12 @@ import TreeStorageItem from "./TreeStorageItem.vue";
 import upsert from "../utils/upsert";
 import FolderIndicator from "./FolderIndicator.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
-import type {App, PinnedFolder} from '../types';
+import type {DirEntry, PinnedFolder} from '../types';
+import type { StoreValue } from 'nanostores';
+import type { ConfigState } from '../stores/config';
+import type { CurrentPathState } from '../stores/files';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 const {getStore, setStore} = app.storage;
 
@@ -21,10 +25,11 @@ const fs = app.fs;
 const config = app.config;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config.state);
-const sortedFiles = useStore(fs.sortedFiles);
+const configState: StoreValue<ConfigState> = useStore(config.state);
+const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
 const storages = useStore(fs.storages);
-const path = useStore(fs.path);
+const storagesList = computed(() => storages.value || []);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 
@@ -33,7 +38,8 @@ const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
 watch(pinnedFoldersOpened, (value) => setStore('pinned-folders-opened', value));
 
 const removePin = (item: PinnedFolder) => {
-  config.set('pinnedFolders', config.get('pinnedFolders').filter((fav: PinnedFolder) => fav.path !== item.path));
+  const current = config.get('pinnedFolders') as unknown as PinnedFolder[];
+  config.set('pinnedFolders', current.filter((fav: PinnedFolder) => fav.path !== item.path) as any);
 }
 
 const handleMouseDown = (e: MouseEvent) => {
@@ -94,9 +100,9 @@ onMounted(() => {
 // watch for changes in the fs.data
 // update the treeViewData
 watch(sortedFiles, (newFiles) => {
-  const folders = newFiles.filter((e) => e.type === 'dir');
+  const folders = newFiles.filter((e: DirEntry) => e.type === 'dir');
   upsert(app.treeViewData, {
-    path: path.value?.path || '', folders: folders.map((item) => {
+    path: currentPath.value.path || '', folders: folders.map((item: DirEntry) => {
       return {
         storage: item.storage,
         path: item.path,
@@ -143,13 +149,13 @@ watch(sortedFiles, (newFiles) => {
                 class="vuefinder__treeview__pinned-folder"
                 @click="app.adapter.open(folder.path)"
             >
-              <FolderSVG class="vuefinder__treeview__folder-icon vuefinder__item-icon__folder" v-if="path?.path !== folder.path"/>
-              <OpenFolderSVG class="vuefinder__item-icon__folder--open vuefinder__treeview__open-folder-icon" v-if="path?.path === folder.path"/>
+              <FolderSVG class="vuefinder__treeview__folder-icon vuefinder__item-icon__folder" v-if="currentPath.path !== folder.path"/>
+              <OpenFolderSVG class="vuefinder__item-icon__folder--open vuefinder__treeview__open-folder-icon" v-if="currentPath.path === folder.path"/>
               <div
                   :title="folder.path"
                   class="vuefinder__treeview__folder-name"
                   :class="{
-                  'vuefinder__treeview__folder-name--active': path?.path === folder.path,
+                  'vuefinder__treeview__folder-name--active': currentPath.path === folder.path,
                 }"
               >
                 {{ folder.basename }}
@@ -165,7 +171,7 @@ watch(sortedFiles, (newFiles) => {
         </ul>
       </div>
  
-      <div class="vuefinder__treeview__storage" v-for="storage in storages" :key="storage">
+      <div class="vuefinder__treeview__storage" v-for="storage in storagesList" :key="storage">
         <TreeStorageItem :storage="storage"/>
       </div>
     </div>

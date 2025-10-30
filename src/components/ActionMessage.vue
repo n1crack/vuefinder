@@ -1,19 +1,20 @@
 <script lang="ts">
-import {ref, onMounted, onUnmounted, inject} from 'vue';
+import {ref, onMounted, onUnmounted} from 'vue';
+import { useApp } from '../composables/useApp';
 
 export default {
   props: {
     on: {type: String, required: true},
   },
   setup(props, {emit, slots}) {
-    const app = inject('ServiceContainer');
+    const app = useApp();
     const shown = ref(false);
     const {t} = app.i18n;
 
-    let timeout = null;
+    let timeout: ReturnType<typeof setTimeout> | null = null;
 
     const handleEvent = () => {
-      clearTimeout(timeout);
+      if (timeout) clearTimeout(timeout);
       shown.value = true;
       timeout = setTimeout(() => {
         shown.value = false;
@@ -25,7 +26,7 @@ export default {
     });
 
     onUnmounted(() => {
-      clearTimeout(timeout);
+      if (timeout) clearTimeout(timeout);
     });
 
     return {

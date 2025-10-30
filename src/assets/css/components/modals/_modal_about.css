@@ -35,7 +35,7 @@
 }
 
 .vuefinder__about-modal__links {
-  @apply mt-3 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-2;
+  @apply mt-3 grid grid-cols-2 gap-2;
 }
 
 .vuefinder__about-modal__link-btn {
@@ -65,7 +65,7 @@
 }
 
 .vuefinder__about-modal__meta {
-  @apply mt-3 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-2;
+  @apply mt-3 grid grid-cols-2 gap-2;
 }
 
 .vuefinder__about-modal__meta-item {

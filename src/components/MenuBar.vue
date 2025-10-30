@@ -18,11 +18,13 @@ import ModalPreview from "./modals/ModalPreview.vue";
 import ModalSearch from './modals/ModalSearch.vue';
 import ModalSettings from './modals/ModalSettings.vue';
 import ModalShortcuts from './modals/ModalShortcuts.vue';
+import { useApp } from '../composables/useApp';
 
-const app = inject('ServiceContainer');
-if (!app) {
-  throw new Error('MenuBar: ServiceContainer not found');
-}
+import type { StoreValue } from 'nanostores';
+import type { ConfigState } from '../stores/config';
+
+const app = useApp();
+
 
 const {t} = app?.i18n || { t: (key: string) => key };
 
@@ -30,8 +32,8 @@ const fs = app?.fs;
 const config = app?.config;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config?.state || {});
-const selectedItems = useStore(fs?.selectedItems || []);
+const configState: StoreValue<ConfigState> = useStore(config.state);
+const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
 const storages = useStore(fs?.storages || []);
 
 // Menu state
@@ -47,7 +49,7 @@ const shouldShowExit = computed(() => {
 });
 
 // Make menu items reactive to language changes
-const menuItems = computed(() => [
+const menuItems = computed<any[]>(() => [
   {
     id: 'file',
     label: t('File'),
@@ -224,7 +226,7 @@ const menuItems = computed(() => [
           if (selectedItems.value.length === 1) {
             const item = selectedItems.value[0];
             const storage = fs?.path?.get()?.storage ?? 'local';
-            const downloadUrl = app?.requester?.getDownloadUrl(storage, item);
+            const downloadUrl = app?.adapter?.getDownloadUrl({ path: item.path });
             if (downloadUrl) {
               await copyDownloadUrl(downloadUrl);
             }

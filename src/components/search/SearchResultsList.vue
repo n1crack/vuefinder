@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, inject, computed, useTemplateRef, watch, onMounted, onUnmounted } from 'vue';
+import { useApp } from '../../composables/useApp';
 import LoadingSVG from '../../assets/icons/loading.svg';
 import SearchResultItem from './SearchResultItem.vue';
 import type { DirEntry } from '../../types.ts';
@@ -30,7 +31,7 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const { t } = app.i18n;
 
 // Template refs

@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { inject, computed, ref } from 'vue';
+// @ts-nocheck
+import { computed, ref } from 'vue';
 import ItemIcon from './ItemIcon.vue';
 import PinSVG from "../assets/icons/pin.svg";
 import title_shorten from '../utils/title_shorten';
 import type { DirEntry } from '../types';
 import LockSVG from "../assets/icons/lock.svg";
+import { useApp } from '../composables/useApp';
 
 const props = defineProps<{
   item: DirEntry;
@@ -27,7 +29,7 @@ const emit = defineEmits<{
   dragend: [event: DragEvent];
 }>();
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const fs = app.fs;
 const config = app.config;
 

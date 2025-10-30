@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, inject, onMounted, ref} from 'vue';
+import { useApp } from '../composables/useApp';
 import {useStore} from '@nanostores/vue';
 
 import FolderSVG from "../assets/icons/folder.svg";
@@ -7,15 +8,18 @@ import OpenFolderSVG from "../assets/icons/open_folder.svg";
 import FolderLoaderIndicator from "./FolderLoaderIndicator.vue";
 import {OverlayScrollbars} from "overlayscrollbars";
 import {useDragNDrop} from '../composables/useDragNDrop';
+import type { TreeViewData, DirEntry } from '../types';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../stores/files';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const fs = app.fs;
 const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 const showSubFolders = ref<Record<string, boolean>>({});
 const {t} = app.i18n;
 
 // Make path reactive
-const currentPath = useStore(fs.path);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const props = defineProps<{
   storage: string
@@ -34,7 +38,8 @@ onMounted(() => {
   }
 });
 const treeSubFolders = computed(() => {
-  return app.treeViewData.find((e: {path: string, folders: Array<{storage: string, path: string, basename: string, type: 'dir'}>}) => e.path === props.path)?.folders || [];
+  const entry = app.treeViewData.find((e: TreeViewData) => e.path === props.path) as TreeViewData | undefined;
+  return entry?.folders || [];
 })
 </script>
 
@@ -49,7 +54,7 @@ const treeSubFolders = computed(() => {
         class="vuefinder__treesubfolderlist__item"
     >
       <div
-          v-on="dragNDrop.events({...item, type: 'dir'})"
+
           class="vuefinder__treesubfolderlist__item-content">
         <div
             class="vuefinder__treesubfolderlist__item-toggle"
@@ -58,6 +63,15 @@ const treeSubFolders = computed(() => {
           <FolderLoaderIndicator :storage="storage" :path="item.path" v-model="showSubFolders[item.path]"/>
         </div>
         <div
+            v-on="dragNDrop.events({
+              ...item,
+              dir: item.path,
+              extension: '',
+              file_size: null,
+              last_modified: null,
+              mime_type: null,
+              visibility: 'public'
+            } as DirEntry)"
             class="vuefinder__treesubfolderlist__item-link"
             :title="item.path"
             @dblclick="showSubFolders[item.path] = !showSubFolders[item.path]"
@@ -70,7 +84,7 @@ const treeSubFolders = computed(() => {
           <div
               class="vuefinder__treesubfolderlist__item-text"
               :class="{
-              'vuefinder__treesubfolderlist__item-text--active': currentPath?.path === item.path,
+              'vuefinder__treesubfolderlist__item-text--active': currentPath.path === item.path,
             }"
           >
             {{ item.basename }}

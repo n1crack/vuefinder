@@ -1,5 +1,5 @@
 import { atom, computed, type StoreValue} from 'nanostores'
-import type {DirEntry} from '@/types';
+import type {DirEntry} from '../types';
 import { useStore } from '@nanostores/vue';
 
 export type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
@@ -304,13 +304,13 @@ export const createFilesStore = () => {
     // helper reactive
     const isCut = (key: string): boolean => {
         const isItemCutStore = createIsCut(key);
-        const isItemCut = useStore<boolean>(isItemCutStore);
+        const isItemCut = useStore(isItemCutStore);
         return isItemCut.value ?? false;
     }
 
     const isCopied = (key: string): boolean => {
         const isItemCopiedStore = createIsCopied(key);
-        const isItemCopied = useStore<boolean>(isItemCopiedStore);
+        const isItemCopied = useStore(isItemCopiedStore);
         return isItemCopied.value ?? false;
     }
 

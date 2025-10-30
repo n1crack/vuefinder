@@ -1,4 +1,4 @@
-import type { DirEntry } from '@/types';
+import type { DirEntry } from '../types';
 import { BaseAdapter } from './Adapter';
 import type {
   LocalAdapterConfig,

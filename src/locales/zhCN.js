@@ -1,6 +1,9 @@
 import uppyLocalezhCN from '@uppy/locales/lib/zh_CN.js';
 
 export default {
+    "A modern, customizable file manager component built for Vue.": "为 Vue 构建的现代、可自定义的文件管理器组件。",
+    "Project Home": "项目主页",
+    "If you like it, please follow and ⭐ star on GitHub.": "如果你喜欢，请关注并在 GitHub 上点 ⭐ 星标。",
     "Language": "语言",
     "Create": "创建",
     "Close": "关闭",
@@ -43,7 +46,6 @@ export default {
     "Unarchive the files": "解压缩文件",
     "The archive will be unarchived at": "此压缩文件将解压到",
     "Archive name. (.zip file will be created)": "压缩包名称。(将创建 .zip 文件)",
-    "Vuefinder is a file manager component for vue 3.": "Vuefinder 是 Vue 3 的一个文件管理组件。",
     "Create a new folder": "创建一个新文件夹",
     "Create a new file": "创建一个新文件",
     "Are you sure you want to delete these files?": "您确定要删除这些文件吗？",

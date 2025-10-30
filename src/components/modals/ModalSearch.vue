@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { inject } from 'vue';
+import { useApp } from '../../composables/useApp';
 import useDebouncedRef from '../../composables/useDebouncedRef';
 import SearchSVG from '../../assets/icons/search.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
@@ -21,7 +22,7 @@ import { copyPath } from '../../utils/clipboard';
 
 defineOptions({ name: 'ModalSearch' });
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const { t } = app.i18n;
 const fs = app.fs;
 

@@ -242,7 +242,7 @@ export const menuItems: Item[] = [
         let targetStorage = currentPath.storage;
         
         // If a single folder is selected, use its path as target
-        if (selectedItems.length === 1 && selectedItems[0].type === 'dir') {
+        if (selectedItems.length === 1 && selectedItems[0]?.type === 'dir') {
           targetPath = selectedItems[0].path;
           targetStorage = selectedItems[0].storage;
         }

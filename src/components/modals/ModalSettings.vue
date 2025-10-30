@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, inject} from 'vue';
+import { useApp } from '../../composables/useApp';
 import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
@@ -7,16 +8,17 @@ import ActionMessage from "../../components/ActionMessage.vue";
 import {format as filesizeDefault, metricFormat as filesizeMetric} from '../../utils/filesize'
 import { themes, type Theme } from '../../stores/theme';
 import {FEATURES} from '../../features';
-
+import type { StoreValue } from 'nanostores';
+import type { ConfigState } from '../../stores/config';
 import SettingsIcon from "../../assets/icons/gear.svg";
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const config = app.config;
 const {clearStore} = app.storage;
 const {t} = app.i18n;
 
 // Reactive store for config
-const configState = useStore(config.state);
+const configState: StoreValue<ConfigState> = useStore(config.state);
 
 // Selected theme computed
 const selectedTheme = computed<Theme>(() => {

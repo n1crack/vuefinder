@@ -1,7 +1,17 @@
 import ModalMove from "../components/modals/ModalMove.vue";
 import { dirname } from "../utils/path";
-import type { App, DirEntry } from "../types";
+import type { App, DirEntry, DirEntryType } from "../types";
 import { useStore } from '@nanostores/vue';
+
+export interface DragNDropItem  {
+  path: string;
+  type: DirEntryType; 
+}
+
+export interface DragNDropEvent extends DragEvent {
+  currentTarget: HTMLElement;
+  isExternalDrag: boolean;
+}
 
 export function useDragNDrop(app: App, classList: string[] = []) {
   const DATASET_COUNTER_KEY = "vfDragEnterCounter";
@@ -10,9 +20,9 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   // Make selectedItems reactive
   const selectedItems = useStore(fs.selectedItems);
 
-  function handleDragOver(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
+  function handleDragOver(e: DragNDropEvent, target: DragNDropItem) {
     // Skip if this is an external drag
-    if ((e as any).isExternalDrag) {
+    if (e.isExternalDrag) {
       return;
     }
     
@@ -39,46 +49,46 @@ export function useDragNDrop(app: App, classList: string[] = []) {
     }
   }
 
-  function handleDragEnter(e: DragEvent & { currentTarget: HTMLElement }) {
+  function handleDragEnter(e: DragNDropEvent) {
     // Skip if this is an external drag
-    if ((e as any).isExternalDrag) {
+    if (e.isExternalDrag) {
       return;
     }
     
     e.preventDefault();
-    const el = e.currentTarget;
-    const currentCount = Number((el as any).dataset[DATASET_COUNTER_KEY] || 0);
-    (el as any).dataset[DATASET_COUNTER_KEY] = String(currentCount + 1);
+    const el : HTMLElement = e.currentTarget;
+    const currentCount = Number(el.dataset[DATASET_COUNTER_KEY] || 0);
+    el.dataset[DATASET_COUNTER_KEY] = String(currentCount + 1);
   }
 
-  function handleDragLeave(e: DragEvent & { currentTarget: HTMLElement }) {
+  function handleDragLeave(e: DragNDropEvent) {
     // Skip if this is an external drag
-    if ((e as any).isExternalDrag) {
+    if (e.isExternalDrag) {
       return;
     }
     
     e.preventDefault();
-    const el = e.currentTarget;
-    const currentCount = Number((el as any).dataset[DATASET_COUNTER_KEY] || 0);
+    const el : HTMLElement = e.currentTarget;
+    const currentCount = Number(el.dataset[DATASET_COUNTER_KEY] || 0);
     const nextCount = currentCount - 1;
     if (nextCount <= 0) {
-      delete (el as any).dataset[DATASET_COUNTER_KEY];
+      delete el.dataset[DATASET_COUNTER_KEY];
       el.classList.remove(...classList);
     } else {
-      (el as any).dataset[DATASET_COUNTER_KEY] = String(nextCount);
+      el.dataset[DATASET_COUNTER_KEY] = String(nextCount);
     }
   }
 
-  function handleDropZone(e: DragEvent & { currentTarget: HTMLElement }, target: DirEntry) {
+  function handleDropZone(e: DragNDropEvent, target: DragNDropItem) {
     // Skip if this is an external drag
-    if ((e as any).isExternalDrag) {
+    if (e.isExternalDrag) {
       return;
     }
     
     if (!target) return;
     e.preventDefault();
-    const el = e.currentTarget;
-    delete (el as any).dataset[DATASET_COUNTER_KEY];
+    const el : HTMLElement = e.currentTarget;
+    delete el.dataset[DATASET_COUNTER_KEY];
     el.classList.remove(...classList);
     const data = e.dataTransfer?.getData("items") || '[]';
     const draggedItemKeys: string[] = JSON.parse(data);
@@ -87,12 +97,12 @@ export function useDragNDrop(app: App, classList: string[] = []) {
     app.modal.open(ModalMove, { items: { from: draggedItems, to: target } });
   }
 
-  function events(item: DirEntry) {
+  function events(item: DragNDropItem) {
     return {
-      dragover: (e: DragEvent & { currentTarget: HTMLElement }) => handleDragOver(e, item),
+      dragover: (e: DragNDropEvent) => handleDragOver(e, item),
       dragenter: handleDragEnter,
       dragleave: handleDragLeave,
-      drop: (e: DragEvent & { currentTarget: HTMLElement }) => handleDropZone(e, item),
+      drop: (e: DragNDropEvent) => handleDropZone(e, item),
     } as const;
   }
 

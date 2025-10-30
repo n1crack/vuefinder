@@ -1,4 +1,4 @@
 /* Theme-aware drag over class for all components */
 .vuefinder__drag-over {
-  @apply bg-(--vf-selection-bg) border border-(--vf-selection-border);
+  @apply bg-(--vf-selection-bg)  border-(--vf-selection-border);
 }

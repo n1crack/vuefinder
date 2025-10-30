@@ -1,6 +1,9 @@
 import uppyLocaleAr from '@uppy/locales/lib/ar_SA.js';
 
 export default {
+    "A modern, customizable file manager component built for Vue.": "مكوّن حديث وقابل للتخصيص لإدارة الملفات مبني لـ Vue.",
+    "Project Home": "صفحة المشروع",
+    "If you like it, please follow and ⭐ star on GitHub.": "إذا أعجبك، يرجى المتابعة ووضع ⭐ نجمة على GitHub.",
     "Language": "اللّغة",
     "Create": "إنشاء",
     "Close": "إغلاق",
@@ -45,8 +48,7 @@ export default {
     "Archive the files": "أرشفة الملفات",
     "Unarchive the files": "إلغاء أرشفة الملفات",
     "The archive will be unarchived at": "سيتم إلغاء أرشفة الأرشيف في",
-    "Archive name. (.zip file will be created)": "اسم الأرشيف. (سيتم إنشاء ملف zip)",
-    "Vuefinder is a file manager component for vue 3.": "Vuefinder هو أحد مكونات مدير الملفات لـ Vue 3.",
+    "Archive name. (.zip file will be created)": "اسم الأرشيف. (سيتم إنشاء ملف zip)",    
     "Create a new folder": "إنشاء مجلد جديد",
     "Create a new file": "إنشاء ملف جديد",
     "Are you sure you want to delete these files?": "هل أنت متأكد من أنك تريد حذف هذه الملفات؟",

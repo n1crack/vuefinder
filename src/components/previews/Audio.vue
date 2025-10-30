@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { useApp } from '../../composables/useApp';
 import {inject, onMounted} from 'vue';
 
 const emit = defineEmits(['success']);
-const app = inject('ServiceContainer');
+const app = useApp();
 
 const getAudioUrl = () => {
+  const app = useApp();
   return app.adapter.getPreviewUrl({ path: app.modal.data.item.path })
 }
 

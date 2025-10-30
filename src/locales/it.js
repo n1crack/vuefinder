@@ -1,6 +1,9 @@
 import uppyLocaleIt from '@uppy/locales/lib/it_IT.js';
 
 export default {
+    "A modern, customizable file manager component built for Vue.": "Un file manager moderno e personalizzabile creato per Vue.",
+    "Project Home": "Pagina del progetto",
+    "If you like it, please follow and ⭐ star on GitHub.": "Se ti piace, segui e metti una ⭐ stella su GitHub.",
     "Language": "Lingua",
     "Create": "Crea",
     "Close": "Chiudi",
@@ -46,7 +49,6 @@ export default {
     "Unarchive the files": "Estrai i file",
     "The archive will be unarchived at": "L'archivio verrà estratto in",
     "Archive name. (.zip file will be created)": "Nome archivio. (verrà creato un file .zip)",
-    "Vuefinder is a file manager component for vue 3.": "Vuefinder è un componente file manager per Vue 3.",
     "Create a new folder": "Crea una nuova cartella",
     "Create a new file": "Crea un nuovo file",
     "Are you sure you want to delete these files?": "Sei sicuro di voler eliminare questi file?",

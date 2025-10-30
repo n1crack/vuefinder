@@ -12,7 +12,7 @@ defineProps<{
     <div class="vuefinder__modal-header__icon-container">
       <component :is="icon" class="vuefinder__modal-header__icon"></component>
     </div>
-    <h3 class="vuefinder__modal-header__title" id="modal-title">{{ title }}</h3>
+    <div class="vuefinder__modal-header__title" id="modal-title">{{ title }}</div>
   </div>
 </template>
 
