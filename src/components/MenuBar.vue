@@ -19,6 +19,9 @@ import ModalSearch from './modals/ModalSearch.vue';
 import ModalSettings from './modals/ModalSettings.vue';
 import ModalShortcuts from './modals/ModalShortcuts.vue';
 
+import type { StoreValue } from 'nanostores';
+import type { ConfigState } from '../stores/config';
+
 const app = inject('ServiceContainer');
 if (!app) {
   throw new Error('MenuBar: ServiceContainer not found');
@@ -30,8 +33,8 @@ const fs = app?.fs;
 const config = app?.config;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config?.state || {});
-const selectedItems = useStore(fs?.selectedItems || []);
+const configState: StoreValue<ConfigState> = useStore(config.state);
+const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
 const storages = useStore(fs?.storages || []);
 
 // Menu state

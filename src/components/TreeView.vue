@@ -11,7 +11,9 @@ import TreeStorageItem from "./TreeStorageItem.vue";
 import upsert from "../utils/upsert";
 import FolderIndicator from "./FolderIndicator.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
-import type {App, PinnedFolder} from '../types';
+import type {App, DirEntry, PinnedFolder} from '../types';
+import type { StoreValue } from 'nanostores';
+import type { ConfigState } from '../stores/config';
 
 const app = inject('ServiceContainer');
 const {t} = app.i18n;
@@ -21,8 +23,8 @@ const fs = app.fs;
 const config = app.config;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config.state);
-const sortedFiles = useStore(fs.sortedFiles);
+const configState: StoreValue<ConfigState> = useStore(config.state);
+const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
 const storages = useStore(fs.storages);
 const path = useStore(fs.path);
 

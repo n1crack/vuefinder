@@ -14,7 +14,7 @@ import type { Theme } from "./stores/theme.ts";
 import { useTheme } from "./composables/useTheme";
 import type {App} from "@/types.ts";
 import type { Item as ContextMenuItem } from "./utils/contextmenu";
-
+import type { ConfigStore } from "./stores/config";
 interface ServiceContainerProps {
     id: string;
     adapter: Adapter;
@@ -35,7 +35,7 @@ export default (props: ServiceContainerProps, options: Record<string, unknown>) 
     const supportedLocales = options.i18n;
     const initialLang = props.locale ?? options.locale;
 
-    const configStore = createConfigStore(props.id as string, props.config ?? {});
+    const configStore: ConfigStore = createConfigStore(props.id as string, props.config ?? {});
     const filesStore = createFilesStore();
 
     const setFeatures = (features: unknown) => {
@@ -58,7 +58,7 @@ export default (props: ServiceContainerProps, options: Record<string, unknown>) 
         // Theme
         theme: (() => {
             const themeCtl = useTheme(
-                configStore as unknown as { state: { get: () => import('./stores/config').ConfigState }; set: typeof configStore.set },
+                configStore,
                 () => (props.theme || 'light') as Theme
             );
             return {

@@ -304,13 +304,13 @@ export const createFilesStore = () => {
     // helper reactive
     const isCut = (key: string): boolean => {
         const isItemCutStore = createIsCut(key);
-        const isItemCut = useStore<boolean>(isItemCutStore);
+        const isItemCut = useStore(isItemCutStore);
         return isItemCut.value ?? false;
     }
 
     const isCopied = (key: string): boolean => {
         const isItemCopiedStore = createIsCopied(key);
-        const isItemCopied = useStore<boolean>(isItemCopiedStore);
+        const isItemCopied = useStore(isItemCopiedStore);
         return isItemCopied.value ?? false;
     }
 

@@ -7,7 +7,8 @@ import ActionMessage from "../../components/ActionMessage.vue";
 import {format as filesizeDefault, metricFormat as filesizeMetric} from '../../utils/filesize'
 import { themes, type Theme } from '../../stores/theme';
 import {FEATURES} from '../../features';
-
+import type { StoreValue } from 'nanostores';
+import type { ConfigState } from '../../stores/config';
 import SettingsIcon from "../../assets/icons/gear.svg";
 
 const app = inject('ServiceContainer');
@@ -16,7 +17,7 @@ const {clearStore} = app.storage;
 const {t} = app.i18n;
 
 // Reactive store for config
-const configState = useStore(config.state);
+const configState: StoreValue<ConfigState> = useStore(config.state);
 
 // Selected theme computed
 const selectedTheme = computed<Theme>(() => {

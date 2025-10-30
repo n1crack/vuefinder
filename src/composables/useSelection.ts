@@ -1,6 +1,6 @@
 import { inject, ref, onMounted, onUnmounted, type Ref } from 'vue';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
-import type { DirEntry } from '@/types';
+import type { App, DirEntry } from '@/types';
 import { useStore } from '@nanostores/vue';
 
 export interface UseSelectionDeps<T> {
@@ -16,7 +16,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const {  getItemPosition, getItemsInRange, getKey, selectionObject, rowHeight, itemWidth } = deps;
 
     const explorerId = Math.floor(Math.random() * 2 ** 32).toString();
-    const app = inject('ServiceContainer');
+    const app: App = inject('ServiceContainer');
     const fs = app.fs;
     
     // Make nanostores reactive in Vue context

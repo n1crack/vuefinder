@@ -16,6 +16,8 @@ import ModalUpload from '../components/modals/ModalUpload.vue';
 import {menuItems as contextMenuItems} from '../utils/contextmenu';
 import type {VueFinderProps, DirEntry} from '../types';
 import type {FsData} from '../adapters/types';
+import type { StoreValue } from 'nanostores';
+import type { ConfigState } from '../stores/config';
 
 const emit = defineEmits(['select', 'path-change', 'upload-complete', 'delete-complete', 'error', 'ready', 'file-dclick', 'folder-dclick'])
 
@@ -38,7 +40,7 @@ const config = app.config;
 const fs = app.fs;
 
 // Use nanostores reactive values for template reactivity
-const configState = useStore(config.state);
+const configState: StoreValue<ConfigState> = useStore(config.state);
 
 useHotkeyActions(app);
 

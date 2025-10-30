@@ -5,6 +5,8 @@ import FolderSVG from '../assets/icons/folder.svg';
 
 import type {DirEntry} from '../types'
 import { useStore } from '@nanostores/vue';
+import type { StoreValue } from 'nanostores';
+import type { ConfigState } from '../stores/config';
 
 const props = defineProps<{
   item: DirEntry
@@ -13,7 +15,7 @@ const props = defineProps<{
 }>()
 
 const app = inject('ServiceContainer')
-const configState = useStore(app.config.state)
+const configState: StoreValue<ConfigState> = useStore(app.config.state)
 
 // Scoped slot için gerekli verileri hazırla
 const slotData = {
