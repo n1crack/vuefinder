@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { FEATURE_ALL_NAMES } from '../src/features.js';
-import { CloudAdapter } from '../src/adapters';
+import { CloudAdapter, MemoryAdapter } from '../src/adapters';
+import MemoryExample from './examples/MemoryExample.vue';
+import type { DirEntry } from '../src/types';
 
 // Import example components
 import DefaultExample from './examples/DefaultExample.vue';
@@ -14,10 +16,10 @@ import CustomDclickExample from './examples/CustomDclickExample.vue';
 import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 
-const example = ref('default');
+const example = ref('arrayAdapter');
 
-// Create adapter instance
-const adapter = new CloudAdapter({
+// Create cloud adapter instance
+const cloudAdapter = new CloudAdapter({
   baseURL: 'http://inertia-vuefinder.test/api/files',
   token: '', // Add your auth token here if needed
   url: {
@@ -35,8 +37,46 @@ const adapter = new CloudAdapter({
   },
 });
 
+// Create in-memory MemoryAdapter instance (paths use memory:// scheme)
+const memoryFiles = ref<DirEntry[]>([
+  {
+    storage: 'memory',
+    dir: 'memory://',
+    basename: 'docs',
+    extension: '',
+    path: 'memory://docs',
+    type: 'dir',
+    file_size: null,
+    last_modified: Date.now(),
+    mime_type: null,
+    visibility: 'public',
+  },
+  {
+    storage: 'memory',
+    dir: 'memory://docs',
+    basename: 'readme.txt',
+    extension: 'txt',
+    path: 'memory://docs/readme.txt',
+    type: 'file',
+    file_size: 12,
+    last_modified: Date.now(),
+    mime_type: 'text/plain',
+    visibility: 'public',
+  },
+]);
+const arrayAdapter = new MemoryAdapter({ files: memoryFiles, storage: 'memory' });
+
+const adapter = ref(cloudAdapter as any);
+
+// Map example choices to adapter
+onMounted(() => {
+  // Switch adapter when choosing the ArrayAdapter demo
+  // We add a dedicated example key below
+});
+
 const examples = {
   default: 'Inline select button example',
+  arrayAdapter: 'In-memory MemoryAdapter (no REST)',
   externalSelect: 'External select example',
   contextmenu: 'Custom context menu example',
   customIcons: 'Custom Icons (Scoped Slot)',
@@ -212,6 +252,15 @@ onUnmounted(() => {
         v-if="example === 'selectionFilter'"
         :adapter="adapter"
         :config="config"
+        :features="features"
+        :theme="currentTheme"
+      />
+
+      <!-- MemoryAdapter demo uses a separate instance id to avoid persisted state collisions -->
+      <MemoryExample
+        v-if="example === 'arrayAdapter'"
+        :adapter="arrayAdapter"
+        :config="{ ...config, initialPath: 'memory://', persist: false }"
         :features="features"
         :theme="currentTheme"
       />

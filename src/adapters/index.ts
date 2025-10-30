@@ -50,6 +50,7 @@ export { BaseAdapter } from './Adapter';
 
 // Export adapter implementations
 export { LocalAdapter } from './LocalAdapter';
+export { MemoryAdapter } from './MemoryAdapter';
 export { CloudAdapter } from './CloudAdapter';
 
 // Export adapter manager

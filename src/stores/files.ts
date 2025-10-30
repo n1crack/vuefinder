@@ -58,7 +58,7 @@ export const createFilesStore = () => {
 
   // Path info (simple and robust)
   const path: StoreValue<CurrentPathState> = computed([currentPath], (currentPathValue) => {
-    const raw = (currentPathValue || 'local://').trim();
+    const raw = (currentPathValue ?? '').trim();
     const idx = raw.indexOf('://');
     const storage = idx >= 0 ? raw.slice(0, idx) : '';
     const remainder = idx >= 0 ? raw.slice(idx + 3) : raw;
@@ -313,14 +313,14 @@ export const createFilesStore = () => {
   // helper reactive
   const isCut = (key: string): boolean => {
     const isItemCutStore = createIsCut(key);
-    const isItemCut = useStore(isItemCutStore);
-    return isItemCut.value ?? false;
+    const isItemCut = useStore(isItemCutStore as unknown as { subscribe: (fn: any) => any });
+    return (isItemCut as unknown as { value?: boolean }).value ?? false;
   };
 
   const isCopied = (key: string): boolean => {
     const isItemCopiedStore = createIsCopied(key);
-    const isItemCopied = useStore(isItemCopiedStore);
-    return isItemCopied.value ?? false;
+    const isItemCopied = useStore(isItemCopiedStore as unknown as { subscribe: (fn: any) => any });
+    return (isItemCopied as unknown as { value?: boolean }).value ?? false;
   };
 
   const clearClipboard = () => {

@@ -2,7 +2,7 @@
 
 @import 'tailwindcss/theme.css' layer(theme);
 
-.vuefinder {
+.vuefinder, .vuefinder__themer {
   @import 'tailwindcss/preflight.css' layer(base);
 }
 
