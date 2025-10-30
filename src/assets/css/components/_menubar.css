@@ -1,7 +1,7 @@
 /* MenuBar Styles - Compact modern design */
 .vuefinder__menubar {
   @apply border-b relative z-40 whitespace-nowrap overflow-visible text-[13px] leading-8 bg-(--vf-bg-primary) border-(--vf-border-primary);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   box-shadow: none;
 }
 
@@ -43,7 +43,9 @@
   @apply flex items-center cursor-pointer relative transition-all duration-100 ease-out rounded-sm mx-0.5 h-6 justify-between px-2 text-xs text-(--vf-text-primary);
 }
 
-.vuefinder__menubar__dropdown__item:hover:not(.vuefinder__menubar__dropdown__item--separator):not(.vuefinder__menubar__dropdown__item--disabled) {
+.vuefinder__menubar__dropdown__item:hover:not(.vuefinder__menubar__dropdown__item--separator):not(
+    .vuefinder__menubar__dropdown__item--disabled
+  ) {
   @apply bg-(--vf-bg-hover) text-(--vf-accent-primary);
 }
 
@@ -73,7 +75,8 @@
 
 .vuefinder__menubar__dropdown__shortcut {
   @apply text-xs font-normal ml-3 text-(--vf-text-secondary);
-  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-family:
+    "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
 }
 
 .vuefinder__menubar__dropdown__checkmark {
@@ -85,15 +88,15 @@
   .vuefinder__menubar {
     @apply text-xs h-[22px] leading-[22px];
   }
- 
+
   .vuefinder__menubar__dropdown {
     @apply min-w-[160px];
   }
-  
+
   .vuefinder__menubar__dropdown__label {
     @apply text-xs;
   }
-  
+
   .vuefinder__menubar__dropdown__shortcut {
     @apply text-xs;
   }

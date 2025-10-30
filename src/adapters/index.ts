@@ -1,13 +1,13 @@
 /**
  * VueFinder Adapters
- * 
+ *
  * This module provides adapter classes for handling file operations
  * in different environments (local and cloud).
- * 
+ *
  * @example
  * // Using CloudAdapter
  * import { CloudAdapter } from '@vuefinder/adapters';
- * 
+ *
  * const adapter = new CloudAdapter({
  *   baseURL: '/api/cloud',
  *   token: 'XYZ',
@@ -24,19 +24,19 @@
  *     download: '/api/files/download'
  *   }
  * });
- * 
+ *
  * @example
  * // Using LocalAdapter
  * import { LocalAdapter } from '@vuefinder/adapters';
- * 
+ *
  * const adapter = new LocalAdapter({
  *   root: '/my-files'
  * });
- * 
+ *
  * @example
  * // Creating a custom adapter
  * import { BaseAdapter } from '@vuefinder/adapters';
- * 
+ *
  * class MyCustomAdapter extends BaseAdapter {
  *   async list(params) {
  *     // Your custom implementation
@@ -73,4 +73,3 @@ export type {
   AdapterError,
   FsData,
 } from './types';
-

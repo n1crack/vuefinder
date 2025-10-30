@@ -1,4 +1,7 @@
-export interface Upsertable { path: string; [key: string]: unknown }
+export interface Upsertable {
+  path: string;
+  [key: string]: unknown;
+}
 
 export default function upsert<T extends Upsertable>(array: T[], element: T): void {
   const i = array.findIndex((e) => e.path === element.path);
@@ -8,5 +11,3 @@ export default function upsert<T extends Upsertable>(array: T[], element: T): vo
     array.push(element);
   }
 }
-
-

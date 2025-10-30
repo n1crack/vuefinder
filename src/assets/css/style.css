@@ -3,7 +3,7 @@
 @import "tailwindcss/theme.css" layer(theme);
 
 .vuefinder {
-    @import "tailwindcss/preflight.css" layer(base);
+  @import "tailwindcss/preflight.css" layer(base);
 }
 
 @import "tailwindcss/utilities.css" layer(utilities);
@@ -55,66 +55,65 @@
 @import "./_scrollbars.css";
 @import "./_drag_over.css";
 
-@source './src/**/*.{vue,js,ts,jsx,tsx,svg}';
+@source "./src/**/*.{vue,js,ts,jsx,tsx,svg}";
 
 @custom-variant dark (&:is(.dark *));
 
-
 .vf-scrollbars-theme {
-    box-sizing: border-box;
-    --os-size: 10px;
-    --os-padding-perpendicular: 2px;
-    --os-padding-axis: 2px;
-    --os-track-border-radius: 10px;
-    --os-handle-interactive-area-offset: 4px;
-    --os-handle-border-radius: 10px;
+  box-sizing: border-box;
+  --os-size: 10px;
+  --os-padding-perpendicular: 2px;
+  --os-padding-axis: 2px;
+  --os-track-border-radius: 10px;
+  --os-handle-interactive-area-offset: 4px;
+  --os-handle-border-radius: 10px;
 
-    --os-handle-bg: var(--vf-shadow-sm);
-    --os-handle-bg-hover: var(--vf-shadow-md);
-    --os-handle-bg-active: var(--vf-shadow-lg);
+  --os-handle-bg: var(--vf-shadow-sm);
+  --os-handle-bg-hover: var(--vf-shadow-md);
+  --os-handle-bg-active: var(--vf-shadow-lg);
 }
 
 @layer base {
-    *,
-    ::after,
-    ::before,
-    ::backdrop,
-    ::file-selector-button {
-        border-color: var(--vf-border-primary, currentColor);
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--vf-border-primary, currentColor);
+  }
+
+  .vuefinder {
+    @apply relative;
+
+    * {
+      touch-action: manipulation;
     }
 
     .vuefinder {
-        @apply relative;
-
-        * {
-            touch-action: manipulation;
-        }
-
-        .vuefinder {
-            color-scheme: auto;
-        }
-
-        kbd {
-            @apply px-2 py-1 text-xs font-semibold rounded-lg border bg-(--vf-bg-secondary) text-(--vf-text-secondary) border-(--vf-border-primary);
-        }
+      color-scheme: auto;
     }
 
-    .vuefinder:has(.vuefinder__main__fixed) {
-        @apply z-50;
+    kbd {
+      @apply px-2 py-1 text-xs font-semibold rounded-lg border bg-(--vf-bg-secondary) text-(--vf-text-secondary) border-(--vf-border-primary);
     }
+  }
 
-    .selection-area {
-        @apply opacity-50 !border rounded-sm bg-(--vf-selection-bg) border-(--vf-selection-border);
-    }
+  .vuefinder:has(.vuefinder__main__fixed) {
+    @apply z-50;
+  }
 
-    .selection-area-container {
-        @apply !z-100;
-    }
+  .selection-area {
+    @apply opacity-50 !border rounded-sm bg-(--vf-selection-bg) border-(--vf-selection-border);
+  }
+
+  .selection-area-container {
+    @apply !z-100;
+  }
 }
 
 @layer components {
-    .vf-theme-dark,
-    .vf-theme-light {
-        @apply box-border;
-    }
+  .vf-theme-dark,
+  .vf-theme-light {
+    @apply box-border;
+  }
 }

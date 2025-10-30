@@ -10,28 +10,28 @@
 }
 
 @theme {
-    /* custom animation variable */
-    --animate-pop: pop 160ms cubic-bezier(0.25, 1, 0.5, 1);
-    --animate-fade: fade 0.2s ease; 
+  /* custom animation variable */
+  --animate-pop: pop 160ms cubic-bezier(0.25, 1, 0.5, 1);
+  --animate-fade: fade 0.2s ease;
 
-    @keyframes pop {
-        0% {
-            transform: scale(0.30);
-        }
-        60% {
-            transform: scale(1.03);
-        }
-        100% {
-            transform: scale(1);
-        }
+  @keyframes pop {
+    0% {
+      transform: scale(0.3);
     }
+    60% {
+      transform: scale(1.03);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 
-    @keyframes fade {
-        0% {
-            opacity: 0;
-        } 
-        100% {
-            opacity: 1;
-        }
+  @keyframes fade {
+    0% {
+      opacity: 0;
     }
+    100% {
+      opacity: 1;
+    }
+  }
 }

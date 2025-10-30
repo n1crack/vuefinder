@@ -1,11 +1,5 @@
 .vf-btn {
-  @apply
-  inline-flex justify-center
-  w-full px-4 py-2 rounded-md border shadow-sm
-  text-base font-medium tracking-wide
-  focus:outline-none focus:ring-2 focus:ring-offset-2
-  mt-0.5 sm:mx-1 sm:w-auto sm:text-sm
-  border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary);
+  @apply inline-flex justify-center w-full px-4 py-2 rounded-md border shadow-sm text-base font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-offset-2 mt-0.5 sm:mx-1 sm:w-auto sm:text-sm border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary);
 }
 
 .vf-btn-primary {
@@ -53,10 +47,9 @@
 }
 
 .disabled {
-  @apply
-  opacity-50 cursor-not-allowed
+  @apply opacity-50 cursor-not-allowed;
 }
 
 .vf-btn-small {
-  @apply py-0
+  @apply py-0;
 }

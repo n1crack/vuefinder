@@ -1,4 +1,3 @@
-
 .vuefinder__message {
   @apply flex mt-2 p-1 px-2 rounded text-sm break-all dark:opacity-75;
 }

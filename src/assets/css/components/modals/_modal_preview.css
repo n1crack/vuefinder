@@ -1,4 +1,3 @@
-
 /* Navigation overlay - positioned on sides */
 .vuefinder__preview-modal__nav-overlay {
   @apply absolute inset-0 pointer-events-none z-10;
@@ -29,15 +28,15 @@
   .vuefinder__preview-modal__nav-side {
     @apply w-10 h-10;
   }
-  
+
   .vuefinder__preview-modal__nav-side--left {
     @apply left-2;
   }
-  
+
   .vuefinder__preview-modal__nav-side--right {
     @apply right-2;
   }
-  
+
   .vuefinder__preview-modal__nav-icon {
     @apply w-5 h-5;
   }
@@ -47,15 +46,15 @@
   .vuefinder__preview-modal__nav-side {
     @apply w-8 h-8;
   }
-  
+
   .vuefinder__preview-modal__nav-side--left {
     @apply left-1;
   }
-  
+
   .vuefinder__preview-modal__nav-side--right {
     @apply right-1;
   }
-  
+
   .vuefinder__preview-modal__nav-icon {
     @apply w-4 h-4;
   }

@@ -1,10 +1,9 @@
-
 .vuefinder__modal-layout {
   @apply relative z-50;
 }
 
 .vuefinder__modal-layout__overlay {
-  @apply fixed inset-0 transition-opacity bg-(--vf-overlay-bg) ;
+  @apply fixed inset-0 transition-opacity bg-(--vf-overlay-bg);
 }
 
 .vuefinder__modal-layout__container {
@@ -17,7 +16,9 @@
 
 .vuefinder__modal-layout__body {
   @apply relative rounded-md text-left overflow-hidden transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-3xl w-full bg-(--vf-bg-primary);
-  box-shadow: 0 20px 25px -5px var(--vf-shadow-modal), 0 10px 10px -5px var(--vf-shadow-md);
+  box-shadow:
+    0 20px 25px -5px var(--vf-shadow-modal),
+    0 10px 10px -5px var(--vf-shadow-md);
 }
 
 .vuefinder__modal-layout__content {

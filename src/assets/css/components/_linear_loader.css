@@ -9,13 +9,28 @@
   --vuefinder__linear-loader-bg: var(--color-sky-300);
 
   @apply absolute top-0 left-0 right-0 h-0.5;
-  --vuefinder__linear-loader-gradient: no-repeat linear-gradient(var(--vuefinder__linear-loader-primary) 0 0);
-  background: var(--vuefinder__linear-loader-gradient),var(--vuefinder__linear-loader-gradient),var(--vuefinder__linear-loader-bg);
+  --vuefinder__linear-loader-gradient: no-repeat
+    linear-gradient(var(--vuefinder__linear-loader-primary) 0 0);
+  background:
+    var(--vuefinder__linear-loader-gradient), var(--vuefinder__linear-loader-gradient),
+    var(--vuefinder__linear-loader-bg);
   background-size: 60% 100%;
   animation: vuefinder__linear-loader_keyframes 3s infinite;
 }
 @keyframes vuefinder__linear-loader_keyframes {
-  0%   {background-position:-150% 0,-150% 0}
-  66%  {background-position: 250% 0,-150% 0}
-  100% {background-position: 250% 0, 250% 0}
+  0% {
+    background-position:
+      -150% 0,
+      -150% 0;
+  }
+  66% {
+    background-position:
+      250% 0,
+      -150% 0;
+  }
+  100% {
+    background-position:
+      250% 0,
+      250% 0;
+  }
 }

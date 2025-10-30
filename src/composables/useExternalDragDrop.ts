@@ -12,14 +12,14 @@ export interface ExternalFile {
 export function useExternalDragDrop() {
   const isDraggingExternal = ref(false);
   const externalFiles = ref<ExternalFile[]>([]);
-  
+
   const handleDragEnter = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation(); // Prevent internal drag handlers from interfering
-    
+
     const items = e.dataTransfer?.items;
     if (items) {
-      const hasExternalFiles = Array.from(items).some(item => item.kind === 'file');
+      const hasExternalFiles = Array.from(items).some((item) => item.kind === 'file');
       if (hasExternalFiles) {
         isDraggingExternal.value = true;
         // Set a flag to prevent internal drag handling
@@ -38,12 +38,12 @@ export function useExternalDragDrop() {
 
   const handleDragLeave = (e: DragEvent) => {
     e.preventDefault();
-    
+
     // Sadece VueFinder container'ından çıkıldığında false yap
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = e.clientX;
     const y = e.clientY;
-    
+
     if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
       isDraggingExternal.value = false;
     }
@@ -53,14 +53,14 @@ export function useExternalDragDrop() {
     e.preventDefault();
     e.stopPropagation(); // Prevent internal drag handlers from interfering
     isDraggingExternal.value = false;
-    
+
     const items = e.dataTransfer?.items;
     if (items) {
-      const fileItems = Array.from(items).filter(item => item.kind === 'file');
-      
+      const fileItems = Array.from(items).filter((item) => item.kind === 'file');
+
       if (fileItems.length > 0) {
         externalFiles.value = [];
-        
+
         // Use shared scanFiles utility
         for (const item of fileItems) {
           const getAsEntry = (item as any).webkitGetAsEntry?.();
@@ -72,7 +72,7 @@ export function useExternalDragDrop() {
                 size: file.size,
                 type: file.type,
                 lastModified: new Date(file.lastModified),
-                file: file
+                file: file,
               });
             }, getAsEntry);
           } else {
@@ -84,16 +84,16 @@ export function useExternalDragDrop() {
                 size: file.size,
                 type: file.type,
                 lastModified: new Date(file.lastModified),
-                file: file
+                file: file,
               });
             }
           }
         }
-        
+
         return externalFiles.value;
       }
     }
-    
+
     return [];
   };
 
@@ -108,6 +108,6 @@ export function useExternalDragDrop() {
     handleDragOver,
     handleDragLeave,
     handleDrop,
-    clearExternalFiles
+    clearExternalFiles,
   };
 }

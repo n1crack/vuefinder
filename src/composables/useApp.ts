@@ -10,5 +10,3 @@ export function useApp(): App {
   }
   return app;
 }
-
-

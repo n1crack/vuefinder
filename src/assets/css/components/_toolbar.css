@@ -51,12 +51,16 @@
 
 .vuefinder__toolbar__dropdown {
   @apply absolute right-0 z-50 mt-1 w-52 rounded shadow-lg bg-(--vf-bg-primary) border-(--vf-border-primary);
-  box-shadow: 0 10px 15px -3px var(--vf-shadow-md), 0 4px 6px -2px var(--vf-shadow-sm);
+  box-shadow:
+    0 10px 15px -3px var(--vf-shadow-md),
+    0 4px 6px -2px var(--vf-shadow-sm);
 }
 
 .vuefinder__toolbar__dropdown-content {
   @apply p-2 space-y-2 border rounded bg-(--vf-bg-secondary) border-(--vf-border-primary);
-  box-shadow: 0 4px 6px -1px var(--vf-shadow-sm), 0 2px 4px -1px var(--vf-shadow-sm);
+  box-shadow:
+    0 4px 6px -1px var(--vf-shadow-sm),
+    0 2px 4px -1px var(--vf-shadow-sm);
 }
 
 .vuefinder__toolbar__dropdown-section {

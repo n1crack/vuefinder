@@ -9,7 +9,7 @@
 }
 
 .vuefinder__default-preview__file-name {
-    @apply text-center text-sm text-(--vf-text-secondary);
+  @apply text-center text-sm text-(--vf-text-secondary);
 }
 
 .vuefinder__default-preview__title {
@@ -67,7 +67,7 @@
   @apply max-h-[70vh];
 }
 .vuefinder__themer .vuefinder__image-preview__image-container cropper-canvas {
-    @apply h-full w-full;
+  @apply h-full w-full;
 }
 
 /** Auido Preview */
@@ -148,4 +148,3 @@
 .vuefinder__themer .vuefinder__video-preview__video {
   @apply w-full aspect-video;
 }
-

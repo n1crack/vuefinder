@@ -110,7 +110,7 @@ export interface SearchParams {
   path?: string;
   filter: string;
   deep?: boolean;
-  size?: 'all'|'small'|'medium'|'large';
+  size?: 'all' | 'small' | 'medium' | 'large';
 }
 
 export interface SaveParams {
@@ -221,10 +221,9 @@ export class AdapterError extends Error {
   constructor(
     message: string,
     public code?: string,
-    public statusCode?: number
+    public statusCode?: number,
   ) {
     super(message);
     this.name = 'AdapterError';
   }
 }
-

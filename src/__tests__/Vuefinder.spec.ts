@@ -1,13 +1,13 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { computed, ref } from 'vue'
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { computed, ref } from 'vue';
 
-import { mount } from '@vue/test-utils'
-import VueFinder from '@/components/VueFinder.vue'
+import { mount } from '@vue/test-utils';
+import VueFinder from '@/components/VueFinder.vue';
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -17,21 +17,21 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-})
+});
 
 // Mock ResizeObserver
 global.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
-}))
+}));
 
 // Mock IntersectionObserver
 global.IntersectionObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
   disconnect: vi.fn(),
-}))
+}));
 
 // Mock OverlayScrollbars
 vi.mock('overlayscrollbars', () => ({
@@ -39,28 +39,28 @@ vi.mock('overlayscrollbars', () => ({
     if (callbacks?.initialized) {
       callbacks.initialized({
         elements: () => ({
-          scrollOffsetElement: document.createElement('div')
-        })
-      })
+          scrollOffsetElement: document.createElement('div'),
+        }),
+      });
     }
     return {
-      destroy: vi.fn()
-    }
-  })
-}))
+      destroy: vi.fn(),
+    };
+  }),
+}));
 
 // Mock ServiceContainer
 const mockServiceContainer = {
   storage: {
     getStore: vi.fn().mockImplementation((key, defaultValue) => defaultValue),
-    setStore: vi.fn()
+    setStore: vi.fn(),
   },
   i18n: {
-    t: vi.fn((key) => key)
+    t: vi.fn((key) => key),
   },
   emitter: {
     emit: vi.fn(),
-    on: vi.fn()
+    on: vi.fn(),
   },
   fs: {
     data: {},
@@ -74,10 +74,10 @@ const mockServiceContainer = {
     showHiddenBreadcrumbs: false,
     limitBreadcrumbItems: vi.fn(),
     toggleHiddenBreadcrumbs: vi.fn(),
-    parentFolderPath: computed(() => 'local://')
+    parentFolderPath: computed(() => 'local://'),
   },
   theme: {
-    actualValue: 'light'
+    actualValue: 'light',
   },
   fullScreen: false,
   features: [],
@@ -86,46 +86,46 @@ const mockServiceContainer = {
     visible: false,
     type: null,
     close: vi.fn(),
-    open: vi.fn()
+    open: vi.fn(),
   },
   requester: {
     send: vi.fn().mockResolvedValue({
       storage: 'local',
       dirname: '/',
-      files: []
-    })
-  }
-}
+      files: [],
+    }),
+  },
+};
 
 describe('VueFinder', () => {
   beforeEach(() => {
     // Mock the VueFinderOptions injection
     vi.mock('vue', async () => {
-      const actual = await vi.importActual('vue')
+      const actual = await vi.importActual('vue');
       return {
         ...actual,
         inject: vi.fn().mockImplementation((key) => {
           if (key === 'VueFinderOptions') {
             return {
               i18n: {},
-              locale: 'en'
-            }
+              locale: 'en',
+            };
           }
           if (key === 'ServiceContainer') {
-            return mockServiceContainer
+            return mockServiceContainer;
           }
-          return {}
-        })
-      }
-    })
-  })
+          return {};
+        }),
+      };
+    });
+  });
 
   it('mounts renders properly', () => {
     const wrapper = mount(VueFinder, {
       props: {
-        request: 'http://localhost:8000/api'
-      }
-    })
-    expect(wrapper.exists()).toBe(true)
-  })
-})
+        request: 'http://localhost:8000/api',
+      },
+    });
+    expect(wrapper.exists()).toBe(true);
+  });
+});

@@ -29,11 +29,13 @@ export class LocalAdapter extends BaseAdapter {
     try {
       // Parse path to extract storage and actual path
       const { path } = this.parsePath(params?.path);
-      
+
       // In a real local implementation, you would use File System Access API
       // or local storage to list files
       // For now, we'll throw an error indicating this needs to be implemented
-      throw new Error('LocalAdapter.list() is not yet implemented. Local file access requires File System Access API or backend proxy.');
+      throw new Error(
+        'LocalAdapter.list() is not yet implemented. Local file access requires File System Access API or backend proxy.',
+      );
     } catch (error) {
       throw new Error(`Failed to list directory: ${(error as Error).message}`);
     }
@@ -45,7 +47,7 @@ export class LocalAdapter extends BaseAdapter {
   async delete(params: { items: { path: string; type: string }[] }): Promise<DeleteResult> {
     try {
       this.validateParam(params.items, 'items');
-      
+
       // Validate that items array is not empty
       if (!Array.isArray(params.items) || params.items.length === 0) {
         throw new Error('At least one item must be provided');
@@ -161,12 +163,12 @@ export class LocalAdapter extends BaseAdapter {
    */
   getPreviewUrl(params: { path: string }): string {
     this.validatePath(params.path);
-    
+
     // Return a URL that can be used to preview the file locally
     // This would typically use object URLs or File System Access API
     const { path, storage } = this.parsePath(params.path);
     const fullPath = this.combinePath(storage, path);
-    
+
     // Return empty string as local preview URLs need to be generated dynamically
     return '';
   }
@@ -176,7 +178,7 @@ export class LocalAdapter extends BaseAdapter {
    */
   async getContent(params: { path: string }): Promise<FileContentResult> {
     this.validatePath(params.path);
-    
+
     // In a real local implementation, you would read file content
     throw new Error('LocalAdapter.getContent() is not yet implemented.');
   }
@@ -186,11 +188,11 @@ export class LocalAdapter extends BaseAdapter {
    */
   getDownloadUrl(params: { path: string }): string {
     this.validatePath(params.path);
-    
+
     // Return a URL that can be used to download the file locally
     const { path, storage } = this.parsePath(params.path);
     const fullPath = this.combinePath(storage, path);
-    
+
     // Return empty string as local download URLs need to be generated dynamically
     return '';
   }
@@ -198,7 +200,12 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Search files (not implemented for local)
    */
-  async search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<DirEntry[]> {
+  async search(params: {
+    path?: string;
+    filter: string;
+    deep?: boolean;
+    size?: 'all' | 'small' | 'medium' | 'large';
+  }): Promise<DirEntry[]> {
     throw new Error('LocalAdapter.search() is not yet implemented.');
   }
 
@@ -209,4 +216,3 @@ export class LocalAdapter extends BaseAdapter {
     throw new Error('LocalAdapter.save() is not yet implemented.');
   }
 }
-

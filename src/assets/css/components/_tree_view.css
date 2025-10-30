@@ -28,7 +28,7 @@
 
 /* No Pinned Folders Message Styling */
 .vuefinder__treeview__no-pinned {
-  @apply text-center py-2 px-3 text-(--vf-text-tertiary) text-sm italic ;
+  @apply text-center py-2 px-3 text-(--vf-text-tertiary) text-sm italic;
 }
 
 .vuefinder__treeview__header {

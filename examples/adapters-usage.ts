@@ -1,16 +1,11 @@
 /**
  * VueFinder Adapter Usage Examples
- * 
+ *
  * This file demonstrates how to use the different adapter types
  * with VueFinder.
  */
 
-import { 
-  LocalAdapter, 
-  CloudAdapter, 
-  BaseAdapter, 
-  AdapterManager 
-} from '../src/adapters';
+import { LocalAdapter, CloudAdapter, BaseAdapter, AdapterManager } from '../src/adapters';
 
 // ============================================================================
 // Example 1: Using CloudAdapter
@@ -40,7 +35,7 @@ async function listFiles() {
     const data = await cloudAdapter.list({
       path: 'local://public',
     });
-    
+
     console.log('Files:', data.files);
     console.log('Current directory:', data.dirname);
   } catch (error) {
@@ -55,7 +50,7 @@ async function uploadFiles(files: File[]) {
       path: 'local://public/uploads', // Storage in path
       files: files,
     });
-    
+
     console.log('Uploaded files:', result.files);
   } catch (error) {
     console.error('Failed to upload files:', error);
@@ -68,7 +63,7 @@ async function deleteFiles(paths: string[], types: string[]) {
     const result = await cloudAdapter.delete({
       items: paths.map((path, i) => ({ path, type: types[i] || 'file' })),
     });
-    
+
     console.log('Deleted files:', result.deleted);
   } catch (error) {
     console.error('Failed to delete files:', error);
@@ -84,7 +79,7 @@ async function searchFiles(query: string) {
       deep: true,
       size: 'all',
     });
-    
+
     console.log('Search results:', results);
   } catch (error) {
     console.error('Failed to search files:', error);
@@ -125,7 +120,7 @@ class MyCustomAdapter extends BaseAdapter {
     const response = await fetch(`${this.config.endpoint}/list`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${this.config.apiKey}`,
+        Authorization: `Bearer ${this.config.apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -147,7 +142,7 @@ class MyCustomAdapter extends BaseAdapter {
     const response = await fetch(`${this.config.endpoint}/upload`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${this.config.apiKey}`,
+        Authorization: `Bearer ${this.config.apiKey}`,
       },
       body: formData,
     });
@@ -209,11 +204,11 @@ const customAdapter = new MyCustomAdapter({
 
 /**
  * In your Vue component, you would use it like:
- * 
+ *
  * <script setup>
  * import { CloudAdapter } from '@vuefinder/adapters';
  * import VueFinder from '@vuefinder/vue';
- * 
+ *
  * const adapter = new CloudAdapter({
  *   baseURL: '/api',
  *   token: 'XYZ',
@@ -224,10 +219,10 @@ const customAdapter = new MyCustomAdapter({
  *   }
  * });
  * </script>
- * 
+ *
  * <template>
- *   <VueFinder 
- *     :adapter="adapter" 
+ *   <VueFinder
+ *     :adapter="adapter"
  *     id="my-finder"
  *   />
  * </template>
@@ -258,11 +253,11 @@ async function listFilesWithCache() {
   // Path includes storage (e.g., "local://public")
   const data = await manager.list('local://public');
   console.log('Files from cache or fresh fetch:', data);
-  
+
   // Subsequent calls will use cached data if available and not stale
   const cachedData = await manager.list('local://public');
   console.log('This might be from cache:', cachedData);
-  
+
   return data;
 }
 
@@ -271,7 +266,7 @@ async function openPath() {
   // open() calls onAfterOpen callback if provided
   const data = await manager.open('local://public');
   console.log('Opened path:', data);
-  
+
   return data;
 }
 
@@ -280,7 +275,7 @@ async function refreshFiles() {
   manager.removeQuery('local://public');
   const freshData = await manager.list('local://public');
   console.log('Fresh data:', freshData);
-  
+
   return freshData;
 }
 
@@ -305,4 +300,3 @@ export {
   openPath,
   refreshFiles,
 };
-

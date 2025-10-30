@@ -1,4 +1,3 @@
-
 .vuefinder__toast {
   @apply max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2 z-10;
 }

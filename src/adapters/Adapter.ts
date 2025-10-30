@@ -1,4 +1,4 @@
-import type { 
+import type {
   Adapter,
   DeleteResult,
   FileOperationResult,
@@ -122,11 +122,15 @@ export abstract class BaseAdapter implements Adapter {
   /**
    * Search files
    */
-  abstract search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<DirEntry[]>;
+  abstract search(params: {
+    path?: string;
+    filter: string;
+    deep?: boolean;
+    size?: 'all' | 'small' | 'medium' | 'large';
+  }): Promise<DirEntry[]>;
 
   /**
    * Save content to file
    */
   abstract save(params: SaveParams): Promise<string>;
 }
-

@@ -2,92 +2,92 @@
   @apply opacity-50 cursor-not-allowed;
 }
 .vuefinder__explorer__container {
-    @apply relative flex-auto flex flex-col min-h-40;
+  @apply relative flex-auto flex flex-col min-h-40;
 }
 
 .vuefinder__explorer__header {
-    @apply grid grid-cols-12 px-1 border-b text-xs select-none divide-x bg-(--vf-bg-secondary) border-(--vf-border-primary);
+  @apply grid grid-cols-12 px-1 border-b text-xs select-none divide-x bg-(--vf-bg-secondary) border-(--vf-border-primary);
 }
 
 .vuefinder__explorer__sort-button {
-    @apply cursor-pointer border-(--vf-border-primary);
+  @apply cursor-pointer border-(--vf-border-primary);
 }
 
 .vuefinder__explorer__sort-button--name {
-    @apply col-span-7;
+  @apply col-span-7;
 }
 
 .vuefinder__explorer__sort-button--size {
-    @apply justify-center col-span-2;
+  @apply justify-center col-span-2;
 }
 
 .vuefinder__explorer__sort-button--date {
-    @apply justify-center col-span-3;
+  @apply justify-center col-span-3;
 }
 
 .vuefinder__explorer__sort-button--path {
-    @apply justify-center col-span-5;
+  @apply justify-center col-span-5;
 }
 
 .vuefinder__explorer__drag-item {
-    @apply relative z-1;
+  @apply relative z-1;
 }
 
 .vuefinder__explorer__selector-area {
-    @apply h-full w-full text-xs p-1 z-0 overflow-y-auto;
-    scrollbar-width: none;
+  @apply h-full w-full text-xs p-1 z-0 overflow-y-auto;
+  scrollbar-width: none;
 }
 .vuefinder__explorer__selector-area::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .vuefinder__explorer__item-list-content {
-    @apply grid grid-cols-12 items-center;
+  @apply grid grid-cols-12 items-center;
 }
 
 .vuefinder__explorer__item-list-name {
-    @apply flex col-span-7 items-center;
+  @apply flex col-span-7 items-center;
 }
 
 .vuefinder__explorer__item-name,
 .vuefinder__explorer__item-path {
-    @apply text-ellipsis overflow-hidden whitespace-nowrap col-span-5;
+  @apply text-ellipsis overflow-hidden whitespace-nowrap col-span-5;
 }
 
 .vuefinder__explorer__item-size {
-    @apply col-span-2 text-center whitespace-nowrap;
+  @apply col-span-2 text-center whitespace-nowrap;
 }
 
 .vuefinder__explorer__item-date {
-    @apply col-span-3 text-ellipsis overflow-hidden whitespace-nowrap px-1 md:px-3;
+  @apply col-span-3 text-ellipsis overflow-hidden whitespace-nowrap px-1 md:px-3;
 }
 
 .vuefinder__explorer__item-grid-content {
-    @apply relative;
+  @apply relative;
 }
 
 .vuefinder__explorer__item-thumbnail {
-    @apply h-10 md:h-12 m-auto;
+  @apply h-10 md:h-12 m-auto;
 }
 
 .vuefinder__explorer__item-title {
-    @apply break-all;
+  @apply break-all;
 }
 
 .vf-explorer-item-list {
-    @apply relative grid grid-cols-1 border my-0.5 w-full select-none pointer-events-auto bg-transparent border-transparent;
+  @apply relative grid grid-cols-1 border my-0.5 w-full select-none pointer-events-auto bg-transparent border-transparent;
 }
 
 .vf-explorer-item-list:hover {
-    @apply bg-(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 .vf-explorer-item-grid {
-    @apply relative m-1 w-[5.5rem] h-20 md:w-24 border inline-flex text-center justify-center select-none pointer-events-auto bg-transparent border-transparent;
+  @apply relative m-1 w-[5.5rem] h-20 md:w-24 border inline-flex text-center justify-center select-none pointer-events-auto bg-transparent border-transparent;
 }
 
 .vf-explorer-item-grid:hover {
-    @apply bg-(--vf-bg-hover);
+  @apply bg-(--vf-bg-hover);
 }
 
 .vf-explorer-selected {
@@ -95,31 +95,31 @@
 }
 
 .vuefinder__explorer__scrollbar-container {
-    @apply p-1 top-[33px] h-[calc(100%-33px)] absolute right-0 z-[10] pointer-events-none;   
+  @apply p-1 top-[33px] h-[calc(100%-33px)] absolute right-0 z-[10] pointer-events-none;
 }
 .vuefinder__explorer__scrollbar-container.grid-view:not(.search-active) {
-    @apply top-0 h-full;
+  @apply top-0 h-full;
 }
 
 .vuefinder__explorer__scrollbar {
-    @apply w-4 bg-transparent pointer-events-none;
+  @apply w-4 bg-transparent pointer-events-none;
 }
 
 /* Row classes for virtual scrolling */
 .vf-explorer-item-grid-row {
-    @apply relative;
+  @apply relative;
 }
 
 .vf-explorer-item-list-row {
-    @apply relative;
+  @apply relative;
 }
 
 /* Icon styling */
 .vuefinder__explorer__item-list-icon {
-    @apply flex items-center justify-center;
+  @apply flex items-center justify-center;
 }
 
 /* Linear loader */
 .vuefinder__linear-loader {
-    @apply absolute h-1 animate-pulse bg-(--vf-accent-primary);
+  @apply absolute h-1 animate-pulse bg-(--vf-accent-primary);
 }

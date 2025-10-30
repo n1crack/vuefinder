@@ -1,4 +1,3 @@
-
 .vuefinder__move-modal__content {
   @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
 }
@@ -32,7 +31,7 @@
 }
 
 .vuefinder__move-modal__target-directory {
-  @apply flex text-sm p-1  text-(--vf-text-primary)  ;
+  @apply flex text-sm p-1 text-(--vf-text-primary);
 }
 
 .vuefinder__move-modal__target-path {
@@ -45,7 +44,6 @@
 
 /* Options styles */
 .vuefinder__move-modal__options {
-
 }
 
 .vuefinder__move-modal__checkbox-label {
@@ -118,7 +116,7 @@
 }
 
 .vuefinder__modal-tree__text-storage {
-  @apply text-xs truncate ml-1  px-1 py-0.5 text-(--vf-accent-primary) border-(--vf-accent-primary);
+  @apply text-xs truncate ml-1 px-1 py-0.5 text-(--vf-accent-primary) border-(--vf-accent-primary);
 }
 
 /* Storage item styles */
@@ -210,5 +208,3 @@
 .vuefinder__modal-tree__folder-text {
   @apply text-sm text-(--vf-text-primary);
 }
-
-

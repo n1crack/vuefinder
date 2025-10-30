@@ -1,12 +1,12 @@
 import { QueryClient } from '@tanstack/vue-query';
 import type {
-    Adapter,
-    DeleteResult,
-    FileOperationResult,
-    FileContentResult,
-    DeleteParams,
-    ArchiveParams,
-    SaveParams
+  Adapter,
+  DeleteResult,
+  FileOperationResult,
+  FileContentResult,
+  DeleteParams,
+  ArchiveParams,
+  SaveParams,
 } from './types';
 import type { FsData } from '../types';
 
@@ -53,7 +53,8 @@ export interface AdapterManagerConfig {
  */
 export const QueryKeys = {
   list: (path?: string) => ['adapter', 'list', path] as const,
-  search: (path?: string, filter?: string, deep?: boolean, size?: string) => ['adapter', 'search', path, filter, deep, size] as const,
+  search: (path?: string, filter?: string, deep?: boolean, size?: string) =>
+    ['adapter', 'search', path, filter, deep, size] as const,
   delete: (paths?: string[]) => ['adapter', 'delete', paths] as const,
   rename: () => ['adapter', 'rename'] as const,
   copy: () => ['adapter', 'copy'] as const,
@@ -81,18 +82,20 @@ export class AdapterManager {
     this.onAfterOpen = config.onAfterOpen;
 
     // Create QueryClient
-    this.queryClient = config.queryClient || new QueryClient({
-      defaultOptions: {
-        queries: {
-          refetchOnWindowFocus: config.refetchOnWindowFocus ?? false,
-          staleTime: config.staleTime ?? 5 * 60 * 1000,
-          retry: config.retry ?? 2,
+    this.queryClient =
+      config.queryClient ||
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: config.refetchOnWindowFocus ?? false,
+            staleTime: config.staleTime ?? 5 * 60 * 1000,
+            retry: config.retry ?? 2,
+          },
+          mutations: {
+            retry: config.retry ?? 1,
+          },
         },
-        mutations: {
-          retry: config.retry ?? 1,
-        },
-      },
-    });
+      });
 
     this.config = {
       queryClient: this.queryClient,
@@ -124,7 +127,7 @@ export class AdapterManager {
    */
   async list(path?: string): Promise<FsData> {
     const queryKey = QueryKeys.list(path);
-     
+
     // Use fetchQuery from TanStack Query
     return await this.queryClient.fetchQuery({
       queryKey,
@@ -135,20 +138,20 @@ export class AdapterManager {
 
   /**
    * Open a path and optionally update state
-   * @param path 
-   * @returns 
+   * @param path
+   * @returns
    */
   async open(path?: string): Promise<FsData> {
     if (this.onBeforeOpen) {
       this.onBeforeOpen();
     }
     const data = await this.list(path);
-    
+
     // Update state if callback is provided
     if (this.onAfterOpen) {
       this.onAfterOpen(data);
     }
-    
+
     return data;
   }
 
@@ -157,10 +160,10 @@ export class AdapterManager {
    */
   async delete(params: DeleteParams): Promise<DeleteResult> {
     const result = await this.adapter.delete(params);
-    
+
     // Invalidate and refetch list queries
     this.invalidateListQueries();
-    
+
     return result;
   }
 
@@ -169,10 +172,10 @@ export class AdapterManager {
    */
   async rename(params: { path: string; item: string; name: string }): Promise<FileOperationResult> {
     const result = await this.adapter.rename(params);
-    
+
     // Invalidate list queries
     this.invalidateListQueries();
-    
+
     return result;
   }
 
@@ -181,10 +184,10 @@ export class AdapterManager {
    */
   async copy(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
     const result = await this.adapter.copy(params);
-    
+
     // Invalidate list queries
     this.invalidateListQueries();
-    
+
     return result;
   }
 
@@ -193,10 +196,10 @@ export class AdapterManager {
    */
   async move(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
     const result = await this.adapter.move(params);
-    
+
     // Invalidate list queries
     this.invalidateListQueries();
-    
+
     return result;
   }
 
@@ -205,10 +208,10 @@ export class AdapterManager {
    */
   async archive(params: ArchiveParams): Promise<FileOperationResult> {
     const result = await this.adapter.archive(params);
-    
+
     // Invalidate list queries
     this.invalidateListQueries();
-    
+
     return result;
   }
 
@@ -217,10 +220,10 @@ export class AdapterManager {
    */
   async unarchive(params: { item: string; path: string }): Promise<FileOperationResult> {
     const result = await this.adapter.unarchive(params);
-    
+
     // Invalidate list queries
     this.invalidateListQueries();
-    
+
     return result;
   }
 
@@ -229,10 +232,10 @@ export class AdapterManager {
    */
   async createFile(params: { path: string; name: string }): Promise<FileOperationResult> {
     const result = await this.adapter.createFile(params);
-    
+
     // Invalidate list queries
     this.invalidateListQueries();
-    
+
     return result;
   }
 
@@ -241,10 +244,10 @@ export class AdapterManager {
    */
   async createFolder(params: { path: string; name: string }): Promise<FileOperationResult> {
     const result = await this.adapter.createFolder(params);
-    
+
     // Invalidate list queries
     this.invalidateListQueries();
-    
+
     return result;
   }
 
@@ -253,7 +256,7 @@ export class AdapterManager {
    */
   async getContent(params: { path: string }): Promise<FileContentResult> {
     const queryKey = ['adapter', 'content', params.path] as const;
-    
+
     // Use fetchQuery from TanStack Query
     return await this.queryClient.fetchQuery({
       queryKey,
@@ -261,7 +264,6 @@ export class AdapterManager {
       staleTime: this.config.staleTime,
     });
   }
-
 
   /**
    * Get preview URL
@@ -280,7 +282,12 @@ export class AdapterManager {
   /**
    * Search files (cached per path+filter)
    */
-  async search(params: { path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }): Promise<import('../types').DirEntry[]> {
+  async search(params: {
+    path?: string;
+    filter: string;
+    deep?: boolean;
+    size?: 'all' | 'small' | 'medium' | 'large';
+  }): Promise<import('../types').DirEntry[]> {
     const key = QueryKeys.search(params.path, params.filter, params.deep, params.size);
     return await this.queryClient.fetchQuery({
       queryKey: key,
@@ -294,7 +301,7 @@ export class AdapterManager {
    */
   async save(params: SaveParams): Promise<string> {
     const result = await this.adapter.save(params);
-    
+
     this.invalidateListQueries();
 
     return result;
@@ -323,6 +330,4 @@ export class AdapterManager {
   clearCache(): void {
     this.queryClient.clear();
   }
-
 }
-

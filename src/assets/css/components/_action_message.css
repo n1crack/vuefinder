@@ -1,4 +1,3 @@
-
 .vuefinder__action-message {
   @apply text-sm text-green-600 dark:text-green-600 transition-opacity duration-500 ease-out;
 }
