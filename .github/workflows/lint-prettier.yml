@@ -21,4 +21,4 @@ jobs:
       - name: Prettier check
         run: npm run format:check
       - name: ESLint
-        run: npm run lint
+        run: npm run lint -- -c eslint.config.js
