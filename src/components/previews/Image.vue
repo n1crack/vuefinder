@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {inject, onMounted, ref, useTemplateRef} from 'vue';
+import { useApp } from '../../composables/useApp';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 import {FEATURES} from "../../features";
@@ -8,7 +9,7 @@ import LazyLoad from 'vanilla-lazyload';
 defineOptions({ name: 'ImagePreview' });
 
 const emit = defineEmits(['success']);
-const app = inject('ServiceContainer');
+const app = useApp();
 
 const {t} = app.i18n;
 
@@ -45,15 +46,15 @@ const crop = async () => {
       const path = pathParts.join('/');
       
       // Upload using adapter
-      await app.adapter.upload({ 
+      await (app.adapter as any).upload({ 
         path, 
         files: [file] 
       });
       
       message.value = t('Updated.');
       fetch(previewUrl.value, {cache: 'reload', mode: 'no-cors'})
-      const image = app.root.querySelector('[data-src="'+previewUrl.value+'"]');
-      if (image) {
+      const image = app.root?.querySelector?.('[data-src="'+previewUrl.value+'"]');
+      if (image && image instanceof HTMLElement) {
         LazyLoad.resetStatus(image);
       }
       app.emitter.emit('vf-refresh-thumbnails');

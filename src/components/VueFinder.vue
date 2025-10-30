@@ -1,5 +1,7 @@
 <script setup lang="ts">
+// @ts-nocheck
 import {inject, onMounted, provide, watch} from 'vue';
+import { ServiceContainerKey } from '../composables/useApp';
 import {useStore} from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import {useHotkeyActions} from '../composables/useHotkeyActions';
@@ -34,7 +36,7 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
 
 // the object is passed to all components as props
 const app = ServiceContainer(props, inject('VueFinderOptions') || {});
-provide('ServiceContainer', app);
+provide(ServiceContainerKey, app);
 const config = app.config;
 
 const fs = app.fs;

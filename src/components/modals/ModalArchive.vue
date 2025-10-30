@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
+import { useApp } from '../../composables/useApp';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import {useStore} from '@nanostores/vue';
 import ArchiveSVG from "../../assets/icons/archive.svg";
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 const fs = app.fs;
 
@@ -22,7 +23,7 @@ const archive = () => {
       path: currentPath.value.path,
       items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),
       name: name.value,
-    }).then((result) => {
+    }).then((result: any) => {
       app.emitter.emit('vf-toast-push', {label: t('The file(s) archived.')});
       app.fs.setFiles(result.files);
       app.modal.close();

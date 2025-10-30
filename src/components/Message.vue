@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref, watch, inject} from 'vue';
+import { useApp } from '../composables/useApp';
 
 const emit = defineEmits<{
   hidden: []
@@ -9,7 +10,7 @@ const props = defineProps<{
   error?: boolean
 }>()
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 
 const hidden = ref(false);

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {inject} from 'vue';
+import { useApp } from '../composables/useApp';
 import FileSVG from '../assets/icons/file.svg';
 import FolderSVG from '../assets/icons/folder.svg';
 
@@ -14,7 +15,7 @@ const props = defineProps<{
   small?: boolean
 }>()
 
-const app = inject('ServiceContainer')
+const app = useApp()
 const configState: StoreValue<ConfigState> = useStore(app.config.state)
 
 // Scoped slot için gerekli verileri hazırla

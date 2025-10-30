@@ -1,9 +1,10 @@
 <script setup lang="ts">
 
 import {onMounted, inject} from 'vue';
+import { useApp } from '../../composables/useApp';
 import FileSVG from '../../assets/icons/file.svg';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const emit = defineEmits(['success']);
 
 onMounted(() => {

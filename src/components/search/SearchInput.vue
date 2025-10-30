@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, inject } from 'vue';
+import { useApp } from '../../composables/useApp';
 import SearchSVG from '../../assets/icons/search.svg';
 import LoadingSVG from '../../assets/icons/loading.svg';
 
@@ -20,7 +21,7 @@ defineProps<Props>();
 
 const emit = defineEmits<Emits>();
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const { t } = app.i18n;
 
 const searchInput = ref<HTMLInputElement | null>(null);

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {inject, onMounted, ref} from 'vue';
+import { useApp } from '../../composables/useApp';
 import {FEATURES} from "../../features.ts";
 
 const emit = defineEmits(['success'])
@@ -11,7 +12,7 @@ const showEdit = ref(false);
 const message = ref('');
 const isError = ref(false);
 
-const app = inject('ServiceContainer');
+const app = useApp();
 
 const {t} = app.i18n;
 

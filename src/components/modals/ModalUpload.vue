@@ -10,7 +10,8 @@ import title_shorten from "../../utils/title_shorten";
 import UploadSVG from "../../assets/icons/upload.svg";
 import type {DirEntry} from '../../types';
 
-const app = inject('ServiceContainer');
+import { useApp } from '../../composables/useApp';
+const app = useApp();
 const {t} = app.i18n;
 const fs = app.fs;
 const currentPath = useStore(fs.path);

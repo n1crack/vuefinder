@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, inject, nextTick, watch, onUnmounted } from 'vue';
+import { useApp } from '../../composables/useApp';
 import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
 import { shortenPath } from '../../utils/path.ts';
 import { copyPath } from '../../utils/clipboard.ts';
@@ -34,7 +35,7 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const { t } = app.i18n;
 
 // Store button element reference for positioning

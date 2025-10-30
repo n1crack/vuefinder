@@ -1,5 +1,5 @@
 import { persistentAtom } from '@nanostores/persistent'
-import type { DirEntry } from "@/types.ts"
+import type { DirEntry } from "../types"
 import type { Theme } from './theme.ts'
 import type { Store } from 'nanostores'
 
@@ -8,6 +8,12 @@ type Viewport = 'grid' | 'list'
 export interface ConfigStore {
     state: Store<ConfigState>;
     set: <K extends keyof ConfigState>(keyOrPatch: K | Partial<ConfigState>, value?: ConfigState[K]) => void;
+    // Convenience accessors used across the app
+    get: <K extends keyof ConfigState>(key: K) => ConfigState[K];
+    all: () => ConfigState;
+    toggle: (key: keyof ConfigState) => void;
+    reset: () => void;
+    init: (defaults?: ConfigDefaults | Record<string, unknown>) => void;
 }
 export interface ConfigState {
     view: Viewport

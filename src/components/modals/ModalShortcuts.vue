@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {inject} from 'vue';
+import { useApp } from '../../composables/useApp';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import KeyboardIcon from "../../assets/icons/about.svg";
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 </script>
 

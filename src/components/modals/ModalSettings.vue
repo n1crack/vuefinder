@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, inject} from 'vue';
+import { useApp } from '../../composables/useApp';
 import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
@@ -11,7 +12,7 @@ import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../../stores/config';
 import SettingsIcon from "../../assets/icons/gear.svg";
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const config = app.config;
 const {clearStore} = app.storage;
 const {t} = app.i18n;

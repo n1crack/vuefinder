@@ -5,7 +5,8 @@ import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import NewFolderSVG from "../../assets/icons/new_folder.svg";
 
-const app = inject('ServiceContainer');
+import { useApp } from '../../composables/useApp';
+const app = useApp();
 const {t} = app.i18n;
 const fs = app.fs;
 
@@ -19,7 +20,7 @@ const createFolder = () => {
     app.adapter.createFolder({
       path: currentPath.value.path,
       name: name.value
-    }).then((result) => {
+    }).then((result: any) => {
       app.emitter.emit('vf-toast-push', {label: t('%s is created.', name.value)});
       app.fs.setFiles(result.files);
       app.modal.close();

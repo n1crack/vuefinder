@@ -1,4 +1,5 @@
-import {inject, onMounted, onUnmounted, ref, type Ref} from 'vue';
+import {onMounted, onUnmounted, ref, type Ref} from 'vue';
+import { useApp } from '../composables/useApp';
 import Uppy from '@uppy/core';
 import {parse} from '../utils/filesize';
 import { useStore } from '@nanostores/vue';
@@ -24,7 +25,7 @@ export interface UseUploadReturn {
 
 export default function useUpload(customUploader?: any): UseUploadReturn {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const app: any = inject('ServiceContainer');
+    const app: any = useApp();
     const {t} = app.i18n;
     const fs = app.fs;
     const currentPath = useStore(fs.path);

@@ -18,14 +18,13 @@ import ModalPreview from "./modals/ModalPreview.vue";
 import ModalSearch from './modals/ModalSearch.vue';
 import ModalSettings from './modals/ModalSettings.vue';
 import ModalShortcuts from './modals/ModalShortcuts.vue';
+import { useApp } from '../composables/useApp';
 
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
 
-const app = inject('ServiceContainer');
-if (!app) {
-  throw new Error('MenuBar: ServiceContainer not found');
-}
+const app = useApp();
+
 
 const {t} = app?.i18n || { t: (key: string) => key };
 
@@ -50,7 +49,7 @@ const shouldShowExit = computed(() => {
 });
 
 // Make menu items reactive to language changes
-const menuItems = computed(() => [
+const menuItems = computed<any[]>(() => [
   {
     id: 'file',
     label: t('File'),
@@ -227,7 +226,7 @@ const menuItems = computed(() => [
           if (selectedItems.value.length === 1) {
             const item = selectedItems.value[0];
             const storage = fs?.path?.get()?.storage ?? 'local';
-            const downloadUrl = app?.requester?.getDownloadUrl(storage, item);
+            const downloadUrl = app?.adapter?.getDownloadUrl({ path: item.path });
             if (downloadUrl) {
               await copyDownloadUrl(downloadUrl);
             }

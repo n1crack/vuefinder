@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {inject, ref, watch, onMounted} from 'vue';
+import {computed, ref, watch, onMounted} from 'vue';
 import {useStore} from '@nanostores/vue';
 import FolderSVG from '../../assets/icons/folder.svg';
 import PlusSVG from "../../assets/icons/plus.svg";
@@ -10,7 +10,8 @@ import type {DirEntry} from '../../types';
 import StorageSVG from '../../assets/icons/storage.svg';
 import ModalTreeFolderItem from './ModalTreeFolderItem.vue';
 
-const app = inject('ServiceContainer');
+import { useApp } from '../../composables/useApp';
+const app = useApp();
 const {t} = app.i18n;
 
 const fs = app.fs;
@@ -32,6 +33,7 @@ const emit = defineEmits<{
 // Use nanostores reactive values for template reactivity
 const sortedFiles = useStore(fs.sortedFiles);
 const storages = useStore(fs.storages);
+const storagesList = computed(() => storages.value || []);
 const path = useStore(fs.path);
 
 const modalContentElement = ref(null);
@@ -69,14 +71,13 @@ const toggleFolder = (storage: string, folderPath: string) => {
   // Load subfolders if not already loaded and we're expanding
   if (expandedFolders.value[key] && !modalTreeData.value[folderPath]) {
     // Use a custom event that won't affect the main directory
-    app.adapter.list(folderPath).then(({files}) => {
-      if (files) {
-          const folders = Object.values(files).filter((e: DirEntry) => e.type === 'dir');
-          modalTreeData.value[folderPath] = folders.map((item: DirEntry) => ({
-            ...item,
-            type: 'dir' as const
-          }));
-        }
+    app.adapter.list(folderPath).then((result: { files: DirEntry[] }) => {
+      const files = result.files || [];
+      const folders = (files as DirEntry[]).filter((e: DirEntry) => e.type === 'dir');
+      modalTreeData.value[folderPath] = folders.map((item: DirEntry) => ({
+        ...item,
+        type: 'dir' as const
+      }));
     });
 
   }
@@ -206,7 +207,7 @@ onMounted(() => {
 
       <!-- Storage roots with expandable subfolders -->
       <div class="vuefinder__modal-tree__section"
-           v-for="storage in (Array.isArray(storages) ? storages : storages.value || [])" :key="storage">
+           v-for="storage in storagesList" :key="storage">
         <div class="vuefinder__modal-tree__list">
           <!-- Storage Root Item -->
           <div class="vuefinder__modal-tree__storage-item">

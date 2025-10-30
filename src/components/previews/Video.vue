@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import {inject, onMounted} from 'vue';
+import { useApp } from '../../composables/useApp';
+import { onMounted} from 'vue';
 
-const app = inject("ServiceContainer");
+const app = useApp();
 const emit = defineEmits(['success']);
 
 const getVideoUrl = () => {

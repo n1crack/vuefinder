@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import ModalLayout from './ModalLayout.vue';
 import {inject} from 'vue';
+import { useApp } from '../../composables/useApp';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 
 </script>

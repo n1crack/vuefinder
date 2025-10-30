@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
+import { useApp } from '../../composables/useApp';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals//ModalHeader.vue";
 import {useStore} from '@nanostores/vue';
 import DeleteSVG from "../../assets/icons/delete.svg";
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 const fs = app.fs;
 const currentPath = useStore(fs.path);
@@ -18,7 +19,7 @@ console.log(items.value.map(({path, type}: { path: string, type: string }) => ({
     app.adapter.delete({
       path: currentPath.value.path,
       items: items.value.map(({path, type}: { path: string, type: string }) => ({path, type})),
-    }).then((result) => {
+    }).then((result: any) => {
       app.emitter.emit('vf-toast-push', {label: t('Files deleted.')});
       app.fs.setFiles(result.files);
       // app.emitter.emit('vf-delete-complete', items.value);

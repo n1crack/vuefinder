@@ -5,14 +5,15 @@ import SquarePlusSVG from "../assets/icons/plus.svg";
 import SquareMinusSVG from "../assets/icons/minus.svg";
 import LoadingSVG from "../assets/icons/loading.svg";
 import upsert from "../utils/upsert";
-import type { DirEntry } from '@/types';
+import type { DirEntry } from '../types';
+import { useApp } from '../composables/useApp';
 
 const props = defineProps<{
   storage: string
   path: string
 }>()
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const opened = defineModel();
 const loading = ref(false)
 

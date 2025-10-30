@@ -15,11 +15,13 @@ import DotsSVG from '../assets/icons/dots.svg';
 import CopySVG from '../assets/icons/copy.svg';
 import ToggleSVG from '../assets/icons/toggle.svg';
 import {useDragNDrop} from '../composables/useDragNDrop';
-import type {ConfigState} from "@/stores/config.ts";
+import type {ConfigState} from "../stores/config";
 import type { StoreValue } from "nanostores";
-import type {CurrentPathState} from "@/stores/files.ts";
+import type {CurrentPathState} from "../stores/files";
+import { useApp } from '../composables/useApp';
+import type { DirEntry } from '../types';
+const app = useApp();
 
-const app = inject('ServiceContainer');
 const {t} = app.i18n;
 const fs = app.fs;
 const config = app.config;
@@ -105,7 +107,8 @@ function getBreadcrumb(index: number | null = null) {
     visibility: ''
   };
   // allBreadcrumbs entries don't carry full DirEntry fields; use fallback for drag types
-  return (allBreadcrumbs.value[index] as unknown as import('@/types').DirEntry) ?? (fallback as unknown as import('@/types').DirEntry)
+  const typed = allBreadcrumbs.value[index] as Partial<DirEntry> | undefined;
+  return (typed as DirEntry) ?? (fallback as DirEntry)
 }
 
 const handleRefresh = () => {

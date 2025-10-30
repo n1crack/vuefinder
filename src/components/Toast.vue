@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
+import { useApp } from '../composables/useApp';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {getStore} = app.storage;
 
 const fullScreen = ref(getStore('full-screen', false));
@@ -41,7 +42,7 @@ app.emitter.on('vf-toast-push', (data: any) => {
 </script>
 
 <template>
-  <div :class="['vuefinder__toast', fullScreen.value ? 'vuefinder__toast--fixed' : 'vuefinder__toast--absolute']">
+  <div :class="['vuefinder__toast', fullScreen ? 'vuefinder__toast--fixed' : 'vuefinder__toast--absolute']">
     <transition-group
         name="vuefinder__toast-item"
         enter-active-class="vuefinder__toast-item--enter-active"

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {inject, ref, computed, onMounted} from 'vue';
+import { useApp } from '../../composables/useApp';
 import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import Text from '../../components/previews/Text.vue';
@@ -12,7 +13,7 @@ import datetimestring from '../../utils/datetimestring';
 import {FEATURES} from "../../features";
 import type { DirEntry } from '../../types';
 
-const app = inject('ServiceContainer')
+const app = useApp()
 const {t} = app.i18n
 const loaded = ref(false);
 const loadPreview = (type: string) => (app.modal.data.item.mime_type ?? '').startsWith(type)
@@ -37,9 +38,10 @@ const canNavigateNext = computed(() => {
 });
 
 const navigateToPrevious = () => {
-  if (app.modal.editMode.value) return;
+  if (app.modal.editMode) return;
   if (!canNavigatePrevious.value) return;
   const previousItem = fileOnlyItems.value[currentIndex.value - 1];
+  if (!previousItem) return;
   
   // Clear current selection
   app.fs.clearSelection();
@@ -53,9 +55,10 @@ const navigateToPrevious = () => {
 };
 
 const navigateToNext = () => {
-  if (app.modal.editMode.value) return;
+  if (app.modal.editMode) return;
   if (!canNavigateNext.value) return;
   const nextItem = fileOnlyItems.value[currentIndex.value + 1];
+  if (!nextItem) return;
   
   // Clear current selection
   app.fs.clearSelection();

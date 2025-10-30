@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {inject} from 'vue';
+import { useApp } from '../../composables/useApp';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 
 import AboutSVG from "../../assets/icons/about.svg";
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 // About modal is now a simple info dialog
 

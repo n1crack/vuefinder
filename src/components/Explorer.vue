@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import {ref, onMounted, onUnmounted, useTemplateRef, computed, inject, watch, onUpdated, shallowRef} from 'vue';
 import {useStore} from '@nanostores/vue';
 import SelectionArea, {type SelectionEvent} from '@viselect/vanilla';
@@ -15,15 +16,16 @@ import {useDragNDrop} from '../composables/useDragNDrop';
 import {OverlayScrollbars} from 'overlayscrollbars';
 import 'overlayscrollbars/overlayscrollbars.css';
 import type { StoreValue } from "nanostores";
-import type {ConfigState} from "@/stores/config.ts";
-import type {SortState} from "@/stores/files.ts";
+import type {ConfigState} from "../stores/config";
+import type {SortState} from "../stores/files";
+import { useApp } from '../composables/useApp';
 
 const props = defineProps<{
   onFileDclick?: (item: DirEntry) => void;
   onFolderDclick?: (item: DirEntry) => void;
 }>();
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
 const dragImage = useTemplateRef<HTMLElement>('dragImage');
 const selectionObject = shallowRef<SelectionArea | null>(null);

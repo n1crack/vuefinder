@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {computed, inject, ref} from 'vue';
+import { useApp } from '../../composables/useApp';
 // import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
@@ -7,7 +8,7 @@ import MoveSVG from "../../assets/icons/move.svg";
 import ModalTreeSelector from "./ModalTreeSelector.vue";
 import type {DirEntry} from '../../types';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 // const fs = app.fs;
 // const currentPath = useStore(fs.path);

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {inject, nextTick, reactive, ref} from 'vue';
-import {useStore} from '@nanostores/vue';
+import {nextTick, reactive, ref} from 'vue';
+import { useApp } from '../composables/useApp';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 
 const contextmenu = ref<HTMLElement | null>(null);
 const selectedItems = ref([]);
@@ -31,9 +31,10 @@ const run = (item: any) => {
 };
 
 
-app.emitter.on('vf-contextmenu-show', ({event, items, target = null}: { event: any, items: any, target?: any }) => {
+app.emitter.on('vf-contextmenu-show', (payload: any) => {
+  const {event, items, target = null} = payload || {};
 
-  context.items = app.contextMenuItems.filter((item: any) => {
+  context.items = (app.contextMenuItems || []).filter((item: any) => {
     return item.show(app, {
       items,
       target
@@ -55,12 +56,12 @@ app.emitter.on('vf-contextmenu-hide', () => {
 })
 
 const showContextMenu = (event: any) => {
-  const area = app.root
-  const rootContainer = app.root.getBoundingClientRect();
-  const areaContainer = area.getBoundingClientRect();
+  const area = app.root as HTMLElement | null;
+  const rootContainer = area?.getBoundingClientRect?.();
+  const areaContainer = area?.getBoundingClientRect?.();
 
-  let left = event.clientX - rootContainer.left;
-  let top = event.clientY - rootContainer.top;
+  let left = event.clientX - (rootContainer?.left ?? 0);
+  let top = event.clientY - (rootContainer?.top ?? 0);
 
   context.active = true;
   // wait for the next tick to get the actual size of the context menu
@@ -72,8 +73,8 @@ const showContextMenu = (event: any) => {
     let menuWidth = menuContainer?.width ?? 0;
 
     // check if the context menu is out of the container area
-    left = (areaContainer.right - event.pageX + window.scrollX) < menuWidth ? left - menuWidth : left;
-    top = (areaContainer.bottom - event.pageY + window.scrollY) < menuHeight ? top - menuHeight : top;
+    left = (areaContainer && (areaContainer.right - event.pageX + window.scrollX) < menuWidth) ? left - menuWidth : left;
+    top = (areaContainer && (areaContainer.bottom - event.pageY + window.scrollY) < menuHeight) ? top - menuHeight : top;
 
     context.positions = {
       left: String(left) + 'px',

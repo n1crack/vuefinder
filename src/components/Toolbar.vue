@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {inject, ref, watch, onMounted, onUnmounted, computed} from 'vue';
+import { useApp } from '../composables/useApp';
 import {useStore} from '@nanostores/vue';
 import {FEATURES} from "../features.js";
 import ModalNewFolder from "./modals/ModalNewFolder.vue";
@@ -29,7 +30,7 @@ import type { ConfigState } from '../stores/config';
 import type { DirEntry } from '../types';
 import type { SortState, FilterState } from '../stores/files';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const {t} = app.i18n;
 
 defineOptions({ name: 'VfToolbar' });

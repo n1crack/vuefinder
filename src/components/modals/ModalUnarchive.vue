@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import {inject, ref} from 'vue';
+import { useApp } from '../../composables/useApp';
 import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from "../../components/modals/ModalHeader.vue";
 import UnarchiveSVG from "../../assets/icons/unarchive.svg";
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../../stores/files';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const fs = app.fs;
-const currentPath = useStore(fs.path);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 const {t} = app.i18n;
 
 const item = ref(app.modal.data.items[0]);
@@ -21,7 +24,7 @@ const unarchive = () => {
     app.adapter.unarchive({
         item: item.value.path,
         path: currentPath.value.path,
-    }).then((result) => {
+    }).then((result: any) => {
         app.emitter.emit('vf-toast-push', {label: t('The file unarchived.')});
         app.fs.setFiles(result.files);
         app.modal.close();

@@ -1,6 +1,7 @@
 
 <script setup lang="ts">
 import {inject, ref, computed} from 'vue';
+import { useApp } from '../composables/useApp';
 import {useStore} from '@nanostores/vue';
 
 import StorageSVG from "../assets/icons/storage.svg";
@@ -8,7 +9,7 @@ import FolderLoaderIndicator from "./FolderLoaderIndicator.vue";
 import TreeSubfolderList from "./TreeSubfolderList.vue";
 import {useDragNDrop} from '../composables/useDragNDrop';
 
-const app = inject('ServiceContainer');
+const app = useApp();
 const fs = app.fs;
 const showSubFolders = ref(false);
 const props = defineProps<{
@@ -28,6 +29,7 @@ const isActive = computed(() => {
 const item = {
   storage: props.storage,
   path: (props.storage + '://'),
+  dir: (props.storage + '://'),
   type: 'dir' as const,
   basename: props.storage,
   extension: '',

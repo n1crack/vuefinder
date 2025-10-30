@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {inject, nextTick, onMounted, ref} from 'vue';
+import { useApp } from '../../composables/useApp';
 
 const modalBody = ref<HTMLElement | null>(null);
-const app = inject('ServiceContainer')
+const app = useApp()
 const config = app.config;
 
 // Props for drag overlay
