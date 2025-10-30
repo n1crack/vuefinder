@@ -80,7 +80,7 @@ export default {
     'ネットワークエラー、サーバーへの接続を確立できないか、中断されました。',
   'Pending upload': 'アップロード待機中',
   'Please select file to upload first.': 'まずアップロードするファイルを選択してください。',
-  About: 'について',
+
   Settings: '設定',
   Shortcuts: 'ショートカット',
   Reset: 'リセット',

@@ -82,7 +82,7 @@ export default {
     "Erreur réseau, impossible d'établir une connexion avec le serveur ou interrompue.",
   'Pending upload': 'Téléchargement en attente',
   'Please select file to upload first.': "Veuillez d'abord sélectionner le fichier à télécharger.",
-  About: 'À propos',
+
   Settings: 'Paramètres',
   Shortcuts: 'Raccourcis',
   Reset: 'Réinitialiser',

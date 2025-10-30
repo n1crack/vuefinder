@@ -79,7 +79,7 @@ export default {
     'خطأ في الشبكة، تعذر إنشاء اتصال بالخادم أو انقطاعه.',
   'Pending upload': 'في انتظار التحميل',
   'Please select file to upload first.': 'الرجاء تحديد ملف أولاً لرفعه',
-  About: 'حول',
+
   Settings: 'الإعدادات',
   Shortcuts: 'الإختصارات',
   Reset: 'إعادة ضبط',

@@ -76,7 +76,7 @@ export default {
     '网络错误，无法连接到服务器或连接被意外中断。',
   'Pending upload': '待上传',
   'Please select file to upload first.': '请先选择要上传的文件。',
-  About: '关于',
+
   Settings: '设置',
   Shortcuts: '快捷键',
   Reset: '重置',

@@ -53,7 +53,7 @@ const navigateToPrevious = () => {
 
   // Update modal data instead of opening new modal
   app.modal.data.item = previousItem;
-  app.modal.data.storage = app.modal.data.storage;
+  
 };
 
 const navigateToNext = () => {
@@ -70,7 +70,7 @@ const navigateToNext = () => {
 
   // Update modal data instead of opening new modal
   app.modal.data.item = nextItem;
-  app.modal.data.storage = app.modal.data.storage;
+  
 };
 
 // Keyboard navigation for preview

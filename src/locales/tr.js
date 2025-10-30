@@ -76,7 +76,7 @@ export default {
     'Ağ Hatası, Sunucuya bağlantı kurulamıyor veya kesiliyor.',
   'Pending upload': 'Bekliyor',
   'Please select file to upload first.': 'Lütfen önce yüklenecek dosyayı seçin.',
-  About: 'Hakkında',
+
   Settings: 'Ayarlar',
   Shortcuts: 'Kısayollar',
   Reset: 'Sıfırla',

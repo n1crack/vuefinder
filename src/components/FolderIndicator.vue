@@ -2,7 +2,7 @@
 import SquarePlusSVG from '../assets/icons/plus.svg';
 import SquareMinusSVG from '../assets/icons/minus.svg';
 
-const model = defineModel();
+const model = defineModel<boolean>();
 </script>
 
 <template>

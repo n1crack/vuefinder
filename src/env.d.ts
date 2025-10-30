@@ -9,12 +9,11 @@ declare module 'vue' {
 
 declare module '*.vue' {
   import type { DefineComponent } from 'vue';
-  const component: DefineComponent<{}, {}, any>;
+  const component: DefineComponent<Record<string, unknown>, Record<string, unknown>, unknown>;
   export default component;
 }
 
 // Minimal types for @nanostores/vue to enable useStore in TS
 declare module '@nanostores/vue' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export function useStore<T = any>(store: unknown): any;
+  export function useStore<T = unknown>(store: unknown): T;
 }

@@ -79,7 +79,7 @@ export default {
     'Errore di rete, Impossibile stabilire connessione al server o interrotto.',
   'Pending upload': 'Caricamento in sospeso',
   'Please select file to upload first.': 'Seleziona prima un file da caricare.',
-  About: 'Informazioni',
+
   Settings: 'Impostazioni',
   Shortcuts: 'Scorciatoie',
   Reset: 'Ripristina',

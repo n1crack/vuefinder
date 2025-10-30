@@ -12,7 +12,6 @@ import type { Adapter } from './adapters';
 import { AdapterManager } from './adapters';
 import type { Theme } from './stores/theme.ts';
 import { useTheme } from './composables/useTheme';
-import type { App } from './types';
 import type { Item as ContextMenuItem } from './utils/contextmenu';
 import type { ConfigStore } from './stores/config';
 interface ServiceContainerProps {

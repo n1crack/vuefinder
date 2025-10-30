@@ -82,7 +82,7 @@ export default {
     'Error de red, No se pudo establecer conexión con el servidor o se interrumpió.',
   'Pending upload': 'Pendiente',
   'Please select file to upload first.': 'Por favor selecciona un archivo para subir primero.',
-  About: 'Acerca de',
+
   Settings: 'Configuración',
   Shortcuts: 'Atajos',
   Reset: 'Restablecer',

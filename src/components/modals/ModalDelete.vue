@@ -49,7 +49,7 @@ const remove = () => {
             {{ t('Are you sure you want to delete these files?') }}
           </p>
           <div class="vuefinder__delete-modal__files vf-scrollbar">
-            <p v-for="item in items" class="vuefinder__delete-modal__file">
+            <p v-for="item in items" :key="item.path" class="vuefinder__delete-modal__file">
               <svg
                 v-if="item.type === 'dir'"
                 class="vuefinder__delete-modal__icon vuefinder__delete-modal__icon--dir"

@@ -274,7 +274,7 @@ export const menuItems: Item[] = [
         });
       }
     },
-    show: (app, ctx) => {
+    show: (app, _ctx) => {
       const clipboard = app.fs.getClipboard();
       return clipboard?.items?.size > 0;
     },

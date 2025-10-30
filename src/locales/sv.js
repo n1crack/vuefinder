@@ -77,7 +77,7 @@ export default {
     'Nätverksfel, kan inte upprätta anslutning till servern eller avbruten.',
   'Pending upload': 'Väntar på uppladdning',
   'Please select file to upload first.': 'Välj fil att ladda upp först.',
-  About: 'Om',
+
   Settings: 'Inställningar',
   Shortcuts: 'Genvägar',
   Reset: 'Återställ',

@@ -72,12 +72,11 @@ function updateState(responseData: FsData) {
 }
 
 // Set the callback on adapter manager to update state
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(app.adapter as any).onBeforeOpen = () => {
+app.adapter.onBeforeOpen = () => {
   fs.setLoading(true);
 };
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(app.adapter as any).onAfterOpen = (responseData: FsData) => {
+
+app.adapter.onAfterOpen = (responseData: FsData) => {
   updateState(responseData);
   fs.setLoading(false);
 };

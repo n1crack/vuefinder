@@ -80,7 +80,7 @@ export default {
     'Netwerkfout, kan geen verbinding maken met de server of onderbroken.',
   'Pending upload': 'In wachtrij',
   'Please select file to upload first.': 'Selecteer eerst een bestand om te uploaden.',
-  About: 'Over',
+
   Settings: 'Instellingen',
   Shortcuts: 'Sneltoetsen',
   Reset: 'Resetten',

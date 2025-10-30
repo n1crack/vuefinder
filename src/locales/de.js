@@ -81,7 +81,7 @@ export default {
     'Netzwerkfehler, Verbindung zum Server kann nicht hergestellt oder unterbrochen werden.',
   'Pending upload': 'Ausstehender',
   'Please select file to upload first.': 'Bitte wählen Sie zuerst eine Datei zum Hochladen aus.',
-  About: 'Über',
+
   Settings: 'Einstellungen',
   Shortcuts: 'Verknüpfungen',
   Reset: 'Zurücksetzen',

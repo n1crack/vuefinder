@@ -28,7 +28,7 @@ export class LocalAdapter extends BaseAdapter {
   async list(params?: { path?: string }): Promise<FsData> {
     try {
       // Parse path to extract storage and actual path
-      const { path } = this.parsePath(params?.path);
+      const { path: _path } = this.parsePath(params?.path);
 
       // In a real local implementation, you would use File System Access API
       // or local storage to list files
@@ -166,8 +166,8 @@ export class LocalAdapter extends BaseAdapter {
 
     // Return a URL that can be used to preview the file locally
     // This would typically use object URLs or File System Access API
-    const { path, storage } = this.parsePath(params.path);
-    const fullPath = this.combinePath(storage, path);
+    const { path: _p, storage: _s } = this.parsePath(params.path);
+    const _fullPath = this.combinePath(_s, _p);
 
     // Return empty string as local preview URLs need to be generated dynamically
     return '';
@@ -190,8 +190,8 @@ export class LocalAdapter extends BaseAdapter {
     this.validatePath(params.path);
 
     // Return a URL that can be used to download the file locally
-    const { path, storage } = this.parsePath(params.path);
-    const fullPath = this.combinePath(storage, path);
+    const { path: _p2, storage: _s2 } = this.parsePath(params.path);
+    const _fullPath2 = this.combinePath(_s2, _p2);
 
     // Return empty string as local download URLs need to be generated dynamically
     return '';
@@ -200,7 +200,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Search files (not implemented for local)
    */
-  async search(params: {
+  async search(_params: {
     path?: string;
     filter: string;
     deep?: boolean;
@@ -212,7 +212,7 @@ export class LocalAdapter extends BaseAdapter {
   /**
    * Save content to file (not implemented for local)
    */
-  async save(params: SaveParams): Promise<string> {
+  async save(_params: SaveParams): Promise<string> {
     throw new Error('LocalAdapter.save() is not yet implemented.');
   }
 }

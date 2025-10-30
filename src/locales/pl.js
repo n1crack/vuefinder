@@ -1,4 +1,4 @@
-import uppyLocaleEn from '@uppy/locales/lib/pl_PL.js';
+import uppyLocalePl from '@uppy/locales/lib/pl_PL.js';
 
 export default {
   'A modern, customizable file manager component built for Vue.':
@@ -78,7 +78,7 @@ export default {
     'Błąd sieci, nie można nawiązać połączenia z serwerem lub połączenie zostało przerwane.',
   'Pending upload': 'Oczekujące przesyłanie',
   'Please select file to upload first.': 'Proszę najpierw wybrać plik do przesłania.',
-  About: 'O programie',
+
   Settings: 'Ustawienia',
   Shortcuts: 'Skróty',
   Reset: 'Resetuj',

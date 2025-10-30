@@ -77,7 +77,7 @@ export default {
     'خطای شبکه، اتصال به سرور برقرار نشد یا قطع شد.',
   'Pending upload': 'آپلود در حال انتظار',
   'Please select file to upload first.': 'لطفا ابتدا فایلی را برای آپلود انتخاب کنید.',
-  About: 'درباره',
+
   Settings: 'تنظیمات',
   Shortcuts: 'میانبر ها',
   Reset: 'بازنشانی',

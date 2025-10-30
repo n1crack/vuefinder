@@ -77,7 +77,7 @@ export default {
     'שגיאת רשת, לא ניתן להתחבר לשרת או החיבור נקטע.',
   'Pending upload': 'העלאה ממתינה',
   'Please select file to upload first.': 'בחר קובץ להעלאה תחילה.',
-  About: 'אודות',
+
   Settings: 'הגדרות',
   Shortcuts: 'קיצורי דרך',
   Reset: 'איפוס',

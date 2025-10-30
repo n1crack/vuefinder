@@ -129,7 +129,7 @@ export default {
   'Full Screen': 'Полный экран',
   items: 'элементов',
   selected: 'выбрано',
-  About: 'О программе',
+
   Git: 'Git',
   Forward: 'Вперед',
   Back: 'Назад',

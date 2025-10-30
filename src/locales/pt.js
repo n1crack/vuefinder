@@ -81,7 +81,7 @@ export default {
     'Erro de rede, Não foi possível estabelecer conexão com o servidor ou interrompido.',
   'Pending upload': 'Envio pendente',
   'Please select file to upload first.': 'Por favor, selecione um arquivo para enviar primeiro.',
-  About: 'Sobre',
+
   Settings: 'Configurações',
   Shortcuts: 'Atalhos',
   Reset: 'Redefinir',

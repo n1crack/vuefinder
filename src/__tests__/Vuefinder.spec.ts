@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 import { mount } from '@vue/test-utils';
 import VueFinder from '@/components/VueFinder.vue';

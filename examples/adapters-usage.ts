@@ -5,7 +5,7 @@
  * with VueFinder.
  */
 
-/** @ts-ignore */
+/** @ts-expect-error Example import path for docs build */
 import { LocalAdapter, CloudAdapter, BaseAdapter, AdapterManager } from '../src/adapters';
 
 // ============================================================================

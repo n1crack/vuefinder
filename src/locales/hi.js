@@ -78,7 +78,7 @@ export default {
     'नेटवर्क त्रुटि, सर्वर से कनेक्शन स्थापित नहीं कर सकता या रुका हुआ है।',
   'Pending upload': 'अपलोड प्रलंबित',
   'Please select file to upload first.': 'कृपया पहले अपलोड करने के लिए फ़ाइल का चयन करें।',
-  About: 'के बारे में',
+
   Settings: 'सेटिंग्स',
   Shortcuts: 'शॉर्टकट',
   Reset: 'रीसेट',

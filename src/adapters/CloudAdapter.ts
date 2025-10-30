@@ -12,7 +12,6 @@ import type {
   UploaderContext,
 } from './types';
 import type Uppy from '@uppy/core';
-import type { Meta, UppyFile } from '@uppy/core';
 
 /**
  * Cloud adapter for handling file operations via HTTP requests

@@ -13,7 +13,7 @@ const fs = app.fs;
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 const { t } = app.i18n;
 
-const item = ref(app.modal.data.items[0]);
+const zipItem = ref(app.modal.data.items[0]);
 const message = ref('');
 
 // todo: get zip folder content
@@ -22,7 +22,7 @@ const items = ref<any[]>([]);
 const unarchive = () => {
   app.adapter
     .unarchive({
-      item: item.value.path,
+      item: zipItem.value.path,
       path: currentPath.value.path,
     })
     .then((result: any) => {

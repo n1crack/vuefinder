@@ -4,6 +4,8 @@ import Uppy from '@uppy/core';
 import { parse } from '../utils/filesize';
 import { useStore } from '@nanostores/vue';
 import { scanFiles } from '../utils/scanFiles';
+import type { CurrentPathState } from '../stores/files';
+import type { StoreValue } from 'nanostores';
 
 export const QUEUE_ENTRY_STATUS = {
   PENDING: 0,
@@ -47,11 +49,10 @@ export interface UseUploadReturn {
 }
 
 export default function useUpload(customUploader?: any): UseUploadReturn {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const app: any = useApp();
+  const app = useApp();
   const { t } = app.i18n;
   const fs = app.fs;
-  const currentPath = useStore(fs.path);
+  const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
   const config = app.config;
   const definitions = ref({ QUEUE_ENTRY_STATUS });
   const container = ref<HTMLElement | null>(null);

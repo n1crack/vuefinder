@@ -14,7 +14,7 @@ const props = defineProps<{
 }>();
 
 const app = useApp();
-const opened = defineModel();
+const opened = defineModel<boolean>();
 const loading = ref(false);
 
 watch(
