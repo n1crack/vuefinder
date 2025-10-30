@@ -65,7 +65,7 @@ const visibleItems = computed(() => {
   return props.searchResults.slice(start, end).map((item, index) => ({
     item,
     index: start + index,
-    top: (start + index) * ITEM_HEIGHT
+    top: (start + index) * ITEM_HEIGHT,
   }));
 });
 
@@ -90,9 +90,9 @@ const scrollSelectedIntoView = () => {
     const containerScrollTop = scrollableContainer.value.scrollTop;
     const containerHeight = scrollableContainer.value.clientHeight;
     const containerBottom = containerScrollTop + containerHeight;
-    
+
     let newScrollTop = containerScrollTop;
-    
+
     // If selected item is above visible area, scroll to show it at top
     if (selectedItemTop < containerScrollTop) {
       newScrollTop = selectedItemTop;
@@ -101,12 +101,12 @@ const scrollSelectedIntoView = () => {
     else if (selectedItemBottom > containerBottom) {
       newScrollTop = selectedItemBottom - containerHeight;
     }
-    
+
     // Only scroll if position needs to change
     if (newScrollTop !== containerScrollTop) {
       scrollableContainer.value.scrollTo({
         top: newScrollTop,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   }
@@ -131,38 +131,48 @@ onUnmounted(() => {
 });
 
 // Watch for container changes
-watch(() => scrollableContainer.value, () => {
-  updateContainerHeight();
-});
+watch(
+  () => scrollableContainer.value,
+  () => {
+    updateContainerHeight();
+  }
+);
 
 defineExpose({
   scrollSelectedIntoView,
   resetScroll,
   getContainerHeight: () => containerHeight.value,
-  scrollTop: () => scrollTop.value
+  scrollTop: () => scrollTop.value,
 });
 </script>
 
 <template>
-  <div class="vuefinder__search-modal__results" :class="{ 'vuefinder__search-modal__results--enter': resultsEnter }">
+  <div
+    class="vuefinder__search-modal__results"
+    :class="{ 'vuefinder__search-modal__results--enter': resultsEnter }"
+  >
     <div v-if="isSearching" class="vuefinder__search-modal__searching">
       <div class="vuefinder__search-modal__loading-icon">
         <LoadingSVG class="vuefinder__search-modal__loading-icon" />
       </div>
       <span>{{ t('Searching...') }}</span>
     </div>
-    
+
     <div v-else-if="!hasResults" class="vuefinder__search-modal__no-results">
       <span>{{ t('No results found') }}</span>
     </div>
-    
+
     <div v-else class="vuefinder__search-modal__results-list">
       <div class="vuefinder__search-modal__results-header">
         <span>{{ t('Found %s results', resultCount) }}</span>
       </div>
-      
-      <div ref="scrollableContainer" class="vuefinder__search-modal__results-scrollable" @scroll="handleScroll">
-        <div 
+
+      <div
+        ref="scrollableContainer"
+        class="vuefinder__search-modal__results-scrollable"
+        @scroll="handleScroll"
+      >
+        <div
           class="vuefinder__search-modal__results-items"
           :style="{ height: `${totalHeight}px`, position: 'relative' }"
         >
@@ -174,7 +184,7 @@ defineExpose({
               top: `${visibleItem.top}px`,
               left: '0',
               width: '100%',
-              height: `${ITEM_HEIGHT}px`
+              height: `${ITEM_HEIGHT}px`,
             }"
           >
             <SearchResultItem
@@ -188,7 +198,9 @@ defineExpose({
               @select-with-dropdown="emit('selectResultItemWithDropdown', $event)"
               @toggle-path-expansion="emit('togglePathExpansion', $event)"
               @toggle-item-dropdown="(path, event) => emit('toggleItemDropdown', path, event)"
-              @update:selected-item-dropdown-option="emit('update:selectedItemDropdownOption', $event)"
+              @update:selected-item-dropdown-option="
+                emit('update:selectedItemDropdownOption', $event)
+              "
               @copy-path="emit('copyPath', $event)"
               @open-containing-folder="emit('openContainingFolder', $event)"
               @preview="emit('preview', $event)"

@@ -1,5 +1,5 @@
 /* Ocean Theme */
-.vuefinder__themer[data-theme="ocean"] {
+.vuefinder__themer[data-theme='ocean'] {
   --vf-selection-bg: #263238;
   --vf-selection-border: #00bcd4;
   /* Background Colors */
@@ -48,7 +48,7 @@
 }
 
 /* Ocean Theme - Context Menu */
-.vuefinder[data-theme="ocean"] .vuefinder__context-menu {
+.vuefinder[data-theme='ocean'] .vuefinder__context-menu {
   border-color: #546e7a;
   box-shadow:
     0 4px 6px -1px rgba(0, 188, 212, 0.1),
@@ -56,13 +56,13 @@
 }
 
 /* Ocean Theme - Tree View */
-.vuefinder[data-theme="ocean"] .vuefinder__treestorageitem__header {
+.vuefinder[data-theme='ocean'] .vuefinder__treestorageitem__header {
   background-color: var(--vf-bg-primary);
   opacity: 0.7;
 }
 
 /* Ocean Theme - Selection Area */
-.selection-area-container[data-theme="ocean"] {
+.selection-area-container[data-theme='ocean'] {
   --vf-selection-bg: #263238;
   --vf-selection-border: #00bcd4;
 }

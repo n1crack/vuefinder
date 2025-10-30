@@ -1,5 +1,5 @@
 /* Rose Theme */
-.vuefinder__themer[data-theme="rose"] {
+.vuefinder__themer[data-theme='rose'] {
   --vf-selection-bg: #fef7f7;
   --vf-selection-border: #fecaca;
   /* Background Colors */
@@ -49,7 +49,7 @@
 }
 
 /* Rose Theme - Context Menu */
-.vuefinder[data-theme="rose"] .vuefinder__context-menu {
+.vuefinder[data-theme='rose'] .vuefinder__context-menu {
   border: 1px solid #e11d48;
   box-shadow:
     0 4px 6px -1px rgba(225, 29, 72, 0.1),
@@ -57,18 +57,18 @@
 }
 
 /* Rose Theme - Item Icons */
-.vuefinder[data-theme="rose"] .vuefinder__item-icon__folder {
+.vuefinder[data-theme='rose'] .vuefinder__item-icon__folder {
   fill: #ec4899;
   stroke: #ec4899;
 }
 
-.vuefinder[data-theme="rose"] .vuefinder__item-icon__folder--open {
+.vuefinder[data-theme='rose'] .vuefinder__item-icon__folder--open {
   fill: #ec4899;
   stroke: #f472b6;
 }
 
 /* Rose Theme - Selection Area */
-.selection-area-container[data-theme="rose"] {
+.selection-area-container[data-theme='rose'] {
   --vf-selection-bg: #fef7f7;
   --vf-selection-border: #e11d48;
 }

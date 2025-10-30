@@ -67,7 +67,7 @@ function showIf(options: Partial<ShowOptions>) {
     {
       needsSearchQuery: false,
     },
-    options,
+    options
   );
 
   return (app: App, ctx: MenuContext) => {
@@ -149,8 +149,8 @@ export const menuItems: Item[] = [
       const newPinnedFolders = currentPinnedFolders.concat(
         selectedItems.filter(
           (fav: DirEntry) =>
-            currentPinnedFolders.findIndex((item: DirEntry) => item.path === fav.path) === -1,
-        ),
+            currentPinnedFolders.findIndex((item: DirEntry) => item.path === fav.path) === -1
+        )
       );
       config.set('pinnedFolders', newPinnedFolders);
     },
@@ -171,8 +171,8 @@ export const menuItems: Item[] = [
       config.set(
         'pinnedFolders',
         currentPinnedFolders.filter(
-          (fav: DirEntry) => !selectedItems.find((item: DirEntry) => item.path === fav.path),
-        ),
+          (fav: DirEntry) => !selectedItems.find((item: DirEntry) => item.path === fav.path)
+        )
       );
     },
     show: showIfAll(showIf({ target: 'one', targetType: 'dir' }), (app, ctx) => {
@@ -190,7 +190,7 @@ export const menuItems: Item[] = [
       app.modal.open(ModalPreview, { storage: selectedItems[0]?.storage, item: selectedItems[0] }),
     show: showIfAll(
       showIf({ target: 'one', feature: FEATURES.PREVIEW }),
-      (app, ctx) => ctx.target?.type !== 'dir',
+      (app, ctx) => ctx.target?.type !== 'dir'
     ),
   },
   {
@@ -205,7 +205,7 @@ export const menuItems: Item[] = [
     action: () => {},
     show: showIfAll(
       showIf({ target: 'one', feature: FEATURES.DOWNLOAD }),
-      (app, ctx) => ctx.target?.type !== 'dir',
+      (app, ctx) => ctx.target?.type !== 'dir'
     ),
   },
   {
@@ -228,7 +228,7 @@ export const menuItems: Item[] = [
     },
     show: showIfAny(
       showIf({ target: 'one', feature: FEATURES.MOVE }),
-      showIf({ target: 'many', feature: FEATURES.MOVE }),
+      showIf({ target: 'many', feature: FEATURES.MOVE })
     ),
   },
   {
@@ -241,7 +241,7 @@ export const menuItems: Item[] = [
     },
     show: showIfAny(
       showIf({ target: 'one', feature: FEATURES.COPY }),
-      showIf({ target: 'many', feature: FEATURES.COPY }),
+      showIf({ target: 'many', feature: FEATURES.COPY })
     ),
   },
   {
@@ -287,8 +287,8 @@ export const menuItems: Item[] = [
       showIf({ target: 'many', feature: FEATURES.ARCHIVE }),
       showIfAll(
         showIf({ target: 'one', feature: FEATURES.ARCHIVE }),
-        (app, ctx) => ctx.target?.mime_type !== 'application/zip',
-      ),
+        (app, ctx) => ctx.target?.mime_type !== 'application/zip'
+      )
     ),
   },
   {
@@ -305,7 +305,7 @@ export const menuItems: Item[] = [
     },
     show: showIfAny(
       showIf({ feature: FEATURES.DELETE, target: 'one' }),
-      showIf({ feature: FEATURES.DELETE, target: 'many' }),
+      showIf({ feature: FEATURES.DELETE, target: 'many' })
     ),
   },
 ];

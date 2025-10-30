@@ -45,19 +45,22 @@ const buttonElementRef = ref<HTMLElement | null>(null);
 let cleanupDropdown: (() => void) | null = null;
 
 // Watch for activeDropdown changes to position the dropdown
-watch(() => props.activeDropdown, (newActiveDropdown) => {
-  // Clean up previous dropdown if it exists
-  if (cleanupDropdown) {
-    cleanupDropdown();
-    cleanupDropdown = null;
+watch(
+  () => props.activeDropdown,
+  (newActiveDropdown) => {
+    // Clean up previous dropdown if it exists
+    if (cleanupDropdown) {
+      cleanupDropdown();
+      cleanupDropdown = null;
+    }
+
+    if (newActiveDropdown === props.item.path && buttonElementRef.value) {
+      nextTick(() => {
+        setupItemDropdownPositioning(props.item.path, buttonElementRef.value!);
+      });
+    }
   }
-  
-  if (newActiveDropdown === props.item.path && buttonElementRef.value) {
-    nextTick(() => {
-      setupItemDropdownPositioning(props.item.path, buttonElementRef.value!);
-    });
-  }
-});
+);
 
 // Cleanup on unmount
 onUnmounted(() => {
@@ -84,49 +87,47 @@ const toggleItemDropdown = (itemPath: string, event: MouseEvent) => {
 };
 
 const setupItemDropdownPositioning = async (itemPath: string, buttonElement: HTMLElement) => {
-  const itemDropdownElement = document.querySelector(`[data-item-dropdown="${itemPath}"]`) as HTMLElement;
-  
+  const itemDropdownElement = document.querySelector(
+    `[data-item-dropdown="${itemPath}"]`
+  ) as HTMLElement;
+
   if (!itemDropdownElement || !buttonElement) return;
-  
+
   // Wait for DOM to be ready
   await nextTick();
-  
+
   // Double-check elements still exist after nextTick
   if (!itemDropdownElement || !buttonElement) return;
-  
+
   // Set initial styles to prevent flash
   Object.assign(itemDropdownElement.style, {
     position: 'fixed',
     zIndex: '10001',
     opacity: '0',
     transform: 'translateY(-8px)',
-    transition: 'opacity 150ms ease-out, transform 150ms ease-out'
+    transition: 'opacity 150ms ease-out, transform 150ms ease-out',
   });
-  
+
   // Calculate position immediately
   try {
     const { x, y } = await computePosition(buttonElement, itemDropdownElement, {
       placement: 'left-start',
       strategy: 'fixed',
-      middleware: [
-        offset(8),
-        flip({ padding: 16 }),
-        shift({ padding: 16 })
-      ]
+      middleware: [offset(8), flip({ padding: 16 }), shift({ padding: 16 })],
     });
-    
+
     // Set the correct position
     Object.assign(itemDropdownElement.style, {
       left: `${x}px`,
-      top: `${y}px`
+      top: `${y}px`,
     });
-    
+
     // Now make it visible with animation
     requestAnimationFrame(() => {
       if (itemDropdownElement) {
         Object.assign(itemDropdownElement.style, {
           opacity: '1',
-          transform: 'translateY(0)'
+          transform: 'translateY(0)',
         });
       }
     });
@@ -134,26 +135,22 @@ const setupItemDropdownPositioning = async (itemPath: string, buttonElement: HTM
     console.warn('Floating UI initial positioning error:', error);
     return;
   }
-  
+
   // Setup auto-update for dynamic positioning
   try {
     cleanupDropdown = autoUpdate(buttonElement, itemDropdownElement, async () => {
       if (!buttonElement || !itemDropdownElement) return;
-      
+
       try {
         const { x: newX, y: newY } = await computePosition(buttonElement, itemDropdownElement, {
           placement: 'left-start',
           strategy: 'fixed',
-          middleware: [
-            offset(8),
-            flip({ padding: 16 }),
-            shift({ padding: 16 })
-          ]
+          middleware: [offset(8), flip({ padding: 16 }), shift({ padding: 16 })],
         });
-        
+
         Object.assign(itemDropdownElement.style, {
           left: `${newX}px`,
-          top: `${newY}px`
+          top: `${newY}px`,
         });
       } catch (error) {
         console.warn('Floating UI positioning error:', error);
@@ -185,22 +182,26 @@ const previewItem = (item: DirEntry) => {
 // Enhanced keyboard navigation for item dropdowns
 const handleDropdownKeydown = (e: KeyboardEvent) => {
   if (!props.activeDropdown) return;
-  
+
   const options = ['copy-path', 'open-folder', 'preview'];
   const currentSelection = props.selectedItemDropdownOption;
-  
-  const currentIndex = options.findIndex(opt => 
-    currentSelection?.includes(opt)
-  );
-  
+
+  const currentIndex = options.findIndex((opt) => currentSelection?.includes(opt));
+
   if (e.key === 'ArrowDown') {
     e.preventDefault();
     const nextIndex = (currentIndex + 1) % options.length;
-    emit('update:selectedItemDropdownOption', `${options[nextIndex] || ''}-${props.activeDropdown}`);
+    emit(
+      'update:selectedItemDropdownOption',
+      `${options[nextIndex] || ''}-${props.activeDropdown}`
+    );
   } else if (e.key === 'ArrowUp') {
     e.preventDefault();
     const prevIndex = currentIndex <= 0 ? options.length - 1 : currentIndex - 1;
-    emit('update:selectedItemDropdownOption', `${options[prevIndex] || ''}-${props.activeDropdown}`);
+    emit(
+      'update:selectedItemDropdownOption',
+      `${options[prevIndex] || ''}-${props.activeDropdown}`
+    );
   } else if (e.key === 'Enter') {
     e.preventDefault();
     // Handle item dropdown option selection
@@ -238,10 +239,13 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
           {{ formatFileSize(item) }}
         </span>
       </div>
-      <div 
+      <div
         class="vuefinder__search-modal__result-path"
-        @click.stop="emit('select', index); emit('togglePathExpansion', item.path)"
         :title="item.path"
+        @click.stop="
+          emit('select', index);
+          emit('togglePathExpansion', item.path);
+        "
       >
         {{ isPathExpanded(item.path) ? item.path : shortenPath(item.path) }}
       </div>
@@ -249,56 +253,85 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
     <button
       ref="buttonElementRef"
       class="vuefinder__search-modal__result-actions"
-      @click="emit('selectWithDropdown', index); toggleItemDropdown(item.path, $event)"
       :title="t('More actions')"
+      @click="
+        emit('selectWithDropdown', index);
+        toggleItemDropdown(item.path, $event);
+      "
     >
       <DotsSVG class="vuefinder__search-modal__result-actions-icon" />
     </button>
-    
+
     <!-- Item Dropdown Menu -->
     <Teleport to="body">
-      <div 
+      <div
         v-if="activeDropdown === item.path"
         :data-item-dropdown="item.path"
         class="vuefinder__themer vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible"
         :data-theme="app.theme.current"
+        tabindex="-1"
         @click.stop
         @keydown="handleDropdownKeydown"
-        tabindex="-1"
       >
-      <div class="vuefinder__search-modal__item-dropdown-content">
-        <div 
-          class="vuefinder__search-modal__item-dropdown-option"
-          :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `copy-path-${item.path}` }"
-          @click="selectItemDropdownOption(`copy-path-${item.path}`); copyItemPath(item)"
-          @focus="selectItemDropdownOption(`copy-path-${item.path}`)"
-        >
-          <svg class="vuefinder__search-modal__item-dropdown-icon" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6z"/>
-            <path d="M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
-          </svg>
-          <span>{{ t('Copy Path') }}</span>
-        </div>
-        <div 
-          class="vuefinder__search-modal__item-dropdown-option"
-          :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `open-folder-${item.path}` }"
-          @click="selectItemDropdownOption(`open-folder-${item.path}`); openContainingFolder(item)"
-          @focus="selectItemDropdownOption(`open-folder-${item.path}`)"
-        >
-          <FolderSVG class="vuefinder__search-modal__item-dropdown-icon" />
-          <span>{{ t('Open Containing Folder') }}</span>
-        </div>
-        <div 
-          class="vuefinder__search-modal__item-dropdown-option"
-          :class="{ 'vuefinder__search-modal__item-dropdown-option--selected': selectedItemDropdownOption === `preview-${item.path}` }"
-          @click="selectItemDropdownOption(`preview-${item.path}`); previewItem(item)"
-          @focus="selectItemDropdownOption(`preview-${item.path}`)"
-        >
-          <FileSVG class="vuefinder__search-modal__item-dropdown-icon" />
-          <span>{{ t('Preview') }}</span>
+        <div class="vuefinder__search-modal__item-dropdown-content">
+          <div
+            class="vuefinder__search-modal__item-dropdown-option"
+            :class="{
+              'vuefinder__search-modal__item-dropdown-option--selected':
+                selectedItemDropdownOption === `copy-path-${item.path}`,
+            }"
+            @click="
+              selectItemDropdownOption(`copy-path-${item.path}`);
+              copyItemPath(item);
+            "
+            @focus="selectItemDropdownOption(`copy-path-${item.path}`)"
+          >
+            <svg
+              class="vuefinder__search-modal__item-dropdown-icon"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+            >
+              <path
+                d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6z"
+              />
+              <path
+                d="M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"
+              />
+            </svg>
+            <span>{{ t('Copy Path') }}</span>
+          </div>
+          <div
+            class="vuefinder__search-modal__item-dropdown-option"
+            :class="{
+              'vuefinder__search-modal__item-dropdown-option--selected':
+                selectedItemDropdownOption === `open-folder-${item.path}`,
+            }"
+            @click="
+              selectItemDropdownOption(`open-folder-${item.path}`);
+              openContainingFolder(item);
+            "
+            @focus="selectItemDropdownOption(`open-folder-${item.path}`)"
+          >
+            <FolderSVG class="vuefinder__search-modal__item-dropdown-icon" />
+            <span>{{ t('Open Containing Folder') }}</span>
+          </div>
+          <div
+            class="vuefinder__search-modal__item-dropdown-option"
+            :class="{
+              'vuefinder__search-modal__item-dropdown-option--selected':
+                selectedItemDropdownOption === `preview-${item.path}`,
+            }"
+            @click="
+              selectItemDropdownOption(`preview-${item.path}`);
+              previewItem(item);
+            "
+            @focus="selectItemDropdownOption(`preview-${item.path}`)"
+          >
+            <FileSVG class="vuefinder__search-modal__item-dropdown-icon" />
+            <span>{{ t('Preview') }}</span>
+          </div>
         </div>
       </div>
-    </div>
     </Teleport>
   </div>
 </template>

@@ -1,22 +1,21 @@
-
 <script setup lang="ts">
-import {inject, ref, computed} from 'vue';
+import { inject, ref, computed } from 'vue';
 import { useApp } from '../composables/useApp';
-import {useStore} from '@nanostores/vue';
+import { useStore } from '@nanostores/vue';
 
-import StorageSVG from "../assets/icons/storage.svg";
-import FolderLoaderIndicator from "./FolderLoaderIndicator.vue";
-import TreeSubfolderList from "./TreeSubfolderList.vue";
-import {useDragNDrop} from '../composables/useDragNDrop';
+import StorageSVG from '../assets/icons/storage.svg';
+import FolderLoaderIndicator from './FolderLoaderIndicator.vue';
+import TreeSubfolderList from './TreeSubfolderList.vue';
+import { useDragNDrop } from '../composables/useDragNDrop';
 
 const app = useApp();
 const fs = app.fs;
 const showSubFolders = ref(false);
 const props = defineProps<{
-  storage: string
-}>()
+  storage: string;
+}>();
 
-const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over']);
 
 // Make path reactive
 const currentPath = useStore(fs.path);
@@ -28,16 +27,16 @@ const isActive = computed(() => {
 
 const item = {
   storage: props.storage,
-  path: (props.storage + '://'),
-  dir: (props.storage + '://'),
+  path: props.storage + '://',
+  dir: props.storage + '://',
   type: 'dir' as const,
   basename: props.storage,
   extension: '',
   file_size: null,
   last_modified: null,
   mime_type: null,
-  visibility: 'public'
-}
+  visibility: 'public',
+};
 
 /**
  * If the storage is active the visibilty of the subfolders gets toggled, otherwise the storage will become active
@@ -46,27 +45,23 @@ const item = {
 function selectOrToggle(storage: string) {
   if (storage === currentPath.value?.storage) {
     // toggle list of subfolders
-    showSubFolders.value = !showSubFolders.value
+    showSubFolders.value = !showSubFolders.value;
   } else {
     // select storage
-    app.adapter.open(storage + '://')
+    app.adapter.open(storage + '://');
   }
 }
-
 </script>
 <template>
-  <div
-    @click="selectOrToggle(storage)"
-    class="vuefinder__treestorageitem__header"
-  >
+  <div class="vuefinder__treestorageitem__header" @click="selectOrToggle(storage)">
     <div
-      v-on="dragNDrop.events(item)"
       class="vuefinder__treestorageitem__info"
-        :class="isActive ? 'vuefinder__treestorageitem__info--active' : ''"
+      :class="isActive ? 'vuefinder__treestorageitem__info--active' : ''"
+      v-on="dragNDrop.events(item)"
     >
       <div
         class="vuefinder__treestorageitem__icon"
-          :class="isActive ? 'vuefinder__treestorageitem__icon--active' : ''"
+        :class="isActive ? 'vuefinder__treestorageitem__icon--active' : ''"
       >
         <StorageSVG />
       </div>
@@ -74,9 +69,13 @@ function selectOrToggle(storage: string) {
     </div>
 
     <div class="vuefinder__treestorageitem__loader" @click.stop="showSubFolders = !showSubFolders">
-      <FolderLoaderIndicator :storage="storage" :path="storage + '://'" v-model="showSubFolders" />
+      <FolderLoaderIndicator v-model="showSubFolders" :storage="storage" :path="storage + '://'" />
     </div>
-  </div> 
-  <TreeSubfolderList :storage="storage" :path="storage + '://'" v-show="showSubFolders" class="vuefinder__treestorageitem__subfolder" />
+  </div>
+  <TreeSubfolderList
+    v-show="showSubFolders"
+    :storage="storage"
+    :path="storage + '://'"
+    class="vuefinder__treestorageitem__subfolder"
+  />
 </template>
-

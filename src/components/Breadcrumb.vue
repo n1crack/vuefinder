@@ -1,33 +1,33 @@
 <script setup lang="ts">
-import {inject, nextTick, onMounted, onUnmounted, ref, watch, computed} from 'vue';
-import {useStore} from '@nanostores/vue';
+import { inject, nextTick, onMounted, onUnmounted, ref, watch, computed } from 'vue';
+import { useStore } from '@nanostores/vue';
 import useDebouncedRef from '../composables/useDebouncedRef';
 import { copyPath } from '../utils/clipboard';
-import RefreshSVG from "../assets/icons/refresh.svg";
-import GoUpSVG from "../assets/icons/go_up.svg";
-import CloseSVG from "../assets/icons/close.svg";
-import HomeSVG from "../assets/icons/home.svg";
-import LoadingSVG from "../assets/icons/loading.svg";
-import ExitSVG from "../assets/icons/exit.svg";
+import RefreshSVG from '../assets/icons/refresh.svg';
+import GoUpSVG from '../assets/icons/go_up.svg';
+import CloseSVG from '../assets/icons/close.svg';
+import HomeSVG from '../assets/icons/home.svg';
+import LoadingSVG from '../assets/icons/loading.svg';
+import ExitSVG from '../assets/icons/exit.svg';
 import FolderSVG from '../assets/icons/folder.svg';
 import ListTreeSVG from '../assets/icons/list_tree.svg';
 import DotsSVG from '../assets/icons/dots.svg';
 import CopySVG from '../assets/icons/copy.svg';
 import ToggleSVG from '../assets/icons/toggle.svg';
-import {useDragNDrop} from '../composables/useDragNDrop';
-import type {ConfigState} from "../stores/config";
-import type { StoreValue } from "nanostores";
-import type {CurrentPathState} from "../stores/files";
+import { useDragNDrop } from '../composables/useDragNDrop';
+import type { ConfigState } from '../stores/config';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../stores/files';
 import { useApp } from '../composables/useApp';
 import type { DirEntry } from '../types';
 const app = useApp();
 
-const {t} = app.i18n;
+const { t } = app.i18n;
 const fs = app.fs;
 const config = app.config;
 
-const configStore: StoreValue<ConfigState> = useStore(config.state)
-const currentPath : StoreValue<CurrentPathState> = useStore(fs.path);
+const configStore: StoreValue<ConfigState> = useStore(config.state);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 const loading = useStore(fs.loading);
 
 // dynamic shown items calculation for breadcrumbs
@@ -40,11 +40,15 @@ const allBreadcrumbs = computed(() => currentPath.value?.breadcrumb ?? []);
 
 function separateBreadcrumbs<T>(links: T[], show: number): [T[], T[]] {
   if (links.length > show) return [links.slice(-show), links.slice(0, -show)];
-  return [links, []]
+  return [links, []];
 }
 
-const visibleBreadcrumbs = computed(() => separateBreadcrumbs(allBreadcrumbs.value, breadcrumbItemLimit.value)[0]);
-const hiddenBreadcrumbs = computed(() => separateBreadcrumbs(allBreadcrumbs.value, breadcrumbItemLimit.value)[1]);
+const visibleBreadcrumbs = computed(
+  () => separateBreadcrumbs(allBreadcrumbs.value, breadcrumbItemLimit.value)[0]
+);
+const hiddenBreadcrumbs = computed(
+  () => separateBreadcrumbs(allBreadcrumbs.value, breadcrumbItemLimit.value)[1]
+);
 watch(breadcrumbContainerWidth, () => {
   if (!breadcrumbContainer.value) return;
 
@@ -76,7 +80,7 @@ const updateContainerWidth = () => {
   if (breadcrumbContainer.value) {
     breadcrumbContainerWidth.value = breadcrumbContainer.value.offsetWidth;
   }
-}
+};
 const resizeObserver = ref<ResizeObserver | null>(null);
 
 onMounted(() => {
@@ -91,48 +95,50 @@ onUnmounted(() => {
   }
 });
 
-const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over'])
+const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over']);
 
 function getBreadcrumb(index: number | null = null) {
   index ??= allBreadcrumbs.value.length - 2;
   const fallback = {
     basename: currentPath.value?.storage ?? 'local',
     extension: '',
-    path: ((currentPath.value?.storage ?? 'local') + '://'),
+    path: (currentPath.value?.storage ?? 'local') + '://',
     storage: currentPath.value?.storage ?? 'local',
     type: 'dir' as const,
     file_size: null,
     last_modified: null,
     mime_type: null,
-    visibility: ''
+    visibility: '',
   };
   // allBreadcrumbs entries don't carry full DirEntry fields; use fallback for drag types
   const typed = allBreadcrumbs.value[index] as Partial<DirEntry> | undefined;
-  return (typed as DirEntry) ?? (fallback as DirEntry)
+  return (typed as DirEntry) ?? (fallback as DirEntry);
 }
 
 const handleRefresh = () => {
-  app.adapter.invalidateListQuery(currentPath.value.path)
-  app.adapter.open(currentPath.value.path)
-}
+  app.adapter.invalidateListQuery(currentPath.value.path);
+  app.adapter.open(currentPath.value.path);
+};
 
 const handleGoUp = () => {
-
   if (visibleBreadcrumbs.value.length > 0) {
-    app.adapter.open((allBreadcrumbs.value[allBreadcrumbs.value.length - 2]?.path ?? ((currentPath.value?.storage ?? 'local') + '://')))
+    app.adapter.open(
+      allBreadcrumbs.value[allBreadcrumbs.value.length - 2]?.path ??
+        (currentPath.value?.storage ?? 'local') + '://'
+    );
   }
-}
+};
 
 const handleHiddenBreadcrumbsClick = (item: { path: string }) => {
   app.adapter.open(item.path);
   showHiddenBreadcrumbs.value = false;
-}
+};
 
 const handleClickOutside = () => {
   if (showHiddenBreadcrumbs.value) {
     showHiddenBreadcrumbs.value = false;
   }
-}
+};
 
 const vClickOutside = {
   mounted(el: HTMLElement, binding: { value: () => void }) {
@@ -143,153 +149,170 @@ const vClickOutside = {
         binding.value();
       }
     };
-    document.body.addEventListener('click', (el as any).clickOutsideEvent)
+    document.body.addEventListener('click', (el as any).clickOutsideEvent);
   },
   beforeUnmount(el: HTMLElement) {
-    document.body.removeEventListener('click', (el as any).clickOutsideEvent)
-  }
+    document.body.removeEventListener('click', (el as any).clickOutsideEvent);
+  },
 };
 /**
  * Tree View
  */
 const toggleTreeView = () => {
   config.toggle('showTreeView');
-}
+};
 
 /**
  *  Breadcrumbs Dropdown Position
  */
 const mousePosition = ref({
   x: 0,
-  y: 0
-})
+  y: 0,
+});
 
-const handleHiddenBreadcrumbsToggle = (event: MouseEvent | TouchEvent, value = null as boolean | null ) => {
+const handleHiddenBreadcrumbsToggle = (
+  event: MouseEvent | TouchEvent,
+  value = null as boolean | null
+) => {
   if (event.currentTarget instanceof HTMLElement) {
-    const {x, y, height} = event.currentTarget.getBoundingClientRect();
-    mousePosition.value = {x, y: y + height};
+    const { x, y, height } = event.currentTarget.getBoundingClientRect();
+    mousePosition.value = { x, y: y + height };
   }
   showHiddenBreadcrumbs.value = value ?? !showHiddenBreadcrumbs.value;
-}
+};
 
 /**
  * Path Copy Mode
  */
 const togglePathCopyMode = () => {
   showPathCopyMode.value = !showPathCopyMode.value;
-}
+};
 
 const copyPathToClipboard = async () => {
   await copyPath(currentPath.value?.path || '');
   // You could add a toast notification here if available
-  app.emitter.emit('vf-toast-push', {label: t('Path copied to clipboard')});
-}
+  app.emitter.emit('vf-toast-push', { label: t('Path copied to clipboard') });
+};
 
 const exitPathCopyMode = () => {
   showPathCopyMode.value = false;
-}
+};
 </script>
-
 
 <template>
   <div class="vuefinder__breadcrumb__container">
     <span :title="t('Toggle Tree View')">
       <ListTreeSVG
-          @click="toggleTreeView"
-          class="vuefinder__breadcrumb__toggle-tree"
-          :class="configStore.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
+        class="vuefinder__breadcrumb__toggle-tree"
+        :class="configStore.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
+        @click="toggleTreeView"
       />
     </span>
 
     <span :title="t('Go up a directory')">
       <GoUpSVG
-          v-on="(allBreadcrumbs.length) ? dragNDrop.events(getBreadcrumb() as unknown as any) : {}"
-          @click="handleGoUp"
-          :class="(allBreadcrumbs.length) ? 'vuefinder__breadcrumb__go-up--active' : 'vuefinder__breadcrumb__go-up--inactive'"
+        :class="
+          allBreadcrumbs.length
+            ? 'vuefinder__breadcrumb__go-up--active'
+            : 'vuefinder__breadcrumb__go-up--inactive'
+        "
+        v-on="allBreadcrumbs.length ? dragNDrop.events(getBreadcrumb() as unknown as any) : {}"
+        @click="handleGoUp"
       />
     </span>
 
-    <span :title="t('Refresh')" v-if="!fs.isLoading()">
-      <RefreshSVG @click="handleRefresh"/>
+    <span v-if="!fs.isLoading()" :title="t('Refresh')">
+      <RefreshSVG @click="handleRefresh" />
     </span>
-    <span :title="t('Cancel')" v-else>
-      <CloseSVG @click="app.emitter.emit('vf-fetch-abort')"/>
+    <span v-else :title="t('Cancel')">
+      <CloseSVG @click="app.emitter.emit('vf-fetch-abort')" />
     </span>
 
     <div v-show="!showPathCopyMode" class="vuefinder__breadcrumb__path-container">
       <div>
         <HomeSVG
-            class="vuefinder__breadcrumb__home-icon"
-            v-on="dragNDrop.events(getBreadcrumb(-1))"
-            @click.stop="app.adapter.open(currentPath.storage + '://')"/>
+          class="vuefinder__breadcrumb__home-icon"
+          v-on="dragNDrop.events(getBreadcrumb(-1))"
+          @click.stop="app.adapter.open(currentPath.storage + '://')"
+        />
       </div>
 
       <div class="vuefinder__breadcrumb__list">
-        <div v-if="hiddenBreadcrumbs.length" class="vuefinder__breadcrumb__hidden-list"
-             v-click-outside="handleClickOutside">
+        <div
+          v-if="hiddenBreadcrumbs.length"
+          v-click-outside="handleClickOutside"
+          class="vuefinder__breadcrumb__hidden-list"
+        >
           <div class="vuefinder__breadcrumb__separator">/</div>
           <div class="relative">
             <span
-                @dragenter="handleHiddenBreadcrumbsToggle($event, true)"
-                @click.stop="handleHiddenBreadcrumbsToggle"
-                class="vuefinder__breadcrumb__hidden-toggle">
-              <DotsSVG class="vuefinder__breadcrumb__hidden-toggle-icon"/>
+              class="vuefinder__breadcrumb__hidden-toggle"
+              @dragenter="handleHiddenBreadcrumbsToggle($event, true)"
+              @click.stop="handleHiddenBreadcrumbsToggle"
+            >
+              <DotsSVG class="vuefinder__breadcrumb__hidden-toggle-icon" />
             </span>
           </div>
         </div>
       </div>
 
-      <div ref="breadcrumbContainer" class="vuefinder__breadcrumb__visible-list pointer-events-none" >
+      <div
+        ref="breadcrumbContainer"
+        class="vuefinder__breadcrumb__visible-list pointer-events-none"
+      >
         <div v-for="(item, index) in visibleBreadcrumbs" :key="index">
           <span class="vuefinder__breadcrumb__separator">/</span>
           <span
-              v-on="dragNDrop.events(item as any)"
-              class="vuefinder__breadcrumb__item pointer-events-auto"
-              :title="(item as any).basename"
-              @click.stop="app.adapter.open((item as any).path)">{{
-              (item as any).name
-            }}</span>
+            class="vuefinder__breadcrumb__item pointer-events-auto"
+            :title="(item as any).basename"
+            v-on="dragNDrop.events(item as any)"
+            @click.stop="app.adapter.open((item as any).path)"
+            >{{ (item as any).name }}</span
+          >
         </div>
       </div>
 
-      <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && loading"/>
+      <LoadingSVG v-if="config.get('loadingIndicator') === 'circular' && loading" />
       <span :title="t('Toggle Path Copy Mode')" @click="togglePathCopyMode">
         <ToggleSVG class="vuefinder__breadcrumb__toggle-icon" />
       </span>
     </div>
-    
+
     <!-- Path Copy Mode -->
     <div v-show="showPathCopyMode" class="vuefinder__breadcrumb__path-mode">
       <div class="vuefinder__breadcrumb__path-mode-content">
         <div :title="t('Copy Path')">
-            <CopySVG 
-                class="vuefinder__breadcrumb__copy-icon"
-                @click="copyPathToClipboard"
-            />
+          <CopySVG class="vuefinder__breadcrumb__copy-icon" @click="copyPathToClipboard" />
         </div>
         <div class="vuefinder__breadcrumb__path-text">{{ currentPath.path }}</div>
         <div :title="t('Exit')">
-            <ExitSVG 
-                class="vuefinder__breadcrumb__exit-icon"
-                @click="exitPathCopyMode"
-            />
+          <ExitSVG class="vuefinder__breadcrumb__exit-icon" @click="exitPathCopyMode" />
         </div>
       </div>
     </div>
 
     <Teleport to="body">
       <div>
-        <div v-show="showHiddenBreadcrumbs"
-             :style="{position: 'absolute', top: mousePosition.y + 'px', left: mousePosition.x + 'px'}"
-             class="vuefinder__themer vuefinder__breadcrumb__hidden-dropdown" :data-theme="app.theme.current">
+        <div
+          v-show="showHiddenBreadcrumbs"
+          :style="{
+            position: 'absolute',
+            top: mousePosition.y + 'px',
+            left: mousePosition.x + 'px',
+          }"
+          class="vuefinder__themer vuefinder__breadcrumb__hidden-dropdown"
+          :data-theme="app.theme.current"
+        >
           <div
-              v-for="(item, index) in hiddenBreadcrumbs" :key="index"
-              v-on="dragNDrop.events(item as any)"
-              @click="handleHiddenBreadcrumbsClick(item as any)"
-              class="vuefinder__breadcrumb__hidden-item">
+            v-for="(item, index) in hiddenBreadcrumbs"
+            :key="index"
+            class="vuefinder__breadcrumb__hidden-item"
+            v-on="dragNDrop.events(item as any)"
+            @click="handleHiddenBreadcrumbsClick(item as any)"
+          >
             <div class="vuefinder__breadcrumb__hidden-item-content">
-              <span><FolderSVG class="vuefinder__breadcrumb__hidden-item-icon"/></span> <span
-                class="vuefinder__breadcrumb__hidden-item-text">{{ (item as any).name }}</span>
+              <span><FolderSVG class="vuefinder__breadcrumb__hidden-item-icon" /></span>
+              <span class="vuefinder__breadcrumb__hidden-item-text">{{ (item as any).name }}</span>
             </div>
           </div>
         </div>

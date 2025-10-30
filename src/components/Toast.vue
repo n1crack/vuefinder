@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {inject, ref} from 'vue';
+import { inject, ref } from 'vue';
 import { useApp } from '../composables/useApp';
 
 const app = useApp();
-const {getStore} = app.storage;
+const { getStore } = app.storage;
 
 const fullScreen = ref(getStore('full-screen', false));
 const messageQueue = ref<any[]>([]);
@@ -20,39 +20,50 @@ const removeItem = (index: any) => {
 };
 
 const removeItemByID = (uid: any) => {
-  let index = messageQueue.value.findIndex(x => x.id === uid);
+  const index = messageQueue.value.findIndex((x) => x.id === uid);
   if (index !== -1) {
     removeItem(index);
   }
 };
 
 app.emitter.on('vf-toast-clear', () => {
-  messageQueue.value = []
+  messageQueue.value = [];
 });
 
 app.emitter.on('vf-toast-push', (data: any) => {
-  let uid = new Date().getTime().toString(36).concat(performance.now().toString(), Math.random().toString()).replace(/\./g, "");
+  const uid = new Date()
+    .getTime()
+    .toString(36)
+    .concat(performance.now().toString(), Math.random().toString())
+    .replace(/\./g, '');
   data.id = uid;
   messageQueue.value.push(data);
 
   setTimeout(() => {
-    removeItemByID(uid)
-  }, 5000)
-})
+    removeItemByID(uid);
+  }, 5000);
+});
 </script>
 
 <template>
-  <div :class="['vuefinder__toast', fullScreen ? 'vuefinder__toast--fixed' : 'vuefinder__toast--absolute']">
+  <div
+    :class="[
+      'vuefinder__toast',
+      fullScreen ? 'vuefinder__toast--fixed' : 'vuefinder__toast--absolute',
+    ]"
+  >
     <transition-group
-        name="vuefinder__toast-item"
-        enter-active-class="vuefinder__toast-item--enter-active"
-        leave-active-class="vuefinder__toast-item--leave-active"
-        leave-to-class="vuefinder__toast-item--leave-to"
+      name="vuefinder__toast-item"
+      enter-active-class="vuefinder__toast-item--enter-active"
+      leave-active-class="vuefinder__toast-item--leave-active"
+      leave-to-class="vuefinder__toast-item--leave-to"
     >
-      <div v-for="(message, index) in messageQueue"
-           :key="index"
-           @click="removeItem(index)"
-           :class="['vuefinder__toast__message', getTypeClass(message.type)]">
+      <div
+        v-for="(message, index) in messageQueue"
+        :key="index"
+        :class="['vuefinder__toast__message', getTypeClass(message.type)]"
+        @click="removeItem(index)"
+      >
         {{ message.label }}
       </div>
     </transition-group>

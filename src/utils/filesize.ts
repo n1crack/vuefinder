@@ -6,7 +6,7 @@ export function format(
   b?: Math,
   c?: (typeof Math)['log'],
   d?: number,
-  e?: number,
+  e?: number
 ): string {
   b = Math;
   c = b.log;
@@ -23,7 +23,7 @@ export function metricFormat(
   b?: Math,
   c?: (typeof Math)['log'],
   d?: number,
-  e?: number,
+  e?: number
 ): string {
   b = Math;
   c = b.log;

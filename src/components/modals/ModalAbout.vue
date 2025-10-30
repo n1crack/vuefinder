@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import {inject} from 'vue';
+import { inject } from 'vue';
 import { useApp } from '../../composables/useApp';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
-import ModalHeader from "../../components/modals/ModalHeader.vue";
+import ModalHeader from '../../components/modals/ModalHeader.vue';
 
-import AboutSVG from "../../assets/icons/about.svg";
+import AboutSVG from '../../assets/icons/about.svg';
 
 const app = useApp();
-const {t} = app.i18n;
+const { t } = app.i18n;
 // About modal is now a simple info dialog
-
 </script>
 
 <template>
@@ -27,10 +26,20 @@ const {t} = app.i18n;
           </div>
 
           <div class="vuefinder__about-modal__links">
-            <a href="https://vuefinder.ozdemir.be" class="vuefinder__about-modal__link-btn" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://vuefinder.ozdemir.be"
+              class="vuefinder__about-modal__link-btn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {{ t('Project Home') }}
             </a>
-            <a href="https://github.com/n1crack/vuefinder"  class="vuefinder__about-modal__link-btn" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://github.com/n1crack/vuefinder"
+              class="vuefinder__about-modal__link-btn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               GitHub
             </a>
           </div>
@@ -48,12 +57,10 @@ const {t} = app.i18n;
         </div>
       </div>
     </div>
-    <template v-slot:buttons>
-      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">
+    <template #buttons>
+      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
         {{ t('Close') }}
       </button>
     </template>
   </ModalLayout>
 </template>
-
-

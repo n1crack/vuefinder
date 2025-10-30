@@ -35,7 +35,7 @@ export function useDragNDrop(app: App, classList: string[] = []) {
       !target ||
       target.type !== 'dir' ||
       selectedItems.value.some(
-        (item: DirEntry) => item.path === target.path || dirname(item.path) === target.path,
+        (item: DirEntry) => item.path === target.path || dirname(item.path) === target.path
       )
     ) {
       if (e.dataTransfer) {
@@ -95,7 +95,7 @@ export function useDragNDrop(app: App, classList: string[] = []) {
     const data = e.dataTransfer?.getData('items') || '[]';
     const draggedItemKeys: string[] = JSON.parse(data);
     const draggedItems: DirEntry[] = draggedItemKeys.map(
-      (key) => fs.sortedFiles.get().find((f: DirEntry) => f.path === key) as DirEntry,
+      (key) => fs.sortedFiles.get().find((f: DirEntry) => f.path === key) as DirEntry
     );
     fs.clearDraggedItem();
     app.modal.open(ModalMove, { items: { from: draggedItems, to: target } });

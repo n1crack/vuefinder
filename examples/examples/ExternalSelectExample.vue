@@ -7,27 +7,27 @@ interface Props {
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
-  onSelect?: (files: Array<{path: string, name?: string}>) => void;
+  onSelect?: (files: Array<{ path: string; name?: string }>) => void;
 }
 
 const props = defineProps<Props>();
-const selectedFiles = ref<{path: string, name?: string}[]>([]);
+const selectedFiles = ref<{ path: string; name?: string }[]>([]);
 
-const handleSelect = (selection: Array<{path: string, name?: string}>) => {
+const handleSelect = (selection: Array<{ path: string; name?: string }>) => {
   selectedFiles.value = selection;
   if (props.onSelect) {
     props.onSelect(selection);
   }
-}
+};
 
 const handleButton = () => {
   console.log(selectedFiles.value);
-}
+};
 </script>
 
 <template>
   <vue-finder
-    id='my_vuefinder2'
+    id="my_vuefinder2"
     :adapter="adapter"
     :config="config"
     :features="features"
@@ -35,7 +35,7 @@ const handleButton = () => {
     @select="handleSelect"
   />
 
-  <button class="btn" @click="handleButton" :disabled="!selectedFiles.length">
+  <button class="btn" :disabled="!selectedFiles.length" @click="handleButton">
     Show Selected ({{ selectedFiles.length ?? 0 }} selected)
   </button>
   <div v-show="selectedFiles.length">

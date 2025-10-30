@@ -1,7 +1,7 @@
 export const debounce = <T extends (...args: any[]) => void>(
   fn: T,
   delay = 0,
-  immediate = false,
+  immediate = false
 ) => {
   let timeout: ReturnType<typeof setTimeout> | undefined;
   return (...args: Parameters<T>) => {

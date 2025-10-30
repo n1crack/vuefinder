@@ -14,7 +14,7 @@ const useDebouncedRef = <T>(initialValue: T, delay: number, immediate?: boolean)
         trigger();
       },
       delay,
-      !!immediate,
+      !!immediate
     ),
   }));
 };

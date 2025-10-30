@@ -1,1 +1,12537 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("vue"),I=require("@nanostores/vue"),Dn=require("mitt"),Fn=require("@nanostores/persistent"),ee=require("nanostores"),Mn=require("@tanstack/vue-query"),Tn=require("vue-advanced-cropper"),Wt=require("vanilla-lazyload"),Qe=require("overlayscrollbars"),An=require("@uppy/core"),In=require("@viselect/vanilla"),Gt=Symbol("ServiceContainer");function H(){const n=e.inject(Gt);if(!n)throw new Error("ServiceContainer was not provided");return n}function Ln(n){let t=localStorage.getItem(n+"_storage");const o=e.reactive(JSON.parse(t??"{}"));e.watch(o,l);function l(){Object.keys(o).length?localStorage.setItem(n+"_storage",JSON.stringify(o)):localStorage.removeItem(n+"_storage")}function r(c,m){o[c]=m}function s(c){delete o[c]}function a(){Object.keys(o).forEach(c=>s(c))}return{getStore:(c,m=null)=>c in o?o[c]:m,setStore:r,removeStore:s,clearStore:a}}async function On(n,t){const o=t[n];return typeof o=="function"?(await o()).default:o}function Rn(n,t,o,l){const{getStore:r,setStore:s}=n,a=e.ref({}),u=e.ref(r("locale",t)),c=(i,v=t)=>{On(i,l).then(h=>{a.value=h,s("locale",i),u.value=i,s("translations",h),Object.values(l).length>1&&(o.emit("vf-toast-push",{label:"The language is set to "+i}),o.emit("vf-language-saved"))}).catch(h=>{v?(o.emit("vf-toast-push",{label:"The selected locale is not yet supported!",type:"error"}),c(v,null)):(console.error(h),o.emit("vf-toast-push",{label:"Locale cannot be loaded!",type:"error"}))})};e.watch(u,i=>{c(i)}),!r("locale")&&!Object.keys(l).length?c(t):a.value=r("translations");const m=(i,...v)=>v.length?m(i=i.replace("%s",String(v.shift())),...v):i;function d(i,...v){return a.value&&Object.prototype.hasOwnProperty.call(a.value,i)?m(a.value[i]||i,...v):m(i,...v)}return e.reactive({t:d,locale:u})}const K={EDIT:"edit",NEW_FILE:"newfile",NEW_FOLDER:"newfolder",PREVIEW:"preview",ARCHIVE:"archive",UNARCHIVE:"unarchive",SEARCH:"search",RENAME:"rename",UPLOAD:"upload",DELETE:"delete",FULL_SCREEN:"fullscreen",DOWNLOAD:"download",LANGUAGE:"language",MOVE:"move",COPY:"copy"},Pn=Object.values(K),zn="4.0.0-dev";function _t(n,t,o,l,r){return t=Math,o=t.log,l=1024,r=o(n)/o(l)|0,(n/t.pow(l,r)).toFixed(0)+" "+(r?"KMGTPEZY"[--r]+"iB":"B")}function qt(n,t,o,l,r){return t=Math,o=t.log,l=1e3,r=o(n)/o(l)|0,(n/t.pow(l,r)).toFixed(0)+" "+(r?"KMGTPEZY"[--r]+"B":"B")}function Hn(n){if(typeof n=="number")return n;const t={k:1,m:2,g:3,t:4},l=/(\d+(?:\.\d+)?)\s?(k|m|g|t)?b?/i.exec(n);if(!l)return 0;const r=parseFloat(l[1]||"0"),s=(l[2]||"").toLowerCase(),a=t[s]??0;return Math.round(r*Math.pow(1024,a))}function Un(){const n=e.shallowRef(null),t=e.ref(!1),o=e.ref(),l=e.ref(!1);return{visible:t,type:n,data:o,open:(u,c=null)=>{document.querySelector("body").style.overflow="hidden",t.value=!0,n.value=u,o.value=c},close:()=>{document.querySelector("body").style.overflow="",t.value=!1,n.value=null},setEditMode:u=>{l.value=u},editMode:l}}const dt={view:"grid",theme:void 0,fullScreen:!1,showTreeView:!1,showHiddenFiles:!0,compactListView:!0,metricUnits:!1,showThumbnails:!0,persist:!1,path:"",initialPath:null,loadingIndicator:"circular",maxFileSize:null,pinnedFolders:[]},Kn=(n,t={})=>{const o=`vuefinder_config_${n}`,l=Fn.persistentAtom(o,{...dt,...t},{encode:JSON.stringify,decode:JSON.parse}),r=(d={})=>{const i=l.get(),v={...dt,...d,...i};l.set(v)},s=d=>l.get()[d],a=()=>l.get(),u=(d,i)=>{const v=l.get();typeof d=="object"&&d!==null?l.set({...v,...d}):l.set({...v,[d]:i})};return{state:l,init:r,get:s,set:u,toggle:d=>{const i=l.get();u(d,!i[d])},all:a,reset:()=>{l.set({...dt})}}};function jn(n,t){if(typeof n=="string"&&typeof t=="string")return n.toLowerCase().localeCompare(t.toLowerCase());const o=Number(n)||0,l=Number(t)||0;return o===l?0:o<l?-1:1}const Wn=()=>{const n=ee.atom(""),t=ee.atom([]),o=ee.atom(!1),l=ee.atom([]),r=ee.atom({active:!1,column:"",order:""}),s=ee.atom({kind:"all",showHidden:!1}),a=ee.atom(new Set),u=ee.atom({type:"copy",path:"",items:new Set}),c=ee.atom(null),m=ee.atom(0),d=ee.atom(!1),i=ee.atom([]),v=ee.atom(-1),h=ee.computed([n],x=>{const $=(x||"local://").trim(),T=$.indexOf("://"),A=T>=0?$.slice(0,T):"",le=(T>=0?$.slice(T+3):$).split("/").filter(Boolean);let re="";const ct=le.map(ce=>(re=re?`${re}/${ce}`:ce,{basename:ce,name:ce,path:A?`${A}://${re}`:re,type:"dir"}));return{storage:A,breadcrumb:ct,path:$}}),V=ee.computed([l,r,s],(x,$,T)=>{let A=x;T.kind==="files"?A=A.filter(ce=>ce.type==="file"):T.kind==="folders"&&(A=A.filter(ce=>ce.type==="dir")),T.showHidden||(A=A.filter(ce=>!ce.basename.startsWith(".")));const{active:Z,column:le,order:re}=$;if(!Z||!le)return A;const ct=re==="asc"?1:-1;return A.slice().sort((ce,$n)=>jn(ce[le],$n[le])*ct)}),_=ee.computed([l,a],(x,$)=>$.size===0?[]:x.filter(T=>$.has(T.path))),p=(x,$)=>{const T=n.get();if(($??!0)&&T!==x){const A=i.get(),Z=v.get();Z<A.length-1&&A.splice(Z+1),A.length===0&&T&&A.push(T),A.push(x),i.set([...A]),v.set(A.length-1)}n.set(x)},f=x=>{l.set(x??[])},w=x=>{t.set(x??[])},k=(x,$)=>{r.set({active:!0,column:x,order:$})},y=x=>{const $=r.get();$.active&&$.column===x?r.set({active:$.order==="asc",column:x,order:"desc"}):r.set({active:!0,column:x,order:"asc"})},C=()=>{r.set({active:!1,column:"",order:""})},F=(x,$)=>{s.set({kind:x,showHidden:$})},B=()=>{s.set({kind:"all",showHidden:!1})},L=(x,$="multiple")=>{const T=new Set(a.get());$==="single"&&T.clear(),T.add(x),a.set(T),m.set(T.size)},S=x=>{const $=new Set(a.get());$.delete(x),a.set($),m.set($.size)},O=x=>a.get().has(x),q=(x,$="multiple")=>{const T=new Set(a.get());T.has(x)?T.delete(x):($==="single"&&T.clear(),T.add(x)),a.set(T),m.set(T.size)},X=(x="multiple",$)=>{if(x==="single"){const T=l.get()[0];if(T){const A=T.path;a.set(new Set([A])),m.set(1)}}else if($?.selectionFilterType||$?.selectionFilterMimeIncludes&&$.selectionFilterMimeIncludes.length>0){const T=l.get().filter(A=>{const Z=$.selectionFilterType,le=$.selectionFilterMimeIncludes;return Z==="files"&&A.type==="dir"||Z==="dirs"&&A.type==="file"?!1:le&&Array.isArray(le)&&le.length>0&&A.type!=="dir"?A.mime_type?le.some(re=>A.mime_type?.startsWith(re)):!1:!0}).map(A=>A.path);a.set(new Set(T)),m.set(T.length)}else{const T=new Set(l.get().map(A=>A.path));a.set(T),m.set(T.size)}},P=()=>{a.set(new Set),m.set(0)},W=x=>{const $=new Set(x??[]);a.set($),m.set($.size)},Q=x=>{m.set(x)},z=x=>{d.set(!!x)},E=()=>d.get(),g=(x,$)=>{const T=l.get().filter(A=>$.has(A.path));u.set({type:x,path:h.get().path,items:new Set(T)})},b=x=>ee.computed([u],$=>$.type==="cut"&&Array.from($.items).some(T=>T.path===x)),N=x=>ee.computed([u],$=>$.type==="copy"&&Array.from($.items).some(T=>T.path===x)),M=x=>{const $=b(x);return I.useStore($).value??!1},R=x=>{const $=N(x);return I.useStore($).value??!1},J=()=>{u.set({type:"copy",path:"",items:new Set})},Y=()=>u.get(),_e=x=>{c.set(x)},ge=()=>c.get(),Ne=()=>{c.set(null)},$e=()=>{const x=i.get(),$=v.get();if($>0){const T=$-1,A=x[T];A&&(v.set(T),p(A,!1))}},Oe=()=>{const x=i.get(),$=v.get();if($<x.length-1){const T=$+1,A=x[T];A&&(v.set(T),p(A,!1))}},Re=ee.computed([v],x=>x>0),D=ee.computed([i,v],(x,$)=>$<x.length-1);return{files:l,storages:t,currentPath:n,sort:r,filter:s,selectedKeys:a,selectedCount:m,loading:d,draggedItem:c,clipboardItems:u,path:h,sortedFiles:V,selectedItems:_,setPath:p,setFiles:f,setStorages:w,setSort:k,toggleSort:y,clearSort:C,setFilter:F,clearFilter:B,select:L,deselect:S,toggleSelect:q,selectAll:X,isSelected:O,clearSelection:P,setSelection:W,setSelectedCount:Q,setLoading:z,isLoading:E,setClipboard:g,createIsCut:b,createIsCopied:N,isCut:M,isCopied:R,clearClipboard:J,getClipboard:Y,setDraggedItem:_e,getDraggedItem:ge,clearDraggedItem:Ne,setReadOnly:x=>{o.set(x)},getReadOnly:()=>o.get(),isReadOnly:x=>o.get()?!0:x.read_only??!1,goBack:$e,goForward:Oe,canGoBack:Re,canGoForward:D,navigationHistory:i,historyIndex:v}},Ft={list:n=>["adapter","list",n],search:(n,t,o,l)=>["adapter","search",n,t,o,l],delete:n=>["adapter","delete",n],rename:()=>["adapter","rename"],copy:()=>["adapter","copy"],move:()=>["adapter","move"],archive:()=>["adapter","archive"],unarchive:()=>["adapter","unarchive"],createFile:()=>["adapter","createFile"],createFolder:()=>["adapter","createFolder"]};class Gn{adapter;queryClient;config;onBeforeOpen;onAfterOpen;constructor(t,o={}){this.adapter=t,this.onBeforeOpen=o.onBeforeOpen,this.onAfterOpen=o.onAfterOpen,this.queryClient=o.queryClient||new Mn.QueryClient({defaultOptions:{queries:{refetchOnWindowFocus:o.refetchOnWindowFocus??!1,staleTime:o.staleTime??300*1e3,retry:o.retry??2},mutations:{retry:o.retry??1}}}),this.config={queryClient:this.queryClient,refetchOnWindowFocus:o.refetchOnWindowFocus??!1,staleTime:o.staleTime??300*1e3,cacheTime:o.cacheTime??600*1e3,retry:o.retry??2,onBeforeOpen:this.onBeforeOpen??(()=>{}),onAfterOpen:this.onAfterOpen??(()=>{})}}getAdapter(){return this.adapter}getQueryClient(){return this.queryClient}async list(t){const o=Ft.list(t);return await this.queryClient.fetchQuery({queryKey:o,queryFn:()=>this.adapter.list({path:t}),staleTime:this.config.staleTime})}async open(t){this.onBeforeOpen&&this.onBeforeOpen();const o=await this.list(t);return this.onAfterOpen&&this.onAfterOpen(o),o}async delete(t){const o=await this.adapter.delete(t);return this.invalidateListQueries(),o}async rename(t){const o=await this.adapter.rename(t);return this.invalidateListQueries(),o}async copy(t){const o=await this.adapter.copy(t);return this.invalidateListQueries(),o}async move(t){const o=await this.adapter.move(t);return this.invalidateListQueries(),o}async archive(t){const o=await this.adapter.archive(t);return this.invalidateListQueries(),o}async unarchive(t){const o=await this.adapter.unarchive(t);return this.invalidateListQueries(),o}async createFile(t){const o=await this.adapter.createFile(t);return this.invalidateListQueries(),o}async createFolder(t){const o=await this.adapter.createFolder(t);return this.invalidateListQueries(),o}async getContent(t){const o=["adapter","content",t.path];return await this.queryClient.fetchQuery({queryKey:o,queryFn:()=>this.adapter.getContent(t),staleTime:this.config.staleTime})}getPreviewUrl(t){return this.adapter.getPreviewUrl(t)}getDownloadUrl(t){return this.adapter.getDownloadUrl(t)}async search(t){const o=Ft.search(t.path,t.filter,t.deep,t.size);return await this.queryClient.fetchQuery({queryKey:o,queryFn:()=>this.adapter.search(t),staleTime:this.config.staleTime})}async save(t){const o=await this.adapter.save(t);return this.invalidateListQueries(),o}invalidateListQueries(){this.queryClient.invalidateQueries({queryKey:["adapter"],exact:!1})}invalidateListQuery(t){this.queryClient.invalidateQueries({queryKey:["adapter","list",t],exact:!0})}clearCache(){this.queryClient.clear()}}function qn(n,t){const o=I.useStore(n.state);return{current:e.computed(()=>{const s=o.value.theme;return s&&s!=="default"?s:(typeof t=="function"?t():e.unref(t))||"light"}),set:s=>{n.set("theme",s)}}}const Yn=(n,t)=>{const o=Ln(n.id),l=Dn(),r=t.i18n,s=n.locale??t.locale,a=Kn(n.id,n.config??{}),u=Wn(),c=i=>Array.isArray(i)?i:Pn,m=n.adapter??{configureUploader:()=>{},async list(){return{storage:"local",storages:["local"],storage_info:{},dirname:"",files:[]}},async delete(){return{deleted:[]}},async rename(){return{files:[],storages:[],read_only:!1,dirname:""}},async copy(){return{files:[],storages:[],read_only:!1,dirname:""}},async move(){return{files:[],storages:[],read_only:!1,dirname:""}},async archive(){return{files:[],storages:[],read_only:!1,dirname:""}},async unarchive(){return{files:[],storages:[],read_only:!1,dirname:""}},async createFile(){return{files:[],storages:[],read_only:!1,dirname:""}},async createFolder(){return{files:[],storages:[],read_only:!1,dirname:""}},async getContent(){return{content:""}},getPreviewUrl(){return""},getDownloadUrl(){return""},async search(){return[]},async save(){return"ok"}},d=new Gn(m);return e.reactive({version:zn,config:a,theme:(()=>{const i=qn(a,()=>n.theme||"light");return{get current(){return i.current.value},set:i.set}})(),fs:u,root:e.useTemplateRef("root"),debug:n.debug,emitter:l,storage:o,i18n:Rn(o,s,l,r),modal:Un(),adapter:e.markRaw(d),features:c(n.features),selectionMode:n.selectionMode||"multiple",selectionFilterType:e.computed(()=>n.selectionFilterType||"both"),selectionFilterMimeIncludes:e.computed(()=>n.selectionFilterMimeIncludes||[]),treeViewData:[],filesize:a.get("metricUnits")?qt:_t,contextMenuItems:n.contextMenuItems,customUploader:n.customUploader})},Qn=["data-theme"],Xn={class:"vuefinder__modal-layout__container"},Jn={class:"vuefinder__modal-layout__content"},Zn={key:0,class:"vuefinder__modal-layout__footer"},eo={key:0,class:"vuefinder__modal-drag-overlay"},to={class:"vuefinder__modal-drag-message"},ie=e.defineComponent({__name:"ModalLayout",props:{showDragOverlay:{type:Boolean},dragOverlayText:{}},setup(n){const t=e.ref(null),o=H();o.config;const l=n;e.onMounted(()=>{const s=document.querySelector(".v-f-modal input");s&&s.focus(),e.nextTick(()=>{if(document.querySelector(".v-f-modal input")&&window.innerWidth<768&&t.value){const a=t.value.getBoundingClientRect().bottom+16;window.scrollTo({top:a,left:0,behavior:"smooth"})}})});const r=s=>{s.target.classList.contains("vuefinder__modal-layout__wrapper")&&(s.preventDefault(),s.stopPropagation())};return(s,a)=>(e.openBlock(),e.createElementBlock("div",{"data-theme":e.unref(o).theme.current,class:"vuefinder__themer vuefinder__modal-layout","aria-labelledby":"modal-title",role:"dialog","aria-modal":"true",onKeyup:a[1]||(a[1]=e.withKeys(u=>e.unref(o).modal.close(),["esc"])),tabindex:"0"},[a[2]||(a[2]=e.createElementVNode("div",{class:"vuefinder__modal-layout__overlay"},null,-1)),e.createElementVNode("div",Xn,[e.createElementVNode("div",{class:"vuefinder__modal-layout__wrapper",onContextmenu:r,onMousedown:a[0]||(a[0]=e.withModifiers(u=>e.unref(o).modal.close(),["self"]))},[e.createElementVNode("div",{ref_key:"modalBody",ref:t,class:"vuefinder__modal-layout__body"},[e.createElementVNode("div",Jn,[e.renderSlot(s.$slots,"default")]),s.$slots.buttons?(e.openBlock(),e.createElementBlock("div",Zn,[e.renderSlot(s.$slots,"buttons")])):e.createCommentVNode("",!0)],512)],32)]),l.showDragOverlay?(e.openBlock(),e.createElementBlock("div",eo,[e.createElementVNode("div",to,e.toDisplayString(l.dragOverlayText||"Drag and drop the files/folders to here."),1)])):e.createCommentVNode("",!0)],40,Qn))}}),no={class:"vuefinder__modal-header"},oo={class:"vuefinder__modal-header__icon-container"},lo={class:"vuefinder__modal-header__title",id:"modal-title"},de=e.defineComponent({__name:"ModalHeader",props:{title:{},icon:{}},setup(n){return(t,o)=>(e.openBlock(),e.createElementBlock("div",no,[e.createElementVNode("div",oo,[(e.openBlock(),e.createBlock(e.resolveDynamicComponent(n.icon),{class:"vuefinder__modal-header__icon"}))]),e.createElementVNode("div",lo,e.toDisplayString(n.title),1)]))}}),ro={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-width":"1.8",viewBox:"0 0 24 24"};function ao(n,t){return e.openBlock(),e.createElementBlock("svg",ro,[...t[0]||(t[0]=[e.createElementVNode("circle",{cx:"12",cy:"12",r:"9"},null,-1),e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M12 8.2h.01M10.75 11.25H12v4.5m0 0h1.25m-1.25 0h-2"},null,-1)])])}const Yt={render:ao},so={class:"vuefinder__about-modal__content"},io={class:"vuefinder__about-modal__main"},co={class:"vuefinder__about-modal__tab-content"},uo={class:"vuefinder__about-modal__lead"},mo={class:"vuefinder__about-modal__description"},fo={class:"vuefinder__about-modal__links"},po={href:"https://vuefinder.ozdemir.be",class:"vuefinder__about-modal__link-btn",target:"_blank",rel:"noopener noreferrer"},vo={class:"vuefinder__about-modal__meta"},_o={class:"vuefinder__about-modal__meta-item"},ho={class:"vuefinder__about-modal__meta-label"},go={class:"vuefinder__about-modal__meta-value"},wo={class:"vuefinder__about-modal__meta-item"},yo={class:"vuefinder__about-modal__meta-label"},Qt=e.defineComponent({__name:"ModalAbout",setup(n){const t=H(),{t:o}=t.i18n;return(l,r)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:r[0]||(r[0]=s=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(o)("Close")),1)]),default:e.withCtx(()=>[e.createElementVNode("div",so,[e.createVNode(de,{icon:e.unref(Yt),title:"Vuefinder "+e.unref(t).version},null,8,["icon","title"]),e.createElementVNode("div",io,[e.createElementVNode("div",co,[e.createElementVNode("div",uo,e.toDisplayString(e.unref(o)("A modern, customizable file manager component built for Vue.")),1),e.createElementVNode("div",mo,e.toDisplayString(e.unref(o)("If you like it, please follow and ⭐ star on GitHub.")),1),e.createElementVNode("div",fo,[e.createElementVNode("a",po,e.toDisplayString(e.unref(o)("Project Home")),1),r[1]||(r[1]=e.createElementVNode("a",{href:"https://github.com/n1crack/vuefinder",class:"vuefinder__about-modal__link-btn",target:"_blank",rel:"noopener noreferrer"}," GitHub ",-1))]),e.createElementVNode("div",vo,[e.createElementVNode("div",_o,[e.createElementVNode("span",ho,e.toDisplayString(e.unref(o)("Version")),1),e.createElementVNode("span",go,e.toDisplayString(e.unref(t).version),1)]),e.createElementVNode("div",wo,[e.createElementVNode("span",yo,e.toDisplayString(e.unref(o)("License")),1),r[2]||(r[2]=e.createElementVNode("span",{class:"vuefinder__about-modal__meta-value"},"MIT",-1))])])])])])]),_:1}))}}),ko={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",viewBox:"0 0 24 24"};function Eo(n,t){return e.openBlock(),e.createElementBlock("svg",ko,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21q.512.078 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48 48 0 0 0-3.478-.397m-12 .562q.51-.089 1.022-.165m0 0a48 48 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a52 52 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a49 49 0 0 0-7.5 0"},null,-1)])])}const Xt={render:Eo},bo={class:"vuefinder__delete-modal__content"},Vo={class:"vuefinder__delete-modal__form"},No={class:"vuefinder__delete-modal__description"},xo={class:"vuefinder__delete-modal__files vf-scrollbar"},Co={class:"vuefinder__delete-modal__file"},Bo={key:0,class:"vuefinder__delete-modal__icon vuefinder__delete-modal__icon--dir",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},So={key:1,class:"vuefinder__delete-modal__icon",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},$o={class:"vuefinder__delete-modal__file-name"},Do={class:"vuefinder__delete-modal__warning"},Xe=e.defineComponent({__name:"ModalDelete",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=I.useStore(l.path),s=e.ref(t.modal.data.items),a=e.ref(""),u=()=>{console.log(s.value.map(({path:c,type:m})=>({path:c,type:m}))),s.value.length&&t.adapter.delete({path:r.value.path,items:s.value.map(({path:c,type:m})=>({path:c,type:m}))}).then(c=>{t.emitter.emit("vf-toast-push",{label:o("Files deleted.")}),t.fs.setFiles(c.files),t.modal.close()}).catch(c=>{t.emitter.emit("vf-toast-push",{label:o(c.message),type:"error"})})};return(c,m)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:u,class:"vf-btn vf-btn-danger"},e.toDisplayString(e.unref(o)("Yes, Delete!")),1),e.createElementVNode("button",{type:"button",onClick:m[1]||(m[1]=d=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(o)("Cancel")),1),e.createElementVNode("div",Do,e.toDisplayString(e.unref(o)("This action cannot be undone.")),1)]),default:e.withCtx(()=>[e.createElementVNode("div",null,[e.createVNode(de,{icon:e.unref(Xt),title:e.unref(o)("Delete files")},null,8,["icon","title"]),e.createElementVNode("div",bo,[e.createElementVNode("div",Vo,[e.createElementVNode("p",No,e.toDisplayString(e.unref(o)("Are you sure you want to delete these files?")),1),e.createElementVNode("div",xo,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(s.value,d=>(e.openBlock(),e.createElementBlock("p",Co,[d.type==="dir"?(e.openBlock(),e.createElementBlock("svg",Bo,[...m[2]||(m[2]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"},null,-1)])])):(e.openBlock(),e.createElementBlock("svg",So,[...m[3]||(m[3]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"},null,-1)])])),e.createElementVNode("span",$o,e.toDisplayString(d.basename),1)]))),256))]),a.value.length?(e.openBlock(),e.createBlock(e.unref(a),{key:0,onHidden:m[0]||(m[0]=d=>a.value=""),error:""},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(a.value),1)]),_:1})):e.createCommentVNode("",!0)])])])]),_:1}))}}),Fo={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",viewBox:"0 0 24 24"};function Mo(n,t){return e.openBlock(),e.createElementBlock("svg",Fo,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"},null,-1)])])}const Jt={render:Mo},To={class:"vuefinder__rename-modal__content"},Ao={class:"vuefinder__rename-modal__item"},Io={class:"vuefinder__rename-modal__item-info"},Lo={key:0,class:"vuefinder__rename-modal__icon vuefinder__rename-modal__icon--dir",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},Oo={key:1,class:"vuefinder__rename-modal__icon",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},Ro={class:"vuefinder__rename-modal__item-name"},Je=e.defineComponent({__name:"ModalRename",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=I.useStore(l.path),s=e.ref(t.modal.data.items[0]),a=e.ref(s.value.basename),u=e.ref(""),c=()=>{a.value!=s.value.basename&&t.adapter.rename({path:r.value.path,item:s.value.path,name:a.value}).then(m=>{t.emitter.emit("vf-toast-push",{label:o("%s is renamed.",a.value)}),t.fs.setFiles(m.files),t.modal.close()}).catch(m=>{t.emitter.emit("vf-toast-push",{label:o(m.message),type:"error"})})};return(m,d)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:c,class:"vf-btn vf-btn-primary"},e.toDisplayString(e.unref(o)("Rename")),1),e.createElementVNode("button",{type:"button",onClick:d[2]||(d[2]=i=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(o)("Cancel")),1)]),default:e.withCtx(()=>[e.createElementVNode("div",null,[e.createVNode(de,{icon:e.unref(Jt),title:e.unref(o)("Rename")},null,8,["icon","title"]),e.createElementVNode("div",To,[e.createElementVNode("div",Ao,[e.createElementVNode("p",Io,[s.value.type==="dir"?(e.openBlock(),e.createElementBlock("svg",Lo,[...d[3]||(d[3]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"},null,-1)])])):(e.openBlock(),e.createElementBlock("svg",Oo,[...d[4]||(d[4]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"},null,-1)])])),e.createElementVNode("span",Ro,e.toDisplayString(s.value.basename),1)]),e.withDirectives(e.createElementVNode("input",{"onUpdate:modelValue":d[0]||(d[0]=i=>a.value=i),onKeyup:e.withKeys(c,["enter"]),class:"vuefinder__rename-modal__input",placeholder:"Name",type:"text"},null,544),[[e.vModelText,a.value]]),u.value.length?(e.openBlock(),e.createBlock(e.unref(u),{key:0,onHidden:d[1]||(d[1]=i=>u.value=""),error:""},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(u.value),1)]),_:1})):e.createCommentVNode("",!0)])])])]),_:1}))}}),Po={class:"vuefinder__text-preview"},zo={class:"vuefinder__text-preview__header"},Ho=["title"],Uo={class:"vuefinder__text-preview__actions"},Ko={key:0,class:"vuefinder__text-preview__content"},jo={key:1},Wo=e.defineComponent({__name:"Text",emits:["success"],setup(n,{emit:t}){const o=t,l=e.ref(""),r=e.ref(""),s=e.ref(null),a=e.ref(!1),u=e.ref(""),c=e.ref(!1),m=H(),{t:d}=m.i18n;e.onMounted(async()=>{try{const h=await m.adapter.getContent({path:m.modal.data.item.path});l.value=h.content,o("success")}catch(h){console.error("Failed to load text content:",h),o("success")}});const i=()=>{a.value=!a.value,r.value=l.value,m.modal.setEditMode(a.value)},v=async()=>{u.value="",c.value=!1;try{const h=m.modal.data.item.path;await m.adapter.save({path:h,content:r.value}),l.value=r.value,u.value=d("Updated."),o("success"),a.value=!a.value}catch(h){const V=h;u.value=d(V.message||"Error"),c.value=!0}};return(h,V)=>(e.openBlock(),e.createElementBlock("div",Po,[e.createElementVNode("div",zo,[e.createElementVNode("div",{class:"vuefinder__text-preview__title",id:"modal-title",title:e.unref(m).modal.data.item.path},e.toDisplayString(e.unref(m).modal.data.item.basename),9,Ho),e.createElementVNode("div",Uo,[a.value?(e.openBlock(),e.createElementBlock("button",{key:0,onClick:v,class:"vuefinder__text-preview__save-button"},e.toDisplayString(e.unref(d)("Save")),1)):e.createCommentVNode("",!0),e.unref(m).features.includes(e.unref(K).EDIT)?(e.openBlock(),e.createElementBlock("button",{key:1,class:"vuefinder__text-preview__edit-button",onClick:V[0]||(V[0]=_=>i())},e.toDisplayString(a.value?e.unref(d)("Cancel"):e.unref(d)("Edit")),1)):e.createCommentVNode("",!0)])]),e.createElementVNode("div",null,[a.value?(e.openBlock(),e.createElementBlock("div",jo,[e.withDirectives(e.createElementVNode("textarea",{ref_key:"editInput",ref:s,"onUpdate:modelValue":V[1]||(V[1]=_=>r.value=_),class:"vuefinder__text-preview__textarea",name:"text",cols:"30",rows:"10"},null,512),[[e.vModelText,r.value]])])):(e.openBlock(),e.createElementBlock("pre",Ko,e.toDisplayString(l.value),1)),u.value.length?(e.openBlock(),e.createBlock(e.unref(u),{key:2,onHidden:V[2]||(V[2]=_=>u.value=""),error:c.value},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(u.value),1)]),_:1},8,["error"])):e.createCommentVNode("",!0)])]))}}),Go={class:"vuefinder__image-preview"},qo={class:"vuefinder__image-preview__header"},Yo=["title"],Qo={class:"vuefinder__image-preview__actions"},Xo={class:"vuefinder__image-preview__image-container"},Jo=["src"],Zo=e.defineComponent({name:"ImagePreview",__name:"Image",emits:["success"],setup(n,{emit:t}){const o=t,l=H(),{t:r}=l.i18n,s=e.ref(!1),a=e.ref(""),u=e.ref(!1),c=e.ref(l.adapter.getPreviewUrl({path:l.modal.data.item.path})),m=e.ref(c.value),d=e.useTemplateRef("cropperRef"),i=async()=>{s.value=!s.value,l.modal.setEditMode(s.value)},v=async()=>{const V=d.value?.getResult({size:{width:795,height:341},fillColor:"#ffffff"})?.canvas;V&&V.toBlob(async _=>{if(_){a.value="",u.value=!1;try{const p=new File([_],l.modal.data.item.basename,{type:"image/png"}),w=l.modal.data.item.path.split("/"),k=w.pop(),y=w.join("/");await l.adapter.upload({path:y,files:[p]}),a.value=r("Updated."),fetch(c.value,{cache:"reload",mode:"no-cors"});const C=l.root?.querySelector?.('[data-src="'+c.value+'"]');C&&C instanceof HTMLElement&&Wt.resetStatus(C),l.emitter.emit("vf-refresh-thumbnails"),i(),o("success")}catch(p){const f=p?.message??"Error";a.value=r(f),u.value=!0}}})};return e.onMounted(()=>{o("success")}),(h,V)=>(e.openBlock(),e.createElementBlock("div",Go,[e.createElementVNode("div",qo,[e.createElementVNode("h3",{class:"vuefinder__image-preview__title",id:"modal-title",title:e.unref(l).modal.data.item.path},e.toDisplayString(e.unref(l).modal.data.item.basename),9,Yo),e.createElementVNode("div",Qo,[s.value?(e.openBlock(),e.createElementBlock("button",{key:0,onClick:v,class:"vuefinder__image-preview__crop-button"},e.toDisplayString(e.unref(r)("Crop")),1)):e.createCommentVNode("",!0),e.unref(l).features.includes(e.unref(K).EDIT)?(e.openBlock(),e.createElementBlock("button",{key:1,class:"vuefinder__image-preview__edit-button",onClick:V[0]||(V[0]=_=>i())},e.toDisplayString(s.value?e.unref(r)("Cancel"):e.unref(r)("Edit")),1)):e.createCommentVNode("",!0)])]),e.createElementVNode("div",Xo,[s.value?(e.openBlock(),e.createBlock(e.unref(Tn.Cropper),{key:1,ref_key:"cropperRef",ref:d,class:"w-full h-full",crossorigin:"anonymous",src:m.value,"auto-zoom":!0,priority:"image",transitions:!0},null,8,["src"])):(e.openBlock(),e.createElementBlock("img",{key:0,style:{},src:e.unref(l).adapter.getPreviewUrl({path:e.unref(l).modal.data.item.path}),class:"vuefinder__image-preview__image w-full h-full"},null,8,Jo))]),a.value.length?(e.openBlock(),e.createBlock(e.unref(a),{key:0,onHidden:V[1]||(V[1]=_=>a.value=""),error:u.value},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(a.value),1)]),_:1},8,["error"])):e.createCommentVNode("",!0)]))}}),el={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"};function tl(n,t){return e.openBlock(),e.createElementBlock("svg",el,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M7 21h10a2 2 0 0 0 2-2V9.414a1 1 0 0 0-.293-.707l-5.414-5.414A1 1 0 0 0 12.586 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2"},null,-1)])])}const ze={render:tl},nl={class:"vuefinder__default-preview"},ol={class:"vuefinder__default-preview__content"},ll={class:"vuefinder__default-preview__header"},rl=["title"],al={class:"vuefinder__default-preview__icon-container"},sl=["title"],il=e.defineComponent({__name:"Default",emits:["success"],setup(n,{emit:t}){const o=H(),l=t;return e.onMounted(()=>{l("success")}),(r,s)=>(e.openBlock(),e.createElementBlock("div",nl,[e.createElementVNode("div",ol,[e.createElementVNode("div",ll,[e.createElementVNode("h3",{class:"vuefinder__default-preview__title",id:"modal-title",title:e.unref(o).modal.data.item.path},e.toDisplayString(e.unref(o).modal.data.item.basename),9,rl)]),e.createElementVNode("div",al,[e.createVNode(e.unref(ze),{class:"vuefinder__default-preview__file-icon"}),e.createElementVNode("div",{class:"vuefinder__default-preview__file-name",id:"modal-title",title:e.unref(o).modal.data.item.path},e.toDisplayString(e.unref(o).modal.data.item.basename),9,sl)])])]))}}),cl={class:"vuefinder__video-preview"},dl=["title"],ul={class:"vuefinder__video-preview__video",preload:"metadata",controls:""},ml=["src"],fl=e.defineComponent({__name:"Video",emits:["success"],setup(n,{emit:t}){const o=H(),l=t,r=()=>o.adapter.getPreviewUrl({path:o.modal.data.item.path});return e.onMounted(()=>{l("success")}),(s,a)=>(e.openBlock(),e.createElementBlock("div",cl,[e.createElementVNode("h3",{class:"vuefinder__video-preview__title",id:"modal-title",title:e.unref(o).modal.data.item.path},e.toDisplayString(e.unref(o).modal.data.item.basename),9,dl),e.createElementVNode("div",null,[e.createElementVNode("video",ul,[e.createElementVNode("source",{src:r(),type:"video/mp4"},null,8,ml),a[0]||(a[0]=e.createTextVNode(" Your browser does not support the video tag. ",-1))])])]))}}),pl={class:"vuefinder__audio-preview"},vl=["title"],_l={class:"vuefinder__audio-preview__audio",controls:""},hl=["src"],gl=e.defineComponent({__name:"Audio",emits:["success"],setup(n,{emit:t}){const o=t,l=H(),r=()=>{const s=H();return s.adapter.getPreviewUrl({path:s.modal.data.item.path})};return e.onMounted(()=>{o("success")}),(s,a)=>(e.openBlock(),e.createElementBlock("div",pl,[e.createElementVNode("h3",{class:"vuefinder__audio-preview__title",id:"modal-title",title:e.unref(l).modal.data.item.path},e.toDisplayString(e.unref(l).modal.data.item.basename),9,vl),e.createElementVNode("div",null,[e.createElementVNode("audio",_l,[e.createElementVNode("source",{src:r(),type:"audio/mpeg"},null,8,hl),a[0]||(a[0]=e.createTextVNode(" Your browser does not support the audio element. ",-1))])])]))}}),wl={class:"vuefinder__pdf-preview"},yl=["title"],kl=["data"],El=["src"],bl=e.defineComponent({__name:"Pdf",emits:["success"],setup(n,{emit:t}){const o=H(),l=t,r=()=>{const s=H();return s.adapter.getPreviewUrl({path:s.modal.data.item.path})};return e.onMounted(()=>{l("success")}),(s,a)=>(e.openBlock(),e.createElementBlock("div",wl,[e.createElementVNode("h3",{class:"vuefinder__pdf-preview__title",id:"modal-title",title:e.unref(o).modal.data.item.path},e.toDisplayString(e.unref(o).modal.data.item.basename),9,yl),e.createElementVNode("div",null,[e.createElementVNode("object",{class:"vuefinder__pdf-preview__object",data:r(),type:"application/pdf",width:"100%",height:"100%"},[e.createElementVNode("iframe",{class:"vuefinder__pdf-preview__iframe",src:r(),width:"100%",height:"100%"}," Your browser does not support PDFs ",8,El)],8,kl)])]))}});function Vl(n,t=null){return new Date(n*1e3).toLocaleString(t??navigator.language??"en-US")}const Nl={key:0,class:"vuefinder__preview-modal__nav-overlay"},xl=["disabled","title"],Cl=["disabled","title"],Bl={class:"vuefinder__preview-modal__content"},Sl={key:0},$l={class:"vuefinder__preview-modal__loading"},Dl={key:0,class:"vuefinder__preview-modal__loading-indicator"},Fl={class:"vuefinder__preview-modal__details"},Ml={class:"font-bold"},Tl={class:"font-bold pl-2"},Al={key:0,class:"vuefinder__preview-modal__note"},Il=["download","href"],Ze=e.defineComponent({__name:"ModalPreview",setup(n){const t=H(),{t:o}=t.i18n,l=e.ref(!1),r=_=>(t.modal.data.item.mime_type??"").startsWith(_),s=t.features.includes(K.PREVIEW);s||(l.value=!0);const a=e.computed(()=>t.modal.data.item),u=I.useStore(t.fs.sortedFiles),c=e.computed(()=>u.value.filter(_=>_.type==="file")),m=e.computed(()=>c.value.findIndex(_=>_.path===a.value.path)),d=e.computed(()=>m.value>0),i=e.computed(()=>m.value<c.value.length-1),v=()=>{if(t.modal.editMode||!d.value)return;const _=c.value[m.value-1];_&&(t.fs.clearSelection(),t.fs.select(_.path),t.modal.data.item=_,t.modal.data.storage=t.modal.data.storage)},h=()=>{if(t.modal.editMode||!i.value)return;const _=c.value[m.value+1];_&&(t.fs.clearSelection(),t.fs.select(_.path),t.modal.data.item=_,t.modal.data.storage=t.modal.data.storage)},V=_=>{if(_.key==="Escape"){_.preventDefault(),_.stopPropagation(),t.modal.close();return}(_.key==="ArrowLeft"||_.key==="ArrowRight")&&(_.preventDefault(),_.stopPropagation(),_.key==="ArrowLeft"?v():h())};return e.onMounted(()=>{const _=document.querySelector(".vuefinder__preview-modal");_&&_.focus()}),(_,p)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:p[6]||(p[6]=f=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(o)("Close")),1),e.unref(t).features.includes(e.unref(K).DOWNLOAD)?(e.openBlock(),e.createElementBlock("a",{key:0,target:"_blank",class:"vf-btn vf-btn-primary",download:e.unref(t).adapter.getDownloadUrl({path:e.unref(t).modal.data.item.path}),href:e.unref(t).adapter.getDownloadUrl({path:e.unref(t).modal.data.item.path})},e.toDisplayString(e.unref(o)("Download")),9,Il)):e.createCommentVNode("",!0)]),default:e.withCtx(()=>[e.createElementVNode("div",{class:"vuefinder__preview-modal",onKeydown:V,tabindex:"0"},[e.unref(t).modal.editMode?e.createCommentVNode("",!0):(e.openBlock(),e.createElementBlock("div",Nl,[e.createElementVNode("button",{onClick:v,disabled:!d.value,class:"vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--left",title:e.unref(o)("Previous file")},[...p[7]||(p[7]=[e.createElementVNode("svg",{class:"vuefinder__preview-modal__nav-icon",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2"},[e.createElementVNode("polyline",{points:"15,18 9,12 15,6"})],-1)])],8,xl),e.createElementVNode("button",{onClick:h,disabled:!i.value,class:"vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--right",title:e.unref(o)("Next file")},[...p[8]||(p[8]=[e.createElementVNode("svg",{class:"vuefinder__preview-modal__nav-icon",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor","stroke-width":"2"},[e.createElementVNode("polyline",{points:"9,18 15,12 9,6"})],-1)])],8,Cl)])),e.createElementVNode("div",Bl,[e.unref(s)?(e.openBlock(),e.createElementBlock("div",Sl,[r("text")?(e.openBlock(),e.createBlock(Wo,{key:0,onSuccess:p[0]||(p[0]=f=>l.value=!0)})):r("image")?(e.openBlock(),e.createBlock(Zo,{key:1,onSuccess:p[1]||(p[1]=f=>l.value=!0)})):r("video")?(e.openBlock(),e.createBlock(fl,{key:2,onSuccess:p[2]||(p[2]=f=>l.value=!0)})):r("audio")?(e.openBlock(),e.createBlock(gl,{key:3,onSuccess:p[3]||(p[3]=f=>l.value=!0)})):r("application/pdf")?(e.openBlock(),e.createBlock(bl,{key:4,onSuccess:p[4]||(p[4]=f=>l.value=!0)})):(e.openBlock(),e.createBlock(il,{key:5,onSuccess:p[5]||(p[5]=f=>l.value=!0)}))])):e.createCommentVNode("",!0),e.createElementVNode("div",$l,[l.value===!1?(e.openBlock(),e.createElementBlock("div",Dl,[p[9]||(p[9]=e.createElementVNode("svg",{class:"vuefinder__preview-modal__spinner",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24"},[e.createElementVNode("circle",{class:"vuefinder__preview-modal__spinner-circle",cx:"12",cy:"12",r:"10",stroke:"currentColor","stroke-width":"4"}),e.createElementVNode("path",{class:"vuefinder__preview-modal__spinner-path",fill:"currentColor",d:"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"})],-1)),e.createElementVNode("span",null,e.toDisplayString(e.unref(o)("Loading")),1)])):e.createCommentVNode("",!0)])])],32),e.createElementVNode("div",Fl,[e.createElementVNode("div",null,[e.createElementVNode("span",Ml,e.toDisplayString(e.unref(o)("File Size"))+": ",1),e.createTextVNode(e.toDisplayString(e.unref(t).filesize(e.unref(t).modal.data.item.file_size)),1)]),e.createElementVNode("div",null,[e.createElementVNode("span",Tl,e.toDisplayString(e.unref(o)("Last Modified"))+": ",1),e.createTextVNode(" "+e.toDisplayString(e.unref(Vl)(e.unref(t).modal.data.item.last_modified)),1)])]),e.unref(t).features.includes(e.unref(K).DOWNLOAD)?(e.openBlock(),e.createElementBlock("div",Al,[e.createElementVNode("span",null,e.toDisplayString(e.unref(o)(`Download doesn't work? You can try right-click "Download" button, select "Save link as...".`)),1)])):e.createCommentVNode("",!0)]),_:1}))}}),Ll={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-width":"2","aria-hidden":"true",class:"h-6 w-6 stroke-blue-600 dark:stroke-blue-100",viewBox:"0 0 24 24"};function Ol(n,t){return e.openBlock(),e.createElementBlock("svg",Ll,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3"},null,-1)])])}const Rl={render:Ol},Pl={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"};function zl(n,t){return e.openBlock(),e.createElementBlock("svg",Pl,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6l-2-2H5a2 2 0 0 0-2 2"},null,-1)])])}const he={render:zl},Hl={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"2",viewBox:"0 0 24 24"};function Ul(n,t){return e.openBlock(),e.createElementBlock("svg",Hl,[...t[0]||(t[0]=[e.createElementVNode("path",{stroke:"none",d:"M0 0h24v24H0z"},null,-1),e.createElementVNode("path",{d:"M12 5v14M5 12h14"},null,-1)])])}const et={render:Ul},Kl={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"2",viewBox:"0 0 24 24"};function jl(n,t){return e.openBlock(),e.createElementBlock("svg",Kl,[...t[0]||(t[0]=[e.createElementVNode("path",{stroke:"none",d:"M0 0h24v24H0z"},null,-1),e.createElementVNode("path",{d:"M5 12h14"},null,-1)])])}const tt={render:jl},Wl={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"2",class:"h-5 w-5",viewBox:"0 0 24 24"};function Gl(n,t){return e.openBlock(),e.createElementBlock("svg",Wl,[...t[0]||(t[0]=[e.createElementVNode("path",{stroke:"none",d:"M0 0h24v24H0z"},null,-1),e.createElementVNode("path",{d:"m15 4.5-4 4L7 10l-1.5 1.5 7 7L14 17l1.5-4 4-4M9 15l-4.5 4.5M14.5 4 20 9.5"},null,-1)])])}const ht={render:Gl},ql={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"};function Yl(n,t){return e.openBlock(),e.createElementBlock("svg",ql,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"},null,-1)])])}const gt={render:Yl},Ql={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-width":"1.5",viewBox:"0 0 24 24"};function Xl(n,t){return e.openBlock(),e.createElementBlock("svg",Ql,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M3.75 9.776q.168-.026.344-.026h15.812q.176 0 .344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"},null,-1)])])}const wt={render:Xl},Jl={class:"vuefinder__modal-tree__folder-item"},Zl={class:"vuefinder__modal-tree__folder-content"},er={key:1,class:"vuefinder__modal-tree__folder-spacer"},tr={class:"vuefinder__modal-tree__folder-text"},nr={key:0,class:"vuefinder__modal-tree__subfolders"},or=300,lr=e.defineComponent({__name:"ModalTreeFolderItem",props:{folder:{},storage:{},modelValue:{},expandedFolders:{},modalTreeData:{},currentPath:{}},emits:["update:modelValue","selectAndClose","toggleFolder"],setup(n,{emit:t}){const o=H(),{t:l}=o.i18n,r=o.fs,s=n,a=t;I.useStore(r.path);const u=e.computed(()=>{const f=`${s.storage}:${s.folder.path}`;return s.expandedFolders[f]||!1}),c=e.computed(()=>s.modelValue?.path===s.folder.path),m=e.computed(()=>s.currentPath?.path===s.folder.path),d=e.computed(()=>s.modalTreeData[s.folder.path]||[]),i=e.computed(()=>d.value.length>0||s.folder.type==="dir"),v=()=>{a("toggleFolder",s.storage,s.folder.path)},h=()=>{a("update:modelValue",s.folder)},V=()=>{a("update:modelValue",s.folder),a("selectAndClose",s.folder)};let _=0;const p=()=>{const f=Date.now();f-_<or?V():h(),_=f};return(f,w)=>{const k=e.resolveComponent("ModalTreeFolderItem",!0);return e.openBlock(),e.createElementBlock("div",Jl,[e.createElementVNode("div",Zl,[i.value?(e.openBlock(),e.createElementBlock("div",{key:0,class:"vuefinder__modal-tree__folder-toggle",onClick:v},[u.value?(e.openBlock(),e.createBlock(e.unref(tt),{key:1,class:"vuefinder__modal-tree__folder-toggle-icon"})):(e.openBlock(),e.createBlock(e.unref(et),{key:0,class:"vuefinder__modal-tree__folder-toggle-icon"}))])):(e.openBlock(),e.createElementBlock("div",er)),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__modal-tree__folder-link",{"vuefinder__modal-tree__folder-link--selected":c.value,"vuefinder__modal-tree__folder-link--current":m.value}]),onClick:h,onDblclick:V,onTouchend:p},[u.value?(e.openBlock(),e.createBlock(e.unref(wt),{key:1,class:"vuefinder__item-icon__folder--open vuefinder__modal-tree__folder-icon"})):(e.openBlock(),e.createBlock(e.unref(he),{key:0,class:"vuefinder__modal-tree__folder-icon vuefinder__item-icon__folder"})),e.createElementVNode("span",tr,e.toDisplayString(n.folder.basename),1)],34)]),u.value&&i.value?(e.openBlock(),e.createElementBlock("div",nr,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(d.value,y=>(e.openBlock(),e.createBlock(k,{key:y.path,folder:y,storage:n.storage,modelValue:n.modelValue,expandedFolders:n.expandedFolders,modalTreeData:n.modalTreeData,currentPath:n.currentPath,"onUpdate:modelValue":w[0]||(w[0]=C=>f.$emit("update:modelValue",C)),onSelectAndClose:w[1]||(w[1]=C=>f.$emit("selectAndClose",C)),onToggleFolder:w[2]||(w[2]=(C,F)=>f.$emit("toggleFolder",C,F))},null,8,["folder","storage","modelValue","expandedFolders","modalTreeData","currentPath"]))),128))])):e.createCommentVNode("",!0)])}}}),rr={class:"vuefinder__modal-tree"},ar={class:"vuefinder__modal-tree__header"},sr={class:"vuefinder__modal-tree__title"},ir={key:0,class:"vuefinder__modal-tree__section"},cr={class:"vuefinder__modal-tree__section-title"},dr={class:"vuefinder__modal-tree__list"},ur=["onClick","onDblclick","onTouchend"],mr={class:"vuefinder__modal-tree__text"},fr={class:"vuefinder__modal-tree__text-storage"},pr={class:"vuefinder__modal-tree__section-title"},vr={class:"vuefinder__modal-tree__list"},_r={class:"vuefinder__modal-tree__storage-item"},hr={class:"vuefinder__modal-tree__storage-content"},gr=["onClick"],wr=["onClick","onDblclick","onTouchend"],yr={class:"vuefinder__modal-tree__storage-text"},kr={key:0,class:"vuefinder__modal-tree__subfolders"},Mt=300,yt=e.defineComponent({__name:"ModalTreeSelector",props:{modelValue:{},showPinnedFolders:{type:Boolean},currentPath:{}},emits:["update:modelValue","selectAndClose"],setup(n,{emit:t}){const o=H(),{t:l}=o.i18n,r=o.fs,s=o.config,a=t,u=I.useStore(r.sortedFiles),c=I.useStore(r.storages),m=e.computed(()=>c.value||[]),d=I.useStore(r.path),i=e.ref(null),v=e.ref({}),h=e.ref({});e.watch(u,B=>{const L=B.filter(O=>O.type==="dir"),S=d.value?.path||"";S&&(h.value[S]=L.map(O=>({...O,type:"dir"})))});const V=(B,L)=>{const S=`${B}:${L}`;v.value={...v.value,[S]:!v.value[S]},v.value[S]&&!h.value[L]&&o.adapter.list(L).then(O=>{const X=(O.files||[]).filter(P=>P.type==="dir");h.value[L]=X.map(P=>({...P,type:"dir"}))})},_=B=>h.value[B]||[],p=B=>{B&&a("update:modelValue",B)},f=B=>{B&&(a("update:modelValue",B),a("selectAndClose",B))},w=B=>{const L={storage:B,path:B+"://",basename:B,type:"dir",extension:"",file_size:null,last_modified:null,mime_type:null,visibility:"public",dir:B+"://"};a("update:modelValue",L)},k=B=>{const L={storage:B,path:B+"://",basename:B,type:"dir",extension:"",file_size:null,last_modified:null,mime_type:null,visibility:"public",dir:B+"://"};a("update:modelValue",L),a("selectAndClose",L)};let y=0;const C=B=>{if(!B)return;const L=Date.now();L-y<Mt?f(B):p(B),y=L},F=B=>{const L=Date.now();L-y<Mt?k(B):w(B),y=L};return e.onMounted(()=>{i.value&&Qe.OverlayScrollbars(i.value,{overflow:{x:"hidden"},scrollbars:{theme:"vf-scrollbars-theme"}})}),(B,L)=>(e.openBlock(),e.createElementBlock("div",rr,[e.createElementVNode("div",ar,[e.createElementVNode("div",sr,e.toDisplayString(e.unref(l)("Select Target Folder")),1)]),e.createElementVNode("div",{ref_key:"modalContentElement",ref:i,class:"vuefinder__modal-tree__content"},[n.showPinnedFolders&&e.unref(s).get("pinnedFolders").length?(e.openBlock(),e.createElementBlock("div",ir,[e.createElementVNode("div",cr,e.toDisplayString(e.unref(l)("Pinned Folders")),1),e.createElementVNode("div",dr,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(e.unref(s).get("pinnedFolders"),S=>(e.openBlock(),e.createElementBlock("div",{key:S.path,class:e.normalizeClass(["vuefinder__modal-tree__item",{"vuefinder__modal-tree__item--selected":n.modelValue?.path===S.path}]),onClick:O=>p(S),onDblclick:O=>f(S),onTouchend:O=>C(S)},[e.createVNode(e.unref(he),{class:"vuefinder__modal-tree__icon vuefinder__item-icon__folder"}),e.createElementVNode("div",mr,e.toDisplayString(S.basename),1),e.createElementVNode("div",fr,e.toDisplayString(S.storage),1),e.createVNode(e.unref(ht),{class:"vuefinder__modal-tree__icon vuefinder__modal-tree__icon--pin"})],42,ur))),128))])])):e.createCommentVNode("",!0),e.createElementVNode("div",pr,e.toDisplayString(e.unref(l)("Storages")),1),(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(m.value,S=>(e.openBlock(),e.createElementBlock("div",{class:"vuefinder__modal-tree__section",key:S},[e.createElementVNode("div",vr,[e.createElementVNode("div",_r,[e.createElementVNode("div",hr,[e.createElementVNode("div",{class:"vuefinder__modal-tree__storage-toggle",onClick:e.withModifiers(O=>V(S,S+"://"),["stop"])},[v.value[`${S}:${S}://`]?(e.openBlock(),e.createBlock(e.unref(tt),{key:1,class:"vuefinder__modal-tree__toggle-icon"})):(e.openBlock(),e.createBlock(e.unref(et),{key:0,class:"vuefinder__modal-tree__toggle-icon"}))],8,gr),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__modal-tree__storage-link",{"vuefinder__modal-tree__storage-link--selected":n.modelValue?.path===S+"://"}]),onClick:O=>w(S),onDblclick:O=>k(S),onTouchend:O=>F(S)},[e.createVNode(e.unref(gt),{class:"vuefinder__modal-tree__storage-icon"}),e.createElementVNode("span",yr,e.toDisplayString(S),1)],42,wr)]),v.value[`${S}:${S}://`]?(e.openBlock(),e.createElementBlock("div",kr,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(_(S+"://"),O=>(e.openBlock(),e.createBlock(lr,{key:O.path,folder:O,storage:S,modelValue:n.modelValue,expandedFolders:v.value,modalTreeData:h.value,currentPath:n.currentPath,"onUpdate:modelValue":p,onSelectAndClose:f,onToggleFolder:V},null,8,["folder","storage","modelValue","expandedFolders","modalTreeData","currentPath"]))),128))])):e.createCommentVNode("",!0)])])]))),128))],512)]))}}),Er={class:"vuefinder__move-modal__content"},br={class:"vuefinder__move-modal__description"},Vr={class:"vuefinder__move-modal__files vf-scrollbar"},Nr={key:0,class:"vuefinder__move-modal__icon vuefinder__move-modal__icon--dir",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},xr={key:1,class:"vuefinder__move-modal__icon",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},Cr={class:"vuefinder__move-modal__file-name"},Br={class:"vuefinder__move-modal__target-title"},Sr={class:"vuefinder__move-modal__target-container"},$r={class:"vuefinder__move-modal__target-path"},Dr={class:"vuefinder__move-modal__target-storage"},Fr={key:0,class:"vuefinder__move-modal__Destination-folder"},Mr={class:"vuefinder__move-modal__target-badge"},Tr={class:"vuefinder__move-modal__options"},Ar={class:"vuefinder__move-modal__checkbox-label"},Ir={class:"vuefinder__move-modal__checkbox-text"},Lr={class:"vuefinder__move-modal__selected-items"},Zt=e.defineComponent({__name:"ModalTransfer",props:{copy:{type:Boolean}},setup(n){const t=H(),{t:o}=t.i18n,l=n,r=e.ref(t.modal.data.items.from),s=e.ref(t.modal.data.items.to),a=e.ref(""),u=e.ref(l.copy||!1),c=e.computed(()=>u.value?"copy":"move"),m=e.ref(!1),d=e.computed(()=>u.value?o("Copy files"):o("Move files")),i=e.computed(()=>u.value?o("Are you sure you want to copy these files?"):o("Are you sure you want to move these files?")),v=e.computed(()=>u.value?o("Yes, Copy!"):o("Yes, Move!"));e.computed(()=>u.value?o("Files copied."):o("Files moved."));const h=f=>{f&&(s.value=f)},V=f=>{f&&(s.value=f,m.value=!1)},_=()=>{const f=s.value.path;if(!f)return{storage:"local",path:""};if(f.endsWith("://"))return{storage:f.replace("://",""),path:""};const w=f.split("://");return{storage:w[0]||"local",path:w[1]||""}},p=async()=>{r.value.length&&await t.adapter[c.value]({sources:r.value.map(({path:f})=>f),destination:s.value.path})};return(f,w)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:p,class:"vf-btn vf-btn-primary"},e.toDisplayString(v.value),1),e.createElementVNode("button",{type:"button",onClick:w[4]||(w[4]=k=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(o)("Cancel")),1),e.createElementVNode("div",Lr,e.toDisplayString(e.unref(o)("%s item(s) selected.",r.value.length)),1)]),default:e.withCtx(()=>[e.createElementVNode("div",null,[e.createVNode(de,{icon:e.unref(Rl),title:d.value},null,8,["icon","title"]),e.createElementVNode("div",Er,[e.createElementVNode("p",br,e.toDisplayString(i.value),1),e.createElementVNode("div",Vr,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(r.value,k=>(e.openBlock(),e.createElementBlock("div",{class:"vuefinder__move-modal__file",key:k.path},[e.createElementVNode("div",null,[k.type==="dir"?(e.openBlock(),e.createElementBlock("svg",Nr,[...w[5]||(w[5]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"},null,-1)])])):(e.openBlock(),e.createElementBlock("svg",xr,[...w[6]||(w[6]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"},null,-1)])]))]),e.createElementVNode("div",Cr,e.toDisplayString(k.path),1)]))),128))]),e.createElementVNode("h4",Br,e.toDisplayString(e.unref(o)("Target Directory")),1),e.createElementVNode("div",Sr,[e.createElementVNode("div",{class:"vuefinder__move-modal__target-display",onClick:w[0]||(w[0]=k=>m.value=!m.value)},[e.createElementVNode("div",$r,[e.createElementVNode("span",Dr,e.toDisplayString(_().storage)+"://",1),_().path?(e.openBlock(),e.createElementBlock("span",Fr,e.toDisplayString(_().path),1)):e.createCommentVNode("",!0)]),e.createElementVNode("span",Mr,e.toDisplayString(e.unref(o)("Browse")),1)])]),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__move-modal__tree-selector",m.value?"vuefinder__move-modal__tree-selector--expanded":"vuefinder__move-modal__tree-selector--collapsed"])},[e.createVNode(yt,{modelValue:s.value,"onUpdate:modelValue":[w[1]||(w[1]=k=>s.value=k),h],"show-pinned-folders":!0,onSelectAndClose:V},null,8,["modelValue"])],2),e.createElementVNode("div",Tr,[e.createElementVNode("label",Ar,[e.withDirectives(e.createElementVNode("input",{type:"checkbox","onUpdate:modelValue":w[2]||(w[2]=k=>u.value=k),class:"vuefinder__move-modal__checkbox"},null,512),[[e.vModelCheckbox,u.value]]),e.createElementVNode("span",Ir,e.toDisplayString(e.unref(o)("Create a copy instead of moving")),1)])]),a.value.length?(e.openBlock(),e.createBlock(e.unref(a),{key:0,onHidden:w[3]||(w[3]=k=>a.value=""),error:""},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(a.value),1)]),_:1})):e.createCommentVNode("",!0)])])]),_:1}))}}),Ce=e.defineComponent({__name:"ModalMove",setup(n){return(t,o)=>(e.openBlock(),e.createBlock(Zt,{copy:!1}))}}),kt=e.defineComponent({__name:"ModalCopy",setup(n){return(t,o)=>(e.openBlock(),e.createBlock(Zt,{copy:!0}))}}),Or=(n,t=0,o=!1)=>{let l;return(...r)=>{o&&!l&&n(...r),clearTimeout(l),l=setTimeout(()=>{n(...r)},t)}},en=(n,t,o)=>{const l=e.ref(n);return e.customRef((r,s)=>({get(){return r(),l.value},set:Or(a=>{l.value=a,s()},t,!1)}))},Rr={xmlns:"http://www.w3.org/2000/svg",fill:"currentColor",viewBox:"0 0 20 20"};function Pr(n,t){return e.openBlock(),e.createElementBlock("svg",Rr,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607"},null,-1)])])}const Et={render:Pr},zr={xmlns:"http://www.w3.org/2000/svg",fill:"none",class:"animate-spin p-0.5 h-5 w-5 text-white ml-auto",viewBox:"0 0 24 24"};function Hr(n,t){return e.openBlock(),e.createElementBlock("svg",zr,[...t[0]||(t[0]=[e.createElementVNode("circle",{cx:"12",cy:"12",r:"10",stroke:"currentColor","stroke-width":"4",class:"opacity-25 stroke-blue-900 dark:stroke-blue-100"},null,-1),e.createElementVNode("path",{fill:"currentColor",d:"M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12zm2 5.291A7.96 7.96 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938z",class:"opacity-75"},null,-1)])])}const nt={render:Hr},Ur={class:"vuefinder__search-modal__search-input"},Kr=["value","placeholder","disabled"],jr={key:0,class:"vuefinder__search-modal__loading"},Wr=e.defineComponent({name:"SearchInput",__name:"SearchInput",props:{modelValue:{},isSearching:{type:Boolean},disabled:{type:Boolean}},emits:["update:modelValue","keydown"],setup(n,{expose:t,emit:o}){const l=o,r=H(),{t:s}=r.i18n,a=e.ref(null),u=m=>{const d=m.target;l("update:modelValue",d.value)},c=m=>{l("keydown",m)};return t({focus:()=>{a.value&&a.value.focus()}}),(m,d)=>(e.openBlock(),e.createElementBlock("div",Ur,[e.createVNode(e.unref(Et),{class:"vuefinder__search-modal__search-icon"}),e.createElementVNode("input",{ref_key:"searchInput",ref:a,value:n.modelValue,type:"text",placeholder:e.unref(s)("Search Files"),disabled:n.disabled,class:"vuefinder__search-modal__input",onKeydown:c,onKeyup:d[0]||(d[0]=e.withModifiers(()=>{},["stop"])),onInput:u},null,40,Kr),n.isSearching?(e.openBlock(),e.createElementBlock("div",jr,[e.createVNode(e.unref(nt),{class:"vuefinder__search-modal__loading-icon"})])):e.createCommentVNode("",!0)]))}}),He=Math.min,Ee=Math.max,Ue=Math.round,Pe=Math.floor,fe=n=>({x:n,y:n}),Gr={left:"right",right:"left",bottom:"top",top:"bottom"},qr={start:"end",end:"start"};function Tt(n,t,o){return Ee(n,He(t,o))}function ot(n,t){return typeof n=="function"?n(t):n}function be(n){return n.split("-")[0]}function lt(n){return n.split("-")[1]}function tn(n){return n==="x"?"y":"x"}function nn(n){return n==="y"?"height":"width"}const Yr=new Set(["top","bottom"]);function we(n){return Yr.has(be(n))?"y":"x"}function on(n){return tn(we(n))}function Qr(n,t,o){o===void 0&&(o=!1);const l=lt(n),r=on(n),s=nn(r);let a=r==="x"?l===(o?"end":"start")?"right":"left":l==="start"?"bottom":"top";return t.reference[s]>t.floating[s]&&(a=Ke(a)),[a,Ke(a)]}function Xr(n){const t=Ke(n);return[ft(n),t,ft(t)]}function ft(n){return n.replace(/start|end/g,t=>qr[t])}const At=["left","right"],It=["right","left"],Jr=["top","bottom"],Zr=["bottom","top"];function ea(n,t,o){switch(n){case"top":case"bottom":return o?t?It:At:t?At:It;case"left":case"right":return t?Jr:Zr;default:return[]}}function ta(n,t,o,l){const r=lt(n);let s=ea(be(n),o==="start",l);return r&&(s=s.map(a=>a+"-"+r),t&&(s=s.concat(s.map(ft)))),s}function Ke(n){return n.replace(/left|right|bottom|top/g,t=>Gr[t])}function na(n){return{top:0,right:0,bottom:0,left:0,...n}}function oa(n){return typeof n!="number"?na(n):{top:n,right:n,bottom:n,left:n}}function je(n){const{x:t,y:o,width:l,height:r}=n;return{width:l,height:r,top:o,left:t,right:t+l,bottom:o+r,x:t,y:o}}function Lt(n,t,o){let{reference:l,floating:r}=n;const s=we(t),a=on(t),u=nn(a),c=be(t),m=s==="y",d=l.x+l.width/2-r.width/2,i=l.y+l.height/2-r.height/2,v=l[u]/2-r[u]/2;let h;switch(c){case"top":h={x:d,y:l.y-r.height};break;case"bottom":h={x:d,y:l.y+l.height};break;case"right":h={x:l.x+l.width,y:i};break;case"left":h={x:l.x-r.width,y:i};break;default:h={x:l.x,y:l.y}}switch(lt(t)){case"start":h[a]-=v*(o&&m?-1:1);break;case"end":h[a]+=v*(o&&m?-1:1);break}return h}const la=async(n,t,o)=>{const{placement:l="bottom",strategy:r="absolute",middleware:s=[],platform:a}=o,u=s.filter(Boolean),c=await(a.isRTL==null?void 0:a.isRTL(t));let m=await a.getElementRects({reference:n,floating:t,strategy:r}),{x:d,y:i}=Lt(m,l,c),v=l,h={},V=0;for(let _=0;_<u.length;_++){const{name:p,fn:f}=u[_],{x:w,y:k,data:y,reset:C}=await f({x:d,y:i,initialPlacement:l,placement:v,strategy:r,middlewareData:h,rects:m,platform:a,elements:{reference:n,floating:t}});d=w??d,i=k??i,h={...h,[p]:{...h[p],...y}},C&&V<=50&&(V++,typeof C=="object"&&(C.placement&&(v=C.placement),C.rects&&(m=C.rects===!0?await a.getElementRects({reference:n,floating:t,strategy:r}):C.rects),{x:d,y:i}=Lt(m,v,c)),_=-1)}return{x:d,y:i,placement:v,strategy:r,middlewareData:h}};async function ln(n,t){var o;t===void 0&&(t={});const{x:l,y:r,platform:s,rects:a,elements:u,strategy:c}=n,{boundary:m="clippingAncestors",rootBoundary:d="viewport",elementContext:i="floating",altBoundary:v=!1,padding:h=0}=ot(t,n),V=oa(h),p=u[v?i==="floating"?"reference":"floating":i],f=je(await s.getClippingRect({element:(o=await(s.isElement==null?void 0:s.isElement(p)))==null||o?p:p.contextElement||await(s.getDocumentElement==null?void 0:s.getDocumentElement(u.floating)),boundary:m,rootBoundary:d,strategy:c})),w=i==="floating"?{x:l,y:r,width:a.floating.width,height:a.floating.height}:a.reference,k=await(s.getOffsetParent==null?void 0:s.getOffsetParent(u.floating)),y=await(s.isElement==null?void 0:s.isElement(k))?await(s.getScale==null?void 0:s.getScale(k))||{x:1,y:1}:{x:1,y:1},C=je(s.convertOffsetParentRelativeRectToViewportRelativeRect?await s.convertOffsetParentRelativeRectToViewportRelativeRect({elements:u,rect:w,offsetParent:k,strategy:c}):w);return{top:(f.top-C.top+V.top)/y.y,bottom:(C.bottom-f.bottom+V.bottom)/y.y,left:(f.left-C.left+V.left)/y.x,right:(C.right-f.right+V.right)/y.x}}const ra=function(n){return n===void 0&&(n={}),{name:"flip",options:n,async fn(t){var o,l;const{placement:r,middlewareData:s,rects:a,initialPlacement:u,platform:c,elements:m}=t,{mainAxis:d=!0,crossAxis:i=!0,fallbackPlacements:v,fallbackStrategy:h="bestFit",fallbackAxisSideDirection:V="none",flipAlignment:_=!0,...p}=ot(n,t);if((o=s.arrow)!=null&&o.alignmentOffset)return{};const f=be(r),w=we(u),k=be(u)===u,y=await(c.isRTL==null?void 0:c.isRTL(m.floating)),C=v||(k||!_?[Ke(u)]:Xr(u)),F=V!=="none";!v&&F&&C.push(...ta(u,_,V,y));const B=[u,...C],L=await ln(t,p),S=[];let O=((l=s.flip)==null?void 0:l.overflows)||[];if(d&&S.push(L[f]),i){const W=Qr(r,a,y);S.push(L[W[0]],L[W[1]])}if(O=[...O,{placement:r,overflows:S}],!S.every(W=>W<=0)){var q,X;const W=(((q=s.flip)==null?void 0:q.index)||0)+1,Q=B[W];if(Q&&(!(i==="alignment"?w!==we(Q):!1)||O.every(g=>we(g.placement)===w?g.overflows[0]>0:!0)))return{data:{index:W,overflows:O},reset:{placement:Q}};let z=(X=O.filter(E=>E.overflows[0]<=0).sort((E,g)=>E.overflows[1]-g.overflows[1])[0])==null?void 0:X.placement;if(!z)switch(h){case"bestFit":{var P;const E=(P=O.filter(g=>{if(F){const b=we(g.placement);return b===w||b==="y"}return!0}).map(g=>[g.placement,g.overflows.filter(b=>b>0).reduce((b,N)=>b+N,0)]).sort((g,b)=>g[1]-b[1])[0])==null?void 0:P[0];E&&(z=E);break}case"initialPlacement":z=u;break}if(r!==z)return{reset:{placement:z}}}return{}}}},aa=new Set(["left","top"]);async function sa(n,t){const{placement:o,platform:l,elements:r}=n,s=await(l.isRTL==null?void 0:l.isRTL(r.floating)),a=be(o),u=lt(o),c=we(o)==="y",m=aa.has(a)?-1:1,d=s&&c?-1:1,i=ot(t,n);let{mainAxis:v,crossAxis:h,alignmentAxis:V}=typeof i=="number"?{mainAxis:i,crossAxis:0,alignmentAxis:null}:{mainAxis:i.mainAxis||0,crossAxis:i.crossAxis||0,alignmentAxis:i.alignmentAxis};return u&&typeof V=="number"&&(h=u==="end"?V*-1:V),c?{x:h*d,y:v*m}:{x:v*m,y:h*d}}const ia=function(n){return n===void 0&&(n=0),{name:"offset",options:n,async fn(t){var o,l;const{x:r,y:s,placement:a,middlewareData:u}=t,c=await sa(t,n);return a===((o=u.offset)==null?void 0:o.placement)&&(l=u.arrow)!=null&&l.alignmentOffset?{}:{x:r+c.x,y:s+c.y,data:{...c,placement:a}}}}},ca=function(n){return n===void 0&&(n={}),{name:"shift",options:n,async fn(t){const{x:o,y:l,placement:r}=t,{mainAxis:s=!0,crossAxis:a=!1,limiter:u={fn:p=>{let{x:f,y:w}=p;return{x:f,y:w}}},...c}=ot(n,t),m={x:o,y:l},d=await ln(t,c),i=we(be(r)),v=tn(i);let h=m[v],V=m[i];if(s){const p=v==="y"?"top":"left",f=v==="y"?"bottom":"right",w=h+d[p],k=h-d[f];h=Tt(w,h,k)}if(a){const p=i==="y"?"top":"left",f=i==="y"?"bottom":"right",w=V+d[p],k=V-d[f];V=Tt(w,V,k)}const _=u.fn({...t,[v]:h,[i]:V});return{..._,data:{x:_.x-o,y:_.y-l,enabled:{[v]:s,[i]:a}}}}}};function rt(){return typeof window<"u"}function Se(n){return rn(n)?(n.nodeName||"").toLowerCase():"#document"}function se(n){var t;return(n==null||(t=n.ownerDocument)==null?void 0:t.defaultView)||window}function ve(n){var t;return(t=(rn(n)?n.ownerDocument:n.document)||window.document)==null?void 0:t.documentElement}function rn(n){return rt()?n instanceof Node||n instanceof se(n).Node:!1}function ue(n){return rt()?n instanceof Element||n instanceof se(n).Element:!1}function pe(n){return rt()?n instanceof HTMLElement||n instanceof se(n).HTMLElement:!1}function Ot(n){return!rt()||typeof ShadowRoot>"u"?!1:n instanceof ShadowRoot||n instanceof se(n).ShadowRoot}const da=new Set(["inline","contents"]);function Ie(n){const{overflow:t,overflowX:o,overflowY:l,display:r}=me(n);return/auto|scroll|overlay|hidden|clip/.test(t+l+o)&&!da.has(r)}const ua=new Set(["table","td","th"]);function ma(n){return ua.has(Se(n))}const fa=[":popover-open",":modal"];function at(n){return fa.some(t=>{try{return n.matches(t)}catch{return!1}})}const pa=["transform","translate","scale","rotate","perspective"],va=["transform","translate","scale","rotate","perspective","filter"],_a=["paint","layout","strict","content"];function bt(n){const t=Vt(),o=ue(n)?me(n):n;return pa.some(l=>o[l]?o[l]!=="none":!1)||(o.containerType?o.containerType!=="normal":!1)||!t&&(o.backdropFilter?o.backdropFilter!=="none":!1)||!t&&(o.filter?o.filter!=="none":!1)||va.some(l=>(o.willChange||"").includes(l))||_a.some(l=>(o.contain||"").includes(l))}function ha(n){let t=ye(n);for(;pe(t)&&!Be(t);){if(bt(t))return t;if(at(t))return null;t=ye(t)}return null}function Vt(){return typeof CSS>"u"||!CSS.supports?!1:CSS.supports("-webkit-backdrop-filter","none")}const ga=new Set(["html","body","#document"]);function Be(n){return ga.has(Se(n))}function me(n){return se(n).getComputedStyle(n)}function st(n){return ue(n)?{scrollLeft:n.scrollLeft,scrollTop:n.scrollTop}:{scrollLeft:n.scrollX,scrollTop:n.scrollY}}function ye(n){if(Se(n)==="html")return n;const t=n.assignedSlot||n.parentNode||Ot(n)&&n.host||ve(n);return Ot(t)?t.host:t}function an(n){const t=ye(n);return Be(t)?n.ownerDocument?n.ownerDocument.body:n.body:pe(t)&&Ie(t)?t:an(t)}function Te(n,t,o){var l;t===void 0&&(t=[]),o===void 0&&(o=!0);const r=an(n),s=r===((l=n.ownerDocument)==null?void 0:l.body),a=se(r);if(s){const u=pt(a);return t.concat(a,a.visualViewport||[],Ie(r)?r:[],u&&o?Te(u):[])}return t.concat(r,Te(r,[],o))}function pt(n){return n.parent&&Object.getPrototypeOf(n.parent)?n.frameElement:null}function sn(n){const t=me(n);let o=parseFloat(t.width)||0,l=parseFloat(t.height)||0;const r=pe(n),s=r?n.offsetWidth:o,a=r?n.offsetHeight:l,u=Ue(o)!==s||Ue(l)!==a;return u&&(o=s,l=a),{width:o,height:l,$:u}}function Nt(n){return ue(n)?n:n.contextElement}function xe(n){const t=Nt(n);if(!pe(t))return fe(1);const o=t.getBoundingClientRect(),{width:l,height:r,$:s}=sn(t);let a=(s?Ue(o.width):o.width)/l,u=(s?Ue(o.height):o.height)/r;return(!a||!Number.isFinite(a))&&(a=1),(!u||!Number.isFinite(u))&&(u=1),{x:a,y:u}}const wa=fe(0);function cn(n){const t=se(n);return!Vt()||!t.visualViewport?wa:{x:t.visualViewport.offsetLeft,y:t.visualViewport.offsetTop}}function ya(n,t,o){return t===void 0&&(t=!1),!o||t&&o!==se(n)?!1:t}function Ve(n,t,o,l){t===void 0&&(t=!1),o===void 0&&(o=!1);const r=n.getBoundingClientRect(),s=Nt(n);let a=fe(1);t&&(l?ue(l)&&(a=xe(l)):a=xe(n));const u=ya(s,o,l)?cn(s):fe(0);let c=(r.left+u.x)/a.x,m=(r.top+u.y)/a.y,d=r.width/a.x,i=r.height/a.y;if(s){const v=se(s),h=l&&ue(l)?se(l):l;let V=v,_=pt(V);for(;_&&l&&h!==V;){const p=xe(_),f=_.getBoundingClientRect(),w=me(_),k=f.left+(_.clientLeft+parseFloat(w.paddingLeft))*p.x,y=f.top+(_.clientTop+parseFloat(w.paddingTop))*p.y;c*=p.x,m*=p.y,d*=p.x,i*=p.y,c+=k,m+=y,V=se(_),_=pt(V)}}return je({width:d,height:i,x:c,y:m})}function it(n,t){const o=st(n).scrollLeft;return t?t.left+o:Ve(ve(n)).left+o}function dn(n,t){const o=n.getBoundingClientRect(),l=o.left+t.scrollLeft-it(n,o),r=o.top+t.scrollTop;return{x:l,y:r}}function ka(n){let{elements:t,rect:o,offsetParent:l,strategy:r}=n;const s=r==="fixed",a=ve(l),u=t?at(t.floating):!1;if(l===a||u&&s)return o;let c={scrollLeft:0,scrollTop:0},m=fe(1);const d=fe(0),i=pe(l);if((i||!i&&!s)&&((Se(l)!=="body"||Ie(a))&&(c=st(l)),pe(l))){const h=Ve(l);m=xe(l),d.x=h.x+l.clientLeft,d.y=h.y+l.clientTop}const v=a&&!i&&!s?dn(a,c):fe(0);return{width:o.width*m.x,height:o.height*m.y,x:o.x*m.x-c.scrollLeft*m.x+d.x+v.x,y:o.y*m.y-c.scrollTop*m.y+d.y+v.y}}function Ea(n){return Array.from(n.getClientRects())}function ba(n){const t=ve(n),o=st(n),l=n.ownerDocument.body,r=Ee(t.scrollWidth,t.clientWidth,l.scrollWidth,l.clientWidth),s=Ee(t.scrollHeight,t.clientHeight,l.scrollHeight,l.clientHeight);let a=-o.scrollLeft+it(n);const u=-o.scrollTop;return me(l).direction==="rtl"&&(a+=Ee(t.clientWidth,l.clientWidth)-r),{width:r,height:s,x:a,y:u}}const Rt=25;function Va(n,t){const o=se(n),l=ve(n),r=o.visualViewport;let s=l.clientWidth,a=l.clientHeight,u=0,c=0;if(r){s=r.width,a=r.height;const d=Vt();(!d||d&&t==="fixed")&&(u=r.offsetLeft,c=r.offsetTop)}const m=it(l);if(m<=0){const d=l.ownerDocument,i=d.body,v=getComputedStyle(i),h=d.compatMode==="CSS1Compat"&&parseFloat(v.marginLeft)+parseFloat(v.marginRight)||0,V=Math.abs(l.clientWidth-i.clientWidth-h);V<=Rt&&(s-=V)}else m<=Rt&&(s+=m);return{width:s,height:a,x:u,y:c}}const Na=new Set(["absolute","fixed"]);function xa(n,t){const o=Ve(n,!0,t==="fixed"),l=o.top+n.clientTop,r=o.left+n.clientLeft,s=pe(n)?xe(n):fe(1),a=n.clientWidth*s.x,u=n.clientHeight*s.y,c=r*s.x,m=l*s.y;return{width:a,height:u,x:c,y:m}}function Pt(n,t,o){let l;if(t==="viewport")l=Va(n,o);else if(t==="document")l=ba(ve(n));else if(ue(t))l=xa(t,o);else{const r=cn(n);l={x:t.x-r.x,y:t.y-r.y,width:t.width,height:t.height}}return je(l)}function un(n,t){const o=ye(n);return o===t||!ue(o)||Be(o)?!1:me(o).position==="fixed"||un(o,t)}function Ca(n,t){const o=t.get(n);if(o)return o;let l=Te(n,[],!1).filter(u=>ue(u)&&Se(u)!=="body"),r=null;const s=me(n).position==="fixed";let a=s?ye(n):n;for(;ue(a)&&!Be(a);){const u=me(a),c=bt(a);!c&&u.position==="fixed"&&(r=null),(s?!c&&!r:!c&&u.position==="static"&&!!r&&Na.has(r.position)||Ie(a)&&!c&&un(n,a))?l=l.filter(d=>d!==a):r=u,a=ye(a)}return t.set(n,l),l}function Ba(n){let{element:t,boundary:o,rootBoundary:l,strategy:r}=n;const a=[...o==="clippingAncestors"?at(t)?[]:Ca(t,this._c):[].concat(o),l],u=a[0],c=a.reduce((m,d)=>{const i=Pt(t,d,r);return m.top=Ee(i.top,m.top),m.right=He(i.right,m.right),m.bottom=He(i.bottom,m.bottom),m.left=Ee(i.left,m.left),m},Pt(t,u,r));return{width:c.right-c.left,height:c.bottom-c.top,x:c.left,y:c.top}}function Sa(n){const{width:t,height:o}=sn(n);return{width:t,height:o}}function $a(n,t,o){const l=pe(t),r=ve(t),s=o==="fixed",a=Ve(n,!0,s,t);let u={scrollLeft:0,scrollTop:0};const c=fe(0);function m(){c.x=it(r)}if(l||!l&&!s)if((Se(t)!=="body"||Ie(r))&&(u=st(t)),l){const h=Ve(t,!0,s,t);c.x=h.x+t.clientLeft,c.y=h.y+t.clientTop}else r&&m();s&&!l&&r&&m();const d=r&&!l&&!s?dn(r,u):fe(0),i=a.left+u.scrollLeft-c.x-d.x,v=a.top+u.scrollTop-c.y-d.y;return{x:i,y:v,width:a.width,height:a.height}}function ut(n){return me(n).position==="static"}function zt(n,t){if(!pe(n)||me(n).position==="fixed")return null;if(t)return t(n);let o=n.offsetParent;return ve(n)===o&&(o=o.ownerDocument.body),o}function mn(n,t){const o=se(n);if(at(n))return o;if(!pe(n)){let r=ye(n);for(;r&&!Be(r);){if(ue(r)&&!ut(r))return r;r=ye(r)}return o}let l=zt(n,t);for(;l&&ma(l)&&ut(l);)l=zt(l,t);return l&&Be(l)&&ut(l)&&!bt(l)?o:l||ha(n)||o}const Da=async function(n){const t=this.getOffsetParent||mn,o=this.getDimensions,l=await o(n.floating);return{reference:$a(n.reference,await t(n.floating),n.strategy),floating:{x:0,y:0,width:l.width,height:l.height}}};function Fa(n){return me(n).direction==="rtl"}const Ma={convertOffsetParentRelativeRectToViewportRelativeRect:ka,getDocumentElement:ve,getClippingRect:Ba,getOffsetParent:mn,getElementRects:Da,getClientRects:Ea,getDimensions:Sa,getScale:xe,isElement:ue,isRTL:Fa};function fn(n,t){return n.x===t.x&&n.y===t.y&&n.width===t.width&&n.height===t.height}function Ta(n,t){let o=null,l;const r=ve(n);function s(){var u;clearTimeout(l),(u=o)==null||u.disconnect(),o=null}function a(u,c){u===void 0&&(u=!1),c===void 0&&(c=1),s();const m=n.getBoundingClientRect(),{left:d,top:i,width:v,height:h}=m;if(u||t(),!v||!h)return;const V=Pe(i),_=Pe(r.clientWidth-(d+v)),p=Pe(r.clientHeight-(i+h)),f=Pe(d),k={rootMargin:-V+"px "+-_+"px "+-p+"px "+-f+"px",threshold:Ee(0,He(1,c))||1};let y=!0;function C(F){const B=F[0].intersectionRatio;if(B!==c){if(!y)return a();B?a(!1,B):l=setTimeout(()=>{a(!1,1e-7)},1e3)}B===1&&!fn(m,n.getBoundingClientRect())&&a(),y=!1}try{o=new IntersectionObserver(C,{...k,root:r.ownerDocument})}catch{o=new IntersectionObserver(C,k)}o.observe(n)}return a(!0),s}function pn(n,t,o,l){l===void 0&&(l={});const{ancestorScroll:r=!0,ancestorResize:s=!0,elementResize:a=typeof ResizeObserver=="function",layoutShift:u=typeof IntersectionObserver=="function",animationFrame:c=!1}=l,m=Nt(n),d=r||s?[...m?Te(m):[],...Te(t)]:[];d.forEach(f=>{r&&f.addEventListener("scroll",o,{passive:!0}),s&&f.addEventListener("resize",o)});const i=m&&u?Ta(m,o):null;let v=-1,h=null;a&&(h=new ResizeObserver(f=>{let[w]=f;w&&w.target===m&&h&&(h.unobserve(t),cancelAnimationFrame(v),v=requestAnimationFrame(()=>{var k;(k=h)==null||k.observe(t)})),o()}),m&&!c&&h.observe(m),h.observe(t));let V,_=c?Ve(n):null;c&&p();function p(){const f=Ve(n);_&&!fn(_,f)&&o(),_=f,V=requestAnimationFrame(p)}return o(),()=>{var f;d.forEach(w=>{r&&w.removeEventListener("scroll",o),s&&w.removeEventListener("resize",o)}),i?.(),(f=h)==null||f.disconnect(),h=null,c&&cancelAnimationFrame(V)}}const We=ia,Ge=ca,qe=ra,Ye=(n,t,o)=>{const l=new Map,r={platform:Ma,...o},s={...r.platform,_c:l};return la(n,t,{...r,platform:s})},Aa={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-width":"1.5",viewBox:"0 0 24 24"};function Ia(n,t){return e.openBlock(),e.createElementBlock("svg",Aa,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87q.11.06.22.127c.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a8 8 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a7 7 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a7 7 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a7 7 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124q.108-.066.22-.128c.332-.183.582-.495.644-.869z"},null,-1),e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0"},null,-1)])])}const vn={render:Ia},La=["disabled","title"],Oa=["data-theme"],Ra={class:"vuefinder__search-modal__dropdown-content"},Pa={class:"vuefinder__search-modal__dropdown-section"},za={class:"vuefinder__search-modal__dropdown-title"},Ha={class:"vuefinder__search-modal__dropdown-options"},Ua={key:0,class:"vuefinder__search-modal__dropdown-option-check"},Ka={key:0,class:"vuefinder__search-modal__dropdown-option-check"},ja={key:0,class:"vuefinder__search-modal__dropdown-option-check"},Wa={key:0,class:"vuefinder__search-modal__dropdown-option-check"},Ga=e.defineComponent({name:"SearchOptionsDropdown",__name:"SearchOptionsDropdown",props:{visible:{type:Boolean},disabled:{type:Boolean,default:!1},sizeFilter:{},selectedOption:{}},emits:["update:visible","update:sizeFilter","update:selectedOption","keydown"],setup(n,{expose:t,emit:o}){const l=n,r=o,s=H(),{t:a}=s.i18n,u=e.ref(null),c=e.ref(null);let m=null;const d=_=>{if(r("update:selectedOption",_),_.startsWith("size-")){const p=_.split("-")[1];r("update:sizeFilter",p)}},i=async()=>{l.disabled||(l.visible?(r("update:visible",!1),m&&(m(),m=null)):(r("update:visible",!0),await e.nextTick(),await v()))},v=async()=>{if(!(!u.value||!c.value)&&(await e.nextTick(),!(!u.value||!c.value))){Object.assign(c.value.style,{position:"fixed",zIndex:"10001",opacity:"0",transform:"translateY(-8px)",transition:"opacity 150ms ease-out, transform 150ms ease-out"});try{const{x:_,y:p}=await Ye(u.value,c.value,{placement:"bottom-start",strategy:"fixed",middleware:[We(8),qe({padding:16}),Ge({padding:16})]});Object.assign(c.value.style,{left:`${_}px`,top:`${p}px`}),requestAnimationFrame(()=>{c.value&&Object.assign(c.value.style,{opacity:"1",transform:"translateY(0)"})})}catch(_){console.warn("Floating UI initial positioning error:",_);return}try{m=pn(u.value,c.value,async()=>{if(!(!u.value||!c.value))try{const{x:_,y:p}=await Ye(u.value,c.value,{placement:"bottom-start",strategy:"fixed",middleware:[We(8),qe({padding:16}),Ge({padding:16})]});Object.assign(c.value.style,{left:`${_}px`,top:`${p}px`})}catch(_){console.warn("Floating UI positioning error:",_)}})}catch(_){console.warn("Floating UI autoUpdate setup error:",_),m=null}}},h=_=>{if(!l.visible)return;const p=["size-all","size-small","size-medium","size-large"],f=p.findIndex(w=>w===l.selectedOption);if(_.key==="ArrowDown"){_.preventDefault();const w=(f+1)%p.length;r("update:selectedOption",p[w]||null)}else if(_.key==="ArrowUp"){_.preventDefault();const w=f<=0?p.length-1:f-1;r("update:selectedOption",p[w]||null)}else _.key==="Enter"?(_.preventDefault(),l.selectedOption?.startsWith("size-")&&r("update:sizeFilter",l.selectedOption.split("-")[1])):_.key==="Escape"&&(_.preventDefault(),r("update:visible",!1),m&&(m(),m=null))},V=()=>{m&&(m(),m=null)};return e.watch(()=>l.visible,_=>{!_&&m&&(m(),m=null)}),e.onUnmounted(()=>{V()}),t({cleanup:V}),(_,p)=>(e.openBlock(),e.createElementBlock(e.Fragment,null,[e.createElementVNode("button",{ref_key:"dropdownBtn",ref:u,onClick:e.withModifiers(i,["stop"]),class:e.normalizeClass(["vuefinder__search-modal__dropdown-btn",{"vuefinder__search-modal__dropdown-btn--active":n.visible}]),disabled:n.disabled,title:e.unref(a)("Search Options")},[e.createVNode(e.unref(vn),{class:"vuefinder__search-modal__dropdown-icon"})],10,La),(e.openBlock(),e.createBlock(e.Teleport,{to:"body"},[n.visible?(e.openBlock(),e.createElementBlock("div",{key:0,ref_key:"dropdownContent",ref:c,class:"vuefinder__themer vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible","data-theme":e.unref(s).theme.current,onClick:p[4]||(p[4]=e.withModifiers(()=>{},["stop"])),onKeydown:h,tabindex:"-1"},[e.createElementVNode("div",Ra,[e.createElementVNode("div",Pa,[e.createElementVNode("div",za,e.toDisplayString(e.unref(a)("File Size")),1),e.createElementVNode("div",Ha,[e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__search-modal__dropdown-option",{"vuefinder__search-modal__dropdown-option--selected":n.sizeFilter==="all"}]),onClick:p[0]||(p[0]=e.withModifiers(f=>d("size-all"),["stop"]))},[e.createElementVNode("span",null,e.toDisplayString(e.unref(a)("All Files")),1),n.sizeFilter==="all"?(e.openBlock(),e.createElementBlock("div",Ua,[...p[5]||(p[5]=[e.createElementVNode("svg",{viewBox:"0 0 16 16",fill:"currentColor"},[e.createElementVNode("path",{d:"M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"})],-1)])])):e.createCommentVNode("",!0)],2),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__search-modal__dropdown-option",{"vuefinder__search-modal__dropdown-option--selected":n.sizeFilter==="small"}]),onClick:p[1]||(p[1]=e.withModifiers(f=>d("size-small"),["stop"]))},[e.createElementVNode("span",null,e.toDisplayString(e.unref(a)("Small (< 1MB)")),1),n.sizeFilter==="small"?(e.openBlock(),e.createElementBlock("div",Ka,[...p[6]||(p[6]=[e.createElementVNode("svg",{viewBox:"0 0 16 16",fill:"currentColor"},[e.createElementVNode("path",{d:"M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"})],-1)])])):e.createCommentVNode("",!0)],2),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__search-modal__dropdown-option",{"vuefinder__search-modal__dropdown-option--selected":n.sizeFilter==="medium"}]),onClick:p[2]||(p[2]=e.withModifiers(f=>d("size-medium"),["stop"]))},[e.createElementVNode("span",null,e.toDisplayString(e.unref(a)("Medium (1-10MB)")),1),n.sizeFilter==="medium"?(e.openBlock(),e.createElementBlock("div",ja,[...p[7]||(p[7]=[e.createElementVNode("svg",{viewBox:"0 0 16 16",fill:"currentColor"},[e.createElementVNode("path",{d:"M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"})],-1)])])):e.createCommentVNode("",!0)],2),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__search-modal__dropdown-option",{"vuefinder__search-modal__dropdown-option--selected":n.sizeFilter==="large"}]),onClick:p[3]||(p[3]=e.withModifiers(f=>d("size-large"),["stop"]))},[e.createElementVNode("span",null,e.toDisplayString(e.unref(a)("Large (> 10MB)")),1),n.sizeFilter==="large"?(e.openBlock(),e.createElementBlock("div",Wa,[...p[8]||(p[8]=[e.createElementVNode("svg",{viewBox:"0 0 16 16",fill:"currentColor"},[e.createElementVNode("path",{d:"M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"})],-1)])])):e.createCommentVNode("",!0)],2)])])])],40,Oa)):e.createCommentVNode("",!0)]))],64))}});function qa(n){const[t,o]=Ya(n);if(!o||o==="/")return t+"://";const l=o.replace(/\/+$/,""),r=l.lastIndexOf("/");return r===0?t+"://":t+":/"+l.slice(0,r)}function Ya(n){const t=n.indexOf(":/");return t===-1?[void 0,n]:[n.slice(0,t),n.slice(t+2)||"/"]}function _n(n,t=40){const o=n.match(/^([^:]+:\/\/)(.*)$/);if(!o)return n;const l=o[1],r=o[2]??"",s=r.split("/").filter(Boolean),a=s.pop();if(!a)return l+r;let u=`${l}${s.join("/")}${s.length?"/":""}${a}`;if(u.length<=t)return u;const c=a.split(/\.(?=[^\.]+$)/),m=c[0]??"",d=c[1]??"",i=m.length>10?`${m.slice(0,6)}...${m.slice(-5)}`:m,v=d?`${i}.${d}`:i;return u=`${l}${s.join("/")}${s.length?"/":""}${v}`,u.length>t&&(u=`${l}.../${v}`),u}async function hn(n){try{await navigator.clipboard.writeText(n)}catch{const o=document.createElement("textarea");o.value=n,document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o)}}async function Ae(n){await hn(n)}async function Qa(n){await hn(n)}const Xa={xmlns:"http://www.w3.org/2000/svg",fill:"currentColor",viewBox:"0 0 448 512"};function Ja(n,t){return e.openBlock(),e.createElementBlock("svg",Xa,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M8 256a56 56 0 1 1 112 0 56 56 0 1 1-112 0m160 0a56 56 0 1 1 112 0 56 56 0 1 1-112 0m216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112"},null,-1)])])}const gn={render:Ja},Za=["title"],es={class:"vuefinder__search-modal__result-icon"},ts={class:"vuefinder__search-modal__result-content"},ns={class:"vuefinder__search-modal__result-name"},os={key:0,class:"vuefinder__search-modal__result-size"},ls=["title"],rs=["title"],as=["data-item-dropdown","data-theme"],ss={class:"vuefinder__search-modal__item-dropdown-content"},is=e.defineComponent({name:"SearchResultItem",__name:"SearchResultItem",props:{item:{},index:{},selectedIndex:{},expandedPaths:{},activeDropdown:{},selectedItemDropdownOption:{}},emits:["select","selectWithDropdown","togglePathExpansion","toggleItemDropdown","update:selectedItemDropdownOption","copyPath","openContainingFolder","preview"],setup(n,{emit:t}){const o=n,l=t,r=H(),{t:s}=r.i18n,a=e.ref(null);let u=null;e.watch(()=>o.activeDropdown,f=>{u&&(u(),u=null),f===o.item.path&&a.value&&e.nextTick(()=>{i(o.item.path,a.value)})}),e.onUnmounted(()=>{u&&(u(),u=null)});const c=f=>o.expandedPaths.has(f),m=f=>f.type==="dir"||!f.file_size?"":_t(f.file_size),d=(f,w)=>{w.stopPropagation(),l("toggleItemDropdown",f,w)},i=async(f,w)=>{const k=document.querySelector(`[data-item-dropdown="${f}"]`);if(!(!k||!w)&&(await e.nextTick(),!(!k||!w))){Object.assign(k.style,{position:"fixed",zIndex:"10001",opacity:"0",transform:"translateY(-8px)",transition:"opacity 150ms ease-out, transform 150ms ease-out"});try{const{x:y,y:C}=await Ye(w,k,{placement:"left-start",strategy:"fixed",middleware:[We(8),qe({padding:16}),Ge({padding:16})]});Object.assign(k.style,{left:`${y}px`,top:`${C}px`}),requestAnimationFrame(()=>{k&&Object.assign(k.style,{opacity:"1",transform:"translateY(0)"})})}catch(y){console.warn("Floating UI initial positioning error:",y);return}try{u=pn(w,k,async()=>{if(!(!w||!k))try{const{x:y,y:C}=await Ye(w,k,{placement:"left-start",strategy:"fixed",middleware:[We(8),qe({padding:16}),Ge({padding:16})]});Object.assign(k.style,{left:`${y}px`,top:`${C}px`})}catch(y){console.warn("Floating UI positioning error:",y)}})}catch(y){console.warn("Floating UI autoUpdate setup error:",y),u=null}}},v=f=>{l("update:selectedItemDropdownOption",f)},h=async f=>{await Ae(f.path),l("copyPath",f)},V=f=>{l("openContainingFolder",f)},_=f=>{l("preview",f)},p=f=>{if(!o.activeDropdown)return;const w=["copy-path","open-folder","preview"],k=o.selectedItemDropdownOption,y=w.findIndex(C=>k?.includes(C));if(f.key==="ArrowDown"){f.preventDefault();const C=(y+1)%w.length;l("update:selectedItemDropdownOption",`${w[C]||""}-${o.activeDropdown}`)}else if(f.key==="ArrowUp"){f.preventDefault();const C=y<=0?w.length-1:y-1;l("update:selectedItemDropdownOption",`${w[C]||""}-${o.activeDropdown}`)}else f.key==="Enter"?(f.preventDefault(),k&&(k.includes("copy-path")?h(o.item):k.includes("open-folder")?V(o.item):k.includes("preview")&&_(o.item))):f.key==="Escape"&&(f.preventDefault(),l("update:selectedItemDropdownOption",null))};return(f,w)=>(e.openBlock(),e.createElementBlock("div",{class:e.normalizeClass(["vuefinder__search-modal__result-item",{"vuefinder__search-modal__result-item--selected":n.index===n.selectedIndex}]),title:n.item.basename,onClick:w[9]||(w[9]=k=>l("select",n.index))},[e.createElementVNode("div",es,[n.item.type==="dir"?(e.openBlock(),e.createBlock(e.unref(he),{key:0})):(e.openBlock(),e.createBlock(e.unref(ze),{key:1}))]),e.createElementVNode("div",ts,[e.createElementVNode("div",ns,[e.createTextVNode(e.toDisplayString(n.item.basename)+" ",1),m(n.item)?(e.openBlock(),e.createElementBlock("span",os,e.toDisplayString(m(n.item)),1)):e.createCommentVNode("",!0)]),e.createElementVNode("div",{class:"vuefinder__search-modal__result-path",onClick:w[0]||(w[0]=e.withModifiers(k=>{l("select",n.index),l("togglePathExpansion",n.item.path)},["stop"])),title:n.item.path},e.toDisplayString(c(n.item.path)?n.item.path:e.unref(_n)(n.item.path)),9,ls)]),e.createElementVNode("button",{ref_key:"buttonElementRef",ref:a,class:"vuefinder__search-modal__result-actions",onClick:w[1]||(w[1]=k=>{l("selectWithDropdown",n.index),d(n.item.path,k)}),title:e.unref(s)("More actions")},[e.createVNode(e.unref(gn),{class:"vuefinder__search-modal__result-actions-icon"})],8,rs),(e.openBlock(),e.createBlock(e.Teleport,{to:"body"},[n.activeDropdown===n.item.path?(e.openBlock(),e.createElementBlock("div",{key:0,"data-item-dropdown":n.item.path,class:"vuefinder__themer vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible","data-theme":e.unref(r).theme.current,onClick:w[8]||(w[8]=e.withModifiers(()=>{},["stop"])),onKeydown:p,tabindex:"-1"},[e.createElementVNode("div",ss,[e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__search-modal__item-dropdown-option",{"vuefinder__search-modal__item-dropdown-option--selected":n.selectedItemDropdownOption===`copy-path-${n.item.path}`}]),onClick:w[2]||(w[2]=k=>{v(`copy-path-${n.item.path}`),h(n.item)}),onFocus:w[3]||(w[3]=k=>v(`copy-path-${n.item.path}`))},[w[10]||(w[10]=e.createElementVNode("svg",{class:"vuefinder__search-modal__item-dropdown-icon",viewBox:"0 0 16 16",fill:"currentColor"},[e.createElementVNode("path",{d:"M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6z"}),e.createElementVNode("path",{d:"M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"})],-1)),e.createElementVNode("span",null,e.toDisplayString(e.unref(s)("Copy Path")),1)],34),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__search-modal__item-dropdown-option",{"vuefinder__search-modal__item-dropdown-option--selected":n.selectedItemDropdownOption===`open-folder-${n.item.path}`}]),onClick:w[4]||(w[4]=k=>{v(`open-folder-${n.item.path}`),V(n.item)}),onFocus:w[5]||(w[5]=k=>v(`open-folder-${n.item.path}`))},[e.createVNode(e.unref(he),{class:"vuefinder__search-modal__item-dropdown-icon"}),e.createElementVNode("span",null,e.toDisplayString(e.unref(s)("Open Containing Folder")),1)],34),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__search-modal__item-dropdown-option",{"vuefinder__search-modal__item-dropdown-option--selected":n.selectedItemDropdownOption===`preview-${n.item.path}`}]),onClick:w[6]||(w[6]=k=>{v(`preview-${n.item.path}`),_(n.item)}),onFocus:w[7]||(w[7]=k=>v(`preview-${n.item.path}`))},[e.createVNode(e.unref(ze),{class:"vuefinder__search-modal__item-dropdown-icon"}),e.createElementVNode("span",null,e.toDisplayString(e.unref(s)("Preview")),1)],34)])],40,as)):e.createCommentVNode("",!0)]))],10,Za))}}),cs={key:0,class:"vuefinder__search-modal__searching"},ds={class:"vuefinder__search-modal__loading-icon"},us={key:1,class:"vuefinder__search-modal__no-results"},ms={key:2,class:"vuefinder__search-modal__results-list"},fs={class:"vuefinder__search-modal__results-header"},ke=60,Ht=5,ps=e.defineComponent({name:"SearchResultsList",__name:"SearchResultsList",props:{searchResults:{},isSearching:{type:Boolean},selectedIndex:{},expandedPaths:{},activeDropdown:{},selectedItemDropdownOption:{},resultsEnter:{type:Boolean}},emits:["selectResultItem","selectResultItemWithDropdown","togglePathExpansion","toggleItemDropdown","update:selectedItemDropdownOption","copyPath","openContainingFolder","preview"],setup(n,{expose:t,emit:o}){const l=n,r=o,s=H(),{t:a}=s.i18n,u=e.useTemplateRef("scrollableContainer"),c=e.computed(()=>l.searchResults.length>0),m=e.computed(()=>l.searchResults.length),d=e.ref(0),i=e.ref(600),v=e.computed(()=>l.searchResults.length*ke),h=e.computed(()=>{const k=Math.max(0,Math.floor(d.value/ke)-Ht),y=Math.min(l.searchResults.length,Math.ceil((d.value+i.value)/ke)+Ht);return{start:k,end:y}}),V=e.computed(()=>{const{start:k,end:y}=h.value;return l.searchResults.slice(k,y).map((C,F)=>({item:C,index:k+F,top:(k+F)*ke}))}),_=k=>{const y=k.target;d.value=y.scrollTop},p=()=>{u.value&&(i.value=u.value.clientHeight)},f=()=>{if(l.selectedIndex>=0&&u.value){const k=l.selectedIndex*ke,y=k+ke,C=u.value.scrollTop,F=u.value.clientHeight,B=C+F;let L=C;k<C?L=k:y>B&&(L=y-F),L!==C&&u.value.scrollTo({top:L,behavior:"smooth"})}},w=()=>{u.value&&(u.value.scrollTop=0,d.value=0)};return e.onMounted(()=>{p(),window.addEventListener("resize",p)}),e.onUnmounted(()=>{window.removeEventListener("resize",p)}),e.watch(()=>u.value,()=>{p()}),t({scrollSelectedIntoView:f,resetScroll:w,getContainerHeight:()=>i.value,scrollTop:()=>d.value}),(k,y)=>(e.openBlock(),e.createElementBlock("div",{class:e.normalizeClass(["vuefinder__search-modal__results",{"vuefinder__search-modal__results--enter":n.resultsEnter}])},[n.isSearching?(e.openBlock(),e.createElementBlock("div",cs,[e.createElementVNode("div",ds,[e.createVNode(e.unref(nt),{class:"vuefinder__search-modal__loading-icon"})]),e.createElementVNode("span",null,e.toDisplayString(e.unref(a)("Searching...")),1)])):c.value?(e.openBlock(),e.createElementBlock("div",ms,[e.createElementVNode("div",fs,[e.createElementVNode("span",null,e.toDisplayString(e.unref(a)("Found %s results",m.value)),1)]),e.createElementVNode("div",{ref_key:"scrollableContainer",ref:u,class:"vuefinder__search-modal__results-scrollable",onScroll:_},[e.createElementVNode("div",{class:"vuefinder__search-modal__results-items",style:e.normalizeStyle({height:`${v.value}px`,position:"relative"})},[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(V.value,C=>(e.openBlock(),e.createElementBlock("div",{key:C.item.path,style:e.normalizeStyle({position:"absolute",top:`${C.top}px`,left:"0",width:"100%",height:`${ke}px`})},[e.createVNode(is,{item:C.item,index:C.index,"selected-index":n.selectedIndex,"expanded-paths":n.expandedPaths,"active-dropdown":n.activeDropdown,"selected-item-dropdown-option":n.selectedItemDropdownOption,onSelect:y[0]||(y[0]=F=>r("selectResultItem",F)),onSelectWithDropdown:y[1]||(y[1]=F=>r("selectResultItemWithDropdown",F)),onTogglePathExpansion:y[2]||(y[2]=F=>r("togglePathExpansion",F)),onToggleItemDropdown:y[3]||(y[3]=(F,B)=>r("toggleItemDropdown",F,B)),"onUpdate:selectedItemDropdownOption":y[4]||(y[4]=F=>r("update:selectedItemDropdownOption",F)),onCopyPath:y[5]||(y[5]=F=>r("copyPath",F)),onOpenContainingFolder:y[6]||(y[6]=F=>r("openContainingFolder",F)),onPreview:y[7]||(y[7]=F=>r("preview",F))},null,8,["item","index","selected-index","expanded-paths","active-dropdown","selected-item-dropdown-option"])],4))),128))],4)],544)])):(e.openBlock(),e.createElementBlock("div",us,[e.createElementVNode("span",null,e.toDisplayString(e.unref(a)("No results found")),1)]))],2))}}),vs={class:"vuefinder__search-modal"},_s={class:"vuefinder__search-modal__content"},hs={class:"vuefinder__search-modal__search-bar"},gs={class:"vuefinder__search-modal__search-location"},ws=["title"],ys=["disabled"],ks={key:0,class:"vuefinder__search-modal__folder-selector"},Es={class:"vuefinder__search-modal__folder-selector-content"},bs={key:1,class:"vuefinder__search-modal__instructions"},Vs={class:"vuefinder__search-modal__instructions-tips"},Ns={class:"vuefinder__search-modal__tip"},xs={class:"vuefinder__search-modal__tip"},xt=e.defineComponent({name:"ModalSearch",__name:"ModalSearch",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=e.ref(null),s=e.ref(null),a=e.ref(null),u=en("",300),c=e.ref([]),m=e.ref(!1),d=e.ref(-1),i=e.ref(!1),v=e.ref(!1),h=e.ref(null),V=e.ref("all"),_=e.ref(!1),p=e.ref(`size-${V.value}`),f=e.ref(null),w=e.ref(new Set),k=e.ref(null),y=I.useStore(l.path),C=g=>{w.value.has(g)?w.value.delete(g):w.value.add(g)},F=(g,b)=>{b&&typeof b.stopPropagation=="function"&&b.stopPropagation(),k.value===g?k.value=null:k.value=g},B=()=>{k.value=null},L=g=>{try{const b=g.dir||`${g.storage}://`;t.adapter.open(b),t.modal.close(),B()}catch{t.emitter.emit("vf-toast-push",{label:o("Failed to open containing folder")})}},S=g=>{t.modal.open(Ze,{storage:y?.value?.storage??"local",item:g}),B()},O=g=>{d.value=g,B()},q=g=>{d.value=g},X=async g=>{await Ae(g.path),B()};e.watch(u,async g=>{g.trim()?(await P(g.trim()),d.value=0):(c.value=[],m.value=!1,d.value=-1)}),e.watch(V,async g=>{p.value=`size-${g}`,u.value.trim()&&!v.value&&(await P(u.value.trim()),d.value=0)}),e.watch(_,async()=>{u.value.trim()&&!v.value&&(await P(u.value.trim()),d.value=0)});const P=async g=>{if(g){m.value=!0;try{const b=h.value?.path||y?.value?.path,N=await t.adapter.search({path:b,filter:g,deep:_.value,size:V.value});c.value=N||[],m.value=!1}catch(b){console.error("Search error:",b),c.value=[],m.value=!1}}};e.onMounted(()=>{document.addEventListener("click",E),p.value=`size-${V.value}`,e.nextTick(()=>{r.value&&r.value.focus()})});const W=()=>{v.value?(v.value=!1,u.value.trim()&&(P(u.value.trim()),d.value=0)):(i.value=!1,v.value=!0)},Q=g=>{g&&(h.value=g)},z=g=>{g&&(Q(g),v.value=!1,u.value.trim()&&(P(u.value.trim()),d.value=0))};e.onUnmounted(()=>{document.removeEventListener("click",E),s.value&&s.value.cleanup()});const E=g=>{const b=g.target;if(i.value&&(b.closest(".vuefinder__search-modal__dropdown")||(i.value=!1,e.nextTick(()=>{r.value&&r.value.focus()}))),k.value){const N=b.closest(".vuefinder__search-modal__item-dropdown"),M=b.closest(".vuefinder__search-modal__result-item");!N&&!M&&B()}};return(g,b)=>(e.openBlock(),e.createBlock(ie,{class:"vuefinder__search-modal-layout"},{default:e.withCtx(()=>[e.createElementVNode("div",vs,[e.createVNode(de,{icon:e.unref(Et),title:e.unref(o)("Search files")},null,8,["icon","title"]),e.createElementVNode("div",_s,[e.createElementVNode("div",hs,[e.createVNode(Wr,{ref_key:"searchInputRef",ref:r,modelValue:e.unref(u),"onUpdate:modelValue":b[0]||(b[0]=N=>e.isRef(u)?u.value=N:null),"is-searching":m.value,disabled:v.value},null,8,["modelValue","is-searching","disabled"]),e.createVNode(Ga,{ref_key:"searchOptionsDropdownRef",ref:s,visible:i.value,"onUpdate:visible":b[1]||(b[1]=N=>i.value=N),"size-filter":V.value,"onUpdate:sizeFilter":b[2]||(b[2]=N=>V.value=N),"selected-option":p.value,"onUpdate:selectedOption":b[3]||(b[3]=N=>p.value=N),disabled:v.value},null,8,["visible","size-filter","selected-option","disabled"])]),e.createElementVNode("div",{class:"vuefinder__search-modal__options",onClick:b[7]||(b[7]=e.withModifiers(()=>{},["stop"]))},[e.createElementVNode("div",gs,[e.createElementVNode("button",{onClick:e.withModifiers(W,["stop"]),class:e.normalizeClass(["vuefinder__search-modal__location-btn",{"vuefinder__search-modal__location-btn--open":v.value}])},[e.createVNode(e.unref(he),{class:"vuefinder__search-modal__location-icon"}),e.createElementVNode("span",{class:"vuefinder__search-modal__location-text",title:h.value?.path||e.unref(y).path},e.toDisplayString(e.unref(_n)(h.value?.path||e.unref(y).path)),9,ws),b[10]||(b[10]=e.createElementVNode("svg",{class:"vuefinder__search-modal__location-arrow",viewBox:"0 0 16 16",fill:"currentColor"},[e.createElementVNode("path",{d:"M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"})],-1))],2)]),e.createElementVNode("label",{class:"vuefinder__search-modal__deep-search",onClick:b[6]||(b[6]=e.withModifiers(()=>{},["stop"]))},[e.withDirectives(e.createElementVNode("input",{"onUpdate:modelValue":b[4]||(b[4]=N=>_.value=N),type:"checkbox",disabled:v.value,class:"vuefinder__search-modal__checkbox",onClick:b[5]||(b[5]=e.withModifiers(()=>{},["stop"]))},null,8,ys),[[e.vModelCheckbox,_.value]]),e.createElementVNode("span",null,e.toDisplayString(e.unref(o)("Include subfolders")),1)])]),v.value?(e.openBlock(),e.createElementBlock("div",ks,[e.createElementVNode("div",Es,[e.createVNode(yt,{modelValue:h.value,"onUpdate:modelValue":[b[8]||(b[8]=N=>h.value=N),Q],"show-pinned-folders":!0,"current-path":e.unref(y),onSelectAndClose:z},null,8,["modelValue","current-path"])])])):e.createCommentVNode("",!0),!e.unref(u).trim()&&!v.value?(e.openBlock(),e.createElementBlock("div",bs,[e.createElementVNode("div",Vs,[e.createElementVNode("div",Ns,[b[11]||(b[11]=e.createElementVNode("span",{class:"vuefinder__search-modal__tip-key"},"↑↓",-1)),e.createElementVNode("span",null,e.toDisplayString(e.unref(o)("Navigate results")),1)]),e.createElementVNode("div",xs,[b[12]||(b[12]=e.createElementVNode("span",{class:"vuefinder__search-modal__tip-key"},"Esc",-1)),e.createElementVNode("span",null,e.toDisplayString(e.unref(o)("Close search")),1)])])])):e.createCommentVNode("",!0),e.unref(u).trim()&&!v.value?(e.openBlock(),e.createBlock(ps,{key:2,ref_key:"searchResultsListRef",ref:a,"search-results":c.value,"is-searching":m.value,"selected-index":d.value,"expanded-paths":w.value,"active-dropdown":k.value,"selected-item-dropdown-option":f.value,"results-enter":!0,onSelectResultItem:O,onSelectResultItemWithDropdown:q,onTogglePathExpansion:C,onToggleItemDropdown:F,"onUpdate:selectedItemDropdownOption":b[9]||(b[9]=N=>f.value=N),onCopyPath:X,onOpenContainingFolder:L,onPreview:S},null,8,["search-results","is-searching","selected-index","expanded-paths","active-dropdown","selected-item-dropdown-option"])):e.createCommentVNode("",!0)])])]),_:1}))}}),ae={ESCAPE:"Escape",F2:"F2",F5:"F5",DELETE:"Delete",ENTER:"Enter",BACKSLASH:"Backslash",KEY_A:"KeyA",KEY_E:"KeyE",KEY_F:"KeyF",SPACE:"Space",KEY_C:"KeyC",KEY_X:"KeyX",KEY_V:"KeyV"};function Cs(n){const t=n.fs,o=n.config,l=I.useStore(t.selectedItems),r=s=>{if(s.code===ae.ESCAPE&&(n.modal.close(),n.root.focus()),!n.modal.visible){if(s.code===ae.F2&&n.features.includes(K.RENAME)&&l.value.length===1&&n.modal.open(Je,{items:l.value}),s.code===ae.F5&&n.adapter.open(t.path.get().path),s.code===ae.DELETE&&l.value.length===0&&n.modal.open(Xe,{items:l.value}),s.ctrlKey&&s.code===ae.BACKSLASH&&n.modal.open(Qt),s.ctrlKey&&s.code===ae.KEY_F&&n.features.includes(K.SEARCH)&&(n.modal.open(xt),s.preventDefault()),s.ctrlKey&&s.code===ae.KEY_E&&(o.toggle("showTreeView"),s.preventDefault()),s.ctrlKey&&s.code===ae.ENTER&&(o.toggle("fullScreen"),n.root.focus()),s.ctrlKey&&s.code===ae.KEY_A&&(t.selectAll(n.selectionMode||"multiple",n),s.preventDefault()),s.code===ae.SPACE&&l.value.length===1&&l.value[0]?.type!=="dir"&&n.modal.open(Ze,{storage:t.path.get().storage,item:l.value[0]}),s.metaKey&&s.code===ae.KEY_C){if(l.value.length===0){n.emitter.emit("vf-toast-push",{type:"error",label:n.i18n.t("No items selected")});return}t.setClipboard("copy",new Set(l.value.map(a=>a.path))),n.emitter.emit("vf-toast-push",{label:l.value.length===1?n.i18n.t("Item copied to clipboard"):n.i18n.t("%s items copied to clipboard",l.value.length)}),s.preventDefault()}if(s.metaKey&&s.code===ae.KEY_X){if(l.value.length===0){n.emitter.emit("vf-toast-push",{type:"error",label:n.i18n.t("No items selected")});return}t.setClipboard("cut",new Set(l.value.map(a=>a.path))),n.emitter.emit("vf-toast-push",{label:l.value.length===1?n.i18n.t("Item cut to clipboard"):n.i18n.t("%s items cut to clipboard",l.value.length)}),s.preventDefault()}if(s.metaKey&&s.code===ae.KEY_V){if(t.getClipboard().items.size===0){n.emitter.emit("vf-toast-push",{type:"error",label:n.i18n.t("No items in clipboard")});return}if(t.getClipboard().path===t.path.get().path){n.emitter.emit("vf-toast-push",{type:"error",label:n.i18n.t("Cannot paste items to the same directory")});return}if(t.getClipboard().type==="cut"){n.modal.open(Ce,{items:{from:Array.from(t.getClipboard().items),to:t.path.get()}}),t.clearClipboard();return}if(t.getClipboard().type==="copy"){n.modal.open(kt,{items:{from:Array.from(t.getClipboard().items),to:t.path.get()}});return}s.preventDefault()}}};e.onMounted(()=>{n.root.addEventListener("keydown",r)}),e.onBeforeUnmount(()=>{n.root.removeEventListener("keydown",r)})}const Ct=async(n,t)=>{if(t){if(t.isFile){const o=await new Promise(l=>{t.file(l)});n(t,o)}if(t.isDirectory){const o=t.createReader(),l=await new Promise(r=>{o.readEntries(r)});for(const r of l)await Ct(n,r)}}};function Bs(){const n=e.ref(!1),t=e.ref([]);return{isDraggingExternal:n,externalFiles:t,handleDragEnter:u=>{u.preventDefault(),u.stopPropagation();const c=u.dataTransfer?.items;c&&Array.from(c).some(d=>d.kind==="file")&&(n.value=!0,u.isExternalDrag=!0)},handleDragOver:u=>{n.value&&u.dataTransfer&&(u.dataTransfer.dropEffect="copy",u.preventDefault(),u.stopPropagation())},handleDragLeave:u=>{u.preventDefault();const c=u.currentTarget.getBoundingClientRect(),m=u.clientX,d=u.clientY;(m<c.left||m>c.right||d<c.top||d>c.bottom)&&(n.value=!1)},handleDrop:async u=>{u.preventDefault(),u.stopPropagation(),n.value=!1;const c=u.dataTransfer?.items;if(c){const m=Array.from(c).filter(d=>d.kind==="file");if(m.length>0){t.value=[];for(const d of m){const i=d.webkitGetAsEntry?.();if(i)await Ct((v,h)=>{t.value.push({name:h.name,size:h.size,type:h.type,lastModified:new Date(h.lastModified),file:h})},i);else{const v=d.getAsFile();v&&t.value.push({name:v.name,size:v.size,type:v.type,lastModified:new Date(v.lastModified),file:v})}}return t.value}}return[]},clearExternalFiles:()=>{t.value=[]}}}const Ss={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",class:"h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon",viewBox:"0 0 24 24"};function $s(n,t){return e.openBlock(),e.createElementBlock("svg",Ss,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44z"},null,-1)])])}const wn={render:$s},Ds={class:"vuefinder__new-folder-modal__content"},Fs={class:"vuefinder__new-folder-modal__form"},Ms={class:"vuefinder__new-folder-modal__description"},Ts=["placeholder"],Bt=e.defineComponent({__name:"ModalNewFolder",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=I.useStore(l.path),s=e.ref(""),a=e.ref(""),u=()=>{s.value!==""&&t.adapter.createFolder({path:r.value.path,name:s.value}).then(c=>{t.emitter.emit("vf-toast-push",{label:o("%s is created.",s.value)}),t.fs.setFiles(c.files),t.modal.close()}).catch(c=>{t.emitter.emit("vf-toast-push",{label:o(c.message),type:"error"})})};return(c,m)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:u,class:"vf-btn vf-btn-primary"},e.toDisplayString(e.unref(o)("Create")),1),e.createElementVNode("button",{type:"button",onClick:m[2]||(m[2]=d=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(o)("Cancel")),1)]),default:e.withCtx(()=>[e.createElementVNode("div",null,[e.createVNode(de,{icon:e.unref(wn),title:e.unref(o)("New Folder")},null,8,["icon","title"]),e.createElementVNode("div",Ds,[e.createElementVNode("div",Fs,[e.createElementVNode("p",Ms,e.toDisplayString(e.unref(o)("Create a new folder")),1),e.withDirectives(e.createElementVNode("input",{"onUpdate:modelValue":m[0]||(m[0]=d=>s.value=d),onKeyup:e.withKeys(u,["enter"]),class:"vuefinder__new-folder-modal__input",placeholder:e.unref(o)("Folder Name"),type:"text",autofocus:""},null,40,Ts),[[e.vModelText,s.value]]),a.value.length?(e.openBlock(),e.createBlock(e.unref(a),{key:0,onHidden:m[1]||(m[1]=d=>a.value=""),error:""},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(a.value),1)]),_:1})):e.createCommentVNode("",!0)])])])]),_:1}))}}),As={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",class:"h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon",viewBox:"0 0 24 24"};function Is(n,t){return e.openBlock(),e.createElementBlock("svg",As,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9"},null,-1)])])}const yn={render:Is},Ls={class:"vuefinder__new-file-modal__content"},Os={class:"vuefinder__new-file-modal__form"},Rs={class:"vuefinder__new-file-modal__description"},Ps=["placeholder"],kn=e.defineComponent({__name:"ModalNewFile",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=I.useStore(l.path),s=e.ref(""),a=e.ref(""),u=()=>{s.value!==""&&t.adapter.createFile({path:r.value.path,name:s.value}).then(c=>{t.emitter.emit("vf-toast-push",{label:o("%s is created.",s.value)}),t.fs.setFiles(c.files),t.modal.close()}).catch(c=>{t.emitter.emit("vf-toast-push",{label:o(c.message),type:"error"})})};return(c,m)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:u,class:"vf-btn vf-btn-primary"},e.toDisplayString(e.unref(o)("Create")),1),e.createElementVNode("button",{type:"button",onClick:m[2]||(m[2]=d=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(o)("Cancel")),1)]),default:e.withCtx(()=>[e.createElementVNode("div",null,[e.createVNode(de,{icon:e.unref(yn),title:e.unref(o)("New File")},null,8,["icon","title"]),e.createElementVNode("div",Ls,[e.createElementVNode("div",Os,[e.createElementVNode("p",Rs,e.toDisplayString(e.unref(o)("Create a new file")),1),e.withDirectives(e.createElementVNode("input",{"onUpdate:modelValue":m[0]||(m[0]=d=>s.value=d),onKeyup:e.withKeys(u,["enter"]),class:"vuefinder__new-file-modal__input",placeholder:e.unref(o)("File Name"),type:"text"},null,40,Ps),[[e.vModelText,s.value]]),a.value.length?(e.openBlock(),e.createBlock(e.unref(a),{key:0,onHidden:m[1]||(m[1]=d=>a.value=""),error:""},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(a.value),1)]),_:1})):e.createCommentVNode("",!0)])])])]),_:1}))}}),zs=["title"],Hs=e.defineComponent({__name:"Message",props:{error:{type:Boolean}},emits:["hidden"],setup(n,{emit:t}){const o=t,l=H(),{t:r}=l.i18n,s=e.ref(!1),a=e.ref(null),u=e.ref(a.value?.innerHTML);e.watch(u,()=>s.value=!1);const c=()=>{o("hidden"),s.value=!0};return(m,d)=>(e.openBlock(),e.createElementBlock("div",null,[s.value?e.createCommentVNode("",!0):(e.openBlock(),e.createElementBlock("div",{key:0,ref_key:"strMessage",ref:a,class:e.normalizeClass(["vuefinder__message",n.error?"vuefinder__message--error":"vuefinder__message--success"])},[e.renderSlot(m.$slots,"default"),e.createElementVNode("div",{class:"vuefinder__message__close",onClick:c,title:e.unref(r)("Close")},[...d[0]||(d[0]=[e.createElementVNode("svg",{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24","stroke-width":"1.5",stroke:"currentColor",class:"vuefinder__message__icon"},[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M6 18L18 6M6 6l12 12"})],-1)])],8,zs)],2))]))}}),oe={PENDING:0,CANCELED:1,UPLOADING:2,ERROR:3,DONE:10};function Us(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=I.useStore(l.path),s=t.config,a=e.ref({QUEUE_ENTRY_STATUS:oe}),u=e.ref(null),c=e.ref(null),m=e.ref(null),d=e.ref(null),i=e.ref(null),v=e.ref([]),h=e.ref(""),V=e.ref(!1),_=e.ref(!1),p=e.ref(null);let f;const w=E=>{E.preventDefault(),E.stopPropagation(),_.value=!0},k=E=>{E.preventDefault(),E.stopPropagation(),_.value=!0},y=E=>{E.preventDefault(),E.stopPropagation(),(!E.relatedTarget||E.relatedTarget===document.body)&&(_.value=!1)},C=E=>{E.preventDefault(),E.stopPropagation(),_.value=!1;const g=/^[/\\](.+)/,b=E.dataTransfer;b&&(b.items&&b.items.length?Array.from(b.items).forEach(N=>{if(N.kind==="file"){const M=N.webkitGetAsEntry?.();if(M)Ct((R,J)=>{const Y=g.exec(R?.fullPath||"");B(J,Y?Y[1]:J.name)},M);else{const R=N.getAsFile?.();R&&B(R)}}}):b.files&&b.files.length&&Array.from(b.files).forEach(N=>B(N)))},F=E=>v.value.findIndex(g=>g.id===E),B=(E,g)=>f.addFile({name:g||E.name,type:E.type,data:E,source:"Local"}),L=E=>E.status===oe.DONE?"text-green-600":E.status===oe.ERROR||E.status===oe.CANCELED?"text-red-600":"",S=E=>E.status===oe.DONE?"✓":E.status===oe.ERROR||E.status===oe.CANCELED?"!":"...",O=()=>d.value?.click(),q=()=>t.modal.close(),X=E=>{if(V.value||!v.value.filter(g=>g.status!==oe.DONE).length){V.value||(h.value=o("Please select file to upload first."));return}h.value="",p.value=E||r.value,f.upload()},P=()=>{f.cancelAll(),v.value.forEach(E=>{E.status!==oe.DONE&&(E.status=oe.CANCELED,E.statusName=o("Canceled"))}),V.value=!1},W=E=>{V.value||(f.removeFile(E.id),v.value.splice(F(E.id),1))},Q=E=>{if(!V.value)if(f.cancelAll(),E){const g=v.value.filter(b=>b.status!==oe.DONE);v.value=[],g.forEach(b=>B(b.originalFile,b.name))}else v.value=[]},z=E=>{E.forEach(g=>{B(g)})};return e.onMounted(()=>{f=new An({debug:t.debug,restrictions:{maxFileSize:Hn(s.maxFileSize??"10mb")},locale:t.i18n.t("uppy"),onBeforeFileAdded:(N,M)=>{if(M[N.id]!=null){const J=F(N.id);v.value[J]?.status===oe.PENDING&&(h.value=f.i18n("noDuplicates",{fileName:N.name})),v.value=v.value.filter(Y=>Y.id!==N.id)}return v.value.push({id:N.id,name:N.name,size:t.filesize(N.size),status:oe.PENDING,statusName:o("Pending upload"),percent:null,originalFile:N.data}),!0}});const E={getTargetPath:()=>(p.value||r.value).path};if(n)n(f,E);else if(t.adapter.getAdapter().configureUploader)t.adapter.getAdapter().configureUploader(f,E);else throw new Error("No uploader configured");f.on("restriction-failed",(N,M)=>{const R=v.value[F(N.id)];R&&W(R),h.value=M.message}),f.on("upload-progress",(N,M)=>{const R=M.bytesTotal??1,J=Math.floor(M.bytesUploaded/R*100),Y=F(N.id);Y!==-1&&v.value[Y]&&(v.value[Y].percent=`${J}%`)}),f.on("upload-success",N=>{const M=v.value[F(N.id)];M&&(M.status=oe.DONE,M.statusName=o("Done"))}),f.on("upload-error",(N,M)=>{const R=v.value[F(N.id)];R&&(R.percent=null,R.status=oe.ERROR,R.statusName=M?.isNetworkError?o("Network Error, Unable establish connection to the server or interrupted."):M?.message||o("Unknown Error"))}),f.on("error",N=>{h.value=N.message,V.value=!1,t.adapter.open(r.value.path)}),f.on("complete",()=>{V.value=!1;const N=p.value||r.value;t.adapter.invalidateListQuery(N.path),t.adapter.open(N.path);const M=v.value.filter(R=>R.status===oe.DONE).map(R=>R.name);t.emitter.emit("vf-upload-complete",M)}),d.value?.addEventListener("click",()=>c.value?.click()),i.value?.addEventListener("click",()=>m.value?.click());const g={capture:!0};document.addEventListener("dragover",w,g),document.addEventListener("dragenter",k,g),document.addEventListener("dragleave",y,g),document.addEventListener("drop",C,g);const b=N=>{const M=N.target,R=M.files;if(R){for(const J of R)B(J);M.value=""}};c.value?.addEventListener("change",b),m.value?.addEventListener("change",b)}),e.onUnmounted(()=>{const E={capture:!0};document.removeEventListener("dragover",w,E),document.removeEventListener("dragenter",k,E),document.removeEventListener("dragleave",y,E),document.removeEventListener("drop",C,E)}),{container:u,internalFileInput:c,internalFolderInput:m,pickFiles:d,pickFolders:i,queue:v,message:h,uploading:V,hasFilesInDropArea:_,definitions:a,openFileSelector:O,upload:X,cancel:P,remove:W,clear:Q,close:q,getClassNameForEntry:L,getIconForEntry:S,addExternalFiles:z}}function vt(n,t=14){const o=`((?=([\\w\\W]{0,${t}}))([\\w\\W]{${t+1},})([\\w\\W]{8,}))`;return n.replace(new RegExp(o),"$2..$4")}const Ks={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",class:"h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon",viewBox:"0 0 24 24"};function js(n,t){return e.openBlock(),e.createElementBlock("svg",Ks,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"},null,-1)])])}const En={render:js},Ws={class:"vuefinder__upload-modal__content relative"},Gs={class:"vuefinder__upload-modal__target-section"},qs={class:"vuefinder__upload-modal__target-label"},Ys={class:"vuefinder__upload-modal__target-container"},Qs={class:"vuefinder__upload-modal__target-path"},Xs={class:"vuefinder__upload-modal__target-storage"},Js={key:0,class:"vuefinder__upload-modal__target-folder"},Zs={class:"vuefinder__upload-modal__target-badge"},ei={class:"vuefinder__upload-modal__drag-hint"},ti={class:"vuefinder__upload-modal__file-list vf-scrollbar"},ni=["textContent"],oi={class:"vuefinder__upload-modal__file-info"},li={class:"vuefinder__upload-modal__file-name hidden md:block"},ri={class:"vuefinder__upload-modal__file-name md:hidden"},ai={key:0,class:"ml-auto"},si=["title","disabled","onClick"],ii={key:0,class:"py-2"},ci=["aria-expanded"],di={key:0,class:"vuefinder__upload-actions__menu left-0 right-0 absolute bottom-full mb-2"},ui=["disabled"],mi=["aria-expanded"],fi={key:0,class:"vuefinder__upload-actions__menu"},St=e.defineComponent({__name:"ModalUpload",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=I.useStore(l.path),s=e.ref(r.value),a=e.ref(!1),u=()=>{const E=s.value.path;if(!E)return{storage:"local",path:""};if(E.endsWith("://"))return{storage:E.replace("://",""),path:""};const g=E.split("://");return{storage:g[0]||"local",path:g[1]||""}},c=E=>{E&&(s.value=E)},m=E=>{E&&(s.value=E,a.value=!1)},{container:d,internalFileInput:i,internalFolderInput:v,pickFiles:h,queue:V,message:_,uploading:p,hasFilesInDropArea:f,definitions:w,openFileSelector:k,upload:y,cancel:C,remove:F,clear:B,close:L,getClassNameForEntry:S,getIconForEntry:O,addExternalFiles:q}=Us(t.customUploader),X=()=>{y(s.value)};e.onMounted(()=>{t.emitter.on("vf-external-files-dropped",E=>{q(E)})}),e.onUnmounted(()=>{t.emitter.off("vf-external-files-dropped")});const P=e.ref(!1),W=e.ref(null),Q=e.ref(null),z=E=>{if(!P.value)return;const g=E.target,b=W.value?.contains(g)??!1,N=Q.value?.contains(g)??!1;!b&&!N&&(P.value=!1)};return e.onMounted(()=>document.addEventListener("click",z)),e.onUnmounted(()=>document.removeEventListener("click",z)),(E,g)=>(e.openBlock(),e.createBlock(ie,{showDragOverlay:e.unref(f),dragOverlayText:e.unref(o)("Drag and drop the files/folders to here.")},{buttons:e.withCtx(()=>[e.createElementVNode("div",{class:"sm:hidden relative w-full mb-2",ref_key:"actionsMenuMobileRef",ref:W},[e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__upload-actions","vuefinder__upload-actions--block",P.value?"vuefinder__upload-actions--ring":""])},[e.createElementVNode("button",{type:"button",class:"vuefinder__upload-actions__main",onClick:g[3]||(g[3]=b=>e.unref(k)())},e.toDisplayString(e.unref(o)("Select Files")),1),e.createElementVNode("button",{type:"button",class:"vuefinder__upload-actions__trigger",onClick:g[4]||(g[4]=e.withModifiers(b=>P.value=!P.value,["stop"])),"aria-haspopup":"menu","aria-expanded":P.value?"true":"false"},[...g[17]||(g[17]=[e.createElementVNode("svg",{xmlns:"http://www.w3.org/2000/svg",class:"h-4 w-4",viewBox:"0 0 20 20",fill:"currentColor"},[e.createElementVNode("path",{"fill-rule":"evenodd",d:"M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z","clip-rule":"evenodd"})],-1)])],8,ci)],2),P.value?(e.openBlock(),e.createElementBlock("div",di,[e.createElementVNode("div",{class:"vuefinder__upload-actions__item",onClick:g[5]||(g[5]=b=>{e.unref(k)(),P.value=!1})},e.toDisplayString(e.unref(o)("Select Files")),1),e.createElementVNode("div",{class:"vuefinder__upload-actions__item",onClick:g[6]||(g[6]=b=>{e.unref(v)?.click(),P.value=!1})},e.toDisplayString(e.unref(o)("Select Folders")),1),g[18]||(g[18]=e.createElementVNode("div",{class:"vuefinder__upload-actions__separator"},null,-1)),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__upload-actions__item",e.unref(p)?"disabled":""]),onClick:g[7]||(g[7]=b=>e.unref(p)?null:(e.unref(B)(!1),P.value=!1))},e.toDisplayString(e.unref(o)("Clear all")),3),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__upload-actions__item",e.unref(p)?"disabled":""]),onClick:g[8]||(g[8]=b=>e.unref(p)?null:(e.unref(B)(!0),P.value=!1))},e.toDisplayString(e.unref(o)("Clear only successful")),3)])):e.createCommentVNode("",!0)],512),e.createElementVNode("button",{type:"button",class:"vf-btn vf-btn-primary",disabled:e.unref(p)||!e.unref(V).length,onClick:e.withModifiers(X,["prevent"])},e.toDisplayString(e.unref(o)("Upload")),9,ui),e.unref(p)?(e.openBlock(),e.createElementBlock("button",{key:0,type:"button",class:"vf-btn vf-btn-secondary",onClick:g[9]||(g[9]=e.withModifiers((...b)=>e.unref(C)&&e.unref(C)(...b),["prevent"]))},e.toDisplayString(e.unref(o)("Cancel")),1)):(e.openBlock(),e.createElementBlock("button",{key:1,type:"button",class:"vf-btn vf-btn-secondary",onClick:g[10]||(g[10]=e.withModifiers((...b)=>e.unref(L)&&e.unref(L)(...b),["prevent"]))},e.toDisplayString(e.unref(o)("Close")),1)),e.createElementVNode("div",{class:"hidden sm:block relative mr-auto",ref_key:"actionsMenuDesktopRef",ref:Q},[e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__upload-actions",P.value?"vuefinder__upload-actions--ring":""])},[e.createElementVNode("button",{ref_key:"pickFiles",ref:h,type:"button",class:"vuefinder__upload-actions__main"},e.toDisplayString(e.unref(o)("Select Files")),513),e.createElementVNode("button",{type:"button",class:"vuefinder__upload-actions__trigger",onClick:g[11]||(g[11]=e.withModifiers(b=>P.value=!P.value,["stop"])),"aria-haspopup":"menu","aria-expanded":P.value?"true":"false"},[...g[19]||(g[19]=[e.createElementVNode("svg",{xmlns:"http://www.w3.org/2000/svg",class:"h-4 w-4",viewBox:"0 0 20 20",fill:"currentColor"},[e.createElementVNode("path",{"fill-rule":"evenodd",d:"M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z","clip-rule":"evenodd"})],-1)])],8,mi)],2),P.value?(e.openBlock(),e.createElementBlock("div",fi,[e.createElementVNode("div",{class:"vuefinder__upload-actions__item",onClick:g[12]||(g[12]=b=>{e.unref(k)(),P.value=!1})},e.toDisplayString(e.unref(o)("Select Files")),1),e.createElementVNode("div",{class:"vuefinder__upload-actions__item",onClick:g[13]||(g[13]=b=>{e.unref(v)?.click(),P.value=!1})},e.toDisplayString(e.unref(o)("Select Folders")),1),g[20]||(g[20]=e.createElementVNode("div",{class:"vuefinder__upload-actions__separator"},null,-1)),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__upload-actions__item",e.unref(p)?"disabled":""]),onClick:g[14]||(g[14]=b=>e.unref(p)?null:(e.unref(B)(!1),P.value=!1))},e.toDisplayString(e.unref(o)("Clear all")),3),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__upload-actions__item",e.unref(p)?"disabled":""]),onClick:g[15]||(g[15]=b=>e.unref(p)?null:(e.unref(B)(!0),P.value=!1))},e.toDisplayString(e.unref(o)("Clear only successful")),3)])):e.createCommentVNode("",!0)],512)]),default:e.withCtx(()=>[e.createElementVNode("div",null,[e.createVNode(de,{icon:e.unref(En),title:e.unref(o)("Upload Files")},null,8,["icon","title"]),e.createElementVNode("div",Ws,[e.createElementVNode("div",Gs,[e.createElementVNode("div",qs,e.toDisplayString(e.unref(o)("Hedef Klasör")),1),e.createElementVNode("div",Ys,[e.createElementVNode("div",{class:"vuefinder__upload-modal__target-display",onClick:g[0]||(g[0]=b=>a.value=!a.value)},[e.createElementVNode("div",Qs,[e.createElementVNode("span",Xs,e.toDisplayString(u().storage)+"://",1),u().path?(e.openBlock(),e.createElementBlock("span",Js,e.toDisplayString(u().path),1)):e.createCommentVNode("",!0)]),e.createElementVNode("span",Zs,e.toDisplayString(e.unref(o)("Browse")),1)])]),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__upload-modal__tree-selector",a.value?"vuefinder__upload-modal__tree-selector--expanded":"vuefinder__upload-modal__tree-selector--collapsed"])},[e.createVNode(yt,{modelValue:s.value,"onUpdate:modelValue":[g[1]||(g[1]=b=>s.value=b),c],"show-pinned-folders":!0,onSelectAndClose:m},null,8,["modelValue"])],2)]),e.createElementVNode("div",ei,e.toDisplayString(e.unref(o)("You can drag & drop files anywhere while this modal is open.")),1),e.createElementVNode("div",{ref_key:"container",ref:d,class:"hidden"},null,512),e.createElementVNode("div",ti,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(e.unref(V),b=>(e.openBlock(),e.createElementBlock("div",{class:"vuefinder__upload-modal__file-entry",key:b.id},[e.createElementVNode("span",{class:e.normalizeClass(["vuefinder__upload-modal__file-icon",e.unref(S)(b)])},[e.createElementVNode("span",{class:"vuefinder__upload-modal__file-icon-text",textContent:e.toDisplayString(e.unref(O)(b))},null,8,ni)],2),e.createElementVNode("div",oi,[e.createElementVNode("div",li,e.toDisplayString(e.unref(vt)(b.name,40))+" ("+e.toDisplayString(b.size)+") ",1),e.createElementVNode("div",ri,e.toDisplayString(e.unref(vt)(b.name,16))+" ("+e.toDisplayString(b.size)+") ",1),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__upload-modal__file-status",e.unref(S)(b)])},[e.createTextVNode(e.toDisplayString(b.statusName)+" ",1),b.status===e.unref(w).QUEUE_ENTRY_STATUS.UPLOADING?(e.openBlock(),e.createElementBlock("b",ai,e.toDisplayString(b.percent),1)):e.createCommentVNode("",!0)],2)]),e.createElementVNode("button",{type:"button",class:e.normalizeClass(["vuefinder__upload-modal__file-remove",e.unref(p)?"disabled":""]),title:e.unref(o)("Delete"),disabled:e.unref(p),onClick:N=>e.unref(F)(b)},[...g[16]||(g[16]=[e.createElementVNode("svg",{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24","stroke-width":"1.5",stroke:"currentColor",class:"vuefinder__upload-modal__file-remove-icon"},[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M6 18L18 6M6 6l12 12"})],-1)])],10,si)]))),128)),e.unref(V).length?e.createCommentVNode("",!0):(e.openBlock(),e.createElementBlock("div",ii,e.toDisplayString(e.unref(o)("No files selected!")),1))]),e.unref(_).length?(e.openBlock(),e.createBlock(Hs,{key:0,onHidden:g[2]||(g[2]=b=>_.value=""),error:""},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(e.unref(_)),1)]),_:1})):e.createCommentVNode("",!0)])]),e.createElementVNode("input",{ref_key:"internalFileInput",ref:i,type:"file",multiple:"",class:"hidden"},null,512),e.createElementVNode("input",{ref_key:"internalFolderInput",ref:v,type:"file",multiple:"",webkitdirectory:"",class:"hidden"},null,512)]),_:1},8,["showDragOverlay","dragOverlayText"]))}}),pi={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",class:"h-6 w-6 md:h-8 md:w-8 m-auto",viewBox:"0 0 24 24"};function vi(n,t){return e.openBlock(),e.createElementBlock("svg",pi,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125"},null,-1)])])}const bn={render:vi},_i={class:"vuefinder__unarchive-modal__content"},hi={class:"vuefinder__unarchive-modal__items"},gi={key:0,class:"vuefinder__unarchive-modal__icon vuefinder__unarchive-modal__icon--dir",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},wi={key:1,class:"vuefinder__unarchive-modal__icon vuefinder__unarchive-modal__icon--file",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},yi={class:"vuefinder__unarchive-modal__item-name"},ki={class:"vuefinder__unarchive-modal__info"},$t=e.defineComponent({__name:"ModalUnarchive",setup(n){const t=H(),o=t.fs,l=I.useStore(o.path),{t:r}=t.i18n,s=e.ref(t.modal.data.items[0]),a=e.ref(""),u=e.ref([]),c=()=>{t.adapter.unarchive({item:s.value.path,path:l.value.path}).then(m=>{t.emitter.emit("vf-toast-push",{label:r("The file unarchived.")}),t.fs.setFiles(m.files),t.modal.close()}).catch(m=>{t.emitter.emit("vf-toast-push",{label:r(m.message),type:"error"})})};return(m,d)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:c,class:"vf-btn vf-btn-primary"},e.toDisplayString(e.unref(r)("Unarchive")),1),e.createElementVNode("button",{type:"button",onClick:d[1]||(d[1]=i=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(r)("Cancel")),1)]),default:e.withCtx(()=>[e.createElementVNode("div",null,[e.createVNode(de,{icon:e.unref(bn),title:e.unref(r)("Unarchive")},null,8,["icon","title"]),e.createElementVNode("div",_i,[e.createElementVNode("div",hi,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(u.value,i=>(e.openBlock(),e.createElementBlock("p",{class:"vuefinder__unarchive-modal__item",key:i.path},[i.type==="dir"?(e.openBlock(),e.createElementBlock("svg",gi,[...d[2]||(d[2]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"},null,-1)])])):(e.openBlock(),e.createElementBlock("svg",wi,[...d[3]||(d[3]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"},null,-1)])])),e.createElementVNode("span",yi,e.toDisplayString(i.basename),1)]))),128)),e.createElementVNode("p",ki,e.toDisplayString(e.unref(r)("The archive will be unarchived at"))+" ("+e.toDisplayString(e.unref(l).path)+")",1),a.value.length?(e.openBlock(),e.createBlock(e.unref(a),{key:0,onHidden:d[0]||(d[0]=i=>a.value=""),error:""},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(a.value),1)]),_:1})):e.createCommentVNode("",!0)])])])]),_:1}))}}),Ei={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",viewBox:"0 0 24 24"};function bi(n,t){return e.openBlock(),e.createElementBlock("svg",Ei,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125"},null,-1)])])}const Vn={render:bi},Vi={class:"vuefinder__archive-modal__content"},Ni={class:"vuefinder__archive-modal__form"},xi={class:"vuefinder__archive-modal__files vf-scrollbar"},Ci={key:0,class:"vuefinder__archive-modal__icon vuefinder__archive-modal__icon--dir",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},Bi={key:1,class:"vuefinder__archive-modal__icon",xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","stroke-width":"1"},Si={class:"vuefinder__archive-modal__file-name"},$i=["placeholder"],Dt=e.defineComponent({__name:"ModalArchive",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=I.useStore(l.path),s=e.ref(""),a=e.ref(""),u=e.ref(t.modal.data.items),c=()=>{u.value.length&&t.adapter.archive({path:r.value.path,items:u.value.map(({path:m,type:d})=>({path:m,type:d})),name:s.value}).then(m=>{t.emitter.emit("vf-toast-push",{label:o("The file(s) archived.")}),t.fs.setFiles(m.files),t.modal.close()}).catch(m=>{t.emitter.emit("vf-toast-push",{label:o(m.message),type:"error"})})};return(m,d)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:c,class:"vf-btn vf-btn-primary"},e.toDisplayString(e.unref(o)("Archive")),1),e.createElementVNode("button",{type:"button",onClick:d[2]||(d[2]=i=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(o)("Cancel")),1)]),default:e.withCtx(()=>[e.createElementVNode("div",null,[e.createVNode(de,{icon:e.unref(Vn),title:e.unref(o)("Archive the files")},null,8,["icon","title"]),e.createElementVNode("div",Vi,[e.createElementVNode("div",Ni,[e.createElementVNode("div",xi,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(u.value,i=>(e.openBlock(),e.createElementBlock("p",{class:"vuefinder__archive-modal__file",key:i.path},[i.type==="dir"?(e.openBlock(),e.createElementBlock("svg",Ci,[...d[3]||(d[3]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"},null,-1)])])):(e.openBlock(),e.createElementBlock("svg",Bi,[...d[4]||(d[4]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"},null,-1)])])),e.createElementVNode("span",Si,e.toDisplayString(i.basename),1)]))),128))]),e.withDirectives(e.createElementVNode("input",{"onUpdate:modelValue":d[0]||(d[0]=i=>s.value=i),onKeyup:e.withKeys(c,["enter"]),class:"vuefinder__archive-modal__input",placeholder:e.unref(o)("Archive name. (.zip file will be created)"),type:"text"},null,40,$i),[[e.vModelText,s.value]]),a.value.length?(e.openBlock(),e.createBlock(e.unref(a),{key:0,onHidden:d[1]||(d[1]=i=>a.value=""),error:""},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(a.value),1)]),_:1})):e.createCommentVNode("",!0)])])])]),_:1}))}}),Di={props:{on:{type:String,required:!0}},setup(n,{emit:t,slots:o}){const l=H(),r=e.ref(!1),{t:s}=l.i18n;let a=null;const u=()=>{a&&clearTimeout(a),r.value=!0,a=setTimeout(()=>{r.value=!1},2e3)};return e.onMounted(()=>{l.emitter.on(n.on,u)}),e.onUnmounted(()=>{a&&clearTimeout(a)}),{shown:r,t:s}}},Fi=(n,t)=>{const o=n.__vccOpts||n;for(const[l,r]of t)o[l]=r;return o},Mi={key:1};function Ti(n,t,o,l,r,s){return e.openBlock(),e.createElementBlock("div",{class:e.normalizeClass(["vuefinder__action-message",{"vuefinder__action-message--hidden":!l.shown}])},[n.$slots.default?e.renderSlot(n.$slots,"default",{key:0}):(e.openBlock(),e.createElementBlock("span",Mi,e.toDisplayString(l.t("Saved.")),1))],2)}const De=Fi(Di,[["render",Ti]]),Ai=[{name:"default",displayName:"Default"},{name:"light",displayName:"Light"},{name:"dark",displayName:"Dark"},{name:"midnight",displayName:"Midnight"},{name:"latte",displayName:"Latte"},{name:"rose",displayName:"Rose"},{name:"mythril",displayName:"Mythril"},{name:"lime",displayName:"lime"},{name:"sky",displayName:"Sky"},{name:"ocean",displayName:"Oceanic"},{name:"palenight",displayName:"Palenight"},{name:"arctic",displayName:"Arctic"},{name:"code",displayName:"Code"}],Ii={class:"vuefinder__about-modal__content"},Li={class:"vuefinder__about-modal__main"},Oi={class:"vuefinder__about-modal__description"},Ri={class:"vuefinder__about-modal__settings"},Pi={class:"vuefinder__about-modal__settings__fieldset"},zi={class:"vuefinder__about-modal__settings__section-title"},Hi={class:"vuefinder__about-modal__setting"},Ui={class:"vuefinder__about-modal__setting-label"},Ki={for:"metric_unit",class:"vuefinder__about-modal__label"},ji={class:"vuefinder__about-modal__setting-input justify-end"},Wi=["checked"],Gi={class:"vuefinder__about-modal__setting"},qi={class:"vuefinder__about-modal__setting-label"},Yi={for:"large_icons",class:"vuefinder__about-modal__label"},Qi={class:"vuefinder__about-modal__setting-input justify-end"},Xi=["checked"],Ji={class:"vuefinder__about-modal__setting"},Zi={class:"vuefinder__about-modal__setting-label"},ec={for:"persist_path",class:"vuefinder__about-modal__label"},tc={class:"vuefinder__about-modal__setting-input justify-end"},nc=["checked"],oc={class:"vuefinder__about-modal__settings__section-title"},lc={class:"vuefinder__about-modal__setting"},rc={class:"vuefinder__about-modal__setting-input justify-end"},ac=["value"],sc=["label"],ic=["value"],cc={key:0,class:"vuefinder__about-modal__settings__section-title"},dc={key:1,class:"vuefinder__about-modal__setting"},uc={class:"vuefinder__about-modal__setting-input justify-end"},mc=["label"],fc=["value"],pc={class:"vuefinder__about-modal__tab-content"},vc={class:"vuefinder__about-modal__settings__section-title"},_c={class:"vuefinder__about-modal__description"},hc=e.defineComponent({__name:"ModalSettings",setup(n){const t=H(),o=t.config,{clearStore:l}=t.storage,{t:r}=t.i18n,s=I.useStore(o.state),a=e.computed(()=>s.value.theme||"default"),u=async()=>{o.reset(),l(),location.reload()},c=_=>{_!=="default"?o.set("theme",_):o.set("theme","default"),t.emitter.emit("vf-theme-saved")},m=()=>{o.toggle("metricUnits"),t.filesize=o.get("metricUnits")?qt:_t,t.emitter.emit("vf-metric-units-saved")},d=()=>{o.toggle("compactListView"),t.emitter.emit("vf-compact-view-saved")},i=()=>{o.toggle("persist"),t.emitter.emit("vf-persist-path-saved")},{i18n:v}=e.inject("VueFinderOptions"),V=Object.fromEntries(Object.entries({ar:"Arabic (العربيّة)",en:"English",fr:"French (Français)",de:"German (Deutsch)",fa:"Persian (فارسی)",he:"Hebrew (עִברִית)",hi:"Hindi (हिंदी)",pl:"Polish (Polski)",ru:"Russian (Pусский)",sv:"Swedish (Svenska)",tr:"Turkish (Türkçe)",nl:"Dutch (Nederlands)",zhCN:"Simplified Chinese (简体中文)",zhTW:"Traditional Chinese (繁體中文)"}).filter(([_])=>Object.keys(v).includes(_)));return(_,p)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:p[2]||(p[2]=f=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(r)("Close")),1)]),default:e.withCtx(()=>[e.createElementVNode("div",Ii,[e.createVNode(de,{icon:e.unref(vn),title:e.unref(r)("Settings")},null,8,["icon","title"]),e.createElementVNode("div",Li,[e.createElementVNode("div",Oi,e.toDisplayString(e.unref(r)("Customize your experience with the following settings")),1),e.createElementVNode("div",Ri,[e.createElementVNode("fieldset",Pi,[e.createElementVNode("div",zi,e.toDisplayString(e.unref(r)("General")),1),e.createElementVNode("div",Hi,[e.createElementVNode("div",Ui,[e.createElementVNode("label",Ki,e.toDisplayString(e.unref(r)("Use Metric Units")),1)]),e.createElementVNode("div",ji,[e.createElementVNode("input",{id:"metric_unit",name:"metric_unit",type:"checkbox",checked:e.unref(o).get("metricUnits"),onChange:m,class:"vuefinder__about-modal__checkbox"},null,40,Wi),e.createVNode(De,{class:"ms-3",on:"vf-metric-units-saved"},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(e.unref(r)("Saved.")),1)]),_:1})])]),e.createElementVNode("div",Gi,[e.createElementVNode("div",qi,[e.createElementVNode("label",Yi,e.toDisplayString(e.unref(r)("Compact list view")),1)]),e.createElementVNode("div",Qi,[e.createElementVNode("input",{id:"large_icons",name:"large_icons",type:"checkbox",checked:e.unref(o).get("compactListView"),onChange:d,class:"vuefinder__about-modal__checkbox"},null,40,Xi),e.createVNode(De,{class:"ms-3",on:"vf-compact-view-saved"},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(e.unref(r)("Saved.")),1)]),_:1})])]),e.createElementVNode("div",Ji,[e.createElementVNode("div",Zi,[e.createElementVNode("label",ec,e.toDisplayString(e.unref(r)("Persist path on reload")),1)]),e.createElementVNode("div",tc,[e.createElementVNode("input",{id:"persist_path",name:"persist_path",type:"checkbox",checked:e.unref(o).get("persist"),onChange:i,class:"vuefinder__about-modal__checkbox"},null,40,nc),e.createVNode(De,{class:"ms-3",on:"vf-persist-path-saved"},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(e.unref(r)("Saved.")),1)]),_:1})])]),e.createElementVNode("div",oc,e.toDisplayString(e.unref(r)("Theme")),1),e.createElementVNode("div",lc,[e.createElementVNode("div",rc,[e.createElementVNode("select",{id:"theme",value:a.value,onChange:p[0]||(p[0]=f=>c(f.target?.value)),class:"vuefinder__about-modal__select"},[e.createElementVNode("optgroup",{label:e.unref(r)("Theme")},[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(e.unref(Ai),f=>(e.openBlock(),e.createElementBlock("option",{key:f.name,value:f.name},e.toDisplayString(f.displayName),9,ic))),128))],8,sc)],40,ac),e.createVNode(De,{class:"ms-3",on:"vf-theme-saved"},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(e.unref(r)("Saved.")),1)]),_:1})])]),e.unref(t).features.includes(e.unref(K).LANGUAGE)&&Object.keys(e.unref(V)).length>1?(e.openBlock(),e.createElementBlock("div",cc,e.toDisplayString(e.unref(r)("Language")),1)):e.createCommentVNode("",!0),e.unref(t).features.includes(e.unref(K).LANGUAGE)&&Object.keys(e.unref(V)).length>1?(e.openBlock(),e.createElementBlock("div",dc,[e.createElementVNode("div",uc,[e.withDirectives(e.createElementVNode("select",{id:"language","onUpdate:modelValue":p[1]||(p[1]=f=>e.unref(t).i18n.locale=f),class:"vuefinder__about-modal__select"},[e.createElementVNode("optgroup",{label:e.unref(r)("Language")},[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(e.unref(V),(f,w)=>(e.openBlock(),e.createElementBlock("option",{key:w,value:w},e.toDisplayString(f),9,fc))),128))],8,mc)],512),[[e.vModelSelect,e.unref(t).i18n.locale]]),e.createVNode(De,{class:"ms-3",on:"vf-language-saved"},{default:e.withCtx(()=>[e.createTextVNode(e.toDisplayString(e.unref(r)("Saved.")),1)]),_:1})])])):e.createCommentVNode("",!0)])]),e.createElementVNode("div",pc,[e.createElementVNode("div",vc,e.toDisplayString(e.unref(r)("Reset")),1),e.createElementVNode("div",_c,e.toDisplayString(e.unref(r)("Reset all settings to default")),1),e.createElementVNode("button",{onClick:u,type:"button",class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(r)("Reset Settings")),1)])])])]),_:1}))}}),gc={class:"vuefinder__about-modal__content"},wc={class:"vuefinder__about-modal__main"},yc={class:"vuefinder__about-modal__shortcuts"},kc={class:"vuefinder__about-modal__shortcut"},Ec={class:"vuefinder__about-modal__shortcut"},bc={class:"vuefinder__about-modal__shortcut"},Vc={class:"vuefinder__about-modal__shortcut"},Nc={class:"vuefinder__about-modal__shortcut"},xc={class:"vuefinder__about-modal__shortcut"},Cc={class:"vuefinder__about-modal__shortcut"},Bc={class:"vuefinder__about-modal__shortcut"},Sc={class:"vuefinder__about-modal__shortcut"},$c={class:"vuefinder__about-modal__shortcut"},Dc=e.defineComponent({__name:"ModalShortcuts",setup(n){const t=H(),{t:o}=t.i18n;return(l,r)=>(e.openBlock(),e.createBlock(ie,null,{buttons:e.withCtx(()=>[e.createElementVNode("button",{type:"button",onClick:r[0]||(r[0]=s=>e.unref(t).modal.close()),class:"vf-btn vf-btn-secondary"},e.toDisplayString(e.unref(o)("Close")),1)]),default:e.withCtx(()=>[e.createElementVNode("div",gc,[e.createVNode(de,{icon:e.unref(Yt),title:e.unref(o)("Shortcuts")},null,8,["icon","title"]),e.createElementVNode("div",wc,[e.createElementVNode("div",yc,[e.createElementVNode("div",kc,[e.createElementVNode("div",null,e.toDisplayString(e.unref(o)("Rename")),1),r[1]||(r[1]=e.createElementVNode("kbd",null,"F2",-1))]),e.createElementVNode("div",Ec,[e.createElementVNode("div",null,e.toDisplayString(e.unref(o)("Refresh")),1),r[2]||(r[2]=e.createElementVNode("kbd",null,"F5",-1))]),e.createElementVNode("div",bc,[e.createTextVNode(e.toDisplayString(e.unref(o)("Delete"))+" ",1),r[3]||(r[3]=e.createElementVNode("kbd",null,"Del",-1))]),e.createElementVNode("div",Vc,[e.createTextVNode(e.toDisplayString(e.unref(o)("Escape"))+" ",1),r[4]||(r[4]=e.createElementVNode("div",null,[e.createElementVNode("kbd",null,"Esc")],-1))]),e.createElementVNode("div",Nc,[e.createTextVNode(e.toDisplayString(e.unref(o)("Select All"))+" ",1),r[5]||(r[5]=e.createElementVNode("div",null,[e.createElementVNode("kbd",null,"Ctrl"),e.createTextVNode(" + "),e.createElementVNode("kbd",null,"A")],-1))]),e.createElementVNode("div",xc,[e.createTextVNode(e.toDisplayString(e.unref(o)("Search"))+" ",1),r[6]||(r[6]=e.createElementVNode("div",null,[e.createElementVNode("kbd",null,"Ctrl"),e.createTextVNode(" + "),e.createElementVNode("kbd",null,"F")],-1))]),e.createElementVNode("div",Cc,[e.createTextVNode(e.toDisplayString(e.unref(o)("Toggle Sidebar"))+" ",1),r[7]||(r[7]=e.createElementVNode("div",null,[e.createElementVNode("kbd",null,"Ctrl"),e.createTextVNode(" + "),e.createElementVNode("kbd",null,"E")],-1))]),e.createElementVNode("div",Bc,[e.createTextVNode(e.toDisplayString(e.unref(o)("Open Settings"))+" ",1),r[8]||(r[8]=e.createElementVNode("div",null,[e.createElementVNode("kbd",null,"Ctrl"),e.createTextVNode(" + "),e.createElementVNode("kbd",null,",")],-1))]),e.createElementVNode("div",Sc,[e.createTextVNode(e.toDisplayString(e.unref(o)("Toggle Full Screen"))+" ",1),r[9]||(r[9]=e.createElementVNode("div",null,[e.createElementVNode("kbd",null,"Ctrl"),e.createTextVNode(" + "),e.createElementVNode("kbd",null,"Enter")],-1))]),e.createElementVNode("div",$c,[e.createTextVNode(e.toDisplayString(e.unref(o)("Preview"))+" ",1),r[10]||(r[10]=e.createElementVNode("div",null,[e.createElementVNode("kbd",null,"Space")],-1))])])])])]),_:1}))}}),Fc={class:"vuefinder__menubar__container"},Mc=["onClick","onMouseenter"],Tc={class:"vuefinder__menubar__label"},Ac=["onMouseenter"],Ic=["onClick"],Lc={key:0,class:"vuefinder__menubar__dropdown__label"},Oc={key:1,class:"vuefinder__menubar__dropdown__checkmark"},Rc=e.defineComponent({__name:"MenuBar",setup(n){const t=H(),{t:o}=t?.i18n||{t:f=>f},l=t?.fs,r=t?.config,s=I.useStore(r.state),a=I.useStore(l.selectedItems),u=I.useStore(l?.storages||[]),c=e.ref(null),m=e.ref(!1),d=e.computed(()=>window.opener!==null||window.name!==""||window.history.length<=1),i=e.computed(()=>[{id:"file",label:o("File"),items:[{id:"new-folder",label:o("New Folder"),action:()=>t?.modal?.open(Bt,{items:a.value}),enabled:()=>t?.features?.includes(K.NEW_FOLDER)||!1},{id:"new-file",label:o("New File"),action:()=>t?.modal?.open(kn,{items:a.value}),enabled:()=>t?.features?.includes(K.NEW_FILE)||!1},{type:"separator"},{id:"upload",label:o("Upload"),action:()=>t?.modal?.open(St,{items:a.value}),enabled:()=>t?.features?.includes(K.UPLOAD)||!1},{type:"separator"},{id:"search",label:o("Search"),action:()=>t.modal.open(xt),enabled:()=>t?.features?.includes(K.SEARCH)},{type:"separator"},{id:"archive",label:o("Archive"),action:()=>{a.value.length>0&&t?.modal?.open(Dt,{items:a.value})},enabled:()=>a.value.length>0&&t?.features?.includes(K.ARCHIVE)},{id:"unarchive",label:o("Unarchive"),action:()=>{a.value.length===1&&a.value[0]?.mime_type==="application/zip"&&t?.modal?.open($t,{items:a.value})},enabled:()=>a.value.length===1&&a.value[0]?.mime_type==="application/zip"&&t?.features?.includes(K.UNARCHIVE)},{type:"separator"},{id:"preview",label:o("Preview"),action:()=>{a.value.length===1&&a.value[0]?.type!=="dir"&&t?.modal?.open(Ze,{storage:l?.path?.get()?.storage,item:a.value[0]})},enabled:()=>a.value.length===1&&a.value[0]?.type!=="dir"},...d.value?[{type:"separator"},{id:"exit",label:o("Exit"),action:()=>{try{window.close()}catch{}},enabled:()=>!0}]:[]]},{id:"edit",label:o("Edit"),items:[...t?.selectionMode==="multiple"?[{id:"select-all",label:o("Select All"),action:()=>l?.selectAll(t?.selectionMode||"multiple",t),enabled:()=>!0},{id:"deselect",label:o("Deselect All"),action:()=>l?.clearSelection(),enabled:()=>a.value.length>0},{type:"separator"}]:[],{id:"cut",label:o("Cut"),action:()=>{a.value.length>0&&l?.setClipboard("cut",new Set(a.value.map(f=>f.path)))},enabled:()=>a.value.length>0},{id:"copy",label:o("Copy"),action:()=>{a.value.length>0&&l?.setClipboard("copy",new Set(a.value.map(f=>f.path)))},enabled:()=>a.value.length>0},{id:"paste",label:o("Paste"),action:()=>{const f=l?.getClipboard();f?.items?.size>0&&t?.modal?.open(f.type==="cut"?Ce:kt,{items:{from:Array.from(f.items),to:l?.path?.get()}})},enabled:()=>l?.getClipboard()?.items?.size>0},{id:"move",label:o("Move"),action:()=>{if(a.value.length>0){const f=t?.fs,w={storage:f?.path?.get()?.storage||"",path:f?.path?.get()?.path||"",type:"dir"};t?.modal?.open(Ce,{items:{from:a.value,to:w}})}},enabled:()=>a.value.length>0&&t?.features?.includes(K.MOVE)},{type:"separator"},{id:"copy-path",label:o("Copy Path"),action:async()=>{if(a.value.length===1){const f=a.value[0];await Ae(f.path)}else{const f=l?.path?.get();f?.path&&await Ae(f.path)}},enabled:()=>!0},{id:"copy-download-url",label:o("Copy Download URL"),action:async()=>{if(a.value.length===1){const f=a.value[0];l?.path?.get()?.storage;const w=t?.adapter?.getDownloadUrl({path:f.path});w&&await Qa(w)}},enabled:()=>a.value.length===1&&a.value[0]?.type!=="dir"},{type:"separator"},{id:"rename",label:o("Rename"),action:()=>{a.value.length===1&&t?.modal?.open(Je,{items:a.value})},enabled:()=>a.value.length===1&&t?.features?.includes(K.RENAME)},{id:"delete",label:o("Delete"),action:()=>{a.value.length>0&&t?.modal?.open(Xe,{items:a.value})},enabled:()=>a.value.length>0&&t?.features?.includes(K.DELETE)}]},{id:"view",label:o("View"),items:[{id:"refresh",label:o("Refresh"),action:()=>{t?.adapter.list(l?.path?.get()?.path)},enabled:()=>!0},{type:"separator"},{id:"grid-view",label:o("Grid View"),action:()=>r?.set("view","grid"),checked:()=>s.value?.view==="grid"},{id:"list-view",label:o("List View"),action:()=>r?.set("view","list"),checked:()=>s.value?.view==="list"},{type:"separator"},{id:"tree-view",label:o("Tree View"),action:()=>r?.toggle("showTreeView"),enabled:()=>!0,checked:()=>s.value?.showTreeView},{id:"thumbnails",label:o("Show Thumbnails"),action:()=>r?.toggle("showThumbnails"),enabled:()=>!0,checked:()=>s.value?.showThumbnails},{id:"show-hidden-files",label:o("Show Hidden Files"),action:()=>r?.toggle("showHiddenFiles"),enabled:()=>!0,checked:()=>s.value?.showHiddenFiles},{type:"separator"},{id:"fullscreen",label:o("Full Screen"),action:()=>r?.toggle("fullScreen"),enabled:()=>t?.features?.includes(K.FULL_SCREEN),checked:()=>s.value?.fullScreen}]},{id:"go",label:o("Go"),items:[{id:"forward",label:o("Forward"),action:()=>{l?.goForward(),t?.adapter.list(l?.currentPath?.get())},enabled:()=>l?.canGoForward?.get()??!1},{id:"back",label:o("Back"),action:()=>{l?.goBack(),t?.adapter.list(l?.currentPath?.get())},enabled:()=>l?.canGoBack?.get()??!1},{id:"open-containing-folder",label:o("Open containing folder"),action:()=>{const f=l?.path?.get();if(f?.breadcrumb&&f.breadcrumb.length>0){const k=f.breadcrumb[f.breadcrumb.length-2]?.path??`${f.storage}://`;l?.setPath(k),t?.adapter.list(k)}},enabled:()=>{const f=l?.path?.get();return f?.breadcrumb&&f.breadcrumb.length>0}},{type:"separator"},...(u.value||[]).map(f=>({id:`storage-${f}`,label:f,action:()=>{const w=`${f}://`;l?.setPath(w),t?.adapter.list(w)},enabled:()=>!0})),{type:"separator"},{id:"go-to-folder",label:o("Go to Folder"),action:()=>{const f=prompt(o("Enter folder path:"));f&&(l?.setPath(f),t?.adapter.list(f))},enabled:()=>!0}]},{id:"help",label:o("Help"),items:[{id:"settings",label:o("Settings"),action:()=>t?.modal?.open(hc),enabled:()=>!0},{id:"shortcuts",label:o("Shortcuts"),action:()=>t?.modal?.open(Dc),enabled:()=>!0},{id:"about",label:o("About"),action:()=>t?.modal?.open(Qt),enabled:()=>!0}]}]),v=f=>{c.value===f?V():(c.value=f,m.value=!0)},h=f=>{m.value&&(c.value=f)},V=()=>{c.value=null,m.value=!1},_=f=>{V(),f()},p=f=>{f.target.closest(".vuefinder__menubar")||V()};return e.onMounted(()=>{document.addEventListener("click",p)}),e.onUnmounted(()=>{document.removeEventListener("click",p)}),(f,w)=>(e.openBlock(),e.createElementBlock("div",{class:"vuefinder__menubar",onClick:w[0]||(w[0]=e.withModifiers(()=>{},["stop"]))},[e.createElementVNode("div",Fc,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(i.value,k=>(e.openBlock(),e.createElementBlock("div",{key:k.id,class:e.normalizeClass(["vuefinder__menubar__item",{"vuefinder__menubar__item--active":c.value===k.id}]),onClick:y=>v(k.id),onMouseenter:y=>h(k.id)},[e.createElementVNode("span",Tc,e.toDisplayString(k.label),1),c.value===k.id?(e.openBlock(),e.createElementBlock("div",{key:0,class:"vuefinder__menubar__dropdown",onMouseenter:y=>h(k.id)},[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(k.items,y=>(e.openBlock(),e.createElementBlock("div",{key:y.id||y.type,class:e.normalizeClass(["vuefinder__menubar__dropdown__item",{"vuefinder__menubar__dropdown__item--separator":y.type==="separator","vuefinder__menubar__dropdown__item--disabled":y.enabled&&!y.enabled(),"vuefinder__menubar__dropdown__item--checked":y.checked&&y.checked()}]),onClick:e.withModifiers(C=>y.type!=="separator"&&y.enabled&&y.enabled()?_(y.action):null,["stop"])},[y.type!=="separator"?(e.openBlock(),e.createElementBlock("span",Lc,e.toDisplayString(y.label),1)):e.createCommentVNode("",!0),y.checked&&y.checked()?(e.openBlock(),e.createElementBlock("span",Oc," ✓ ")):e.createCommentVNode("",!0)],10,Ic))),128))],40,Ac)):e.createCommentVNode("",!0)],42,Mc))),128))])]))}}),Pc={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",viewBox:"0 0 24 24"};function zc(n,t){return e.openBlock(),e.createElementBlock("svg",Pc,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"},null,-1)])])}const Hc={render:zc},Uc={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",class:"h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon",viewBox:"0 0 24 24"};function Kc(n,t){return e.openBlock(),e.createElementBlock("svg",Uc,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"},null,-1)])])}const jc={render:Kc},Wc={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",class:"h-6 w-6 md:h-8 md:w-8 m-auto",viewBox:"0 0 24 24"};function Gc(n,t){return e.openBlock(),e.createElementBlock("svg",Wc,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25zm0 9.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18zM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25zm0 9.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18z"},null,-1)])])}const qc={render:Gc},Yc={xmlns:"http://www.w3.org/2000/svg",fill:"none","stroke-width":"1.5",class:"h-6 w-6 md:h-8 md:w-8 m-auto",viewBox:"0 0 24 24"};function Qc(n,t){return e.openBlock(),e.createElementBlock("svg",Yc,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75"},null,-1)])])}const Xc={render:Qc},Jc={fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"};function Zc(n,t){return e.openBlock(),e.createElementBlock("svg",Jc,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"1.5",d:"M3 4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2.586a1 1 0 0 1-.293.707l-6.414 6.414a1 1 0 0 0-.293.707V17l-4 4v-6.586a1 1 0 0 0-.293-.707L3.293 7.293A1 1 0 0 1 3 6.586z"},null,-1)])])}const ed={render:Zc},td={class:"vuefinder__toolbar"},nd={class:"vuefinder__toolbar__actions"},od=["title"],ld=["title"],rd=["title"],ad=["title"],sd=["title"],id=["title"],cd=["title"],dd={class:"vuefinder__toolbar__controls"},ud=["title"],md={class:"vuefinder__toolbar__control vuefinder__toolbar__dropdown-container"},fd=["title"],pd={class:"relative"},vd={key:0,class:"vuefinder__toolbar__filter-indicator"},_d={key:0,class:"vuefinder__toolbar__dropdown"},hd={class:"vuefinder__toolbar__dropdown-content"},gd={class:"vuefinder__toolbar__dropdown-section"},wd={class:"vuefinder__toolbar__dropdown-label"},yd={class:"vuefinder__toolbar__dropdown-row"},kd={value:"name"},Ed={value:"size"},bd={value:"modified"},Vd={value:""},Nd={value:"asc"},xd={value:"desc"},Cd={class:"vuefinder__toolbar__dropdown-section"},Bd={class:"vuefinder__toolbar__dropdown-label"},Sd={class:"vuefinder__toolbar__dropdown-options"},$d={class:"vuefinder__toolbar__dropdown-option"},Dd={class:"vuefinder__toolbar__option-text"},Fd={class:"vuefinder__toolbar__dropdown-option"},Md={class:"vuefinder__toolbar__option-text"},Td={class:"vuefinder__toolbar__dropdown-option"},Ad={class:"vuefinder__toolbar__option-text"},Id={class:"vuefinder__toolbar__dropdown-toggle"},Ld={for:"showHidden",class:"vuefinder__toolbar__toggle-label"},Od={class:"vuefinder__toolbar__dropdown-reset"},Rd=["title"],Pd=["title"],zd=e.defineComponent({name:"VfToolbar",__name:"Toolbar",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=t.config,s=I.useStore(r.state),a=I.useStore(l.selectedItems),u=I.useStore(l.sort),c=I.useStore(l.filter);e.watch(()=>s.value.fullScreen,()=>{if(s.value.fullScreen){const _=document.querySelector("body");_&&(_.style.overflow="hidden")}else{const _=document.querySelector("body");_&&(_.style.overflow="")}t.emitter.emit("vf-fullscreen-toggle")});const m=e.ref(!1),d=_=>{_.target.closest(".vuefinder__toolbar__dropdown-container")||(m.value=!1)};e.onMounted(()=>{document.addEventListener("click",d)}),e.onUnmounted(()=>{document.removeEventListener("click",d)});const i=e.ref({sortBy:"name",sortOrder:"",filterKind:"all",showHidden:s.value.showHiddenFiles});e.watch(()=>i.value.sortBy,_=>{if(!i.value.sortOrder){l.clearSort();return}_==="name"?l.setSort("basename",i.value.sortOrder):_==="size"?l.setSort("file_size",i.value.sortOrder):_==="modified"&&l.setSort("last_modified",i.value.sortOrder)}),e.watch(()=>i.value.sortOrder,_=>{if(!_){l.clearSort();return}i.value.sortBy==="name"?l.setSort("basename",_):i.value.sortBy==="size"?l.setSort("file_size",_):i.value.sortBy==="modified"&&l.setSort("last_modified",_)}),e.watch(u,_=>{_.active?(_.column==="basename"?i.value.sortBy="name":_.column==="file_size"?i.value.sortBy="size":_.column==="last_modified"&&(i.value.sortBy="modified"),i.value.sortOrder=_.order):i.value.sortOrder=""},{immediate:!0}),e.watch(()=>i.value.filterKind,_=>{l.setFilter(_,s.value.showHiddenFiles)}),e.watch(()=>i.value.showHidden,_=>{r.set("showHiddenFiles",_),l.setFilter(i.value.filterKind,_)}),e.watch(c,_=>{i.value.filterKind=_.kind},{immediate:!0}),e.watch(()=>s.value.showHiddenFiles,_=>{i.value.showHidden=_,l.setFilter(i.value.filterKind,_)},{immediate:!0});const v=()=>r.set("view",s.value.view==="grid"?"list":"grid"),h=e.computed(()=>c.value.kind!=="all"||!s.value.showHiddenFiles||u.value.active),V=()=>{i.value={sortBy:"name",sortOrder:"",filterKind:"all",showHidden:!0},r.set("showHiddenFiles",!0),l.clearSort(),l.clearFilter()};return(_,p)=>(e.openBlock(),e.createElementBlock("div",td,[e.createElementVNode("div",nd,[e.unref(t).features.includes(e.unref(K).NEW_FOLDER)?(e.openBlock(),e.createElementBlock("div",{key:0,class:"mx-1.5",title:e.unref(o)("New Folder"),onClick:p[0]||(p[0]=f=>e.unref(t).modal.open(Bt,{items:e.unref(a)}))},[e.createVNode(e.unref(wn))],8,od)):e.createCommentVNode("",!0),e.unref(t).features.includes(e.unref(K).NEW_FILE)?(e.openBlock(),e.createElementBlock("div",{key:1,class:"mx-1.5",title:e.unref(o)("New File"),onClick:p[1]||(p[1]=f=>e.unref(t).modal.open(kn,{items:e.unref(a)}))},[e.createVNode(e.unref(yn))],8,ld)):e.createCommentVNode("",!0),e.unref(t).features.includes(e.unref(K).RENAME)?(e.openBlock(),e.createElementBlock("div",{key:2,class:"mx-1.5",title:e.unref(o)("Rename"),onClick:p[2]||(p[2]=f=>e.unref(a).length!==1||e.unref(t).modal.open(Je,{items:e.unref(a)}))},[e.createVNode(e.unref(Jt),{class:e.normalizeClass(e.unref(a).length===1?"vf-toolbar-icon":"vf-toolbar-icon-disabled")},null,8,["class"])],8,rd)):e.createCommentVNode("",!0),e.unref(t).features.includes(e.unref(K).DELETE)?(e.openBlock(),e.createElementBlock("div",{key:3,class:"mx-1.5",title:e.unref(o)("Delete"),onClick:p[3]||(p[3]=f=>!e.unref(a).length||e.unref(t).modal.open(Xe,{items:e.unref(a)}))},[e.createVNode(e.unref(Xt),{class:e.normalizeClass(e.unref(a).length?"vf-toolbar-icon":"vf-toolbar-icon-disabled")},null,8,["class"])],8,ad)):e.createCommentVNode("",!0),e.unref(t).features.includes(e.unref(K).UPLOAD)?(e.openBlock(),e.createElementBlock("div",{key:4,class:"mx-1.5",title:e.unref(o)("Upload"),onClick:p[4]||(p[4]=f=>e.unref(t).modal.open(St,{items:e.unref(a)}))},[e.createVNode(e.unref(En))],8,sd)):e.createCommentVNode("",!0),e.unref(t).features.includes(e.unref(K).UNARCHIVE)&&e.unref(a).length===1&&e.unref(a)[0].mime_type==="application/zip"?(e.openBlock(),e.createElementBlock("div",{key:5,class:"mx-1.5",title:e.unref(o)("Unarchive"),onClick:p[5]||(p[5]=f=>!e.unref(a).length||e.unref(t).modal.open($t,{items:e.unref(a)}))},[e.createVNode(e.unref(bn),{class:e.normalizeClass(e.unref(a).length?"vf-toolbar-icon":"vf-toolbar-icon-disabled")},null,8,["class"])],8,id)):e.createCommentVNode("",!0),e.unref(t).features.includes(e.unref(K).ARCHIVE)?(e.openBlock(),e.createElementBlock("div",{key:6,class:"mx-1.5",title:e.unref(o)("Archive"),onClick:p[6]||(p[6]=f=>!e.unref(a).length||e.unref(t).modal.open(Dt,{items:e.unref(a)}))},[e.createVNode(e.unref(Vn),{class:e.normalizeClass(e.unref(a).length?"vf-toolbar-icon":"vf-toolbar-icon-disabled")},null,8,["class"])],8,cd)):e.createCommentVNode("",!0)]),e.createElementVNode("div",dd,[e.unref(t).features.includes(e.unref(K).SEARCH)?(e.openBlock(),e.createElementBlock("div",{key:0,class:"mx-1.5",title:e.unref(o)("Search Files"),onClick:p[7]||(p[7]=f=>e.unref(t).modal.open(xt))},[e.createVNode(e.unref(Et),{class:"vf-toolbar-icon text-(--vf-bg-primary)"})],8,ud)):e.createCommentVNode("",!0),e.createElementVNode("div",md,[e.createElementVNode("div",{title:e.unref(o)("Filter"),onClick:p[8]||(p[8]=f=>m.value=!m.value),class:"vuefinder__toolbar__dropdown-trigger"},[e.createElementVNode("div",pd,[e.createVNode(e.unref(ed),{class:"vf-toolbar-icon vuefinder__toolbar__icon w-6 h-6"}),h.value?(e.openBlock(),e.createElementBlock("div",vd)):e.createCommentVNode("",!0)])],8,fd),m.value?(e.openBlock(),e.createElementBlock("div",_d,[e.createElementVNode("div",hd,[e.createElementVNode("div",gd,[e.createElementVNode("div",wd,e.toDisplayString(e.unref(o)("Sorting")),1),e.createElementVNode("div",yd,[e.withDirectives(e.createElementVNode("select",{"onUpdate:modelValue":p[9]||(p[9]=f=>i.value.sortBy=f),class:"vuefinder__toolbar__dropdown-select"},[e.createElementVNode("option",kd,e.toDisplayString(e.unref(o)("Name")),1),e.createElementVNode("option",Ed,e.toDisplayString(e.unref(o)("Size")),1),e.createElementVNode("option",bd,e.toDisplayString(e.unref(o)("Date")),1)],512),[[e.vModelSelect,i.value.sortBy]]),e.withDirectives(e.createElementVNode("select",{"onUpdate:modelValue":p[10]||(p[10]=f=>i.value.sortOrder=f),class:"vuefinder__toolbar__dropdown-select"},[e.createElementVNode("option",Vd,e.toDisplayString(e.unref(o)("None")),1),e.createElementVNode("option",Nd,e.toDisplayString(e.unref(o)("Asc")),1),e.createElementVNode("option",xd,e.toDisplayString(e.unref(o)("Desc")),1)],512),[[e.vModelSelect,i.value.sortOrder]])])]),e.createElementVNode("div",Cd,[e.createElementVNode("div",Bd,e.toDisplayString(e.unref(o)("Show")),1),e.createElementVNode("div",Sd,[e.createElementVNode("label",$d,[e.withDirectives(e.createElementVNode("input",{type:"radio",name:"filterKind",value:"all","onUpdate:modelValue":p[11]||(p[11]=f=>i.value.filterKind=f),class:"vuefinder__toolbar__radio"},null,512),[[e.vModelRadio,i.value.filterKind]]),e.createElementVNode("span",Dd,e.toDisplayString(e.unref(o)("All items")),1)]),e.createElementVNode("label",Fd,[e.withDirectives(e.createElementVNode("input",{type:"radio",name:"filterKind",value:"files","onUpdate:modelValue":p[12]||(p[12]=f=>i.value.filterKind=f),class:"vuefinder__toolbar__radio"},null,512),[[e.vModelRadio,i.value.filterKind]]),e.createElementVNode("span",Md,e.toDisplayString(e.unref(o)("Files only")),1)]),e.createElementVNode("label",Td,[e.withDirectives(e.createElementVNode("input",{type:"radio",name:"filterKind",value:"folders","onUpdate:modelValue":p[13]||(p[13]=f=>i.value.filterKind=f),class:"vuefinder__toolbar__radio"},null,512),[[e.vModelRadio,i.value.filterKind]]),e.createElementVNode("span",Ad,e.toDisplayString(e.unref(o)("Folders only")),1)])])]),e.createElementVNode("div",Id,[e.createElementVNode("label",Ld,e.toDisplayString(e.unref(o)("Show hidden files")),1),e.withDirectives(e.createElementVNode("input",{type:"checkbox",id:"showHidden","onUpdate:modelValue":p[14]||(p[14]=f=>i.value.showHidden=f),class:"vuefinder__toolbar__checkbox"},null,512),[[e.vModelCheckbox,i.value.showHidden]])]),e.createElementVNode("div",Od,[e.createElementVNode("button",{onClick:V,class:"vuefinder__toolbar__reset-button"},e.toDisplayString(e.unref(o)("Reset")),1)])])])):e.createCommentVNode("",!0)]),e.unref(t).features.includes(e.unref(K).FULL_SCREEN)?(e.openBlock(),e.createElementBlock("div",{key:1,onClick:p[15]||(p[15]=f=>e.unref(r).toggle("fullScreen")),class:"mx-1.5",title:e.unref(o)("Toggle Full Screen")},[e.unref(s).fullScreen?(e.openBlock(),e.createBlock(e.unref(jc),{key:0,class:"vf-toolbar-icon"})):(e.openBlock(),e.createBlock(e.unref(Hc),{key:1,class:"vf-toolbar-icon"}))],8,Rd)):e.createCommentVNode("",!0),e.createElementVNode("div",{class:"mx-1.5",title:e.unref(o)("Change View"),onClick:p[16]||(p[16]=f=>v())},[e.unref(s).view==="grid"?(e.openBlock(),e.createBlock(e.unref(qc),{key:0,class:"vf-toolbar-icon"})):e.createCommentVNode("",!0),e.unref(s).view==="list"?(e.openBlock(),e.createBlock(e.unref(Xc),{key:1,class:"vf-toolbar-icon"})):e.createCommentVNode("",!0)],8,Pd)])]))}}),Hd={xmlns:"http://www.w3.org/2000/svg",fill:"currentColor",class:"vuefinder__breadcrumb__refresh-icon",viewBox:"-40 -40 580 580"};function Ud(n,t){return e.openBlock(),e.createElementBlock("svg",Hd,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M463.5 224h8.5c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2S461.9 48.1 455 55l-41.6 41.6c-87.6-86.5-228.7-86.2-315.8 1-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2S334.3 224 344 224z"},null,-1)])])}const Kd={render:Ud},jd={xmlns:"http://www.w3.org/2000/svg",fill:"currentColor",class:"h-6 w-6 p-0.5 rounded",viewBox:"0 0 20 20"};function Wd(n,t){return e.openBlock(),e.createElementBlock("svg",jd,[...t[0]||(t[0]=[e.createElementVNode("path",{"fill-rule":"evenodd",d:"M5.293 9.707a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1-1.414 1.414L11 7.414V15a1 1 0 1 1-2 0V7.414L6.707 9.707a1 1 0 0 1-1.414 0",class:"pointer-events-none","clip-rule":"evenodd"},null,-1)])])}const Gd={render:Wd},qd={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-width":"1.5",class:"vuefinder__breadcrumb__close-icon",viewBox:"0 0 24 24"};function Yd(n,t){return e.openBlock(),e.createElementBlock("svg",qd,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M6 18 18 6M6 6l12 12"},null,-1)])])}const Qd={render:Yd},Xd={xmlns:"http://www.w3.org/2000/svg",fill:"currentColor",viewBox:"0 0 20 20"};function Jd(n,t){return e.openBlock(),e.createElementBlock("svg",Xd,[...t[0]||(t[0]=[e.createElementVNode("path",{d:"M10.707 2.293a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 1.414 1.414L4 10.414V17a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-6.586l.293.293a1 1 0 0 0 1.414-1.414z",class:"pointer-events-none"},null,-1)])])}const Zd={render:Jd},eu={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-width":"1.5",class:"w-6 h-6 cursor-pointer",viewBox:"0 0 24 24"};function tu(n,t){return e.openBlock(),e.createElementBlock("svg",eu,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M6 18 18 6M6 6l12 12"},null,-1)])])}const nu={render:tu},ou={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor","stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"2",viewBox:"0 0 24 24"};function lu(n,t){return e.openBlock(),e.createElementBlock("svg",ou,[...t[0]||(t[0]=[e.createElementVNode("path",{stroke:"none",d:"M0 0h24v24H0z"},null,-1),e.createElementVNode("path",{d:"M9 6h11M12 12h8M15 18h5M5 6v.01M8 12v.01M11 18v.01"},null,-1)])])}const ru={render:lu},au={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"};function su(n,t){return e.openBlock(),e.createElementBlock("svg",au,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"2",d:"M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2"},null,-1)])])}const iu={render:su},cu={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"};function du(n,t){return e.openBlock(),e.createElementBlock("svg",cu,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"2",d:"M8 7h12m0 0-4-4m4 4-4 4m0 6H4m0 0 4 4m-4-4 4-4"},null,-1)])])}const uu={render:du};function Le(n,t=[]){const o="vfDragEnterCounter",l=n.fs,r=I.useStore(l.selectedItems);function s(d,i){if(d.isExternalDrag)return;d.preventDefault(),l.getDraggedItem()===i.path||!i||i.type!=="dir"||r.value.some(h=>h.path===i.path||qa(h.path)===i.path)?d.dataTransfer&&(d.dataTransfer.dropEffect="none",d.dataTransfer.effectAllowed="none"):(d.dataTransfer&&(d.dataTransfer.dropEffect="copy",d.dataTransfer.effectAllowed="all"),d.currentTarget.classList.add(...t))}function a(d){if(d.isExternalDrag)return;d.preventDefault();const i=d.currentTarget,v=Number(i.dataset[o]||0);i.dataset[o]=String(v+1)}function u(d){if(d.isExternalDrag)return;d.preventDefault();const i=d.currentTarget,h=Number(i.dataset[o]||0)-1;h<=0?(delete i.dataset[o],i.classList.remove(...t)):i.dataset[o]=String(h)}function c(d,i){if(d.isExternalDrag||!i)return;d.preventDefault();const v=d.currentTarget;delete v.dataset[o],v.classList.remove(...t);const h=d.dataTransfer?.getData("items")||"[]",_=JSON.parse(h).map(p=>l.sortedFiles.get().find(f=>f.path===p));l.clearDraggedItem(),n.modal.open(Ce,{items:{from:_,to:i}})}function m(d){return{dragover:i=>s(i,d),dragenter:a,dragleave:u,drop:i=>c(i,d)}}return{events:m}}const mu={class:"vuefinder__breadcrumb__container"},fu=["title"],pu=["title"],vu=["title"],_u=["title"],hu={class:"vuefinder__breadcrumb__path-container"},gu={class:"vuefinder__breadcrumb__list"},wu={key:0,class:"vuefinder__breadcrumb__hidden-list"},yu={class:"relative"},ku=["title","onClick"],Eu=["title"],bu={class:"vuefinder__breadcrumb__path-mode"},Vu={class:"vuefinder__breadcrumb__path-mode-content"},Nu=["title"],xu={class:"vuefinder__breadcrumb__path-text"},Cu=["title"],Bu=["data-theme"],Su=["onClick"],$u={class:"vuefinder__breadcrumb__hidden-item-content"},Du={class:"vuefinder__breadcrumb__hidden-item-text"},Fu=e.defineComponent({__name:"Breadcrumb",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=t.config,s=I.useStore(r.state),a=I.useStore(l.path),u=I.useStore(l.loading),c=e.ref(null),m=en(0,100),d=e.ref(5),i=e.ref(!1),v=e.ref(!1),h=e.computed(()=>a.value?.breadcrumb??[]);function V(z,E){return z.length>E?[z.slice(-E),z.slice(0,-E)]:[z,[]]}const _=e.computed(()=>V(h.value,d.value)[0]),p=e.computed(()=>V(h.value,d.value)[1]);e.watch(m,()=>{if(!c.value)return;const z=c.value.children;let E=0,g=0;const b=5,N=1;d.value=b,e.nextTick(()=>{for(let M=z.length-1;M>=0;M--){const R=z[M];if(E+R.offsetWidth>m.value-40)break;E+=parseInt(R.offsetWidth.toString(),10),g++}g<N&&(g=N),g>b&&(g=b),d.value=g})});const f=()=>{c.value&&(m.value=c.value.offsetWidth)},w=e.ref(null);e.onMounted(()=>{w.value=new ResizeObserver(f),c.value&&w.value.observe(c.value)}),e.onUnmounted(()=>{w.value&&w.value.disconnect()});const k=Le(t,["vuefinder__drag-over"]);function y(z=null){z??=h.value.length-2;const E={basename:a.value?.storage??"local",extension:"",path:(a.value?.storage??"local")+"://",storage:a.value?.storage??"local",type:"dir",file_size:null,last_modified:null,mime_type:null,visibility:""};return h.value[z]??E}const C=()=>{t.adapter.invalidateListQuery(a.value.path),t.adapter.open(a.value.path)},F=()=>{_.value.length>0&&t.adapter.open(h.value[h.value.length-2]?.path??(a.value?.storage??"local")+"://")},B=z=>{t.adapter.open(z.path),i.value=!1},L=()=>{i.value&&(i.value=!1)},S={mounted(z,E){z.clickOutsideEvent=function(g){z===g.target||z.contains(g.target)||E.value()},document.body.addEventListener("click",z.clickOutsideEvent)},beforeUnmount(z){document.body.removeEventListener("click",z.clickOutsideEvent)}},O=()=>{r.toggle("showTreeView")},q=e.ref({x:0,y:0}),X=(z,E=null)=>{if(z.currentTarget instanceof HTMLElement){const{x:g,y:b,height:N}=z.currentTarget.getBoundingClientRect();q.value={x:g,y:b+N}}i.value=E??!i.value},P=()=>{v.value=!v.value},W=async()=>{await Ae(a.value?.path||""),t.emitter.emit("vf-toast-push",{label:o("Path copied to clipboard")})},Q=()=>{v.value=!1};return(z,E)=>(e.openBlock(),e.createElementBlock("div",mu,[e.createElementVNode("span",{title:e.unref(o)("Toggle Tree View")},[e.createVNode(e.unref(ru),{onClick:O,class:e.normalizeClass(["vuefinder__breadcrumb__toggle-tree",e.unref(s).showTreeView?"vuefinder__breadcrumb__toggle-tree--active":""])},null,8,["class"])],8,fu),e.createElementVNode("span",{title:e.unref(o)("Go up a directory")},[e.createVNode(e.unref(Gd),e.mergeProps(e.toHandlers(h.value.length?e.unref(k).events(y()):{}),{onClick:F,class:h.value.length?"vuefinder__breadcrumb__go-up--active":"vuefinder__breadcrumb__go-up--inactive"}),null,16,["class"])],8,pu),e.unref(l).isLoading()?(e.openBlock(),e.createElementBlock("span",{key:1,title:e.unref(o)("Cancel")},[e.createVNode(e.unref(Qd),{onClick:E[0]||(E[0]=g=>e.unref(t).emitter.emit("vf-fetch-abort"))})],8,_u)):(e.openBlock(),e.createElementBlock("span",{key:0,title:e.unref(o)("Refresh")},[e.createVNode(e.unref(Kd),{onClick:C})],8,vu)),e.withDirectives(e.createElementVNode("div",hu,[e.createElementVNode("div",null,[e.createVNode(e.unref(Zd),e.mergeProps({class:"vuefinder__breadcrumb__home-icon"},e.toHandlers(e.unref(k).events(y(-1))),{onClick:E[1]||(E[1]=e.withModifiers(g=>e.unref(t).adapter.open(e.unref(a).storage+"://"),["stop"]))}),null,16)]),e.createElementVNode("div",gu,[p.value.length?e.withDirectives((e.openBlock(),e.createElementBlock("div",wu,[E[3]||(E[3]=e.createElementVNode("div",{class:"vuefinder__breadcrumb__separator"},"/",-1)),e.createElementVNode("div",yu,[e.createElementVNode("span",{onDragenter:E[2]||(E[2]=g=>X(g,!0)),onClick:e.withModifiers(X,["stop"]),class:"vuefinder__breadcrumb__hidden-toggle"},[e.createVNode(e.unref(gn),{class:"vuefinder__breadcrumb__hidden-toggle-icon"})],32)])])),[[S,L]]):e.createCommentVNode("",!0)]),e.createElementVNode("div",{ref_key:"breadcrumbContainer",ref:c,class:"vuefinder__breadcrumb__visible-list pointer-events-none"},[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(_.value,(g,b)=>(e.openBlock(),e.createElementBlock("div",{key:b},[E[4]||(E[4]=e.createElementVNode("span",{class:"vuefinder__breadcrumb__separator"},"/",-1)),e.createElementVNode("span",e.mergeProps(e.toHandlers(e.unref(k).events(g),!0),{class:"vuefinder__breadcrumb__item pointer-events-auto",title:g.basename,onClick:e.withModifiers(N=>e.unref(t).adapter.open(g.path),["stop"])}),e.toDisplayString(g.name),17,ku)]))),128))],512),e.unref(r).get("loadingIndicator")==="circular"&&e.unref(u)?(e.openBlock(),e.createBlock(e.unref(nt),{key:0})):e.createCommentVNode("",!0),e.createElementVNode("span",{title:e.unref(o)("Toggle Path Copy Mode"),onClick:P},[e.createVNode(e.unref(uu),{class:"vuefinder__breadcrumb__toggle-icon"})],8,Eu)],512),[[e.vShow,!v.value]]),e.withDirectives(e.createElementVNode("div",bu,[e.createElementVNode("div",Vu,[e.createElementVNode("div",{title:e.unref(o)("Copy Path")},[e.createVNode(e.unref(iu),{class:"vuefinder__breadcrumb__copy-icon",onClick:W})],8,Nu),e.createElementVNode("div",xu,e.toDisplayString(e.unref(a).path),1),e.createElementVNode("div",{title:e.unref(o)("Exit")},[e.createVNode(e.unref(nu),{class:"vuefinder__breadcrumb__exit-icon",onClick:Q})],8,Cu)])],512),[[e.vShow,v.value]]),(e.openBlock(),e.createBlock(e.Teleport,{to:"body"},[e.createElementVNode("div",null,[e.withDirectives(e.createElementVNode("div",{style:e.normalizeStyle({position:"absolute",top:q.value.y+"px",left:q.value.x+"px"}),class:"vuefinder__themer vuefinder__breadcrumb__hidden-dropdown","data-theme":e.unref(t).theme.current},[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(p.value,(g,b)=>(e.openBlock(),e.createElementBlock("div",e.mergeProps({key:b},e.toHandlers(e.unref(k).events(g),!0),{onClick:N=>B(g),class:"vuefinder__breadcrumb__hidden-item"}),[e.createElementVNode("div",$u,[e.createElementVNode("span",null,[e.createVNode(e.unref(he),{class:"vuefinder__breadcrumb__hidden-item-icon"})]),E[5]||(E[5]=e.createTextVNode()),e.createElementVNode("span",Du,e.toDisplayString(g.name),1)])],16,Su))),128))],12,Bu),[[e.vShow,i.value]])])]))]))}});function Mu(n,t){const{scrollContainer:o,itemWidth:l=100,rowHeight:r,overscan:s=2,containerPadding:a=48,lockItemsPerRow:u}=t,c=n,m=()=>typeof r=="number"?r:r.value,d=e.ref(0),i=e.ref(6),v=e.ref(600);let h=null;const V=e.computed(()=>Math.ceil(c.value.length/i.value)),_=e.computed(()=>V.value*m()),p=e.computed(()=>{const S=m(),O=Math.max(0,Math.floor(d.value/S)-s),q=Math.min(V.value,Math.ceil((d.value+v.value)/S)+s);return{start:O,end:q}}),f=e.computed(()=>{const{start:S,end:O}=p.value;return Array.from({length:O-S},(q,X)=>S+X)}),w=()=>v.value,k=()=>u.value,y=()=>{if(k()){i.value=1;return}if(o.value){const S=o.value.clientWidth-a;i.value=Math.max(Math.floor(S/l),2)}},C=S=>{const O=S.target;d.value=O.scrollTop};e.watch(()=>c.value.length,()=>{y()});const F=(S,O)=>{if(!S||!Array.isArray(S))return[];const q=O*i.value;return S.slice(q,q+i.value)},B=(S,O,q,X,P)=>{if(!S||!Array.isArray(S))return[];const W=[];for(let Q=O;Q<=q;Q++)for(let z=X;z<=P;z++){const E=Q*i.value+z;E<S.length&&S[E]&&W.push(S[E])}return W},L=S=>({row:Math.floor(S/i.value),col:S%i.value});return e.onMounted(async()=>{await e.nextTick(),o.value&&(v.value=o.value.clientHeight||600),y(),window.addEventListener("resize",()=>{o.value&&(v.value=o.value.clientHeight||600),y()}),o.value&&"ResizeObserver"in window&&(h=new ResizeObserver(S=>{const O=S[0];O&&(v.value=Math.round(O.contentRect.height)),y()}),h.observe(o.value))}),e.onUnmounted(()=>{window.removeEventListener("resize",y),h&&(h.disconnect(),h=null)}),{scrollTop:d,itemsPerRow:i,totalRows:V,totalHeight:_,visibleRange:p,visibleRows:f,updateItemsPerRow:y,handleScroll:C,getRowItems:F,getItemsInRange:B,getItemPosition:L,getContainerHeight:w}}function Tu(n){const{getItemPosition:t,getItemsInRange:o,getKey:l,selectionObject:r,rowHeight:s,itemWidth:a}=n,u=Math.floor(Math.random()*2**32).toString(),c=H(),m=c.fs,d=I.useStore(m.selectedKeys),i=I.useStore(m.sortedFiles),v=e.ref(new Set),h=e.ref(!1),V=e.ref(!1),_=e.ref(null),p=E=>E.map(g=>g.getAttribute("data-key")).filter(g=>!!g),f=E=>{E.selection.getSelection().forEach(g=>{E.selection.deselect(g,!0)})},w=E=>{d.value&&d.value.forEach(g=>{const b=document.querySelector(`[data-key="${g}"]`);b&&k(g)&&E.selection.select(b,!0)})},k=E=>{const g=i.value?.find(M=>l(M)===E);if(!g)return!1;const b=c.selectionFilterType,N=c.selectionFilterMimeIncludes;return b==="files"&&g.type==="dir"||b==="dirs"&&g.type==="file"?!1:N&&Array.isArray(N)&&N.length>0?g.type==="dir"?!0:g.mime_type?N.some(M=>g.mime_type?.startsWith(M)):!1:!0},y=E=>{if(E.size===0)return null;const b=Array.from(E).map(Y=>{const _e=i.value?.findIndex(ge=>l(ge)===Y)??-1;return t(_e>=0?_e:0)}),N=Math.min(...b.map(Y=>Y.row)),M=Math.max(...b.map(Y=>Y.row)),R=Math.min(...b.map(Y=>Y.col)),J=Math.max(...b.map(Y=>Y.col));return{minRow:N,maxRow:M,minCol:R,maxCol:J}},C=E=>{if(c.selectionMode==="single")return!1;h.value=!1,!E.event?.metaKey&&!E.event?.ctrlKey&&(V.value=!0),E.selection.resolveSelectables(),f(E),w(E)},F=e.ref(0),B=E=>{const g=E;if(g&&"touches"in g){const b=g.touches?.[0];if(b)return{x:b.clientX,y:b.clientY}}if(g&&"changedTouches"in g){const b=g.changedTouches?.[0];if(b)return{x:b.clientX,y:b.clientY}}if(g&&"clientX"in g&&"clientY"in g){const b=g;return{x:b.clientX,y:b.clientY}}return null},L=({event:E,selection:g})=>{F.value=(r.value?.getAreaLocation().y1??0)-(c.root.getBoundingClientRect().top??0);const b=document.querySelector(".selection-area-container");if(b&&(b.dataset.theme=c.theme.current),c.selectionMode==="single")return;const N=E;N&&"type"in N&&N.type==="touchend"&&N.preventDefault();const M=E;if(!M?.ctrlKey&&!M?.metaKey&&(m.clearSelection(),g.clearSelection(!0,!0)),v.value.clear(),r.value){const R=r.value.getSelectables()[0]?.closest(".scroller-"+u);if(R){const J=R.getBoundingClientRect(),Y=B(E);if(Y){const _e=Y.y-J.top+R.scrollTop,ge=Y.x-J.left,Ne=Math.floor(_e/s.value),$e=Math.floor(ge/a);_.value={row:Ne,col:$e}}}}},S=E=>{if(c.selectionMode==="single")return;const g=E.selection,b=p(E.store.changed.added),N=p(E.store.changed.removed);V.value=!1,h.value=!0,b.forEach(M=>{d.value&&!d.value.has(M)&&k(M)&&(v.value.add(M),m.select(M,c.selectionMode||"multiple"))}),N.forEach(M=>{document.querySelector(`[data-key="${M}"]`)&&i.value?.find(J=>l(J)===M)&&v.value.delete(M),m.deselect(M)}),g.resolveSelectables(),w(E)},O=()=>{v.value.clear()},q=E=>{if(E.event&&_.value&&v.value.size>0){const b=Array.from(v.value).map(N=>{const M=i.value?.findIndex(R=>l(R)===N)??-1;return M>=0?t(M):null}).filter(N=>N!==null);if(b.length>0){const N=[...b,_.value],M={minRow:Math.min(...N.map(R=>R.row)),maxRow:Math.max(...N.map(R=>R.row)),minCol:Math.min(...N.map(R=>R.col)),maxCol:Math.max(...N.map(R=>R.col))};o(i.value||[],M.minRow,M.maxRow,M.minCol,M.maxCol).forEach(R=>{const J=l(R);document.querySelector(`[data-key="${J}"]`)||m.select(J,c.selectionMode||"multiple")})}}},X=E=>{q(E),f(E),w(E),m.setSelectedCount(d.value?.size||0),h.value=!1,_.value=null},P=()=>{r.value=new In({selectables:[".file-item-"+u+":not(.vf-explorer-item--unselectable)"],boundaries:[".scroller-"+u],selectionContainerClass:"selection-area-container",behaviour:{overlap:"invert",intersect:"touch",startThreshold:0,triggers:[0],scrolling:{speedDivider:10,manualSpeed:750,startScrollMargins:{x:0,y:10}}},features:{touch:!0,range:!0,deselectOnBlur:!0,singleTap:{allow:!1,intersect:"native"}}}),r.value.on("beforestart",C),r.value.on("start",L),r.value.on("move",S),r.value.on("stop",X)},W=()=>{r.value&&(r.value.destroy(),r.value=null)},Q=()=>{r.value&&(Array.from(d.value??new Set).forEach(g=>{k(g)||m.deselect(g)}),W(),P())},z=E=>{V.value&&(r.value?.clearSelection(),O(),V.value=!1);const g=E;!v.value.size&&!V.value&&!g?.ctrlKey&&!g?.metaKey&&(m.clearSelection(),r.value?.clearSelection())};return e.onMounted(()=>{const E=g=>{!g.buttons&&h.value&&(h.value=!1)};document.addEventListener("dragleave",E),e.onUnmounted(()=>{document.removeEventListener("dragleave",E)})}),{isDragging:h,selectionStarted:V,explorerId:u,extractIds:p,cleanupSelection:f,refreshSelection:w,getSelectionRange:y,selectSelectionRange:q,initializeSelectionArea:P,destroySelectionArea:W,updateSelectionArea:Q,handleContentClick:z}}const Au={xmlns:"http://www.w3.org/2000/svg",fill:"currentColor",class:"h-5 w-5",viewBox:"0 0 20 20"};function Iu(n,t){return e.openBlock(),e.createElementBlock("svg",Au,[...t[0]||(t[0]=[e.createElementVNode("path",{"fill-rule":"evenodd",d:"M5.293 7.293a1 1 0 0 1 1.414 0L10 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414","clip-rule":"evenodd"},null,-1)])])}const Lu={render:Iu},Ou={xmlns:"http://www.w3.org/2000/svg",fill:"currentColor",class:"h-5 w-5",viewBox:"0 0 20 20"};function Ru(n,t){return e.openBlock(),e.createElementBlock("svg",Ou,[...t[0]||(t[0]=[e.createElementVNode("path",{"fill-rule":"evenodd",d:"M14.707 12.707a1 1 0 0 1-1.414 0L10 9.414l-3.293 3.293a1 1 0 0 1-1.414-1.414l4-4a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414","clip-rule":"evenodd"},null,-1)])])}const Pu={render:Ru},mt=e.defineComponent({__name:"SortIcon",props:{direction:{}},setup(n){return(t,o)=>(e.openBlock(),e.createElementBlock("div",null,[n.direction==="asc"?(e.openBlock(),e.createBlock(e.unref(Lu),{key:0})):e.createCommentVNode("",!0),n.direction==="desc"?(e.openBlock(),e.createBlock(e.unref(Pu),{key:1})):e.createCommentVNode("",!0)]))}}),zu={xmlns:"http://www.w3.org/2000/svg",fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"};function Hu(n,t){return e.openBlock(),e.createElementBlock("svg",zu,[...t[0]||(t[0]=[e.createElementVNode("path",{"stroke-linecap":"round","stroke-linejoin":"round",d:"M7 21h10a2 2 0 0 0 2-2V9.414a1 1 0 0 0-.293-.707l-5.414-5.414A1 1 0 0 0 12.586 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2"},null,-1)])])}const Uu={render:Hu},Ku={class:"vuefinder__drag-item__container"},ju={class:"vuefinder__drag-item__count"},Wu=e.defineComponent({__name:"DragItem",props:{count:{}},setup(n){const t=n;return(o,l)=>(e.openBlock(),e.createElementBlock("div",Ku,[e.createVNode(e.unref(Uu),{class:"vuefinder__drag-item__icon"}),e.createElementVNode("div",ju,e.toDisplayString(t.count),1)]))}}),Gu={key:2,class:"vuefinder__item-icon__extension"},Ut=e.defineComponent({__name:"ItemIcon",props:{item:{},ext:{type:Boolean},small:{type:Boolean}},setup(n){const t=n,o=H(),l=I.useStore(o.config.state),r={app:o,config:l.value,item:t.item};return(s,a)=>(e.openBlock(),e.createElementBlock("div",{class:e.normalizeClass(["vuefinder__item-icon",n.small?"vuefinder__item-icon--small":"vuefinder__item-icon--large"])},[e.renderSlot(s.$slots,"icon",e.normalizeProps(e.guardReactiveProps(r)),()=>[n.item.type==="dir"?(e.openBlock(),e.createBlock(e.unref(he),{key:0,class:"vuefinder__item-icon__folder"})):(e.openBlock(),e.createBlock(e.unref(ze),{key:1,class:"vuefinder__item-icon__file"})),n.ext&&n.item.type!=="dir"&&n.item.extension?(e.openBlock(),e.createElementBlock("div",Gu,e.toDisplayString(n.item.extension.substring(0,3)),1)):e.createCommentVNode("",!0)])],2))}}),qu={xmlns:"http://www.w3.org/2000/svg",fill:"currentColor",viewBox:"0 0 24 24"};function Yu(n,t){return e.openBlock(),e.createElementBlock("svg",qu,[...t[0]||(t[0]=[e.createElementVNode("path",{fill:"none",d:"M0 0h24v24H0z"},null,-1),e.createElementVNode("path",{d:"M12 2a5 5 0 0 1 5 5v3a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3V7a5 5 0 0 1 5-5m0 12a2 2 0 0 0-1.995 1.85L10 16a2 2 0 1 0 2-2m0-10a3 3 0 0 0-3 3v3h6V7a3 3 0 0 0-3-3"},null,-1)])])}const Kt={render:Yu},Qu=["data-key","data-row","data-col","draggable"],Xu={key:0},Ju={class:"vuefinder__explorer__item-grid-content"},Zu=["data-src","alt"],em={class:"vuefinder__explorer__item-title"},tm={key:1,class:"vuefinder__explorer__item-list-content"},nm={class:"vuefinder__explorer__item-list-name"},om={class:"vuefinder__explorer__item-list-icon"},lm={class:"vuefinder__explorer__item-name"},rm={key:0,class:"vuefinder__explorer__item-path"},am={key:1,class:"vuefinder__explorer__item-size"},sm={key:0},im={key:2,class:"vuefinder__explorer__item-date"},cm=e.defineComponent({__name:"FileItem",props:{item:{},view:{},compact:{type:Boolean},showThumbnails:{type:Boolean},isSelected:{type:Boolean},isDragging:{type:Boolean},rowIndex:{},colIndex:{},showPath:{type:Boolean},explorerId:{}},emits:["click","dblclick","contextmenu","dragstart","dragend"],setup(n,{emit:t}){const o=n,l=t,r=H(),s=r.fs,a=r.config,u=e.computed(()=>{const w=r.selectionFilterType;return!w||w==="both"?!0:w==="files"&&o.item.type==="file"||w==="dirs"&&o.item.type==="dir"}),c=e.computed(()=>{const w=r.selectionFilterMimeIncludes;return!w||!w.length||o.item.type==="dir"?!0:o.item.mime_type?w.some(k=>o.item.mime_type?.startsWith(k)):!1}),m=e.computed(()=>u.value&&c.value),d=e.computed(()=>["file-item-"+o.explorerId,o.view==="grid"?"vf-explorer-item-grid":"vf-explorer-item-list",o.isSelected?"vf-explorer-selected":"",m.value?"":"vf-explorer-item--unselectable"]),i=e.computed(()=>({opacity:o.isDragging||s.isCut(o.item.path)||!m.value?.5:""}));let v=null;const h=e.ref(null);let V=!1;const _=()=>{v&&clearTimeout(v),p.value=!0},p=e.ref(!0),f=w=>{if(p.value=!1,v&&(w.preventDefault(),clearTimeout(v)),!V)V=!0,l("click",w),h.value=setTimeout(()=>{V=!1},300);else return V=!1,l("dblclick",w),v&&clearTimeout(v),!1;if(w.currentTarget&&w.currentTarget instanceof HTMLElement){const k=w.currentTarget.getBoundingClientRect();w.preventDefault(),v=setTimeout(()=>{let F=k.y+k.height;F+146>window.innerHeight-10&&(F=k.y-146),F<10&&(F=10);const B=new MouseEvent("contextmenu",{bubbles:!0,cancelable:!0,view:window,button:2,buttons:0,clientX:k.x,clientY:F});w.target?.dispatchEvent(B)},300)}};return(w,k)=>(e.openBlock(),e.createElementBlock("div",{class:e.normalizeClass(d.value),style:e.normalizeStyle(i.value),"data-key":n.item.path,"data-row":n.rowIndex,"data-col":n.colIndex,draggable:p.value,onTouchstart:k[1]||(k[1]=y=>f(y)),onTouchend:k[2]||(k[2]=y=>_()),onClick:k[3]||(k[3]=y=>l("click",y)),onDblclick:k[4]||(k[4]=y=>l("dblclick",y)),onContextmenu:k[5]||(k[5]=e.withModifiers(y=>l("contextmenu",y),["prevent","stop"])),onDragstart:k[6]||(k[6]=y=>l("dragstart",y)),onDragend:k[7]||(k[7]=y=>l("dragend",y))},[n.view==="grid"?(e.openBlock(),e.createElementBlock("div",Xu,[e.unref(s).isReadOnly(n.item)?(e.openBlock(),e.createBlock(e.unref(Kt),{key:0,class:"vuefinder__item--readonly vuefinder__item--readonly--left",title:"Read Only"})):e.createCommentVNode("",!0),e.createElementVNode("div",Ju,[(n.item.mime_type??"").startsWith("image")&&n.showThumbnails?(e.openBlock(),e.createElementBlock("img",{key:0,onTouchstart:k[0]||(k[0]=y=>y.preventDefault()),src:"data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",class:"vuefinder__explorer__item-thumbnail lazy","data-src":e.unref(r).adapter.getPreviewUrl({path:n.item.path}),alt:n.item.basename},null,40,Zu)):(e.openBlock(),e.createBlock(Ut,{key:1,item:n.item,ext:!0},{icon:e.withCtx(y=>[e.renderSlot(w.$slots,"icon",e.normalizeProps(e.guardReactiveProps(y)))]),_:3},8,["item"]))]),e.createElementVNode("span",em,e.toDisplayString(e.unref(vt)(n.item.basename)),1)])):(e.openBlock(),e.createElementBlock("div",tm,[e.createElementVNode("div",nm,[e.createElementVNode("div",om,[e.createVNode(Ut,{item:n.item,small:n.compact},{icon:e.withCtx(y=>[e.renderSlot(w.$slots,"icon",e.normalizeProps(e.guardReactiveProps(y)))]),_:3},8,["item","small"])]),e.createElementVNode("span",lm,e.toDisplayString(n.item.basename),1),e.createElementVNode("div",null,[e.unref(s).isReadOnly(n.item)?(e.openBlock(),e.createBlock(e.unref(Kt),{key:0,class:"vuefinder__item--readonly vuefinder__item--readonly--list",title:"Read Only"})):e.createCommentVNode("",!0)])]),n.showPath?(e.openBlock(),e.createElementBlock("div",rm,e.toDisplayString(n.item.path),1)):e.createCommentVNode("",!0),n.showPath?e.createCommentVNode("",!0):(e.openBlock(),e.createElementBlock("div",am,[n.item.file_size?(e.openBlock(),e.createElementBlock("div",sm,e.toDisplayString(e.unref(r).filesize(n.item.file_size)),1)):e.createCommentVNode("",!0)])),!n.showPath&&n.item.last_modified?(e.openBlock(),e.createElementBlock("div",im,e.toDisplayString(new Date(n.item.last_modified*1e3).toLocaleString()),1)):e.createCommentVNode("",!0)])),e.unref(a).get("pinnedFolders").find(y=>y.path===n.item.path)?(e.openBlock(),e.createBlock(e.unref(ht),{key:2,class:"vuefinder__item--pinned"})):e.createCommentVNode("",!0)],46,Qu))}}),dm=["data-row"],jt=e.defineComponent({__name:"FileRow",props:{rowIndex:{},rowHeight:{},view:{},itemsPerRow:{},items:{},compact:{type:Boolean},showThumbnails:{type:Boolean},showPath:{type:Boolean},isDraggingItem:{type:Function},isSelected:{type:Function},dragNDropEvents:{type:Function},explorerId:{}},emits:["click","dblclick","contextmenu","dragstart","dragend"],setup(n,{emit:t}){const o=n,l=t,r=e.computed(()=>[o.view==="grid"?"vf-explorer-item-grid-row":"vf-explorer-item-list-row","pointer-events-none"]),s=e.computed(()=>({position:"absolute",top:0,left:0,width:"100%",height:`${o.rowHeight}px`,transform:`translateY(${o.rowIndex*o.rowHeight}px)`})),a=e.computed(()=>o.view==="grid"?{gridTemplateColumns:`repeat(${o.itemsPerRow||1}, 1fr)`}:{gridTemplateColumns:"1fr"});return(u,c)=>(e.openBlock(),e.createElementBlock("div",{class:e.normalizeClass(r.value),"data-row":n.rowIndex,style:e.normalizeStyle(s.value)},[e.createElementVNode("div",{class:e.normalizeClass(["grid justify-self-start",{"w-full":n.view==="list"}]),style:e.normalizeStyle(a.value)},[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(n.items,(m,d)=>(e.openBlock(),e.createBlock(cm,e.mergeProps({key:m.path,item:m,view:n.view,compact:n.compact,"show-thumbnails":n.showThumbnails,"show-path":n.showPath,"is-selected":n.isSelected(m.path),"is-dragging":n.isDraggingItem(m.path),"row-index":n.rowIndex,"col-index":d},e.toHandlers(n.dragNDropEvents(m)),{onClick:c[0]||(c[0]=i=>l("click",i)),onDblclick:c[1]||(c[1]=i=>l("dblclick",i)),onContextmenu:c[2]||(c[2]=i=>l("contextmenu",i)),onDragstart:c[3]||(c[3]=i=>l("dragstart",i)),onDragend:c[4]||(c[4]=i=>l("dragend",i)),explorerId:n.explorerId}),{icon:e.withCtx(i=>[e.renderSlot(u.$slots,"icon",e.mergeProps({ref_for:!0},i))]),_:3},16,["item","view","compact","show-thumbnails","show-path","is-selected","is-dragging","row-index","col-index","explorerId"]))),128))],6)],14,dm))}}),um=["onClick"],mm=e.defineComponent({__name:"Toast",setup(n){const t=H(),{getStore:o}=t.storage,l=e.ref(o("full-screen",!1)),r=e.ref([]),s=c=>c==="error"?"text-red-400 border-red-400 dark:text-red-300 dark:border-red-300":"text-lime-600 border-lime-600 dark:text-lime-300 dark:border-lime-1300",a=c=>{r.value.splice(c,1)},u=c=>{let m=r.value.findIndex(d=>d.id===c);m!==-1&&a(m)};return t.emitter.on("vf-toast-clear",()=>{r.value=[]}),t.emitter.on("vf-toast-push",c=>{let m=new Date().getTime().toString(36).concat(performance.now().toString(),Math.random().toString()).replace(/\./g,"");c.id=m,r.value.push(c),setTimeout(()=>{u(m)},5e3)}),(c,m)=>(e.openBlock(),e.createElementBlock("div",{class:e.normalizeClass(["vuefinder__toast",l.value?"vuefinder__toast--fixed":"vuefinder__toast--absolute"])},[e.createVNode(e.TransitionGroup,{name:"vuefinder__toast-item","enter-active-class":"vuefinder__toast-item--enter-active","leave-active-class":"vuefinder__toast-item--leave-active","leave-to-class":"vuefinder__toast-item--leave-to"},{default:e.withCtx(()=>[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(r.value,(d,i)=>(e.openBlock(),e.createElementBlock("div",{key:i,onClick:v=>a(i),class:e.normalizeClass(["vuefinder__toast__message",s(d.type)])},e.toDisplayString(d.label),11,um))),128))]),_:1})],2))}}),fm={class:"vuefinder__explorer__container"},pm={ref:"customScrollBar",class:"vuefinder__explorer__scrollbar"},vm={key:0,class:"vuefinder__explorer__header"},_m={key:0,class:"vuefinder__linear-loader"},hm=e.defineComponent({__name:"Explorer",props:{onFileDclick:{type:Function},onFolderDclick:{type:Function}},setup(n){const t=n,o=H(),l=Le(o,["vuefinder__drag-over"]),r=e.useTemplateRef("dragImage"),s=e.shallowRef(null),a=e.useTemplateRef("scrollContainer"),u=e.useTemplateRef("scrollContent"),c=o.fs,m=o.config,d=I.useStore(m.state),i=I.useStore(c.sort),v=I.useStore(c.sortedFiles),h=I.useStore(c.selectedKeys),V=I.useStore(c.loading),_=D=>h.value?.has(D)??!1;let p=null;const f=e.ref(null),w=e.useTemplateRef("customScrollBar"),k=e.useTemplateRef("customScrollBarContainer"),y=e.computed(()=>{const D=d.value.view,U=d.value.compactListView;return D==="grid"?88:U?24:50}),{t:C}=o.i18n,{itemsPerRow:F,totalHeight:B,visibleRows:L,handleScroll:S,getRowItems:O,getItemsInRange:q,getItemPosition:X,updateItemsPerRow:P}=Mu(e.computed(()=>v.value??[]),{scrollContainer:a,itemWidth:104,rowHeight:y,overscan:2,containerPadding:0,lockItemsPerRow:e.computed(()=>d.value.view==="list")}),{explorerId:W,isDragging:Q,initializeSelectionArea:z,destroySelectionArea:E,updateSelectionArea:g,handleContentClick:b}=Tu({getItemPosition:X,getItemsInRange:q,getKey:D=>D.path,selectionObject:s,rowHeight:y,itemWidth:104}),N=e.ref(null),M=D=>{if(!D||!N.value)return!1;const U=h.value?.has(N.value)??!1;return Q.value&&(U?h.value?.has(D)??!1:D===N.value)};e.watch(()=>m.get("view"),D=>{D==="list"?F.value=1:P()},{immediate:!0}),e.watch(F,D=>{m.get("view")==="list"&&D!==1&&(F.value=1)});const R=D=>v.value?.[D];e.onMounted(()=>{if(z(),s.value&&s.value.on("beforestart",({event:D})=>{const U=D?.target===u.value;if(!D?.metaKey&&!D?.ctrlKey&&!D?.altKey&&!U)return!1}),a.value&&(p=new Wt({elements_selector:".lazy",container:a.value})),e.watch(()=>[o.selectionFilterType,o.selectionFilterMimeIncludes],()=>{g()},{deep:!0}),k.value){const D=Qe.OverlayScrollbars(k.value,{scrollbars:{theme:"vf-scrollbars-theme"}},{initialized:U=>{f.value=U},scroll:U=>{const{scrollOffsetElement:j}=U.elements();a.value&&a.value.scrollTo({top:j.scrollTop,left:0})}});f.value=D}a.value&&a.value.addEventListener("scroll",()=>{const D=f.value;if(!D)return;const{scrollOffsetElement:U}=D.elements();U.scrollTo({top:a.value.scrollTop,left:0})})}),e.onMounted(()=>{o.emitter.on("vf-refresh-thumbnails",()=>{p&&p.update()})}),e.onUpdated(()=>{if(p&&p.update(),f.value&&w.value&&a.value){const U=a.value.scrollHeight>a.value.clientHeight,j=w.value;j.style.display=U?"block":"none",j.style.height=`${B.value}px`}}),e.onUnmounted(()=>{E(),p&&(p.destroy(),p=null),f.value&&(f.value.destroy(),f.value=null)});const J=D=>{const U=D.target?.closest(".file-item-"+W),j=D;if(U){const G=String(U.getAttribute("data-key")),x=v.value?.find(re=>re.path===G),$=o.selectionFilterType,T=o.selectionFilterMimeIncludes,A=!$||$==="both"||$==="files"&&x?.type==="file"||$==="dirs"&&x?.type==="dir";let Z=!0;if(T&&Array.isArray(T)&&T.length>0&&(x?.type==="dir"?Z=!0:x?.mime_type?Z=T.some(re=>(x?.mime_type).startsWith(re)):Z=!1),!A||!Z)return;const le=o.selectionMode||"multiple";!j?.ctrlKey&&!j?.metaKey&&(D.type!=="touchstart"||!c.isSelected(G))&&(c.clearSelection(),s.value?.clearSelection(!0,!0)),s.value?.resolveSelectables(),D.type==="touchstart"&&c.isSelected(G)?c.select(G,le):c.toggleSelect(G,le)}c.setSelectedCount(h.value?.size||0)},Y=D=>{if(D.type==="file"&&t.onFileDclick){o.emitter.emit("vf-file-dclick",D);return}if(D.type==="dir"&&t.onFolderDclick){o.emitter.emit("vf-folder-dclick",D);return}const U=o.contextMenuItems?.find(j=>j.show(o,{items:[D],target:D,searchQuery:""}));U&&U.action(o,[D])},_e=D=>{const U=D.target?.closest(".file-item-"+W),j=U?String(U.getAttribute("data-key")):null;if(!j)return;const G=v.value?.find(Z=>Z.path===j),x=o.selectionFilterType,$=o.selectionFilterMimeIncludes,T=!x||x==="both"||x==="files"&&G?.type==="file"||x==="dirs"&&G?.type==="dir";let A=!0;$&&Array.isArray($)&&$.length>0&&(G?.type==="dir"?A=!0:G?.mime_type?A=$.some(Z=>(G?.mime_type).startsWith(Z)):A=!1),!(!T||!A)&&G&&Y(G)},ge=()=>{const D=h.value;return v.value?.filter(U=>D?.has(U.path))||[]},Ne=D=>{D.preventDefault();const U=D.target?.closest(".file-item-"+W);if(U){const j=String(U.getAttribute("data-key")),G=v.value?.find(Z=>Z.path===j),x=o.selectionFilterType,$=o.selectionFilterMimeIncludes,T=!x||x==="both"||x==="files"&&G?.type==="file"||x==="dirs"&&G?.type==="dir";let A=!0;if($&&Array.isArray($)&&$.length>0&&(G?.type==="dir"?A=!0:G?.mime_type?A=$.some(Z=>(G?.mime_type).startsWith(Z)):A=!1),!T||!A)return;h.value?.has(j)||(c.clearSelection(),c.select(j)),o.emitter.emit("vf-contextmenu-show",{event:D,items:ge(),target:G})}},$e=D=>{D.preventDefault(),o.emitter.emit("vf-contextmenu-show",{event:D,items:ge()})},Oe=D=>{if(D.altKey||D.ctrlKey||D.metaKey)return D.preventDefault(),!1;Q.value=!0;const U=D.target?.closest(".file-item-"+W);if(N.value=U?String(U.dataset.key):null,D.dataTransfer&&N.value){D.dataTransfer.setDragImage(r.value,0,15),D.dataTransfer.effectAllowed="all",D.dataTransfer.dropEffect="copy";const j=h.value?.has(N.value)?Array.from(h.value):[N.value];D.dataTransfer.setData("items",JSON.stringify(j)),c.setDraggedItem(N.value)}},Re=()=>{N.value=null};return(D,U)=>(e.openBlock(),e.createElementBlock("div",fm,[e.createElementVNode("div",{ref:"customScrollBarContainer",class:e.normalizeClass(["vuefinder__explorer__scrollbar-container",[{"grid-view":e.unref(d).view==="grid"}]])},[e.createElementVNode("div",pm,null,512)],2),e.unref(d).view==="list"?(e.openBlock(),e.createElementBlock("div",vm,[e.createElementVNode("div",{onClick:U[0]||(U[0]=j=>e.unref(c).toggleSort("basename")),class:"vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button"},[e.createTextVNode(e.toDisplayString(e.unref(C)("Name"))+" ",1),e.withDirectives(e.createVNode(mt,{direction:e.unref(i).order},null,8,["direction"]),[[e.vShow,e.unref(i).active&&e.unref(i).column==="basename"]])]),e.createElementVNode("div",{onClick:U[1]||(U[1]=j=>e.unref(c).toggleSort("file_size")),class:"vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button"},[e.createTextVNode(e.toDisplayString(e.unref(C)("Size"))+" ",1),e.withDirectives(e.createVNode(mt,{direction:e.unref(i).order},null,8,["direction"]),[[e.vShow,e.unref(i).active&&e.unref(i).column==="file_size"]])]),e.createElementVNode("div",{onClick:U[2]||(U[2]=j=>e.unref(c).toggleSort("last_modified")),class:"vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button"},[e.createTextVNode(e.toDisplayString(e.unref(C)("Date"))+" ",1),e.withDirectives(e.createVNode(mt,{direction:e.unref(i).order},null,8,["direction"]),[[e.vShow,e.unref(i).active&&e.unref(i).column==="last_modified"]])])])):e.createCommentVNode("",!0),e.createElementVNode("div",{ref_key:"scrollContainer",ref:a,class:e.normalizeClass(["vuefinder__explorer__selector-area","scroller-"+e.unref(W)]),onScroll:U[4]||(U[4]=(...j)=>e.unref(S)&&e.unref(S)(...j))},[e.unref(m).get("loadingIndicator")==="linear"&&e.unref(V)?(e.openBlock(),e.createElementBlock("div",_m)):e.createCommentVNode("",!0),e.createElementVNode("div",{ref_key:"scrollContent",ref:u,class:"scrollContent min-h-full",style:e.normalizeStyle({height:`${e.unref(B)}px`,position:"relative",width:"100%"}),onContextmenu:e.withModifiers($e,["self","prevent"]),onClick:U[3]||(U[3]=e.withModifiers((...j)=>e.unref(b)&&e.unref(b)(...j),["self"]))},[e.createElementVNode("div",{ref_key:"dragImage",ref:r,class:"vuefinder__explorer__drag-item"},[e.createVNode(Wu,{count:N.value&&e.unref(h).has(N.value)?e.unref(h).size:1},null,8,["count"])],512),e.unref(d).view==="grid"?(e.openBlock(!0),e.createElementBlock(e.Fragment,{key:0},e.renderList(e.unref(L),j=>(e.openBlock(),e.createBlock(jt,{key:j,"row-index":j,"row-height":y.value,view:"grid","items-per-row":e.unref(F),items:e.unref(O)(e.unref(v),j),"show-thumbnails":e.unref(d).showThumbnails,"is-dragging-item":M,"is-selected":_,"drag-n-drop-events":G=>e.unref(l).events(G),explorerId:e.unref(W),onClick:J,onDblclick:_e,onContextmenu:Ne,onDragstart:Oe,onDragend:Re},{icon:e.withCtx(G=>[e.renderSlot(D.$slots,"icon",e.mergeProps({ref_for:!0},G))]),_:3},8,["row-index","row-height","items-per-row","items","show-thumbnails","drag-n-drop-events","explorerId"]))),128)):(e.openBlock(!0),e.createElementBlock(e.Fragment,{key:1},e.renderList(e.unref(L),j=>(e.openBlock(),e.createBlock(jt,{key:j,"row-index":j,"row-height":y.value,view:"list",items:R(j)?[R(j)]:[],compact:e.unref(d).compactListView,"is-dragging-item":M,"is-selected":_,"drag-n-drop-events":G=>e.unref(l).events(G),explorerId:e.unref(W),onClick:J,onDblclick:_e,onContextmenu:Ne,onDragstart:Oe,onDragend:Re},{icon:e.withCtx(G=>[e.renderSlot(D.$slots,"icon",e.mergeProps({ref_for:!0},G))]),_:3},8,["row-index","row-height","items","compact","drag-n-drop-events","explorerId"]))),128))],36)],34),e.createVNode(mm)]))}}),gm=["href","download"],wm=["onClick"],ym=e.defineComponent({__name:"ContextMenu",setup(n){const t=H(),o=e.ref(null),l=e.ref([]),r=e.reactive({active:!1,items:[],positions:{left:"0px",top:"0px"}});t.emitter.on("vf-context-selected",c=>{l.value=c});const s=c=>c.link(t,l.value),a=c=>{t.emitter.emit("vf-contextmenu-hide"),c.action(t,l.value)};t.emitter.on("vf-contextmenu-show",c=>{const{event:m,items:d,target:i=null}=c||{};r.items=(t.contextMenuItems||[]).filter(v=>v.show(t,{items:d,target:i})),i?d.length>1&&d.some(v=>v.path===i.path)?t.emitter.emit("vf-context-selected",d):t.emitter.emit("vf-context-selected",[i]):t.emitter.emit("vf-context-selected",[]),u(m)}),t.emitter.on("vf-contextmenu-hide",()=>{r.active=!1});const u=c=>{const m=t.root,d=m?.getBoundingClientRect?.(),i=m?.getBoundingClientRect?.();let v=c.clientX-(d?.left??0),h=c.clientY-(d?.top??0);r.active=!0,e.nextTick(()=>{const V=o.value?.getBoundingClientRect();let _=V?.height??0,p=V?.width??0;v=i&&i.right-c.pageX+window.scrollX<p?v-p:v,h=i&&i.bottom-c.pageY+window.scrollY<_?h-_:h,r.positions={left:String(v)+"px",top:String(h)+"px"}})};return(c,m)=>e.withDirectives((e.openBlock(),e.createElementBlock("ul",{ref_key:"contextmenu",ref:o,class:e.normalizeClass([{"vuefinder__context-menu--active":r.active,"vuefinder__context-menu--inactive":!r.active},"vuefinder__context-menu"]),style:e.normalizeStyle(r.positions)},[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(r.items,d=>(e.openBlock(),e.createElementBlock("li",{class:"vuefinder__context-menu__item",key:d.title},[d.link?(e.openBlock(),e.createElementBlock("a",{key:0,class:"vuefinder__context-menu__link",target:"_blank",href:s(d),download:s(d),onClick:m[0]||(m[0]=i=>e.unref(t).emitter.emit("vf-contextmenu-hide"))},[e.createElementVNode("span",null,e.toDisplayString(d.title(e.unref(t).i18n)),1)],8,gm)):(e.openBlock(),e.createElementBlock("div",{key:1,class:"vuefinder__context-menu__action",onClick:i=>a(d)},[e.createElementVNode("span",null,e.toDisplayString(d.title(e.unref(t).i18n)),1)],8,wm))]))),128))],6)),[[e.vShow,r.active]])}}),km={class:"vuefinder__status-bar__wrapper"},Em={class:"vuefinder__status-bar__storage"},bm=["title"],Vm={class:"vuefinder__status-bar__storage-icon"},Nm=["value"],xm=["value"],Cm={class:"vuefinder__status-bar__info space-x-2"},Bm={key:0},Sm={key:1},$m={key:0,class:"vuefinder__status-bar__size"},Dm={class:"vuefinder__status-bar__actions"},Fm=e.defineComponent({__name:"Statusbar",setup(n){const t=H(),{t:o}=t.i18n,l=t.fs,r=I.useStore(l.sortedFiles),s=I.useStore(l.path),a=I.useStore(l.selectedCount),u=I.useStore(l.storages),c=I.useStore(l.selectedItems),m=I.useStore(l.path),d=p=>{const f=p.target.value;t.adapter.open(f+"://")},i=e.computed(()=>!c.value||c.value.length===0?0:c.value.reduce((p,f)=>p+(f.file_size||0),0)),v=e.computed(()=>u.value),h=e.computed(()=>r.value),V=e.computed(()=>a.value||0),_=e.computed(()=>c.value||[]);return(p,f)=>(e.openBlock(),e.createElementBlock("div",km,[e.createElementVNode("div",Em,[e.createElementVNode("div",{class:"vuefinder__status-bar__storage-container",title:e.unref(o)("Storage")},[e.createElementVNode("div",Vm,[e.createVNode(e.unref(gt))]),e.createElementVNode("select",{name:"vuefinder-media-selector",value:e.unref(s).storage,onChange:d,class:"vuefinder__status-bar__storage-select",tabindex:"-1"},[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(v.value,w=>(e.openBlock(),e.createElementBlock("option",{value:w,key:w},e.toDisplayString(w),9,xm))),128))],40,Nm)],8,bm),e.createElementVNode("div",Cm,[V.value===0?(e.openBlock(),e.createElementBlock("span",Bm,e.toDisplayString(h.value.length)+" "+e.toDisplayString(e.unref(o)("items")),1)):(e.openBlock(),e.createElementBlock("span",Sm,[e.createTextVNode(e.toDisplayString(V.value)+" "+e.toDisplayString(e.unref(o)("selected"))+" ",1),i.value?(e.openBlock(),e.createElementBlock("span",$m,e.toDisplayString(e.unref(t).filesize(i.value)),1)):e.createCommentVNode("",!0)]))])]),e.createElementVNode("div",Dm,[e.renderSlot(p.$slots,"actions",{path:e.unref(m).path,count:V.value||0,selected:_.value})])]))}}),Mm={xmlns:"http://www.w3.org/2000/svg",fill:"currentColor",class:"h-5 w-5",viewBox:"0 0 24 24"};function Tm(n,t){return e.openBlock(),e.createElementBlock("svg",Mm,[...t[0]||(t[0]=[e.createElementVNode("path",{fill:"none",d:"M0 0h24v24H0z"},null,-1),e.createElementVNode("path",{d:"M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m3.6 5.2a1 1 0 0 0-1.4.2L12 10.333 9.8 7.4a1 1 0 1 0-1.6 1.2l2.55 3.4-2.55 3.4a1 1 0 1 0 1.6 1.2l2.2-2.933 2.2 2.933a1 1 0 0 0 1.6-1.2L13.25 12l2.55-3.4a1 1 0 0 0-.2-1.4"},null,-1)])])}const Am={render:Tm};function Nn(n,t){const o=n.findIndex(l=>l.path===t.path);o>-1?n[o]=t:n.push(t)}const Im={class:"vuefinder__folder-loader-indicator"},Lm={key:1,class:"vuefinder__folder-loader-indicator--icon"},xn=e.defineComponent({__name:"FolderLoaderIndicator",props:e.mergeModels({storage:{},path:{}},{modelValue:{},modelModifiers:{}}),emits:["update:modelValue"],setup(n){const t=n,o=H(),l=e.useModel(n,"modelValue"),r=e.ref(!1);e.watch(()=>l.value,()=>s());const s=async()=>{r.value=!0;try{const u=(await o.adapter.list(t.path)).files.filter(c=>c.type==="dir");Nn(o.treeViewData,{path:t.path,type:"dir",folders:u})}catch(a){console.error("Failed to fetch subfolders:",a)}finally{r.value=!1}};return(a,u)=>(e.openBlock(),e.createElementBlock("div",Im,[r.value?(e.openBlock(),e.createBlock(e.unref(nt),{key:0,class:"vuefinder__folder-loader-indicator--loading"})):(e.openBlock(),e.createElementBlock("div",Lm,[l.value?(e.openBlock(),e.createBlock(e.unref(tt),{key:0,class:"vuefinder__folder-loader-indicator--minus"})):e.createCommentVNode("",!0),l.value?e.createCommentVNode("",!0):(e.openBlock(),e.createBlock(e.unref(et),{key:1,class:"vuefinder__folder-loader-indicator--plus"}))]))]))}}),Om={key:0},Rm={class:"vuefinder__treesubfolderlist__no-folders"},Pm={class:"vuefinder__treesubfolderlist__item-content"},zm=["onClick"],Hm=["title","onDblclick","onClick"],Um={class:"vuefinder__treesubfolderlist__item-icon"},Km={class:"vuefinder__treesubfolderlist__subfolder"},jm=e.defineComponent({__name:"TreeSubfolderList",props:{storage:{},path:{}},setup(n){const t=H(),o=t.fs,l=Le(t,["vuefinder__drag-over"]),r=e.ref({}),{t:s}=t.i18n,a=I.useStore(o.path),u=n,c=e.ref(null);e.onMounted(()=>{u.path===u.storage+"://"&&c.value&&Qe.OverlayScrollbars(c.value,{scrollbars:{theme:"vf-scrollbars-theme"}})});const m=e.computed(()=>t.treeViewData.find(i=>i.path===u.path)?.folders||[]);return(d,i)=>{const v=e.resolveComponent("TreeSubfolderList",!0);return e.openBlock(),e.createElementBlock("ul",{ref_key:"parentSubfolderList",ref:c,class:"vuefinder__treesubfolderlist__container"},[m.value.length?e.createCommentVNode("",!0):(e.openBlock(),e.createElementBlock("li",Om,[e.createElementVNode("div",Rm,e.toDisplayString(e.unref(s)("No folders")),1)])),(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(m.value,h=>(e.openBlock(),e.createElementBlock("li",{key:h.path,class:"vuefinder__treesubfolderlist__item"},[e.createElementVNode("div",Pm,[e.createElementVNode("div",{class:"vuefinder__treesubfolderlist__item-toggle",onClick:V=>r.value[h.path]=!r.value[h.path]},[e.createVNode(xn,{storage:n.storage,path:h.path,modelValue:r.value[h.path],"onUpdate:modelValue":V=>r.value[h.path]=V},null,8,["storage","path","modelValue","onUpdate:modelValue"])],8,zm),e.createElementVNode("div",e.mergeProps(e.toHandlers(e.unref(l).events({...h,dir:h.path,extension:"",file_size:null,last_modified:null,mime_type:null,visibility:"public"}),!0),{class:"vuefinder__treesubfolderlist__item-link",title:h.path,onDblclick:V=>r.value[h.path]=!r.value[h.path],onClick:V=>e.unref(t).adapter.open(h.path)}),[e.createElementVNode("div",Um,[e.unref(a)?.path===h.path?(e.openBlock(),e.createBlock(e.unref(wt),{key:0,class:"vuefinder__item-icon__folder--open"})):(e.openBlock(),e.createBlock(e.unref(he),{key:1,class:"vuefinder__item-icon__folder"}))]),e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__treesubfolderlist__item-text",{"vuefinder__treesubfolderlist__item-text--active":e.unref(a).path===h.path}])},e.toDisplayString(h.basename),3)],16,Hm)]),e.createElementVNode("div",Km,[e.withDirectives(e.createVNode(v,{storage:u.storage,path:h.path},null,8,["storage","path"]),[[e.vShow,r.value[h.path]]])])]))),128))],512)}}}),Wm=e.defineComponent({__name:"TreeStorageItem",props:{storage:{}},setup(n){const t=H(),o=t.fs,l=e.ref(!1),r=n,s=Le(t,["vuefinder__drag-over"]),a=I.useStore(o.path),u=e.computed(()=>r.storage===a.value?.storage),c={storage:r.storage,path:r.storage+"://",dir:r.storage+"://",type:"dir",basename:r.storage,extension:"",file_size:null,last_modified:null,mime_type:null,visibility:"public"};function m(d){d===a.value?.storage?l.value=!l.value:t.adapter.open(d+"://")}return(d,i)=>(e.openBlock(),e.createElementBlock(e.Fragment,null,[e.createElementVNode("div",{onClick:i[2]||(i[2]=v=>m(n.storage)),class:"vuefinder__treestorageitem__header"},[e.createElementVNode("div",e.mergeProps(e.toHandlers(e.unref(s).events(c),!0),{class:["vuefinder__treestorageitem__info",u.value?"vuefinder__treestorageitem__info--active":""]}),[e.createElementVNode("div",{class:e.normalizeClass(["vuefinder__treestorageitem__icon",u.value?"vuefinder__treestorageitem__icon--active":""])},[e.createVNode(e.unref(gt))],2),e.createElementVNode("div",null,e.toDisplayString(n.storage),1)],16),e.createElementVNode("div",{class:"vuefinder__treestorageitem__loader",onClick:i[1]||(i[1]=e.withModifiers(v=>l.value=!l.value,["stop"]))},[e.createVNode(xn,{storage:n.storage,path:n.storage+"://",modelValue:l.value,"onUpdate:modelValue":i[0]||(i[0]=v=>l.value=v)},null,8,["storage","path","modelValue"])])]),e.withDirectives(e.createVNode(jm,{storage:n.storage,path:n.storage+"://",class:"vuefinder__treestorageitem__subfolder"},null,8,["storage","path"]),[[e.vShow,l.value]])],64))}}),Gm={class:"vuefinder__folder-indicator"},qm={class:"vuefinder__folder-indicator--icon"},Ym=e.defineComponent({__name:"FolderIndicator",props:{modelValue:{},modelModifiers:{}},emits:["update:modelValue"],setup(n){const t=e.useModel(n,"modelValue");return(o,l)=>(e.openBlock(),e.createElementBlock("div",Gm,[e.createElementVNode("div",qm,[t.value?(e.openBlock(),e.createBlock(e.unref(tt),{key:0,class:"vuefinder__folder-indicator--minus"})):e.createCommentVNode("",!0),t.value?e.createCommentVNode("",!0):(e.openBlock(),e.createBlock(e.unref(et),{key:1,class:"vuefinder__folder-indicator--plus"}))])]))}}),Qm={class:"vuefinder__treeview__header"},Xm={class:"vuefinder__treeview__pinned-label"},Jm={class:"vuefinder__treeview__pin-text text-nowrap"},Zm={key:0,class:"vuefinder__treeview__pinned-list"},ef=["onClick"],tf=["title"],nf=["onClick"],of={key:0},lf={class:"vuefinder__treeview__no-pinned"},rf=e.defineComponent({__name:"TreeView",setup(n){const t=H(),{t:o}=t.i18n,{getStore:l,setStore:r}=t.storage,s=t.fs,a=t.config,u=I.useStore(a.state),c=I.useStore(s.sortedFiles),m=I.useStore(s.storages),d=e.computed(()=>m.value||[]),i=I.useStore(s.path),v=Le(t,["vuefinder__drag-over"]),h=e.ref(190),V=e.ref(l("pinned-folders-opened",!0));e.watch(V,w=>r("pinned-folders-opened",w));const _=w=>{const k=a.get("pinnedFolders");a.set("pinnedFolders",k.filter(y=>y.path!==w.path))},p=w=>{const k=w.clientX,y=w.target.parentElement;if(!y)return;const C=y.getBoundingClientRect().width;y.classList.remove("transition-[width]"),y.classList.add("transition-none");const F=L=>{h.value=C+L.clientX-k,h.value<50&&(h.value=0,a.set("showTreeView",!1)),h.value>50&&a.set("showTreeView",!0)},B=()=>{const L=y.getBoundingClientRect();h.value=L.width,y.classList.add("transition-[width]"),y.classList.remove("transition-none"),window.removeEventListener("mousemove",F),window.removeEventListener("mouseup",B)};window.addEventListener("mousemove",F),window.addEventListener("mouseup",B)},f=e.ref(null);return e.onMounted(()=>{f.value&&Qe.OverlayScrollbars(f.value,{overflow:{x:"hidden"},scrollbars:{theme:"vf-scrollbars-theme"}})}),e.watch(c,w=>{const k=w.filter(y=>y.type==="dir");Nn(t.treeViewData,{path:i.value.path||"",folders:k.map(y=>({storage:y.storage,path:y.path,basename:y.basename,type:"dir"}))})}),(w,k)=>(e.openBlock(),e.createElementBlock(e.Fragment,null,[e.createElementVNode("div",{onClick:k[0]||(k[0]=y=>e.unref(a).toggle("showTreeView")),class:e.normalizeClass(["vuefinder__treeview__overlay",e.unref(u).showTreeView?"vuefinder__treeview__backdrop":"hidden"])},null,2),e.createElementVNode("div",{style:e.normalizeStyle(e.unref(u).showTreeView?"min-width:100px;max-width:75%; width: "+h.value+"px":"width: 0"),class:"vuefinder__treeview__container"},[e.createElementVNode("div",{ref_key:"treeViewScrollElement",ref:f,class:"vuefinder__treeview__scroll"},[e.createElementVNode("div",Qm,[e.createElementVNode("div",{onClick:k[2]||(k[2]=y=>V.value=!V.value),class:"vuefinder__treeview__pinned-toggle"},[e.createElementVNode("div",Xm,[e.createVNode(e.unref(ht),{class:"vuefinder__treeview__pin-icon"}),e.createElementVNode("div",Jm,e.toDisplayString(e.unref(o)("Pinned Folders")),1)]),e.createVNode(Ym,{modelValue:V.value,"onUpdate:modelValue":k[1]||(k[1]=y=>V.value=y)},null,8,["modelValue"])]),V.value?(e.openBlock(),e.createElementBlock("ul",Zm,[(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(e.unref(u).pinnedFolders,y=>(e.openBlock(),e.createElementBlock("li",{key:y.path,class:"vuefinder__treeview__pinned-item"},[e.createElementVNode("div",e.mergeProps(e.toHandlers(e.unref(v).events(y),!0),{class:"vuefinder__treeview__pinned-folder",onClick:C=>e.unref(t).adapter.open(y.path)}),[e.unref(i).path!==y.path?(e.openBlock(),e.createBlock(e.unref(he),{key:0,class:"vuefinder__treeview__folder-icon vuefinder__item-icon__folder"})):e.createCommentVNode("",!0),e.unref(i).path===y.path?(e.openBlock(),e.createBlock(e.unref(wt),{key:1,class:"vuefinder__item-icon__folder--open vuefinder__treeview__open-folder-icon"})):e.createCommentVNode("",!0),e.createElementVNode("div",{title:y.path,class:e.normalizeClass(["vuefinder__treeview__folder-name",{"vuefinder__treeview__folder-name--active":e.unref(i).path===y.path}])},e.toDisplayString(y.basename),11,tf)],16,ef),e.createElementVNode("div",{class:"vuefinder__treeview__remove-folder",onClick:C=>_(y)},[e.createVNode(e.unref(Am),{class:"vuefinder__treeview__remove-icon"})],8,nf)]))),128)),e.unref(u).pinnedFolders.length?e.createCommentVNode("",!0):(e.openBlock(),e.createElementBlock("li",of,[e.createElementVNode("div",lf,e.toDisplayString(e.unref(o)("No folders pinned")),1)]))])):e.createCommentVNode("",!0)]),(e.openBlock(!0),e.createElementBlock(e.Fragment,null,e.renderList(d.value,y=>(e.openBlock(),e.createElementBlock("div",{class:"vuefinder__treeview__storage",key:y},[e.createVNode(Wm,{storage:y},null,8,["storage"])]))),128))],512),e.createElementVNode("div",{onMousedown:p,class:"vuefinder__treeview__resize-handle"},null,32)],4)],64))}}),ne={newfolder:"newfolder",selectAll:"selectAll",pinFolder:"pinFolder",unpinFolder:"unpinFolder",delete:"delete",refresh:"refresh",preview:"preview",open:"open",openDir:"openDir",download:"download",download_archive:"download_archive",archive:"archive",unarchive:"unarchive",rename:"rename",move:"move",copy:"copy",paste:"paste"};function af(n){return n.items.length>1&&n.items.some(t=>t.path===n.target?.path)?"many":n.target?"one":"none"}function te(n){const t=Object.assign({needsSearchQuery:!1},n);return(o,l)=>!(t.needsSearchQuery!==!!l.searchQuery||t.target!==void 0&&t.target!==af(l)||t.targetType!==void 0&&t.targetType!==l.target?.type||t.mimeType!==void 0&&t.mimeType!==l.target?.mime_type||t.feature!==void 0&&!o.features.includes(t.feature))}function Fe(...n){return(t,o)=>n.some(l=>l(t,o))}function Me(...n){return(t,o)=>n.every(l=>l(t,o))}const Cn=[{id:ne.openDir,title:({t:n})=>n("Open containing folder"),action:(n,t)=>{const o=t[0];o&&n.adapter.open(o.dir)},show:te({target:"one",needsSearchQuery:!0})},{id:ne.refresh,title:({t:n})=>n("Refresh"),action:n=>{const t=n.fs;n.adapter.invalidateListQuery(t.path.get().path),n.adapter.open(t.path.get().path)},show:Fe(te({target:"none"}),te({target:"many"}))},{id:ne.selectAll,title:({t:n})=>n("Select All"),action:n=>{n.fs.selectAll(n.selectionMode||"multiple")},show:(n,t)=>n.selectionMode==="multiple"&&te({target:"none"})(n,t)},{id:ne.newfolder,title:({t:n})=>n("New Folder"),action:n=>n.modal.open(Bt),show:te({target:"none",feature:K.NEW_FOLDER})},{id:ne.open,title:({t:n})=>n("Open"),action:(n,t)=>{t[0]&&n.adapter.open(t[0].path)},show:te({target:"one",targetType:"dir"})},{id:ne.pinFolder,title:({t:n})=>n("Pin Folder"),action:(n,t)=>{const o=n.config,l=o.get("pinnedFolders"),r=l.concat(t.filter(s=>l.findIndex(a=>a.path===s.path)===-1));o.set("pinnedFolders",r)},show:Me(te({target:"one",targetType:"dir"}),(n,t)=>n.config.get("pinnedFolders").findIndex(r=>r.path===t.target?.path)===-1)},{id:ne.unpinFolder,title:({t:n})=>n("Unpin Folder"),action:(n,t)=>{const o=n.config,l=o.get("pinnedFolders");o.set("pinnedFolders",l.filter(r=>!t.find(s=>s.path===r.path)))},show:Me(te({target:"one",targetType:"dir"}),(n,t)=>n.config.get("pinnedFolders").findIndex(r=>r.path===t.target?.path)!==-1)},{id:ne.preview,title:({t:n})=>n("Preview"),action:(n,t)=>n.modal.open(Ze,{storage:t[0]?.storage,item:t[0]}),show:Me(te({target:"one",feature:K.PREVIEW}),(n,t)=>t.target?.type!=="dir")},{id:ne.download,link:(n,t)=>{if(t[0])return n.adapter.getDownloadUrl(t[0])},title:({t:n})=>n("Download"),action:()=>{},show:Me(te({target:"one",feature:K.DOWNLOAD}),(n,t)=>t.target?.type!=="dir")},{id:ne.rename,title:({t:n})=>n("Rename"),action:(n,t)=>n.modal.open(Je,{items:t}),show:te({target:"one",feature:K.RENAME})},{id:ne.move,title:({t:n})=>n("Move"),action:(n,t)=>{const o=n.fs,l={storage:o.path.get().storage||"",path:o.path.get().path||"",type:"dir"};n.modal.open(Ce,{items:{from:t,to:l}})},show:Fe(te({target:"one",feature:K.MOVE}),te({target:"many",feature:K.MOVE}))},{id:ne.copy,title:({t:n})=>n("Copy"),action:(n,t)=>{t.length>0&&n.fs.setClipboard("copy",new Set(t.map(o=>o.path)))},show:Fe(te({target:"one",feature:K.COPY}),te({target:"many",feature:K.COPY}))},{id:ne.paste,title:({t:n})=>n("Paste"),action:(n,t)=>{const o=n.fs.getClipboard();if(o?.items?.size>0){const r=n.fs.path.get();let s=r.path,a=r.storage;t.length===1&&t[0]?.type==="dir"&&(s=t[0].path,a=t[0].storage);const u={storage:a||"",path:s||"",type:"dir"};n.modal.open(o.type==="cut"?Ce:kt,{items:{from:Array.from(o.items),to:u}})}},show:(n,t)=>n.fs.getClipboard()?.items?.size>0},{id:ne.archive,title:({t:n})=>n("Archive"),action:(n,t)=>n.modal.open(Dt,{items:t}),show:Fe(te({target:"many",feature:K.ARCHIVE}),Me(te({target:"one",feature:K.ARCHIVE}),(n,t)=>t.target?.mime_type!=="application/zip"))},{id:ne.unarchive,title:({t:n})=>n("Unarchive"),action:(n,t)=>n.modal.open($t,{items:t}),show:te({target:"one",feature:K.UNARCHIVE,mimeType:"application/zip"})},{id:ne.delete,title:({t:n})=>n("Delete"),action:(n,t)=>{n.modal.open(Xe,{items:t})},show:Fe(te({feature:K.DELETE,target:"one"}),te({feature:K.DELETE,target:"many"}))}],sf=["data-theme"],cf={key:0,class:"vuefinder__external-drop-overlay vuefinder__external-drop-overlay--relative"},df={class:"vuefinder__external-drop-message"},uf={class:"vuefinder__main__content"},Bn=e.defineComponent({__name:"VueFinder",props:{id:{default:"vf"},config:{},adapter:{},features:{type:[Boolean,Array],default:!0},debug:{type:Boolean,default:!1},theme:{default:"light"},locale:{},contextMenuItems:{default:()=>Cn},selectionMode:{default:"multiple"},selectionFilterType:{default:"both"},selectionFilterMimeIncludes:{default:()=>[]},onError:{},onSelect:{},onPathChange:{},onUploadComplete:{},onDeleteComplete:{},onReady:{},onFileDclick:{},onFolderDclick:{},customUploader:{}},emits:["select","path-change","upload-complete","delete-complete","error","ready","file-dclick","folder-dclick"],setup(n,{emit:t}){const o=t,l=n,r=Yn(l,e.inject("VueFinderOptions")||{});e.provide(Gt,r);const s=r.config,a=r.fs,u=I.useStore(s.state);Cs(r);const{isDraggingExternal:c,handleDragEnter:m,handleDragOver:d,handleDragLeave:i,handleDrop:v}=Bs();function h(_){a.setPath(_.dirname),s.get("persist")&&s.set("path",_.dirname),a.setReadOnly(_.read_only??!1),r.modal.close(),a.setFiles(_.files),a.clearSelection(),a.setSelectedCount(0),a.setStorages(_.storages)}r.adapter.onBeforeOpen=()=>{a.setLoading(!0)},r.adapter.onAfterOpen=_=>{h(_),a.setLoading(!1)},r.emitter.on("vf-upload-complete",_=>{o("upload-complete",_)}),r.emitter.on("vf-delete-complete",_=>{o("delete-complete",_)}),r.emitter.on("vf-file-dclick",_=>{o("file-dclick",_)}),r.emitter.on("vf-folder-dclick",_=>{o("folder-dclick",_)}),e.onMounted(()=>{e.watch(()=>s.get("path"),p=>{r.adapter.open(p)});const _=s.get("persist")?s.get("path"):s.get("initialPath")??"";a.setPath(_),r.adapter.open(_),a.path.listen(p=>{o("path-change",p.path)}),a.selectedItems.listen(p=>{o("select",p)}),o("ready")});const V=async _=>{const p=await v(_);p.length>0&&(r.modal.open(St),setTimeout(()=>{r.emitter.emit("vf-external-files-dropped",p.map(f=>f.file))},100))};return(_,p)=>(e.openBlock(),e.createElementBlock("div",{ref:"root",tabindex:"0",class:e.normalizeClass(["vuefinder vuefinder__main vuefinder__themer",{"vuefinder--dragging-external":e.unref(c)}]),"data-theme":e.unref(r).theme.current,onDragenter:p[2]||(p[2]=(...f)=>e.unref(m)&&e.unref(m)(...f)),onDragover:p[3]||(p[3]=(...f)=>e.unref(d)&&e.unref(d)(...f)),onDragleave:p[4]||(p[4]=(...f)=>e.unref(i)&&e.unref(i)(...f)),onDrop:V},[e.createElementVNode("div",{class:e.normalizeClass(e.unref(u).value&&e.unref(u).value.theme||"light"),style:{height:"100%",width:"100%"}},[e.createElementVNode("div",{class:e.normalizeClass([e.unref(u)?.fullScreen?"vuefinder__main__fixed":"vuefinder__main__relative","vuefinder__main__container"]),onMousedown:p[0]||(p[0]=f=>e.unref(r).emitter.emit("vf-contextmenu-hide")),onTouchstart:p[1]||(p[1]=f=>e.unref(r).emitter.emit("vf-contextmenu-hide"))},[e.unref(c)?(e.openBlock(),e.createElementBlock("div",cf,[e.createElementVNode("div",df,e.toDisplayString(e.unref(r).i18n.t("Drag and drop the files/folders to here.")),1)])):e.createCommentVNode("",!0),e.createVNode(Rc),e.createVNode(zd),e.createVNode(Fu),e.createElementVNode("div",uf,[e.createVNode(rf),e.createVNode(hm,{"on-file-dclick":l.onFileDclick,"on-folder-dclick":l.onFolderDclick},{icon:e.withCtx(f=>[e.renderSlot(_.$slots,"icon",e.normalizeProps(e.guardReactiveProps(f)))]),_:3},8,["on-file-dclick","on-folder-dclick"])]),e.createVNode(Fm,null,{actions:e.withCtx(f=>[e.renderSlot(_.$slots,"status-bar",e.normalizeProps(e.guardReactiveProps(f)))]),_:3})],34),(e.openBlock(),e.createBlock(e.Teleport,{to:"body"},[e.createVNode(e.Transition,{name:"fade"},{default:e.withCtx(()=>[e.unref(r).modal.visible?(e.openBlock(),e.createBlock(e.resolveDynamicComponent(e.unref(r).modal.type),{key:0})):e.createCommentVNode("",!0)]),_:1})])),e.createVNode(ym)],2)],42,sf))}}),Sn={install(n,t={}){t.i18n=t.i18n??{};let[o]=Object.keys(t.i18n);t.locale=t.locale??o??"en",n.provide("VueFinderOptions",t),n.component("VueFinder",Bn)}};exports.ContextMenuIds=ne;exports.VueFinder=Bn;exports.VueFinderPlugin=Sn;exports.contextMenuItems=Cn;exports.default=Sn;
+'use strict';
+Object.defineProperties(exports, {
+  __esModule: { value: !0 },
+  [Symbol.toStringTag]: { value: 'Module' },
+});
+const e = require('vue'),
+  I = require('@nanostores/vue'),
+  Dn = require('mitt'),
+  Fn = require('@nanostores/persistent'),
+  ee = require('nanostores'),
+  Mn = require('@tanstack/vue-query'),
+  Tn = require('vue-advanced-cropper'),
+  Wt = require('vanilla-lazyload'),
+  Qe = require('overlayscrollbars'),
+  An = require('@uppy/core'),
+  In = require('@viselect/vanilla'),
+  Gt = Symbol('ServiceContainer');
+function H() {
+  const n = e.inject(Gt);
+  if (!n) throw new Error('ServiceContainer was not provided');
+  return n;
+}
+function Ln(n) {
+  let t = localStorage.getItem(n + '_storage');
+  const o = e.reactive(JSON.parse(t ?? '{}'));
+  e.watch(o, l);
+  function l() {
+    Object.keys(o).length
+      ? localStorage.setItem(n + '_storage', JSON.stringify(o))
+      : localStorage.removeItem(n + '_storage');
+  }
+  function r(c, m) {
+    o[c] = m;
+  }
+  function s(c) {
+    delete o[c];
+  }
+  function a() {
+    Object.keys(o).forEach((c) => s(c));
+  }
+  return {
+    getStore: (c, m = null) => (c in o ? o[c] : m),
+    setStore: r,
+    removeStore: s,
+    clearStore: a,
+  };
+}
+async function On(n, t) {
+  const o = t[n];
+  return typeof o == 'function' ? (await o()).default : o;
+}
+function Rn(n, t, o, l) {
+  const { getStore: r, setStore: s } = n,
+    a = e.ref({}),
+    u = e.ref(r('locale', t)),
+    c = (i, v = t) => {
+      On(i, l)
+        .then((h) => {
+          ((a.value = h),
+            s('locale', i),
+            (u.value = i),
+            s('translations', h),
+            Object.values(l).length > 1 &&
+              (o.emit('vf-toast-push', { label: 'The language is set to ' + i }),
+              o.emit('vf-language-saved')));
+        })
+        .catch((h) => {
+          v
+            ? (o.emit('vf-toast-push', {
+                label: 'The selected locale is not yet supported!',
+                type: 'error',
+              }),
+              c(v, null))
+            : (console.error(h),
+              o.emit('vf-toast-push', { label: 'Locale cannot be loaded!', type: 'error' }));
+        });
+    };
+  (e.watch(u, (i) => {
+    c(i);
+  }),
+    !r('locale') && !Object.keys(l).length ? c(t) : (a.value = r('translations')));
+  const m = (i, ...v) => (v.length ? m((i = i.replace('%s', String(v.shift()))), ...v) : i);
+  function d(i, ...v) {
+    return a.value && Object.prototype.hasOwnProperty.call(a.value, i)
+      ? m(a.value[i] || i, ...v)
+      : m(i, ...v);
+  }
+  return e.reactive({ t: d, locale: u });
+}
+const K = {
+    EDIT: 'edit',
+    NEW_FILE: 'newfile',
+    NEW_FOLDER: 'newfolder',
+    PREVIEW: 'preview',
+    ARCHIVE: 'archive',
+    UNARCHIVE: 'unarchive',
+    SEARCH: 'search',
+    RENAME: 'rename',
+    UPLOAD: 'upload',
+    DELETE: 'delete',
+    FULL_SCREEN: 'fullscreen',
+    DOWNLOAD: 'download',
+    LANGUAGE: 'language',
+    MOVE: 'move',
+    COPY: 'copy',
+  },
+  Pn = Object.values(K),
+  zn = '4.0.0-dev';
+function _t(n, t, o, l, r) {
+  return (
+    (t = Math),
+    (o = t.log),
+    (l = 1024),
+    (r = (o(n) / o(l)) | 0),
+    (n / t.pow(l, r)).toFixed(0) + ' ' + (r ? 'KMGTPEZY'[--r] + 'iB' : 'B')
+  );
+}
+function qt(n, t, o, l, r) {
+  return (
+    (t = Math),
+    (o = t.log),
+    (l = 1e3),
+    (r = (o(n) / o(l)) | 0),
+    (n / t.pow(l, r)).toFixed(0) + ' ' + (r ? 'KMGTPEZY'[--r] + 'B' : 'B')
+  );
+}
+function Hn(n) {
+  if (typeof n == 'number') return n;
+  const t = { k: 1, m: 2, g: 3, t: 4 },
+    l = /(\d+(?:\.\d+)?)\s?(k|m|g|t)?b?/i.exec(n);
+  if (!l) return 0;
+  const r = parseFloat(l[1] || '0'),
+    s = (l[2] || '').toLowerCase(),
+    a = t[s] ?? 0;
+  return Math.round(r * Math.pow(1024, a));
+}
+function Un() {
+  const n = e.shallowRef(null),
+    t = e.ref(!1),
+    o = e.ref(),
+    l = e.ref(!1);
+  return {
+    visible: t,
+    type: n,
+    data: o,
+    open: (u, c = null) => {
+      ((document.querySelector('body').style.overflow = 'hidden'),
+        (t.value = !0),
+        (n.value = u),
+        (o.value = c));
+    },
+    close: () => {
+      ((document.querySelector('body').style.overflow = ''), (t.value = !1), (n.value = null));
+    },
+    setEditMode: (u) => {
+      l.value = u;
+    },
+    editMode: l,
+  };
+}
+const dt = {
+    view: 'grid',
+    theme: void 0,
+    fullScreen: !1,
+    showTreeView: !1,
+    showHiddenFiles: !0,
+    compactListView: !0,
+    metricUnits: !1,
+    showThumbnails: !0,
+    persist: !1,
+    path: '',
+    initialPath: null,
+    loadingIndicator: 'circular',
+    maxFileSize: null,
+    pinnedFolders: [],
+  },
+  Kn = (n, t = {}) => {
+    const o = `vuefinder_config_${n}`,
+      l = Fn.persistentAtom(o, { ...dt, ...t }, { encode: JSON.stringify, decode: JSON.parse }),
+      r = (d = {}) => {
+        const i = l.get(),
+          v = { ...dt, ...d, ...i };
+        l.set(v);
+      },
+      s = (d) => l.get()[d],
+      a = () => l.get(),
+      u = (d, i) => {
+        const v = l.get();
+        typeof d == 'object' && d !== null ? l.set({ ...v, ...d }) : l.set({ ...v, [d]: i });
+      };
+    return {
+      state: l,
+      init: r,
+      get: s,
+      set: u,
+      toggle: (d) => {
+        const i = l.get();
+        u(d, !i[d]);
+      },
+      all: a,
+      reset: () => {
+        l.set({ ...dt });
+      },
+    };
+  };
+function jn(n, t) {
+  if (typeof n == 'string' && typeof t == 'string')
+    return n.toLowerCase().localeCompare(t.toLowerCase());
+  const o = Number(n) || 0,
+    l = Number(t) || 0;
+  return o === l ? 0 : o < l ? -1 : 1;
+}
+const Wn = () => {
+    const n = ee.atom(''),
+      t = ee.atom([]),
+      o = ee.atom(!1),
+      l = ee.atom([]),
+      r = ee.atom({ active: !1, column: '', order: '' }),
+      s = ee.atom({ kind: 'all', showHidden: !1 }),
+      a = ee.atom(new Set()),
+      u = ee.atom({ type: 'copy', path: '', items: new Set() }),
+      c = ee.atom(null),
+      m = ee.atom(0),
+      d = ee.atom(!1),
+      i = ee.atom([]),
+      v = ee.atom(-1),
+      h = ee.computed([n], (x) => {
+        const $ = (x || 'local://').trim(),
+          T = $.indexOf('://'),
+          A = T >= 0 ? $.slice(0, T) : '',
+          le = (T >= 0 ? $.slice(T + 3) : $).split('/').filter(Boolean);
+        let re = '';
+        const ct = le.map(
+          (ce) => (
+            (re = re ? `${re}/${ce}` : ce),
+            { basename: ce, name: ce, path: A ? `${A}://${re}` : re, type: 'dir' }
+          )
+        );
+        return { storage: A, breadcrumb: ct, path: $ };
+      }),
+      V = ee.computed([l, r, s], (x, $, T) => {
+        let A = x;
+        (T.kind === 'files'
+          ? (A = A.filter((ce) => ce.type === 'file'))
+          : T.kind === 'folders' && (A = A.filter((ce) => ce.type === 'dir')),
+          T.showHidden || (A = A.filter((ce) => !ce.basename.startsWith('.'))));
+        const { active: Z, column: le, order: re } = $;
+        if (!Z || !le) return A;
+        const ct = re === 'asc' ? 1 : -1;
+        return A.slice().sort((ce, $n) => jn(ce[le], $n[le]) * ct);
+      }),
+      _ = ee.computed([l, a], (x, $) => ($.size === 0 ? [] : x.filter((T) => $.has(T.path)))),
+      p = (x, $) => {
+        const T = n.get();
+        if (($ ?? !0) && T !== x) {
+          const A = i.get(),
+            Z = v.get();
+          (Z < A.length - 1 && A.splice(Z + 1),
+            A.length === 0 && T && A.push(T),
+            A.push(x),
+            i.set([...A]),
+            v.set(A.length - 1));
+        }
+        n.set(x);
+      },
+      f = (x) => {
+        l.set(x ?? []);
+      },
+      w = (x) => {
+        t.set(x ?? []);
+      },
+      k = (x, $) => {
+        r.set({ active: !0, column: x, order: $ });
+      },
+      y = (x) => {
+        const $ = r.get();
+        $.active && $.column === x
+          ? r.set({ active: $.order === 'asc', column: x, order: 'desc' })
+          : r.set({ active: !0, column: x, order: 'asc' });
+      },
+      C = () => {
+        r.set({ active: !1, column: '', order: '' });
+      },
+      F = (x, $) => {
+        s.set({ kind: x, showHidden: $ });
+      },
+      B = () => {
+        s.set({ kind: 'all', showHidden: !1 });
+      },
+      L = (x, $ = 'multiple') => {
+        const T = new Set(a.get());
+        ($ === 'single' && T.clear(), T.add(x), a.set(T), m.set(T.size));
+      },
+      S = (x) => {
+        const $ = new Set(a.get());
+        ($.delete(x), a.set($), m.set($.size));
+      },
+      O = (x) => a.get().has(x),
+      q = (x, $ = 'multiple') => {
+        const T = new Set(a.get());
+        (T.has(x) ? T.delete(x) : ($ === 'single' && T.clear(), T.add(x)), a.set(T), m.set(T.size));
+      },
+      X = (x = 'multiple', $) => {
+        if (x === 'single') {
+          const T = l.get()[0];
+          if (T) {
+            const A = T.path;
+            (a.set(new Set([A])), m.set(1));
+          }
+        } else if (
+          $?.selectionFilterType ||
+          ($?.selectionFilterMimeIncludes && $.selectionFilterMimeIncludes.length > 0)
+        ) {
+          const T = l
+            .get()
+            .filter((A) => {
+              const Z = $.selectionFilterType,
+                le = $.selectionFilterMimeIncludes;
+              return (Z === 'files' && A.type === 'dir') || (Z === 'dirs' && A.type === 'file')
+                ? !1
+                : le && Array.isArray(le) && le.length > 0 && A.type !== 'dir'
+                  ? A.mime_type
+                    ? le.some((re) => A.mime_type?.startsWith(re))
+                    : !1
+                  : !0;
+            })
+            .map((A) => A.path);
+          (a.set(new Set(T)), m.set(T.length));
+        } else {
+          const T = new Set(l.get().map((A) => A.path));
+          (a.set(T), m.set(T.size));
+        }
+      },
+      P = () => {
+        (a.set(new Set()), m.set(0));
+      },
+      W = (x) => {
+        const $ = new Set(x ?? []);
+        (a.set($), m.set($.size));
+      },
+      Q = (x) => {
+        m.set(x);
+      },
+      z = (x) => {
+        d.set(!!x);
+      },
+      E = () => d.get(),
+      g = (x, $) => {
+        const T = l.get().filter((A) => $.has(A.path));
+        u.set({ type: x, path: h.get().path, items: new Set(T) });
+      },
+      b = (x) =>
+        ee.computed([u], ($) => $.type === 'cut' && Array.from($.items).some((T) => T.path === x)),
+      N = (x) =>
+        ee.computed([u], ($) => $.type === 'copy' && Array.from($.items).some((T) => T.path === x)),
+      M = (x) => {
+        const $ = b(x);
+        return I.useStore($).value ?? !1;
+      },
+      R = (x) => {
+        const $ = N(x);
+        return I.useStore($).value ?? !1;
+      },
+      J = () => {
+        u.set({ type: 'copy', path: '', items: new Set() });
+      },
+      Y = () => u.get(),
+      _e = (x) => {
+        c.set(x);
+      },
+      ge = () => c.get(),
+      Ne = () => {
+        c.set(null);
+      },
+      $e = () => {
+        const x = i.get(),
+          $ = v.get();
+        if ($ > 0) {
+          const T = $ - 1,
+            A = x[T];
+          A && (v.set(T), p(A, !1));
+        }
+      },
+      Oe = () => {
+        const x = i.get(),
+          $ = v.get();
+        if ($ < x.length - 1) {
+          const T = $ + 1,
+            A = x[T];
+          A && (v.set(T), p(A, !1));
+        }
+      },
+      Re = ee.computed([v], (x) => x > 0),
+      D = ee.computed([i, v], (x, $) => $ < x.length - 1);
+    return {
+      files: l,
+      storages: t,
+      currentPath: n,
+      sort: r,
+      filter: s,
+      selectedKeys: a,
+      selectedCount: m,
+      loading: d,
+      draggedItem: c,
+      clipboardItems: u,
+      path: h,
+      sortedFiles: V,
+      selectedItems: _,
+      setPath: p,
+      setFiles: f,
+      setStorages: w,
+      setSort: k,
+      toggleSort: y,
+      clearSort: C,
+      setFilter: F,
+      clearFilter: B,
+      select: L,
+      deselect: S,
+      toggleSelect: q,
+      selectAll: X,
+      isSelected: O,
+      clearSelection: P,
+      setSelection: W,
+      setSelectedCount: Q,
+      setLoading: z,
+      isLoading: E,
+      setClipboard: g,
+      createIsCut: b,
+      createIsCopied: N,
+      isCut: M,
+      isCopied: R,
+      clearClipboard: J,
+      getClipboard: Y,
+      setDraggedItem: _e,
+      getDraggedItem: ge,
+      clearDraggedItem: Ne,
+      setReadOnly: (x) => {
+        o.set(x);
+      },
+      getReadOnly: () => o.get(),
+      isReadOnly: (x) => (o.get() ? !0 : (x.read_only ?? !1)),
+      goBack: $e,
+      goForward: Oe,
+      canGoBack: Re,
+      canGoForward: D,
+      navigationHistory: i,
+      historyIndex: v,
+    };
+  },
+  Ft = {
+    list: (n) => ['adapter', 'list', n],
+    search: (n, t, o, l) => ['adapter', 'search', n, t, o, l],
+    delete: (n) => ['adapter', 'delete', n],
+    rename: () => ['adapter', 'rename'],
+    copy: () => ['adapter', 'copy'],
+    move: () => ['adapter', 'move'],
+    archive: () => ['adapter', 'archive'],
+    unarchive: () => ['adapter', 'unarchive'],
+    createFile: () => ['adapter', 'createFile'],
+    createFolder: () => ['adapter', 'createFolder'],
+  };
+class Gn {
+  adapter;
+  queryClient;
+  config;
+  onBeforeOpen;
+  onAfterOpen;
+  constructor(t, o = {}) {
+    ((this.adapter = t),
+      (this.onBeforeOpen = o.onBeforeOpen),
+      (this.onAfterOpen = o.onAfterOpen),
+      (this.queryClient =
+        o.queryClient ||
+        new Mn.QueryClient({
+          defaultOptions: {
+            queries: {
+              refetchOnWindowFocus: o.refetchOnWindowFocus ?? !1,
+              staleTime: o.staleTime ?? 300 * 1e3,
+              retry: o.retry ?? 2,
+            },
+            mutations: { retry: o.retry ?? 1 },
+          },
+        })),
+      (this.config = {
+        queryClient: this.queryClient,
+        refetchOnWindowFocus: o.refetchOnWindowFocus ?? !1,
+        staleTime: o.staleTime ?? 300 * 1e3,
+        cacheTime: o.cacheTime ?? 600 * 1e3,
+        retry: o.retry ?? 2,
+        onBeforeOpen: this.onBeforeOpen ?? (() => {}),
+        onAfterOpen: this.onAfterOpen ?? (() => {}),
+      }));
+  }
+  getAdapter() {
+    return this.adapter;
+  }
+  getQueryClient() {
+    return this.queryClient;
+  }
+  async list(t) {
+    const o = Ft.list(t);
+    return await this.queryClient.fetchQuery({
+      queryKey: o,
+      queryFn: () => this.adapter.list({ path: t }),
+      staleTime: this.config.staleTime,
+    });
+  }
+  async open(t) {
+    this.onBeforeOpen && this.onBeforeOpen();
+    const o = await this.list(t);
+    return (this.onAfterOpen && this.onAfterOpen(o), o);
+  }
+  async delete(t) {
+    const o = await this.adapter.delete(t);
+    return (this.invalidateListQueries(), o);
+  }
+  async rename(t) {
+    const o = await this.adapter.rename(t);
+    return (this.invalidateListQueries(), o);
+  }
+  async copy(t) {
+    const o = await this.adapter.copy(t);
+    return (this.invalidateListQueries(), o);
+  }
+  async move(t) {
+    const o = await this.adapter.move(t);
+    return (this.invalidateListQueries(), o);
+  }
+  async archive(t) {
+    const o = await this.adapter.archive(t);
+    return (this.invalidateListQueries(), o);
+  }
+  async unarchive(t) {
+    const o = await this.adapter.unarchive(t);
+    return (this.invalidateListQueries(), o);
+  }
+  async createFile(t) {
+    const o = await this.adapter.createFile(t);
+    return (this.invalidateListQueries(), o);
+  }
+  async createFolder(t) {
+    const o = await this.adapter.createFolder(t);
+    return (this.invalidateListQueries(), o);
+  }
+  async getContent(t) {
+    const o = ['adapter', 'content', t.path];
+    return await this.queryClient.fetchQuery({
+      queryKey: o,
+      queryFn: () => this.adapter.getContent(t),
+      staleTime: this.config.staleTime,
+    });
+  }
+  getPreviewUrl(t) {
+    return this.adapter.getPreviewUrl(t);
+  }
+  getDownloadUrl(t) {
+    return this.adapter.getDownloadUrl(t);
+  }
+  async search(t) {
+    const o = Ft.search(t.path, t.filter, t.deep, t.size);
+    return await this.queryClient.fetchQuery({
+      queryKey: o,
+      queryFn: () => this.adapter.search(t),
+      staleTime: this.config.staleTime,
+    });
+  }
+  async save(t) {
+    const o = await this.adapter.save(t);
+    return (this.invalidateListQueries(), o);
+  }
+  invalidateListQueries() {
+    this.queryClient.invalidateQueries({ queryKey: ['adapter'], exact: !1 });
+  }
+  invalidateListQuery(t) {
+    this.queryClient.invalidateQueries({ queryKey: ['adapter', 'list', t], exact: !0 });
+  }
+  clearCache() {
+    this.queryClient.clear();
+  }
+}
+function qn(n, t) {
+  const o = I.useStore(n.state);
+  return {
+    current: e.computed(() => {
+      const s = o.value.theme;
+      return s && s !== 'default' ? s : (typeof t == 'function' ? t() : e.unref(t)) || 'light';
+    }),
+    set: (s) => {
+      n.set('theme', s);
+    },
+  };
+}
+const Yn = (n, t) => {
+    const o = Ln(n.id),
+      l = Dn(),
+      r = t.i18n,
+      s = n.locale ?? t.locale,
+      a = Kn(n.id, n.config ?? {}),
+      u = Wn(),
+      c = (i) => (Array.isArray(i) ? i : Pn),
+      m = n.adapter ?? {
+        configureUploader: () => {},
+        async list() {
+          return {
+            storage: 'local',
+            storages: ['local'],
+            storage_info: {},
+            dirname: '',
+            files: [],
+          };
+        },
+        async delete() {
+          return { deleted: [] };
+        },
+        async rename() {
+          return { files: [], storages: [], read_only: !1, dirname: '' };
+        },
+        async copy() {
+          return { files: [], storages: [], read_only: !1, dirname: '' };
+        },
+        async move() {
+          return { files: [], storages: [], read_only: !1, dirname: '' };
+        },
+        async archive() {
+          return { files: [], storages: [], read_only: !1, dirname: '' };
+        },
+        async unarchive() {
+          return { files: [], storages: [], read_only: !1, dirname: '' };
+        },
+        async createFile() {
+          return { files: [], storages: [], read_only: !1, dirname: '' };
+        },
+        async createFolder() {
+          return { files: [], storages: [], read_only: !1, dirname: '' };
+        },
+        async getContent() {
+          return { content: '' };
+        },
+        getPreviewUrl() {
+          return '';
+        },
+        getDownloadUrl() {
+          return '';
+        },
+        async search() {
+          return [];
+        },
+        async save() {
+          return 'ok';
+        },
+      },
+      d = new Gn(m);
+    return e.reactive({
+      version: zn,
+      config: a,
+      theme: (() => {
+        const i = qn(a, () => n.theme || 'light');
+        return {
+          get current() {
+            return i.current.value;
+          },
+          set: i.set,
+        };
+      })(),
+      fs: u,
+      root: e.useTemplateRef('root'),
+      debug: n.debug,
+      emitter: l,
+      storage: o,
+      i18n: Rn(o, s, l, r),
+      modal: Un(),
+      adapter: e.markRaw(d),
+      features: c(n.features),
+      selectionMode: n.selectionMode || 'multiple',
+      selectionFilterType: e.computed(() => n.selectionFilterType || 'both'),
+      selectionFilterMimeIncludes: e.computed(() => n.selectionFilterMimeIncludes || []),
+      treeViewData: [],
+      filesize: a.get('metricUnits') ? qt : _t,
+      contextMenuItems: n.contextMenuItems,
+      customUploader: n.customUploader,
+    });
+  },
+  Qn = ['data-theme'],
+  Xn = { class: 'vuefinder__modal-layout__container' },
+  Jn = { class: 'vuefinder__modal-layout__content' },
+  Zn = { key: 0, class: 'vuefinder__modal-layout__footer' },
+  eo = { key: 0, class: 'vuefinder__modal-drag-overlay' },
+  to = { class: 'vuefinder__modal-drag-message' },
+  ie = e.defineComponent({
+    __name: 'ModalLayout',
+    props: { showDragOverlay: { type: Boolean }, dragOverlayText: {} },
+    setup(n) {
+      const t = e.ref(null),
+        o = H();
+      o.config;
+      const l = n;
+      e.onMounted(() => {
+        const s = document.querySelector('.v-f-modal input');
+        (s && s.focus(),
+          e.nextTick(() => {
+            if (document.querySelector('.v-f-modal input') && window.innerWidth < 768 && t.value) {
+              const a = t.value.getBoundingClientRect().bottom + 16;
+              window.scrollTo({ top: a, left: 0, behavior: 'smooth' });
+            }
+          }));
+      });
+      const r = (s) => {
+        s.target.classList.contains('vuefinder__modal-layout__wrapper') &&
+          (s.preventDefault(), s.stopPropagation());
+      };
+      return (s, a) => (
+        e.openBlock(),
+        e.createElementBlock(
+          'div',
+          {
+            'data-theme': e.unref(o).theme.current,
+            class: 'vuefinder__themer vuefinder__modal-layout',
+            'aria-labelledby': 'modal-title',
+            role: 'dialog',
+            'aria-modal': 'true',
+            onKeyup: a[1] || (a[1] = e.withKeys((u) => e.unref(o).modal.close(), ['esc'])),
+            tabindex: '0',
+          },
+          [
+            a[2] ||
+              (a[2] = e.createElementVNode(
+                'div',
+                { class: 'vuefinder__modal-layout__overlay' },
+                null,
+                -1
+              )),
+            e.createElementVNode('div', Xn, [
+              e.createElementVNode(
+                'div',
+                {
+                  class: 'vuefinder__modal-layout__wrapper',
+                  onContextmenu: r,
+                  onMousedown:
+                    a[0] || (a[0] = e.withModifiers((u) => e.unref(o).modal.close(), ['self'])),
+                },
+                [
+                  e.createElementVNode(
+                    'div',
+                    { ref_key: 'modalBody', ref: t, class: 'vuefinder__modal-layout__body' },
+                    [
+                      e.createElementVNode('div', Jn, [e.renderSlot(s.$slots, 'default')]),
+                      s.$slots.buttons
+                        ? (e.openBlock(),
+                          e.createElementBlock('div', Zn, [e.renderSlot(s.$slots, 'buttons')]))
+                        : e.createCommentVNode('', !0),
+                    ],
+                    512
+                  ),
+                ],
+                32
+              ),
+            ]),
+            l.showDragOverlay
+              ? (e.openBlock(),
+                e.createElementBlock('div', eo, [
+                  e.createElementVNode(
+                    'div',
+                    to,
+                    e.toDisplayString(
+                      l.dragOverlayText || 'Drag and drop the files/folders to here.'
+                    ),
+                    1
+                  ),
+                ]))
+              : e.createCommentVNode('', !0),
+          ],
+          40,
+          Qn
+        )
+      );
+    },
+  }),
+  no = { class: 'vuefinder__modal-header' },
+  oo = { class: 'vuefinder__modal-header__icon-container' },
+  lo = { class: 'vuefinder__modal-header__title', id: 'modal-title' },
+  de = e.defineComponent({
+    __name: 'ModalHeader',
+    props: { title: {}, icon: {} },
+    setup(n) {
+      return (t, o) => (
+        e.openBlock(),
+        e.createElementBlock('div', no, [
+          e.createElementVNode('div', oo, [
+            (e.openBlock(),
+            e.createBlock(e.resolveDynamicComponent(n.icon), {
+              class: 'vuefinder__modal-header__icon',
+            })),
+          ]),
+          e.createElementVNode('div', lo, e.toDisplayString(n.title), 1),
+        ])
+      );
+    },
+  }),
+  ro = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '1.8',
+    viewBox: '0 0 24 24',
+  };
+function ao(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', ro, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode('circle', { cx: '12', cy: '12', r: '9' }, null, -1),
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              d: 'M12 8.2h.01M10.75 11.25H12v4.5m0 0h1.25m-1.25 0h-2',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Yt = { render: ao },
+  so = { class: 'vuefinder__about-modal__content' },
+  io = { class: 'vuefinder__about-modal__main' },
+  co = { class: 'vuefinder__about-modal__tab-content' },
+  uo = { class: 'vuefinder__about-modal__lead' },
+  mo = { class: 'vuefinder__about-modal__description' },
+  fo = { class: 'vuefinder__about-modal__links' },
+  po = {
+    href: 'https://vuefinder.ozdemir.be',
+    class: 'vuefinder__about-modal__link-btn',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+  },
+  vo = { class: 'vuefinder__about-modal__meta' },
+  _o = { class: 'vuefinder__about-modal__meta-item' },
+  ho = { class: 'vuefinder__about-modal__meta-label' },
+  go = { class: 'vuefinder__about-modal__meta-value' },
+  wo = { class: 'vuefinder__about-modal__meta-item' },
+  yo = { class: 'vuefinder__about-modal__meta-label' },
+  Qt = e.defineComponent({
+    __name: 'ModalAbout',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n;
+      return (l, r) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: r[0] || (r[0] = (s) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(o)('Close')),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', so, [
+              e.createVNode(
+                de,
+                { icon: e.unref(Yt), title: 'Vuefinder ' + e.unref(t).version },
+                null,
+                8,
+                ['icon', 'title']
+              ),
+              e.createElementVNode('div', io, [
+                e.createElementVNode('div', co, [
+                  e.createElementVNode(
+                    'div',
+                    uo,
+                    e.toDisplayString(
+                      e.unref(o)('A modern, customizable file manager component built for Vue.')
+                    ),
+                    1
+                  ),
+                  e.createElementVNode(
+                    'div',
+                    mo,
+                    e.toDisplayString(
+                      e.unref(o)('If you like it, please follow and ⭐ star on GitHub.')
+                    ),
+                    1
+                  ),
+                  e.createElementVNode('div', fo, [
+                    e.createElementVNode('a', po, e.toDisplayString(e.unref(o)('Project Home')), 1),
+                    r[1] ||
+                      (r[1] = e.createElementVNode(
+                        'a',
+                        {
+                          href: 'https://github.com/n1crack/vuefinder',
+                          class: 'vuefinder__about-modal__link-btn',
+                          target: '_blank',
+                          rel: 'noopener noreferrer',
+                        },
+                        ' GitHub ',
+                        -1
+                      )),
+                  ]),
+                  e.createElementVNode('div', vo, [
+                    e.createElementVNode('div', _o, [
+                      e.createElementVNode('span', ho, e.toDisplayString(e.unref(o)('Version')), 1),
+                      e.createElementVNode('span', go, e.toDisplayString(e.unref(t).version), 1),
+                    ]),
+                    e.createElementVNode('div', wo, [
+                      e.createElementVNode('span', yo, e.toDisplayString(e.unref(o)('License')), 1),
+                      r[2] ||
+                        (r[2] = e.createElementVNode(
+                          'span',
+                          { class: 'vuefinder__about-modal__meta-value' },
+                          'MIT',
+                          -1
+                        )),
+                    ]),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  ko = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    'stroke-width': '1.5',
+    viewBox: '0 0 24 24',
+  };
+function Eo(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', ko, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'm14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21q.512.078 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48 48 0 0 0-3.478-.397m-12 .562q.51-.089 1.022-.165m0 0a48 48 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a52 52 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a49 49 0 0 0-7.5 0',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Xt = { render: Eo },
+  bo = { class: 'vuefinder__delete-modal__content' },
+  Vo = { class: 'vuefinder__delete-modal__form' },
+  No = { class: 'vuefinder__delete-modal__description' },
+  xo = { class: 'vuefinder__delete-modal__files vf-scrollbar' },
+  Co = { class: 'vuefinder__delete-modal__file' },
+  Bo = {
+    key: 0,
+    class: 'vuefinder__delete-modal__icon vuefinder__delete-modal__icon--dir',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  So = {
+    key: 1,
+    class: 'vuefinder__delete-modal__icon',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  $o = { class: 'vuefinder__delete-modal__file-name' },
+  Do = { class: 'vuefinder__delete-modal__warning' },
+  Xe = e.defineComponent({
+    __name: 'ModalDelete',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = I.useStore(l.path),
+        s = e.ref(t.modal.data.items),
+        a = e.ref(''),
+        u = () => {
+          (console.log(s.value.map(({ path: c, type: m }) => ({ path: c, type: m }))),
+            s.value.length &&
+              t.adapter
+                .delete({
+                  path: r.value.path,
+                  items: s.value.map(({ path: c, type: m }) => ({ path: c, type: m })),
+                })
+                .then((c) => {
+                  (t.emitter.emit('vf-toast-push', { label: o('Files deleted.') }),
+                    t.fs.setFiles(c.files),
+                    t.modal.close());
+                })
+                .catch((c) => {
+                  t.emitter.emit('vf-toast-push', { label: o(c.message), type: 'error' });
+                }));
+        };
+      return (c, m) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              { type: 'button', onClick: u, class: 'vf-btn vf-btn-danger' },
+              e.toDisplayString(e.unref(o)('Yes, Delete!')),
+              1
+            ),
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: m[1] || (m[1] = (d) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(o)('Cancel')),
+              1
+            ),
+            e.createElementVNode(
+              'div',
+              Do,
+              e.toDisplayString(e.unref(o)('This action cannot be undone.')),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', null, [
+              e.createVNode(de, { icon: e.unref(Xt), title: e.unref(o)('Delete files') }, null, 8, [
+                'icon',
+                'title',
+              ]),
+              e.createElementVNode('div', bo, [
+                e.createElementVNode('div', Vo, [
+                  e.createElementVNode(
+                    'p',
+                    No,
+                    e.toDisplayString(e.unref(o)('Are you sure you want to delete these files?')),
+                    1
+                  ),
+                  e.createElementVNode('div', xo, [
+                    (e.openBlock(!0),
+                    e.createElementBlock(
+                      e.Fragment,
+                      null,
+                      e.renderList(
+                        s.value,
+                        (d) => (
+                          e.openBlock(),
+                          e.createElementBlock('p', Co, [
+                            d.type === 'dir'
+                              ? (e.openBlock(),
+                                e.createElementBlock('svg', Bo, [
+                                  ...(m[2] ||
+                                    (m[2] = [
+                                      e.createElementVNode(
+                                        'path',
+                                        {
+                                          'stroke-linecap': 'round',
+                                          'stroke-linejoin': 'round',
+                                          d: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
+                                        },
+                                        null,
+                                        -1
+                                      ),
+                                    ])),
+                                ]))
+                              : (e.openBlock(),
+                                e.createElementBlock('svg', So, [
+                                  ...(m[3] ||
+                                    (m[3] = [
+                                      e.createElementVNode(
+                                        'path',
+                                        {
+                                          'stroke-linecap': 'round',
+                                          'stroke-linejoin': 'round',
+                                          d: 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+                                        },
+                                        null,
+                                        -1
+                                      ),
+                                    ])),
+                                ])),
+                            e.createElementVNode('span', $o, e.toDisplayString(d.basename), 1),
+                          ])
+                        )
+                      ),
+                      256
+                    )),
+                  ]),
+                  a.value.length
+                    ? (e.openBlock(),
+                      e.createBlock(
+                        e.unref(a),
+                        { key: 0, onHidden: m[0] || (m[0] = (d) => (a.value = '')), error: '' },
+                        {
+                          default: e.withCtx(() => [
+                            e.createTextVNode(e.toDisplayString(a.value), 1),
+                          ]),
+                          _: 1,
+                        }
+                      ))
+                    : e.createCommentVNode('', !0),
+                ]),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  Fo = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    'stroke-width': '1.5',
+    viewBox: '0 0 24 24',
+  };
+function Mo(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Fo, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'm16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Jt = { render: Mo },
+  To = { class: 'vuefinder__rename-modal__content' },
+  Ao = { class: 'vuefinder__rename-modal__item' },
+  Io = { class: 'vuefinder__rename-modal__item-info' },
+  Lo = {
+    key: 0,
+    class: 'vuefinder__rename-modal__icon vuefinder__rename-modal__icon--dir',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  Oo = {
+    key: 1,
+    class: 'vuefinder__rename-modal__icon',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  Ro = { class: 'vuefinder__rename-modal__item-name' },
+  Je = e.defineComponent({
+    __name: 'ModalRename',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = I.useStore(l.path),
+        s = e.ref(t.modal.data.items[0]),
+        a = e.ref(s.value.basename),
+        u = e.ref(''),
+        c = () => {
+          a.value != s.value.basename &&
+            t.adapter
+              .rename({ path: r.value.path, item: s.value.path, name: a.value })
+              .then((m) => {
+                (t.emitter.emit('vf-toast-push', { label: o('%s is renamed.', a.value) }),
+                  t.fs.setFiles(m.files),
+                  t.modal.close());
+              })
+              .catch((m) => {
+                t.emitter.emit('vf-toast-push', { label: o(m.message), type: 'error' });
+              });
+        };
+      return (m, d) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              { type: 'button', onClick: c, class: 'vf-btn vf-btn-primary' },
+              e.toDisplayString(e.unref(o)('Rename')),
+              1
+            ),
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: d[2] || (d[2] = (i) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(o)('Cancel')),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', null, [
+              e.createVNode(de, { icon: e.unref(Jt), title: e.unref(o)('Rename') }, null, 8, [
+                'icon',
+                'title',
+              ]),
+              e.createElementVNode('div', To, [
+                e.createElementVNode('div', Ao, [
+                  e.createElementVNode('p', Io, [
+                    s.value.type === 'dir'
+                      ? (e.openBlock(),
+                        e.createElementBlock('svg', Lo, [
+                          ...(d[3] ||
+                            (d[3] = [
+                              e.createElementVNode(
+                                'path',
+                                {
+                                  'stroke-linecap': 'round',
+                                  'stroke-linejoin': 'round',
+                                  d: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
+                                },
+                                null,
+                                -1
+                              ),
+                            ])),
+                        ]))
+                      : (e.openBlock(),
+                        e.createElementBlock('svg', Oo, [
+                          ...(d[4] ||
+                            (d[4] = [
+                              e.createElementVNode(
+                                'path',
+                                {
+                                  'stroke-linecap': 'round',
+                                  'stroke-linejoin': 'round',
+                                  d: 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+                                },
+                                null,
+                                -1
+                              ),
+                            ])),
+                        ])),
+                    e.createElementVNode('span', Ro, e.toDisplayString(s.value.basename), 1),
+                  ]),
+                  e.withDirectives(
+                    e.createElementVNode(
+                      'input',
+                      {
+                        'onUpdate:modelValue': d[0] || (d[0] = (i) => (a.value = i)),
+                        onKeyup: e.withKeys(c, ['enter']),
+                        class: 'vuefinder__rename-modal__input',
+                        placeholder: 'Name',
+                        type: 'text',
+                      },
+                      null,
+                      544
+                    ),
+                    [[e.vModelText, a.value]]
+                  ),
+                  u.value.length
+                    ? (e.openBlock(),
+                      e.createBlock(
+                        e.unref(u),
+                        { key: 0, onHidden: d[1] || (d[1] = (i) => (u.value = '')), error: '' },
+                        {
+                          default: e.withCtx(() => [
+                            e.createTextVNode(e.toDisplayString(u.value), 1),
+                          ]),
+                          _: 1,
+                        }
+                      ))
+                    : e.createCommentVNode('', !0),
+                ]),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  Po = { class: 'vuefinder__text-preview' },
+  zo = { class: 'vuefinder__text-preview__header' },
+  Ho = ['title'],
+  Uo = { class: 'vuefinder__text-preview__actions' },
+  Ko = { key: 0, class: 'vuefinder__text-preview__content' },
+  jo = { key: 1 },
+  Wo = e.defineComponent({
+    __name: 'Text',
+    emits: ['success'],
+    setup(n, { emit: t }) {
+      const o = t,
+        l = e.ref(''),
+        r = e.ref(''),
+        s = e.ref(null),
+        a = e.ref(!1),
+        u = e.ref(''),
+        c = e.ref(!1),
+        m = H(),
+        { t: d } = m.i18n;
+      e.onMounted(async () => {
+        try {
+          const h = await m.adapter.getContent({ path: m.modal.data.item.path });
+          ((l.value = h.content), o('success'));
+        } catch (h) {
+          (console.error('Failed to load text content:', h), o('success'));
+        }
+      });
+      const i = () => {
+          ((a.value = !a.value), (r.value = l.value), m.modal.setEditMode(a.value));
+        },
+        v = async () => {
+          ((u.value = ''), (c.value = !1));
+          try {
+            const h = m.modal.data.item.path;
+            (await m.adapter.save({ path: h, content: r.value }),
+              (l.value = r.value),
+              (u.value = d('Updated.')),
+              o('success'),
+              (a.value = !a.value));
+          } catch (h) {
+            const V = h;
+            ((u.value = d(V.message || 'Error')), (c.value = !0));
+          }
+        };
+      return (h, V) => (
+        e.openBlock(),
+        e.createElementBlock('div', Po, [
+          e.createElementVNode('div', zo, [
+            e.createElementVNode(
+              'div',
+              {
+                class: 'vuefinder__text-preview__title',
+                id: 'modal-title',
+                title: e.unref(m).modal.data.item.path,
+              },
+              e.toDisplayString(e.unref(m).modal.data.item.basename),
+              9,
+              Ho
+            ),
+            e.createElementVNode('div', Uo, [
+              a.value
+                ? (e.openBlock(),
+                  e.createElementBlock(
+                    'button',
+                    { key: 0, onClick: v, class: 'vuefinder__text-preview__save-button' },
+                    e.toDisplayString(e.unref(d)('Save')),
+                    1
+                  ))
+                : e.createCommentVNode('', !0),
+              e.unref(m).features.includes(e.unref(K).EDIT)
+                ? (e.openBlock(),
+                  e.createElementBlock(
+                    'button',
+                    {
+                      key: 1,
+                      class: 'vuefinder__text-preview__edit-button',
+                      onClick: V[0] || (V[0] = (_) => i()),
+                    },
+                    e.toDisplayString(a.value ? e.unref(d)('Cancel') : e.unref(d)('Edit')),
+                    1
+                  ))
+                : e.createCommentVNode('', !0),
+            ]),
+          ]),
+          e.createElementVNode('div', null, [
+            a.value
+              ? (e.openBlock(),
+                e.createElementBlock('div', jo, [
+                  e.withDirectives(
+                    e.createElementVNode(
+                      'textarea',
+                      {
+                        ref_key: 'editInput',
+                        ref: s,
+                        'onUpdate:modelValue': V[1] || (V[1] = (_) => (r.value = _)),
+                        class: 'vuefinder__text-preview__textarea',
+                        name: 'text',
+                        cols: '30',
+                        rows: '10',
+                      },
+                      null,
+                      512
+                    ),
+                    [[e.vModelText, r.value]]
+                  ),
+                ]))
+              : (e.openBlock(), e.createElementBlock('pre', Ko, e.toDisplayString(l.value), 1)),
+            u.value.length
+              ? (e.openBlock(),
+                e.createBlock(
+                  e.unref(u),
+                  { key: 2, onHidden: V[2] || (V[2] = (_) => (u.value = '')), error: c.value },
+                  {
+                    default: e.withCtx(() => [e.createTextVNode(e.toDisplayString(u.value), 1)]),
+                    _: 1,
+                  },
+                  8,
+                  ['error']
+                ))
+              : e.createCommentVNode('', !0),
+          ]),
+        ])
+      );
+    },
+  }),
+  Go = { class: 'vuefinder__image-preview' },
+  qo = { class: 'vuefinder__image-preview__header' },
+  Yo = ['title'],
+  Qo = { class: 'vuefinder__image-preview__actions' },
+  Xo = { class: 'vuefinder__image-preview__image-container' },
+  Jo = ['src'],
+  Zo = e.defineComponent({
+    name: 'ImagePreview',
+    __name: 'Image',
+    emits: ['success'],
+    setup(n, { emit: t }) {
+      const o = t,
+        l = H(),
+        { t: r } = l.i18n,
+        s = e.ref(!1),
+        a = e.ref(''),
+        u = e.ref(!1),
+        c = e.ref(l.adapter.getPreviewUrl({ path: l.modal.data.item.path })),
+        m = e.ref(c.value),
+        d = e.useTemplateRef('cropperRef'),
+        i = async () => {
+          ((s.value = !s.value), l.modal.setEditMode(s.value));
+        },
+        v = async () => {
+          const V = d.value?.getResult({
+            size: { width: 795, height: 341 },
+            fillColor: '#ffffff',
+          })?.canvas;
+          V &&
+            V.toBlob(async (_) => {
+              if (_) {
+                ((a.value = ''), (u.value = !1));
+                try {
+                  const p = new File([_], l.modal.data.item.basename, { type: 'image/png' }),
+                    w = l.modal.data.item.path.split('/'),
+                    k = w.pop(),
+                    y = w.join('/');
+                  (await l.adapter.upload({ path: y, files: [p] }),
+                    (a.value = r('Updated.')),
+                    fetch(c.value, { cache: 'reload', mode: 'no-cors' }));
+                  const C = l.root?.querySelector?.('[data-src="' + c.value + '"]');
+                  (C && C instanceof HTMLElement && Wt.resetStatus(C),
+                    l.emitter.emit('vf-refresh-thumbnails'),
+                    i(),
+                    o('success'));
+                } catch (p) {
+                  const f = p?.message ?? 'Error';
+                  ((a.value = r(f)), (u.value = !0));
+                }
+              }
+            });
+        };
+      return (
+        e.onMounted(() => {
+          o('success');
+        }),
+        (h, V) => (
+          e.openBlock(),
+          e.createElementBlock('div', Go, [
+            e.createElementVNode('div', qo, [
+              e.createElementVNode(
+                'h3',
+                {
+                  class: 'vuefinder__image-preview__title',
+                  id: 'modal-title',
+                  title: e.unref(l).modal.data.item.path,
+                },
+                e.toDisplayString(e.unref(l).modal.data.item.basename),
+                9,
+                Yo
+              ),
+              e.createElementVNode('div', Qo, [
+                s.value
+                  ? (e.openBlock(),
+                    e.createElementBlock(
+                      'button',
+                      { key: 0, onClick: v, class: 'vuefinder__image-preview__crop-button' },
+                      e.toDisplayString(e.unref(r)('Crop')),
+                      1
+                    ))
+                  : e.createCommentVNode('', !0),
+                e.unref(l).features.includes(e.unref(K).EDIT)
+                  ? (e.openBlock(),
+                    e.createElementBlock(
+                      'button',
+                      {
+                        key: 1,
+                        class: 'vuefinder__image-preview__edit-button',
+                        onClick: V[0] || (V[0] = (_) => i()),
+                      },
+                      e.toDisplayString(s.value ? e.unref(r)('Cancel') : e.unref(r)('Edit')),
+                      1
+                    ))
+                  : e.createCommentVNode('', !0),
+              ]),
+            ]),
+            e.createElementVNode('div', Xo, [
+              s.value
+                ? (e.openBlock(),
+                  e.createBlock(
+                    e.unref(Tn.Cropper),
+                    {
+                      key: 1,
+                      ref_key: 'cropperRef',
+                      ref: d,
+                      class: 'w-full h-full',
+                      crossorigin: 'anonymous',
+                      src: m.value,
+                      'auto-zoom': !0,
+                      priority: 'image',
+                      transitions: !0,
+                    },
+                    null,
+                    8,
+                    ['src']
+                  ))
+                : (e.openBlock(),
+                  e.createElementBlock(
+                    'img',
+                    {
+                      key: 0,
+                      style: {},
+                      src: e
+                        .unref(l)
+                        .adapter.getPreviewUrl({ path: e.unref(l).modal.data.item.path }),
+                      class: 'vuefinder__image-preview__image w-full h-full',
+                    },
+                    null,
+                    8,
+                    Jo
+                  )),
+            ]),
+            a.value.length
+              ? (e.openBlock(),
+                e.createBlock(
+                  e.unref(a),
+                  { key: 0, onHidden: V[1] || (V[1] = (_) => (a.value = '')), error: u.value },
+                  {
+                    default: e.withCtx(() => [e.createTextVNode(e.toDisplayString(a.value), 1)]),
+                    _: 1,
+                  },
+                  8,
+                  ['error']
+                ))
+              : e.createCommentVNode('', !0),
+          ])
+        )
+      );
+    },
+  }),
+  el = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    viewBox: '0 0 24 24',
+  };
+function tl(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', el, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              d: 'M7 21h10a2 2 0 0 0 2-2V9.414a1 1 0 0 0-.293-.707l-5.414-5.414A1 1 0 0 0 12.586 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const ze = { render: tl },
+  nl = { class: 'vuefinder__default-preview' },
+  ol = { class: 'vuefinder__default-preview__content' },
+  ll = { class: 'vuefinder__default-preview__header' },
+  rl = ['title'],
+  al = { class: 'vuefinder__default-preview__icon-container' },
+  sl = ['title'],
+  il = e.defineComponent({
+    __name: 'Default',
+    emits: ['success'],
+    setup(n, { emit: t }) {
+      const o = H(),
+        l = t;
+      return (
+        e.onMounted(() => {
+          l('success');
+        }),
+        (r, s) => (
+          e.openBlock(),
+          e.createElementBlock('div', nl, [
+            e.createElementVNode('div', ol, [
+              e.createElementVNode('div', ll, [
+                e.createElementVNode(
+                  'h3',
+                  {
+                    class: 'vuefinder__default-preview__title',
+                    id: 'modal-title',
+                    title: e.unref(o).modal.data.item.path,
+                  },
+                  e.toDisplayString(e.unref(o).modal.data.item.basename),
+                  9,
+                  rl
+                ),
+              ]),
+              e.createElementVNode('div', al, [
+                e.createVNode(e.unref(ze), { class: 'vuefinder__default-preview__file-icon' }),
+                e.createElementVNode(
+                  'div',
+                  {
+                    class: 'vuefinder__default-preview__file-name',
+                    id: 'modal-title',
+                    title: e.unref(o).modal.data.item.path,
+                  },
+                  e.toDisplayString(e.unref(o).modal.data.item.basename),
+                  9,
+                  sl
+                ),
+              ]),
+            ]),
+          ])
+        )
+      );
+    },
+  }),
+  cl = { class: 'vuefinder__video-preview' },
+  dl = ['title'],
+  ul = { class: 'vuefinder__video-preview__video', preload: 'metadata', controls: '' },
+  ml = ['src'],
+  fl = e.defineComponent({
+    __name: 'Video',
+    emits: ['success'],
+    setup(n, { emit: t }) {
+      const o = H(),
+        l = t,
+        r = () => o.adapter.getPreviewUrl({ path: o.modal.data.item.path });
+      return (
+        e.onMounted(() => {
+          l('success');
+        }),
+        (s, a) => (
+          e.openBlock(),
+          e.createElementBlock('div', cl, [
+            e.createElementVNode(
+              'h3',
+              {
+                class: 'vuefinder__video-preview__title',
+                id: 'modal-title',
+                title: e.unref(o).modal.data.item.path,
+              },
+              e.toDisplayString(e.unref(o).modal.data.item.basename),
+              9,
+              dl
+            ),
+            e.createElementVNode('div', null, [
+              e.createElementVNode('video', ul, [
+                e.createElementVNode('source', { src: r(), type: 'video/mp4' }, null, 8, ml),
+                a[0] ||
+                  (a[0] = e.createTextVNode(' Your browser does not support the video tag. ', -1)),
+              ]),
+            ]),
+          ])
+        )
+      );
+    },
+  }),
+  pl = { class: 'vuefinder__audio-preview' },
+  vl = ['title'],
+  _l = { class: 'vuefinder__audio-preview__audio', controls: '' },
+  hl = ['src'],
+  gl = e.defineComponent({
+    __name: 'Audio',
+    emits: ['success'],
+    setup(n, { emit: t }) {
+      const o = t,
+        l = H(),
+        r = () => {
+          const s = H();
+          return s.adapter.getPreviewUrl({ path: s.modal.data.item.path });
+        };
+      return (
+        e.onMounted(() => {
+          o('success');
+        }),
+        (s, a) => (
+          e.openBlock(),
+          e.createElementBlock('div', pl, [
+            e.createElementVNode(
+              'h3',
+              {
+                class: 'vuefinder__audio-preview__title',
+                id: 'modal-title',
+                title: e.unref(l).modal.data.item.path,
+              },
+              e.toDisplayString(e.unref(l).modal.data.item.basename),
+              9,
+              vl
+            ),
+            e.createElementVNode('div', null, [
+              e.createElementVNode('audio', _l, [
+                e.createElementVNode('source', { src: r(), type: 'audio/mpeg' }, null, 8, hl),
+                a[0] ||
+                  (a[0] = e.createTextVNode(
+                    ' Your browser does not support the audio element. ',
+                    -1
+                  )),
+              ]),
+            ]),
+          ])
+        )
+      );
+    },
+  }),
+  wl = { class: 'vuefinder__pdf-preview' },
+  yl = ['title'],
+  kl = ['data'],
+  El = ['src'],
+  bl = e.defineComponent({
+    __name: 'Pdf',
+    emits: ['success'],
+    setup(n, { emit: t }) {
+      const o = H(),
+        l = t,
+        r = () => {
+          const s = H();
+          return s.adapter.getPreviewUrl({ path: s.modal.data.item.path });
+        };
+      return (
+        e.onMounted(() => {
+          l('success');
+        }),
+        (s, a) => (
+          e.openBlock(),
+          e.createElementBlock('div', wl, [
+            e.createElementVNode(
+              'h3',
+              {
+                class: 'vuefinder__pdf-preview__title',
+                id: 'modal-title',
+                title: e.unref(o).modal.data.item.path,
+              },
+              e.toDisplayString(e.unref(o).modal.data.item.basename),
+              9,
+              yl
+            ),
+            e.createElementVNode('div', null, [
+              e.createElementVNode(
+                'object',
+                {
+                  class: 'vuefinder__pdf-preview__object',
+                  data: r(),
+                  type: 'application/pdf',
+                  width: '100%',
+                  height: '100%',
+                },
+                [
+                  e.createElementVNode(
+                    'iframe',
+                    {
+                      class: 'vuefinder__pdf-preview__iframe',
+                      src: r(),
+                      width: '100%',
+                      height: '100%',
+                    },
+                    ' Your browser does not support PDFs ',
+                    8,
+                    El
+                  ),
+                ],
+                8,
+                kl
+              ),
+            ]),
+          ])
+        )
+      );
+    },
+  });
+function Vl(n, t = null) {
+  return new Date(n * 1e3).toLocaleString(t ?? navigator.language ?? 'en-US');
+}
+const Nl = { key: 0, class: 'vuefinder__preview-modal__nav-overlay' },
+  xl = ['disabled', 'title'],
+  Cl = ['disabled', 'title'],
+  Bl = { class: 'vuefinder__preview-modal__content' },
+  Sl = { key: 0 },
+  $l = { class: 'vuefinder__preview-modal__loading' },
+  Dl = { key: 0, class: 'vuefinder__preview-modal__loading-indicator' },
+  Fl = { class: 'vuefinder__preview-modal__details' },
+  Ml = { class: 'font-bold' },
+  Tl = { class: 'font-bold pl-2' },
+  Al = { key: 0, class: 'vuefinder__preview-modal__note' },
+  Il = ['download', 'href'],
+  Ze = e.defineComponent({
+    __name: 'ModalPreview',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = e.ref(!1),
+        r = (_) => (t.modal.data.item.mime_type ?? '').startsWith(_),
+        s = t.features.includes(K.PREVIEW);
+      s || (l.value = !0);
+      const a = e.computed(() => t.modal.data.item),
+        u = I.useStore(t.fs.sortedFiles),
+        c = e.computed(() => u.value.filter((_) => _.type === 'file')),
+        m = e.computed(() => c.value.findIndex((_) => _.path === a.value.path)),
+        d = e.computed(() => m.value > 0),
+        i = e.computed(() => m.value < c.value.length - 1),
+        v = () => {
+          if (t.modal.editMode || !d.value) return;
+          const _ = c.value[m.value - 1];
+          _ &&
+            (t.fs.clearSelection(),
+            t.fs.select(_.path),
+            (t.modal.data.item = _),
+            (t.modal.data.storage = t.modal.data.storage));
+        },
+        h = () => {
+          if (t.modal.editMode || !i.value) return;
+          const _ = c.value[m.value + 1];
+          _ &&
+            (t.fs.clearSelection(),
+            t.fs.select(_.path),
+            (t.modal.data.item = _),
+            (t.modal.data.storage = t.modal.data.storage));
+        },
+        V = (_) => {
+          if (_.key === 'Escape') {
+            (_.preventDefault(), _.stopPropagation(), t.modal.close());
+            return;
+          }
+          (_.key === 'ArrowLeft' || _.key === 'ArrowRight') &&
+            (_.preventDefault(), _.stopPropagation(), _.key === 'ArrowLeft' ? v() : h());
+        };
+      return (
+        e.onMounted(() => {
+          const _ = document.querySelector('.vuefinder__preview-modal');
+          _ && _.focus();
+        }),
+        (_, p) => (
+          e.openBlock(),
+          e.createBlock(ie, null, {
+            buttons: e.withCtx(() => [
+              e.createElementVNode(
+                'button',
+                {
+                  type: 'button',
+                  onClick: p[6] || (p[6] = (f) => e.unref(t).modal.close()),
+                  class: 'vf-btn vf-btn-secondary',
+                },
+                e.toDisplayString(e.unref(o)('Close')),
+                1
+              ),
+              e.unref(t).features.includes(e.unref(K).DOWNLOAD)
+                ? (e.openBlock(),
+                  e.createElementBlock(
+                    'a',
+                    {
+                      key: 0,
+                      target: '_blank',
+                      class: 'vf-btn vf-btn-primary',
+                      download: e
+                        .unref(t)
+                        .adapter.getDownloadUrl({ path: e.unref(t).modal.data.item.path }),
+                      href: e
+                        .unref(t)
+                        .adapter.getDownloadUrl({ path: e.unref(t).modal.data.item.path }),
+                    },
+                    e.toDisplayString(e.unref(o)('Download')),
+                    9,
+                    Il
+                  ))
+                : e.createCommentVNode('', !0),
+            ]),
+            default: e.withCtx(() => [
+              e.createElementVNode(
+                'div',
+                { class: 'vuefinder__preview-modal', onKeydown: V, tabindex: '0' },
+                [
+                  e.unref(t).modal.editMode
+                    ? e.createCommentVNode('', !0)
+                    : (e.openBlock(),
+                      e.createElementBlock('div', Nl, [
+                        e.createElementVNode(
+                          'button',
+                          {
+                            onClick: v,
+                            disabled: !d.value,
+                            class:
+                              'vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--left',
+                            title: e.unref(o)('Previous file'),
+                          },
+                          [
+                            ...(p[7] ||
+                              (p[7] = [
+                                e.createElementVNode(
+                                  'svg',
+                                  {
+                                    class: 'vuefinder__preview-modal__nav-icon',
+                                    viewBox: '0 0 24 24',
+                                    fill: 'none',
+                                    stroke: 'currentColor',
+                                    'stroke-width': '2',
+                                  },
+                                  [e.createElementVNode('polyline', { points: '15,18 9,12 15,6' })],
+                                  -1
+                                ),
+                              ])),
+                          ],
+                          8,
+                          xl
+                        ),
+                        e.createElementVNode(
+                          'button',
+                          {
+                            onClick: h,
+                            disabled: !i.value,
+                            class:
+                              'vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--right',
+                            title: e.unref(o)('Next file'),
+                          },
+                          [
+                            ...(p[8] ||
+                              (p[8] = [
+                                e.createElementVNode(
+                                  'svg',
+                                  {
+                                    class: 'vuefinder__preview-modal__nav-icon',
+                                    viewBox: '0 0 24 24',
+                                    fill: 'none',
+                                    stroke: 'currentColor',
+                                    'stroke-width': '2',
+                                  },
+                                  [e.createElementVNode('polyline', { points: '9,18 15,12 9,6' })],
+                                  -1
+                                ),
+                              ])),
+                          ],
+                          8,
+                          Cl
+                        ),
+                      ])),
+                  e.createElementVNode('div', Bl, [
+                    e.unref(s)
+                      ? (e.openBlock(),
+                        e.createElementBlock('div', Sl, [
+                          r('text')
+                            ? (e.openBlock(),
+                              e.createBlock(Wo, {
+                                key: 0,
+                                onSuccess: p[0] || (p[0] = (f) => (l.value = !0)),
+                              }))
+                            : r('image')
+                              ? (e.openBlock(),
+                                e.createBlock(Zo, {
+                                  key: 1,
+                                  onSuccess: p[1] || (p[1] = (f) => (l.value = !0)),
+                                }))
+                              : r('video')
+                                ? (e.openBlock(),
+                                  e.createBlock(fl, {
+                                    key: 2,
+                                    onSuccess: p[2] || (p[2] = (f) => (l.value = !0)),
+                                  }))
+                                : r('audio')
+                                  ? (e.openBlock(),
+                                    e.createBlock(gl, {
+                                      key: 3,
+                                      onSuccess: p[3] || (p[3] = (f) => (l.value = !0)),
+                                    }))
+                                  : r('application/pdf')
+                                    ? (e.openBlock(),
+                                      e.createBlock(bl, {
+                                        key: 4,
+                                        onSuccess: p[4] || (p[4] = (f) => (l.value = !0)),
+                                      }))
+                                    : (e.openBlock(),
+                                      e.createBlock(il, {
+                                        key: 5,
+                                        onSuccess: p[5] || (p[5] = (f) => (l.value = !0)),
+                                      })),
+                        ]))
+                      : e.createCommentVNode('', !0),
+                    e.createElementVNode('div', $l, [
+                      l.value === !1
+                        ? (e.openBlock(),
+                          e.createElementBlock('div', Dl, [
+                            p[9] ||
+                              (p[9] = e.createElementVNode(
+                                'svg',
+                                {
+                                  class: 'vuefinder__preview-modal__spinner',
+                                  xmlns: 'http://www.w3.org/2000/svg',
+                                  fill: 'none',
+                                  viewBox: '0 0 24 24',
+                                },
+                                [
+                                  e.createElementVNode('circle', {
+                                    class: 'vuefinder__preview-modal__spinner-circle',
+                                    cx: '12',
+                                    cy: '12',
+                                    r: '10',
+                                    stroke: 'currentColor',
+                                    'stroke-width': '4',
+                                  }),
+                                  e.createElementVNode('path', {
+                                    class: 'vuefinder__preview-modal__spinner-path',
+                                    fill: 'currentColor',
+                                    d: 'M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z',
+                                  }),
+                                ],
+                                -1
+                              )),
+                            e.createElementVNode(
+                              'span',
+                              null,
+                              e.toDisplayString(e.unref(o)('Loading')),
+                              1
+                            ),
+                          ]))
+                        : e.createCommentVNode('', !0),
+                    ]),
+                  ]),
+                ],
+                32
+              ),
+              e.createElementVNode('div', Fl, [
+                e.createElementVNode('div', null, [
+                  e.createElementVNode(
+                    'span',
+                    Ml,
+                    e.toDisplayString(e.unref(o)('File Size')) + ': ',
+                    1
+                  ),
+                  e.createTextVNode(
+                    e.toDisplayString(e.unref(t).filesize(e.unref(t).modal.data.item.file_size)),
+                    1
+                  ),
+                ]),
+                e.createElementVNode('div', null, [
+                  e.createElementVNode(
+                    'span',
+                    Tl,
+                    e.toDisplayString(e.unref(o)('Last Modified')) + ': ',
+                    1
+                  ),
+                  e.createTextVNode(
+                    ' ' + e.toDisplayString(e.unref(Vl)(e.unref(t).modal.data.item.last_modified)),
+                    1
+                  ),
+                ]),
+              ]),
+              e.unref(t).features.includes(e.unref(K).DOWNLOAD)
+                ? (e.openBlock(),
+                  e.createElementBlock('div', Al, [
+                    e.createElementVNode(
+                      'span',
+                      null,
+                      e.toDisplayString(
+                        e.unref(o)(
+                          `Download doesn't work? You can try right-click "Download" button, select "Save link as...".`
+                        )
+                      ),
+                      1
+                    ),
+                  ]))
+                : e.createCommentVNode('', !0),
+            ]),
+            _: 1,
+          })
+        )
+      );
+    },
+  }),
+  Ll = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '2',
+    'aria-hidden': 'true',
+    class: 'h-6 w-6 stroke-blue-600 dark:stroke-blue-100',
+    viewBox: '0 0 24 24',
+  };
+function Ol(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Ll, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              d: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Rl = { render: Ol },
+  Pl = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    viewBox: '0 0 24 24',
+  };
+function zl(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Pl, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              d: 'M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6l-2-2H5a2 2 0 0 0-2 2',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const he = { render: zl },
+  Hl = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    'stroke-width': '2',
+    viewBox: '0 0 24 24',
+  };
+function Ul(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Hl, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode('path', { stroke: 'none', d: 'M0 0h24v24H0z' }, null, -1),
+          e.createElementVNode('path', { d: 'M12 5v14M5 12h14' }, null, -1),
+        ])),
+    ])
+  );
+}
+const et = { render: Ul },
+  Kl = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    'stroke-width': '2',
+    viewBox: '0 0 24 24',
+  };
+function jl(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Kl, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode('path', { stroke: 'none', d: 'M0 0h24v24H0z' }, null, -1),
+          e.createElementVNode('path', { d: 'M5 12h14' }, null, -1),
+        ])),
+    ])
+  );
+}
+const tt = { render: jl },
+  Wl = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    'stroke-width': '2',
+    class: 'h-5 w-5',
+    viewBox: '0 0 24 24',
+  };
+function Gl(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Wl, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode('path', { stroke: 'none', d: 'M0 0h24v24H0z' }, null, -1),
+          e.createElementVNode(
+            'path',
+            { d: 'm15 4.5-4 4L7 10l-1.5 1.5 7 7L14 17l1.5-4 4-4M9 15l-4.5 4.5M14.5 4 20 9.5' },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const ht = { render: Gl },
+  ql = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    viewBox: '0 0 24 24',
+  };
+function Yl(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', ql, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              d: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const gt = { render: Yl },
+  Ql = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '1.5',
+    viewBox: '0 0 24 24',
+  };
+function Xl(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Ql, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              d: 'M3.75 9.776q.168-.026.344-.026h15.812q.176 0 .344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const wt = { render: Xl },
+  Jl = { class: 'vuefinder__modal-tree__folder-item' },
+  Zl = { class: 'vuefinder__modal-tree__folder-content' },
+  er = { key: 1, class: 'vuefinder__modal-tree__folder-spacer' },
+  tr = { class: 'vuefinder__modal-tree__folder-text' },
+  nr = { key: 0, class: 'vuefinder__modal-tree__subfolders' },
+  or = 300,
+  lr = e.defineComponent({
+    __name: 'ModalTreeFolderItem',
+    props: {
+      folder: {},
+      storage: {},
+      modelValue: {},
+      expandedFolders: {},
+      modalTreeData: {},
+      currentPath: {},
+    },
+    emits: ['update:modelValue', 'selectAndClose', 'toggleFolder'],
+    setup(n, { emit: t }) {
+      const o = H(),
+        { t: l } = o.i18n,
+        r = o.fs,
+        s = n,
+        a = t;
+      I.useStore(r.path);
+      const u = e.computed(() => {
+          const f = `${s.storage}:${s.folder.path}`;
+          return s.expandedFolders[f] || !1;
+        }),
+        c = e.computed(() => s.modelValue?.path === s.folder.path),
+        m = e.computed(() => s.currentPath?.path === s.folder.path),
+        d = e.computed(() => s.modalTreeData[s.folder.path] || []),
+        i = e.computed(() => d.value.length > 0 || s.folder.type === 'dir'),
+        v = () => {
+          a('toggleFolder', s.storage, s.folder.path);
+        },
+        h = () => {
+          a('update:modelValue', s.folder);
+        },
+        V = () => {
+          (a('update:modelValue', s.folder), a('selectAndClose', s.folder));
+        };
+      let _ = 0;
+      const p = () => {
+        const f = Date.now();
+        (f - _ < or ? V() : h(), (_ = f));
+      };
+      return (f, w) => {
+        const k = e.resolveComponent('ModalTreeFolderItem', !0);
+        return (
+          e.openBlock(),
+          e.createElementBlock('div', Jl, [
+            e.createElementVNode('div', Zl, [
+              i.value
+                ? (e.openBlock(),
+                  e.createElementBlock(
+                    'div',
+                    { key: 0, class: 'vuefinder__modal-tree__folder-toggle', onClick: v },
+                    [
+                      u.value
+                        ? (e.openBlock(),
+                          e.createBlock(e.unref(tt), {
+                            key: 1,
+                            class: 'vuefinder__modal-tree__folder-toggle-icon',
+                          }))
+                        : (e.openBlock(),
+                          e.createBlock(e.unref(et), {
+                            key: 0,
+                            class: 'vuefinder__modal-tree__folder-toggle-icon',
+                          })),
+                    ]
+                  ))
+                : (e.openBlock(), e.createElementBlock('div', er)),
+              e.createElementVNode(
+                'div',
+                {
+                  class: e.normalizeClass([
+                    'vuefinder__modal-tree__folder-link',
+                    {
+                      'vuefinder__modal-tree__folder-link--selected': c.value,
+                      'vuefinder__modal-tree__folder-link--current': m.value,
+                    },
+                  ]),
+                  onClick: h,
+                  onDblclick: V,
+                  onTouchend: p,
+                },
+                [
+                  u.value
+                    ? (e.openBlock(),
+                      e.createBlock(e.unref(wt), {
+                        key: 1,
+                        class:
+                          'vuefinder__item-icon__folder--open vuefinder__modal-tree__folder-icon',
+                      }))
+                    : (e.openBlock(),
+                      e.createBlock(e.unref(he), {
+                        key: 0,
+                        class: 'vuefinder__modal-tree__folder-icon vuefinder__item-icon__folder',
+                      })),
+                  e.createElementVNode('span', tr, e.toDisplayString(n.folder.basename), 1),
+                ],
+                34
+              ),
+            ]),
+            u.value && i.value
+              ? (e.openBlock(),
+                e.createElementBlock('div', nr, [
+                  (e.openBlock(!0),
+                  e.createElementBlock(
+                    e.Fragment,
+                    null,
+                    e.renderList(
+                      d.value,
+                      (y) => (
+                        e.openBlock(),
+                        e.createBlock(
+                          k,
+                          {
+                            key: y.path,
+                            folder: y,
+                            storage: n.storage,
+                            modelValue: n.modelValue,
+                            expandedFolders: n.expandedFolders,
+                            modalTreeData: n.modalTreeData,
+                            currentPath: n.currentPath,
+                            'onUpdate:modelValue':
+                              w[0] || (w[0] = (C) => f.$emit('update:modelValue', C)),
+                            onSelectAndClose: w[1] || (w[1] = (C) => f.$emit('selectAndClose', C)),
+                            onToggleFolder:
+                              w[2] || (w[2] = (C, F) => f.$emit('toggleFolder', C, F)),
+                          },
+                          null,
+                          8,
+                          [
+                            'folder',
+                            'storage',
+                            'modelValue',
+                            'expandedFolders',
+                            'modalTreeData',
+                            'currentPath',
+                          ]
+                        )
+                      )
+                    ),
+                    128
+                  )),
+                ]))
+              : e.createCommentVNode('', !0),
+          ])
+        );
+      };
+    },
+  }),
+  rr = { class: 'vuefinder__modal-tree' },
+  ar = { class: 'vuefinder__modal-tree__header' },
+  sr = { class: 'vuefinder__modal-tree__title' },
+  ir = { key: 0, class: 'vuefinder__modal-tree__section' },
+  cr = { class: 'vuefinder__modal-tree__section-title' },
+  dr = { class: 'vuefinder__modal-tree__list' },
+  ur = ['onClick', 'onDblclick', 'onTouchend'],
+  mr = { class: 'vuefinder__modal-tree__text' },
+  fr = { class: 'vuefinder__modal-tree__text-storage' },
+  pr = { class: 'vuefinder__modal-tree__section-title' },
+  vr = { class: 'vuefinder__modal-tree__list' },
+  _r = { class: 'vuefinder__modal-tree__storage-item' },
+  hr = { class: 'vuefinder__modal-tree__storage-content' },
+  gr = ['onClick'],
+  wr = ['onClick', 'onDblclick', 'onTouchend'],
+  yr = { class: 'vuefinder__modal-tree__storage-text' },
+  kr = { key: 0, class: 'vuefinder__modal-tree__subfolders' },
+  Mt = 300,
+  yt = e.defineComponent({
+    __name: 'ModalTreeSelector',
+    props: { modelValue: {}, showPinnedFolders: { type: Boolean }, currentPath: {} },
+    emits: ['update:modelValue', 'selectAndClose'],
+    setup(n, { emit: t }) {
+      const o = H(),
+        { t: l } = o.i18n,
+        r = o.fs,
+        s = o.config,
+        a = t,
+        u = I.useStore(r.sortedFiles),
+        c = I.useStore(r.storages),
+        m = e.computed(() => c.value || []),
+        d = I.useStore(r.path),
+        i = e.ref(null),
+        v = e.ref({}),
+        h = e.ref({});
+      e.watch(u, (B) => {
+        const L = B.filter((O) => O.type === 'dir'),
+          S = d.value?.path || '';
+        S && (h.value[S] = L.map((O) => ({ ...O, type: 'dir' })));
+      });
+      const V = (B, L) => {
+          const S = `${B}:${L}`;
+          ((v.value = { ...v.value, [S]: !v.value[S] }),
+            v.value[S] &&
+              !h.value[L] &&
+              o.adapter.list(L).then((O) => {
+                const X = (O.files || []).filter((P) => P.type === 'dir');
+                h.value[L] = X.map((P) => ({ ...P, type: 'dir' }));
+              }));
+        },
+        _ = (B) => h.value[B] || [],
+        p = (B) => {
+          B && a('update:modelValue', B);
+        },
+        f = (B) => {
+          B && (a('update:modelValue', B), a('selectAndClose', B));
+        },
+        w = (B) => {
+          const L = {
+            storage: B,
+            path: B + '://',
+            basename: B,
+            type: 'dir',
+            extension: '',
+            file_size: null,
+            last_modified: null,
+            mime_type: null,
+            visibility: 'public',
+            dir: B + '://',
+          };
+          a('update:modelValue', L);
+        },
+        k = (B) => {
+          const L = {
+            storage: B,
+            path: B + '://',
+            basename: B,
+            type: 'dir',
+            extension: '',
+            file_size: null,
+            last_modified: null,
+            mime_type: null,
+            visibility: 'public',
+            dir: B + '://',
+          };
+          (a('update:modelValue', L), a('selectAndClose', L));
+        };
+      let y = 0;
+      const C = (B) => {
+          if (!B) return;
+          const L = Date.now();
+          (L - y < Mt ? f(B) : p(B), (y = L));
+        },
+        F = (B) => {
+          const L = Date.now();
+          (L - y < Mt ? k(B) : w(B), (y = L));
+        };
+      return (
+        e.onMounted(() => {
+          i.value &&
+            Qe.OverlayScrollbars(i.value, {
+              overflow: { x: 'hidden' },
+              scrollbars: { theme: 'vf-scrollbars-theme' },
+            });
+        }),
+        (B, L) => (
+          e.openBlock(),
+          e.createElementBlock('div', rr, [
+            e.createElementVNode('div', ar, [
+              e.createElementVNode(
+                'div',
+                sr,
+                e.toDisplayString(e.unref(l)('Select Target Folder')),
+                1
+              ),
+            ]),
+            e.createElementVNode(
+              'div',
+              { ref_key: 'modalContentElement', ref: i, class: 'vuefinder__modal-tree__content' },
+              [
+                n.showPinnedFolders && e.unref(s).get('pinnedFolders').length
+                  ? (e.openBlock(),
+                    e.createElementBlock('div', ir, [
+                      e.createElementVNode(
+                        'div',
+                        cr,
+                        e.toDisplayString(e.unref(l)('Pinned Folders')),
+                        1
+                      ),
+                      e.createElementVNode('div', dr, [
+                        (e.openBlock(!0),
+                        e.createElementBlock(
+                          e.Fragment,
+                          null,
+                          e.renderList(
+                            e.unref(s).get('pinnedFolders'),
+                            (S) => (
+                              e.openBlock(),
+                              e.createElementBlock(
+                                'div',
+                                {
+                                  key: S.path,
+                                  class: e.normalizeClass([
+                                    'vuefinder__modal-tree__item',
+                                    {
+                                      'vuefinder__modal-tree__item--selected':
+                                        n.modelValue?.path === S.path,
+                                    },
+                                  ]),
+                                  onClick: (O) => p(S),
+                                  onDblclick: (O) => f(S),
+                                  onTouchend: (O) => C(S),
+                                },
+                                [
+                                  e.createVNode(e.unref(he), {
+                                    class:
+                                      'vuefinder__modal-tree__icon vuefinder__item-icon__folder',
+                                  }),
+                                  e.createElementVNode('div', mr, e.toDisplayString(S.basename), 1),
+                                  e.createElementVNode('div', fr, e.toDisplayString(S.storage), 1),
+                                  e.createVNode(e.unref(ht), {
+                                    class:
+                                      'vuefinder__modal-tree__icon vuefinder__modal-tree__icon--pin',
+                                  }),
+                                ],
+                                42,
+                                ur
+                              )
+                            )
+                          ),
+                          128
+                        )),
+                      ]),
+                    ]))
+                  : e.createCommentVNode('', !0),
+                e.createElementVNode('div', pr, e.toDisplayString(e.unref(l)('Storages')), 1),
+                (e.openBlock(!0),
+                e.createElementBlock(
+                  e.Fragment,
+                  null,
+                  e.renderList(
+                    m.value,
+                    (S) => (
+                      e.openBlock(),
+                      e.createElementBlock(
+                        'div',
+                        { class: 'vuefinder__modal-tree__section', key: S },
+                        [
+                          e.createElementVNode('div', vr, [
+                            e.createElementVNode('div', _r, [
+                              e.createElementVNode('div', hr, [
+                                e.createElementVNode(
+                                  'div',
+                                  {
+                                    class: 'vuefinder__modal-tree__storage-toggle',
+                                    onClick: e.withModifiers((O) => V(S, S + '://'), ['stop']),
+                                  },
+                                  [
+                                    v.value[`${S}:${S}://`]
+                                      ? (e.openBlock(),
+                                        e.createBlock(e.unref(tt), {
+                                          key: 1,
+                                          class: 'vuefinder__modal-tree__toggle-icon',
+                                        }))
+                                      : (e.openBlock(),
+                                        e.createBlock(e.unref(et), {
+                                          key: 0,
+                                          class: 'vuefinder__modal-tree__toggle-icon',
+                                        })),
+                                  ],
+                                  8,
+                                  gr
+                                ),
+                                e.createElementVNode(
+                                  'div',
+                                  {
+                                    class: e.normalizeClass([
+                                      'vuefinder__modal-tree__storage-link',
+                                      {
+                                        'vuefinder__modal-tree__storage-link--selected':
+                                          n.modelValue?.path === S + '://',
+                                      },
+                                    ]),
+                                    onClick: (O) => w(S),
+                                    onDblclick: (O) => k(S),
+                                    onTouchend: (O) => F(S),
+                                  },
+                                  [
+                                    e.createVNode(e.unref(gt), {
+                                      class: 'vuefinder__modal-tree__storage-icon',
+                                    }),
+                                    e.createElementVNode('span', yr, e.toDisplayString(S), 1),
+                                  ],
+                                  42,
+                                  wr
+                                ),
+                              ]),
+                              v.value[`${S}:${S}://`]
+                                ? (e.openBlock(),
+                                  e.createElementBlock('div', kr, [
+                                    (e.openBlock(!0),
+                                    e.createElementBlock(
+                                      e.Fragment,
+                                      null,
+                                      e.renderList(
+                                        _(S + '://'),
+                                        (O) => (
+                                          e.openBlock(),
+                                          e.createBlock(
+                                            lr,
+                                            {
+                                              key: O.path,
+                                              folder: O,
+                                              storage: S,
+                                              modelValue: n.modelValue,
+                                              expandedFolders: v.value,
+                                              modalTreeData: h.value,
+                                              currentPath: n.currentPath,
+                                              'onUpdate:modelValue': p,
+                                              onSelectAndClose: f,
+                                              onToggleFolder: V,
+                                            },
+                                            null,
+                                            8,
+                                            [
+                                              'folder',
+                                              'storage',
+                                              'modelValue',
+                                              'expandedFolders',
+                                              'modalTreeData',
+                                              'currentPath',
+                                            ]
+                                          )
+                                        )
+                                      ),
+                                      128
+                                    )),
+                                  ]))
+                                : e.createCommentVNode('', !0),
+                            ]),
+                          ]),
+                        ]
+                      )
+                    )
+                  ),
+                  128
+                )),
+              ],
+              512
+            ),
+          ])
+        )
+      );
+    },
+  }),
+  Er = { class: 'vuefinder__move-modal__content' },
+  br = { class: 'vuefinder__move-modal__description' },
+  Vr = { class: 'vuefinder__move-modal__files vf-scrollbar' },
+  Nr = {
+    key: 0,
+    class: 'vuefinder__move-modal__icon vuefinder__move-modal__icon--dir',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  xr = {
+    key: 1,
+    class: 'vuefinder__move-modal__icon',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  Cr = { class: 'vuefinder__move-modal__file-name' },
+  Br = { class: 'vuefinder__move-modal__target-title' },
+  Sr = { class: 'vuefinder__move-modal__target-container' },
+  $r = { class: 'vuefinder__move-modal__target-path' },
+  Dr = { class: 'vuefinder__move-modal__target-storage' },
+  Fr = { key: 0, class: 'vuefinder__move-modal__Destination-folder' },
+  Mr = { class: 'vuefinder__move-modal__target-badge' },
+  Tr = { class: 'vuefinder__move-modal__options' },
+  Ar = { class: 'vuefinder__move-modal__checkbox-label' },
+  Ir = { class: 'vuefinder__move-modal__checkbox-text' },
+  Lr = { class: 'vuefinder__move-modal__selected-items' },
+  Zt = e.defineComponent({
+    __name: 'ModalTransfer',
+    props: { copy: { type: Boolean } },
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = n,
+        r = e.ref(t.modal.data.items.from),
+        s = e.ref(t.modal.data.items.to),
+        a = e.ref(''),
+        u = e.ref(l.copy || !1),
+        c = e.computed(() => (u.value ? 'copy' : 'move')),
+        m = e.ref(!1),
+        d = e.computed(() => (u.value ? o('Copy files') : o('Move files'))),
+        i = e.computed(() =>
+          u.value
+            ? o('Are you sure you want to copy these files?')
+            : o('Are you sure you want to move these files?')
+        ),
+        v = e.computed(() => (u.value ? o('Yes, Copy!') : o('Yes, Move!')));
+      e.computed(() => (u.value ? o('Files copied.') : o('Files moved.')));
+      const h = (f) => {
+          f && (s.value = f);
+        },
+        V = (f) => {
+          f && ((s.value = f), (m.value = !1));
+        },
+        _ = () => {
+          const f = s.value.path;
+          if (!f) return { storage: 'local', path: '' };
+          if (f.endsWith('://')) return { storage: f.replace('://', ''), path: '' };
+          const w = f.split('://');
+          return { storage: w[0] || 'local', path: w[1] || '' };
+        },
+        p = async () => {
+          r.value.length &&
+            (await t.adapter[c.value]({
+              sources: r.value.map(({ path: f }) => f),
+              destination: s.value.path,
+            }));
+        };
+      return (f, w) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              { type: 'button', onClick: p, class: 'vf-btn vf-btn-primary' },
+              e.toDisplayString(v.value),
+              1
+            ),
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: w[4] || (w[4] = (k) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(o)('Cancel')),
+              1
+            ),
+            e.createElementVNode(
+              'div',
+              Lr,
+              e.toDisplayString(e.unref(o)('%s item(s) selected.', r.value.length)),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', null, [
+              e.createVNode(de, { icon: e.unref(Rl), title: d.value }, null, 8, ['icon', 'title']),
+              e.createElementVNode('div', Er, [
+                e.createElementVNode('p', br, e.toDisplayString(i.value), 1),
+                e.createElementVNode('div', Vr, [
+                  (e.openBlock(!0),
+                  e.createElementBlock(
+                    e.Fragment,
+                    null,
+                    e.renderList(
+                      r.value,
+                      (k) => (
+                        e.openBlock(),
+                        e.createElementBlock(
+                          'div',
+                          { class: 'vuefinder__move-modal__file', key: k.path },
+                          [
+                            e.createElementVNode('div', null, [
+                              k.type === 'dir'
+                                ? (e.openBlock(),
+                                  e.createElementBlock('svg', Nr, [
+                                    ...(w[5] ||
+                                      (w[5] = [
+                                        e.createElementVNode(
+                                          'path',
+                                          {
+                                            'stroke-linecap': 'round',
+                                            'stroke-linejoin': 'round',
+                                            d: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
+                                          },
+                                          null,
+                                          -1
+                                        ),
+                                      ])),
+                                  ]))
+                                : (e.openBlock(),
+                                  e.createElementBlock('svg', xr, [
+                                    ...(w[6] ||
+                                      (w[6] = [
+                                        e.createElementVNode(
+                                          'path',
+                                          {
+                                            'stroke-linecap': 'round',
+                                            'stroke-linejoin': 'round',
+                                            d: 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+                                          },
+                                          null,
+                                          -1
+                                        ),
+                                      ])),
+                                  ])),
+                            ]),
+                            e.createElementVNode('div', Cr, e.toDisplayString(k.path), 1),
+                          ]
+                        )
+                      )
+                    ),
+                    128
+                  )),
+                ]),
+                e.createElementVNode(
+                  'h4',
+                  Br,
+                  e.toDisplayString(e.unref(o)('Target Directory')),
+                  1
+                ),
+                e.createElementVNode('div', Sr, [
+                  e.createElementVNode(
+                    'div',
+                    {
+                      class: 'vuefinder__move-modal__target-display',
+                      onClick: w[0] || (w[0] = (k) => (m.value = !m.value)),
+                    },
+                    [
+                      e.createElementVNode('div', $r, [
+                        e.createElementVNode('span', Dr, e.toDisplayString(_().storage) + '://', 1),
+                        _().path
+                          ? (e.openBlock(),
+                            e.createElementBlock('span', Fr, e.toDisplayString(_().path), 1))
+                          : e.createCommentVNode('', !0),
+                      ]),
+                      e.createElementVNode('span', Mr, e.toDisplayString(e.unref(o)('Browse')), 1),
+                    ]
+                  ),
+                ]),
+                e.createElementVNode(
+                  'div',
+                  {
+                    class: e.normalizeClass([
+                      'vuefinder__move-modal__tree-selector',
+                      m.value
+                        ? 'vuefinder__move-modal__tree-selector--expanded'
+                        : 'vuefinder__move-modal__tree-selector--collapsed',
+                    ]),
+                  },
+                  [
+                    e.createVNode(
+                      yt,
+                      {
+                        modelValue: s.value,
+                        'onUpdate:modelValue': [w[1] || (w[1] = (k) => (s.value = k)), h],
+                        'show-pinned-folders': !0,
+                        onSelectAndClose: V,
+                      },
+                      null,
+                      8,
+                      ['modelValue']
+                    ),
+                  ],
+                  2
+                ),
+                e.createElementVNode('div', Tr, [
+                  e.createElementVNode('label', Ar, [
+                    e.withDirectives(
+                      e.createElementVNode(
+                        'input',
+                        {
+                          type: 'checkbox',
+                          'onUpdate:modelValue': w[2] || (w[2] = (k) => (u.value = k)),
+                          class: 'vuefinder__move-modal__checkbox',
+                        },
+                        null,
+                        512
+                      ),
+                      [[e.vModelCheckbox, u.value]]
+                    ),
+                    e.createElementVNode(
+                      'span',
+                      Ir,
+                      e.toDisplayString(e.unref(o)('Create a copy instead of moving')),
+                      1
+                    ),
+                  ]),
+                ]),
+                a.value.length
+                  ? (e.openBlock(),
+                    e.createBlock(
+                      e.unref(a),
+                      { key: 0, onHidden: w[3] || (w[3] = (k) => (a.value = '')), error: '' },
+                      {
+                        default: e.withCtx(() => [
+                          e.createTextVNode(e.toDisplayString(a.value), 1),
+                        ]),
+                        _: 1,
+                      }
+                    ))
+                  : e.createCommentVNode('', !0),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  Ce = e.defineComponent({
+    __name: 'ModalMove',
+    setup(n) {
+      return (t, o) => (e.openBlock(), e.createBlock(Zt, { copy: !1 }));
+    },
+  }),
+  kt = e.defineComponent({
+    __name: 'ModalCopy',
+    setup(n) {
+      return (t, o) => (e.openBlock(), e.createBlock(Zt, { copy: !0 }));
+    },
+  }),
+  Or = (n, t = 0, o = !1) => {
+    let l;
+    return (...r) => {
+      (o && !l && n(...r),
+        clearTimeout(l),
+        (l = setTimeout(() => {
+          n(...r);
+        }, t)));
+    };
+  },
+  en = (n, t, o) => {
+    const l = e.ref(n);
+    return e.customRef((r, s) => ({
+      get() {
+        return (r(), l.value);
+      },
+      set: Or(
+        (a) => {
+          ((l.value = a), s());
+        },
+        t,
+        !1
+      ),
+    }));
+  },
+  Rr = { xmlns: 'http://www.w3.org/2000/svg', fill: 'currentColor', viewBox: '0 0 20 20' };
+function Pr(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Rr, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            { d: 'm21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607' },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Et = { render: Pr },
+  zr = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    class: 'animate-spin p-0.5 h-5 w-5 text-white ml-auto',
+    viewBox: '0 0 24 24',
+  };
+function Hr(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', zr, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'circle',
+            {
+              cx: '12',
+              cy: '12',
+              r: '10',
+              stroke: 'currentColor',
+              'stroke-width': '4',
+              class: 'opacity-25 stroke-blue-900 dark:stroke-blue-100',
+            },
+            null,
+            -1
+          ),
+          e.createElementVNode(
+            'path',
+            {
+              fill: 'currentColor',
+              d: 'M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12zm2 5.291A7.96 7.96 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938z',
+              class: 'opacity-75',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const nt = { render: Hr },
+  Ur = { class: 'vuefinder__search-modal__search-input' },
+  Kr = ['value', 'placeholder', 'disabled'],
+  jr = { key: 0, class: 'vuefinder__search-modal__loading' },
+  Wr = e.defineComponent({
+    name: 'SearchInput',
+    __name: 'SearchInput',
+    props: { modelValue: {}, isSearching: { type: Boolean }, disabled: { type: Boolean } },
+    emits: ['update:modelValue', 'keydown'],
+    setup(n, { expose: t, emit: o }) {
+      const l = o,
+        r = H(),
+        { t: s } = r.i18n,
+        a = e.ref(null),
+        u = (m) => {
+          const d = m.target;
+          l('update:modelValue', d.value);
+        },
+        c = (m) => {
+          l('keydown', m);
+        };
+      return (
+        t({
+          focus: () => {
+            a.value && a.value.focus();
+          },
+        }),
+        (m, d) => (
+          e.openBlock(),
+          e.createElementBlock('div', Ur, [
+            e.createVNode(e.unref(Et), { class: 'vuefinder__search-modal__search-icon' }),
+            e.createElementVNode(
+              'input',
+              {
+                ref_key: 'searchInput',
+                ref: a,
+                value: n.modelValue,
+                type: 'text',
+                placeholder: e.unref(s)('Search Files'),
+                disabled: n.disabled,
+                class: 'vuefinder__search-modal__input',
+                onKeydown: c,
+                onKeyup: d[0] || (d[0] = e.withModifiers(() => {}, ['stop'])),
+                onInput: u,
+              },
+              null,
+              40,
+              Kr
+            ),
+            n.isSearching
+              ? (e.openBlock(),
+                e.createElementBlock('div', jr, [
+                  e.createVNode(e.unref(nt), { class: 'vuefinder__search-modal__loading-icon' }),
+                ]))
+              : e.createCommentVNode('', !0),
+          ])
+        )
+      );
+    },
+  }),
+  He = Math.min,
+  Ee = Math.max,
+  Ue = Math.round,
+  Pe = Math.floor,
+  fe = (n) => ({ x: n, y: n }),
+  Gr = { left: 'right', right: 'left', bottom: 'top', top: 'bottom' },
+  qr = { start: 'end', end: 'start' };
+function Tt(n, t, o) {
+  return Ee(n, He(t, o));
+}
+function ot(n, t) {
+  return typeof n == 'function' ? n(t) : n;
+}
+function be(n) {
+  return n.split('-')[0];
+}
+function lt(n) {
+  return n.split('-')[1];
+}
+function tn(n) {
+  return n === 'x' ? 'y' : 'x';
+}
+function nn(n) {
+  return n === 'y' ? 'height' : 'width';
+}
+const Yr = new Set(['top', 'bottom']);
+function we(n) {
+  return Yr.has(be(n)) ? 'y' : 'x';
+}
+function on(n) {
+  return tn(we(n));
+}
+function Qr(n, t, o) {
+  o === void 0 && (o = !1);
+  const l = lt(n),
+    r = on(n),
+    s = nn(r);
+  let a =
+    r === 'x' ? (l === (o ? 'end' : 'start') ? 'right' : 'left') : l === 'start' ? 'bottom' : 'top';
+  return (t.reference[s] > t.floating[s] && (a = Ke(a)), [a, Ke(a)]);
+}
+function Xr(n) {
+  const t = Ke(n);
+  return [ft(n), t, ft(t)];
+}
+function ft(n) {
+  return n.replace(/start|end/g, (t) => qr[t]);
+}
+const At = ['left', 'right'],
+  It = ['right', 'left'],
+  Jr = ['top', 'bottom'],
+  Zr = ['bottom', 'top'];
+function ea(n, t, o) {
+  switch (n) {
+    case 'top':
+    case 'bottom':
+      return o ? (t ? It : At) : t ? At : It;
+    case 'left':
+    case 'right':
+      return t ? Jr : Zr;
+    default:
+      return [];
+  }
+}
+function ta(n, t, o, l) {
+  const r = lt(n);
+  let s = ea(be(n), o === 'start', l);
+  return (r && ((s = s.map((a) => a + '-' + r)), t && (s = s.concat(s.map(ft)))), s);
+}
+function Ke(n) {
+  return n.replace(/left|right|bottom|top/g, (t) => Gr[t]);
+}
+function na(n) {
+  return { top: 0, right: 0, bottom: 0, left: 0, ...n };
+}
+function oa(n) {
+  return typeof n != 'number' ? na(n) : { top: n, right: n, bottom: n, left: n };
+}
+function je(n) {
+  const { x: t, y: o, width: l, height: r } = n;
+  return { width: l, height: r, top: o, left: t, right: t + l, bottom: o + r, x: t, y: o };
+}
+function Lt(n, t, o) {
+  let { reference: l, floating: r } = n;
+  const s = we(t),
+    a = on(t),
+    u = nn(a),
+    c = be(t),
+    m = s === 'y',
+    d = l.x + l.width / 2 - r.width / 2,
+    i = l.y + l.height / 2 - r.height / 2,
+    v = l[u] / 2 - r[u] / 2;
+  let h;
+  switch (c) {
+    case 'top':
+      h = { x: d, y: l.y - r.height };
+      break;
+    case 'bottom':
+      h = { x: d, y: l.y + l.height };
+      break;
+    case 'right':
+      h = { x: l.x + l.width, y: i };
+      break;
+    case 'left':
+      h = { x: l.x - r.width, y: i };
+      break;
+    default:
+      h = { x: l.x, y: l.y };
+  }
+  switch (lt(t)) {
+    case 'start':
+      h[a] -= v * (o && m ? -1 : 1);
+      break;
+    case 'end':
+      h[a] += v * (o && m ? -1 : 1);
+      break;
+  }
+  return h;
+}
+const la = async (n, t, o) => {
+  const { placement: l = 'bottom', strategy: r = 'absolute', middleware: s = [], platform: a } = o,
+    u = s.filter(Boolean),
+    c = await (a.isRTL == null ? void 0 : a.isRTL(t));
+  let m = await a.getElementRects({ reference: n, floating: t, strategy: r }),
+    { x: d, y: i } = Lt(m, l, c),
+    v = l,
+    h = {},
+    V = 0;
+  for (let _ = 0; _ < u.length; _++) {
+    const { name: p, fn: f } = u[_],
+      {
+        x: w,
+        y: k,
+        data: y,
+        reset: C,
+      } = await f({
+        x: d,
+        y: i,
+        initialPlacement: l,
+        placement: v,
+        strategy: r,
+        middlewareData: h,
+        rects: m,
+        platform: a,
+        elements: { reference: n, floating: t },
+      });
+    ((d = w ?? d),
+      (i = k ?? i),
+      (h = { ...h, [p]: { ...h[p], ...y } }),
+      C &&
+        V <= 50 &&
+        (V++,
+        typeof C == 'object' &&
+          (C.placement && (v = C.placement),
+          C.rects &&
+            (m =
+              C.rects === !0
+                ? await a.getElementRects({ reference: n, floating: t, strategy: r })
+                : C.rects),
+          ({ x: d, y: i } = Lt(m, v, c))),
+        (_ = -1)));
+  }
+  return { x: d, y: i, placement: v, strategy: r, middlewareData: h };
+};
+async function ln(n, t) {
+  var o;
+  t === void 0 && (t = {});
+  const { x: l, y: r, platform: s, rects: a, elements: u, strategy: c } = n,
+    {
+      boundary: m = 'clippingAncestors',
+      rootBoundary: d = 'viewport',
+      elementContext: i = 'floating',
+      altBoundary: v = !1,
+      padding: h = 0,
+    } = ot(t, n),
+    V = oa(h),
+    p = u[v ? (i === 'floating' ? 'reference' : 'floating') : i],
+    f = je(
+      await s.getClippingRect({
+        element:
+          (o = await (s.isElement == null ? void 0 : s.isElement(p))) == null || o
+            ? p
+            : p.contextElement ||
+              (await (s.getDocumentElement == null ? void 0 : s.getDocumentElement(u.floating))),
+        boundary: m,
+        rootBoundary: d,
+        strategy: c,
+      })
+    ),
+    w =
+      i === 'floating'
+        ? { x: l, y: r, width: a.floating.width, height: a.floating.height }
+        : a.reference,
+    k = await (s.getOffsetParent == null ? void 0 : s.getOffsetParent(u.floating)),
+    y = (await (s.isElement == null ? void 0 : s.isElement(k)))
+      ? (await (s.getScale == null ? void 0 : s.getScale(k))) || { x: 1, y: 1 }
+      : { x: 1, y: 1 },
+    C = je(
+      s.convertOffsetParentRelativeRectToViewportRelativeRect
+        ? await s.convertOffsetParentRelativeRectToViewportRelativeRect({
+            elements: u,
+            rect: w,
+            offsetParent: k,
+            strategy: c,
+          })
+        : w
+    );
+  return {
+    top: (f.top - C.top + V.top) / y.y,
+    bottom: (C.bottom - f.bottom + V.bottom) / y.y,
+    left: (f.left - C.left + V.left) / y.x,
+    right: (C.right - f.right + V.right) / y.x,
+  };
+}
+const ra = function (n) {
+    return (
+      n === void 0 && (n = {}),
+      {
+        name: 'flip',
+        options: n,
+        async fn(t) {
+          var o, l;
+          const {
+              placement: r,
+              middlewareData: s,
+              rects: a,
+              initialPlacement: u,
+              platform: c,
+              elements: m,
+            } = t,
+            {
+              mainAxis: d = !0,
+              crossAxis: i = !0,
+              fallbackPlacements: v,
+              fallbackStrategy: h = 'bestFit',
+              fallbackAxisSideDirection: V = 'none',
+              flipAlignment: _ = !0,
+              ...p
+            } = ot(n, t);
+          if ((o = s.arrow) != null && o.alignmentOffset) return {};
+          const f = be(r),
+            w = we(u),
+            k = be(u) === u,
+            y = await (c.isRTL == null ? void 0 : c.isRTL(m.floating)),
+            C = v || (k || !_ ? [Ke(u)] : Xr(u)),
+            F = V !== 'none';
+          !v && F && C.push(...ta(u, _, V, y));
+          const B = [u, ...C],
+            L = await ln(t, p),
+            S = [];
+          let O = ((l = s.flip) == null ? void 0 : l.overflows) || [];
+          if ((d && S.push(L[f]), i)) {
+            const W = Qr(r, a, y);
+            S.push(L[W[0]], L[W[1]]);
+          }
+          if (((O = [...O, { placement: r, overflows: S }]), !S.every((W) => W <= 0))) {
+            var q, X;
+            const W = (((q = s.flip) == null ? void 0 : q.index) || 0) + 1,
+              Q = B[W];
+            if (
+              Q &&
+              (!(i === 'alignment' ? w !== we(Q) : !1) ||
+                O.every((g) => (we(g.placement) === w ? g.overflows[0] > 0 : !0)))
+            )
+              return { data: { index: W, overflows: O }, reset: { placement: Q } };
+            let z =
+              (X = O.filter((E) => E.overflows[0] <= 0).sort(
+                (E, g) => E.overflows[1] - g.overflows[1]
+              )[0]) == null
+                ? void 0
+                : X.placement;
+            if (!z)
+              switch (h) {
+                case 'bestFit': {
+                  var P;
+                  const E =
+                    (P = O.filter((g) => {
+                      if (F) {
+                        const b = we(g.placement);
+                        return b === w || b === 'y';
+                      }
+                      return !0;
+                    })
+                      .map((g) => [
+                        g.placement,
+                        g.overflows.filter((b) => b > 0).reduce((b, N) => b + N, 0),
+                      ])
+                      .sort((g, b) => g[1] - b[1])[0]) == null
+                      ? void 0
+                      : P[0];
+                  E && (z = E);
+                  break;
+                }
+                case 'initialPlacement':
+                  z = u;
+                  break;
+              }
+            if (r !== z) return { reset: { placement: z } };
+          }
+          return {};
+        },
+      }
+    );
+  },
+  aa = new Set(['left', 'top']);
+async function sa(n, t) {
+  const { placement: o, platform: l, elements: r } = n,
+    s = await (l.isRTL == null ? void 0 : l.isRTL(r.floating)),
+    a = be(o),
+    u = lt(o),
+    c = we(o) === 'y',
+    m = aa.has(a) ? -1 : 1,
+    d = s && c ? -1 : 1,
+    i = ot(t, n);
+  let {
+    mainAxis: v,
+    crossAxis: h,
+    alignmentAxis: V,
+  } = typeof i == 'number'
+    ? { mainAxis: i, crossAxis: 0, alignmentAxis: null }
+    : { mainAxis: i.mainAxis || 0, crossAxis: i.crossAxis || 0, alignmentAxis: i.alignmentAxis };
+  return (
+    u && typeof V == 'number' && (h = u === 'end' ? V * -1 : V),
+    c ? { x: h * d, y: v * m } : { x: v * m, y: h * d }
+  );
+}
+const ia = function (n) {
+    return (
+      n === void 0 && (n = 0),
+      {
+        name: 'offset',
+        options: n,
+        async fn(t) {
+          var o, l;
+          const { x: r, y: s, placement: a, middlewareData: u } = t,
+            c = await sa(t, n);
+          return a === ((o = u.offset) == null ? void 0 : o.placement) &&
+            (l = u.arrow) != null &&
+            l.alignmentOffset
+            ? {}
+            : { x: r + c.x, y: s + c.y, data: { ...c, placement: a } };
+        },
+      }
+    );
+  },
+  ca = function (n) {
+    return (
+      n === void 0 && (n = {}),
+      {
+        name: 'shift',
+        options: n,
+        async fn(t) {
+          const { x: o, y: l, placement: r } = t,
+            {
+              mainAxis: s = !0,
+              crossAxis: a = !1,
+              limiter: u = {
+                fn: (p) => {
+                  let { x: f, y: w } = p;
+                  return { x: f, y: w };
+                },
+              },
+              ...c
+            } = ot(n, t),
+            m = { x: o, y: l },
+            d = await ln(t, c),
+            i = we(be(r)),
+            v = tn(i);
+          let h = m[v],
+            V = m[i];
+          if (s) {
+            const p = v === 'y' ? 'top' : 'left',
+              f = v === 'y' ? 'bottom' : 'right',
+              w = h + d[p],
+              k = h - d[f];
+            h = Tt(w, h, k);
+          }
+          if (a) {
+            const p = i === 'y' ? 'top' : 'left',
+              f = i === 'y' ? 'bottom' : 'right',
+              w = V + d[p],
+              k = V - d[f];
+            V = Tt(w, V, k);
+          }
+          const _ = u.fn({ ...t, [v]: h, [i]: V });
+          return { ..._, data: { x: _.x - o, y: _.y - l, enabled: { [v]: s, [i]: a } } };
+        },
+      }
+    );
+  };
+function rt() {
+  return typeof window < 'u';
+}
+function Se(n) {
+  return rn(n) ? (n.nodeName || '').toLowerCase() : '#document';
+}
+function se(n) {
+  var t;
+  return (n == null || (t = n.ownerDocument) == null ? void 0 : t.defaultView) || window;
+}
+function ve(n) {
+  var t;
+  return (t = (rn(n) ? n.ownerDocument : n.document) || window.document) == null
+    ? void 0
+    : t.documentElement;
+}
+function rn(n) {
+  return rt() ? n instanceof Node || n instanceof se(n).Node : !1;
+}
+function ue(n) {
+  return rt() ? n instanceof Element || n instanceof se(n).Element : !1;
+}
+function pe(n) {
+  return rt() ? n instanceof HTMLElement || n instanceof se(n).HTMLElement : !1;
+}
+function Ot(n) {
+  return !rt() || typeof ShadowRoot > 'u'
+    ? !1
+    : n instanceof ShadowRoot || n instanceof se(n).ShadowRoot;
+}
+const da = new Set(['inline', 'contents']);
+function Ie(n) {
+  const { overflow: t, overflowX: o, overflowY: l, display: r } = me(n);
+  return /auto|scroll|overlay|hidden|clip/.test(t + l + o) && !da.has(r);
+}
+const ua = new Set(['table', 'td', 'th']);
+function ma(n) {
+  return ua.has(Se(n));
+}
+const fa = [':popover-open', ':modal'];
+function at(n) {
+  return fa.some((t) => {
+    try {
+      return n.matches(t);
+    } catch {
+      return !1;
+    }
+  });
+}
+const pa = ['transform', 'translate', 'scale', 'rotate', 'perspective'],
+  va = ['transform', 'translate', 'scale', 'rotate', 'perspective', 'filter'],
+  _a = ['paint', 'layout', 'strict', 'content'];
+function bt(n) {
+  const t = Vt(),
+    o = ue(n) ? me(n) : n;
+  return (
+    pa.some((l) => (o[l] ? o[l] !== 'none' : !1)) ||
+    (o.containerType ? o.containerType !== 'normal' : !1) ||
+    (!t && (o.backdropFilter ? o.backdropFilter !== 'none' : !1)) ||
+    (!t && (o.filter ? o.filter !== 'none' : !1)) ||
+    va.some((l) => (o.willChange || '').includes(l)) ||
+    _a.some((l) => (o.contain || '').includes(l))
+  );
+}
+function ha(n) {
+  let t = ye(n);
+  for (; pe(t) && !Be(t); ) {
+    if (bt(t)) return t;
+    if (at(t)) return null;
+    t = ye(t);
+  }
+  return null;
+}
+function Vt() {
+  return typeof CSS > 'u' || !CSS.supports ? !1 : CSS.supports('-webkit-backdrop-filter', 'none');
+}
+const ga = new Set(['html', 'body', '#document']);
+function Be(n) {
+  return ga.has(Se(n));
+}
+function me(n) {
+  return se(n).getComputedStyle(n);
+}
+function st(n) {
+  return ue(n)
+    ? { scrollLeft: n.scrollLeft, scrollTop: n.scrollTop }
+    : { scrollLeft: n.scrollX, scrollTop: n.scrollY };
+}
+function ye(n) {
+  if (Se(n) === 'html') return n;
+  const t = n.assignedSlot || n.parentNode || (Ot(n) && n.host) || ve(n);
+  return Ot(t) ? t.host : t;
+}
+function an(n) {
+  const t = ye(n);
+  return Be(t) ? (n.ownerDocument ? n.ownerDocument.body : n.body) : pe(t) && Ie(t) ? t : an(t);
+}
+function Te(n, t, o) {
+  var l;
+  (t === void 0 && (t = []), o === void 0 && (o = !0));
+  const r = an(n),
+    s = r === ((l = n.ownerDocument) == null ? void 0 : l.body),
+    a = se(r);
+  if (s) {
+    const u = pt(a);
+    return t.concat(a, a.visualViewport || [], Ie(r) ? r : [], u && o ? Te(u) : []);
+  }
+  return t.concat(r, Te(r, [], o));
+}
+function pt(n) {
+  return n.parent && Object.getPrototypeOf(n.parent) ? n.frameElement : null;
+}
+function sn(n) {
+  const t = me(n);
+  let o = parseFloat(t.width) || 0,
+    l = parseFloat(t.height) || 0;
+  const r = pe(n),
+    s = r ? n.offsetWidth : o,
+    a = r ? n.offsetHeight : l,
+    u = Ue(o) !== s || Ue(l) !== a;
+  return (u && ((o = s), (l = a)), { width: o, height: l, $: u });
+}
+function Nt(n) {
+  return ue(n) ? n : n.contextElement;
+}
+function xe(n) {
+  const t = Nt(n);
+  if (!pe(t)) return fe(1);
+  const o = t.getBoundingClientRect(),
+    { width: l, height: r, $: s } = sn(t);
+  let a = (s ? Ue(o.width) : o.width) / l,
+    u = (s ? Ue(o.height) : o.height) / r;
+  return (
+    (!a || !Number.isFinite(a)) && (a = 1),
+    (!u || !Number.isFinite(u)) && (u = 1),
+    { x: a, y: u }
+  );
+}
+const wa = fe(0);
+function cn(n) {
+  const t = se(n);
+  return !Vt() || !t.visualViewport
+    ? wa
+    : { x: t.visualViewport.offsetLeft, y: t.visualViewport.offsetTop };
+}
+function ya(n, t, o) {
+  return (t === void 0 && (t = !1), !o || (t && o !== se(n)) ? !1 : t);
+}
+function Ve(n, t, o, l) {
+  (t === void 0 && (t = !1), o === void 0 && (o = !1));
+  const r = n.getBoundingClientRect(),
+    s = Nt(n);
+  let a = fe(1);
+  t && (l ? ue(l) && (a = xe(l)) : (a = xe(n)));
+  const u = ya(s, o, l) ? cn(s) : fe(0);
+  let c = (r.left + u.x) / a.x,
+    m = (r.top + u.y) / a.y,
+    d = r.width / a.x,
+    i = r.height / a.y;
+  if (s) {
+    const v = se(s),
+      h = l && ue(l) ? se(l) : l;
+    let V = v,
+      _ = pt(V);
+    for (; _ && l && h !== V; ) {
+      const p = xe(_),
+        f = _.getBoundingClientRect(),
+        w = me(_),
+        k = f.left + (_.clientLeft + parseFloat(w.paddingLeft)) * p.x,
+        y = f.top + (_.clientTop + parseFloat(w.paddingTop)) * p.y;
+      ((c *= p.x),
+        (m *= p.y),
+        (d *= p.x),
+        (i *= p.y),
+        (c += k),
+        (m += y),
+        (V = se(_)),
+        (_ = pt(V)));
+    }
+  }
+  return je({ width: d, height: i, x: c, y: m });
+}
+function it(n, t) {
+  const o = st(n).scrollLeft;
+  return t ? t.left + o : Ve(ve(n)).left + o;
+}
+function dn(n, t) {
+  const o = n.getBoundingClientRect(),
+    l = o.left + t.scrollLeft - it(n, o),
+    r = o.top + t.scrollTop;
+  return { x: l, y: r };
+}
+function ka(n) {
+  let { elements: t, rect: o, offsetParent: l, strategy: r } = n;
+  const s = r === 'fixed',
+    a = ve(l),
+    u = t ? at(t.floating) : !1;
+  if (l === a || (u && s)) return o;
+  let c = { scrollLeft: 0, scrollTop: 0 },
+    m = fe(1);
+  const d = fe(0),
+    i = pe(l);
+  if ((i || (!i && !s)) && ((Se(l) !== 'body' || Ie(a)) && (c = st(l)), pe(l))) {
+    const h = Ve(l);
+    ((m = xe(l)), (d.x = h.x + l.clientLeft), (d.y = h.y + l.clientTop));
+  }
+  const v = a && !i && !s ? dn(a, c) : fe(0);
+  return {
+    width: o.width * m.x,
+    height: o.height * m.y,
+    x: o.x * m.x - c.scrollLeft * m.x + d.x + v.x,
+    y: o.y * m.y - c.scrollTop * m.y + d.y + v.y,
+  };
+}
+function Ea(n) {
+  return Array.from(n.getClientRects());
+}
+function ba(n) {
+  const t = ve(n),
+    o = st(n),
+    l = n.ownerDocument.body,
+    r = Ee(t.scrollWidth, t.clientWidth, l.scrollWidth, l.clientWidth),
+    s = Ee(t.scrollHeight, t.clientHeight, l.scrollHeight, l.clientHeight);
+  let a = -o.scrollLeft + it(n);
+  const u = -o.scrollTop;
+  return (
+    me(l).direction === 'rtl' && (a += Ee(t.clientWidth, l.clientWidth) - r),
+    { width: r, height: s, x: a, y: u }
+  );
+}
+const Rt = 25;
+function Va(n, t) {
+  const o = se(n),
+    l = ve(n),
+    r = o.visualViewport;
+  let s = l.clientWidth,
+    a = l.clientHeight,
+    u = 0,
+    c = 0;
+  if (r) {
+    ((s = r.width), (a = r.height));
+    const d = Vt();
+    (!d || (d && t === 'fixed')) && ((u = r.offsetLeft), (c = r.offsetTop));
+  }
+  const m = it(l);
+  if (m <= 0) {
+    const d = l.ownerDocument,
+      i = d.body,
+      v = getComputedStyle(i),
+      h =
+        (d.compatMode === 'CSS1Compat' && parseFloat(v.marginLeft) + parseFloat(v.marginRight)) ||
+        0,
+      V = Math.abs(l.clientWidth - i.clientWidth - h);
+    V <= Rt && (s -= V);
+  } else m <= Rt && (s += m);
+  return { width: s, height: a, x: u, y: c };
+}
+const Na = new Set(['absolute', 'fixed']);
+function xa(n, t) {
+  const o = Ve(n, !0, t === 'fixed'),
+    l = o.top + n.clientTop,
+    r = o.left + n.clientLeft,
+    s = pe(n) ? xe(n) : fe(1),
+    a = n.clientWidth * s.x,
+    u = n.clientHeight * s.y,
+    c = r * s.x,
+    m = l * s.y;
+  return { width: a, height: u, x: c, y: m };
+}
+function Pt(n, t, o) {
+  let l;
+  if (t === 'viewport') l = Va(n, o);
+  else if (t === 'document') l = ba(ve(n));
+  else if (ue(t)) l = xa(t, o);
+  else {
+    const r = cn(n);
+    l = { x: t.x - r.x, y: t.y - r.y, width: t.width, height: t.height };
+  }
+  return je(l);
+}
+function un(n, t) {
+  const o = ye(n);
+  return o === t || !ue(o) || Be(o) ? !1 : me(o).position === 'fixed' || un(o, t);
+}
+function Ca(n, t) {
+  const o = t.get(n);
+  if (o) return o;
+  let l = Te(n, [], !1).filter((u) => ue(u) && Se(u) !== 'body'),
+    r = null;
+  const s = me(n).position === 'fixed';
+  let a = s ? ye(n) : n;
+  for (; ue(a) && !Be(a); ) {
+    const u = me(a),
+      c = bt(a);
+    (!c && u.position === 'fixed' && (r = null),
+      (
+        s
+          ? !c && !r
+          : (!c && u.position === 'static' && !!r && Na.has(r.position)) ||
+            (Ie(a) && !c && un(n, a))
+      )
+        ? (l = l.filter((d) => d !== a))
+        : (r = u),
+      (a = ye(a)));
+  }
+  return (t.set(n, l), l);
+}
+function Ba(n) {
+  let { element: t, boundary: o, rootBoundary: l, strategy: r } = n;
+  const a = [...(o === 'clippingAncestors' ? (at(t) ? [] : Ca(t, this._c)) : [].concat(o)), l],
+    u = a[0],
+    c = a.reduce(
+      (m, d) => {
+        const i = Pt(t, d, r);
+        return (
+          (m.top = Ee(i.top, m.top)),
+          (m.right = He(i.right, m.right)),
+          (m.bottom = He(i.bottom, m.bottom)),
+          (m.left = Ee(i.left, m.left)),
+          m
+        );
+      },
+      Pt(t, u, r)
+    );
+  return { width: c.right - c.left, height: c.bottom - c.top, x: c.left, y: c.top };
+}
+function Sa(n) {
+  const { width: t, height: o } = sn(n);
+  return { width: t, height: o };
+}
+function $a(n, t, o) {
+  const l = pe(t),
+    r = ve(t),
+    s = o === 'fixed',
+    a = Ve(n, !0, s, t);
+  let u = { scrollLeft: 0, scrollTop: 0 };
+  const c = fe(0);
+  function m() {
+    c.x = it(r);
+  }
+  if (l || (!l && !s))
+    if (((Se(t) !== 'body' || Ie(r)) && (u = st(t)), l)) {
+      const h = Ve(t, !0, s, t);
+      ((c.x = h.x + t.clientLeft), (c.y = h.y + t.clientTop));
+    } else r && m();
+  s && !l && r && m();
+  const d = r && !l && !s ? dn(r, u) : fe(0),
+    i = a.left + u.scrollLeft - c.x - d.x,
+    v = a.top + u.scrollTop - c.y - d.y;
+  return { x: i, y: v, width: a.width, height: a.height };
+}
+function ut(n) {
+  return me(n).position === 'static';
+}
+function zt(n, t) {
+  if (!pe(n) || me(n).position === 'fixed') return null;
+  if (t) return t(n);
+  let o = n.offsetParent;
+  return (ve(n) === o && (o = o.ownerDocument.body), o);
+}
+function mn(n, t) {
+  const o = se(n);
+  if (at(n)) return o;
+  if (!pe(n)) {
+    let r = ye(n);
+    for (; r && !Be(r); ) {
+      if (ue(r) && !ut(r)) return r;
+      r = ye(r);
+    }
+    return o;
+  }
+  let l = zt(n, t);
+  for (; l && ma(l) && ut(l); ) l = zt(l, t);
+  return l && Be(l) && ut(l) && !bt(l) ? o : l || ha(n) || o;
+}
+const Da = async function (n) {
+  const t = this.getOffsetParent || mn,
+    o = this.getDimensions,
+    l = await o(n.floating);
+  return {
+    reference: $a(n.reference, await t(n.floating), n.strategy),
+    floating: { x: 0, y: 0, width: l.width, height: l.height },
+  };
+};
+function Fa(n) {
+  return me(n).direction === 'rtl';
+}
+const Ma = {
+  convertOffsetParentRelativeRectToViewportRelativeRect: ka,
+  getDocumentElement: ve,
+  getClippingRect: Ba,
+  getOffsetParent: mn,
+  getElementRects: Da,
+  getClientRects: Ea,
+  getDimensions: Sa,
+  getScale: xe,
+  isElement: ue,
+  isRTL: Fa,
+};
+function fn(n, t) {
+  return n.x === t.x && n.y === t.y && n.width === t.width && n.height === t.height;
+}
+function Ta(n, t) {
+  let o = null,
+    l;
+  const r = ve(n);
+  function s() {
+    var u;
+    (clearTimeout(l), (u = o) == null || u.disconnect(), (o = null));
+  }
+  function a(u, c) {
+    (u === void 0 && (u = !1), c === void 0 && (c = 1), s());
+    const m = n.getBoundingClientRect(),
+      { left: d, top: i, width: v, height: h } = m;
+    if ((u || t(), !v || !h)) return;
+    const V = Pe(i),
+      _ = Pe(r.clientWidth - (d + v)),
+      p = Pe(r.clientHeight - (i + h)),
+      f = Pe(d),
+      k = {
+        rootMargin: -V + 'px ' + -_ + 'px ' + -p + 'px ' + -f + 'px',
+        threshold: Ee(0, He(1, c)) || 1,
+      };
+    let y = !0;
+    function C(F) {
+      const B = F[0].intersectionRatio;
+      if (B !== c) {
+        if (!y) return a();
+        B
+          ? a(!1, B)
+          : (l = setTimeout(() => {
+              a(!1, 1e-7);
+            }, 1e3));
+      }
+      (B === 1 && !fn(m, n.getBoundingClientRect()) && a(), (y = !1));
+    }
+    try {
+      o = new IntersectionObserver(C, { ...k, root: r.ownerDocument });
+    } catch {
+      o = new IntersectionObserver(C, k);
+    }
+    o.observe(n);
+  }
+  return (a(!0), s);
+}
+function pn(n, t, o, l) {
+  l === void 0 && (l = {});
+  const {
+      ancestorScroll: r = !0,
+      ancestorResize: s = !0,
+      elementResize: a = typeof ResizeObserver == 'function',
+      layoutShift: u = typeof IntersectionObserver == 'function',
+      animationFrame: c = !1,
+    } = l,
+    m = Nt(n),
+    d = r || s ? [...(m ? Te(m) : []), ...Te(t)] : [];
+  d.forEach((f) => {
+    (r && f.addEventListener('scroll', o, { passive: !0 }), s && f.addEventListener('resize', o));
+  });
+  const i = m && u ? Ta(m, o) : null;
+  let v = -1,
+    h = null;
+  a &&
+    ((h = new ResizeObserver((f) => {
+      let [w] = f;
+      (w &&
+        w.target === m &&
+        h &&
+        (h.unobserve(t),
+        cancelAnimationFrame(v),
+        (v = requestAnimationFrame(() => {
+          var k;
+          (k = h) == null || k.observe(t);
+        }))),
+        o());
+    })),
+    m && !c && h.observe(m),
+    h.observe(t));
+  let V,
+    _ = c ? Ve(n) : null;
+  c && p();
+  function p() {
+    const f = Ve(n);
+    (_ && !fn(_, f) && o(), (_ = f), (V = requestAnimationFrame(p)));
+  }
+  return (
+    o(),
+    () => {
+      var f;
+      (d.forEach((w) => {
+        (r && w.removeEventListener('scroll', o), s && w.removeEventListener('resize', o));
+      }),
+        i?.(),
+        (f = h) == null || f.disconnect(),
+        (h = null),
+        c && cancelAnimationFrame(V));
+    }
+  );
+}
+const We = ia,
+  Ge = ca,
+  qe = ra,
+  Ye = (n, t, o) => {
+    const l = new Map(),
+      r = { platform: Ma, ...o },
+      s = { ...r.platform, _c: l };
+    return la(n, t, { ...r, platform: s });
+  },
+  Aa = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '1.5',
+    viewBox: '0 0 24 24',
+  };
+function Ia(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Aa, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              d: 'M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87q.11.06.22.127c.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a8 8 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a7 7 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a7 7 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a7 7 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124q.108-.066.22-.128c.332-.183.582-.495.644-.869z',
+            },
+            null,
+            -1
+          ),
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              d: 'M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const vn = { render: Ia },
+  La = ['disabled', 'title'],
+  Oa = ['data-theme'],
+  Ra = { class: 'vuefinder__search-modal__dropdown-content' },
+  Pa = { class: 'vuefinder__search-modal__dropdown-section' },
+  za = { class: 'vuefinder__search-modal__dropdown-title' },
+  Ha = { class: 'vuefinder__search-modal__dropdown-options' },
+  Ua = { key: 0, class: 'vuefinder__search-modal__dropdown-option-check' },
+  Ka = { key: 0, class: 'vuefinder__search-modal__dropdown-option-check' },
+  ja = { key: 0, class: 'vuefinder__search-modal__dropdown-option-check' },
+  Wa = { key: 0, class: 'vuefinder__search-modal__dropdown-option-check' },
+  Ga = e.defineComponent({
+    name: 'SearchOptionsDropdown',
+    __name: 'SearchOptionsDropdown',
+    props: {
+      visible: { type: Boolean },
+      disabled: { type: Boolean, default: !1 },
+      sizeFilter: {},
+      selectedOption: {},
+    },
+    emits: ['update:visible', 'update:sizeFilter', 'update:selectedOption', 'keydown'],
+    setup(n, { expose: t, emit: o }) {
+      const l = n,
+        r = o,
+        s = H(),
+        { t: a } = s.i18n,
+        u = e.ref(null),
+        c = e.ref(null);
+      let m = null;
+      const d = (_) => {
+          if ((r('update:selectedOption', _), _.startsWith('size-'))) {
+            const p = _.split('-')[1];
+            r('update:sizeFilter', p);
+          }
+        },
+        i = async () => {
+          l.disabled ||
+            (l.visible
+              ? (r('update:visible', !1), m && (m(), (m = null)))
+              : (r('update:visible', !0), await e.nextTick(), await v()));
+        },
+        v = async () => {
+          if (!(!u.value || !c.value) && (await e.nextTick(), !(!u.value || !c.value))) {
+            Object.assign(c.value.style, {
+              position: 'fixed',
+              zIndex: '10001',
+              opacity: '0',
+              transform: 'translateY(-8px)',
+              transition: 'opacity 150ms ease-out, transform 150ms ease-out',
+            });
+            try {
+              const { x: _, y: p } = await Ye(u.value, c.value, {
+                placement: 'bottom-start',
+                strategy: 'fixed',
+                middleware: [We(8), qe({ padding: 16 }), Ge({ padding: 16 })],
+              });
+              (Object.assign(c.value.style, { left: `${_}px`, top: `${p}px` }),
+                requestAnimationFrame(() => {
+                  c.value &&
+                    Object.assign(c.value.style, { opacity: '1', transform: 'translateY(0)' });
+                }));
+            } catch (_) {
+              console.warn('Floating UI initial positioning error:', _);
+              return;
+            }
+            try {
+              m = pn(u.value, c.value, async () => {
+                if (!(!u.value || !c.value))
+                  try {
+                    const { x: _, y: p } = await Ye(u.value, c.value, {
+                      placement: 'bottom-start',
+                      strategy: 'fixed',
+                      middleware: [We(8), qe({ padding: 16 }), Ge({ padding: 16 })],
+                    });
+                    Object.assign(c.value.style, { left: `${_}px`, top: `${p}px` });
+                  } catch (_) {
+                    console.warn('Floating UI positioning error:', _);
+                  }
+              });
+            } catch (_) {
+              (console.warn('Floating UI autoUpdate setup error:', _), (m = null));
+            }
+          }
+        },
+        h = (_) => {
+          if (!l.visible) return;
+          const p = ['size-all', 'size-small', 'size-medium', 'size-large'],
+            f = p.findIndex((w) => w === l.selectedOption);
+          if (_.key === 'ArrowDown') {
+            _.preventDefault();
+            const w = (f + 1) % p.length;
+            r('update:selectedOption', p[w] || null);
+          } else if (_.key === 'ArrowUp') {
+            _.preventDefault();
+            const w = f <= 0 ? p.length - 1 : f - 1;
+            r('update:selectedOption', p[w] || null);
+          } else
+            _.key === 'Enter'
+              ? (_.preventDefault(),
+                l.selectedOption?.startsWith('size-') &&
+                  r('update:sizeFilter', l.selectedOption.split('-')[1]))
+              : _.key === 'Escape' &&
+                (_.preventDefault(), r('update:visible', !1), m && (m(), (m = null)));
+        },
+        V = () => {
+          m && (m(), (m = null));
+        };
+      return (
+        e.watch(
+          () => l.visible,
+          (_) => {
+            !_ && m && (m(), (m = null));
+          }
+        ),
+        e.onUnmounted(() => {
+          V();
+        }),
+        t({ cleanup: V }),
+        (_, p) => (
+          e.openBlock(),
+          e.createElementBlock(
+            e.Fragment,
+            null,
+            [
+              e.createElementVNode(
+                'button',
+                {
+                  ref_key: 'dropdownBtn',
+                  ref: u,
+                  onClick: e.withModifiers(i, ['stop']),
+                  class: e.normalizeClass([
+                    'vuefinder__search-modal__dropdown-btn',
+                    { 'vuefinder__search-modal__dropdown-btn--active': n.visible },
+                  ]),
+                  disabled: n.disabled,
+                  title: e.unref(a)('Search Options'),
+                },
+                [e.createVNode(e.unref(vn), { class: 'vuefinder__search-modal__dropdown-icon' })],
+                10,
+                La
+              ),
+              (e.openBlock(),
+              e.createBlock(e.Teleport, { to: 'body' }, [
+                n.visible
+                  ? (e.openBlock(),
+                    e.createElementBlock(
+                      'div',
+                      {
+                        key: 0,
+                        ref_key: 'dropdownContent',
+                        ref: c,
+                        class:
+                          'vuefinder__themer vuefinder__search-modal__dropdown vuefinder__search-modal__dropdown--visible',
+                        'data-theme': e.unref(s).theme.current,
+                        onClick: p[4] || (p[4] = e.withModifiers(() => {}, ['stop'])),
+                        onKeydown: h,
+                        tabindex: '-1',
+                      },
+                      [
+                        e.createElementVNode('div', Ra, [
+                          e.createElementVNode('div', Pa, [
+                            e.createElementVNode(
+                              'div',
+                              za,
+                              e.toDisplayString(e.unref(a)('File Size')),
+                              1
+                            ),
+                            e.createElementVNode('div', Ha, [
+                              e.createElementVNode(
+                                'div',
+                                {
+                                  class: e.normalizeClass([
+                                    'vuefinder__search-modal__dropdown-option',
+                                    {
+                                      'vuefinder__search-modal__dropdown-option--selected':
+                                        n.sizeFilter === 'all',
+                                    },
+                                  ]),
+                                  onClick:
+                                    p[0] ||
+                                    (p[0] = e.withModifiers((f) => d('size-all'), ['stop'])),
+                                },
+                                [
+                                  e.createElementVNode(
+                                    'span',
+                                    null,
+                                    e.toDisplayString(e.unref(a)('All Files')),
+                                    1
+                                  ),
+                                  n.sizeFilter === 'all'
+                                    ? (e.openBlock(),
+                                      e.createElementBlock('div', Ua, [
+                                        ...(p[5] ||
+                                          (p[5] = [
+                                            e.createElementVNode(
+                                              'svg',
+                                              { viewBox: '0 0 16 16', fill: 'currentColor' },
+                                              [
+                                                e.createElementVNode('path', {
+                                                  d: 'M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z',
+                                                }),
+                                              ],
+                                              -1
+                                            ),
+                                          ])),
+                                      ]))
+                                    : e.createCommentVNode('', !0),
+                                ],
+                                2
+                              ),
+                              e.createElementVNode(
+                                'div',
+                                {
+                                  class: e.normalizeClass([
+                                    'vuefinder__search-modal__dropdown-option',
+                                    {
+                                      'vuefinder__search-modal__dropdown-option--selected':
+                                        n.sizeFilter === 'small',
+                                    },
+                                  ]),
+                                  onClick:
+                                    p[1] ||
+                                    (p[1] = e.withModifiers((f) => d('size-small'), ['stop'])),
+                                },
+                                [
+                                  e.createElementVNode(
+                                    'span',
+                                    null,
+                                    e.toDisplayString(e.unref(a)('Small (< 1MB)')),
+                                    1
+                                  ),
+                                  n.sizeFilter === 'small'
+                                    ? (e.openBlock(),
+                                      e.createElementBlock('div', Ka, [
+                                        ...(p[6] ||
+                                          (p[6] = [
+                                            e.createElementVNode(
+                                              'svg',
+                                              { viewBox: '0 0 16 16', fill: 'currentColor' },
+                                              [
+                                                e.createElementVNode('path', {
+                                                  d: 'M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z',
+                                                }),
+                                              ],
+                                              -1
+                                            ),
+                                          ])),
+                                      ]))
+                                    : e.createCommentVNode('', !0),
+                                ],
+                                2
+                              ),
+                              e.createElementVNode(
+                                'div',
+                                {
+                                  class: e.normalizeClass([
+                                    'vuefinder__search-modal__dropdown-option',
+                                    {
+                                      'vuefinder__search-modal__dropdown-option--selected':
+                                        n.sizeFilter === 'medium',
+                                    },
+                                  ]),
+                                  onClick:
+                                    p[2] ||
+                                    (p[2] = e.withModifiers((f) => d('size-medium'), ['stop'])),
+                                },
+                                [
+                                  e.createElementVNode(
+                                    'span',
+                                    null,
+                                    e.toDisplayString(e.unref(a)('Medium (1-10MB)')),
+                                    1
+                                  ),
+                                  n.sizeFilter === 'medium'
+                                    ? (e.openBlock(),
+                                      e.createElementBlock('div', ja, [
+                                        ...(p[7] ||
+                                          (p[7] = [
+                                            e.createElementVNode(
+                                              'svg',
+                                              { viewBox: '0 0 16 16', fill: 'currentColor' },
+                                              [
+                                                e.createElementVNode('path', {
+                                                  d: 'M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z',
+                                                }),
+                                              ],
+                                              -1
+                                            ),
+                                          ])),
+                                      ]))
+                                    : e.createCommentVNode('', !0),
+                                ],
+                                2
+                              ),
+                              e.createElementVNode(
+                                'div',
+                                {
+                                  class: e.normalizeClass([
+                                    'vuefinder__search-modal__dropdown-option',
+                                    {
+                                      'vuefinder__search-modal__dropdown-option--selected':
+                                        n.sizeFilter === 'large',
+                                    },
+                                  ]),
+                                  onClick:
+                                    p[3] ||
+                                    (p[3] = e.withModifiers((f) => d('size-large'), ['stop'])),
+                                },
+                                [
+                                  e.createElementVNode(
+                                    'span',
+                                    null,
+                                    e.toDisplayString(e.unref(a)('Large (> 10MB)')),
+                                    1
+                                  ),
+                                  n.sizeFilter === 'large'
+                                    ? (e.openBlock(),
+                                      e.createElementBlock('div', Wa, [
+                                        ...(p[8] ||
+                                          (p[8] = [
+                                            e.createElementVNode(
+                                              'svg',
+                                              { viewBox: '0 0 16 16', fill: 'currentColor' },
+                                              [
+                                                e.createElementVNode('path', {
+                                                  d: 'M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z',
+                                                }),
+                                              ],
+                                              -1
+                                            ),
+                                          ])),
+                                      ]))
+                                    : e.createCommentVNode('', !0),
+                                ],
+                                2
+                              ),
+                            ]),
+                          ]),
+                        ]),
+                      ],
+                      40,
+                      Oa
+                    ))
+                  : e.createCommentVNode('', !0),
+              ])),
+            ],
+            64
+          )
+        )
+      );
+    },
+  });
+function qa(n) {
+  const [t, o] = Ya(n);
+  if (!o || o === '/') return t + '://';
+  const l = o.replace(/\/+$/, ''),
+    r = l.lastIndexOf('/');
+  return r === 0 ? t + '://' : t + ':/' + l.slice(0, r);
+}
+function Ya(n) {
+  const t = n.indexOf(':/');
+  return t === -1 ? [void 0, n] : [n.slice(0, t), n.slice(t + 2) || '/'];
+}
+function _n(n, t = 40) {
+  const o = n.match(/^([^:]+:\/\/)(.*)$/);
+  if (!o) return n;
+  const l = o[1],
+    r = o[2] ?? '',
+    s = r.split('/').filter(Boolean),
+    a = s.pop();
+  if (!a) return l + r;
+  let u = `${l}${s.join('/')}${s.length ? '/' : ''}${a}`;
+  if (u.length <= t) return u;
+  const c = a.split(/\.(?=[^\.]+$)/),
+    m = c[0] ?? '',
+    d = c[1] ?? '',
+    i = m.length > 10 ? `${m.slice(0, 6)}...${m.slice(-5)}` : m,
+    v = d ? `${i}.${d}` : i;
+  return (
+    (u = `${l}${s.join('/')}${s.length ? '/' : ''}${v}`),
+    u.length > t && (u = `${l}.../${v}`),
+    u
+  );
+}
+async function hn(n) {
+  try {
+    await navigator.clipboard.writeText(n);
+  } catch {
+    const o = document.createElement('textarea');
+    ((o.value = n),
+      document.body.appendChild(o),
+      o.select(),
+      document.execCommand('copy'),
+      document.body.removeChild(o));
+  }
+}
+async function Ae(n) {
+  await hn(n);
+}
+async function Qa(n) {
+  await hn(n);
+}
+const Xa = { xmlns: 'http://www.w3.org/2000/svg', fill: 'currentColor', viewBox: '0 0 448 512' };
+function Ja(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Xa, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M8 256a56 56 0 1 1 112 0 56 56 0 1 1-112 0m160 0a56 56 0 1 1 112 0 56 56 0 1 1-112 0m216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const gn = { render: Ja },
+  Za = ['title'],
+  es = { class: 'vuefinder__search-modal__result-icon' },
+  ts = { class: 'vuefinder__search-modal__result-content' },
+  ns = { class: 'vuefinder__search-modal__result-name' },
+  os = { key: 0, class: 'vuefinder__search-modal__result-size' },
+  ls = ['title'],
+  rs = ['title'],
+  as = ['data-item-dropdown', 'data-theme'],
+  ss = { class: 'vuefinder__search-modal__item-dropdown-content' },
+  is = e.defineComponent({
+    name: 'SearchResultItem',
+    __name: 'SearchResultItem',
+    props: {
+      item: {},
+      index: {},
+      selectedIndex: {},
+      expandedPaths: {},
+      activeDropdown: {},
+      selectedItemDropdownOption: {},
+    },
+    emits: [
+      'select',
+      'selectWithDropdown',
+      'togglePathExpansion',
+      'toggleItemDropdown',
+      'update:selectedItemDropdownOption',
+      'copyPath',
+      'openContainingFolder',
+      'preview',
+    ],
+    setup(n, { emit: t }) {
+      const o = n,
+        l = t,
+        r = H(),
+        { t: s } = r.i18n,
+        a = e.ref(null);
+      let u = null;
+      (e.watch(
+        () => o.activeDropdown,
+        (f) => {
+          (u && (u(), (u = null)),
+            f === o.item.path &&
+              a.value &&
+              e.nextTick(() => {
+                i(o.item.path, a.value);
+              }));
+        }
+      ),
+        e.onUnmounted(() => {
+          u && (u(), (u = null));
+        }));
+      const c = (f) => o.expandedPaths.has(f),
+        m = (f) => (f.type === 'dir' || !f.file_size ? '' : _t(f.file_size)),
+        d = (f, w) => {
+          (w.stopPropagation(), l('toggleItemDropdown', f, w));
+        },
+        i = async (f, w) => {
+          const k = document.querySelector(`[data-item-dropdown="${f}"]`);
+          if (!(!k || !w) && (await e.nextTick(), !(!k || !w))) {
+            Object.assign(k.style, {
+              position: 'fixed',
+              zIndex: '10001',
+              opacity: '0',
+              transform: 'translateY(-8px)',
+              transition: 'opacity 150ms ease-out, transform 150ms ease-out',
+            });
+            try {
+              const { x: y, y: C } = await Ye(w, k, {
+                placement: 'left-start',
+                strategy: 'fixed',
+                middleware: [We(8), qe({ padding: 16 }), Ge({ padding: 16 })],
+              });
+              (Object.assign(k.style, { left: `${y}px`, top: `${C}px` }),
+                requestAnimationFrame(() => {
+                  k && Object.assign(k.style, { opacity: '1', transform: 'translateY(0)' });
+                }));
+            } catch (y) {
+              console.warn('Floating UI initial positioning error:', y);
+              return;
+            }
+            try {
+              u = pn(w, k, async () => {
+                if (!(!w || !k))
+                  try {
+                    const { x: y, y: C } = await Ye(w, k, {
+                      placement: 'left-start',
+                      strategy: 'fixed',
+                      middleware: [We(8), qe({ padding: 16 }), Ge({ padding: 16 })],
+                    });
+                    Object.assign(k.style, { left: `${y}px`, top: `${C}px` });
+                  } catch (y) {
+                    console.warn('Floating UI positioning error:', y);
+                  }
+              });
+            } catch (y) {
+              (console.warn('Floating UI autoUpdate setup error:', y), (u = null));
+            }
+          }
+        },
+        v = (f) => {
+          l('update:selectedItemDropdownOption', f);
+        },
+        h = async (f) => {
+          (await Ae(f.path), l('copyPath', f));
+        },
+        V = (f) => {
+          l('openContainingFolder', f);
+        },
+        _ = (f) => {
+          l('preview', f);
+        },
+        p = (f) => {
+          if (!o.activeDropdown) return;
+          const w = ['copy-path', 'open-folder', 'preview'],
+            k = o.selectedItemDropdownOption,
+            y = w.findIndex((C) => k?.includes(C));
+          if (f.key === 'ArrowDown') {
+            f.preventDefault();
+            const C = (y + 1) % w.length;
+            l('update:selectedItemDropdownOption', `${w[C] || ''}-${o.activeDropdown}`);
+          } else if (f.key === 'ArrowUp') {
+            f.preventDefault();
+            const C = y <= 0 ? w.length - 1 : y - 1;
+            l('update:selectedItemDropdownOption', `${w[C] || ''}-${o.activeDropdown}`);
+          } else
+            f.key === 'Enter'
+              ? (f.preventDefault(),
+                k &&
+                  (k.includes('copy-path')
+                    ? h(o.item)
+                    : k.includes('open-folder')
+                      ? V(o.item)
+                      : k.includes('preview') && _(o.item)))
+              : f.key === 'Escape' &&
+                (f.preventDefault(), l('update:selectedItemDropdownOption', null));
+        };
+      return (f, w) => (
+        e.openBlock(),
+        e.createElementBlock(
+          'div',
+          {
+            class: e.normalizeClass([
+              'vuefinder__search-modal__result-item',
+              { 'vuefinder__search-modal__result-item--selected': n.index === n.selectedIndex },
+            ]),
+            title: n.item.basename,
+            onClick: w[9] || (w[9] = (k) => l('select', n.index)),
+          },
+          [
+            e.createElementVNode('div', es, [
+              n.item.type === 'dir'
+                ? (e.openBlock(), e.createBlock(e.unref(he), { key: 0 }))
+                : (e.openBlock(), e.createBlock(e.unref(ze), { key: 1 })),
+            ]),
+            e.createElementVNode('div', ts, [
+              e.createElementVNode('div', ns, [
+                e.createTextVNode(e.toDisplayString(n.item.basename) + ' ', 1),
+                m(n.item)
+                  ? (e.openBlock(),
+                    e.createElementBlock('span', os, e.toDisplayString(m(n.item)), 1))
+                  : e.createCommentVNode('', !0),
+              ]),
+              e.createElementVNode(
+                'div',
+                {
+                  class: 'vuefinder__search-modal__result-path',
+                  onClick:
+                    w[0] ||
+                    (w[0] = e.withModifiers(
+                      (k) => {
+                        (l('select', n.index), l('togglePathExpansion', n.item.path));
+                      },
+                      ['stop']
+                    )),
+                  title: n.item.path,
+                },
+                e.toDisplayString(c(n.item.path) ? n.item.path : e.unref(_n)(n.item.path)),
+                9,
+                ls
+              ),
+            ]),
+            e.createElementVNode(
+              'button',
+              {
+                ref_key: 'buttonElementRef',
+                ref: a,
+                class: 'vuefinder__search-modal__result-actions',
+                onClick:
+                  w[1] ||
+                  (w[1] = (k) => {
+                    (l('selectWithDropdown', n.index), d(n.item.path, k));
+                  }),
+                title: e.unref(s)('More actions'),
+              },
+              [
+                e.createVNode(e.unref(gn), {
+                  class: 'vuefinder__search-modal__result-actions-icon',
+                }),
+              ],
+              8,
+              rs
+            ),
+            (e.openBlock(),
+            e.createBlock(e.Teleport, { to: 'body' }, [
+              n.activeDropdown === n.item.path
+                ? (e.openBlock(),
+                  e.createElementBlock(
+                    'div',
+                    {
+                      key: 0,
+                      'data-item-dropdown': n.item.path,
+                      class:
+                        'vuefinder__themer vuefinder__search-modal__item-dropdown vuefinder__search-modal__item-dropdown--visible',
+                      'data-theme': e.unref(r).theme.current,
+                      onClick: w[8] || (w[8] = e.withModifiers(() => {}, ['stop'])),
+                      onKeydown: p,
+                      tabindex: '-1',
+                    },
+                    [
+                      e.createElementVNode('div', ss, [
+                        e.createElementVNode(
+                          'div',
+                          {
+                            class: e.normalizeClass([
+                              'vuefinder__search-modal__item-dropdown-option',
+                              {
+                                'vuefinder__search-modal__item-dropdown-option--selected':
+                                  n.selectedItemDropdownOption === `copy-path-${n.item.path}`,
+                              },
+                            ]),
+                            onClick:
+                              w[2] ||
+                              (w[2] = (k) => {
+                                (v(`copy-path-${n.item.path}`), h(n.item));
+                              }),
+                            onFocus: w[3] || (w[3] = (k) => v(`copy-path-${n.item.path}`)),
+                          },
+                          [
+                            w[10] ||
+                              (w[10] = e.createElementVNode(
+                                'svg',
+                                {
+                                  class: 'vuefinder__search-modal__item-dropdown-icon',
+                                  viewBox: '0 0 16 16',
+                                  fill: 'currentColor',
+                                },
+                                [
+                                  e.createElementVNode('path', {
+                                    d: 'M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6z',
+                                  }),
+                                  e.createElementVNode('path', {
+                                    d: 'M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z',
+                                  }),
+                                ],
+                                -1
+                              )),
+                            e.createElementVNode(
+                              'span',
+                              null,
+                              e.toDisplayString(e.unref(s)('Copy Path')),
+                              1
+                            ),
+                          ],
+                          34
+                        ),
+                        e.createElementVNode(
+                          'div',
+                          {
+                            class: e.normalizeClass([
+                              'vuefinder__search-modal__item-dropdown-option',
+                              {
+                                'vuefinder__search-modal__item-dropdown-option--selected':
+                                  n.selectedItemDropdownOption === `open-folder-${n.item.path}`,
+                              },
+                            ]),
+                            onClick:
+                              w[4] ||
+                              (w[4] = (k) => {
+                                (v(`open-folder-${n.item.path}`), V(n.item));
+                              }),
+                            onFocus: w[5] || (w[5] = (k) => v(`open-folder-${n.item.path}`)),
+                          },
+                          [
+                            e.createVNode(e.unref(he), {
+                              class: 'vuefinder__search-modal__item-dropdown-icon',
+                            }),
+                            e.createElementVNode(
+                              'span',
+                              null,
+                              e.toDisplayString(e.unref(s)('Open Containing Folder')),
+                              1
+                            ),
+                          ],
+                          34
+                        ),
+                        e.createElementVNode(
+                          'div',
+                          {
+                            class: e.normalizeClass([
+                              'vuefinder__search-modal__item-dropdown-option',
+                              {
+                                'vuefinder__search-modal__item-dropdown-option--selected':
+                                  n.selectedItemDropdownOption === `preview-${n.item.path}`,
+                              },
+                            ]),
+                            onClick:
+                              w[6] ||
+                              (w[6] = (k) => {
+                                (v(`preview-${n.item.path}`), _(n.item));
+                              }),
+                            onFocus: w[7] || (w[7] = (k) => v(`preview-${n.item.path}`)),
+                          },
+                          [
+                            e.createVNode(e.unref(ze), {
+                              class: 'vuefinder__search-modal__item-dropdown-icon',
+                            }),
+                            e.createElementVNode(
+                              'span',
+                              null,
+                              e.toDisplayString(e.unref(s)('Preview')),
+                              1
+                            ),
+                          ],
+                          34
+                        ),
+                      ]),
+                    ],
+                    40,
+                    as
+                  ))
+                : e.createCommentVNode('', !0),
+            ])),
+          ],
+          10,
+          Za
+        )
+      );
+    },
+  }),
+  cs = { key: 0, class: 'vuefinder__search-modal__searching' },
+  ds = { class: 'vuefinder__search-modal__loading-icon' },
+  us = { key: 1, class: 'vuefinder__search-modal__no-results' },
+  ms = { key: 2, class: 'vuefinder__search-modal__results-list' },
+  fs = { class: 'vuefinder__search-modal__results-header' },
+  ke = 60,
+  Ht = 5,
+  ps = e.defineComponent({
+    name: 'SearchResultsList',
+    __name: 'SearchResultsList',
+    props: {
+      searchResults: {},
+      isSearching: { type: Boolean },
+      selectedIndex: {},
+      expandedPaths: {},
+      activeDropdown: {},
+      selectedItemDropdownOption: {},
+      resultsEnter: { type: Boolean },
+    },
+    emits: [
+      'selectResultItem',
+      'selectResultItemWithDropdown',
+      'togglePathExpansion',
+      'toggleItemDropdown',
+      'update:selectedItemDropdownOption',
+      'copyPath',
+      'openContainingFolder',
+      'preview',
+    ],
+    setup(n, { expose: t, emit: o }) {
+      const l = n,
+        r = o,
+        s = H(),
+        { t: a } = s.i18n,
+        u = e.useTemplateRef('scrollableContainer'),
+        c = e.computed(() => l.searchResults.length > 0),
+        m = e.computed(() => l.searchResults.length),
+        d = e.ref(0),
+        i = e.ref(600),
+        v = e.computed(() => l.searchResults.length * ke),
+        h = e.computed(() => {
+          const k = Math.max(0, Math.floor(d.value / ke) - Ht),
+            y = Math.min(l.searchResults.length, Math.ceil((d.value + i.value) / ke) + Ht);
+          return { start: k, end: y };
+        }),
+        V = e.computed(() => {
+          const { start: k, end: y } = h.value;
+          return l.searchResults
+            .slice(k, y)
+            .map((C, F) => ({ item: C, index: k + F, top: (k + F) * ke }));
+        }),
+        _ = (k) => {
+          const y = k.target;
+          d.value = y.scrollTop;
+        },
+        p = () => {
+          u.value && (i.value = u.value.clientHeight);
+        },
+        f = () => {
+          if (l.selectedIndex >= 0 && u.value) {
+            const k = l.selectedIndex * ke,
+              y = k + ke,
+              C = u.value.scrollTop,
+              F = u.value.clientHeight,
+              B = C + F;
+            let L = C;
+            (k < C ? (L = k) : y > B && (L = y - F),
+              L !== C && u.value.scrollTo({ top: L, behavior: 'smooth' }));
+          }
+        },
+        w = () => {
+          u.value && ((u.value.scrollTop = 0), (d.value = 0));
+        };
+      return (
+        e.onMounted(() => {
+          (p(), window.addEventListener('resize', p));
+        }),
+        e.onUnmounted(() => {
+          window.removeEventListener('resize', p);
+        }),
+        e.watch(
+          () => u.value,
+          () => {
+            p();
+          }
+        ),
+        t({
+          scrollSelectedIntoView: f,
+          resetScroll: w,
+          getContainerHeight: () => i.value,
+          scrollTop: () => d.value,
+        }),
+        (k, y) => (
+          e.openBlock(),
+          e.createElementBlock(
+            'div',
+            {
+              class: e.normalizeClass([
+                'vuefinder__search-modal__results',
+                { 'vuefinder__search-modal__results--enter': n.resultsEnter },
+              ]),
+            },
+            [
+              n.isSearching
+                ? (e.openBlock(),
+                  e.createElementBlock('div', cs, [
+                    e.createElementVNode('div', ds, [
+                      e.createVNode(e.unref(nt), {
+                        class: 'vuefinder__search-modal__loading-icon',
+                      }),
+                    ]),
+                    e.createElementVNode(
+                      'span',
+                      null,
+                      e.toDisplayString(e.unref(a)('Searching...')),
+                      1
+                    ),
+                  ]))
+                : c.value
+                  ? (e.openBlock(),
+                    e.createElementBlock('div', ms, [
+                      e.createElementVNode('div', fs, [
+                        e.createElementVNode(
+                          'span',
+                          null,
+                          e.toDisplayString(e.unref(a)('Found %s results', m.value)),
+                          1
+                        ),
+                      ]),
+                      e.createElementVNode(
+                        'div',
+                        {
+                          ref_key: 'scrollableContainer',
+                          ref: u,
+                          class: 'vuefinder__search-modal__results-scrollable',
+                          onScroll: _,
+                        },
+                        [
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: 'vuefinder__search-modal__results-items',
+                              style: e.normalizeStyle({
+                                height: `${v.value}px`,
+                                position: 'relative',
+                              }),
+                            },
+                            [
+                              (e.openBlock(!0),
+                              e.createElementBlock(
+                                e.Fragment,
+                                null,
+                                e.renderList(
+                                  V.value,
+                                  (C) => (
+                                    e.openBlock(),
+                                    e.createElementBlock(
+                                      'div',
+                                      {
+                                        key: C.item.path,
+                                        style: e.normalizeStyle({
+                                          position: 'absolute',
+                                          top: `${C.top}px`,
+                                          left: '0',
+                                          width: '100%',
+                                          height: `${ke}px`,
+                                        }),
+                                      },
+                                      [
+                                        e.createVNode(
+                                          is,
+                                          {
+                                            item: C.item,
+                                            index: C.index,
+                                            'selected-index': n.selectedIndex,
+                                            'expanded-paths': n.expandedPaths,
+                                            'active-dropdown': n.activeDropdown,
+                                            'selected-item-dropdown-option':
+                                              n.selectedItemDropdownOption,
+                                            onSelect:
+                                              y[0] || (y[0] = (F) => r('selectResultItem', F)),
+                                            onSelectWithDropdown:
+                                              y[1] ||
+                                              (y[1] = (F) => r('selectResultItemWithDropdown', F)),
+                                            onTogglePathExpansion:
+                                              y[2] || (y[2] = (F) => r('togglePathExpansion', F)),
+                                            onToggleItemDropdown:
+                                              y[3] ||
+                                              (y[3] = (F, B) => r('toggleItemDropdown', F, B)),
+                                            'onUpdate:selectedItemDropdownOption':
+                                              y[4] ||
+                                              (y[4] = (F) =>
+                                                r('update:selectedItemDropdownOption', F)),
+                                            onCopyPath: y[5] || (y[5] = (F) => r('copyPath', F)),
+                                            onOpenContainingFolder:
+                                              y[6] || (y[6] = (F) => r('openContainingFolder', F)),
+                                            onPreview: y[7] || (y[7] = (F) => r('preview', F)),
+                                          },
+                                          null,
+                                          8,
+                                          [
+                                            'item',
+                                            'index',
+                                            'selected-index',
+                                            'expanded-paths',
+                                            'active-dropdown',
+                                            'selected-item-dropdown-option',
+                                          ]
+                                        ),
+                                      ],
+                                      4
+                                    )
+                                  )
+                                ),
+                                128
+                              )),
+                            ],
+                            4
+                          ),
+                        ],
+                        544
+                      ),
+                    ]))
+                  : (e.openBlock(),
+                    e.createElementBlock('div', us, [
+                      e.createElementVNode(
+                        'span',
+                        null,
+                        e.toDisplayString(e.unref(a)('No results found')),
+                        1
+                      ),
+                    ])),
+            ],
+            2
+          )
+        )
+      );
+    },
+  }),
+  vs = { class: 'vuefinder__search-modal' },
+  _s = { class: 'vuefinder__search-modal__content' },
+  hs = { class: 'vuefinder__search-modal__search-bar' },
+  gs = { class: 'vuefinder__search-modal__search-location' },
+  ws = ['title'],
+  ys = ['disabled'],
+  ks = { key: 0, class: 'vuefinder__search-modal__folder-selector' },
+  Es = { class: 'vuefinder__search-modal__folder-selector-content' },
+  bs = { key: 1, class: 'vuefinder__search-modal__instructions' },
+  Vs = { class: 'vuefinder__search-modal__instructions-tips' },
+  Ns = { class: 'vuefinder__search-modal__tip' },
+  xs = { class: 'vuefinder__search-modal__tip' },
+  xt = e.defineComponent({
+    name: 'ModalSearch',
+    __name: 'ModalSearch',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = e.ref(null),
+        s = e.ref(null),
+        a = e.ref(null),
+        u = en('', 300),
+        c = e.ref([]),
+        m = e.ref(!1),
+        d = e.ref(-1),
+        i = e.ref(!1),
+        v = e.ref(!1),
+        h = e.ref(null),
+        V = e.ref('all'),
+        _ = e.ref(!1),
+        p = e.ref(`size-${V.value}`),
+        f = e.ref(null),
+        w = e.ref(new Set()),
+        k = e.ref(null),
+        y = I.useStore(l.path),
+        C = (g) => {
+          w.value.has(g) ? w.value.delete(g) : w.value.add(g);
+        },
+        F = (g, b) => {
+          (b && typeof b.stopPropagation == 'function' && b.stopPropagation(),
+            k.value === g ? (k.value = null) : (k.value = g));
+        },
+        B = () => {
+          k.value = null;
+        },
+        L = (g) => {
+          try {
+            const b = g.dir || `${g.storage}://`;
+            (t.adapter.open(b), t.modal.close(), B());
+          } catch {
+            t.emitter.emit('vf-toast-push', { label: o('Failed to open containing folder') });
+          }
+        },
+        S = (g) => {
+          (t.modal.open(Ze, { storage: y?.value?.storage ?? 'local', item: g }), B());
+        },
+        O = (g) => {
+          ((d.value = g), B());
+        },
+        q = (g) => {
+          d.value = g;
+        },
+        X = async (g) => {
+          (await Ae(g.path), B());
+        };
+      (e.watch(u, async (g) => {
+        g.trim()
+          ? (await P(g.trim()), (d.value = 0))
+          : ((c.value = []), (m.value = !1), (d.value = -1));
+      }),
+        e.watch(V, async (g) => {
+          ((p.value = `size-${g}`),
+            u.value.trim() && !v.value && (await P(u.value.trim()), (d.value = 0)));
+        }),
+        e.watch(_, async () => {
+          u.value.trim() && !v.value && (await P(u.value.trim()), (d.value = 0));
+        }));
+      const P = async (g) => {
+        if (g) {
+          m.value = !0;
+          try {
+            const b = h.value?.path || y?.value?.path,
+              N = await t.adapter.search({ path: b, filter: g, deep: _.value, size: V.value });
+            ((c.value = N || []), (m.value = !1));
+          } catch (b) {
+            (console.error('Search error:', b), (c.value = []), (m.value = !1));
+          }
+        }
+      };
+      e.onMounted(() => {
+        (document.addEventListener('click', E),
+          (p.value = `size-${V.value}`),
+          e.nextTick(() => {
+            r.value && r.value.focus();
+          }));
+      });
+      const W = () => {
+          v.value
+            ? ((v.value = !1), u.value.trim() && (P(u.value.trim()), (d.value = 0)))
+            : ((i.value = !1), (v.value = !0));
+        },
+        Q = (g) => {
+          g && (h.value = g);
+        },
+        z = (g) => {
+          g && (Q(g), (v.value = !1), u.value.trim() && (P(u.value.trim()), (d.value = 0)));
+        };
+      e.onUnmounted(() => {
+        (document.removeEventListener('click', E), s.value && s.value.cleanup());
+      });
+      const E = (g) => {
+        const b = g.target;
+        if (
+          (i.value &&
+            (b.closest('.vuefinder__search-modal__dropdown') ||
+              ((i.value = !1),
+              e.nextTick(() => {
+                r.value && r.value.focus();
+              }))),
+          k.value)
+        ) {
+          const N = b.closest('.vuefinder__search-modal__item-dropdown'),
+            M = b.closest('.vuefinder__search-modal__result-item');
+          !N && !M && B();
+        }
+      };
+      return (g, b) => (
+        e.openBlock(),
+        e.createBlock(
+          ie,
+          { class: 'vuefinder__search-modal-layout' },
+          {
+            default: e.withCtx(() => [
+              e.createElementVNode('div', vs, [
+                e.createVNode(
+                  de,
+                  { icon: e.unref(Et), title: e.unref(o)('Search files') },
+                  null,
+                  8,
+                  ['icon', 'title']
+                ),
+                e.createElementVNode('div', _s, [
+                  e.createElementVNode('div', hs, [
+                    e.createVNode(
+                      Wr,
+                      {
+                        ref_key: 'searchInputRef',
+                        ref: r,
+                        modelValue: e.unref(u),
+                        'onUpdate:modelValue':
+                          b[0] || (b[0] = (N) => (e.isRef(u) ? (u.value = N) : null)),
+                        'is-searching': m.value,
+                        disabled: v.value,
+                      },
+                      null,
+                      8,
+                      ['modelValue', 'is-searching', 'disabled']
+                    ),
+                    e.createVNode(
+                      Ga,
+                      {
+                        ref_key: 'searchOptionsDropdownRef',
+                        ref: s,
+                        visible: i.value,
+                        'onUpdate:visible': b[1] || (b[1] = (N) => (i.value = N)),
+                        'size-filter': V.value,
+                        'onUpdate:sizeFilter': b[2] || (b[2] = (N) => (V.value = N)),
+                        'selected-option': p.value,
+                        'onUpdate:selectedOption': b[3] || (b[3] = (N) => (p.value = N)),
+                        disabled: v.value,
+                      },
+                      null,
+                      8,
+                      ['visible', 'size-filter', 'selected-option', 'disabled']
+                    ),
+                  ]),
+                  e.createElementVNode(
+                    'div',
+                    {
+                      class: 'vuefinder__search-modal__options',
+                      onClick: b[7] || (b[7] = e.withModifiers(() => {}, ['stop'])),
+                    },
+                    [
+                      e.createElementVNode('div', gs, [
+                        e.createElementVNode(
+                          'button',
+                          {
+                            onClick: e.withModifiers(W, ['stop']),
+                            class: e.normalizeClass([
+                              'vuefinder__search-modal__location-btn',
+                              { 'vuefinder__search-modal__location-btn--open': v.value },
+                            ]),
+                          },
+                          [
+                            e.createVNode(e.unref(he), {
+                              class: 'vuefinder__search-modal__location-icon',
+                            }),
+                            e.createElementVNode(
+                              'span',
+                              {
+                                class: 'vuefinder__search-modal__location-text',
+                                title: h.value?.path || e.unref(y).path,
+                              },
+                              e.toDisplayString(e.unref(_n)(h.value?.path || e.unref(y).path)),
+                              9,
+                              ws
+                            ),
+                            b[10] ||
+                              (b[10] = e.createElementVNode(
+                                'svg',
+                                {
+                                  class: 'vuefinder__search-modal__location-arrow',
+                                  viewBox: '0 0 16 16',
+                                  fill: 'currentColor',
+                                },
+                                [
+                                  e.createElementVNode('path', {
+                                    d: 'M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z',
+                                  }),
+                                ],
+                                -1
+                              )),
+                          ],
+                          2
+                        ),
+                      ]),
+                      e.createElementVNode(
+                        'label',
+                        {
+                          class: 'vuefinder__search-modal__deep-search',
+                          onClick: b[6] || (b[6] = e.withModifiers(() => {}, ['stop'])),
+                        },
+                        [
+                          e.withDirectives(
+                            e.createElementVNode(
+                              'input',
+                              {
+                                'onUpdate:modelValue': b[4] || (b[4] = (N) => (_.value = N)),
+                                type: 'checkbox',
+                                disabled: v.value,
+                                class: 'vuefinder__search-modal__checkbox',
+                                onClick: b[5] || (b[5] = e.withModifiers(() => {}, ['stop'])),
+                              },
+                              null,
+                              8,
+                              ys
+                            ),
+                            [[e.vModelCheckbox, _.value]]
+                          ),
+                          e.createElementVNode(
+                            'span',
+                            null,
+                            e.toDisplayString(e.unref(o)('Include subfolders')),
+                            1
+                          ),
+                        ]
+                      ),
+                    ]
+                  ),
+                  v.value
+                    ? (e.openBlock(),
+                      e.createElementBlock('div', ks, [
+                        e.createElementVNode('div', Es, [
+                          e.createVNode(
+                            yt,
+                            {
+                              modelValue: h.value,
+                              'onUpdate:modelValue': [b[8] || (b[8] = (N) => (h.value = N)), Q],
+                              'show-pinned-folders': !0,
+                              'current-path': e.unref(y),
+                              onSelectAndClose: z,
+                            },
+                            null,
+                            8,
+                            ['modelValue', 'current-path']
+                          ),
+                        ]),
+                      ]))
+                    : e.createCommentVNode('', !0),
+                  !e.unref(u).trim() && !v.value
+                    ? (e.openBlock(),
+                      e.createElementBlock('div', bs, [
+                        e.createElementVNode('div', Vs, [
+                          e.createElementVNode('div', Ns, [
+                            b[11] ||
+                              (b[11] = e.createElementVNode(
+                                'span',
+                                { class: 'vuefinder__search-modal__tip-key' },
+                                '↑↓',
+                                -1
+                              )),
+                            e.createElementVNode(
+                              'span',
+                              null,
+                              e.toDisplayString(e.unref(o)('Navigate results')),
+                              1
+                            ),
+                          ]),
+                          e.createElementVNode('div', xs, [
+                            b[12] ||
+                              (b[12] = e.createElementVNode(
+                                'span',
+                                { class: 'vuefinder__search-modal__tip-key' },
+                                'Esc',
+                                -1
+                              )),
+                            e.createElementVNode(
+                              'span',
+                              null,
+                              e.toDisplayString(e.unref(o)('Close search')),
+                              1
+                            ),
+                          ]),
+                        ]),
+                      ]))
+                    : e.createCommentVNode('', !0),
+                  e.unref(u).trim() && !v.value
+                    ? (e.openBlock(),
+                      e.createBlock(
+                        ps,
+                        {
+                          key: 2,
+                          ref_key: 'searchResultsListRef',
+                          ref: a,
+                          'search-results': c.value,
+                          'is-searching': m.value,
+                          'selected-index': d.value,
+                          'expanded-paths': w.value,
+                          'active-dropdown': k.value,
+                          'selected-item-dropdown-option': f.value,
+                          'results-enter': !0,
+                          onSelectResultItem: O,
+                          onSelectResultItemWithDropdown: q,
+                          onTogglePathExpansion: C,
+                          onToggleItemDropdown: F,
+                          'onUpdate:selectedItemDropdownOption':
+                            b[9] || (b[9] = (N) => (f.value = N)),
+                          onCopyPath: X,
+                          onOpenContainingFolder: L,
+                          onPreview: S,
+                        },
+                        null,
+                        8,
+                        [
+                          'search-results',
+                          'is-searching',
+                          'selected-index',
+                          'expanded-paths',
+                          'active-dropdown',
+                          'selected-item-dropdown-option',
+                        ]
+                      ))
+                    : e.createCommentVNode('', !0),
+                ]),
+              ]),
+            ]),
+            _: 1,
+          }
+        )
+      );
+    },
+  }),
+  ae = {
+    ESCAPE: 'Escape',
+    F2: 'F2',
+    F5: 'F5',
+    DELETE: 'Delete',
+    ENTER: 'Enter',
+    BACKSLASH: 'Backslash',
+    KEY_A: 'KeyA',
+    KEY_E: 'KeyE',
+    KEY_F: 'KeyF',
+    SPACE: 'Space',
+    KEY_C: 'KeyC',
+    KEY_X: 'KeyX',
+    KEY_V: 'KeyV',
+  };
+function Cs(n) {
+  const t = n.fs,
+    o = n.config,
+    l = I.useStore(t.selectedItems),
+    r = (s) => {
+      if ((s.code === ae.ESCAPE && (n.modal.close(), n.root.focus()), !n.modal.visible)) {
+        if (
+          (s.code === ae.F2 &&
+            n.features.includes(K.RENAME) &&
+            l.value.length === 1 &&
+            n.modal.open(Je, { items: l.value }),
+          s.code === ae.F5 && n.adapter.open(t.path.get().path),
+          s.code === ae.DELETE && l.value.length === 0 && n.modal.open(Xe, { items: l.value }),
+          s.ctrlKey && s.code === ae.BACKSLASH && n.modal.open(Qt),
+          s.ctrlKey &&
+            s.code === ae.KEY_F &&
+            n.features.includes(K.SEARCH) &&
+            (n.modal.open(xt), s.preventDefault()),
+          s.ctrlKey && s.code === ae.KEY_E && (o.toggle('showTreeView'), s.preventDefault()),
+          s.ctrlKey && s.code === ae.ENTER && (o.toggle('fullScreen'), n.root.focus()),
+          s.ctrlKey &&
+            s.code === ae.KEY_A &&
+            (t.selectAll(n.selectionMode || 'multiple', n), s.preventDefault()),
+          s.code === ae.SPACE &&
+            l.value.length === 1 &&
+            l.value[0]?.type !== 'dir' &&
+            n.modal.open(Ze, { storage: t.path.get().storage, item: l.value[0] }),
+          s.metaKey && s.code === ae.KEY_C)
+        ) {
+          if (l.value.length === 0) {
+            n.emitter.emit('vf-toast-push', {
+              type: 'error',
+              label: n.i18n.t('No items selected'),
+            });
+            return;
+          }
+          (t.setClipboard('copy', new Set(l.value.map((a) => a.path))),
+            n.emitter.emit('vf-toast-push', {
+              label:
+                l.value.length === 1
+                  ? n.i18n.t('Item copied to clipboard')
+                  : n.i18n.t('%s items copied to clipboard', l.value.length),
+            }),
+            s.preventDefault());
+        }
+        if (s.metaKey && s.code === ae.KEY_X) {
+          if (l.value.length === 0) {
+            n.emitter.emit('vf-toast-push', {
+              type: 'error',
+              label: n.i18n.t('No items selected'),
+            });
+            return;
+          }
+          (t.setClipboard('cut', new Set(l.value.map((a) => a.path))),
+            n.emitter.emit('vf-toast-push', {
+              label:
+                l.value.length === 1
+                  ? n.i18n.t('Item cut to clipboard')
+                  : n.i18n.t('%s items cut to clipboard', l.value.length),
+            }),
+            s.preventDefault());
+        }
+        if (s.metaKey && s.code === ae.KEY_V) {
+          if (t.getClipboard().items.size === 0) {
+            n.emitter.emit('vf-toast-push', {
+              type: 'error',
+              label: n.i18n.t('No items in clipboard'),
+            });
+            return;
+          }
+          if (t.getClipboard().path === t.path.get().path) {
+            n.emitter.emit('vf-toast-push', {
+              type: 'error',
+              label: n.i18n.t('Cannot paste items to the same directory'),
+            });
+            return;
+          }
+          if (t.getClipboard().type === 'cut') {
+            (n.modal.open(Ce, {
+              items: { from: Array.from(t.getClipboard().items), to: t.path.get() },
+            }),
+              t.clearClipboard());
+            return;
+          }
+          if (t.getClipboard().type === 'copy') {
+            n.modal.open(kt, {
+              items: { from: Array.from(t.getClipboard().items), to: t.path.get() },
+            });
+            return;
+          }
+          s.preventDefault();
+        }
+      }
+    };
+  (e.onMounted(() => {
+    n.root.addEventListener('keydown', r);
+  }),
+    e.onBeforeUnmount(() => {
+      n.root.removeEventListener('keydown', r);
+    }));
+}
+const Ct = async (n, t) => {
+  if (t) {
+    if (t.isFile) {
+      const o = await new Promise((l) => {
+        t.file(l);
+      });
+      n(t, o);
+    }
+    if (t.isDirectory) {
+      const o = t.createReader(),
+        l = await new Promise((r) => {
+          o.readEntries(r);
+        });
+      for (const r of l) await Ct(n, r);
+    }
+  }
+};
+function Bs() {
+  const n = e.ref(!1),
+    t = e.ref([]);
+  return {
+    isDraggingExternal: n,
+    externalFiles: t,
+    handleDragEnter: (u) => {
+      (u.preventDefault(), u.stopPropagation());
+      const c = u.dataTransfer?.items;
+      c &&
+        Array.from(c).some((d) => d.kind === 'file') &&
+        ((n.value = !0), (u.isExternalDrag = !0));
+    },
+    handleDragOver: (u) => {
+      n.value &&
+        u.dataTransfer &&
+        ((u.dataTransfer.dropEffect = 'copy'), u.preventDefault(), u.stopPropagation());
+    },
+    handleDragLeave: (u) => {
+      u.preventDefault();
+      const c = u.currentTarget.getBoundingClientRect(),
+        m = u.clientX,
+        d = u.clientY;
+      (m < c.left || m > c.right || d < c.top || d > c.bottom) && (n.value = !1);
+    },
+    handleDrop: async (u) => {
+      (u.preventDefault(), u.stopPropagation(), (n.value = !1));
+      const c = u.dataTransfer?.items;
+      if (c) {
+        const m = Array.from(c).filter((d) => d.kind === 'file');
+        if (m.length > 0) {
+          t.value = [];
+          for (const d of m) {
+            const i = d.webkitGetAsEntry?.();
+            if (i)
+              await Ct((v, h) => {
+                t.value.push({
+                  name: h.name,
+                  size: h.size,
+                  type: h.type,
+                  lastModified: new Date(h.lastModified),
+                  file: h,
+                });
+              }, i);
+            else {
+              const v = d.getAsFile();
+              v &&
+                t.value.push({
+                  name: v.name,
+                  size: v.size,
+                  type: v.type,
+                  lastModified: new Date(v.lastModified),
+                  file: v,
+                });
+            }
+          }
+          return t.value;
+        }
+      }
+      return [];
+    },
+    clearExternalFiles: () => {
+      t.value = [];
+    },
+  };
+}
+const Ss = {
+  xmlns: 'http://www.w3.org/2000/svg',
+  fill: 'none',
+  'stroke-width': '1.5',
+  class: 'h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon',
+  viewBox: '0 0 24 24',
+};
+function $s(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Ss, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44z',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const wn = { render: $s },
+  Ds = { class: 'vuefinder__new-folder-modal__content' },
+  Fs = { class: 'vuefinder__new-folder-modal__form' },
+  Ms = { class: 'vuefinder__new-folder-modal__description' },
+  Ts = ['placeholder'],
+  Bt = e.defineComponent({
+    __name: 'ModalNewFolder',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = I.useStore(l.path),
+        s = e.ref(''),
+        a = e.ref(''),
+        u = () => {
+          s.value !== '' &&
+            t.adapter
+              .createFolder({ path: r.value.path, name: s.value })
+              .then((c) => {
+                (t.emitter.emit('vf-toast-push', { label: o('%s is created.', s.value) }),
+                  t.fs.setFiles(c.files),
+                  t.modal.close());
+              })
+              .catch((c) => {
+                t.emitter.emit('vf-toast-push', { label: o(c.message), type: 'error' });
+              });
+        };
+      return (c, m) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              { type: 'button', onClick: u, class: 'vf-btn vf-btn-primary' },
+              e.toDisplayString(e.unref(o)('Create')),
+              1
+            ),
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: m[2] || (m[2] = (d) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(o)('Cancel')),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', null, [
+              e.createVNode(de, { icon: e.unref(wn), title: e.unref(o)('New Folder') }, null, 8, [
+                'icon',
+                'title',
+              ]),
+              e.createElementVNode('div', Ds, [
+                e.createElementVNode('div', Fs, [
+                  e.createElementVNode(
+                    'p',
+                    Ms,
+                    e.toDisplayString(e.unref(o)('Create a new folder')),
+                    1
+                  ),
+                  e.withDirectives(
+                    e.createElementVNode(
+                      'input',
+                      {
+                        'onUpdate:modelValue': m[0] || (m[0] = (d) => (s.value = d)),
+                        onKeyup: e.withKeys(u, ['enter']),
+                        class: 'vuefinder__new-folder-modal__input',
+                        placeholder: e.unref(o)('Folder Name'),
+                        type: 'text',
+                        autofocus: '',
+                      },
+                      null,
+                      40,
+                      Ts
+                    ),
+                    [[e.vModelText, s.value]]
+                  ),
+                  a.value.length
+                    ? (e.openBlock(),
+                      e.createBlock(
+                        e.unref(a),
+                        { key: 0, onHidden: m[1] || (m[1] = (d) => (a.value = '')), error: '' },
+                        {
+                          default: e.withCtx(() => [
+                            e.createTextVNode(e.toDisplayString(a.value), 1),
+                          ]),
+                          _: 1,
+                        }
+                      ))
+                    : e.createCommentVNode('', !0),
+                ]),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  As = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    'stroke-width': '1.5',
+    class: 'h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon',
+    viewBox: '0 0 24 24',
+  };
+function Is(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', As, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const yn = { render: Is },
+  Ls = { class: 'vuefinder__new-file-modal__content' },
+  Os = { class: 'vuefinder__new-file-modal__form' },
+  Rs = { class: 'vuefinder__new-file-modal__description' },
+  Ps = ['placeholder'],
+  kn = e.defineComponent({
+    __name: 'ModalNewFile',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = I.useStore(l.path),
+        s = e.ref(''),
+        a = e.ref(''),
+        u = () => {
+          s.value !== '' &&
+            t.adapter
+              .createFile({ path: r.value.path, name: s.value })
+              .then((c) => {
+                (t.emitter.emit('vf-toast-push', { label: o('%s is created.', s.value) }),
+                  t.fs.setFiles(c.files),
+                  t.modal.close());
+              })
+              .catch((c) => {
+                t.emitter.emit('vf-toast-push', { label: o(c.message), type: 'error' });
+              });
+        };
+      return (c, m) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              { type: 'button', onClick: u, class: 'vf-btn vf-btn-primary' },
+              e.toDisplayString(e.unref(o)('Create')),
+              1
+            ),
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: m[2] || (m[2] = (d) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(o)('Cancel')),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', null, [
+              e.createVNode(de, { icon: e.unref(yn), title: e.unref(o)('New File') }, null, 8, [
+                'icon',
+                'title',
+              ]),
+              e.createElementVNode('div', Ls, [
+                e.createElementVNode('div', Os, [
+                  e.createElementVNode(
+                    'p',
+                    Rs,
+                    e.toDisplayString(e.unref(o)('Create a new file')),
+                    1
+                  ),
+                  e.withDirectives(
+                    e.createElementVNode(
+                      'input',
+                      {
+                        'onUpdate:modelValue': m[0] || (m[0] = (d) => (s.value = d)),
+                        onKeyup: e.withKeys(u, ['enter']),
+                        class: 'vuefinder__new-file-modal__input',
+                        placeholder: e.unref(o)('File Name'),
+                        type: 'text',
+                      },
+                      null,
+                      40,
+                      Ps
+                    ),
+                    [[e.vModelText, s.value]]
+                  ),
+                  a.value.length
+                    ? (e.openBlock(),
+                      e.createBlock(
+                        e.unref(a),
+                        { key: 0, onHidden: m[1] || (m[1] = (d) => (a.value = '')), error: '' },
+                        {
+                          default: e.withCtx(() => [
+                            e.createTextVNode(e.toDisplayString(a.value), 1),
+                          ]),
+                          _: 1,
+                        }
+                      ))
+                    : e.createCommentVNode('', !0),
+                ]),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  zs = ['title'],
+  Hs = e.defineComponent({
+    __name: 'Message',
+    props: { error: { type: Boolean } },
+    emits: ['hidden'],
+    setup(n, { emit: t }) {
+      const o = t,
+        l = H(),
+        { t: r } = l.i18n,
+        s = e.ref(!1),
+        a = e.ref(null),
+        u = e.ref(a.value?.innerHTML);
+      e.watch(u, () => (s.value = !1));
+      const c = () => {
+        (o('hidden'), (s.value = !0));
+      };
+      return (m, d) => (
+        e.openBlock(),
+        e.createElementBlock('div', null, [
+          s.value
+            ? e.createCommentVNode('', !0)
+            : (e.openBlock(),
+              e.createElementBlock(
+                'div',
+                {
+                  key: 0,
+                  ref_key: 'strMessage',
+                  ref: a,
+                  class: e.normalizeClass([
+                    'vuefinder__message',
+                    n.error ? 'vuefinder__message--error' : 'vuefinder__message--success',
+                  ]),
+                },
+                [
+                  e.renderSlot(m.$slots, 'default'),
+                  e.createElementVNode(
+                    'div',
+                    { class: 'vuefinder__message__close', onClick: c, title: e.unref(r)('Close') },
+                    [
+                      ...(d[0] ||
+                        (d[0] = [
+                          e.createElementVNode(
+                            'svg',
+                            {
+                              xmlns: 'http://www.w3.org/2000/svg',
+                              fill: 'none',
+                              viewBox: '0 0 24 24',
+                              'stroke-width': '1.5',
+                              stroke: 'currentColor',
+                              class: 'vuefinder__message__icon',
+                            },
+                            [
+                              e.createElementVNode('path', {
+                                'stroke-linecap': 'round',
+                                'stroke-linejoin': 'round',
+                                d: 'M6 18L18 6M6 6l12 12',
+                              }),
+                            ],
+                            -1
+                          ),
+                        ])),
+                    ],
+                    8,
+                    zs
+                  ),
+                ],
+                2
+              )),
+        ])
+      );
+    },
+  }),
+  oe = { PENDING: 0, CANCELED: 1, UPLOADING: 2, ERROR: 3, DONE: 10 };
+function Us(n) {
+  const t = H(),
+    { t: o } = t.i18n,
+    l = t.fs,
+    r = I.useStore(l.path),
+    s = t.config,
+    a = e.ref({ QUEUE_ENTRY_STATUS: oe }),
+    u = e.ref(null),
+    c = e.ref(null),
+    m = e.ref(null),
+    d = e.ref(null),
+    i = e.ref(null),
+    v = e.ref([]),
+    h = e.ref(''),
+    V = e.ref(!1),
+    _ = e.ref(!1),
+    p = e.ref(null);
+  let f;
+  const w = (E) => {
+      (E.preventDefault(), E.stopPropagation(), (_.value = !0));
+    },
+    k = (E) => {
+      (E.preventDefault(), E.stopPropagation(), (_.value = !0));
+    },
+    y = (E) => {
+      (E.preventDefault(),
+        E.stopPropagation(),
+        (!E.relatedTarget || E.relatedTarget === document.body) && (_.value = !1));
+    },
+    C = (E) => {
+      (E.preventDefault(), E.stopPropagation(), (_.value = !1));
+      const g = /^[/\\](.+)/,
+        b = E.dataTransfer;
+      b &&
+        (b.items && b.items.length
+          ? Array.from(b.items).forEach((N) => {
+              if (N.kind === 'file') {
+                const M = N.webkitGetAsEntry?.();
+                if (M)
+                  Ct((R, J) => {
+                    const Y = g.exec(R?.fullPath || '');
+                    B(J, Y ? Y[1] : J.name);
+                  }, M);
+                else {
+                  const R = N.getAsFile?.();
+                  R && B(R);
+                }
+              }
+            })
+          : b.files && b.files.length && Array.from(b.files).forEach((N) => B(N)));
+    },
+    F = (E) => v.value.findIndex((g) => g.id === E),
+    B = (E, g) => f.addFile({ name: g || E.name, type: E.type, data: E, source: 'Local' }),
+    L = (E) =>
+      E.status === oe.DONE
+        ? 'text-green-600'
+        : E.status === oe.ERROR || E.status === oe.CANCELED
+          ? 'text-red-600'
+          : '',
+    S = (E) =>
+      E.status === oe.DONE ? '✓' : E.status === oe.ERROR || E.status === oe.CANCELED ? '!' : '...',
+    O = () => d.value?.click(),
+    q = () => t.modal.close(),
+    X = (E) => {
+      if (V.value || !v.value.filter((g) => g.status !== oe.DONE).length) {
+        V.value || (h.value = o('Please select file to upload first.'));
+        return;
+      }
+      ((h.value = ''), (p.value = E || r.value), f.upload());
+    },
+    P = () => {
+      (f.cancelAll(),
+        v.value.forEach((E) => {
+          E.status !== oe.DONE && ((E.status = oe.CANCELED), (E.statusName = o('Canceled')));
+        }),
+        (V.value = !1));
+    },
+    W = (E) => {
+      V.value || (f.removeFile(E.id), v.value.splice(F(E.id), 1));
+    },
+    Q = (E) => {
+      if (!V.value)
+        if ((f.cancelAll(), E)) {
+          const g = v.value.filter((b) => b.status !== oe.DONE);
+          ((v.value = []), g.forEach((b) => B(b.originalFile, b.name)));
+        } else v.value = [];
+    },
+    z = (E) => {
+      E.forEach((g) => {
+        B(g);
+      });
+    };
+  return (
+    e.onMounted(() => {
+      f = new An({
+        debug: t.debug,
+        restrictions: { maxFileSize: Hn(s.maxFileSize ?? '10mb') },
+        locale: t.i18n.t('uppy'),
+        onBeforeFileAdded: (N, M) => {
+          if (M[N.id] != null) {
+            const J = F(N.id);
+            (v.value[J]?.status === oe.PENDING &&
+              (h.value = f.i18n('noDuplicates', { fileName: N.name })),
+              (v.value = v.value.filter((Y) => Y.id !== N.id)));
+          }
+          return (
+            v.value.push({
+              id: N.id,
+              name: N.name,
+              size: t.filesize(N.size),
+              status: oe.PENDING,
+              statusName: o('Pending upload'),
+              percent: null,
+              originalFile: N.data,
+            }),
+            !0
+          );
+        },
+      });
+      const E = { getTargetPath: () => (p.value || r.value).path };
+      if (n) n(f, E);
+      else if (t.adapter.getAdapter().configureUploader)
+        t.adapter.getAdapter().configureUploader(f, E);
+      else throw new Error('No uploader configured');
+      (f.on('restriction-failed', (N, M) => {
+        const R = v.value[F(N.id)];
+        (R && W(R), (h.value = M.message));
+      }),
+        f.on('upload-progress', (N, M) => {
+          const R = M.bytesTotal ?? 1,
+            J = Math.floor((M.bytesUploaded / R) * 100),
+            Y = F(N.id);
+          Y !== -1 && v.value[Y] && (v.value[Y].percent = `${J}%`);
+        }),
+        f.on('upload-success', (N) => {
+          const M = v.value[F(N.id)];
+          M && ((M.status = oe.DONE), (M.statusName = o('Done')));
+        }),
+        f.on('upload-error', (N, M) => {
+          const R = v.value[F(N.id)];
+          R &&
+            ((R.percent = null),
+            (R.status = oe.ERROR),
+            (R.statusName = M?.isNetworkError
+              ? o('Network Error, Unable establish connection to the server or interrupted.')
+              : M?.message || o('Unknown Error')));
+        }),
+        f.on('error', (N) => {
+          ((h.value = N.message), (V.value = !1), t.adapter.open(r.value.path));
+        }),
+        f.on('complete', () => {
+          V.value = !1;
+          const N = p.value || r.value;
+          (t.adapter.invalidateListQuery(N.path), t.adapter.open(N.path));
+          const M = v.value.filter((R) => R.status === oe.DONE).map((R) => R.name);
+          t.emitter.emit('vf-upload-complete', M);
+        }),
+        d.value?.addEventListener('click', () => c.value?.click()),
+        i.value?.addEventListener('click', () => m.value?.click()));
+      const g = { capture: !0 };
+      (document.addEventListener('dragover', w, g),
+        document.addEventListener('dragenter', k, g),
+        document.addEventListener('dragleave', y, g),
+        document.addEventListener('drop', C, g));
+      const b = (N) => {
+        const M = N.target,
+          R = M.files;
+        if (R) {
+          for (const J of R) B(J);
+          M.value = '';
+        }
+      };
+      (c.value?.addEventListener('change', b), m.value?.addEventListener('change', b));
+    }),
+    e.onUnmounted(() => {
+      const E = { capture: !0 };
+      (document.removeEventListener('dragover', w, E),
+        document.removeEventListener('dragenter', k, E),
+        document.removeEventListener('dragleave', y, E),
+        document.removeEventListener('drop', C, E));
+    }),
+    {
+      container: u,
+      internalFileInput: c,
+      internalFolderInput: m,
+      pickFiles: d,
+      pickFolders: i,
+      queue: v,
+      message: h,
+      uploading: V,
+      hasFilesInDropArea: _,
+      definitions: a,
+      openFileSelector: O,
+      upload: X,
+      cancel: P,
+      remove: W,
+      clear: Q,
+      close: q,
+      getClassNameForEntry: L,
+      getIconForEntry: S,
+      addExternalFiles: z,
+    }
+  );
+}
+function vt(n, t = 14) {
+  const o = `((?=([\\w\\W]{0,${t}}))([\\w\\W]{${t + 1},})([\\w\\W]{8,}))`;
+  return n.replace(new RegExp(o), '$2..$4');
+}
+const Ks = {
+  xmlns: 'http://www.w3.org/2000/svg',
+  fill: 'none',
+  'stroke-width': '1.5',
+  class: 'h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon',
+  viewBox: '0 0 24 24',
+};
+function js(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Ks, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const En = { render: js },
+  Ws = { class: 'vuefinder__upload-modal__content relative' },
+  Gs = { class: 'vuefinder__upload-modal__target-section' },
+  qs = { class: 'vuefinder__upload-modal__target-label' },
+  Ys = { class: 'vuefinder__upload-modal__target-container' },
+  Qs = { class: 'vuefinder__upload-modal__target-path' },
+  Xs = { class: 'vuefinder__upload-modal__target-storage' },
+  Js = { key: 0, class: 'vuefinder__upload-modal__target-folder' },
+  Zs = { class: 'vuefinder__upload-modal__target-badge' },
+  ei = { class: 'vuefinder__upload-modal__drag-hint' },
+  ti = { class: 'vuefinder__upload-modal__file-list vf-scrollbar' },
+  ni = ['textContent'],
+  oi = { class: 'vuefinder__upload-modal__file-info' },
+  li = { class: 'vuefinder__upload-modal__file-name hidden md:block' },
+  ri = { class: 'vuefinder__upload-modal__file-name md:hidden' },
+  ai = { key: 0, class: 'ml-auto' },
+  si = ['title', 'disabled', 'onClick'],
+  ii = { key: 0, class: 'py-2' },
+  ci = ['aria-expanded'],
+  di = {
+    key: 0,
+    class: 'vuefinder__upload-actions__menu left-0 right-0 absolute bottom-full mb-2',
+  },
+  ui = ['disabled'],
+  mi = ['aria-expanded'],
+  fi = { key: 0, class: 'vuefinder__upload-actions__menu' },
+  St = e.defineComponent({
+    __name: 'ModalUpload',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = I.useStore(l.path),
+        s = e.ref(r.value),
+        a = e.ref(!1),
+        u = () => {
+          const E = s.value.path;
+          if (!E) return { storage: 'local', path: '' };
+          if (E.endsWith('://')) return { storage: E.replace('://', ''), path: '' };
+          const g = E.split('://');
+          return { storage: g[0] || 'local', path: g[1] || '' };
+        },
+        c = (E) => {
+          E && (s.value = E);
+        },
+        m = (E) => {
+          E && ((s.value = E), (a.value = !1));
+        },
+        {
+          container: d,
+          internalFileInput: i,
+          internalFolderInput: v,
+          pickFiles: h,
+          queue: V,
+          message: _,
+          uploading: p,
+          hasFilesInDropArea: f,
+          definitions: w,
+          openFileSelector: k,
+          upload: y,
+          cancel: C,
+          remove: F,
+          clear: B,
+          close: L,
+          getClassNameForEntry: S,
+          getIconForEntry: O,
+          addExternalFiles: q,
+        } = Us(t.customUploader),
+        X = () => {
+          y(s.value);
+        };
+      (e.onMounted(() => {
+        t.emitter.on('vf-external-files-dropped', (E) => {
+          q(E);
+        });
+      }),
+        e.onUnmounted(() => {
+          t.emitter.off('vf-external-files-dropped');
+        }));
+      const P = e.ref(!1),
+        W = e.ref(null),
+        Q = e.ref(null),
+        z = (E) => {
+          if (!P.value) return;
+          const g = E.target,
+            b = W.value?.contains(g) ?? !1,
+            N = Q.value?.contains(g) ?? !1;
+          !b && !N && (P.value = !1);
+        };
+      return (
+        e.onMounted(() => document.addEventListener('click', z)),
+        e.onUnmounted(() => document.removeEventListener('click', z)),
+        (E, g) => (
+          e.openBlock(),
+          e.createBlock(
+            ie,
+            {
+              showDragOverlay: e.unref(f),
+              dragOverlayText: e.unref(o)('Drag and drop the files/folders to here.'),
+            },
+            {
+              buttons: e.withCtx(() => [
+                e.createElementVNode(
+                  'div',
+                  {
+                    class: 'sm:hidden relative w-full mb-2',
+                    ref_key: 'actionsMenuMobileRef',
+                    ref: W,
+                  },
+                  [
+                    e.createElementVNode(
+                      'div',
+                      {
+                        class: e.normalizeClass([
+                          'vuefinder__upload-actions',
+                          'vuefinder__upload-actions--block',
+                          P.value ? 'vuefinder__upload-actions--ring' : '',
+                        ]),
+                      },
+                      [
+                        e.createElementVNode(
+                          'button',
+                          {
+                            type: 'button',
+                            class: 'vuefinder__upload-actions__main',
+                            onClick: g[3] || (g[3] = (b) => e.unref(k)()),
+                          },
+                          e.toDisplayString(e.unref(o)('Select Files')),
+                          1
+                        ),
+                        e.createElementVNode(
+                          'button',
+                          {
+                            type: 'button',
+                            class: 'vuefinder__upload-actions__trigger',
+                            onClick:
+                              g[4] ||
+                              (g[4] = e.withModifiers((b) => (P.value = !P.value), ['stop'])),
+                            'aria-haspopup': 'menu',
+                            'aria-expanded': P.value ? 'true' : 'false',
+                          },
+                          [
+                            ...(g[17] ||
+                              (g[17] = [
+                                e.createElementVNode(
+                                  'svg',
+                                  {
+                                    xmlns: 'http://www.w3.org/2000/svg',
+                                    class: 'h-4 w-4',
+                                    viewBox: '0 0 20 20',
+                                    fill: 'currentColor',
+                                  },
+                                  [
+                                    e.createElementVNode('path', {
+                                      'fill-rule': 'evenodd',
+                                      d: 'M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z',
+                                      'clip-rule': 'evenodd',
+                                    }),
+                                  ],
+                                  -1
+                                ),
+                              ])),
+                          ],
+                          8,
+                          ci
+                        ),
+                      ],
+                      2
+                    ),
+                    P.value
+                      ? (e.openBlock(),
+                        e.createElementBlock('div', di, [
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: 'vuefinder__upload-actions__item',
+                              onClick:
+                                g[5] ||
+                                (g[5] = (b) => {
+                                  (e.unref(k)(), (P.value = !1));
+                                }),
+                            },
+                            e.toDisplayString(e.unref(o)('Select Files')),
+                            1
+                          ),
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: 'vuefinder__upload-actions__item',
+                              onClick:
+                                g[6] ||
+                                (g[6] = (b) => {
+                                  (e.unref(v)?.click(), (P.value = !1));
+                                }),
+                            },
+                            e.toDisplayString(e.unref(o)('Select Folders')),
+                            1
+                          ),
+                          g[18] ||
+                            (g[18] = e.createElementVNode(
+                              'div',
+                              { class: 'vuefinder__upload-actions__separator' },
+                              null,
+                              -1
+                            )),
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: e.normalizeClass([
+                                'vuefinder__upload-actions__item',
+                                e.unref(p) ? 'disabled' : '',
+                              ]),
+                              onClick:
+                                g[7] ||
+                                (g[7] = (b) =>
+                                  e.unref(p) ? null : (e.unref(B)(!1), (P.value = !1))),
+                            },
+                            e.toDisplayString(e.unref(o)('Clear all')),
+                            3
+                          ),
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: e.normalizeClass([
+                                'vuefinder__upload-actions__item',
+                                e.unref(p) ? 'disabled' : '',
+                              ]),
+                              onClick:
+                                g[8] ||
+                                (g[8] = (b) =>
+                                  e.unref(p) ? null : (e.unref(B)(!0), (P.value = !1))),
+                            },
+                            e.toDisplayString(e.unref(o)('Clear only successful')),
+                            3
+                          ),
+                        ]))
+                      : e.createCommentVNode('', !0),
+                  ],
+                  512
+                ),
+                e.createElementVNode(
+                  'button',
+                  {
+                    type: 'button',
+                    class: 'vf-btn vf-btn-primary',
+                    disabled: e.unref(p) || !e.unref(V).length,
+                    onClick: e.withModifiers(X, ['prevent']),
+                  },
+                  e.toDisplayString(e.unref(o)('Upload')),
+                  9,
+                  ui
+                ),
+                e.unref(p)
+                  ? (e.openBlock(),
+                    e.createElementBlock(
+                      'button',
+                      {
+                        key: 0,
+                        type: 'button',
+                        class: 'vf-btn vf-btn-secondary',
+                        onClick:
+                          g[9] ||
+                          (g[9] = e.withModifiers(
+                            (...b) => e.unref(C) && e.unref(C)(...b),
+                            ['prevent']
+                          )),
+                      },
+                      e.toDisplayString(e.unref(o)('Cancel')),
+                      1
+                    ))
+                  : (e.openBlock(),
+                    e.createElementBlock(
+                      'button',
+                      {
+                        key: 1,
+                        type: 'button',
+                        class: 'vf-btn vf-btn-secondary',
+                        onClick:
+                          g[10] ||
+                          (g[10] = e.withModifiers(
+                            (...b) => e.unref(L) && e.unref(L)(...b),
+                            ['prevent']
+                          )),
+                      },
+                      e.toDisplayString(e.unref(o)('Close')),
+                      1
+                    )),
+                e.createElementVNode(
+                  'div',
+                  {
+                    class: 'hidden sm:block relative mr-auto',
+                    ref_key: 'actionsMenuDesktopRef',
+                    ref: Q,
+                  },
+                  [
+                    e.createElementVNode(
+                      'div',
+                      {
+                        class: e.normalizeClass([
+                          'vuefinder__upload-actions',
+                          P.value ? 'vuefinder__upload-actions--ring' : '',
+                        ]),
+                      },
+                      [
+                        e.createElementVNode(
+                          'button',
+                          {
+                            ref_key: 'pickFiles',
+                            ref: h,
+                            type: 'button',
+                            class: 'vuefinder__upload-actions__main',
+                          },
+                          e.toDisplayString(e.unref(o)('Select Files')),
+                          513
+                        ),
+                        e.createElementVNode(
+                          'button',
+                          {
+                            type: 'button',
+                            class: 'vuefinder__upload-actions__trigger',
+                            onClick:
+                              g[11] ||
+                              (g[11] = e.withModifiers((b) => (P.value = !P.value), ['stop'])),
+                            'aria-haspopup': 'menu',
+                            'aria-expanded': P.value ? 'true' : 'false',
+                          },
+                          [
+                            ...(g[19] ||
+                              (g[19] = [
+                                e.createElementVNode(
+                                  'svg',
+                                  {
+                                    xmlns: 'http://www.w3.org/2000/svg',
+                                    class: 'h-4 w-4',
+                                    viewBox: '0 0 20 20',
+                                    fill: 'currentColor',
+                                  },
+                                  [
+                                    e.createElementVNode('path', {
+                                      'fill-rule': 'evenodd',
+                                      d: 'M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z',
+                                      'clip-rule': 'evenodd',
+                                    }),
+                                  ],
+                                  -1
+                                ),
+                              ])),
+                          ],
+                          8,
+                          mi
+                        ),
+                      ],
+                      2
+                    ),
+                    P.value
+                      ? (e.openBlock(),
+                        e.createElementBlock('div', fi, [
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: 'vuefinder__upload-actions__item',
+                              onClick:
+                                g[12] ||
+                                (g[12] = (b) => {
+                                  (e.unref(k)(), (P.value = !1));
+                                }),
+                            },
+                            e.toDisplayString(e.unref(o)('Select Files')),
+                            1
+                          ),
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: 'vuefinder__upload-actions__item',
+                              onClick:
+                                g[13] ||
+                                (g[13] = (b) => {
+                                  (e.unref(v)?.click(), (P.value = !1));
+                                }),
+                            },
+                            e.toDisplayString(e.unref(o)('Select Folders')),
+                            1
+                          ),
+                          g[20] ||
+                            (g[20] = e.createElementVNode(
+                              'div',
+                              { class: 'vuefinder__upload-actions__separator' },
+                              null,
+                              -1
+                            )),
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: e.normalizeClass([
+                                'vuefinder__upload-actions__item',
+                                e.unref(p) ? 'disabled' : '',
+                              ]),
+                              onClick:
+                                g[14] ||
+                                (g[14] = (b) =>
+                                  e.unref(p) ? null : (e.unref(B)(!1), (P.value = !1))),
+                            },
+                            e.toDisplayString(e.unref(o)('Clear all')),
+                            3
+                          ),
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: e.normalizeClass([
+                                'vuefinder__upload-actions__item',
+                                e.unref(p) ? 'disabled' : '',
+                              ]),
+                              onClick:
+                                g[15] ||
+                                (g[15] = (b) =>
+                                  e.unref(p) ? null : (e.unref(B)(!0), (P.value = !1))),
+                            },
+                            e.toDisplayString(e.unref(o)('Clear only successful')),
+                            3
+                          ),
+                        ]))
+                      : e.createCommentVNode('', !0),
+                  ],
+                  512
+                ),
+              ]),
+              default: e.withCtx(() => [
+                e.createElementVNode('div', null, [
+                  e.createVNode(
+                    de,
+                    { icon: e.unref(En), title: e.unref(o)('Upload Files') },
+                    null,
+                    8,
+                    ['icon', 'title']
+                  ),
+                  e.createElementVNode('div', Ws, [
+                    e.createElementVNode('div', Gs, [
+                      e.createElementVNode(
+                        'div',
+                        qs,
+                        e.toDisplayString(e.unref(o)('Hedef Klasör')),
+                        1
+                      ),
+                      e.createElementVNode('div', Ys, [
+                        e.createElementVNode(
+                          'div',
+                          {
+                            class: 'vuefinder__upload-modal__target-display',
+                            onClick: g[0] || (g[0] = (b) => (a.value = !a.value)),
+                          },
+                          [
+                            e.createElementVNode('div', Qs, [
+                              e.createElementVNode(
+                                'span',
+                                Xs,
+                                e.toDisplayString(u().storage) + '://',
+                                1
+                              ),
+                              u().path
+                                ? (e.openBlock(),
+                                  e.createElementBlock('span', Js, e.toDisplayString(u().path), 1))
+                                : e.createCommentVNode('', !0),
+                            ]),
+                            e.createElementVNode(
+                              'span',
+                              Zs,
+                              e.toDisplayString(e.unref(o)('Browse')),
+                              1
+                            ),
+                          ]
+                        ),
+                      ]),
+                      e.createElementVNode(
+                        'div',
+                        {
+                          class: e.normalizeClass([
+                            'vuefinder__upload-modal__tree-selector',
+                            a.value
+                              ? 'vuefinder__upload-modal__tree-selector--expanded'
+                              : 'vuefinder__upload-modal__tree-selector--collapsed',
+                          ]),
+                        },
+                        [
+                          e.createVNode(
+                            yt,
+                            {
+                              modelValue: s.value,
+                              'onUpdate:modelValue': [g[1] || (g[1] = (b) => (s.value = b)), c],
+                              'show-pinned-folders': !0,
+                              onSelectAndClose: m,
+                            },
+                            null,
+                            8,
+                            ['modelValue']
+                          ),
+                        ],
+                        2
+                      ),
+                    ]),
+                    e.createElementVNode(
+                      'div',
+                      ei,
+                      e.toDisplayString(
+                        e.unref(o)('You can drag & drop files anywhere while this modal is open.')
+                      ),
+                      1
+                    ),
+                    e.createElementVNode(
+                      'div',
+                      { ref_key: 'container', ref: d, class: 'hidden' },
+                      null,
+                      512
+                    ),
+                    e.createElementVNode('div', ti, [
+                      (e.openBlock(!0),
+                      e.createElementBlock(
+                        e.Fragment,
+                        null,
+                        e.renderList(
+                          e.unref(V),
+                          (b) => (
+                            e.openBlock(),
+                            e.createElementBlock(
+                              'div',
+                              { class: 'vuefinder__upload-modal__file-entry', key: b.id },
+                              [
+                                e.createElementVNode(
+                                  'span',
+                                  {
+                                    class: e.normalizeClass([
+                                      'vuefinder__upload-modal__file-icon',
+                                      e.unref(S)(b),
+                                    ]),
+                                  },
+                                  [
+                                    e.createElementVNode(
+                                      'span',
+                                      {
+                                        class: 'vuefinder__upload-modal__file-icon-text',
+                                        textContent: e.toDisplayString(e.unref(O)(b)),
+                                      },
+                                      null,
+                                      8,
+                                      ni
+                                    ),
+                                  ],
+                                  2
+                                ),
+                                e.createElementVNode('div', oi, [
+                                  e.createElementVNode(
+                                    'div',
+                                    li,
+                                    e.toDisplayString(e.unref(vt)(b.name, 40)) +
+                                      ' (' +
+                                      e.toDisplayString(b.size) +
+                                      ') ',
+                                    1
+                                  ),
+                                  e.createElementVNode(
+                                    'div',
+                                    ri,
+                                    e.toDisplayString(e.unref(vt)(b.name, 16)) +
+                                      ' (' +
+                                      e.toDisplayString(b.size) +
+                                      ') ',
+                                    1
+                                  ),
+                                  e.createElementVNode(
+                                    'div',
+                                    {
+                                      class: e.normalizeClass([
+                                        'vuefinder__upload-modal__file-status',
+                                        e.unref(S)(b),
+                                      ]),
+                                    },
+                                    [
+                                      e.createTextVNode(e.toDisplayString(b.statusName) + ' ', 1),
+                                      b.status === e.unref(w).QUEUE_ENTRY_STATUS.UPLOADING
+                                        ? (e.openBlock(),
+                                          e.createElementBlock(
+                                            'b',
+                                            ai,
+                                            e.toDisplayString(b.percent),
+                                            1
+                                          ))
+                                        : e.createCommentVNode('', !0),
+                                    ],
+                                    2
+                                  ),
+                                ]),
+                                e.createElementVNode(
+                                  'button',
+                                  {
+                                    type: 'button',
+                                    class: e.normalizeClass([
+                                      'vuefinder__upload-modal__file-remove',
+                                      e.unref(p) ? 'disabled' : '',
+                                    ]),
+                                    title: e.unref(o)('Delete'),
+                                    disabled: e.unref(p),
+                                    onClick: (N) => e.unref(F)(b),
+                                  },
+                                  [
+                                    ...(g[16] ||
+                                      (g[16] = [
+                                        e.createElementVNode(
+                                          'svg',
+                                          {
+                                            xmlns: 'http://www.w3.org/2000/svg',
+                                            fill: 'none',
+                                            viewBox: '0 0 24 24',
+                                            'stroke-width': '1.5',
+                                            stroke: 'currentColor',
+                                            class: 'vuefinder__upload-modal__file-remove-icon',
+                                          },
+                                          [
+                                            e.createElementVNode('path', {
+                                              'stroke-linecap': 'round',
+                                              'stroke-linejoin': 'round',
+                                              d: 'M6 18L18 6M6 6l12 12',
+                                            }),
+                                          ],
+                                          -1
+                                        ),
+                                      ])),
+                                  ],
+                                  10,
+                                  si
+                                ),
+                              ]
+                            )
+                          )
+                        ),
+                        128
+                      )),
+                      e.unref(V).length
+                        ? e.createCommentVNode('', !0)
+                        : (e.openBlock(),
+                          e.createElementBlock(
+                            'div',
+                            ii,
+                            e.toDisplayString(e.unref(o)('No files selected!')),
+                            1
+                          )),
+                    ]),
+                    e.unref(_).length
+                      ? (e.openBlock(),
+                        e.createBlock(
+                          Hs,
+                          { key: 0, onHidden: g[2] || (g[2] = (b) => (_.value = '')), error: '' },
+                          {
+                            default: e.withCtx(() => [
+                              e.createTextVNode(e.toDisplayString(e.unref(_)), 1),
+                            ]),
+                            _: 1,
+                          }
+                        ))
+                      : e.createCommentVNode('', !0),
+                  ]),
+                ]),
+                e.createElementVNode(
+                  'input',
+                  {
+                    ref_key: 'internalFileInput',
+                    ref: i,
+                    type: 'file',
+                    multiple: '',
+                    class: 'hidden',
+                  },
+                  null,
+                  512
+                ),
+                e.createElementVNode(
+                  'input',
+                  {
+                    ref_key: 'internalFolderInput',
+                    ref: v,
+                    type: 'file',
+                    multiple: '',
+                    webkitdirectory: '',
+                    class: 'hidden',
+                  },
+                  null,
+                  512
+                ),
+              ]),
+              _: 1,
+            },
+            8,
+            ['showDragOverlay', 'dragOverlayText']
+          )
+        )
+      );
+    },
+  }),
+  pi = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    'stroke-width': '1.5',
+    class: 'h-6 w-6 md:h-8 md:w-8 m-auto',
+    viewBox: '0 0 24 24',
+  };
+function vi(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', pi, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'm20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const bn = { render: vi },
+  _i = { class: 'vuefinder__unarchive-modal__content' },
+  hi = { class: 'vuefinder__unarchive-modal__items' },
+  gi = {
+    key: 0,
+    class: 'vuefinder__unarchive-modal__icon vuefinder__unarchive-modal__icon--dir',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  wi = {
+    key: 1,
+    class: 'vuefinder__unarchive-modal__icon vuefinder__unarchive-modal__icon--file',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  yi = { class: 'vuefinder__unarchive-modal__item-name' },
+  ki = { class: 'vuefinder__unarchive-modal__info' },
+  $t = e.defineComponent({
+    __name: 'ModalUnarchive',
+    setup(n) {
+      const t = H(),
+        o = t.fs,
+        l = I.useStore(o.path),
+        { t: r } = t.i18n,
+        s = e.ref(t.modal.data.items[0]),
+        a = e.ref(''),
+        u = e.ref([]),
+        c = () => {
+          t.adapter
+            .unarchive({ item: s.value.path, path: l.value.path })
+            .then((m) => {
+              (t.emitter.emit('vf-toast-push', { label: r('The file unarchived.') }),
+                t.fs.setFiles(m.files),
+                t.modal.close());
+            })
+            .catch((m) => {
+              t.emitter.emit('vf-toast-push', { label: r(m.message), type: 'error' });
+            });
+        };
+      return (m, d) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              { type: 'button', onClick: c, class: 'vf-btn vf-btn-primary' },
+              e.toDisplayString(e.unref(r)('Unarchive')),
+              1
+            ),
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: d[1] || (d[1] = (i) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(r)('Cancel')),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', null, [
+              e.createVNode(de, { icon: e.unref(bn), title: e.unref(r)('Unarchive') }, null, 8, [
+                'icon',
+                'title',
+              ]),
+              e.createElementVNode('div', _i, [
+                e.createElementVNode('div', hi, [
+                  (e.openBlock(!0),
+                  e.createElementBlock(
+                    e.Fragment,
+                    null,
+                    e.renderList(
+                      u.value,
+                      (i) => (
+                        e.openBlock(),
+                        e.createElementBlock(
+                          'p',
+                          { class: 'vuefinder__unarchive-modal__item', key: i.path },
+                          [
+                            i.type === 'dir'
+                              ? (e.openBlock(),
+                                e.createElementBlock('svg', gi, [
+                                  ...(d[2] ||
+                                    (d[2] = [
+                                      e.createElementVNode(
+                                        'path',
+                                        {
+                                          'stroke-linecap': 'round',
+                                          'stroke-linejoin': 'round',
+                                          d: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
+                                        },
+                                        null,
+                                        -1
+                                      ),
+                                    ])),
+                                ]))
+                              : (e.openBlock(),
+                                e.createElementBlock('svg', wi, [
+                                  ...(d[3] ||
+                                    (d[3] = [
+                                      e.createElementVNode(
+                                        'path',
+                                        {
+                                          'stroke-linecap': 'round',
+                                          'stroke-linejoin': 'round',
+                                          d: 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+                                        },
+                                        null,
+                                        -1
+                                      ),
+                                    ])),
+                                ])),
+                            e.createElementVNode('span', yi, e.toDisplayString(i.basename), 1),
+                          ]
+                        )
+                      )
+                    ),
+                    128
+                  )),
+                  e.createElementVNode(
+                    'p',
+                    ki,
+                    e.toDisplayString(e.unref(r)('The archive will be unarchived at')) +
+                      ' (' +
+                      e.toDisplayString(e.unref(l).path) +
+                      ')',
+                    1
+                  ),
+                  a.value.length
+                    ? (e.openBlock(),
+                      e.createBlock(
+                        e.unref(a),
+                        { key: 0, onHidden: d[0] || (d[0] = (i) => (a.value = '')), error: '' },
+                        {
+                          default: e.withCtx(() => [
+                            e.createTextVNode(e.toDisplayString(a.value), 1),
+                          ]),
+                          _: 1,
+                        }
+                      ))
+                    : e.createCommentVNode('', !0),
+                ]),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  Ei = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    'stroke-width': '1.5',
+    viewBox: '0 0 24 24',
+  };
+function bi(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Ei, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'm20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Vn = { render: bi },
+  Vi = { class: 'vuefinder__archive-modal__content' },
+  Ni = { class: 'vuefinder__archive-modal__form' },
+  xi = { class: 'vuefinder__archive-modal__files vf-scrollbar' },
+  Ci = {
+    key: 0,
+    class: 'vuefinder__archive-modal__icon vuefinder__archive-modal__icon--dir',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  Bi = {
+    key: 1,
+    class: 'vuefinder__archive-modal__icon',
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    viewBox: '0 0 24 24',
+    stroke: 'currentColor',
+    'stroke-width': '1',
+  },
+  Si = { class: 'vuefinder__archive-modal__file-name' },
+  $i = ['placeholder'],
+  Dt = e.defineComponent({
+    __name: 'ModalArchive',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = I.useStore(l.path),
+        s = e.ref(''),
+        a = e.ref(''),
+        u = e.ref(t.modal.data.items),
+        c = () => {
+          u.value.length &&
+            t.adapter
+              .archive({
+                path: r.value.path,
+                items: u.value.map(({ path: m, type: d }) => ({ path: m, type: d })),
+                name: s.value,
+              })
+              .then((m) => {
+                (t.emitter.emit('vf-toast-push', { label: o('The file(s) archived.') }),
+                  t.fs.setFiles(m.files),
+                  t.modal.close());
+              })
+              .catch((m) => {
+                t.emitter.emit('vf-toast-push', { label: o(m.message), type: 'error' });
+              });
+        };
+      return (m, d) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              { type: 'button', onClick: c, class: 'vf-btn vf-btn-primary' },
+              e.toDisplayString(e.unref(o)('Archive')),
+              1
+            ),
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: d[2] || (d[2] = (i) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(o)('Cancel')),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', null, [
+              e.createVNode(
+                de,
+                { icon: e.unref(Vn), title: e.unref(o)('Archive the files') },
+                null,
+                8,
+                ['icon', 'title']
+              ),
+              e.createElementVNode('div', Vi, [
+                e.createElementVNode('div', Ni, [
+                  e.createElementVNode('div', xi, [
+                    (e.openBlock(!0),
+                    e.createElementBlock(
+                      e.Fragment,
+                      null,
+                      e.renderList(
+                        u.value,
+                        (i) => (
+                          e.openBlock(),
+                          e.createElementBlock(
+                            'p',
+                            { class: 'vuefinder__archive-modal__file', key: i.path },
+                            [
+                              i.type === 'dir'
+                                ? (e.openBlock(),
+                                  e.createElementBlock('svg', Ci, [
+                                    ...(d[3] ||
+                                      (d[3] = [
+                                        e.createElementVNode(
+                                          'path',
+                                          {
+                                            'stroke-linecap': 'round',
+                                            'stroke-linejoin': 'round',
+                                            d: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z',
+                                          },
+                                          null,
+                                          -1
+                                        ),
+                                      ])),
+                                  ]))
+                                : (e.openBlock(),
+                                  e.createElementBlock('svg', Bi, [
+                                    ...(d[4] ||
+                                      (d[4] = [
+                                        e.createElementVNode(
+                                          'path',
+                                          {
+                                            'stroke-linecap': 'round',
+                                            'stroke-linejoin': 'round',
+                                            d: 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+                                          },
+                                          null,
+                                          -1
+                                        ),
+                                      ])),
+                                  ])),
+                              e.createElementVNode('span', Si, e.toDisplayString(i.basename), 1),
+                            ]
+                          )
+                        )
+                      ),
+                      128
+                    )),
+                  ]),
+                  e.withDirectives(
+                    e.createElementVNode(
+                      'input',
+                      {
+                        'onUpdate:modelValue': d[0] || (d[0] = (i) => (s.value = i)),
+                        onKeyup: e.withKeys(c, ['enter']),
+                        class: 'vuefinder__archive-modal__input',
+                        placeholder: e.unref(o)('Archive name. (.zip file will be created)'),
+                        type: 'text',
+                      },
+                      null,
+                      40,
+                      $i
+                    ),
+                    [[e.vModelText, s.value]]
+                  ),
+                  a.value.length
+                    ? (e.openBlock(),
+                      e.createBlock(
+                        e.unref(a),
+                        { key: 0, onHidden: d[1] || (d[1] = (i) => (a.value = '')), error: '' },
+                        {
+                          default: e.withCtx(() => [
+                            e.createTextVNode(e.toDisplayString(a.value), 1),
+                          ]),
+                          _: 1,
+                        }
+                      ))
+                    : e.createCommentVNode('', !0),
+                ]),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  Di = {
+    props: { on: { type: String, required: !0 } },
+    setup(n, { emit: t, slots: o }) {
+      const l = H(),
+        r = e.ref(!1),
+        { t: s } = l.i18n;
+      let a = null;
+      const u = () => {
+        (a && clearTimeout(a),
+          (r.value = !0),
+          (a = setTimeout(() => {
+            r.value = !1;
+          }, 2e3)));
+      };
+      return (
+        e.onMounted(() => {
+          l.emitter.on(n.on, u);
+        }),
+        e.onUnmounted(() => {
+          a && clearTimeout(a);
+        }),
+        { shown: r, t: s }
+      );
+    },
+  },
+  Fi = (n, t) => {
+    const o = n.__vccOpts || n;
+    for (const [l, r] of t) o[l] = r;
+    return o;
+  },
+  Mi = { key: 1 };
+function Ti(n, t, o, l, r, s) {
+  return (
+    e.openBlock(),
+    e.createElementBlock(
+      'div',
+      {
+        class: e.normalizeClass([
+          'vuefinder__action-message',
+          { 'vuefinder__action-message--hidden': !l.shown },
+        ]),
+      },
+      [
+        n.$slots.default
+          ? e.renderSlot(n.$slots, 'default', { key: 0 })
+          : (e.openBlock(), e.createElementBlock('span', Mi, e.toDisplayString(l.t('Saved.')), 1)),
+      ],
+      2
+    )
+  );
+}
+const De = Fi(Di, [['render', Ti]]),
+  Ai = [
+    { name: 'default', displayName: 'Default' },
+    { name: 'light', displayName: 'Light' },
+    { name: 'dark', displayName: 'Dark' },
+    { name: 'midnight', displayName: 'Midnight' },
+    { name: 'latte', displayName: 'Latte' },
+    { name: 'rose', displayName: 'Rose' },
+    { name: 'mythril', displayName: 'Mythril' },
+    { name: 'lime', displayName: 'lime' },
+    { name: 'sky', displayName: 'Sky' },
+    { name: 'ocean', displayName: 'Oceanic' },
+    { name: 'palenight', displayName: 'Palenight' },
+    { name: 'arctic', displayName: 'Arctic' },
+    { name: 'code', displayName: 'Code' },
+  ],
+  Ii = { class: 'vuefinder__about-modal__content' },
+  Li = { class: 'vuefinder__about-modal__main' },
+  Oi = { class: 'vuefinder__about-modal__description' },
+  Ri = { class: 'vuefinder__about-modal__settings' },
+  Pi = { class: 'vuefinder__about-modal__settings__fieldset' },
+  zi = { class: 'vuefinder__about-modal__settings__section-title' },
+  Hi = { class: 'vuefinder__about-modal__setting' },
+  Ui = { class: 'vuefinder__about-modal__setting-label' },
+  Ki = { for: 'metric_unit', class: 'vuefinder__about-modal__label' },
+  ji = { class: 'vuefinder__about-modal__setting-input justify-end' },
+  Wi = ['checked'],
+  Gi = { class: 'vuefinder__about-modal__setting' },
+  qi = { class: 'vuefinder__about-modal__setting-label' },
+  Yi = { for: 'large_icons', class: 'vuefinder__about-modal__label' },
+  Qi = { class: 'vuefinder__about-modal__setting-input justify-end' },
+  Xi = ['checked'],
+  Ji = { class: 'vuefinder__about-modal__setting' },
+  Zi = { class: 'vuefinder__about-modal__setting-label' },
+  ec = { for: 'persist_path', class: 'vuefinder__about-modal__label' },
+  tc = { class: 'vuefinder__about-modal__setting-input justify-end' },
+  nc = ['checked'],
+  oc = { class: 'vuefinder__about-modal__settings__section-title' },
+  lc = { class: 'vuefinder__about-modal__setting' },
+  rc = { class: 'vuefinder__about-modal__setting-input justify-end' },
+  ac = ['value'],
+  sc = ['label'],
+  ic = ['value'],
+  cc = { key: 0, class: 'vuefinder__about-modal__settings__section-title' },
+  dc = { key: 1, class: 'vuefinder__about-modal__setting' },
+  uc = { class: 'vuefinder__about-modal__setting-input justify-end' },
+  mc = ['label'],
+  fc = ['value'],
+  pc = { class: 'vuefinder__about-modal__tab-content' },
+  vc = { class: 'vuefinder__about-modal__settings__section-title' },
+  _c = { class: 'vuefinder__about-modal__description' },
+  hc = e.defineComponent({
+    __name: 'ModalSettings',
+    setup(n) {
+      const t = H(),
+        o = t.config,
+        { clearStore: l } = t.storage,
+        { t: r } = t.i18n,
+        s = I.useStore(o.state),
+        a = e.computed(() => s.value.theme || 'default'),
+        u = async () => {
+          (o.reset(), l(), location.reload());
+        },
+        c = (_) => {
+          (_ !== 'default' ? o.set('theme', _) : o.set('theme', 'default'),
+            t.emitter.emit('vf-theme-saved'));
+        },
+        m = () => {
+          (o.toggle('metricUnits'),
+            (t.filesize = o.get('metricUnits') ? qt : _t),
+            t.emitter.emit('vf-metric-units-saved'));
+        },
+        d = () => {
+          (o.toggle('compactListView'), t.emitter.emit('vf-compact-view-saved'));
+        },
+        i = () => {
+          (o.toggle('persist'), t.emitter.emit('vf-persist-path-saved'));
+        },
+        { i18n: v } = e.inject('VueFinderOptions'),
+        V = Object.fromEntries(
+          Object.entries({
+            ar: 'Arabic (العربيّة)',
+            en: 'English',
+            fr: 'French (Français)',
+            de: 'German (Deutsch)',
+            fa: 'Persian (فارسی)',
+            he: 'Hebrew (עִברִית)',
+            hi: 'Hindi (हिंदी)',
+            pl: 'Polish (Polski)',
+            ru: 'Russian (Pусский)',
+            sv: 'Swedish (Svenska)',
+            tr: 'Turkish (Türkçe)',
+            nl: 'Dutch (Nederlands)',
+            zhCN: 'Simplified Chinese (简体中文)',
+            zhTW: 'Traditional Chinese (繁體中文)',
+          }).filter(([_]) => Object.keys(v).includes(_))
+        );
+      return (_, p) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: p[2] || (p[2] = (f) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(r)('Close')),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', Ii, [
+              e.createVNode(de, { icon: e.unref(vn), title: e.unref(r)('Settings') }, null, 8, [
+                'icon',
+                'title',
+              ]),
+              e.createElementVNode('div', Li, [
+                e.createElementVNode(
+                  'div',
+                  Oi,
+                  e.toDisplayString(
+                    e.unref(r)('Customize your experience with the following settings')
+                  ),
+                  1
+                ),
+                e.createElementVNode('div', Ri, [
+                  e.createElementVNode('fieldset', Pi, [
+                    e.createElementVNode('div', zi, e.toDisplayString(e.unref(r)('General')), 1),
+                    e.createElementVNode('div', Hi, [
+                      e.createElementVNode('div', Ui, [
+                        e.createElementVNode(
+                          'label',
+                          Ki,
+                          e.toDisplayString(e.unref(r)('Use Metric Units')),
+                          1
+                        ),
+                      ]),
+                      e.createElementVNode('div', ji, [
+                        e.createElementVNode(
+                          'input',
+                          {
+                            id: 'metric_unit',
+                            name: 'metric_unit',
+                            type: 'checkbox',
+                            checked: e.unref(o).get('metricUnits'),
+                            onChange: m,
+                            class: 'vuefinder__about-modal__checkbox',
+                          },
+                          null,
+                          40,
+                          Wi
+                        ),
+                        e.createVNode(
+                          De,
+                          { class: 'ms-3', on: 'vf-metric-units-saved' },
+                          {
+                            default: e.withCtx(() => [
+                              e.createTextVNode(e.toDisplayString(e.unref(r)('Saved.')), 1),
+                            ]),
+                            _: 1,
+                          }
+                        ),
+                      ]),
+                    ]),
+                    e.createElementVNode('div', Gi, [
+                      e.createElementVNode('div', qi, [
+                        e.createElementVNode(
+                          'label',
+                          Yi,
+                          e.toDisplayString(e.unref(r)('Compact list view')),
+                          1
+                        ),
+                      ]),
+                      e.createElementVNode('div', Qi, [
+                        e.createElementVNode(
+                          'input',
+                          {
+                            id: 'large_icons',
+                            name: 'large_icons',
+                            type: 'checkbox',
+                            checked: e.unref(o).get('compactListView'),
+                            onChange: d,
+                            class: 'vuefinder__about-modal__checkbox',
+                          },
+                          null,
+                          40,
+                          Xi
+                        ),
+                        e.createVNode(
+                          De,
+                          { class: 'ms-3', on: 'vf-compact-view-saved' },
+                          {
+                            default: e.withCtx(() => [
+                              e.createTextVNode(e.toDisplayString(e.unref(r)('Saved.')), 1),
+                            ]),
+                            _: 1,
+                          }
+                        ),
+                      ]),
+                    ]),
+                    e.createElementVNode('div', Ji, [
+                      e.createElementVNode('div', Zi, [
+                        e.createElementVNode(
+                          'label',
+                          ec,
+                          e.toDisplayString(e.unref(r)('Persist path on reload')),
+                          1
+                        ),
+                      ]),
+                      e.createElementVNode('div', tc, [
+                        e.createElementVNode(
+                          'input',
+                          {
+                            id: 'persist_path',
+                            name: 'persist_path',
+                            type: 'checkbox',
+                            checked: e.unref(o).get('persist'),
+                            onChange: i,
+                            class: 'vuefinder__about-modal__checkbox',
+                          },
+                          null,
+                          40,
+                          nc
+                        ),
+                        e.createVNode(
+                          De,
+                          { class: 'ms-3', on: 'vf-persist-path-saved' },
+                          {
+                            default: e.withCtx(() => [
+                              e.createTextVNode(e.toDisplayString(e.unref(r)('Saved.')), 1),
+                            ]),
+                            _: 1,
+                          }
+                        ),
+                      ]),
+                    ]),
+                    e.createElementVNode('div', oc, e.toDisplayString(e.unref(r)('Theme')), 1),
+                    e.createElementVNode('div', lc, [
+                      e.createElementVNode('div', rc, [
+                        e.createElementVNode(
+                          'select',
+                          {
+                            id: 'theme',
+                            value: a.value,
+                            onChange: p[0] || (p[0] = (f) => c(f.target?.value)),
+                            class: 'vuefinder__about-modal__select',
+                          },
+                          [
+                            e.createElementVNode(
+                              'optgroup',
+                              { label: e.unref(r)('Theme') },
+                              [
+                                (e.openBlock(!0),
+                                e.createElementBlock(
+                                  e.Fragment,
+                                  null,
+                                  e.renderList(
+                                    e.unref(Ai),
+                                    (f) => (
+                                      e.openBlock(),
+                                      e.createElementBlock(
+                                        'option',
+                                        { key: f.name, value: f.name },
+                                        e.toDisplayString(f.displayName),
+                                        9,
+                                        ic
+                                      )
+                                    )
+                                  ),
+                                  128
+                                )),
+                              ],
+                              8,
+                              sc
+                            ),
+                          ],
+                          40,
+                          ac
+                        ),
+                        e.createVNode(
+                          De,
+                          { class: 'ms-3', on: 'vf-theme-saved' },
+                          {
+                            default: e.withCtx(() => [
+                              e.createTextVNode(e.toDisplayString(e.unref(r)('Saved.')), 1),
+                            ]),
+                            _: 1,
+                          }
+                        ),
+                      ]),
+                    ]),
+                    e.unref(t).features.includes(e.unref(K).LANGUAGE) &&
+                    Object.keys(e.unref(V)).length > 1
+                      ? (e.openBlock(),
+                        e.createElementBlock(
+                          'div',
+                          cc,
+                          e.toDisplayString(e.unref(r)('Language')),
+                          1
+                        ))
+                      : e.createCommentVNode('', !0),
+                    e.unref(t).features.includes(e.unref(K).LANGUAGE) &&
+                    Object.keys(e.unref(V)).length > 1
+                      ? (e.openBlock(),
+                        e.createElementBlock('div', dc, [
+                          e.createElementVNode('div', uc, [
+                            e.withDirectives(
+                              e.createElementVNode(
+                                'select',
+                                {
+                                  id: 'language',
+                                  'onUpdate:modelValue':
+                                    p[1] || (p[1] = (f) => (e.unref(t).i18n.locale = f)),
+                                  class: 'vuefinder__about-modal__select',
+                                },
+                                [
+                                  e.createElementVNode(
+                                    'optgroup',
+                                    { label: e.unref(r)('Language') },
+                                    [
+                                      (e.openBlock(!0),
+                                      e.createElementBlock(
+                                        e.Fragment,
+                                        null,
+                                        e.renderList(
+                                          e.unref(V),
+                                          (f, w) => (
+                                            e.openBlock(),
+                                            e.createElementBlock(
+                                              'option',
+                                              { key: w, value: w },
+                                              e.toDisplayString(f),
+                                              9,
+                                              fc
+                                            )
+                                          )
+                                        ),
+                                        128
+                                      )),
+                                    ],
+                                    8,
+                                    mc
+                                  ),
+                                ],
+                                512
+                              ),
+                              [[e.vModelSelect, e.unref(t).i18n.locale]]
+                            ),
+                            e.createVNode(
+                              De,
+                              { class: 'ms-3', on: 'vf-language-saved' },
+                              {
+                                default: e.withCtx(() => [
+                                  e.createTextVNode(e.toDisplayString(e.unref(r)('Saved.')), 1),
+                                ]),
+                                _: 1,
+                              }
+                            ),
+                          ]),
+                        ]))
+                      : e.createCommentVNode('', !0),
+                  ]),
+                ]),
+                e.createElementVNode('div', pc, [
+                  e.createElementVNode('div', vc, e.toDisplayString(e.unref(r)('Reset')), 1),
+                  e.createElementVNode(
+                    'div',
+                    _c,
+                    e.toDisplayString(e.unref(r)('Reset all settings to default')),
+                    1
+                  ),
+                  e.createElementVNode(
+                    'button',
+                    { onClick: u, type: 'button', class: 'vf-btn vf-btn-secondary' },
+                    e.toDisplayString(e.unref(r)('Reset Settings')),
+                    1
+                  ),
+                ]),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  gc = { class: 'vuefinder__about-modal__content' },
+  wc = { class: 'vuefinder__about-modal__main' },
+  yc = { class: 'vuefinder__about-modal__shortcuts' },
+  kc = { class: 'vuefinder__about-modal__shortcut' },
+  Ec = { class: 'vuefinder__about-modal__shortcut' },
+  bc = { class: 'vuefinder__about-modal__shortcut' },
+  Vc = { class: 'vuefinder__about-modal__shortcut' },
+  Nc = { class: 'vuefinder__about-modal__shortcut' },
+  xc = { class: 'vuefinder__about-modal__shortcut' },
+  Cc = { class: 'vuefinder__about-modal__shortcut' },
+  Bc = { class: 'vuefinder__about-modal__shortcut' },
+  Sc = { class: 'vuefinder__about-modal__shortcut' },
+  $c = { class: 'vuefinder__about-modal__shortcut' },
+  Dc = e.defineComponent({
+    __name: 'ModalShortcuts',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n;
+      return (l, r) => (
+        e.openBlock(),
+        e.createBlock(ie, null, {
+          buttons: e.withCtx(() => [
+            e.createElementVNode(
+              'button',
+              {
+                type: 'button',
+                onClick: r[0] || (r[0] = (s) => e.unref(t).modal.close()),
+                class: 'vf-btn vf-btn-secondary',
+              },
+              e.toDisplayString(e.unref(o)('Close')),
+              1
+            ),
+          ]),
+          default: e.withCtx(() => [
+            e.createElementVNode('div', gc, [
+              e.createVNode(de, { icon: e.unref(Yt), title: e.unref(o)('Shortcuts') }, null, 8, [
+                'icon',
+                'title',
+              ]),
+              e.createElementVNode('div', wc, [
+                e.createElementVNode('div', yc, [
+                  e.createElementVNode('div', kc, [
+                    e.createElementVNode('div', null, e.toDisplayString(e.unref(o)('Rename')), 1),
+                    r[1] || (r[1] = e.createElementVNode('kbd', null, 'F2', -1)),
+                  ]),
+                  e.createElementVNode('div', Ec, [
+                    e.createElementVNode('div', null, e.toDisplayString(e.unref(o)('Refresh')), 1),
+                    r[2] || (r[2] = e.createElementVNode('kbd', null, 'F5', -1)),
+                  ]),
+                  e.createElementVNode('div', bc, [
+                    e.createTextVNode(e.toDisplayString(e.unref(o)('Delete')) + ' ', 1),
+                    r[3] || (r[3] = e.createElementVNode('kbd', null, 'Del', -1)),
+                  ]),
+                  e.createElementVNode('div', Vc, [
+                    e.createTextVNode(e.toDisplayString(e.unref(o)('Escape')) + ' ', 1),
+                    r[4] ||
+                      (r[4] = e.createElementVNode(
+                        'div',
+                        null,
+                        [e.createElementVNode('kbd', null, 'Esc')],
+                        -1
+                      )),
+                  ]),
+                  e.createElementVNode('div', Nc, [
+                    e.createTextVNode(e.toDisplayString(e.unref(o)('Select All')) + ' ', 1),
+                    r[5] ||
+                      (r[5] = e.createElementVNode(
+                        'div',
+                        null,
+                        [
+                          e.createElementVNode('kbd', null, 'Ctrl'),
+                          e.createTextVNode(' + '),
+                          e.createElementVNode('kbd', null, 'A'),
+                        ],
+                        -1
+                      )),
+                  ]),
+                  e.createElementVNode('div', xc, [
+                    e.createTextVNode(e.toDisplayString(e.unref(o)('Search')) + ' ', 1),
+                    r[6] ||
+                      (r[6] = e.createElementVNode(
+                        'div',
+                        null,
+                        [
+                          e.createElementVNode('kbd', null, 'Ctrl'),
+                          e.createTextVNode(' + '),
+                          e.createElementVNode('kbd', null, 'F'),
+                        ],
+                        -1
+                      )),
+                  ]),
+                  e.createElementVNode('div', Cc, [
+                    e.createTextVNode(e.toDisplayString(e.unref(o)('Toggle Sidebar')) + ' ', 1),
+                    r[7] ||
+                      (r[7] = e.createElementVNode(
+                        'div',
+                        null,
+                        [
+                          e.createElementVNode('kbd', null, 'Ctrl'),
+                          e.createTextVNode(' + '),
+                          e.createElementVNode('kbd', null, 'E'),
+                        ],
+                        -1
+                      )),
+                  ]),
+                  e.createElementVNode('div', Bc, [
+                    e.createTextVNode(e.toDisplayString(e.unref(o)('Open Settings')) + ' ', 1),
+                    r[8] ||
+                      (r[8] = e.createElementVNode(
+                        'div',
+                        null,
+                        [
+                          e.createElementVNode('kbd', null, 'Ctrl'),
+                          e.createTextVNode(' + '),
+                          e.createElementVNode('kbd', null, ','),
+                        ],
+                        -1
+                      )),
+                  ]),
+                  e.createElementVNode('div', Sc, [
+                    e.createTextVNode(e.toDisplayString(e.unref(o)('Toggle Full Screen')) + ' ', 1),
+                    r[9] ||
+                      (r[9] = e.createElementVNode(
+                        'div',
+                        null,
+                        [
+                          e.createElementVNode('kbd', null, 'Ctrl'),
+                          e.createTextVNode(' + '),
+                          e.createElementVNode('kbd', null, 'Enter'),
+                        ],
+                        -1
+                      )),
+                  ]),
+                  e.createElementVNode('div', $c, [
+                    e.createTextVNode(e.toDisplayString(e.unref(o)('Preview')) + ' ', 1),
+                    r[10] ||
+                      (r[10] = e.createElementVNode(
+                        'div',
+                        null,
+                        [e.createElementVNode('kbd', null, 'Space')],
+                        -1
+                      )),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ]),
+          _: 1,
+        })
+      );
+    },
+  }),
+  Fc = { class: 'vuefinder__menubar__container' },
+  Mc = ['onClick', 'onMouseenter'],
+  Tc = { class: 'vuefinder__menubar__label' },
+  Ac = ['onMouseenter'],
+  Ic = ['onClick'],
+  Lc = { key: 0, class: 'vuefinder__menubar__dropdown__label' },
+  Oc = { key: 1, class: 'vuefinder__menubar__dropdown__checkmark' },
+  Rc = e.defineComponent({
+    __name: 'MenuBar',
+    setup(n) {
+      const t = H(),
+        { t: o } = t?.i18n || { t: (f) => f },
+        l = t?.fs,
+        r = t?.config,
+        s = I.useStore(r.state),
+        a = I.useStore(l.selectedItems),
+        u = I.useStore(l?.storages || []),
+        c = e.ref(null),
+        m = e.ref(!1),
+        d = e.computed(
+          () => window.opener !== null || window.name !== '' || window.history.length <= 1
+        ),
+        i = e.computed(() => [
+          {
+            id: 'file',
+            label: o('File'),
+            items: [
+              {
+                id: 'new-folder',
+                label: o('New Folder'),
+                action: () => t?.modal?.open(Bt, { items: a.value }),
+                enabled: () => t?.features?.includes(K.NEW_FOLDER) || !1,
+              },
+              {
+                id: 'new-file',
+                label: o('New File'),
+                action: () => t?.modal?.open(kn, { items: a.value }),
+                enabled: () => t?.features?.includes(K.NEW_FILE) || !1,
+              },
+              { type: 'separator' },
+              {
+                id: 'upload',
+                label: o('Upload'),
+                action: () => t?.modal?.open(St, { items: a.value }),
+                enabled: () => t?.features?.includes(K.UPLOAD) || !1,
+              },
+              { type: 'separator' },
+              {
+                id: 'search',
+                label: o('Search'),
+                action: () => t.modal.open(xt),
+                enabled: () => t?.features?.includes(K.SEARCH),
+              },
+              { type: 'separator' },
+              {
+                id: 'archive',
+                label: o('Archive'),
+                action: () => {
+                  a.value.length > 0 && t?.modal?.open(Dt, { items: a.value });
+                },
+                enabled: () => a.value.length > 0 && t?.features?.includes(K.ARCHIVE),
+              },
+              {
+                id: 'unarchive',
+                label: o('Unarchive'),
+                action: () => {
+                  a.value.length === 1 &&
+                    a.value[0]?.mime_type === 'application/zip' &&
+                    t?.modal?.open($t, { items: a.value });
+                },
+                enabled: () =>
+                  a.value.length === 1 &&
+                  a.value[0]?.mime_type === 'application/zip' &&
+                  t?.features?.includes(K.UNARCHIVE),
+              },
+              { type: 'separator' },
+              {
+                id: 'preview',
+                label: o('Preview'),
+                action: () => {
+                  a.value.length === 1 &&
+                    a.value[0]?.type !== 'dir' &&
+                    t?.modal?.open(Ze, { storage: l?.path?.get()?.storage, item: a.value[0] });
+                },
+                enabled: () => a.value.length === 1 && a.value[0]?.type !== 'dir',
+              },
+              ...(d.value
+                ? [
+                    { type: 'separator' },
+                    {
+                      id: 'exit',
+                      label: o('Exit'),
+                      action: () => {
+                        try {
+                          window.close();
+                        } catch {}
+                      },
+                      enabled: () => !0,
+                    },
+                  ]
+                : []),
+            ],
+          },
+          {
+            id: 'edit',
+            label: o('Edit'),
+            items: [
+              ...(t?.selectionMode === 'multiple'
+                ? [
+                    {
+                      id: 'select-all',
+                      label: o('Select All'),
+                      action: () => l?.selectAll(t?.selectionMode || 'multiple', t),
+                      enabled: () => !0,
+                    },
+                    {
+                      id: 'deselect',
+                      label: o('Deselect All'),
+                      action: () => l?.clearSelection(),
+                      enabled: () => a.value.length > 0,
+                    },
+                    { type: 'separator' },
+                  ]
+                : []),
+              {
+                id: 'cut',
+                label: o('Cut'),
+                action: () => {
+                  a.value.length > 0 && l?.setClipboard('cut', new Set(a.value.map((f) => f.path)));
+                },
+                enabled: () => a.value.length > 0,
+              },
+              {
+                id: 'copy',
+                label: o('Copy'),
+                action: () => {
+                  a.value.length > 0 &&
+                    l?.setClipboard('copy', new Set(a.value.map((f) => f.path)));
+                },
+                enabled: () => a.value.length > 0,
+              },
+              {
+                id: 'paste',
+                label: o('Paste'),
+                action: () => {
+                  const f = l?.getClipboard();
+                  f?.items?.size > 0 &&
+                    t?.modal?.open(f.type === 'cut' ? Ce : kt, {
+                      items: { from: Array.from(f.items), to: l?.path?.get() },
+                    });
+                },
+                enabled: () => l?.getClipboard()?.items?.size > 0,
+              },
+              {
+                id: 'move',
+                label: o('Move'),
+                action: () => {
+                  if (a.value.length > 0) {
+                    const f = t?.fs,
+                      w = {
+                        storage: f?.path?.get()?.storage || '',
+                        path: f?.path?.get()?.path || '',
+                        type: 'dir',
+                      };
+                    t?.modal?.open(Ce, { items: { from: a.value, to: w } });
+                  }
+                },
+                enabled: () => a.value.length > 0 && t?.features?.includes(K.MOVE),
+              },
+              { type: 'separator' },
+              {
+                id: 'copy-path',
+                label: o('Copy Path'),
+                action: async () => {
+                  if (a.value.length === 1) {
+                    const f = a.value[0];
+                    await Ae(f.path);
+                  } else {
+                    const f = l?.path?.get();
+                    f?.path && (await Ae(f.path));
+                  }
+                },
+                enabled: () => !0,
+              },
+              {
+                id: 'copy-download-url',
+                label: o('Copy Download URL'),
+                action: async () => {
+                  if (a.value.length === 1) {
+                    const f = a.value[0];
+                    l?.path?.get()?.storage;
+                    const w = t?.adapter?.getDownloadUrl({ path: f.path });
+                    w && (await Qa(w));
+                  }
+                },
+                enabled: () => a.value.length === 1 && a.value[0]?.type !== 'dir',
+              },
+              { type: 'separator' },
+              {
+                id: 'rename',
+                label: o('Rename'),
+                action: () => {
+                  a.value.length === 1 && t?.modal?.open(Je, { items: a.value });
+                },
+                enabled: () => a.value.length === 1 && t?.features?.includes(K.RENAME),
+              },
+              {
+                id: 'delete',
+                label: o('Delete'),
+                action: () => {
+                  a.value.length > 0 && t?.modal?.open(Xe, { items: a.value });
+                },
+                enabled: () => a.value.length > 0 && t?.features?.includes(K.DELETE),
+              },
+            ],
+          },
+          {
+            id: 'view',
+            label: o('View'),
+            items: [
+              {
+                id: 'refresh',
+                label: o('Refresh'),
+                action: () => {
+                  t?.adapter.list(l?.path?.get()?.path);
+                },
+                enabled: () => !0,
+              },
+              { type: 'separator' },
+              {
+                id: 'grid-view',
+                label: o('Grid View'),
+                action: () => r?.set('view', 'grid'),
+                checked: () => s.value?.view === 'grid',
+              },
+              {
+                id: 'list-view',
+                label: o('List View'),
+                action: () => r?.set('view', 'list'),
+                checked: () => s.value?.view === 'list',
+              },
+              { type: 'separator' },
+              {
+                id: 'tree-view',
+                label: o('Tree View'),
+                action: () => r?.toggle('showTreeView'),
+                enabled: () => !0,
+                checked: () => s.value?.showTreeView,
+              },
+              {
+                id: 'thumbnails',
+                label: o('Show Thumbnails'),
+                action: () => r?.toggle('showThumbnails'),
+                enabled: () => !0,
+                checked: () => s.value?.showThumbnails,
+              },
+              {
+                id: 'show-hidden-files',
+                label: o('Show Hidden Files'),
+                action: () => r?.toggle('showHiddenFiles'),
+                enabled: () => !0,
+                checked: () => s.value?.showHiddenFiles,
+              },
+              { type: 'separator' },
+              {
+                id: 'fullscreen',
+                label: o('Full Screen'),
+                action: () => r?.toggle('fullScreen'),
+                enabled: () => t?.features?.includes(K.FULL_SCREEN),
+                checked: () => s.value?.fullScreen,
+              },
+            ],
+          },
+          {
+            id: 'go',
+            label: o('Go'),
+            items: [
+              {
+                id: 'forward',
+                label: o('Forward'),
+                action: () => {
+                  (l?.goForward(), t?.adapter.list(l?.currentPath?.get()));
+                },
+                enabled: () => l?.canGoForward?.get() ?? !1,
+              },
+              {
+                id: 'back',
+                label: o('Back'),
+                action: () => {
+                  (l?.goBack(), t?.adapter.list(l?.currentPath?.get()));
+                },
+                enabled: () => l?.canGoBack?.get() ?? !1,
+              },
+              {
+                id: 'open-containing-folder',
+                label: o('Open containing folder'),
+                action: () => {
+                  const f = l?.path?.get();
+                  if (f?.breadcrumb && f.breadcrumb.length > 0) {
+                    const k = f.breadcrumb[f.breadcrumb.length - 2]?.path ?? `${f.storage}://`;
+                    (l?.setPath(k), t?.adapter.list(k));
+                  }
+                },
+                enabled: () => {
+                  const f = l?.path?.get();
+                  return f?.breadcrumb && f.breadcrumb.length > 0;
+                },
+              },
+              { type: 'separator' },
+              ...(u.value || []).map((f) => ({
+                id: `storage-${f}`,
+                label: f,
+                action: () => {
+                  const w = `${f}://`;
+                  (l?.setPath(w), t?.adapter.list(w));
+                },
+                enabled: () => !0,
+              })),
+              { type: 'separator' },
+              {
+                id: 'go-to-folder',
+                label: o('Go to Folder'),
+                action: () => {
+                  const f = prompt(o('Enter folder path:'));
+                  f && (l?.setPath(f), t?.adapter.list(f));
+                },
+                enabled: () => !0,
+              },
+            ],
+          },
+          {
+            id: 'help',
+            label: o('Help'),
+            items: [
+              {
+                id: 'settings',
+                label: o('Settings'),
+                action: () => t?.modal?.open(hc),
+                enabled: () => !0,
+              },
+              {
+                id: 'shortcuts',
+                label: o('Shortcuts'),
+                action: () => t?.modal?.open(Dc),
+                enabled: () => !0,
+              },
+              {
+                id: 'about',
+                label: o('About'),
+                action: () => t?.modal?.open(Qt),
+                enabled: () => !0,
+              },
+            ],
+          },
+        ]),
+        v = (f) => {
+          c.value === f ? V() : ((c.value = f), (m.value = !0));
+        },
+        h = (f) => {
+          m.value && (c.value = f);
+        },
+        V = () => {
+          ((c.value = null), (m.value = !1));
+        },
+        _ = (f) => {
+          (V(), f());
+        },
+        p = (f) => {
+          f.target.closest('.vuefinder__menubar') || V();
+        };
+      return (
+        e.onMounted(() => {
+          document.addEventListener('click', p);
+        }),
+        e.onUnmounted(() => {
+          document.removeEventListener('click', p);
+        }),
+        (f, w) => (
+          e.openBlock(),
+          e.createElementBlock(
+            'div',
+            {
+              class: 'vuefinder__menubar',
+              onClick: w[0] || (w[0] = e.withModifiers(() => {}, ['stop'])),
+            },
+            [
+              e.createElementVNode('div', Fc, [
+                (e.openBlock(!0),
+                e.createElementBlock(
+                  e.Fragment,
+                  null,
+                  e.renderList(
+                    i.value,
+                    (k) => (
+                      e.openBlock(),
+                      e.createElementBlock(
+                        'div',
+                        {
+                          key: k.id,
+                          class: e.normalizeClass([
+                            'vuefinder__menubar__item',
+                            { 'vuefinder__menubar__item--active': c.value === k.id },
+                          ]),
+                          onClick: (y) => v(k.id),
+                          onMouseenter: (y) => h(k.id),
+                        },
+                        [
+                          e.createElementVNode('span', Tc, e.toDisplayString(k.label), 1),
+                          c.value === k.id
+                            ? (e.openBlock(),
+                              e.createElementBlock(
+                                'div',
+                                {
+                                  key: 0,
+                                  class: 'vuefinder__menubar__dropdown',
+                                  onMouseenter: (y) => h(k.id),
+                                },
+                                [
+                                  (e.openBlock(!0),
+                                  e.createElementBlock(
+                                    e.Fragment,
+                                    null,
+                                    e.renderList(
+                                      k.items,
+                                      (y) => (
+                                        e.openBlock(),
+                                        e.createElementBlock(
+                                          'div',
+                                          {
+                                            key: y.id || y.type,
+                                            class: e.normalizeClass([
+                                              'vuefinder__menubar__dropdown__item',
+                                              {
+                                                'vuefinder__menubar__dropdown__item--separator':
+                                                  y.type === 'separator',
+                                                'vuefinder__menubar__dropdown__item--disabled':
+                                                  y.enabled && !y.enabled(),
+                                                'vuefinder__menubar__dropdown__item--checked':
+                                                  y.checked && y.checked(),
+                                              },
+                                            ]),
+                                            onClick: e.withModifiers(
+                                              (C) =>
+                                                y.type !== 'separator' && y.enabled && y.enabled()
+                                                  ? _(y.action)
+                                                  : null,
+                                              ['stop']
+                                            ),
+                                          },
+                                          [
+                                            y.type !== 'separator'
+                                              ? (e.openBlock(),
+                                                e.createElementBlock(
+                                                  'span',
+                                                  Lc,
+                                                  e.toDisplayString(y.label),
+                                                  1
+                                                ))
+                                              : e.createCommentVNode('', !0),
+                                            y.checked && y.checked()
+                                              ? (e.openBlock(),
+                                                e.createElementBlock('span', Oc, ' ✓ '))
+                                              : e.createCommentVNode('', !0),
+                                          ],
+                                          10,
+                                          Ic
+                                        )
+                                      )
+                                    ),
+                                    128
+                                  )),
+                                ],
+                                40,
+                                Ac
+                              ))
+                            : e.createCommentVNode('', !0),
+                        ],
+                        42,
+                        Mc
+                      )
+                    )
+                  ),
+                  128
+                )),
+              ]),
+            ]
+          )
+        )
+      );
+    },
+  }),
+  Pc = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    'stroke-width': '1.5',
+    viewBox: '0 0 24 24',
+  };
+function zc(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Pc, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Hc = { render: zc },
+  Uc = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    'stroke-width': '1.5',
+    class: 'h-6 w-6 md:h-8 md:w-8 m-auto vf-toolbar-icon',
+    viewBox: '0 0 24 24',
+  };
+function Kc(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Uc, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const jc = { render: Kc },
+  Wc = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    'stroke-width': '1.5',
+    class: 'h-6 w-6 md:h-8 md:w-8 m-auto',
+    viewBox: '0 0 24 24',
+  };
+function Gc(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Wc, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25zm0 9.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18zM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25zm0 9.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18z',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const qc = { render: Gc },
+  Yc = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    'stroke-width': '1.5',
+    class: 'h-6 w-6 md:h-8 md:w-8 m-auto',
+    viewBox: '0 0 24 24',
+  };
+function Qc(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Yc, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Xc = { render: Qc },
+  Jc = { fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24' };
+function Zc(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Jc, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              'stroke-width': '1.5',
+              d: 'M3 4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2.586a1 1 0 0 1-.293.707l-6.414 6.414a1 1 0 0 0-.293.707V17l-4 4v-6.586a1 1 0 0 0-.293-.707L3.293 7.293A1 1 0 0 1 3 6.586z',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const ed = { render: Zc },
+  td = { class: 'vuefinder__toolbar' },
+  nd = { class: 'vuefinder__toolbar__actions' },
+  od = ['title'],
+  ld = ['title'],
+  rd = ['title'],
+  ad = ['title'],
+  sd = ['title'],
+  id = ['title'],
+  cd = ['title'],
+  dd = { class: 'vuefinder__toolbar__controls' },
+  ud = ['title'],
+  md = { class: 'vuefinder__toolbar__control vuefinder__toolbar__dropdown-container' },
+  fd = ['title'],
+  pd = { class: 'relative' },
+  vd = { key: 0, class: 'vuefinder__toolbar__filter-indicator' },
+  _d = { key: 0, class: 'vuefinder__toolbar__dropdown' },
+  hd = { class: 'vuefinder__toolbar__dropdown-content' },
+  gd = { class: 'vuefinder__toolbar__dropdown-section' },
+  wd = { class: 'vuefinder__toolbar__dropdown-label' },
+  yd = { class: 'vuefinder__toolbar__dropdown-row' },
+  kd = { value: 'name' },
+  Ed = { value: 'size' },
+  bd = { value: 'modified' },
+  Vd = { value: '' },
+  Nd = { value: 'asc' },
+  xd = { value: 'desc' },
+  Cd = { class: 'vuefinder__toolbar__dropdown-section' },
+  Bd = { class: 'vuefinder__toolbar__dropdown-label' },
+  Sd = { class: 'vuefinder__toolbar__dropdown-options' },
+  $d = { class: 'vuefinder__toolbar__dropdown-option' },
+  Dd = { class: 'vuefinder__toolbar__option-text' },
+  Fd = { class: 'vuefinder__toolbar__dropdown-option' },
+  Md = { class: 'vuefinder__toolbar__option-text' },
+  Td = { class: 'vuefinder__toolbar__dropdown-option' },
+  Ad = { class: 'vuefinder__toolbar__option-text' },
+  Id = { class: 'vuefinder__toolbar__dropdown-toggle' },
+  Ld = { for: 'showHidden', class: 'vuefinder__toolbar__toggle-label' },
+  Od = { class: 'vuefinder__toolbar__dropdown-reset' },
+  Rd = ['title'],
+  Pd = ['title'],
+  zd = e.defineComponent({
+    name: 'VfToolbar',
+    __name: 'Toolbar',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = t.config,
+        s = I.useStore(r.state),
+        a = I.useStore(l.selectedItems),
+        u = I.useStore(l.sort),
+        c = I.useStore(l.filter);
+      e.watch(
+        () => s.value.fullScreen,
+        () => {
+          if (s.value.fullScreen) {
+            const _ = document.querySelector('body');
+            _ && (_.style.overflow = 'hidden');
+          } else {
+            const _ = document.querySelector('body');
+            _ && (_.style.overflow = '');
+          }
+          t.emitter.emit('vf-fullscreen-toggle');
+        }
+      );
+      const m = e.ref(!1),
+        d = (_) => {
+          _.target.closest('.vuefinder__toolbar__dropdown-container') || (m.value = !1);
+        };
+      (e.onMounted(() => {
+        document.addEventListener('click', d);
+      }),
+        e.onUnmounted(() => {
+          document.removeEventListener('click', d);
+        }));
+      const i = e.ref({
+        sortBy: 'name',
+        sortOrder: '',
+        filterKind: 'all',
+        showHidden: s.value.showHiddenFiles,
+      });
+      (e.watch(
+        () => i.value.sortBy,
+        (_) => {
+          if (!i.value.sortOrder) {
+            l.clearSort();
+            return;
+          }
+          _ === 'name'
+            ? l.setSort('basename', i.value.sortOrder)
+            : _ === 'size'
+              ? l.setSort('file_size', i.value.sortOrder)
+              : _ === 'modified' && l.setSort('last_modified', i.value.sortOrder);
+        }
+      ),
+        e.watch(
+          () => i.value.sortOrder,
+          (_) => {
+            if (!_) {
+              l.clearSort();
+              return;
+            }
+            i.value.sortBy === 'name'
+              ? l.setSort('basename', _)
+              : i.value.sortBy === 'size'
+                ? l.setSort('file_size', _)
+                : i.value.sortBy === 'modified' && l.setSort('last_modified', _);
+          }
+        ),
+        e.watch(
+          u,
+          (_) => {
+            _.active
+              ? (_.column === 'basename'
+                  ? (i.value.sortBy = 'name')
+                  : _.column === 'file_size'
+                    ? (i.value.sortBy = 'size')
+                    : _.column === 'last_modified' && (i.value.sortBy = 'modified'),
+                (i.value.sortOrder = _.order))
+              : (i.value.sortOrder = '');
+          },
+          { immediate: !0 }
+        ),
+        e.watch(
+          () => i.value.filterKind,
+          (_) => {
+            l.setFilter(_, s.value.showHiddenFiles);
+          }
+        ),
+        e.watch(
+          () => i.value.showHidden,
+          (_) => {
+            (r.set('showHiddenFiles', _), l.setFilter(i.value.filterKind, _));
+          }
+        ),
+        e.watch(
+          c,
+          (_) => {
+            i.value.filterKind = _.kind;
+          },
+          { immediate: !0 }
+        ),
+        e.watch(
+          () => s.value.showHiddenFiles,
+          (_) => {
+            ((i.value.showHidden = _), l.setFilter(i.value.filterKind, _));
+          },
+          { immediate: !0 }
+        ));
+      const v = () => r.set('view', s.value.view === 'grid' ? 'list' : 'grid'),
+        h = e.computed(() => c.value.kind !== 'all' || !s.value.showHiddenFiles || u.value.active),
+        V = () => {
+          ((i.value = { sortBy: 'name', sortOrder: '', filterKind: 'all', showHidden: !0 }),
+            r.set('showHiddenFiles', !0),
+            l.clearSort(),
+            l.clearFilter());
+        };
+      return (_, p) => (
+        e.openBlock(),
+        e.createElementBlock('div', td, [
+          e.createElementVNode('div', nd, [
+            e.unref(t).features.includes(e.unref(K).NEW_FOLDER)
+              ? (e.openBlock(),
+                e.createElementBlock(
+                  'div',
+                  {
+                    key: 0,
+                    class: 'mx-1.5',
+                    title: e.unref(o)('New Folder'),
+                    onClick:
+                      p[0] || (p[0] = (f) => e.unref(t).modal.open(Bt, { items: e.unref(a) })),
+                  },
+                  [e.createVNode(e.unref(wn))],
+                  8,
+                  od
+                ))
+              : e.createCommentVNode('', !0),
+            e.unref(t).features.includes(e.unref(K).NEW_FILE)
+              ? (e.openBlock(),
+                e.createElementBlock(
+                  'div',
+                  {
+                    key: 1,
+                    class: 'mx-1.5',
+                    title: e.unref(o)('New File'),
+                    onClick:
+                      p[1] || (p[1] = (f) => e.unref(t).modal.open(kn, { items: e.unref(a) })),
+                  },
+                  [e.createVNode(e.unref(yn))],
+                  8,
+                  ld
+                ))
+              : e.createCommentVNode('', !0),
+            e.unref(t).features.includes(e.unref(K).RENAME)
+              ? (e.openBlock(),
+                e.createElementBlock(
+                  'div',
+                  {
+                    key: 2,
+                    class: 'mx-1.5',
+                    title: e.unref(o)('Rename'),
+                    onClick:
+                      p[2] ||
+                      (p[2] = (f) =>
+                        e.unref(a).length !== 1 ||
+                        e.unref(t).modal.open(Je, { items: e.unref(a) })),
+                  },
+                  [
+                    e.createVNode(
+                      e.unref(Jt),
+                      {
+                        class: e.normalizeClass(
+                          e.unref(a).length === 1 ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'
+                        ),
+                      },
+                      null,
+                      8,
+                      ['class']
+                    ),
+                  ],
+                  8,
+                  rd
+                ))
+              : e.createCommentVNode('', !0),
+            e.unref(t).features.includes(e.unref(K).DELETE)
+              ? (e.openBlock(),
+                e.createElementBlock(
+                  'div',
+                  {
+                    key: 3,
+                    class: 'mx-1.5',
+                    title: e.unref(o)('Delete'),
+                    onClick:
+                      p[3] ||
+                      (p[3] = (f) =>
+                        !e.unref(a).length || e.unref(t).modal.open(Xe, { items: e.unref(a) })),
+                  },
+                  [
+                    e.createVNode(
+                      e.unref(Xt),
+                      {
+                        class: e.normalizeClass(
+                          e.unref(a).length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'
+                        ),
+                      },
+                      null,
+                      8,
+                      ['class']
+                    ),
+                  ],
+                  8,
+                  ad
+                ))
+              : e.createCommentVNode('', !0),
+            e.unref(t).features.includes(e.unref(K).UPLOAD)
+              ? (e.openBlock(),
+                e.createElementBlock(
+                  'div',
+                  {
+                    key: 4,
+                    class: 'mx-1.5',
+                    title: e.unref(o)('Upload'),
+                    onClick:
+                      p[4] || (p[4] = (f) => e.unref(t).modal.open(St, { items: e.unref(a) })),
+                  },
+                  [e.createVNode(e.unref(En))],
+                  8,
+                  sd
+                ))
+              : e.createCommentVNode('', !0),
+            e.unref(t).features.includes(e.unref(K).UNARCHIVE) &&
+            e.unref(a).length === 1 &&
+            e.unref(a)[0].mime_type === 'application/zip'
+              ? (e.openBlock(),
+                e.createElementBlock(
+                  'div',
+                  {
+                    key: 5,
+                    class: 'mx-1.5',
+                    title: e.unref(o)('Unarchive'),
+                    onClick:
+                      p[5] ||
+                      (p[5] = (f) =>
+                        !e.unref(a).length || e.unref(t).modal.open($t, { items: e.unref(a) })),
+                  },
+                  [
+                    e.createVNode(
+                      e.unref(bn),
+                      {
+                        class: e.normalizeClass(
+                          e.unref(a).length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'
+                        ),
+                      },
+                      null,
+                      8,
+                      ['class']
+                    ),
+                  ],
+                  8,
+                  id
+                ))
+              : e.createCommentVNode('', !0),
+            e.unref(t).features.includes(e.unref(K).ARCHIVE)
+              ? (e.openBlock(),
+                e.createElementBlock(
+                  'div',
+                  {
+                    key: 6,
+                    class: 'mx-1.5',
+                    title: e.unref(o)('Archive'),
+                    onClick:
+                      p[6] ||
+                      (p[6] = (f) =>
+                        !e.unref(a).length || e.unref(t).modal.open(Dt, { items: e.unref(a) })),
+                  },
+                  [
+                    e.createVNode(
+                      e.unref(Vn),
+                      {
+                        class: e.normalizeClass(
+                          e.unref(a).length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'
+                        ),
+                      },
+                      null,
+                      8,
+                      ['class']
+                    ),
+                  ],
+                  8,
+                  cd
+                ))
+              : e.createCommentVNode('', !0),
+          ]),
+          e.createElementVNode('div', dd, [
+            e.unref(t).features.includes(e.unref(K).SEARCH)
+              ? (e.openBlock(),
+                e.createElementBlock(
+                  'div',
+                  {
+                    key: 0,
+                    class: 'mx-1.5',
+                    title: e.unref(o)('Search Files'),
+                    onClick: p[7] || (p[7] = (f) => e.unref(t).modal.open(xt)),
+                  },
+                  [e.createVNode(e.unref(Et), { class: 'vf-toolbar-icon text-(--vf-bg-primary)' })],
+                  8,
+                  ud
+                ))
+              : e.createCommentVNode('', !0),
+            e.createElementVNode('div', md, [
+              e.createElementVNode(
+                'div',
+                {
+                  title: e.unref(o)('Filter'),
+                  onClick: p[8] || (p[8] = (f) => (m.value = !m.value)),
+                  class: 'vuefinder__toolbar__dropdown-trigger',
+                },
+                [
+                  e.createElementVNode('div', pd, [
+                    e.createVNode(e.unref(ed), {
+                      class: 'vf-toolbar-icon vuefinder__toolbar__icon w-6 h-6',
+                    }),
+                    h.value
+                      ? (e.openBlock(), e.createElementBlock('div', vd))
+                      : e.createCommentVNode('', !0),
+                  ]),
+                ],
+                8,
+                fd
+              ),
+              m.value
+                ? (e.openBlock(),
+                  e.createElementBlock('div', _d, [
+                    e.createElementVNode('div', hd, [
+                      e.createElementVNode('div', gd, [
+                        e.createElementVNode(
+                          'div',
+                          wd,
+                          e.toDisplayString(e.unref(o)('Sorting')),
+                          1
+                        ),
+                        e.createElementVNode('div', yd, [
+                          e.withDirectives(
+                            e.createElementVNode(
+                              'select',
+                              {
+                                'onUpdate:modelValue': p[9] || (p[9] = (f) => (i.value.sortBy = f)),
+                                class: 'vuefinder__toolbar__dropdown-select',
+                              },
+                              [
+                                e.createElementVNode(
+                                  'option',
+                                  kd,
+                                  e.toDisplayString(e.unref(o)('Name')),
+                                  1
+                                ),
+                                e.createElementVNode(
+                                  'option',
+                                  Ed,
+                                  e.toDisplayString(e.unref(o)('Size')),
+                                  1
+                                ),
+                                e.createElementVNode(
+                                  'option',
+                                  bd,
+                                  e.toDisplayString(e.unref(o)('Date')),
+                                  1
+                                ),
+                              ],
+                              512
+                            ),
+                            [[e.vModelSelect, i.value.sortBy]]
+                          ),
+                          e.withDirectives(
+                            e.createElementVNode(
+                              'select',
+                              {
+                                'onUpdate:modelValue':
+                                  p[10] || (p[10] = (f) => (i.value.sortOrder = f)),
+                                class: 'vuefinder__toolbar__dropdown-select',
+                              },
+                              [
+                                e.createElementVNode(
+                                  'option',
+                                  Vd,
+                                  e.toDisplayString(e.unref(o)('None')),
+                                  1
+                                ),
+                                e.createElementVNode(
+                                  'option',
+                                  Nd,
+                                  e.toDisplayString(e.unref(o)('Asc')),
+                                  1
+                                ),
+                                e.createElementVNode(
+                                  'option',
+                                  xd,
+                                  e.toDisplayString(e.unref(o)('Desc')),
+                                  1
+                                ),
+                              ],
+                              512
+                            ),
+                            [[e.vModelSelect, i.value.sortOrder]]
+                          ),
+                        ]),
+                      ]),
+                      e.createElementVNode('div', Cd, [
+                        e.createElementVNode('div', Bd, e.toDisplayString(e.unref(o)('Show')), 1),
+                        e.createElementVNode('div', Sd, [
+                          e.createElementVNode('label', $d, [
+                            e.withDirectives(
+                              e.createElementVNode(
+                                'input',
+                                {
+                                  type: 'radio',
+                                  name: 'filterKind',
+                                  value: 'all',
+                                  'onUpdate:modelValue':
+                                    p[11] || (p[11] = (f) => (i.value.filterKind = f)),
+                                  class: 'vuefinder__toolbar__radio',
+                                },
+                                null,
+                                512
+                              ),
+                              [[e.vModelRadio, i.value.filterKind]]
+                            ),
+                            e.createElementVNode(
+                              'span',
+                              Dd,
+                              e.toDisplayString(e.unref(o)('All items')),
+                              1
+                            ),
+                          ]),
+                          e.createElementVNode('label', Fd, [
+                            e.withDirectives(
+                              e.createElementVNode(
+                                'input',
+                                {
+                                  type: 'radio',
+                                  name: 'filterKind',
+                                  value: 'files',
+                                  'onUpdate:modelValue':
+                                    p[12] || (p[12] = (f) => (i.value.filterKind = f)),
+                                  class: 'vuefinder__toolbar__radio',
+                                },
+                                null,
+                                512
+                              ),
+                              [[e.vModelRadio, i.value.filterKind]]
+                            ),
+                            e.createElementVNode(
+                              'span',
+                              Md,
+                              e.toDisplayString(e.unref(o)('Files only')),
+                              1
+                            ),
+                          ]),
+                          e.createElementVNode('label', Td, [
+                            e.withDirectives(
+                              e.createElementVNode(
+                                'input',
+                                {
+                                  type: 'radio',
+                                  name: 'filterKind',
+                                  value: 'folders',
+                                  'onUpdate:modelValue':
+                                    p[13] || (p[13] = (f) => (i.value.filterKind = f)),
+                                  class: 'vuefinder__toolbar__radio',
+                                },
+                                null,
+                                512
+                              ),
+                              [[e.vModelRadio, i.value.filterKind]]
+                            ),
+                            e.createElementVNode(
+                              'span',
+                              Ad,
+                              e.toDisplayString(e.unref(o)('Folders only')),
+                              1
+                            ),
+                          ]),
+                        ]),
+                      ]),
+                      e.createElementVNode('div', Id, [
+                        e.createElementVNode(
+                          'label',
+                          Ld,
+                          e.toDisplayString(e.unref(o)('Show hidden files')),
+                          1
+                        ),
+                        e.withDirectives(
+                          e.createElementVNode(
+                            'input',
+                            {
+                              type: 'checkbox',
+                              id: 'showHidden',
+                              'onUpdate:modelValue':
+                                p[14] || (p[14] = (f) => (i.value.showHidden = f)),
+                              class: 'vuefinder__toolbar__checkbox',
+                            },
+                            null,
+                            512
+                          ),
+                          [[e.vModelCheckbox, i.value.showHidden]]
+                        ),
+                      ]),
+                      e.createElementVNode('div', Od, [
+                        e.createElementVNode(
+                          'button',
+                          { onClick: V, class: 'vuefinder__toolbar__reset-button' },
+                          e.toDisplayString(e.unref(o)('Reset')),
+                          1
+                        ),
+                      ]),
+                    ]),
+                  ]))
+                : e.createCommentVNode('', !0),
+            ]),
+            e.unref(t).features.includes(e.unref(K).FULL_SCREEN)
+              ? (e.openBlock(),
+                e.createElementBlock(
+                  'div',
+                  {
+                    key: 1,
+                    onClick: p[15] || (p[15] = (f) => e.unref(r).toggle('fullScreen')),
+                    class: 'mx-1.5',
+                    title: e.unref(o)('Toggle Full Screen'),
+                  },
+                  [
+                    e.unref(s).fullScreen
+                      ? (e.openBlock(),
+                        e.createBlock(e.unref(jc), { key: 0, class: 'vf-toolbar-icon' }))
+                      : (e.openBlock(),
+                        e.createBlock(e.unref(Hc), { key: 1, class: 'vf-toolbar-icon' })),
+                  ],
+                  8,
+                  Rd
+                ))
+              : e.createCommentVNode('', !0),
+            e.createElementVNode(
+              'div',
+              {
+                class: 'mx-1.5',
+                title: e.unref(o)('Change View'),
+                onClick: p[16] || (p[16] = (f) => v()),
+              },
+              [
+                e.unref(s).view === 'grid'
+                  ? (e.openBlock(),
+                    e.createBlock(e.unref(qc), { key: 0, class: 'vf-toolbar-icon' }))
+                  : e.createCommentVNode('', !0),
+                e.unref(s).view === 'list'
+                  ? (e.openBlock(),
+                    e.createBlock(e.unref(Xc), { key: 1, class: 'vf-toolbar-icon' }))
+                  : e.createCommentVNode('', !0),
+              ],
+              8,
+              Pd
+            ),
+          ]),
+        ])
+      );
+    },
+  }),
+  Hd = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'currentColor',
+    class: 'vuefinder__breadcrumb__refresh-icon',
+    viewBox: '-40 -40 580 580',
+  };
+function Ud(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Hd, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M463.5 224h8.5c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2S461.9 48.1 455 55l-41.6 41.6c-87.6-86.5-228.7-86.2-315.8 1-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2S334.3 224 344 224z',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Kd = { render: Ud },
+  jd = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'currentColor',
+    class: 'h-6 w-6 p-0.5 rounded',
+    viewBox: '0 0 20 20',
+  };
+function Wd(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', jd, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'fill-rule': 'evenodd',
+              d: 'M5.293 9.707a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1-1.414 1.414L11 7.414V15a1 1 0 1 1-2 0V7.414L6.707 9.707a1 1 0 0 1-1.414 0',
+              class: 'pointer-events-none',
+              'clip-rule': 'evenodd',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Gd = { render: Wd },
+  qd = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '1.5',
+    class: 'vuefinder__breadcrumb__close-icon',
+    viewBox: '0 0 24 24',
+  };
+function Yd(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', qd, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', d: 'M6 18 18 6M6 6l12 12' },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Qd = { render: Yd },
+  Xd = { xmlns: 'http://www.w3.org/2000/svg', fill: 'currentColor', viewBox: '0 0 20 20' };
+function Jd(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Xd, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M10.707 2.293a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 1.414 1.414L4 10.414V17a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-6.586l.293.293a1 1 0 0 0 1.414-1.414z',
+              class: 'pointer-events-none',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Zd = { render: Jd },
+  eu = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '1.5',
+    class: 'w-6 h-6 cursor-pointer',
+    viewBox: '0 0 24 24',
+  };
+function tu(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', eu, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', d: 'M6 18 18 6M6 6l12 12' },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const nu = { render: tu },
+  ou = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    'stroke-width': '2',
+    viewBox: '0 0 24 24',
+  };
+function lu(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', ou, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode('path', { stroke: 'none', d: 'M0 0h24v24H0z' }, null, -1),
+          e.createElementVNode(
+            'path',
+            { d: 'M9 6h11M12 12h8M15 18h5M5 6v.01M8 12v.01M11 18v.01' },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const ru = { render: lu },
+  au = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    viewBox: '0 0 24 24',
+  };
+function su(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', au, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              'stroke-width': '2',
+              d: 'M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const iu = { render: su },
+  cu = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    viewBox: '0 0 24 24',
+  };
+function du(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', cu, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              'stroke-width': '2',
+              d: 'M8 7h12m0 0-4-4m4 4-4 4m0 6H4m0 0 4 4m-4-4 4-4',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const uu = { render: du };
+function Le(n, t = []) {
+  const o = 'vfDragEnterCounter',
+    l = n.fs,
+    r = I.useStore(l.selectedItems);
+  function s(d, i) {
+    if (d.isExternalDrag) return;
+    (d.preventDefault(),
+      l.getDraggedItem() === i.path ||
+      !i ||
+      i.type !== 'dir' ||
+      r.value.some((h) => h.path === i.path || qa(h.path) === i.path)
+        ? d.dataTransfer &&
+          ((d.dataTransfer.dropEffect = 'none'), (d.dataTransfer.effectAllowed = 'none'))
+        : (d.dataTransfer &&
+            ((d.dataTransfer.dropEffect = 'copy'), (d.dataTransfer.effectAllowed = 'all')),
+          d.currentTarget.classList.add(...t)));
+  }
+  function a(d) {
+    if (d.isExternalDrag) return;
+    d.preventDefault();
+    const i = d.currentTarget,
+      v = Number(i.dataset[o] || 0);
+    i.dataset[o] = String(v + 1);
+  }
+  function u(d) {
+    if (d.isExternalDrag) return;
+    d.preventDefault();
+    const i = d.currentTarget,
+      h = Number(i.dataset[o] || 0) - 1;
+    h <= 0 ? (delete i.dataset[o], i.classList.remove(...t)) : (i.dataset[o] = String(h));
+  }
+  function c(d, i) {
+    if (d.isExternalDrag || !i) return;
+    d.preventDefault();
+    const v = d.currentTarget;
+    (delete v.dataset[o], v.classList.remove(...t));
+    const h = d.dataTransfer?.getData('items') || '[]',
+      _ = JSON.parse(h).map((p) => l.sortedFiles.get().find((f) => f.path === p));
+    (l.clearDraggedItem(), n.modal.open(Ce, { items: { from: _, to: i } }));
+  }
+  function m(d) {
+    return { dragover: (i) => s(i, d), dragenter: a, dragleave: u, drop: (i) => c(i, d) };
+  }
+  return { events: m };
+}
+const mu = { class: 'vuefinder__breadcrumb__container' },
+  fu = ['title'],
+  pu = ['title'],
+  vu = ['title'],
+  _u = ['title'],
+  hu = { class: 'vuefinder__breadcrumb__path-container' },
+  gu = { class: 'vuefinder__breadcrumb__list' },
+  wu = { key: 0, class: 'vuefinder__breadcrumb__hidden-list' },
+  yu = { class: 'relative' },
+  ku = ['title', 'onClick'],
+  Eu = ['title'],
+  bu = { class: 'vuefinder__breadcrumb__path-mode' },
+  Vu = { class: 'vuefinder__breadcrumb__path-mode-content' },
+  Nu = ['title'],
+  xu = { class: 'vuefinder__breadcrumb__path-text' },
+  Cu = ['title'],
+  Bu = ['data-theme'],
+  Su = ['onClick'],
+  $u = { class: 'vuefinder__breadcrumb__hidden-item-content' },
+  Du = { class: 'vuefinder__breadcrumb__hidden-item-text' },
+  Fu = e.defineComponent({
+    __name: 'Breadcrumb',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = t.config,
+        s = I.useStore(r.state),
+        a = I.useStore(l.path),
+        u = I.useStore(l.loading),
+        c = e.ref(null),
+        m = en(0, 100),
+        d = e.ref(5),
+        i = e.ref(!1),
+        v = e.ref(!1),
+        h = e.computed(() => a.value?.breadcrumb ?? []);
+      function V(z, E) {
+        return z.length > E ? [z.slice(-E), z.slice(0, -E)] : [z, []];
+      }
+      const _ = e.computed(() => V(h.value, d.value)[0]),
+        p = e.computed(() => V(h.value, d.value)[1]);
+      e.watch(m, () => {
+        if (!c.value) return;
+        const z = c.value.children;
+        let E = 0,
+          g = 0;
+        const b = 5,
+          N = 1;
+        ((d.value = b),
+          e.nextTick(() => {
+            for (let M = z.length - 1; M >= 0; M--) {
+              const R = z[M];
+              if (E + R.offsetWidth > m.value - 40) break;
+              ((E += parseInt(R.offsetWidth.toString(), 10)), g++);
+            }
+            (g < N && (g = N), g > b && (g = b), (d.value = g));
+          }));
+      });
+      const f = () => {
+          c.value && (m.value = c.value.offsetWidth);
+        },
+        w = e.ref(null);
+      (e.onMounted(() => {
+        ((w.value = new ResizeObserver(f)), c.value && w.value.observe(c.value));
+      }),
+        e.onUnmounted(() => {
+          w.value && w.value.disconnect();
+        }));
+      const k = Le(t, ['vuefinder__drag-over']);
+      function y(z = null) {
+        z ??= h.value.length - 2;
+        const E = {
+          basename: a.value?.storage ?? 'local',
+          extension: '',
+          path: (a.value?.storage ?? 'local') + '://',
+          storage: a.value?.storage ?? 'local',
+          type: 'dir',
+          file_size: null,
+          last_modified: null,
+          mime_type: null,
+          visibility: '',
+        };
+        return h.value[z] ?? E;
+      }
+      const C = () => {
+          (t.adapter.invalidateListQuery(a.value.path), t.adapter.open(a.value.path));
+        },
+        F = () => {
+          _.value.length > 0 &&
+            t.adapter.open(
+              h.value[h.value.length - 2]?.path ?? (a.value?.storage ?? 'local') + '://'
+            );
+        },
+        B = (z) => {
+          (t.adapter.open(z.path), (i.value = !1));
+        },
+        L = () => {
+          i.value && (i.value = !1);
+        },
+        S = {
+          mounted(z, E) {
+            ((z.clickOutsideEvent = function (g) {
+              z === g.target || z.contains(g.target) || E.value();
+            }),
+              document.body.addEventListener('click', z.clickOutsideEvent));
+          },
+          beforeUnmount(z) {
+            document.body.removeEventListener('click', z.clickOutsideEvent);
+          },
+        },
+        O = () => {
+          r.toggle('showTreeView');
+        },
+        q = e.ref({ x: 0, y: 0 }),
+        X = (z, E = null) => {
+          if (z.currentTarget instanceof HTMLElement) {
+            const { x: g, y: b, height: N } = z.currentTarget.getBoundingClientRect();
+            q.value = { x: g, y: b + N };
+          }
+          i.value = E ?? !i.value;
+        },
+        P = () => {
+          v.value = !v.value;
+        },
+        W = async () => {
+          (await Ae(a.value?.path || ''),
+            t.emitter.emit('vf-toast-push', { label: o('Path copied to clipboard') }));
+        },
+        Q = () => {
+          v.value = !1;
+        };
+      return (z, E) => (
+        e.openBlock(),
+        e.createElementBlock('div', mu, [
+          e.createElementVNode(
+            'span',
+            { title: e.unref(o)('Toggle Tree View') },
+            [
+              e.createVNode(
+                e.unref(ru),
+                {
+                  onClick: O,
+                  class: e.normalizeClass([
+                    'vuefinder__breadcrumb__toggle-tree',
+                    e.unref(s).showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : '',
+                  ]),
+                },
+                null,
+                8,
+                ['class']
+              ),
+            ],
+            8,
+            fu
+          ),
+          e.createElementVNode(
+            'span',
+            { title: e.unref(o)('Go up a directory') },
+            [
+              e.createVNode(
+                e.unref(Gd),
+                e.mergeProps(e.toHandlers(h.value.length ? e.unref(k).events(y()) : {}), {
+                  onClick: F,
+                  class: h.value.length
+                    ? 'vuefinder__breadcrumb__go-up--active'
+                    : 'vuefinder__breadcrumb__go-up--inactive',
+                }),
+                null,
+                16,
+                ['class']
+              ),
+            ],
+            8,
+            pu
+          ),
+          e.unref(l).isLoading()
+            ? (e.openBlock(),
+              e.createElementBlock(
+                'span',
+                { key: 1, title: e.unref(o)('Cancel') },
+                [
+                  e.createVNode(e.unref(Qd), {
+                    onClick: E[0] || (E[0] = (g) => e.unref(t).emitter.emit('vf-fetch-abort')),
+                  }),
+                ],
+                8,
+                _u
+              ))
+            : (e.openBlock(),
+              e.createElementBlock(
+                'span',
+                { key: 0, title: e.unref(o)('Refresh') },
+                [e.createVNode(e.unref(Kd), { onClick: C })],
+                8,
+                vu
+              )),
+          e.withDirectives(
+            e.createElementVNode(
+              'div',
+              hu,
+              [
+                e.createElementVNode('div', null, [
+                  e.createVNode(
+                    e.unref(Zd),
+                    e.mergeProps(
+                      { class: 'vuefinder__breadcrumb__home-icon' },
+                      e.toHandlers(e.unref(k).events(y(-1))),
+                      {
+                        onClick:
+                          E[1] ||
+                          (E[1] = e.withModifiers(
+                            (g) => e.unref(t).adapter.open(e.unref(a).storage + '://'),
+                            ['stop']
+                          )),
+                      }
+                    ),
+                    null,
+                    16
+                  ),
+                ]),
+                e.createElementVNode('div', gu, [
+                  p.value.length
+                    ? e.withDirectives(
+                        (e.openBlock(),
+                        e.createElementBlock('div', wu, [
+                          E[3] ||
+                            (E[3] = e.createElementVNode(
+                              'div',
+                              { class: 'vuefinder__breadcrumb__separator' },
+                              '/',
+                              -1
+                            )),
+                          e.createElementVNode('div', yu, [
+                            e.createElementVNode(
+                              'span',
+                              {
+                                onDragenter: E[2] || (E[2] = (g) => X(g, !0)),
+                                onClick: e.withModifiers(X, ['stop']),
+                                class: 'vuefinder__breadcrumb__hidden-toggle',
+                              },
+                              [
+                                e.createVNode(e.unref(gn), {
+                                  class: 'vuefinder__breadcrumb__hidden-toggle-icon',
+                                }),
+                              ],
+                              32
+                            ),
+                          ]),
+                        ])),
+                        [[S, L]]
+                      )
+                    : e.createCommentVNode('', !0),
+                ]),
+                e.createElementVNode(
+                  'div',
+                  {
+                    ref_key: 'breadcrumbContainer',
+                    ref: c,
+                    class: 'vuefinder__breadcrumb__visible-list pointer-events-none',
+                  },
+                  [
+                    (e.openBlock(!0),
+                    e.createElementBlock(
+                      e.Fragment,
+                      null,
+                      e.renderList(
+                        _.value,
+                        (g, b) => (
+                          e.openBlock(),
+                          e.createElementBlock('div', { key: b }, [
+                            E[4] ||
+                              (E[4] = e.createElementVNode(
+                                'span',
+                                { class: 'vuefinder__breadcrumb__separator' },
+                                '/',
+                                -1
+                              )),
+                            e.createElementVNode(
+                              'span',
+                              e.mergeProps(e.toHandlers(e.unref(k).events(g), !0), {
+                                class: 'vuefinder__breadcrumb__item pointer-events-auto',
+                                title: g.basename,
+                                onClick: e.withModifiers(
+                                  (N) => e.unref(t).adapter.open(g.path),
+                                  ['stop']
+                                ),
+                              }),
+                              e.toDisplayString(g.name),
+                              17,
+                              ku
+                            ),
+                          ])
+                        )
+                      ),
+                      128
+                    )),
+                  ],
+                  512
+                ),
+                e.unref(r).get('loadingIndicator') === 'circular' && e.unref(u)
+                  ? (e.openBlock(), e.createBlock(e.unref(nt), { key: 0 }))
+                  : e.createCommentVNode('', !0),
+                e.createElementVNode(
+                  'span',
+                  { title: e.unref(o)('Toggle Path Copy Mode'), onClick: P },
+                  [e.createVNode(e.unref(uu), { class: 'vuefinder__breadcrumb__toggle-icon' })],
+                  8,
+                  Eu
+                ),
+              ],
+              512
+            ),
+            [[e.vShow, !v.value]]
+          ),
+          e.withDirectives(
+            e.createElementVNode(
+              'div',
+              bu,
+              [
+                e.createElementVNode('div', Vu, [
+                  e.createElementVNode(
+                    'div',
+                    { title: e.unref(o)('Copy Path') },
+                    [
+                      e.createVNode(e.unref(iu), {
+                        class: 'vuefinder__breadcrumb__copy-icon',
+                        onClick: W,
+                      }),
+                    ],
+                    8,
+                    Nu
+                  ),
+                  e.createElementVNode('div', xu, e.toDisplayString(e.unref(a).path), 1),
+                  e.createElementVNode(
+                    'div',
+                    { title: e.unref(o)('Exit') },
+                    [
+                      e.createVNode(e.unref(nu), {
+                        class: 'vuefinder__breadcrumb__exit-icon',
+                        onClick: Q,
+                      }),
+                    ],
+                    8,
+                    Cu
+                  ),
+                ]),
+              ],
+              512
+            ),
+            [[e.vShow, v.value]]
+          ),
+          (e.openBlock(),
+          e.createBlock(e.Teleport, { to: 'body' }, [
+            e.createElementVNode('div', null, [
+              e.withDirectives(
+                e.createElementVNode(
+                  'div',
+                  {
+                    style: e.normalizeStyle({
+                      position: 'absolute',
+                      top: q.value.y + 'px',
+                      left: q.value.x + 'px',
+                    }),
+                    class: 'vuefinder__themer vuefinder__breadcrumb__hidden-dropdown',
+                    'data-theme': e.unref(t).theme.current,
+                  },
+                  [
+                    (e.openBlock(!0),
+                    e.createElementBlock(
+                      e.Fragment,
+                      null,
+                      e.renderList(
+                        p.value,
+                        (g, b) => (
+                          e.openBlock(),
+                          e.createElementBlock(
+                            'div',
+                            e.mergeProps({ key: b }, e.toHandlers(e.unref(k).events(g), !0), {
+                              onClick: (N) => B(g),
+                              class: 'vuefinder__breadcrumb__hidden-item',
+                            }),
+                            [
+                              e.createElementVNode('div', $u, [
+                                e.createElementVNode('span', null, [
+                                  e.createVNode(e.unref(he), {
+                                    class: 'vuefinder__breadcrumb__hidden-item-icon',
+                                  }),
+                                ]),
+                                E[5] || (E[5] = e.createTextVNode()),
+                                e.createElementVNode('span', Du, e.toDisplayString(g.name), 1),
+                              ]),
+                            ],
+                            16,
+                            Su
+                          )
+                        )
+                      ),
+                      128
+                    )),
+                  ],
+                  12,
+                  Bu
+                ),
+                [[e.vShow, i.value]]
+              ),
+            ]),
+          ])),
+        ])
+      );
+    },
+  });
+function Mu(n, t) {
+  const {
+      scrollContainer: o,
+      itemWidth: l = 100,
+      rowHeight: r,
+      overscan: s = 2,
+      containerPadding: a = 48,
+      lockItemsPerRow: u,
+    } = t,
+    c = n,
+    m = () => (typeof r == 'number' ? r : r.value),
+    d = e.ref(0),
+    i = e.ref(6),
+    v = e.ref(600);
+  let h = null;
+  const V = e.computed(() => Math.ceil(c.value.length / i.value)),
+    _ = e.computed(() => V.value * m()),
+    p = e.computed(() => {
+      const S = m(),
+        O = Math.max(0, Math.floor(d.value / S) - s),
+        q = Math.min(V.value, Math.ceil((d.value + v.value) / S) + s);
+      return { start: O, end: q };
+    }),
+    f = e.computed(() => {
+      const { start: S, end: O } = p.value;
+      return Array.from({ length: O - S }, (q, X) => S + X);
+    }),
+    w = () => v.value,
+    k = () => u.value,
+    y = () => {
+      if (k()) {
+        i.value = 1;
+        return;
+      }
+      if (o.value) {
+        const S = o.value.clientWidth - a;
+        i.value = Math.max(Math.floor(S / l), 2);
+      }
+    },
+    C = (S) => {
+      const O = S.target;
+      d.value = O.scrollTop;
+    };
+  e.watch(
+    () => c.value.length,
+    () => {
+      y();
+    }
+  );
+  const F = (S, O) => {
+      if (!S || !Array.isArray(S)) return [];
+      const q = O * i.value;
+      return S.slice(q, q + i.value);
+    },
+    B = (S, O, q, X, P) => {
+      if (!S || !Array.isArray(S)) return [];
+      const W = [];
+      for (let Q = O; Q <= q; Q++)
+        for (let z = X; z <= P; z++) {
+          const E = Q * i.value + z;
+          E < S.length && S[E] && W.push(S[E]);
+        }
+      return W;
+    },
+    L = (S) => ({ row: Math.floor(S / i.value), col: S % i.value });
+  return (
+    e.onMounted(async () => {
+      (await e.nextTick(),
+        o.value && (v.value = o.value.clientHeight || 600),
+        y(),
+        window.addEventListener('resize', () => {
+          (o.value && (v.value = o.value.clientHeight || 600), y());
+        }),
+        o.value &&
+          'ResizeObserver' in window &&
+          ((h = new ResizeObserver((S) => {
+            const O = S[0];
+            (O && (v.value = Math.round(O.contentRect.height)), y());
+          })),
+          h.observe(o.value)));
+    }),
+    e.onUnmounted(() => {
+      (window.removeEventListener('resize', y), h && (h.disconnect(), (h = null)));
+    }),
+    {
+      scrollTop: d,
+      itemsPerRow: i,
+      totalRows: V,
+      totalHeight: _,
+      visibleRange: p,
+      visibleRows: f,
+      updateItemsPerRow: y,
+      handleScroll: C,
+      getRowItems: F,
+      getItemsInRange: B,
+      getItemPosition: L,
+      getContainerHeight: w,
+    }
+  );
+}
+function Tu(n) {
+  const {
+      getItemPosition: t,
+      getItemsInRange: o,
+      getKey: l,
+      selectionObject: r,
+      rowHeight: s,
+      itemWidth: a,
+    } = n,
+    u = Math.floor(Math.random() * 2 ** 32).toString(),
+    c = H(),
+    m = c.fs,
+    d = I.useStore(m.selectedKeys),
+    i = I.useStore(m.sortedFiles),
+    v = e.ref(new Set()),
+    h = e.ref(!1),
+    V = e.ref(!1),
+    _ = e.ref(null),
+    p = (E) => E.map((g) => g.getAttribute('data-key')).filter((g) => !!g),
+    f = (E) => {
+      E.selection.getSelection().forEach((g) => {
+        E.selection.deselect(g, !0);
+      });
+    },
+    w = (E) => {
+      d.value &&
+        d.value.forEach((g) => {
+          const b = document.querySelector(`[data-key="${g}"]`);
+          b && k(g) && E.selection.select(b, !0);
+        });
+    },
+    k = (E) => {
+      const g = i.value?.find((M) => l(M) === E);
+      if (!g) return !1;
+      const b = c.selectionFilterType,
+        N = c.selectionFilterMimeIncludes;
+      return (b === 'files' && g.type === 'dir') || (b === 'dirs' && g.type === 'file')
+        ? !1
+        : N && Array.isArray(N) && N.length > 0
+          ? g.type === 'dir'
+            ? !0
+            : g.mime_type
+              ? N.some((M) => g.mime_type?.startsWith(M))
+              : !1
+          : !0;
+    },
+    y = (E) => {
+      if (E.size === 0) return null;
+      const b = Array.from(E).map((Y) => {
+          const _e = i.value?.findIndex((ge) => l(ge) === Y) ?? -1;
+          return t(_e >= 0 ? _e : 0);
+        }),
+        N = Math.min(...b.map((Y) => Y.row)),
+        M = Math.max(...b.map((Y) => Y.row)),
+        R = Math.min(...b.map((Y) => Y.col)),
+        J = Math.max(...b.map((Y) => Y.col));
+      return { minRow: N, maxRow: M, minCol: R, maxCol: J };
+    },
+    C = (E) => {
+      if (c.selectionMode === 'single') return !1;
+      ((h.value = !1),
+        !E.event?.metaKey && !E.event?.ctrlKey && (V.value = !0),
+        E.selection.resolveSelectables(),
+        f(E),
+        w(E));
+    },
+    F = e.ref(0),
+    B = (E) => {
+      const g = E;
+      if (g && 'touches' in g) {
+        const b = g.touches?.[0];
+        if (b) return { x: b.clientX, y: b.clientY };
+      }
+      if (g && 'changedTouches' in g) {
+        const b = g.changedTouches?.[0];
+        if (b) return { x: b.clientX, y: b.clientY };
+      }
+      if (g && 'clientX' in g && 'clientY' in g) {
+        const b = g;
+        return { x: b.clientX, y: b.clientY };
+      }
+      return null;
+    },
+    L = ({ event: E, selection: g }) => {
+      F.value = (r.value?.getAreaLocation().y1 ?? 0) - (c.root.getBoundingClientRect().top ?? 0);
+      const b = document.querySelector('.selection-area-container');
+      if ((b && (b.dataset.theme = c.theme.current), c.selectionMode === 'single')) return;
+      const N = E;
+      N && 'type' in N && N.type === 'touchend' && N.preventDefault();
+      const M = E;
+      if (
+        (!M?.ctrlKey && !M?.metaKey && (m.clearSelection(), g.clearSelection(!0, !0)),
+        v.value.clear(),
+        r.value)
+      ) {
+        const R = r.value.getSelectables()[0]?.closest('.scroller-' + u);
+        if (R) {
+          const J = R.getBoundingClientRect(),
+            Y = B(E);
+          if (Y) {
+            const _e = Y.y - J.top + R.scrollTop,
+              ge = Y.x - J.left,
+              Ne = Math.floor(_e / s.value),
+              $e = Math.floor(ge / a);
+            _.value = { row: Ne, col: $e };
+          }
+        }
+      }
+    },
+    S = (E) => {
+      if (c.selectionMode === 'single') return;
+      const g = E.selection,
+        b = p(E.store.changed.added),
+        N = p(E.store.changed.removed);
+      ((V.value = !1),
+        (h.value = !0),
+        b.forEach((M) => {
+          d.value &&
+            !d.value.has(M) &&
+            k(M) &&
+            (v.value.add(M), m.select(M, c.selectionMode || 'multiple'));
+        }),
+        N.forEach((M) => {
+          (document.querySelector(`[data-key="${M}"]`) &&
+            i.value?.find((J) => l(J) === M) &&
+            v.value.delete(M),
+            m.deselect(M));
+        }),
+        g.resolveSelectables(),
+        w(E));
+    },
+    O = () => {
+      v.value.clear();
+    },
+    q = (E) => {
+      if (E.event && _.value && v.value.size > 0) {
+        const b = Array.from(v.value)
+          .map((N) => {
+            const M = i.value?.findIndex((R) => l(R) === N) ?? -1;
+            return M >= 0 ? t(M) : null;
+          })
+          .filter((N) => N !== null);
+        if (b.length > 0) {
+          const N = [...b, _.value],
+            M = {
+              minRow: Math.min(...N.map((R) => R.row)),
+              maxRow: Math.max(...N.map((R) => R.row)),
+              minCol: Math.min(...N.map((R) => R.col)),
+              maxCol: Math.max(...N.map((R) => R.col)),
+            };
+          o(i.value || [], M.minRow, M.maxRow, M.minCol, M.maxCol).forEach((R) => {
+            const J = l(R);
+            document.querySelector(`[data-key="${J}"]`) ||
+              m.select(J, c.selectionMode || 'multiple');
+          });
+        }
+      }
+    },
+    X = (E) => {
+      (q(E), f(E), w(E), m.setSelectedCount(d.value?.size || 0), (h.value = !1), (_.value = null));
+    },
+    P = () => {
+      ((r.value = new In({
+        selectables: ['.file-item-' + u + ':not(.vf-explorer-item--unselectable)'],
+        boundaries: ['.scroller-' + u],
+        selectionContainerClass: 'selection-area-container',
+        behaviour: {
+          overlap: 'invert',
+          intersect: 'touch',
+          startThreshold: 0,
+          triggers: [0],
+          scrolling: { speedDivider: 10, manualSpeed: 750, startScrollMargins: { x: 0, y: 10 } },
+        },
+        features: {
+          touch: !0,
+          range: !0,
+          deselectOnBlur: !0,
+          singleTap: { allow: !1, intersect: 'native' },
+        },
+      })),
+        r.value.on('beforestart', C),
+        r.value.on('start', L),
+        r.value.on('move', S),
+        r.value.on('stop', X));
+    },
+    W = () => {
+      r.value && (r.value.destroy(), (r.value = null));
+    },
+    Q = () => {
+      r.value &&
+        (Array.from(d.value ?? new Set()).forEach((g) => {
+          k(g) || m.deselect(g);
+        }),
+        W(),
+        P());
+    },
+    z = (E) => {
+      V.value && (r.value?.clearSelection(), O(), (V.value = !1));
+      const g = E;
+      !v.value.size &&
+        !V.value &&
+        !g?.ctrlKey &&
+        !g?.metaKey &&
+        (m.clearSelection(), r.value?.clearSelection());
+    };
+  return (
+    e.onMounted(() => {
+      const E = (g) => {
+        !g.buttons && h.value && (h.value = !1);
+      };
+      (document.addEventListener('dragleave', E),
+        e.onUnmounted(() => {
+          document.removeEventListener('dragleave', E);
+        }));
+    }),
+    {
+      isDragging: h,
+      selectionStarted: V,
+      explorerId: u,
+      extractIds: p,
+      cleanupSelection: f,
+      refreshSelection: w,
+      getSelectionRange: y,
+      selectSelectionRange: q,
+      initializeSelectionArea: P,
+      destroySelectionArea: W,
+      updateSelectionArea: Q,
+      handleContentClick: z,
+    }
+  );
+}
+const Au = {
+  xmlns: 'http://www.w3.org/2000/svg',
+  fill: 'currentColor',
+  class: 'h-5 w-5',
+  viewBox: '0 0 20 20',
+};
+function Iu(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Au, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'fill-rule': 'evenodd',
+              d: 'M5.293 7.293a1 1 0 0 1 1.414 0L10 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 0-1.414',
+              'clip-rule': 'evenodd',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Lu = { render: Iu },
+  Ou = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'currentColor',
+    class: 'h-5 w-5',
+    viewBox: '0 0 20 20',
+  };
+function Ru(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Ou, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'fill-rule': 'evenodd',
+              d: 'M14.707 12.707a1 1 0 0 1-1.414 0L10 9.414l-3.293 3.293a1 1 0 0 1-1.414-1.414l4-4a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414',
+              'clip-rule': 'evenodd',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Pu = { render: Ru },
+  mt = e.defineComponent({
+    __name: 'SortIcon',
+    props: { direction: {} },
+    setup(n) {
+      return (t, o) => (
+        e.openBlock(),
+        e.createElementBlock('div', null, [
+          n.direction === 'asc'
+            ? (e.openBlock(), e.createBlock(e.unref(Lu), { key: 0 }))
+            : e.createCommentVNode('', !0),
+          n.direction === 'desc'
+            ? (e.openBlock(), e.createBlock(e.unref(Pu), { key: 1 }))
+            : e.createCommentVNode('', !0),
+        ])
+      );
+    },
+  }),
+  zu = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'none',
+    stroke: 'currentColor',
+    viewBox: '0 0 24 24',
+  };
+function Hu(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', zu, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode(
+            'path',
+            {
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+              d: 'M7 21h10a2 2 0 0 0 2-2V9.414a1 1 0 0 0-.293-.707l-5.414-5.414A1 1 0 0 0 12.586 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Uu = { render: Hu },
+  Ku = { class: 'vuefinder__drag-item__container' },
+  ju = { class: 'vuefinder__drag-item__count' },
+  Wu = e.defineComponent({
+    __name: 'DragItem',
+    props: { count: {} },
+    setup(n) {
+      const t = n;
+      return (o, l) => (
+        e.openBlock(),
+        e.createElementBlock('div', Ku, [
+          e.createVNode(e.unref(Uu), { class: 'vuefinder__drag-item__icon' }),
+          e.createElementVNode('div', ju, e.toDisplayString(t.count), 1),
+        ])
+      );
+    },
+  }),
+  Gu = { key: 2, class: 'vuefinder__item-icon__extension' },
+  Ut = e.defineComponent({
+    __name: 'ItemIcon',
+    props: { item: {}, ext: { type: Boolean }, small: { type: Boolean } },
+    setup(n) {
+      const t = n,
+        o = H(),
+        l = I.useStore(o.config.state),
+        r = { app: o, config: l.value, item: t.item };
+      return (s, a) => (
+        e.openBlock(),
+        e.createElementBlock(
+          'div',
+          {
+            class: e.normalizeClass([
+              'vuefinder__item-icon',
+              n.small ? 'vuefinder__item-icon--small' : 'vuefinder__item-icon--large',
+            ]),
+          },
+          [
+            e.renderSlot(s.$slots, 'icon', e.normalizeProps(e.guardReactiveProps(r)), () => [
+              n.item.type === 'dir'
+                ? (e.openBlock(),
+                  e.createBlock(e.unref(he), { key: 0, class: 'vuefinder__item-icon__folder' }))
+                : (e.openBlock(),
+                  e.createBlock(e.unref(ze), { key: 1, class: 'vuefinder__item-icon__file' })),
+              n.ext && n.item.type !== 'dir' && n.item.extension
+                ? (e.openBlock(),
+                  e.createElementBlock(
+                    'div',
+                    Gu,
+                    e.toDisplayString(n.item.extension.substring(0, 3)),
+                    1
+                  ))
+                : e.createCommentVNode('', !0),
+            ]),
+          ],
+          2
+        )
+      );
+    },
+  }),
+  qu = { xmlns: 'http://www.w3.org/2000/svg', fill: 'currentColor', viewBox: '0 0 24 24' };
+function Yu(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', qu, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode('path', { fill: 'none', d: 'M0 0h24v24H0z' }, null, -1),
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M12 2a5 5 0 0 1 5 5v3a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3V7a5 5 0 0 1 5-5m0 12a2 2 0 0 0-1.995 1.85L10 16a2 2 0 1 0 2-2m0-10a3 3 0 0 0-3 3v3h6V7a3 3 0 0 0-3-3',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Kt = { render: Yu },
+  Qu = ['data-key', 'data-row', 'data-col', 'draggable'],
+  Xu = { key: 0 },
+  Ju = { class: 'vuefinder__explorer__item-grid-content' },
+  Zu = ['data-src', 'alt'],
+  em = { class: 'vuefinder__explorer__item-title' },
+  tm = { key: 1, class: 'vuefinder__explorer__item-list-content' },
+  nm = { class: 'vuefinder__explorer__item-list-name' },
+  om = { class: 'vuefinder__explorer__item-list-icon' },
+  lm = { class: 'vuefinder__explorer__item-name' },
+  rm = { key: 0, class: 'vuefinder__explorer__item-path' },
+  am = { key: 1, class: 'vuefinder__explorer__item-size' },
+  sm = { key: 0 },
+  im = { key: 2, class: 'vuefinder__explorer__item-date' },
+  cm = e.defineComponent({
+    __name: 'FileItem',
+    props: {
+      item: {},
+      view: {},
+      compact: { type: Boolean },
+      showThumbnails: { type: Boolean },
+      isSelected: { type: Boolean },
+      isDragging: { type: Boolean },
+      rowIndex: {},
+      colIndex: {},
+      showPath: { type: Boolean },
+      explorerId: {},
+    },
+    emits: ['click', 'dblclick', 'contextmenu', 'dragstart', 'dragend'],
+    setup(n, { emit: t }) {
+      const o = n,
+        l = t,
+        r = H(),
+        s = r.fs,
+        a = r.config,
+        u = e.computed(() => {
+          const w = r.selectionFilterType;
+          return !w || w === 'both'
+            ? !0
+            : (w === 'files' && o.item.type === 'file') || (w === 'dirs' && o.item.type === 'dir');
+        }),
+        c = e.computed(() => {
+          const w = r.selectionFilterMimeIncludes;
+          return !w || !w.length || o.item.type === 'dir'
+            ? !0
+            : o.item.mime_type
+              ? w.some((k) => o.item.mime_type?.startsWith(k))
+              : !1;
+        }),
+        m = e.computed(() => u.value && c.value),
+        d = e.computed(() => [
+          'file-item-' + o.explorerId,
+          o.view === 'grid' ? 'vf-explorer-item-grid' : 'vf-explorer-item-list',
+          o.isSelected ? 'vf-explorer-selected' : '',
+          m.value ? '' : 'vf-explorer-item--unselectable',
+        ]),
+        i = e.computed(() => ({
+          opacity: o.isDragging || s.isCut(o.item.path) || !m.value ? 0.5 : '',
+        }));
+      let v = null;
+      const h = e.ref(null);
+      let V = !1;
+      const _ = () => {
+          (v && clearTimeout(v), (p.value = !0));
+        },
+        p = e.ref(!0),
+        f = (w) => {
+          if (((p.value = !1), v && (w.preventDefault(), clearTimeout(v)), !V))
+            ((V = !0),
+              l('click', w),
+              (h.value = setTimeout(() => {
+                V = !1;
+              }, 300)));
+          else return ((V = !1), l('dblclick', w), v && clearTimeout(v), !1);
+          if (w.currentTarget && w.currentTarget instanceof HTMLElement) {
+            const k = w.currentTarget.getBoundingClientRect();
+            (w.preventDefault(),
+              (v = setTimeout(() => {
+                let F = k.y + k.height;
+                (F + 146 > window.innerHeight - 10 && (F = k.y - 146), F < 10 && (F = 10));
+                const B = new MouseEvent('contextmenu', {
+                  bubbles: !0,
+                  cancelable: !0,
+                  view: window,
+                  button: 2,
+                  buttons: 0,
+                  clientX: k.x,
+                  clientY: F,
+                });
+                w.target?.dispatchEvent(B);
+              }, 300)));
+          }
+        };
+      return (w, k) => (
+        e.openBlock(),
+        e.createElementBlock(
+          'div',
+          {
+            class: e.normalizeClass(d.value),
+            style: e.normalizeStyle(i.value),
+            'data-key': n.item.path,
+            'data-row': n.rowIndex,
+            'data-col': n.colIndex,
+            draggable: p.value,
+            onTouchstart: k[1] || (k[1] = (y) => f(y)),
+            onTouchend: k[2] || (k[2] = (y) => _()),
+            onClick: k[3] || (k[3] = (y) => l('click', y)),
+            onDblclick: k[4] || (k[4] = (y) => l('dblclick', y)),
+            onContextmenu:
+              k[5] || (k[5] = e.withModifiers((y) => l('contextmenu', y), ['prevent', 'stop'])),
+            onDragstart: k[6] || (k[6] = (y) => l('dragstart', y)),
+            onDragend: k[7] || (k[7] = (y) => l('dragend', y)),
+          },
+          [
+            n.view === 'grid'
+              ? (e.openBlock(),
+                e.createElementBlock('div', Xu, [
+                  e.unref(s).isReadOnly(n.item)
+                    ? (e.openBlock(),
+                      e.createBlock(e.unref(Kt), {
+                        key: 0,
+                        class: 'vuefinder__item--readonly vuefinder__item--readonly--left',
+                        title: 'Read Only',
+                      }))
+                    : e.createCommentVNode('', !0),
+                  e.createElementVNode('div', Ju, [
+                    (n.item.mime_type ?? '').startsWith('image') && n.showThumbnails
+                      ? (e.openBlock(),
+                        e.createElementBlock(
+                          'img',
+                          {
+                            key: 0,
+                            onTouchstart: k[0] || (k[0] = (y) => y.preventDefault()),
+                            src: 'data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+                            class: 'vuefinder__explorer__item-thumbnail lazy',
+                            'data-src': e.unref(r).adapter.getPreviewUrl({ path: n.item.path }),
+                            alt: n.item.basename,
+                          },
+                          null,
+                          40,
+                          Zu
+                        ))
+                      : (e.openBlock(),
+                        e.createBlock(
+                          Ut,
+                          { key: 1, item: n.item, ext: !0 },
+                          {
+                            icon: e.withCtx((y) => [
+                              e.renderSlot(
+                                w.$slots,
+                                'icon',
+                                e.normalizeProps(e.guardReactiveProps(y))
+                              ),
+                            ]),
+                            _: 3,
+                          },
+                          8,
+                          ['item']
+                        )),
+                  ]),
+                  e.createElementVNode(
+                    'span',
+                    em,
+                    e.toDisplayString(e.unref(vt)(n.item.basename)),
+                    1
+                  ),
+                ]))
+              : (e.openBlock(),
+                e.createElementBlock('div', tm, [
+                  e.createElementVNode('div', nm, [
+                    e.createElementVNode('div', om, [
+                      e.createVNode(
+                        Ut,
+                        { item: n.item, small: n.compact },
+                        {
+                          icon: e.withCtx((y) => [
+                            e.renderSlot(
+                              w.$slots,
+                              'icon',
+                              e.normalizeProps(e.guardReactiveProps(y))
+                            ),
+                          ]),
+                          _: 3,
+                        },
+                        8,
+                        ['item', 'small']
+                      ),
+                    ]),
+                    e.createElementVNode('span', lm, e.toDisplayString(n.item.basename), 1),
+                    e.createElementVNode('div', null, [
+                      e.unref(s).isReadOnly(n.item)
+                        ? (e.openBlock(),
+                          e.createBlock(e.unref(Kt), {
+                            key: 0,
+                            class: 'vuefinder__item--readonly vuefinder__item--readonly--list',
+                            title: 'Read Only',
+                          }))
+                        : e.createCommentVNode('', !0),
+                    ]),
+                  ]),
+                  n.showPath
+                    ? (e.openBlock(),
+                      e.createElementBlock('div', rm, e.toDisplayString(n.item.path), 1))
+                    : e.createCommentVNode('', !0),
+                  n.showPath
+                    ? e.createCommentVNode('', !0)
+                    : (e.openBlock(),
+                      e.createElementBlock('div', am, [
+                        n.item.file_size
+                          ? (e.openBlock(),
+                            e.createElementBlock(
+                              'div',
+                              sm,
+                              e.toDisplayString(e.unref(r).filesize(n.item.file_size)),
+                              1
+                            ))
+                          : e.createCommentVNode('', !0),
+                      ])),
+                  !n.showPath && n.item.last_modified
+                    ? (e.openBlock(),
+                      e.createElementBlock(
+                        'div',
+                        im,
+                        e.toDisplayString(new Date(n.item.last_modified * 1e3).toLocaleString()),
+                        1
+                      ))
+                    : e.createCommentVNode('', !0),
+                ])),
+            e
+              .unref(a)
+              .get('pinnedFolders')
+              .find((y) => y.path === n.item.path)
+              ? (e.openBlock(),
+                e.createBlock(e.unref(ht), { key: 2, class: 'vuefinder__item--pinned' }))
+              : e.createCommentVNode('', !0),
+          ],
+          46,
+          Qu
+        )
+      );
+    },
+  }),
+  dm = ['data-row'],
+  jt = e.defineComponent({
+    __name: 'FileRow',
+    props: {
+      rowIndex: {},
+      rowHeight: {},
+      view: {},
+      itemsPerRow: {},
+      items: {},
+      compact: { type: Boolean },
+      showThumbnails: { type: Boolean },
+      showPath: { type: Boolean },
+      isDraggingItem: { type: Function },
+      isSelected: { type: Function },
+      dragNDropEvents: { type: Function },
+      explorerId: {},
+    },
+    emits: ['click', 'dblclick', 'contextmenu', 'dragstart', 'dragend'],
+    setup(n, { emit: t }) {
+      const o = n,
+        l = t,
+        r = e.computed(() => [
+          o.view === 'grid' ? 'vf-explorer-item-grid-row' : 'vf-explorer-item-list-row',
+          'pointer-events-none',
+        ]),
+        s = e.computed(() => ({
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: `${o.rowHeight}px`,
+          transform: `translateY(${o.rowIndex * o.rowHeight}px)`,
+        })),
+        a = e.computed(() =>
+          o.view === 'grid'
+            ? { gridTemplateColumns: `repeat(${o.itemsPerRow || 1}, 1fr)` }
+            : { gridTemplateColumns: '1fr' }
+        );
+      return (u, c) => (
+        e.openBlock(),
+        e.createElementBlock(
+          'div',
+          {
+            class: e.normalizeClass(r.value),
+            'data-row': n.rowIndex,
+            style: e.normalizeStyle(s.value),
+          },
+          [
+            e.createElementVNode(
+              'div',
+              {
+                class: e.normalizeClass([
+                  'grid justify-self-start',
+                  { 'w-full': n.view === 'list' },
+                ]),
+                style: e.normalizeStyle(a.value),
+              },
+              [
+                (e.openBlock(!0),
+                e.createElementBlock(
+                  e.Fragment,
+                  null,
+                  e.renderList(
+                    n.items,
+                    (m, d) => (
+                      e.openBlock(),
+                      e.createBlock(
+                        cm,
+                        e.mergeProps(
+                          {
+                            key: m.path,
+                            item: m,
+                            view: n.view,
+                            compact: n.compact,
+                            'show-thumbnails': n.showThumbnails,
+                            'show-path': n.showPath,
+                            'is-selected': n.isSelected(m.path),
+                            'is-dragging': n.isDraggingItem(m.path),
+                            'row-index': n.rowIndex,
+                            'col-index': d,
+                          },
+                          e.toHandlers(n.dragNDropEvents(m)),
+                          {
+                            onClick: c[0] || (c[0] = (i) => l('click', i)),
+                            onDblclick: c[1] || (c[1] = (i) => l('dblclick', i)),
+                            onContextmenu: c[2] || (c[2] = (i) => l('contextmenu', i)),
+                            onDragstart: c[3] || (c[3] = (i) => l('dragstart', i)),
+                            onDragend: c[4] || (c[4] = (i) => l('dragend', i)),
+                            explorerId: n.explorerId,
+                          }
+                        ),
+                        {
+                          icon: e.withCtx((i) => [
+                            e.renderSlot(u.$slots, 'icon', e.mergeProps({ ref_for: !0 }, i)),
+                          ]),
+                          _: 3,
+                        },
+                        16,
+                        [
+                          'item',
+                          'view',
+                          'compact',
+                          'show-thumbnails',
+                          'show-path',
+                          'is-selected',
+                          'is-dragging',
+                          'row-index',
+                          'col-index',
+                          'explorerId',
+                        ]
+                      )
+                    )
+                  ),
+                  128
+                )),
+              ],
+              6
+            ),
+          ],
+          14,
+          dm
+        )
+      );
+    },
+  }),
+  um = ['onClick'],
+  mm = e.defineComponent({
+    __name: 'Toast',
+    setup(n) {
+      const t = H(),
+        { getStore: o } = t.storage,
+        l = e.ref(o('full-screen', !1)),
+        r = e.ref([]),
+        s = (c) =>
+          c === 'error'
+            ? 'text-red-400 border-red-400 dark:text-red-300 dark:border-red-300'
+            : 'text-lime-600 border-lime-600 dark:text-lime-300 dark:border-lime-1300',
+        a = (c) => {
+          r.value.splice(c, 1);
+        },
+        u = (c) => {
+          let m = r.value.findIndex((d) => d.id === c);
+          m !== -1 && a(m);
+        };
+      return (
+        t.emitter.on('vf-toast-clear', () => {
+          r.value = [];
+        }),
+        t.emitter.on('vf-toast-push', (c) => {
+          let m = new Date()
+            .getTime()
+            .toString(36)
+            .concat(performance.now().toString(), Math.random().toString())
+            .replace(/\./g, '');
+          ((c.id = m),
+            r.value.push(c),
+            setTimeout(() => {
+              u(m);
+            }, 5e3));
+        }),
+        (c, m) => (
+          e.openBlock(),
+          e.createElementBlock(
+            'div',
+            {
+              class: e.normalizeClass([
+                'vuefinder__toast',
+                l.value ? 'vuefinder__toast--fixed' : 'vuefinder__toast--absolute',
+              ]),
+            },
+            [
+              e.createVNode(
+                e.TransitionGroup,
+                {
+                  name: 'vuefinder__toast-item',
+                  'enter-active-class': 'vuefinder__toast-item--enter-active',
+                  'leave-active-class': 'vuefinder__toast-item--leave-active',
+                  'leave-to-class': 'vuefinder__toast-item--leave-to',
+                },
+                {
+                  default: e.withCtx(() => [
+                    (e.openBlock(!0),
+                    e.createElementBlock(
+                      e.Fragment,
+                      null,
+                      e.renderList(
+                        r.value,
+                        (d, i) => (
+                          e.openBlock(),
+                          e.createElementBlock(
+                            'div',
+                            {
+                              key: i,
+                              onClick: (v) => a(i),
+                              class: e.normalizeClass(['vuefinder__toast__message', s(d.type)]),
+                            },
+                            e.toDisplayString(d.label),
+                            11,
+                            um
+                          )
+                        )
+                      ),
+                      128
+                    )),
+                  ]),
+                  _: 1,
+                }
+              ),
+            ],
+            2
+          )
+        )
+      );
+    },
+  }),
+  fm = { class: 'vuefinder__explorer__container' },
+  pm = { ref: 'customScrollBar', class: 'vuefinder__explorer__scrollbar' },
+  vm = { key: 0, class: 'vuefinder__explorer__header' },
+  _m = { key: 0, class: 'vuefinder__linear-loader' },
+  hm = e.defineComponent({
+    __name: 'Explorer',
+    props: { onFileDclick: { type: Function }, onFolderDclick: { type: Function } },
+    setup(n) {
+      const t = n,
+        o = H(),
+        l = Le(o, ['vuefinder__drag-over']),
+        r = e.useTemplateRef('dragImage'),
+        s = e.shallowRef(null),
+        a = e.useTemplateRef('scrollContainer'),
+        u = e.useTemplateRef('scrollContent'),
+        c = o.fs,
+        m = o.config,
+        d = I.useStore(m.state),
+        i = I.useStore(c.sort),
+        v = I.useStore(c.sortedFiles),
+        h = I.useStore(c.selectedKeys),
+        V = I.useStore(c.loading),
+        _ = (D) => h.value?.has(D) ?? !1;
+      let p = null;
+      const f = e.ref(null),
+        w = e.useTemplateRef('customScrollBar'),
+        k = e.useTemplateRef('customScrollBarContainer'),
+        y = e.computed(() => {
+          const D = d.value.view,
+            U = d.value.compactListView;
+          return D === 'grid' ? 88 : U ? 24 : 50;
+        }),
+        { t: C } = o.i18n,
+        {
+          itemsPerRow: F,
+          totalHeight: B,
+          visibleRows: L,
+          handleScroll: S,
+          getRowItems: O,
+          getItemsInRange: q,
+          getItemPosition: X,
+          updateItemsPerRow: P,
+        } = Mu(
+          e.computed(() => v.value ?? []),
+          {
+            scrollContainer: a,
+            itemWidth: 104,
+            rowHeight: y,
+            overscan: 2,
+            containerPadding: 0,
+            lockItemsPerRow: e.computed(() => d.value.view === 'list'),
+          }
+        ),
+        {
+          explorerId: W,
+          isDragging: Q,
+          initializeSelectionArea: z,
+          destroySelectionArea: E,
+          updateSelectionArea: g,
+          handleContentClick: b,
+        } = Tu({
+          getItemPosition: X,
+          getItemsInRange: q,
+          getKey: (D) => D.path,
+          selectionObject: s,
+          rowHeight: y,
+          itemWidth: 104,
+        }),
+        N = e.ref(null),
+        M = (D) => {
+          if (!D || !N.value) return !1;
+          const U = h.value?.has(N.value) ?? !1;
+          return Q.value && (U ? (h.value?.has(D) ?? !1) : D === N.value);
+        };
+      (e.watch(
+        () => m.get('view'),
+        (D) => {
+          D === 'list' ? (F.value = 1) : P();
+        },
+        { immediate: !0 }
+      ),
+        e.watch(F, (D) => {
+          m.get('view') === 'list' && D !== 1 && (F.value = 1);
+        }));
+      const R = (D) => v.value?.[D];
+      (e.onMounted(() => {
+        if (
+          (z(),
+          s.value &&
+            s.value.on('beforestart', ({ event: D }) => {
+              const U = D?.target === u.value;
+              if (!D?.metaKey && !D?.ctrlKey && !D?.altKey && !U) return !1;
+            }),
+          a.value && (p = new Wt({ elements_selector: '.lazy', container: a.value })),
+          e.watch(
+            () => [o.selectionFilterType, o.selectionFilterMimeIncludes],
+            () => {
+              g();
+            },
+            { deep: !0 }
+          ),
+          k.value)
+        ) {
+          const D = Qe.OverlayScrollbars(
+            k.value,
+            { scrollbars: { theme: 'vf-scrollbars-theme' } },
+            {
+              initialized: (U) => {
+                f.value = U;
+              },
+              scroll: (U) => {
+                const { scrollOffsetElement: j } = U.elements();
+                a.value && a.value.scrollTo({ top: j.scrollTop, left: 0 });
+              },
+            }
+          );
+          f.value = D;
+        }
+        a.value &&
+          a.value.addEventListener('scroll', () => {
+            const D = f.value;
+            if (!D) return;
+            const { scrollOffsetElement: U } = D.elements();
+            U.scrollTo({ top: a.value.scrollTop, left: 0 });
+          });
+      }),
+        e.onMounted(() => {
+          o.emitter.on('vf-refresh-thumbnails', () => {
+            p && p.update();
+          });
+        }),
+        e.onUpdated(() => {
+          if ((p && p.update(), f.value && w.value && a.value)) {
+            const U = a.value.scrollHeight > a.value.clientHeight,
+              j = w.value;
+            ((j.style.display = U ? 'block' : 'none'), (j.style.height = `${B.value}px`));
+          }
+        }),
+        e.onUnmounted(() => {
+          (E(), p && (p.destroy(), (p = null)), f.value && (f.value.destroy(), (f.value = null)));
+        }));
+      const J = (D) => {
+          const U = D.target?.closest('.file-item-' + W),
+            j = D;
+          if (U) {
+            const G = String(U.getAttribute('data-key')),
+              x = v.value?.find((re) => re.path === G),
+              $ = o.selectionFilterType,
+              T = o.selectionFilterMimeIncludes,
+              A =
+                !$ ||
+                $ === 'both' ||
+                ($ === 'files' && x?.type === 'file') ||
+                ($ === 'dirs' && x?.type === 'dir');
+            let Z = !0;
+            if (
+              (T &&
+                Array.isArray(T) &&
+                T.length > 0 &&
+                (x?.type === 'dir'
+                  ? (Z = !0)
+                  : x?.mime_type
+                    ? (Z = T.some((re) => (x?.mime_type).startsWith(re)))
+                    : (Z = !1)),
+              !A || !Z)
+            )
+              return;
+            const le = o.selectionMode || 'multiple';
+            (!j?.ctrlKey &&
+              !j?.metaKey &&
+              (D.type !== 'touchstart' || !c.isSelected(G)) &&
+              (c.clearSelection(), s.value?.clearSelection(!0, !0)),
+              s.value?.resolveSelectables(),
+              D.type === 'touchstart' && c.isSelected(G) ? c.select(G, le) : c.toggleSelect(G, le));
+          }
+          c.setSelectedCount(h.value?.size || 0);
+        },
+        Y = (D) => {
+          if (D.type === 'file' && t.onFileDclick) {
+            o.emitter.emit('vf-file-dclick', D);
+            return;
+          }
+          if (D.type === 'dir' && t.onFolderDclick) {
+            o.emitter.emit('vf-folder-dclick', D);
+            return;
+          }
+          const U = o.contextMenuItems?.find((j) =>
+            j.show(o, { items: [D], target: D, searchQuery: '' })
+          );
+          U && U.action(o, [D]);
+        },
+        _e = (D) => {
+          const U = D.target?.closest('.file-item-' + W),
+            j = U ? String(U.getAttribute('data-key')) : null;
+          if (!j) return;
+          const G = v.value?.find((Z) => Z.path === j),
+            x = o.selectionFilterType,
+            $ = o.selectionFilterMimeIncludes,
+            T =
+              !x ||
+              x === 'both' ||
+              (x === 'files' && G?.type === 'file') ||
+              (x === 'dirs' && G?.type === 'dir');
+          let A = !0;
+          ($ &&
+            Array.isArray($) &&
+            $.length > 0 &&
+            (G?.type === 'dir'
+              ? (A = !0)
+              : G?.mime_type
+                ? (A = $.some((Z) => (G?.mime_type).startsWith(Z)))
+                : (A = !1)),
+            !(!T || !A) && G && Y(G));
+        },
+        ge = () => {
+          const D = h.value;
+          return v.value?.filter((U) => D?.has(U.path)) || [];
+        },
+        Ne = (D) => {
+          D.preventDefault();
+          const U = D.target?.closest('.file-item-' + W);
+          if (U) {
+            const j = String(U.getAttribute('data-key')),
+              G = v.value?.find((Z) => Z.path === j),
+              x = o.selectionFilterType,
+              $ = o.selectionFilterMimeIncludes,
+              T =
+                !x ||
+                x === 'both' ||
+                (x === 'files' && G?.type === 'file') ||
+                (x === 'dirs' && G?.type === 'dir');
+            let A = !0;
+            if (
+              ($ &&
+                Array.isArray($) &&
+                $.length > 0 &&
+                (G?.type === 'dir'
+                  ? (A = !0)
+                  : G?.mime_type
+                    ? (A = $.some((Z) => (G?.mime_type).startsWith(Z)))
+                    : (A = !1)),
+              !T || !A)
+            )
+              return;
+            (h.value?.has(j) || (c.clearSelection(), c.select(j)),
+              o.emitter.emit('vf-contextmenu-show', { event: D, items: ge(), target: G }));
+          }
+        },
+        $e = (D) => {
+          (D.preventDefault(), o.emitter.emit('vf-contextmenu-show', { event: D, items: ge() }));
+        },
+        Oe = (D) => {
+          if (D.altKey || D.ctrlKey || D.metaKey) return (D.preventDefault(), !1);
+          Q.value = !0;
+          const U = D.target?.closest('.file-item-' + W);
+          if (((N.value = U ? String(U.dataset.key) : null), D.dataTransfer && N.value)) {
+            (D.dataTransfer.setDragImage(r.value, 0, 15),
+              (D.dataTransfer.effectAllowed = 'all'),
+              (D.dataTransfer.dropEffect = 'copy'));
+            const j = h.value?.has(N.value) ? Array.from(h.value) : [N.value];
+            (D.dataTransfer.setData('items', JSON.stringify(j)), c.setDraggedItem(N.value));
+          }
+        },
+        Re = () => {
+          N.value = null;
+        };
+      return (D, U) => (
+        e.openBlock(),
+        e.createElementBlock('div', fm, [
+          e.createElementVNode(
+            'div',
+            {
+              ref: 'customScrollBarContainer',
+              class: e.normalizeClass([
+                'vuefinder__explorer__scrollbar-container',
+                [{ 'grid-view': e.unref(d).view === 'grid' }],
+              ]),
+            },
+            [e.createElementVNode('div', pm, null, 512)],
+            2
+          ),
+          e.unref(d).view === 'list'
+            ? (e.openBlock(),
+              e.createElementBlock('div', vm, [
+                e.createElementVNode(
+                  'div',
+                  {
+                    onClick: U[0] || (U[0] = (j) => e.unref(c).toggleSort('basename')),
+                    class:
+                      'vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button',
+                  },
+                  [
+                    e.createTextVNode(e.toDisplayString(e.unref(C)('Name')) + ' ', 1),
+                    e.withDirectives(
+                      e.createVNode(mt, { direction: e.unref(i).order }, null, 8, ['direction']),
+                      [[e.vShow, e.unref(i).active && e.unref(i).column === 'basename']]
+                    ),
+                  ]
+                ),
+                e.createElementVNode(
+                  'div',
+                  {
+                    onClick: U[1] || (U[1] = (j) => e.unref(c).toggleSort('file_size')),
+                    class:
+                      'vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button',
+                  },
+                  [
+                    e.createTextVNode(e.toDisplayString(e.unref(C)('Size')) + ' ', 1),
+                    e.withDirectives(
+                      e.createVNode(mt, { direction: e.unref(i).order }, null, 8, ['direction']),
+                      [[e.vShow, e.unref(i).active && e.unref(i).column === 'file_size']]
+                    ),
+                  ]
+                ),
+                e.createElementVNode(
+                  'div',
+                  {
+                    onClick: U[2] || (U[2] = (j) => e.unref(c).toggleSort('last_modified')),
+                    class:
+                      'vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button',
+                  },
+                  [
+                    e.createTextVNode(e.toDisplayString(e.unref(C)('Date')) + ' ', 1),
+                    e.withDirectives(
+                      e.createVNode(mt, { direction: e.unref(i).order }, null, 8, ['direction']),
+                      [[e.vShow, e.unref(i).active && e.unref(i).column === 'last_modified']]
+                    ),
+                  ]
+                ),
+              ]))
+            : e.createCommentVNode('', !0),
+          e.createElementVNode(
+            'div',
+            {
+              ref_key: 'scrollContainer',
+              ref: a,
+              class: e.normalizeClass([
+                'vuefinder__explorer__selector-area',
+                'scroller-' + e.unref(W),
+              ]),
+              onScroll: U[4] || (U[4] = (...j) => e.unref(S) && e.unref(S)(...j)),
+            },
+            [
+              e.unref(m).get('loadingIndicator') === 'linear' && e.unref(V)
+                ? (e.openBlock(), e.createElementBlock('div', _m))
+                : e.createCommentVNode('', !0),
+              e.createElementVNode(
+                'div',
+                {
+                  ref_key: 'scrollContent',
+                  ref: u,
+                  class: 'scrollContent min-h-full',
+                  style: e.normalizeStyle({
+                    height: `${e.unref(B)}px`,
+                    position: 'relative',
+                    width: '100%',
+                  }),
+                  onContextmenu: e.withModifiers($e, ['self', 'prevent']),
+                  onClick:
+                    U[3] ||
+                    (U[3] = e.withModifiers((...j) => e.unref(b) && e.unref(b)(...j), ['self'])),
+                },
+                [
+                  e.createElementVNode(
+                    'div',
+                    { ref_key: 'dragImage', ref: r, class: 'vuefinder__explorer__drag-item' },
+                    [
+                      e.createVNode(
+                        Wu,
+                        { count: N.value && e.unref(h).has(N.value) ? e.unref(h).size : 1 },
+                        null,
+                        8,
+                        ['count']
+                      ),
+                    ],
+                    512
+                  ),
+                  e.unref(d).view === 'grid'
+                    ? (e.openBlock(!0),
+                      e.createElementBlock(
+                        e.Fragment,
+                        { key: 0 },
+                        e.renderList(
+                          e.unref(L),
+                          (j) => (
+                            e.openBlock(),
+                            e.createBlock(
+                              jt,
+                              {
+                                key: j,
+                                'row-index': j,
+                                'row-height': y.value,
+                                view: 'grid',
+                                'items-per-row': e.unref(F),
+                                items: e.unref(O)(e.unref(v), j),
+                                'show-thumbnails': e.unref(d).showThumbnails,
+                                'is-dragging-item': M,
+                                'is-selected': _,
+                                'drag-n-drop-events': (G) => e.unref(l).events(G),
+                                explorerId: e.unref(W),
+                                onClick: J,
+                                onDblclick: _e,
+                                onContextmenu: Ne,
+                                onDragstart: Oe,
+                                onDragend: Re,
+                              },
+                              {
+                                icon: e.withCtx((G) => [
+                                  e.renderSlot(D.$slots, 'icon', e.mergeProps({ ref_for: !0 }, G)),
+                                ]),
+                                _: 3,
+                              },
+                              8,
+                              [
+                                'row-index',
+                                'row-height',
+                                'items-per-row',
+                                'items',
+                                'show-thumbnails',
+                                'drag-n-drop-events',
+                                'explorerId',
+                              ]
+                            )
+                          )
+                        ),
+                        128
+                      ))
+                    : (e.openBlock(!0),
+                      e.createElementBlock(
+                        e.Fragment,
+                        { key: 1 },
+                        e.renderList(
+                          e.unref(L),
+                          (j) => (
+                            e.openBlock(),
+                            e.createBlock(
+                              jt,
+                              {
+                                key: j,
+                                'row-index': j,
+                                'row-height': y.value,
+                                view: 'list',
+                                items: R(j) ? [R(j)] : [],
+                                compact: e.unref(d).compactListView,
+                                'is-dragging-item': M,
+                                'is-selected': _,
+                                'drag-n-drop-events': (G) => e.unref(l).events(G),
+                                explorerId: e.unref(W),
+                                onClick: J,
+                                onDblclick: _e,
+                                onContextmenu: Ne,
+                                onDragstart: Oe,
+                                onDragend: Re,
+                              },
+                              {
+                                icon: e.withCtx((G) => [
+                                  e.renderSlot(D.$slots, 'icon', e.mergeProps({ ref_for: !0 }, G)),
+                                ]),
+                                _: 3,
+                              },
+                              8,
+                              [
+                                'row-index',
+                                'row-height',
+                                'items',
+                                'compact',
+                                'drag-n-drop-events',
+                                'explorerId',
+                              ]
+                            )
+                          )
+                        ),
+                        128
+                      )),
+                ],
+                36
+              ),
+            ],
+            34
+          ),
+          e.createVNode(mm),
+        ])
+      );
+    },
+  }),
+  gm = ['href', 'download'],
+  wm = ['onClick'],
+  ym = e.defineComponent({
+    __name: 'ContextMenu',
+    setup(n) {
+      const t = H(),
+        o = e.ref(null),
+        l = e.ref([]),
+        r = e.reactive({ active: !1, items: [], positions: { left: '0px', top: '0px' } });
+      t.emitter.on('vf-context-selected', (c) => {
+        l.value = c;
+      });
+      const s = (c) => c.link(t, l.value),
+        a = (c) => {
+          (t.emitter.emit('vf-contextmenu-hide'), c.action(t, l.value));
+        };
+      (t.emitter.on('vf-contextmenu-show', (c) => {
+        const { event: m, items: d, target: i = null } = c || {};
+        ((r.items = (t.contextMenuItems || []).filter((v) => v.show(t, { items: d, target: i }))),
+          i
+            ? d.length > 1 && d.some((v) => v.path === i.path)
+              ? t.emitter.emit('vf-context-selected', d)
+              : t.emitter.emit('vf-context-selected', [i])
+            : t.emitter.emit('vf-context-selected', []),
+          u(m));
+      }),
+        t.emitter.on('vf-contextmenu-hide', () => {
+          r.active = !1;
+        }));
+      const u = (c) => {
+        const m = t.root,
+          d = m?.getBoundingClientRect?.(),
+          i = m?.getBoundingClientRect?.();
+        let v = c.clientX - (d?.left ?? 0),
+          h = c.clientY - (d?.top ?? 0);
+        ((r.active = !0),
+          e.nextTick(() => {
+            const V = o.value?.getBoundingClientRect();
+            let _ = V?.height ?? 0,
+              p = V?.width ?? 0;
+            ((v = i && i.right - c.pageX + window.scrollX < p ? v - p : v),
+              (h = i && i.bottom - c.pageY + window.scrollY < _ ? h - _ : h),
+              (r.positions = { left: String(v) + 'px', top: String(h) + 'px' }));
+          }));
+      };
+      return (c, m) =>
+        e.withDirectives(
+          (e.openBlock(),
+          e.createElementBlock(
+            'ul',
+            {
+              ref_key: 'contextmenu',
+              ref: o,
+              class: e.normalizeClass([
+                {
+                  'vuefinder__context-menu--active': r.active,
+                  'vuefinder__context-menu--inactive': !r.active,
+                },
+                'vuefinder__context-menu',
+              ]),
+              style: e.normalizeStyle(r.positions),
+            },
+            [
+              (e.openBlock(!0),
+              e.createElementBlock(
+                e.Fragment,
+                null,
+                e.renderList(
+                  r.items,
+                  (d) => (
+                    e.openBlock(),
+                    e.createElementBlock(
+                      'li',
+                      { class: 'vuefinder__context-menu__item', key: d.title },
+                      [
+                        d.link
+                          ? (e.openBlock(),
+                            e.createElementBlock(
+                              'a',
+                              {
+                                key: 0,
+                                class: 'vuefinder__context-menu__link',
+                                target: '_blank',
+                                href: s(d),
+                                download: s(d),
+                                onClick:
+                                  m[0] ||
+                                  (m[0] = (i) => e.unref(t).emitter.emit('vf-contextmenu-hide')),
+                              },
+                              [
+                                e.createElementVNode(
+                                  'span',
+                                  null,
+                                  e.toDisplayString(d.title(e.unref(t).i18n)),
+                                  1
+                                ),
+                              ],
+                              8,
+                              gm
+                            ))
+                          : (e.openBlock(),
+                            e.createElementBlock(
+                              'div',
+                              {
+                                key: 1,
+                                class: 'vuefinder__context-menu__action',
+                                onClick: (i) => a(d),
+                              },
+                              [
+                                e.createElementVNode(
+                                  'span',
+                                  null,
+                                  e.toDisplayString(d.title(e.unref(t).i18n)),
+                                  1
+                                ),
+                              ],
+                              8,
+                              wm
+                            )),
+                      ]
+                    )
+                  )
+                ),
+                128
+              )),
+            ],
+            6
+          )),
+          [[e.vShow, r.active]]
+        );
+    },
+  }),
+  km = { class: 'vuefinder__status-bar__wrapper' },
+  Em = { class: 'vuefinder__status-bar__storage' },
+  bm = ['title'],
+  Vm = { class: 'vuefinder__status-bar__storage-icon' },
+  Nm = ['value'],
+  xm = ['value'],
+  Cm = { class: 'vuefinder__status-bar__info space-x-2' },
+  Bm = { key: 0 },
+  Sm = { key: 1 },
+  $m = { key: 0, class: 'vuefinder__status-bar__size' },
+  Dm = { class: 'vuefinder__status-bar__actions' },
+  Fm = e.defineComponent({
+    __name: 'Statusbar',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        l = t.fs,
+        r = I.useStore(l.sortedFiles),
+        s = I.useStore(l.path),
+        a = I.useStore(l.selectedCount),
+        u = I.useStore(l.storages),
+        c = I.useStore(l.selectedItems),
+        m = I.useStore(l.path),
+        d = (p) => {
+          const f = p.target.value;
+          t.adapter.open(f + '://');
+        },
+        i = e.computed(() =>
+          !c.value || c.value.length === 0 ? 0 : c.value.reduce((p, f) => p + (f.file_size || 0), 0)
+        ),
+        v = e.computed(() => u.value),
+        h = e.computed(() => r.value),
+        V = e.computed(() => a.value || 0),
+        _ = e.computed(() => c.value || []);
+      return (p, f) => (
+        e.openBlock(),
+        e.createElementBlock('div', km, [
+          e.createElementVNode('div', Em, [
+            e.createElementVNode(
+              'div',
+              { class: 'vuefinder__status-bar__storage-container', title: e.unref(o)('Storage') },
+              [
+                e.createElementVNode('div', Vm, [e.createVNode(e.unref(gt))]),
+                e.createElementVNode(
+                  'select',
+                  {
+                    name: 'vuefinder-media-selector',
+                    value: e.unref(s).storage,
+                    onChange: d,
+                    class: 'vuefinder__status-bar__storage-select',
+                    tabindex: '-1',
+                  },
+                  [
+                    (e.openBlock(!0),
+                    e.createElementBlock(
+                      e.Fragment,
+                      null,
+                      e.renderList(
+                        v.value,
+                        (w) => (
+                          e.openBlock(),
+                          e.createElementBlock(
+                            'option',
+                            { value: w, key: w },
+                            e.toDisplayString(w),
+                            9,
+                            xm
+                          )
+                        )
+                      ),
+                      128
+                    )),
+                  ],
+                  40,
+                  Nm
+                ),
+              ],
+              8,
+              bm
+            ),
+            e.createElementVNode('div', Cm, [
+              V.value === 0
+                ? (e.openBlock(),
+                  e.createElementBlock(
+                    'span',
+                    Bm,
+                    e.toDisplayString(h.value.length) +
+                      ' ' +
+                      e.toDisplayString(e.unref(o)('items')),
+                    1
+                  ))
+                : (e.openBlock(),
+                  e.createElementBlock('span', Sm, [
+                    e.createTextVNode(
+                      e.toDisplayString(V.value) +
+                        ' ' +
+                        e.toDisplayString(e.unref(o)('selected')) +
+                        ' ',
+                      1
+                    ),
+                    i.value
+                      ? (e.openBlock(),
+                        e.createElementBlock(
+                          'span',
+                          $m,
+                          e.toDisplayString(e.unref(t).filesize(i.value)),
+                          1
+                        ))
+                      : e.createCommentVNode('', !0),
+                  ])),
+            ]),
+          ]),
+          e.createElementVNode('div', Dm, [
+            e.renderSlot(p.$slots, 'actions', {
+              path: e.unref(m).path,
+              count: V.value || 0,
+              selected: _.value,
+            }),
+          ]),
+        ])
+      );
+    },
+  }),
+  Mm = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    fill: 'currentColor',
+    class: 'h-5 w-5',
+    viewBox: '0 0 24 24',
+  };
+function Tm(n, t) {
+  return (
+    e.openBlock(),
+    e.createElementBlock('svg', Mm, [
+      ...(t[0] ||
+        (t[0] = [
+          e.createElementVNode('path', { fill: 'none', d: 'M0 0h24v24H0z' }, null, -1),
+          e.createElementVNode(
+            'path',
+            {
+              d: 'M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m3.6 5.2a1 1 0 0 0-1.4.2L12 10.333 9.8 7.4a1 1 0 1 0-1.6 1.2l2.55 3.4-2.55 3.4a1 1 0 1 0 1.6 1.2l2.2-2.933 2.2 2.933a1 1 0 0 0 1.6-1.2L13.25 12l2.55-3.4a1 1 0 0 0-.2-1.4',
+            },
+            null,
+            -1
+          ),
+        ])),
+    ])
+  );
+}
+const Am = { render: Tm };
+function Nn(n, t) {
+  const o = n.findIndex((l) => l.path === t.path);
+  o > -1 ? (n[o] = t) : n.push(t);
+}
+const Im = { class: 'vuefinder__folder-loader-indicator' },
+  Lm = { key: 1, class: 'vuefinder__folder-loader-indicator--icon' },
+  xn = e.defineComponent({
+    __name: 'FolderLoaderIndicator',
+    props: e.mergeModels({ storage: {}, path: {} }, { modelValue: {}, modelModifiers: {} }),
+    emits: ['update:modelValue'],
+    setup(n) {
+      const t = n,
+        o = H(),
+        l = e.useModel(n, 'modelValue'),
+        r = e.ref(!1);
+      e.watch(
+        () => l.value,
+        () => s()
+      );
+      const s = async () => {
+        r.value = !0;
+        try {
+          const u = (await o.adapter.list(t.path)).files.filter((c) => c.type === 'dir');
+          Nn(o.treeViewData, { path: t.path, type: 'dir', folders: u });
+        } catch (a) {
+          console.error('Failed to fetch subfolders:', a);
+        } finally {
+          r.value = !1;
+        }
+      };
+      return (a, u) => (
+        e.openBlock(),
+        e.createElementBlock('div', Im, [
+          r.value
+            ? (e.openBlock(),
+              e.createBlock(e.unref(nt), {
+                key: 0,
+                class: 'vuefinder__folder-loader-indicator--loading',
+              }))
+            : (e.openBlock(),
+              e.createElementBlock('div', Lm, [
+                l.value
+                  ? (e.openBlock(),
+                    e.createBlock(e.unref(tt), {
+                      key: 0,
+                      class: 'vuefinder__folder-loader-indicator--minus',
+                    }))
+                  : e.createCommentVNode('', !0),
+                l.value
+                  ? e.createCommentVNode('', !0)
+                  : (e.openBlock(),
+                    e.createBlock(e.unref(et), {
+                      key: 1,
+                      class: 'vuefinder__folder-loader-indicator--plus',
+                    })),
+              ])),
+        ])
+      );
+    },
+  }),
+  Om = { key: 0 },
+  Rm = { class: 'vuefinder__treesubfolderlist__no-folders' },
+  Pm = { class: 'vuefinder__treesubfolderlist__item-content' },
+  zm = ['onClick'],
+  Hm = ['title', 'onDblclick', 'onClick'],
+  Um = { class: 'vuefinder__treesubfolderlist__item-icon' },
+  Km = { class: 'vuefinder__treesubfolderlist__subfolder' },
+  jm = e.defineComponent({
+    __name: 'TreeSubfolderList',
+    props: { storage: {}, path: {} },
+    setup(n) {
+      const t = H(),
+        o = t.fs,
+        l = Le(t, ['vuefinder__drag-over']),
+        r = e.ref({}),
+        { t: s } = t.i18n,
+        a = I.useStore(o.path),
+        u = n,
+        c = e.ref(null);
+      e.onMounted(() => {
+        u.path === u.storage + '://' &&
+          c.value &&
+          Qe.OverlayScrollbars(c.value, { scrollbars: { theme: 'vf-scrollbars-theme' } });
+      });
+      const m = e.computed(() => t.treeViewData.find((i) => i.path === u.path)?.folders || []);
+      return (d, i) => {
+        const v = e.resolveComponent('TreeSubfolderList', !0);
+        return (
+          e.openBlock(),
+          e.createElementBlock(
+            'ul',
+            {
+              ref_key: 'parentSubfolderList',
+              ref: c,
+              class: 'vuefinder__treesubfolderlist__container',
+            },
+            [
+              m.value.length
+                ? e.createCommentVNode('', !0)
+                : (e.openBlock(),
+                  e.createElementBlock('li', Om, [
+                    e.createElementVNode('div', Rm, e.toDisplayString(e.unref(s)('No folders')), 1),
+                  ])),
+              (e.openBlock(!0),
+              e.createElementBlock(
+                e.Fragment,
+                null,
+                e.renderList(
+                  m.value,
+                  (h) => (
+                    e.openBlock(),
+                    e.createElementBlock(
+                      'li',
+                      { key: h.path, class: 'vuefinder__treesubfolderlist__item' },
+                      [
+                        e.createElementVNode('div', Pm, [
+                          e.createElementVNode(
+                            'div',
+                            {
+                              class: 'vuefinder__treesubfolderlist__item-toggle',
+                              onClick: (V) => (r.value[h.path] = !r.value[h.path]),
+                            },
+                            [
+                              e.createVNode(
+                                xn,
+                                {
+                                  storage: n.storage,
+                                  path: h.path,
+                                  modelValue: r.value[h.path],
+                                  'onUpdate:modelValue': (V) => (r.value[h.path] = V),
+                                },
+                                null,
+                                8,
+                                ['storage', 'path', 'modelValue', 'onUpdate:modelValue']
+                              ),
+                            ],
+                            8,
+                            zm
+                          ),
+                          e.createElementVNode(
+                            'div',
+                            e.mergeProps(
+                              e.toHandlers(
+                                e
+                                  .unref(l)
+                                  .events({
+                                    ...h,
+                                    dir: h.path,
+                                    extension: '',
+                                    file_size: null,
+                                    last_modified: null,
+                                    mime_type: null,
+                                    visibility: 'public',
+                                  }),
+                                !0
+                              ),
+                              {
+                                class: 'vuefinder__treesubfolderlist__item-link',
+                                title: h.path,
+                                onDblclick: (V) => (r.value[h.path] = !r.value[h.path]),
+                                onClick: (V) => e.unref(t).adapter.open(h.path),
+                              }
+                            ),
+                            [
+                              e.createElementVNode('div', Um, [
+                                e.unref(a)?.path === h.path
+                                  ? (e.openBlock(),
+                                    e.createBlock(e.unref(wt), {
+                                      key: 0,
+                                      class: 'vuefinder__item-icon__folder--open',
+                                    }))
+                                  : (e.openBlock(),
+                                    e.createBlock(e.unref(he), {
+                                      key: 1,
+                                      class: 'vuefinder__item-icon__folder',
+                                    })),
+                              ]),
+                              e.createElementVNode(
+                                'div',
+                                {
+                                  class: e.normalizeClass([
+                                    'vuefinder__treesubfolderlist__item-text',
+                                    {
+                                      'vuefinder__treesubfolderlist__item-text--active':
+                                        e.unref(a).path === h.path,
+                                    },
+                                  ]),
+                                },
+                                e.toDisplayString(h.basename),
+                                3
+                              ),
+                            ],
+                            16,
+                            Hm
+                          ),
+                        ]),
+                        e.createElementVNode('div', Km, [
+                          e.withDirectives(
+                            e.createVNode(v, { storage: u.storage, path: h.path }, null, 8, [
+                              'storage',
+                              'path',
+                            ]),
+                            [[e.vShow, r.value[h.path]]]
+                          ),
+                        ]),
+                      ]
+                    )
+                  )
+                ),
+                128
+              )),
+            ],
+            512
+          )
+        );
+      };
+    },
+  }),
+  Wm = e.defineComponent({
+    __name: 'TreeStorageItem',
+    props: { storage: {} },
+    setup(n) {
+      const t = H(),
+        o = t.fs,
+        l = e.ref(!1),
+        r = n,
+        s = Le(t, ['vuefinder__drag-over']),
+        a = I.useStore(o.path),
+        u = e.computed(() => r.storage === a.value?.storage),
+        c = {
+          storage: r.storage,
+          path: r.storage + '://',
+          dir: r.storage + '://',
+          type: 'dir',
+          basename: r.storage,
+          extension: '',
+          file_size: null,
+          last_modified: null,
+          mime_type: null,
+          visibility: 'public',
+        };
+      function m(d) {
+        d === a.value?.storage ? (l.value = !l.value) : t.adapter.open(d + '://');
+      }
+      return (d, i) => (
+        e.openBlock(),
+        e.createElementBlock(
+          e.Fragment,
+          null,
+          [
+            e.createElementVNode(
+              'div',
+              {
+                onClick: i[2] || (i[2] = (v) => m(n.storage)),
+                class: 'vuefinder__treestorageitem__header',
+              },
+              [
+                e.createElementVNode(
+                  'div',
+                  e.mergeProps(e.toHandlers(e.unref(s).events(c), !0), {
+                    class: [
+                      'vuefinder__treestorageitem__info',
+                      u.value ? 'vuefinder__treestorageitem__info--active' : '',
+                    ],
+                  }),
+                  [
+                    e.createElementVNode(
+                      'div',
+                      {
+                        class: e.normalizeClass([
+                          'vuefinder__treestorageitem__icon',
+                          u.value ? 'vuefinder__treestorageitem__icon--active' : '',
+                        ]),
+                      },
+                      [e.createVNode(e.unref(gt))],
+                      2
+                    ),
+                    e.createElementVNode('div', null, e.toDisplayString(n.storage), 1),
+                  ],
+                  16
+                ),
+                e.createElementVNode(
+                  'div',
+                  {
+                    class: 'vuefinder__treestorageitem__loader',
+                    onClick:
+                      i[1] || (i[1] = e.withModifiers((v) => (l.value = !l.value), ['stop'])),
+                  },
+                  [
+                    e.createVNode(
+                      xn,
+                      {
+                        storage: n.storage,
+                        path: n.storage + '://',
+                        modelValue: l.value,
+                        'onUpdate:modelValue': i[0] || (i[0] = (v) => (l.value = v)),
+                      },
+                      null,
+                      8,
+                      ['storage', 'path', 'modelValue']
+                    ),
+                  ]
+                ),
+              ]
+            ),
+            e.withDirectives(
+              e.createVNode(
+                jm,
+                {
+                  storage: n.storage,
+                  path: n.storage + '://',
+                  class: 'vuefinder__treestorageitem__subfolder',
+                },
+                null,
+                8,
+                ['storage', 'path']
+              ),
+              [[e.vShow, l.value]]
+            ),
+          ],
+          64
+        )
+      );
+    },
+  }),
+  Gm = { class: 'vuefinder__folder-indicator' },
+  qm = { class: 'vuefinder__folder-indicator--icon' },
+  Ym = e.defineComponent({
+    __name: 'FolderIndicator',
+    props: { modelValue: {}, modelModifiers: {} },
+    emits: ['update:modelValue'],
+    setup(n) {
+      const t = e.useModel(n, 'modelValue');
+      return (o, l) => (
+        e.openBlock(),
+        e.createElementBlock('div', Gm, [
+          e.createElementVNode('div', qm, [
+            t.value
+              ? (e.openBlock(),
+                e.createBlock(e.unref(tt), { key: 0, class: 'vuefinder__folder-indicator--minus' }))
+              : e.createCommentVNode('', !0),
+            t.value
+              ? e.createCommentVNode('', !0)
+              : (e.openBlock(),
+                e.createBlock(e.unref(et), { key: 1, class: 'vuefinder__folder-indicator--plus' })),
+          ]),
+        ])
+      );
+    },
+  }),
+  Qm = { class: 'vuefinder__treeview__header' },
+  Xm = { class: 'vuefinder__treeview__pinned-label' },
+  Jm = { class: 'vuefinder__treeview__pin-text text-nowrap' },
+  Zm = { key: 0, class: 'vuefinder__treeview__pinned-list' },
+  ef = ['onClick'],
+  tf = ['title'],
+  nf = ['onClick'],
+  of = { key: 0 },
+  lf = { class: 'vuefinder__treeview__no-pinned' },
+  rf = e.defineComponent({
+    __name: 'TreeView',
+    setup(n) {
+      const t = H(),
+        { t: o } = t.i18n,
+        { getStore: l, setStore: r } = t.storage,
+        s = t.fs,
+        a = t.config,
+        u = I.useStore(a.state),
+        c = I.useStore(s.sortedFiles),
+        m = I.useStore(s.storages),
+        d = e.computed(() => m.value || []),
+        i = I.useStore(s.path),
+        v = Le(t, ['vuefinder__drag-over']),
+        h = e.ref(190),
+        V = e.ref(l('pinned-folders-opened', !0));
+      e.watch(V, (w) => r('pinned-folders-opened', w));
+      const _ = (w) => {
+          const k = a.get('pinnedFolders');
+          a.set(
+            'pinnedFolders',
+            k.filter((y) => y.path !== w.path)
+          );
+        },
+        p = (w) => {
+          const k = w.clientX,
+            y = w.target.parentElement;
+          if (!y) return;
+          const C = y.getBoundingClientRect().width;
+          (y.classList.remove('transition-[width]'), y.classList.add('transition-none'));
+          const F = (L) => {
+              ((h.value = C + L.clientX - k),
+                h.value < 50 && ((h.value = 0), a.set('showTreeView', !1)),
+                h.value > 50 && a.set('showTreeView', !0));
+            },
+            B = () => {
+              const L = y.getBoundingClientRect();
+              ((h.value = L.width),
+                y.classList.add('transition-[width]'),
+                y.classList.remove('transition-none'),
+                window.removeEventListener('mousemove', F),
+                window.removeEventListener('mouseup', B));
+            };
+          (window.addEventListener('mousemove', F), window.addEventListener('mouseup', B));
+        },
+        f = e.ref(null);
+      return (
+        e.onMounted(() => {
+          f.value &&
+            Qe.OverlayScrollbars(f.value, {
+              overflow: { x: 'hidden' },
+              scrollbars: { theme: 'vf-scrollbars-theme' },
+            });
+        }),
+        e.watch(c, (w) => {
+          const k = w.filter((y) => y.type === 'dir');
+          Nn(t.treeViewData, {
+            path: i.value.path || '',
+            folders: k.map((y) => ({
+              storage: y.storage,
+              path: y.path,
+              basename: y.basename,
+              type: 'dir',
+            })),
+          });
+        }),
+        (w, k) => (
+          e.openBlock(),
+          e.createElementBlock(
+            e.Fragment,
+            null,
+            [
+              e.createElementVNode(
+                'div',
+                {
+                  onClick: k[0] || (k[0] = (y) => e.unref(a).toggle('showTreeView')),
+                  class: e.normalizeClass([
+                    'vuefinder__treeview__overlay',
+                    e.unref(u).showTreeView ? 'vuefinder__treeview__backdrop' : 'hidden',
+                  ]),
+                },
+                null,
+                2
+              ),
+              e.createElementVNode(
+                'div',
+                {
+                  style: e.normalizeStyle(
+                    e.unref(u).showTreeView
+                      ? 'min-width:100px;max-width:75%; width: ' + h.value + 'px'
+                      : 'width: 0'
+                  ),
+                  class: 'vuefinder__treeview__container',
+                },
+                [
+                  e.createElementVNode(
+                    'div',
+                    {
+                      ref_key: 'treeViewScrollElement',
+                      ref: f,
+                      class: 'vuefinder__treeview__scroll',
+                    },
+                    [
+                      e.createElementVNode('div', Qm, [
+                        e.createElementVNode(
+                          'div',
+                          {
+                            onClick: k[2] || (k[2] = (y) => (V.value = !V.value)),
+                            class: 'vuefinder__treeview__pinned-toggle',
+                          },
+                          [
+                            e.createElementVNode('div', Xm, [
+                              e.createVNode(e.unref(ht), {
+                                class: 'vuefinder__treeview__pin-icon',
+                              }),
+                              e.createElementVNode(
+                                'div',
+                                Jm,
+                                e.toDisplayString(e.unref(o)('Pinned Folders')),
+                                1
+                              ),
+                            ]),
+                            e.createVNode(
+                              Ym,
+                              {
+                                modelValue: V.value,
+                                'onUpdate:modelValue': k[1] || (k[1] = (y) => (V.value = y)),
+                              },
+                              null,
+                              8,
+                              ['modelValue']
+                            ),
+                          ]
+                        ),
+                        V.value
+                          ? (e.openBlock(),
+                            e.createElementBlock('ul', Zm, [
+                              (e.openBlock(!0),
+                              e.createElementBlock(
+                                e.Fragment,
+                                null,
+                                e.renderList(
+                                  e.unref(u).pinnedFolders,
+                                  (y) => (
+                                    e.openBlock(),
+                                    e.createElementBlock(
+                                      'li',
+                                      { key: y.path, class: 'vuefinder__treeview__pinned-item' },
+                                      [
+                                        e.createElementVNode(
+                                          'div',
+                                          e.mergeProps(e.toHandlers(e.unref(v).events(y), !0), {
+                                            class: 'vuefinder__treeview__pinned-folder',
+                                            onClick: (C) => e.unref(t).adapter.open(y.path),
+                                          }),
+                                          [
+                                            e.unref(i).path !== y.path
+                                              ? (e.openBlock(),
+                                                e.createBlock(e.unref(he), {
+                                                  key: 0,
+                                                  class:
+                                                    'vuefinder__treeview__folder-icon vuefinder__item-icon__folder',
+                                                }))
+                                              : e.createCommentVNode('', !0),
+                                            e.unref(i).path === y.path
+                                              ? (e.openBlock(),
+                                                e.createBlock(e.unref(wt), {
+                                                  key: 1,
+                                                  class:
+                                                    'vuefinder__item-icon__folder--open vuefinder__treeview__open-folder-icon',
+                                                }))
+                                              : e.createCommentVNode('', !0),
+                                            e.createElementVNode(
+                                              'div',
+                                              {
+                                                title: y.path,
+                                                class: e.normalizeClass([
+                                                  'vuefinder__treeview__folder-name',
+                                                  {
+                                                    'vuefinder__treeview__folder-name--active':
+                                                      e.unref(i).path === y.path,
+                                                  },
+                                                ]),
+                                              },
+                                              e.toDisplayString(y.basename),
+                                              11,
+                                              tf
+                                            ),
+                                          ],
+                                          16,
+                                          ef
+                                        ),
+                                        e.createElementVNode(
+                                          'div',
+                                          {
+                                            class: 'vuefinder__treeview__remove-folder',
+                                            onClick: (C) => _(y),
+                                          },
+                                          [
+                                            e.createVNode(e.unref(Am), {
+                                              class: 'vuefinder__treeview__remove-icon',
+                                            }),
+                                          ],
+                                          8,
+                                          nf
+                                        ),
+                                      ]
+                                    )
+                                  )
+                                ),
+                                128
+                              )),
+                              e.unref(u).pinnedFolders.length
+                                ? e.createCommentVNode('', !0)
+                                : (e.openBlock(),
+                                  e.createElementBlock('li', of, [
+                                    e.createElementVNode(
+                                      'div',
+                                      lf,
+                                      e.toDisplayString(e.unref(o)('No folders pinned')),
+                                      1
+                                    ),
+                                  ])),
+                            ]))
+                          : e.createCommentVNode('', !0),
+                      ]),
+                      (e.openBlock(!0),
+                      e.createElementBlock(
+                        e.Fragment,
+                        null,
+                        e.renderList(
+                          d.value,
+                          (y) => (
+                            e.openBlock(),
+                            e.createElementBlock(
+                              'div',
+                              { class: 'vuefinder__treeview__storage', key: y },
+                              [e.createVNode(Wm, { storage: y }, null, 8, ['storage'])]
+                            )
+                          )
+                        ),
+                        128
+                      )),
+                    ],
+                    512
+                  ),
+                  e.createElementVNode(
+                    'div',
+                    { onMousedown: p, class: 'vuefinder__treeview__resize-handle' },
+                    null,
+                    32
+                  ),
+                ],
+                4
+              ),
+            ],
+            64
+          )
+        )
+      );
+    },
+  }),
+  ne = {
+    newfolder: 'newfolder',
+    selectAll: 'selectAll',
+    pinFolder: 'pinFolder',
+    unpinFolder: 'unpinFolder',
+    delete: 'delete',
+    refresh: 'refresh',
+    preview: 'preview',
+    open: 'open',
+    openDir: 'openDir',
+    download: 'download',
+    download_archive: 'download_archive',
+    archive: 'archive',
+    unarchive: 'unarchive',
+    rename: 'rename',
+    move: 'move',
+    copy: 'copy',
+    paste: 'paste',
+  };
+function af(n) {
+  return n.items.length > 1 && n.items.some((t) => t.path === n.target?.path)
+    ? 'many'
+    : n.target
+      ? 'one'
+      : 'none';
+}
+function te(n) {
+  const t = Object.assign({ needsSearchQuery: !1 }, n);
+  return (o, l) =>
+    !(
+      t.needsSearchQuery !== !!l.searchQuery ||
+      (t.target !== void 0 && t.target !== af(l)) ||
+      (t.targetType !== void 0 && t.targetType !== l.target?.type) ||
+      (t.mimeType !== void 0 && t.mimeType !== l.target?.mime_type) ||
+      (t.feature !== void 0 && !o.features.includes(t.feature))
+    );
+}
+function Fe(...n) {
+  return (t, o) => n.some((l) => l(t, o));
+}
+function Me(...n) {
+  return (t, o) => n.every((l) => l(t, o));
+}
+const Cn = [
+    {
+      id: ne.openDir,
+      title: ({ t: n }) => n('Open containing folder'),
+      action: (n, t) => {
+        const o = t[0];
+        o && n.adapter.open(o.dir);
+      },
+      show: te({ target: 'one', needsSearchQuery: !0 }),
+    },
+    {
+      id: ne.refresh,
+      title: ({ t: n }) => n('Refresh'),
+      action: (n) => {
+        const t = n.fs;
+        (n.adapter.invalidateListQuery(t.path.get().path), n.adapter.open(t.path.get().path));
+      },
+      show: Fe(te({ target: 'none' }), te({ target: 'many' })),
+    },
+    {
+      id: ne.selectAll,
+      title: ({ t: n }) => n('Select All'),
+      action: (n) => {
+        n.fs.selectAll(n.selectionMode || 'multiple');
+      },
+      show: (n, t) => n.selectionMode === 'multiple' && te({ target: 'none' })(n, t),
+    },
+    {
+      id: ne.newfolder,
+      title: ({ t: n }) => n('New Folder'),
+      action: (n) => n.modal.open(Bt),
+      show: te({ target: 'none', feature: K.NEW_FOLDER }),
+    },
+    {
+      id: ne.open,
+      title: ({ t: n }) => n('Open'),
+      action: (n, t) => {
+        t[0] && n.adapter.open(t[0].path);
+      },
+      show: te({ target: 'one', targetType: 'dir' }),
+    },
+    {
+      id: ne.pinFolder,
+      title: ({ t: n }) => n('Pin Folder'),
+      action: (n, t) => {
+        const o = n.config,
+          l = o.get('pinnedFolders'),
+          r = l.concat(t.filter((s) => l.findIndex((a) => a.path === s.path) === -1));
+        o.set('pinnedFolders', r);
+      },
+      show: Me(
+        te({ target: 'one', targetType: 'dir' }),
+        (n, t) => n.config.get('pinnedFolders').findIndex((r) => r.path === t.target?.path) === -1
+      ),
+    },
+    {
+      id: ne.unpinFolder,
+      title: ({ t: n }) => n('Unpin Folder'),
+      action: (n, t) => {
+        const o = n.config,
+          l = o.get('pinnedFolders');
+        o.set(
+          'pinnedFolders',
+          l.filter((r) => !t.find((s) => s.path === r.path))
+        );
+      },
+      show: Me(
+        te({ target: 'one', targetType: 'dir' }),
+        (n, t) => n.config.get('pinnedFolders').findIndex((r) => r.path === t.target?.path) !== -1
+      ),
+    },
+    {
+      id: ne.preview,
+      title: ({ t: n }) => n('Preview'),
+      action: (n, t) => n.modal.open(Ze, { storage: t[0]?.storage, item: t[0] }),
+      show: Me(te({ target: 'one', feature: K.PREVIEW }), (n, t) => t.target?.type !== 'dir'),
+    },
+    {
+      id: ne.download,
+      link: (n, t) => {
+        if (t[0]) return n.adapter.getDownloadUrl(t[0]);
+      },
+      title: ({ t: n }) => n('Download'),
+      action: () => {},
+      show: Me(te({ target: 'one', feature: K.DOWNLOAD }), (n, t) => t.target?.type !== 'dir'),
+    },
+    {
+      id: ne.rename,
+      title: ({ t: n }) => n('Rename'),
+      action: (n, t) => n.modal.open(Je, { items: t }),
+      show: te({ target: 'one', feature: K.RENAME }),
+    },
+    {
+      id: ne.move,
+      title: ({ t: n }) => n('Move'),
+      action: (n, t) => {
+        const o = n.fs,
+          l = { storage: o.path.get().storage || '', path: o.path.get().path || '', type: 'dir' };
+        n.modal.open(Ce, { items: { from: t, to: l } });
+      },
+      show: Fe(te({ target: 'one', feature: K.MOVE }), te({ target: 'many', feature: K.MOVE })),
+    },
+    {
+      id: ne.copy,
+      title: ({ t: n }) => n('Copy'),
+      action: (n, t) => {
+        t.length > 0 && n.fs.setClipboard('copy', new Set(t.map((o) => o.path)));
+      },
+      show: Fe(te({ target: 'one', feature: K.COPY }), te({ target: 'many', feature: K.COPY })),
+    },
+    {
+      id: ne.paste,
+      title: ({ t: n }) => n('Paste'),
+      action: (n, t) => {
+        const o = n.fs.getClipboard();
+        if (o?.items?.size > 0) {
+          const r = n.fs.path.get();
+          let s = r.path,
+            a = r.storage;
+          t.length === 1 && t[0]?.type === 'dir' && ((s = t[0].path), (a = t[0].storage));
+          const u = { storage: a || '', path: s || '', type: 'dir' };
+          n.modal.open(o.type === 'cut' ? Ce : kt, { items: { from: Array.from(o.items), to: u } });
+        }
+      },
+      show: (n, t) => n.fs.getClipboard()?.items?.size > 0,
+    },
+    {
+      id: ne.archive,
+      title: ({ t: n }) => n('Archive'),
+      action: (n, t) => n.modal.open(Dt, { items: t }),
+      show: Fe(
+        te({ target: 'many', feature: K.ARCHIVE }),
+        Me(
+          te({ target: 'one', feature: K.ARCHIVE }),
+          (n, t) => t.target?.mime_type !== 'application/zip'
+        )
+      ),
+    },
+    {
+      id: ne.unarchive,
+      title: ({ t: n }) => n('Unarchive'),
+      action: (n, t) => n.modal.open($t, { items: t }),
+      show: te({ target: 'one', feature: K.UNARCHIVE, mimeType: 'application/zip' }),
+    },
+    {
+      id: ne.delete,
+      title: ({ t: n }) => n('Delete'),
+      action: (n, t) => {
+        n.modal.open(Xe, { items: t });
+      },
+      show: Fe(te({ feature: K.DELETE, target: 'one' }), te({ feature: K.DELETE, target: 'many' })),
+    },
+  ],
+  sf = ['data-theme'],
+  cf = {
+    key: 0,
+    class: 'vuefinder__external-drop-overlay vuefinder__external-drop-overlay--relative',
+  },
+  df = { class: 'vuefinder__external-drop-message' },
+  uf = { class: 'vuefinder__main__content' },
+  Bn = e.defineComponent({
+    __name: 'VueFinder',
+    props: {
+      id: { default: 'vf' },
+      config: {},
+      adapter: {},
+      features: { type: [Boolean, Array], default: !0 },
+      debug: { type: Boolean, default: !1 },
+      theme: { default: 'light' },
+      locale: {},
+      contextMenuItems: { default: () => Cn },
+      selectionMode: { default: 'multiple' },
+      selectionFilterType: { default: 'both' },
+      selectionFilterMimeIncludes: { default: () => [] },
+      onError: {},
+      onSelect: {},
+      onPathChange: {},
+      onUploadComplete: {},
+      onDeleteComplete: {},
+      onReady: {},
+      onFileDclick: {},
+      onFolderDclick: {},
+      customUploader: {},
+    },
+    emits: [
+      'select',
+      'path-change',
+      'upload-complete',
+      'delete-complete',
+      'error',
+      'ready',
+      'file-dclick',
+      'folder-dclick',
+    ],
+    setup(n, { emit: t }) {
+      const o = t,
+        l = n,
+        r = Yn(l, e.inject('VueFinderOptions') || {});
+      e.provide(Gt, r);
+      const s = r.config,
+        a = r.fs,
+        u = I.useStore(s.state);
+      Cs(r);
+      const {
+        isDraggingExternal: c,
+        handleDragEnter: m,
+        handleDragOver: d,
+        handleDragLeave: i,
+        handleDrop: v,
+      } = Bs();
+      function h(_) {
+        (a.setPath(_.dirname),
+          s.get('persist') && s.set('path', _.dirname),
+          a.setReadOnly(_.read_only ?? !1),
+          r.modal.close(),
+          a.setFiles(_.files),
+          a.clearSelection(),
+          a.setSelectedCount(0),
+          a.setStorages(_.storages));
+      }
+      ((r.adapter.onBeforeOpen = () => {
+        a.setLoading(!0);
+      }),
+        (r.adapter.onAfterOpen = (_) => {
+          (h(_), a.setLoading(!1));
+        }),
+        r.emitter.on('vf-upload-complete', (_) => {
+          o('upload-complete', _);
+        }),
+        r.emitter.on('vf-delete-complete', (_) => {
+          o('delete-complete', _);
+        }),
+        r.emitter.on('vf-file-dclick', (_) => {
+          o('file-dclick', _);
+        }),
+        r.emitter.on('vf-folder-dclick', (_) => {
+          o('folder-dclick', _);
+        }),
+        e.onMounted(() => {
+          e.watch(
+            () => s.get('path'),
+            (p) => {
+              r.adapter.open(p);
+            }
+          );
+          const _ = s.get('persist') ? s.get('path') : (s.get('initialPath') ?? '');
+          (a.setPath(_),
+            r.adapter.open(_),
+            a.path.listen((p) => {
+              o('path-change', p.path);
+            }),
+            a.selectedItems.listen((p) => {
+              o('select', p);
+            }),
+            o('ready'));
+        }));
+      const V = async (_) => {
+        const p = await v(_);
+        p.length > 0 &&
+          (r.modal.open(St),
+          setTimeout(() => {
+            r.emitter.emit(
+              'vf-external-files-dropped',
+              p.map((f) => f.file)
+            );
+          }, 100));
+      };
+      return (_, p) => (
+        e.openBlock(),
+        e.createElementBlock(
+          'div',
+          {
+            ref: 'root',
+            tabindex: '0',
+            class: e.normalizeClass([
+              'vuefinder vuefinder__main vuefinder__themer',
+              { 'vuefinder--dragging-external': e.unref(c) },
+            ]),
+            'data-theme': e.unref(r).theme.current,
+            onDragenter: p[2] || (p[2] = (...f) => e.unref(m) && e.unref(m)(...f)),
+            onDragover: p[3] || (p[3] = (...f) => e.unref(d) && e.unref(d)(...f)),
+            onDragleave: p[4] || (p[4] = (...f) => e.unref(i) && e.unref(i)(...f)),
+            onDrop: V,
+          },
+          [
+            e.createElementVNode(
+              'div',
+              {
+                class: e.normalizeClass((e.unref(u).value && e.unref(u).value.theme) || 'light'),
+                style: { height: '100%', width: '100%' },
+              },
+              [
+                e.createElementVNode(
+                  'div',
+                  {
+                    class: e.normalizeClass([
+                      e.unref(u)?.fullScreen
+                        ? 'vuefinder__main__fixed'
+                        : 'vuefinder__main__relative',
+                      'vuefinder__main__container',
+                    ]),
+                    onMousedown:
+                      p[0] || (p[0] = (f) => e.unref(r).emitter.emit('vf-contextmenu-hide')),
+                    onTouchstart:
+                      p[1] || (p[1] = (f) => e.unref(r).emitter.emit('vf-contextmenu-hide')),
+                  },
+                  [
+                    e.unref(c)
+                      ? (e.openBlock(),
+                        e.createElementBlock('div', cf, [
+                          e.createElementVNode(
+                            'div',
+                            df,
+                            e.toDisplayString(
+                              e.unref(r).i18n.t('Drag and drop the files/folders to here.')
+                            ),
+                            1
+                          ),
+                        ]))
+                      : e.createCommentVNode('', !0),
+                    e.createVNode(Rc),
+                    e.createVNode(zd),
+                    e.createVNode(Fu),
+                    e.createElementVNode('div', uf, [
+                      e.createVNode(rf),
+                      e.createVNode(
+                        hm,
+                        { 'on-file-dclick': l.onFileDclick, 'on-folder-dclick': l.onFolderDclick },
+                        {
+                          icon: e.withCtx((f) => [
+                            e.renderSlot(
+                              _.$slots,
+                              'icon',
+                              e.normalizeProps(e.guardReactiveProps(f))
+                            ),
+                          ]),
+                          _: 3,
+                        },
+                        8,
+                        ['on-file-dclick', 'on-folder-dclick']
+                      ),
+                    ]),
+                    e.createVNode(Fm, null, {
+                      actions: e.withCtx((f) => [
+                        e.renderSlot(
+                          _.$slots,
+                          'status-bar',
+                          e.normalizeProps(e.guardReactiveProps(f))
+                        ),
+                      ]),
+                      _: 3,
+                    }),
+                  ],
+                  34
+                ),
+                (e.openBlock(),
+                e.createBlock(e.Teleport, { to: 'body' }, [
+                  e.createVNode(
+                    e.Transition,
+                    { name: 'fade' },
+                    {
+                      default: e.withCtx(() => [
+                        e.unref(r).modal.visible
+                          ? (e.openBlock(),
+                            e.createBlock(e.resolveDynamicComponent(e.unref(r).modal.type), {
+                              key: 0,
+                            }))
+                          : e.createCommentVNode('', !0),
+                      ]),
+                      _: 1,
+                    }
+                  ),
+                ])),
+                e.createVNode(ym),
+              ],
+              2
+            ),
+          ],
+          42,
+          sf
+        )
+      );
+    },
+  }),
+  Sn = {
+    install(n, t = {}) {
+      t.i18n = t.i18n ?? {};
+      let [o] = Object.keys(t.i18n);
+      ((t.locale = t.locale ?? o ?? 'en'),
+        n.provide('VueFinderOptions', t),
+        n.component('VueFinder', Bn));
+    },
+  };
+exports.ContextMenuIds = ne;
+exports.VueFinder = Bn;
+exports.VueFinderPlugin = Sn;
+exports.contextMenuItems = Cn;
+exports.default = Sn;

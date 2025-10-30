@@ -33,7 +33,7 @@ export interface VirtualColumnsReturn {
     minRow: number,
     maxRow: number,
     minCol: number,
-    maxCol: number,
+    maxCol: number
   ) => T[];
   getItemPosition: (itemIndex: number) => { row: number; col: number };
   getContainerHeight: () => number;
@@ -43,7 +43,7 @@ export interface VirtualColumnsReturn {
 
 export default function useVirtualColumns<T = unknown>(
   items: Ref<T[]>, // Accept only Vue refs (including computed)
-  options: VirtualColumnsOptions,
+  options: VirtualColumnsOptions
 ): VirtualColumnsReturn {
   const {
     scrollContainer,
@@ -76,7 +76,7 @@ export default function useVirtualColumns<T = unknown>(
     const start = Math.max(0, Math.floor(scrollTop.value / rh) - overscan);
     const end = Math.min(
       totalRows.value,
-      Math.ceil((scrollTop.value + containerHeightRef.value) / rh) + overscan,
+      Math.ceil((scrollTop.value + containerHeightRef.value) / rh) + overscan
     );
     return { start, end };
   });
@@ -114,7 +114,7 @@ export default function useVirtualColumns<T = unknown>(
     () => itemsRef.value.length,
     () => {
       updateItemsPerRow();
-    },
+    }
   );
 
   const getRowItems = <T>(items: T[], rowIndex: number): T[] => {
@@ -130,7 +130,7 @@ export default function useVirtualColumns<T = unknown>(
     minRow: number,
     maxRow: number,
     minCol: number,
-    maxCol: number,
+    maxCol: number
   ): T[] => {
     if (!items || !Array.isArray(items)) {
       return [];

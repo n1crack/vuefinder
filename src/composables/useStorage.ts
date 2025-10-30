@@ -1,7 +1,7 @@
 import { reactive, watch } from 'vue';
 
 export function useStorage(key: string) {
-  let storedValues = localStorage.getItem(key + '_storage');
+  const storedValues = localStorage.getItem(key + '_storage');
   const storage = reactive<Record<string, any>>(JSON.parse(storedValues ?? '{}'));
 
   watch(storage, setItem);

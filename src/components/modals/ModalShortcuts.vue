@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {inject} from 'vue';
+import { inject } from 'vue';
 import { useApp } from '../../composables/useApp';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
-import ModalHeader from "../../components/modals/ModalHeader.vue";
-import KeyboardIcon from "../../assets/icons/about.svg";
+import ModalHeader from '../../components/modals/ModalHeader.vue';
+import KeyboardIcon from '../../assets/icons/about.svg';
 
 const app = useApp();
-const {t} = app.i18n;
+const { t } = app.i18n;
 </script>
 
 <template>
@@ -36,33 +36,23 @@ const {t} = app.i18n;
           </div>
           <div class="vuefinder__about-modal__shortcut">
             {{ t('Select All') }}
-            <div>
-              <kbd>Ctrl</kbd> + <kbd>A</kbd>
-            </div>
+            <div><kbd>Ctrl</kbd> + <kbd>A</kbd></div>
           </div>
           <div class="vuefinder__about-modal__shortcut">
             {{ t('Search') }}
-            <div>
-              <kbd>Ctrl</kbd> + <kbd>F</kbd>
-            </div>
+            <div><kbd>Ctrl</kbd> + <kbd>F</kbd></div>
           </div>
           <div class="vuefinder__about-modal__shortcut">
             {{ t('Toggle Sidebar') }}
-            <div>
-              <kbd>Ctrl</kbd> + <kbd>E</kbd>
-            </div>
+            <div><kbd>Ctrl</kbd> + <kbd>E</kbd></div>
           </div>
           <div class="vuefinder__about-modal__shortcut">
             {{ t('Open Settings') }}
-            <div>
-              <kbd>Ctrl</kbd> + <kbd>,</kbd>
-            </div>
+            <div><kbd>Ctrl</kbd> + <kbd>,</kbd></div>
           </div>
           <div class="vuefinder__about-modal__shortcut">
             {{ t('Toggle Full Screen') }}
-            <div>
-              <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
-            </div>
+            <div><kbd>Ctrl</kbd> + <kbd>Enter</kbd></div>
           </div>
           <div class="vuefinder__about-modal__shortcut">
             {{ t('Preview') }}
@@ -73,12 +63,10 @@ const {t} = app.i18n;
         </div>
       </div>
     </div>
-    <template v-slot:buttons>
-      <button type="button" @click="app.modal.close()" class="vf-btn vf-btn-secondary">
+    <template #buttons>
+      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
         {{ t('Close') }}
       </button>
     </template>
   </ModalLayout>
 </template>
-
-

@@ -14,40 +14,40 @@ import CustomDclickExample from './examples/CustomDclickExample.vue';
 import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 
-const example = ref('default')
+const example = ref('default');
 
 // Create adapter instance
 const adapter = new CloudAdapter({
-      baseURL: 'http://inertia-vuefinder.test/api/files',
-      token: '', // Add your auth token here if needed
-      url: {
-        list: '', // GET /api/files
-        upload: '/upload',
-        delete: '/delete',
-        rename: '/rename',
-        archive: '/archive',
-        unarchive: '/unarchive',
-        createFile: '/save',
-        createFolder: '/newfolder',
-        preview: '/preview',
-        download: '/download'
-      }
-    });
- 
+  baseURL: 'http://inertia-vuefinder.test/api/files',
+  token: '', // Add your auth token here if needed
+  url: {
+    list: '', // GET /api/files
+    upload: '/upload',
+    delete: '/delete',
+    rename: '/rename',
+    archive: '/archive',
+    unarchive: '/unarchive',
+    createFile: '/save',
+    createFolder: '/newfolder',
+    preview: '/preview',
+    download: '/download',
+  },
+});
+
 const examples = {
-  default: "Inline select button example",
-  externalSelect: "External select example",
-  contextmenu: "Custom context menu example",
-  customIcons: "Custom Icons (Scoped Slot)",
-  windowExamples: "Window Examples (Exit Menu Demo)",
-  eventsDemo: "Events Demo - All VueFinder Events",
-  customDclick: "Custom Double-Click Events Demo",
-  singleSelection: "Single Selection Mode Demo",
-  selectionFilter: "Selection Filter Demo"
-}
+  default: 'Inline select button example',
+  externalSelect: 'External select example',
+  contextmenu: 'Custom context menu example',
+  customIcons: 'Custom Icons (Scoped Slot)',
+  windowExamples: 'Window Examples (Exit Menu Demo)',
+  eventsDemo: 'Events Demo - All VueFinder Events',
+  customDclick: 'Custom Double-Click Events Demo',
+  singleSelection: 'Single Selection Mode Demo',
+  selectionFilter: 'Selection Filter Demo',
+};
 
 // Theme management
-const currentTheme = ref('light')
+const currentTheme = ref('light');
 const themes = [
   { value: 'light', label: 'Light' },
   { value: 'dark', label: 'Dark' },
@@ -60,35 +60,36 @@ const themes = [
   { value: 'ocean', label: 'Oceanic' },
   { value: 'palenight', label: 'Palenight' },
   { value: 'arctic', label: 'Arctic' },
-  { value: 'code', label: 'Code' }
-]
+  { value: 'code', label: 'Code' },
+];
 
 // Check if we're in a popup window
 const isPopup = ref(false);
 
-const maxFileSize = ref("500MB")
+const maxFileSize = ref('500MB');
 
-const features = [
-  ...FEATURE_ALL_NAMES,
-]
+const features = [...FEATURE_ALL_NAMES];
 
 const config = {
   maxFileSize: maxFileSize,
-}
+};
 
 const handlePathChange = (path: string) => {
   console.log('handlePathChange called with path:', path);
-}
+};
 
 // Listen messages from popup
 const handleMessage = (event: MessageEvent) => {
   if (event.data && event.data.type === 'filesSelected') {
-    console.log('Selection completed:', Array.isArray(event.data.files) ? event.data.files.length : 0)
+    console.log(
+      'Selection completed:',
+      Array.isArray(event.data.files) ? event.data.files.length : 0
+    );
     if (event.source && 'postMessage' in event.source) {
       (event.source as Window).postMessage({ type: 'filesReceived' }, '*');
     }
   }
-}
+};
 
 onMounted(() => {
   isPopup.value = new URLSearchParams(window.location.search).get('popup') === 'true';
@@ -96,37 +97,34 @@ onMounted(() => {
   if (isPopup.value && window.opener && !window.opener.closed) {
     window.opener.postMessage({ type: 'popupReady' }, '*');
   }
-})
+});
 
 onUnmounted(() => {
   window.removeEventListener('message', handleMessage);
-})
+});
 </script>
 
 <template>
   <div class="wrapper">
-    
     <!-- Show example selector only if not in popup -->
     <div v-if="!isPopup">
-      <label for="example">
-        Example
-      </label>
+      <label for="example"> Example </label>
       <div>
         <select id="example" v-model="example">
-          <option v-for="(name, key) in examples" :value="key" :key="key">{{ name }}</option>
+          <option v-for="(name, key) in examples" :key="key" :value="key">{{ name }}</option>
         </select>
       </div>
 
-      <div style="font-weight: bold;padding: 10px">{{ examples[example] }}</div>
-      
+      <div style="font-weight: bold; padding: 10px">{{ examples[example] }}</div>
+
       <!-- Theme Selector -->
-      <div style="margin-top: 1rem; margin-bottom: 1rem;">
-        <label for="theme">
-          Theme
-        </label>
+      <div style="margin-top: 1rem; margin-bottom: 1rem">
+        <label for="theme"> Theme </label>
         <div>
           <select id="theme" v-model="currentTheme">
-            <option v-for="theme in themes" :key="theme.value" :value="theme.value">{{ theme.label }}</option>
+            <option v-for="theme in themes" :key="theme.value" :value="theme.value">
+              {{ theme.label }}
+            </option>
           </select>
         </div>
       </div>
@@ -134,7 +132,7 @@ onUnmounted(() => {
 
     <!-- Popup mode: Show only VueFinder -->
     <div v-if="isPopup">
-      <WindowExamplesExample 
+      <WindowExamplesExample
         :adapter="adapter"
         :config="config"
         :features="features"
@@ -143,8 +141,8 @@ onUnmounted(() => {
     </div>
 
     <!-- Regular examples (only show if not in popup) -->
-    <div v-if="!isPopup" class="flex flex-col [&>*]:flex-1 [&>*]:h-full min-h-80 max-h-120 ">
-      <DefaultExample 
+    <div v-if="!isPopup" class="flex flex-col [&>*]:flex-1 [&>*]:h-full min-h-80 max-h-120">
+      <DefaultExample
         v-if="example === 'default'"
         :adapter="adapter"
         :config="config"
@@ -153,7 +151,7 @@ onUnmounted(() => {
         :on-path-change="handlePathChange"
       />
 
-      <ExternalSelectExample 
+      <ExternalSelectExample
         v-if="example === 'externalSelect'"
         :adapter="adapter"
         :config="config"
@@ -161,7 +159,7 @@ onUnmounted(() => {
         :theme="currentTheme"
       />
 
-      <ContextmenuExample 
+      <ContextmenuExample
         v-if="example === 'contextmenu'"
         :adapter="adapter"
         :config="config"
@@ -169,7 +167,7 @@ onUnmounted(() => {
         :theme="currentTheme"
       />
 
-      <CustomIconsExample 
+      <CustomIconsExample
         v-if="example === 'customIcons'"
         :adapter="adapter"
         :config="config"
@@ -177,7 +175,7 @@ onUnmounted(() => {
         :theme="currentTheme"
       />
 
-      <WindowExamplesExample 
+      <WindowExamplesExample
         v-if="example === 'windowExamples'"
         :adapter="adapter"
         :config="config"
@@ -185,7 +183,7 @@ onUnmounted(() => {
         :theme="currentTheme"
       />
 
-      <EventsDemoExample 
+      <EventsDemoExample
         v-if="example === 'eventsDemo'"
         :adapter="adapter"
         :config="config"
@@ -193,7 +191,7 @@ onUnmounted(() => {
         :theme="currentTheme"
       />
 
-      <CustomDclickExample 
+      <CustomDclickExample
         v-if="example === 'customDclick'"
         :adapter="adapter"
         :config="config"
@@ -201,7 +199,7 @@ onUnmounted(() => {
         :theme="currentTheme"
       />
 
-      <SingleSelectionExample 
+      <SingleSelectionExample
         v-if="example === 'singleSelection'"
         :adapter="adapter"
         :config="config"
@@ -209,16 +207,14 @@ onUnmounted(() => {
         :theme="currentTheme"
       />
 
-      <SelectionFilterExample 
+      <SelectionFilterExample
         v-if="example === 'selectionFilter'"
         :adapter="adapter"
         :config="config"
         :features="features"
         :theme="currentTheme"
       />
-
     </div>
-
   </div>
 </template>
 
@@ -232,7 +228,7 @@ body {
   margin: 80px auto;
 }
 
-.btn{
+.btn {
   display: block;
   margin: 20px auto;
   padding: 10px 20px;

@@ -88,7 +88,7 @@ export class CloudAdapter extends BaseAdapter {
         const error = await response.json();
         throw new Error(
           (error && (error.message || error.error)) ||
-            `HTTP ${response.status}: ${response.statusText}`,
+            `HTTP ${response.status}: ${response.statusText}`
         );
       } catch {
         const text = await response.text();

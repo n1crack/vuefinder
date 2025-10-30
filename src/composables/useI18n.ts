@@ -9,7 +9,7 @@ export function useI18n(
   storage: { getStore: (k: string, d?: any) => any; setStore: (k: string, v: any) => void },
   initialLocale: string,
   emitter: any,
-  supportedLocales: Record<string, any>,
+  supportedLocales: Record<string, any>
 ) {
   const { getStore, setStore } = storage;
   const translations = ref<Record<string, string>>({});

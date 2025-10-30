@@ -1,5 +1,5 @@
 /* Mythril Theme */
-.vuefinder__themer[data-theme="mythril"] {
+.vuefinder__themer[data-theme='mythril'] {
   --vf-selection-bg: #f0f9ff;
   --vf-selection-border: #0ea5e9;
   /* Background Colors */
@@ -48,7 +48,7 @@
 }
 
 /* Mythril Theme - Context Menu */
-.vuefinder[data-theme="mythril"] .vuefinder__context-menu {
+.vuefinder[data-theme='mythril'] .vuefinder__context-menu {
   border-color: #cbd5e1;
   box-shadow:
     0 4px 6px -1px rgba(14, 165, 233, 0.1),
@@ -56,7 +56,7 @@
 }
 
 /* Mythril Theme - Selection Area */
-.selection-area-container[data-theme="mythril"] {
+.selection-area-container[data-theme='mythril'] {
   --vf-selection-bg: #f0f9ff;
   --vf-selection-border: #0ea5e9;
 }

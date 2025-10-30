@@ -375,7 +375,7 @@ export const createFilesStore = () => {
   const canGoBack = computed([historyIndex], (index) => index > 0);
   const canGoForward = computed(
     [navigationHistory, historyIndex],
-    (history, index) => index < history.length - 1,
+    (history, index) => index < history.length - 1
   );
 
   const setReadOnly = (value: boolean) => {

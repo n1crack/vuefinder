@@ -1,15 +1,15 @@
 <script lang="ts">
-import {ref, onMounted, onUnmounted} from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useApp } from '../composables/useApp';
 
 export default {
   props: {
-    on: {type: String, required: true},
+    on: { type: String, required: true },
   },
-  setup(props, {emit, slots}) {
+  setup(props, { emit, slots }) {
     const app = useApp();
     const shown = ref(false);
-    const {t} = app.i18n;
+    const { t } = app.i18n;
 
     let timeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -30,7 +30,8 @@ export default {
     });
 
     return {
-      shown, t
+      shown,
+      t,
     };
   },
 };
@@ -38,7 +39,7 @@ export default {
 
 <template>
   <div class="vuefinder__action-message" :class="{ 'vuefinder__action-message--hidden': !shown }">
-    <slot v-if="$slots.default"/>
+    <slot v-if="$slots.default" />
     <span v-else>{{ t('Saved.') }}</span>
   </div>
 </template>

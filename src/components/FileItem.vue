@@ -2,10 +2,10 @@
 // @ts-nocheck
 import { computed, ref } from 'vue';
 import ItemIcon from './ItemIcon.vue';
-import PinSVG from "../assets/icons/pin.svg";
+import PinSVG from '../assets/icons/pin.svg';
 import title_shorten from '../utils/title_shorten';
 import type { DirEntry } from '../types';
-import LockSVG from "../assets/icons/lock.svg";
+import LockSVG from '../assets/icons/lock.svg';
 import { useApp } from '../composables/useApp';
 
 const props = defineProps<{
@@ -33,20 +33,22 @@ const app = useApp();
 const fs = app.fs;
 const config = app.config;
 
-
 const isSelectableByType = computed(() => {
   const filterType = app.selectionFilterType;
   if (!filterType || filterType === 'both') return true;
-  return (filterType === 'files' && props.item.type === 'file') || (filterType === 'dirs' && props.item.type === 'dir');
+  return (
+    (filterType === 'files' && props.item.type === 'file') ||
+    (filterType === 'dirs' && props.item.type === 'dir')
+  );
 });
 
 const isSelectableByMime = computed(() => {
   const allowed = app.selectionFilterMimeIncludes;
   if (!allowed || !allowed.length) return true;
-  
+
   // If it's a directory, MIME filters don't apply - it's always selectable
   if (props.item.type === 'dir') return true;
-  
+
   // For files, check MIME type
   if (!props.item.mime_type) return false;
   return allowed.some((prefix: string) => props.item.mime_type?.startsWith(prefix));
@@ -58,12 +60,11 @@ const itemClasses = computed(() => [
   'file-item-' + props.explorerId,
   props.view === 'grid' ? 'vf-explorer-item-grid' : 'vf-explorer-item-list',
   props.isSelected ? 'vf-explorer-selected' : '',
-  !isSelectable.value ? 'vf-explorer-item--unselectable' : ''
+  !isSelectable.value ? 'vf-explorer-item--unselectable' : '',
 ]);
 
-
 const itemStyle = computed(() => ({
-  opacity: (props.isDragging || fs.isCut(props.item.path) || !isSelectable.value) ? 0.5 : ''
+  opacity: props.isDragging || fs.isCut(props.item.path) || !isSelectable.value ? 0.5 : '',
 }));
 
 let touchTimeOut: ReturnType<typeof setTimeout> | null = null;
@@ -75,64 +76,64 @@ const clearTimeOut = () => {
     clearTimeout(touchTimeOut);
   }
   draggable.value = true;
-}
+};
 const draggable = ref(true);
 
 const delayedOpenItem = (event: TouchEvent) => {
-    draggable.value = false;
+  draggable.value = false;
+  if (touchTimeOut) {
+    event.preventDefault();
+    clearTimeout(touchTimeOut);
+  }
+  if (!tappedTwice) {
+    tappedTwice = true;
+    emit('click', event);
+    doubleTapTimeOut.value = setTimeout(() => {
+      tappedTwice = false;
+    }, 300);
+  } else {
+    tappedTwice = false;
+    emit('dblclick', event);
     if (touchTimeOut) {
-        event.preventDefault();
-        clearTimeout(touchTimeOut); 
+      clearTimeout(touchTimeOut);
     }
-    if(!tappedTwice) {
-        tappedTwice = true; 
-        emit('click', event)
-        doubleTapTimeOut.value = setTimeout(() => {
-            tappedTwice = false
-        }, 300)
-    } else {
-        tappedTwice = false; 
-        emit('dblclick', event)
-        if (touchTimeOut) {
-            clearTimeout(touchTimeOut);
-        }
-        return false;
-    }
+    return false;
+  }
 
-    if (event.currentTarget && event.currentTarget instanceof HTMLElement) {
-        const rect = (event.currentTarget ).getBoundingClientRect();
+  if (event.currentTarget && event.currentTarget instanceof HTMLElement) {
+    const rect = event.currentTarget.getBoundingClientRect();
 
-         event.preventDefault();
-         touchTimeOut = setTimeout(() => { 
-             // Calculate optimal position for context menu
-             const contextMenuHeight = 146; // Approximate height of context menu
-             const padding = 10; // Padding from screen edge
-             
-             let contextMenuY = rect.y + rect.height;
-             
-             // If context menu would go below screen, show it above the item
-             if (contextMenuY + contextMenuHeight > window.innerHeight - padding) {
-                 contextMenuY = rect.y - contextMenuHeight;
-             }
-             
-             // Ensure context menu doesn't go above screen
-             if (contextMenuY < padding) {
-                 contextMenuY = padding;
-             }
-             
-             const cmEvent = new MouseEvent("contextmenu", {
-                 bubbles: true,
-                 cancelable: true,
-                 view: window,
-                 button: 2,
-                 buttons: 0,
-                 clientX: rect.x,
-                 clientY: contextMenuY
-             });
-             event.target?.dispatchEvent(cmEvent);
-         }, 300)
-    }
-}
+    event.preventDefault();
+    touchTimeOut = setTimeout(() => {
+      // Calculate optimal position for context menu
+      const contextMenuHeight = 146; // Approximate height of context menu
+      const padding = 10; // Padding from screen edge
+
+      let contextMenuY = rect.y + rect.height;
+
+      // If context menu would go below screen, show it above the item
+      if (contextMenuY + contextMenuHeight > window.innerHeight - padding) {
+        contextMenuY = rect.y - contextMenuHeight;
+      }
+
+      // Ensure context menu doesn't go above screen
+      if (contextMenuY < padding) {
+        contextMenuY = padding;
+      }
+
+      const cmEvent = new MouseEvent('contextmenu', {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        button: 2,
+        buttons: 0,
+        clientX: rect.x,
+        clientY: contextMenuY,
+      });
+      event.target?.dispatchEvent(cmEvent);
+    }, 300);
+  }
+};
 </script>
 
 <template>
@@ -153,16 +154,19 @@ const delayedOpenItem = (event: TouchEvent) => {
   >
     <!-- Grid View -->
     <div v-if="view === 'grid'">
-      <LockSVG v-if="fs.isReadOnly(item)" class="vuefinder__item--readonly vuefinder__item--readonly--left" title="Read Only"/>
+      <LockSVG
+        v-if="fs.isReadOnly(item)"
+        class="vuefinder__item--readonly vuefinder__item--readonly--left"
+        title="Read Only"
+      />
       <div class="vuefinder__explorer__item-grid-content">
-
         <img
-          @touchstart="$event.preventDefault()"
           v-if="(item.mime_type ?? '').startsWith('image') && showThumbnails"
           src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
           class="vuefinder__explorer__item-thumbnail lazy"
           :data-src="app.adapter.getPreviewUrl({ path: item.path })"
           :alt="item.basename"
+          @touchstart="$event.preventDefault()"
         />
         <ItemIcon v-else :item="item" :ext="true">
           <template #icon="slotProps">
@@ -185,7 +189,11 @@ const delayedOpenItem = (event: TouchEvent) => {
         </div>
         <span class="vuefinder__explorer__item-name">{{ item.basename }}</span>
         <div>
-            <LockSVG v-if="fs.isReadOnly(item)" class="vuefinder__item--readonly vuefinder__item--readonly--list" title="Read Only"/>
+          <LockSVG
+            v-if="fs.isReadOnly(item)"
+            class="vuefinder__item--readonly vuefinder__item--readonly--list"
+            title="Read Only"
+          />
         </div>
       </div>
       <div v-if="showPath" class="vuefinder__explorer__item-path">{{ item.path }}</div>
@@ -196,6 +204,9 @@ const delayedOpenItem = (event: TouchEvent) => {
         {{ new Date(item.last_modified * 1000).toLocaleString() }}
       </div>
     </div>
-    <PinSVG class="vuefinder__item--pinned" v-if="config.get('pinnedFolders').find((pin: any) => pin.path === item.path)"/>
+    <PinSVG
+      v-if="config.get('pinnedFolders').find((pin: any) => pin.path === item.path)"
+      class="vuefinder__item--pinned"
+    />
   </div>
 </template>

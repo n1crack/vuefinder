@@ -14,7 +14,7 @@ defineProps<Props>();
 
 <template>
   <vue-finder
-    id='my_vuefinder'
+    id="my_vuefinder"
     :adapter="adapter"
     :config="config"
     :features="features"
@@ -25,12 +25,14 @@ defineProps<Props>();
       <div class="vuefinder__status-bar__actions">
         <button
           class="border border-gray-300 dark:border-gray-600 rounded-xs p-0.5 disabled:opacity-50 not-disabled:hover:text-sky-400 not-disabled:cursor-pointer"
-          @click="() => {
-            console.log(selected);
-            console.log(path);
-            console.log(count);
-          }"
           :disabled="!count"
+          @click="
+            () => {
+              console.log(selected);
+              console.log(path);
+              console.log(count);
+            }
+          "
         >
           Show Selected ({{ count ?? 0 }} selected)
         </button>
@@ -38,4 +40,3 @@ defineProps<Props>();
     </template>
   </vue-finder>
 </template>
-

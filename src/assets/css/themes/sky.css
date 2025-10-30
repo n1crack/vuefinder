@@ -1,5 +1,5 @@
 /* Sky Theme */
-.vuefinder__themer[data-theme="sky"] {
+.vuefinder__themer[data-theme='sky'] {
   --vf-selection-bg: #0f1419;
   --vf-selection-border: #7dd3fc;
   /* Background Colors */
@@ -53,7 +53,7 @@
 }
 
 /* Sky Theme - Selection Area */
-.selection-area-container[data-theme="sky"] {
+.selection-area-container[data-theme='sky'] {
   --vf-selection-bg: #0f1419;
   --vf-selection-border: #7dd3fc;
 }

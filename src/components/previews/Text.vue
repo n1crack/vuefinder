@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {inject, onMounted, ref} from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
-import {FEATURES} from "../../features.ts";
+import { FEATURES } from '../../features.ts';
 
-const emit = defineEmits(['success'])
+const emit = defineEmits(['success']);
 const content = ref('');
 const contentTemp = ref('');
 const editInput = ref(null);
@@ -14,7 +14,7 @@ const isError = ref(false);
 
 const app = useApp();
 
-const {t} = app.i18n;
+const { t } = app.i18n;
 
 onMounted(async () => {
   try {
@@ -40,9 +40,9 @@ const save = async () => {
   try {
     // Save content using adapter
     const fullPath = app.modal.data.item.path;
-    await app.adapter.save({ 
-      path: fullPath, 
-      content: contentTemp.value 
+    await app.adapter.save({
+      path: fullPath,
+      content: contentTemp.value,
     });
     content.value = contentTemp.value;
     message.value = t('Updated.');
@@ -53,22 +53,28 @@ const save = async () => {
     message.value = t(error.message || 'Error');
     isError.value = true;
   }
-}
-
+};
 </script>
 
 <template>
   <div class="vuefinder__text-preview">
     <div class="vuefinder__text-preview__header">
-      <div class="vuefinder__text-preview__title" id="modal-title" :title="app.modal.data.item.path">
+      <div
+        id="modal-title"
+        class="vuefinder__text-preview__title"
+        :title="app.modal.data.item.path"
+      >
         {{ app.modal.data.item.basename }}
       </div>
       <div class="vuefinder__text-preview__actions">
-        <button @click="save" class="vuefinder__text-preview__save-button" v-if="showEdit">
+        <button v-if="showEdit" class="vuefinder__text-preview__save-button" @click="save">
           {{ t('Save') }}
         </button>
-        <button class="vuefinder__text-preview__edit-button" @click="toggleEditMode()"
-                v-if="app.features.includes(FEATURES.EDIT)">
+        <button
+          v-if="app.features.includes(FEATURES.EDIT)"
+          class="vuefinder__text-preview__edit-button"
+          @click="toggleEditMode()"
+        >
           {{ showEdit ? t('Cancel') : t('Edit') }}
         </button>
       </div>
@@ -77,15 +83,15 @@ const save = async () => {
       <pre v-if="!showEdit" class="vuefinder__text-preview__content">{{ content }}</pre>
       <div v-else>
         <textarea
-            ref="editInput"
-            v-model="contentTemp"
-            class="vuefinder__text-preview__textarea"
-            name="text"
-            cols="30"
-            rows="10"
+          ref="editInput"
+          v-model="contentTemp"
+          class="vuefinder__text-preview__textarea"
+          name="text"
+          cols="30"
+          rows="10"
         ></textarea>
       </div>
-      <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
+      <message v-if="message.length" :error="isError" @hidden="message = ''">{{ message }}</message>
     </div>
   </div>
 </template>

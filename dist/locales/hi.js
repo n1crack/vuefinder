@@ -64,7 +64,8 @@ export default {
   'The file(s) archived.': 'फ़ाइल(फ़ाइलें) आर्काइव की गई हैं।',
   'Updated.': 'अद्यतित।',
   'No search result found.': 'कोई खोज परिणाम नहीं मिले।',
-  'Are you sure you want to move these files?': 'क्या आप वाकई इन फ़ाइलों को स्थानांतरित करना चाहते हैं?',
+  'Are you sure you want to move these files?':
+    'क्या आप वाकई इन फ़ाइलों को स्थानांतरित करना चाहते हैं?',
   'File Size': 'फ़ाइल का आकार',
   'Last Modified': 'अंतिम संशोधित',
   'Select Folders': 'फ़ोल्डर चुनें',

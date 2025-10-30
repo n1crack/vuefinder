@@ -16,19 +16,24 @@ const customContextMenuItems = [
   {
     id: 'loginfo',
     title: () => 'Log Info',
-    action: (app: unknown, selectedItems: Array<{basename: string, type: string, path: string}>) => {
-      const info = selectedItems.map((i) => `Name: ${i.basename}, Type: ${i.type}, Path: ${i.path}`)
-      console.log(selectedItems.length + " item(s) selected:\n", info.join('\n'))
-      console.log(selectedItems)
+    action: (
+      app: unknown,
+      selectedItems: Array<{ basename: string; type: string; path: string }>
+    ) => {
+      const info = selectedItems.map(
+        (i) => `Name: ${i.basename}, Type: ${i.type}, Path: ${i.path}`
+      );
+      console.log(selectedItems.length + ' item(s) selected:\n', info.join('\n'));
+      console.log(selectedItems);
     },
     show: () => true,
-  }
-]
+  },
+];
 </script>
 
 <template>
   <vue-finder
-    id='my_vuefinder3'
+    id="my_vuefinder3"
     :adapter="adapter"
     :config="config"
     :features="features"
@@ -36,4 +41,3 @@ const customContextMenuItems = [
     :context-menu-items="customContextMenuItems"
   />
 </template>
-

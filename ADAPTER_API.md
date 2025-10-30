@@ -5,6 +5,7 @@
 The VueFinder Adapter API provides a flexible system for handling file operations across different environments (local filesystem and cloud storage). Adapters handle all file operations (HTTP requests or local filesystem), and VueFinder components only need the adapter instance.
 
 **Key Features:**
+
 - ✅ Storage information embedded in paths (e.g., `local://path/to/file`)
 - ✅ Optional uploader customization (Uppy plugins: XHR, S3, Tus, etc.)
 - ✅ TanStack Query integration for caching and optimistic updates
@@ -23,6 +24,7 @@ The VueFinder Adapter API provides a flexible system for handling file operation
 All paths include storage information in the format: `storage_name://path/to/file`
 
 Examples:
+
 - `local://public/uploads/image.jpg`
 - `media://documents/file.pdf`
 - `s3://bucket-name/folder/file.txt`
@@ -123,7 +125,9 @@ const adapter = new LocalAdapter({
 ```typescript
 import { CloudAdapter, AdapterManager } from '@vuefinder/adapters';
 
-const adapter = new CloudAdapter({ /* ... */ });
+const adapter = new CloudAdapter({
+  /* ... */
+});
 
 // Wrap with AdapterManager for caching and optimistic updates
 const manager = new AdapterManager(adapter, {
@@ -197,7 +201,7 @@ class MyS3Adapter extends BaseAdapter {
   configureUploader(uppy, context) {
     uppy.use(AwsS3, { /* ... */ });
   }
-  
+
   // ... other methods
 }
 ```
@@ -269,71 +273,85 @@ class MyCustomAdapter extends BaseAdapter {
 All adapters implement the following methods:
 
 ### list(params?)
+
 - **Purpose**: List files and folders at a given path
 - **Params**: `{ path?: string }` - Storage embedded in path (e.g., `local://public`)
 - **Returns**: `Promise<FsData>` - `{ files, dirname, storages, read_only }`
 
 ### upload(params)
+
 - **Purpose**: Upload files to a given path
 - **Params**: `{ path?: string; files: File[] }` - Path includes storage prefix
 - **Returns**: `Promise<UploadResult>` - `{ files }`
 
 ### delete(params)
+
 - **Purpose**: Delete files/folders
 - **Params**: `{ items: { path: string; type: string }[] }` - Paths include storage prefix
 - **Returns**: `Promise<DeleteResult>` - `{ deleted }`
 
 ### rename(params)
+
 - **Purpose**: Rename a file or folder
 - **Params**: `{ path: string; item: string; name: string }`
 - **Returns**: `Promise<FileOperationResult>`
 
 ### copy(params)
+
 - **Purpose**: Copy files/folders to a destination
 - **Params**: `{ sources: string[]; destination: string }` - Storage embedded in all paths
 - **Returns**: `Promise<FileOperationResult>`
 
 ### move(params)
+
 - **Purpose**: Move files/folders to a destination
 - **Params**: `{ sources: string[]; destination: string }` - Storage embedded in all paths
 - **Returns**: `Promise<FileOperationResult>`
 
 ### archive(params)
+
 - **Purpose**: Create a zip archive from files/folders
 - **Params**: `{ items: { path: string; type: string }[]; path: string; name: string }`
 - **Returns**: `Promise<FileOperationResult>`
 
 ### unarchive(params)
+
 - **Purpose**: Extract files from a zip archive
 - **Params**: `{ item: string; path: string }`
 - **Returns**: `Promise<FileOperationResult>`
 
 ### search(params)
+
 - **Purpose**: Search for files
 - **Params**: `{ path?: string; filter: string; deep?: boolean; size?: 'all'|'small'|'medium'|'large' }`
 - **Returns**: `Promise<DirEntry[]>` - Array of matching files
 
 ### save(params)
+
 - **Purpose**: Save text/binary content to a file
 - **Params**: `{ path: string; content: string }` - Full path including storage
 - **Returns**: `Promise<string>` - Success message
 
 ### createFile(params)
+
 - **Purpose**: Create a new file
 - **Params**: `{ path: string; name: string }`
 - **Returns**: `Promise<FileOperationResult>`
 
 ### createFolder(params)
+
 - **Purpose**: Create a new folder
 - **Params**: `{ path: string; name: string }`
 - **Returns**: `Promise<FileOperationResult>`
 
 ### getPreviewUrl(params)
+
 - **Purpose**: Get preview URL for a file
 - **Params**: `{ path: string }`
 - **Returns**: `string` - Full URL
 
 ### getDownloadUrl(params)
+
 - **Purpose**: Get download URL for a file
 - **Params**: `{ path: string }`
 - **Returns**: `string` - Full URL
@@ -361,10 +379,7 @@ const adapter = new CloudAdapter({
 </script>
 
 <template>
-  <VueFinder 
-    :adapter="adapter"
-    id="my-finder"
-  />
+  <VueFinder :adapter="adapter" id="my-finder" />
 </template>
 ```
 
@@ -376,7 +391,9 @@ import VueFinder from '@vuefinder/vue';
 import { CloudAdapter } from '@vuefinder/adapters';
 import AwsS3 from '@uppy/aws-s3';
 
-const adapter = new CloudAdapter({ /* ... */ });
+const adapter = new CloudAdapter({
+  /* ... */
+});
 
 const customUploader = (uppy, context) => {
   uppy.use(AwsS3, {
@@ -396,17 +413,14 @@ const customUploader = (uppy, context) => {
 </script>
 
 <template>
-  <VueFinder 
-    :adapter="adapter"
-    :customUploader="customUploader"
-    id="my-finder"
-  />
+  <VueFinder :adapter="adapter" :customUploader="customUploader" id="my-finder" />
 </template>
 ```
 
 ## Current Status
 
 ### CloudAdapter
+
 - ✅ Fully implemented
 - ✅ HTTP requests with authentication
 - ✅ Uploader configuration (XHR)
@@ -414,11 +428,13 @@ const customUploader = (uppy, context) => {
 - ✅ TypeScript support
 
 ### LocalAdapter
+
 - ⏳ Structure ready, operations pending
 - Requires File System Access API implementation
 - Search and save stubs added
 
 ### AdapterManager
+
 - ✅ Automatic caching with TanStack Query
 - ✅ Optimistic updates
 - ✅ Error handling and retries
@@ -450,4 +466,3 @@ interface Adapter {
 ```
 
 For more examples, see [`examples/adapters-usage.ts`](../examples/adapters-usage.ts).
-

@@ -9,7 +9,7 @@ export interface ConfigStore {
   state: Store<ConfigState>;
   set: <K extends keyof ConfigState>(
     keyOrPatch: K | Partial<ConfigState>,
-    value?: ConfigState[K],
+    value?: ConfigState[K]
   ) => void;
   // Convenience accessors used across the app
   get: <K extends keyof ConfigState>(key: K) => ConfigState[K];
@@ -57,7 +57,7 @@ const DEFAULT_STATE: ConfigState = {
 // Config store factory function
 export const createConfigStore = (
   id: string,
-  initialConfig: ConfigDefaults | Record<string, unknown> = {},
+  initialConfig: ConfigDefaults | Record<string, unknown> = {}
 ) => {
   const storeKey = `vuefinder_config_${id}`;
 
@@ -68,7 +68,7 @@ export const createConfigStore = (
     {
       encode: JSON.stringify,
       decode: JSON.parse,
-    },
+    }
   );
 
   // Helper functions
@@ -88,7 +88,7 @@ export const createConfigStore = (
 
   const set = <K extends keyof ConfigState>(
     keyOrPatch: K | Partial<ConfigState>,
-    value?: ConfigState[K],
+    value?: ConfigState[K]
   ): void => {
     const currentState = state.get();
 

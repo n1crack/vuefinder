@@ -34,7 +34,7 @@ interface ServiceContainerProps {
       getTargetPath: () => string;
       getHeaders?: () => Record<string, string>;
       t: (key: string) => string;
-    },
+    }
   ) => void;
 }
 
@@ -135,7 +135,7 @@ export default (props: ServiceContainerProps, options: Record<string, unknown>):
       storage,
       initialLang as string,
       emitter,
-      supportedLocales as Record<string, unknown>,
+      supportedLocales as Record<string, unknown>
     ),
     // modal state
     modal: useModal(),

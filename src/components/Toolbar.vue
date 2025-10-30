@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import {inject, ref, watch, onMounted, onUnmounted, computed} from 'vue';
+import { inject, ref, watch, onMounted, onUnmounted, computed } from 'vue';
 import { useApp } from '../composables/useApp';
-import {useStore} from '@nanostores/vue';
-import {FEATURES} from "../features.js";
-import ModalNewFolder from "./modals/ModalNewFolder.vue";
-import ModalNewFile from "./modals/ModalNewFile.vue";
-import ModalRename from "./modals/ModalRename.vue";
-import ModalDelete from "./modals/ModalDelete.vue";
-import ModalUpload from "./modals/ModalUpload.vue";
-import ModalUnarchive from "./modals/ModalUnarchive.vue";
-import ModalArchive from "./modals/ModalArchive.vue";
-import ModalSearch from "./modals/ModalSearch.vue";
-import NewFolderSVG from "../assets/icons/new_folder.svg";
-import NewFileSVG from "../assets/icons/new_file.svg";
-import RenameSVG from "../assets/icons/rename.svg";
-import DeleteSVG from "../assets/icons/delete.svg";
-import UploadSVG from "../assets/icons/upload.svg";
-import ArchiveSVG from "../assets/icons/archive.svg";
-import UnarchiveSVG from "../assets/icons/unarchive.svg";
-import LoadingSVG from "../assets/icons/loading.svg";
-import FullscreenSVG from "../assets/icons/full_screen.svg";
-import MinimizeSVG from "../assets/icons/minimize.svg";
-import GridViewSVG from "../assets/icons/grid_view.svg";
-import ListViewSVG from "../assets/icons/list_view.svg";
-import FilterSVG from "../assets/icons/filter.svg";
-import SearchSVG from "../assets/icons/search.svg";
+import { useStore } from '@nanostores/vue';
+import { FEATURES } from '../features.js';
+import ModalNewFolder from './modals/ModalNewFolder.vue';
+import ModalNewFile from './modals/ModalNewFile.vue';
+import ModalRename from './modals/ModalRename.vue';
+import ModalDelete from './modals/ModalDelete.vue';
+import ModalUpload from './modals/ModalUpload.vue';
+import ModalUnarchive from './modals/ModalUnarchive.vue';
+import ModalArchive from './modals/ModalArchive.vue';
+import ModalSearch from './modals/ModalSearch.vue';
+import NewFolderSVG from '../assets/icons/new_folder.svg';
+import NewFileSVG from '../assets/icons/new_file.svg';
+import RenameSVG from '../assets/icons/rename.svg';
+import DeleteSVG from '../assets/icons/delete.svg';
+import UploadSVG from '../assets/icons/upload.svg';
+import ArchiveSVG from '../assets/icons/archive.svg';
+import UnarchiveSVG from '../assets/icons/unarchive.svg';
+import LoadingSVG from '../assets/icons/loading.svg';
+import FullscreenSVG from '../assets/icons/full_screen.svg';
+import MinimizeSVG from '../assets/icons/minimize.svg';
+import GridViewSVG from '../assets/icons/grid_view.svg';
+import ListViewSVG from '../assets/icons/list_view.svg';
+import FilterSVG from '../assets/icons/filter.svg';
+import SearchSVG from '../assets/icons/search.svg';
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
 import type { DirEntry } from '../types';
 import type { SortState, FilterState } from '../stores/files';
 
 const app = useApp();
-const {t} = app.i18n;
+const { t } = app.i18n;
 
 defineOptions({ name: 'VfToolbar' });
 
@@ -44,19 +44,21 @@ const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
 const fsSortState: StoreValue<SortState> = useStore(fs.sort);
 const fsFilterState: StoreValue<FilterState> = useStore(fs.filter);
 
-watch(() => configState.value.fullScreen, () => {
-  if (configState.value.fullScreen) {
-    // add body overflow hidden
-    const body = document.querySelector('body');
-    if (body) body.style.overflow = 'hidden';
-  } else {
-    // remove body overflow hidden
-    const body = document.querySelector('body');
-    if (body) body.style.overflow = '';
+watch(
+  () => configState.value.fullScreen,
+  () => {
+    if (configState.value.fullScreen) {
+      // add body overflow hidden
+      const body = document.querySelector('body');
+      if (body) body.style.overflow = 'hidden';
+    } else {
+      // remove body overflow hidden
+      const body = document.querySelector('body');
+      if (body) body.style.overflow = '';
+    }
+    app.emitter.emit('vf-fullscreen-toggle');
   }
-  app.emitter.emit('vf-fullscreen-toggle');
-});
-
+);
 
 // Dropdown visibility state (local, non-persistent)
 const showFilterSort = ref(false);
@@ -84,89 +86,116 @@ const filterSortState = ref({
   showHidden: configState.value.showHiddenFiles, // Initialize with config store default
 });
 
-
 // Watch for changes and apply to files store automatically
-watch(() => filterSortState.value.sortBy, (newSortBy) => {
-  // If no order is selected, don't apply sorting
-  if (!filterSortState.value.sortOrder) {
-    fs.clearSort();
-    return;
-  }
-  
-  // Apply the sort
-  if (newSortBy === 'name') {
-    fs.setSort('basename', filterSortState.value.sortOrder as 'asc' | 'desc');
-  } else if (newSortBy === 'size') {
-    fs.setSort('file_size', filterSortState.value.sortOrder as 'asc' | 'desc');
-  } else if (newSortBy === 'modified') {
-    fs.setSort('last_modified', filterSortState.value.sortOrder as 'asc' | 'desc');
-  }
-});
+watch(
+  () => filterSortState.value.sortBy,
+  (newSortBy) => {
+    // If no order is selected, don't apply sorting
+    if (!filterSortState.value.sortOrder) {
+      fs.clearSort();
+      return;
+    }
 
-watch(() => filterSortState.value.sortOrder, (newOrder) => {
-  // If no order is selected, clear sorting
-  if (!newOrder) {
-    fs.clearSort();
-    return;
+    // Apply the sort
+    if (newSortBy === 'name') {
+      fs.setSort('basename', filterSortState.value.sortOrder as 'asc' | 'desc');
+    } else if (newSortBy === 'size') {
+      fs.setSort('file_size', filterSortState.value.sortOrder as 'asc' | 'desc');
+    } else if (newSortBy === 'modified') {
+      fs.setSort('last_modified', filterSortState.value.sortOrder as 'asc' | 'desc');
+    }
   }
-  
-  // Apply the sort
-  if (filterSortState.value.sortBy === 'name') {
-    fs.setSort('basename', newOrder as 'asc' | 'desc');
-  } else if (filterSortState.value.sortBy === 'size') {
-    fs.setSort('file_size', newOrder as 'asc' | 'desc');
-  } else if (filterSortState.value.sortBy === 'modified') {
-    fs.setSort('last_modified', newOrder as 'asc' | 'desc');
+);
+
+watch(
+  () => filterSortState.value.sortOrder,
+  (newOrder) => {
+    // If no order is selected, clear sorting
+    if (!newOrder) {
+      fs.clearSort();
+      return;
+    }
+
+    // Apply the sort
+    if (filterSortState.value.sortBy === 'name') {
+      fs.setSort('basename', newOrder as 'asc' | 'desc');
+    } else if (filterSortState.value.sortBy === 'size') {
+      fs.setSort('file_size', newOrder as 'asc' | 'desc');
+    } else if (filterSortState.value.sortBy === 'modified') {
+      fs.setSort('last_modified', newOrder as 'asc' | 'desc');
+    }
   }
-});
+);
 
 // Sync dropdown state with files store
-watch(fsSortState, (newSortState) => {
-  if (!newSortState.active) {
-    // No sorting active
-    filterSortState.value.sortOrder = '';
-  } else {
-    // Map store column names to dropdown values
-    if (newSortState.column === 'basename') {
-      filterSortState.value.sortBy = 'name';
-    } else if (newSortState.column === 'file_size') {
-      filterSortState.value.sortBy = 'size';
-    } else if (newSortState.column === 'last_modified') {
-      filterSortState.value.sortBy = 'modified';
+watch(
+  fsSortState,
+  (newSortState) => {
+    if (!newSortState.active) {
+      // No sorting active
+      filterSortState.value.sortOrder = '';
+    } else {
+      // Map store column names to dropdown values
+      if (newSortState.column === 'basename') {
+        filterSortState.value.sortBy = 'name';
+      } else if (newSortState.column === 'file_size') {
+        filterSortState.value.sortBy = 'size';
+      } else if (newSortState.column === 'last_modified') {
+        filterSortState.value.sortBy = 'modified';
+      }
+
+      // Set the order
+      filterSortState.value.sortOrder = newSortState.order;
     }
-    
-    // Set the order
-    filterSortState.value.sortOrder = newSortState.order;
-  }
-}, { immediate: true });
+  },
+  { immediate: true }
+);
 
 // Watch for filter changes and apply to files store automatically
-watch(() => filterSortState.value.filterKind, (newFilterKind) => {
-  fs.setFilter(newFilterKind as 'all' | 'files' | 'folders', configState.value.showHiddenFiles);
-});
+watch(
+  () => filterSortState.value.filterKind,
+  (newFilterKind) => {
+    fs.setFilter(newFilterKind as 'all' | 'files' | 'folders', configState.value.showHiddenFiles);
+  }
+);
 
-watch(() => filterSortState.value.showHidden, (newShowHidden) => {
-  config.set('showHiddenFiles', newShowHidden);
-  fs.setFilter(filterSortState.value.filterKind as 'all' | 'files' | 'folders', newShowHidden);
-});
+watch(
+  () => filterSortState.value.showHidden,
+  (newShowHidden) => {
+    config.set('showHiddenFiles', newShowHidden);
+    fs.setFilter(filterSortState.value.filterKind as 'all' | 'files' | 'folders', newShowHidden);
+  }
+);
 
 // Sync filter dropdown state with files store
-watch(fsFilterState, (newFilterState) => {
-  filterSortState.value.filterKind = newFilterState.kind;
-  // Don't sync showHidden from files store anymore
-}, { immediate: true });
+watch(
+  fsFilterState,
+  (newFilterState) => {
+    filterSortState.value.filterKind = newFilterState.kind;
+    // Don't sync showHidden from files store anymore
+  },
+  { immediate: true }
+);
 
 // Sync showHidden with config store
-watch(() => configState.value.showHiddenFiles, (newShowHidden) => {
-  filterSortState.value.showHidden = newShowHidden;
-  fs.setFilter(filterSortState.value.filterKind as 'all' | 'files' | 'folders', newShowHidden);
-}, { immediate: true });
+watch(
+  () => configState.value.showHiddenFiles,
+  (newShowHidden) => {
+    filterSortState.value.showHidden = newShowHidden;
+    fs.setFilter(filterSortState.value.filterKind as 'all' | 'files' | 'folders', newShowHidden);
+  },
+  { immediate: true }
+);
 
 const toggleView = () => config.set('view', configState.value.view === 'grid' ? 'list' : 'grid');
 
 // Check if any filters or sorting are active
 const hasActiveFilters = computed(() => {
-  return fsFilterState.value.kind !== 'all' || !configState.value.showHiddenFiles || fsSortState.value.active;
+  return (
+    fsFilterState.value.kind !== 'all' ||
+    !configState.value.showHiddenFiles ||
+    fsSortState.value.active
+  );
 });
 
 const resetFilters = () => {
@@ -180,95 +209,105 @@ const resetFilters = () => {
   fs.clearSort();
   fs.clearFilter();
 };
-
 </script>
 
 <template>
   <div class="vuefinder__toolbar">
     <div class="vuefinder__toolbar__actions">
       <div
-          class="mx-1.5"
-          :title="t('New Folder')"
-          v-if="app.features.includes(FEATURES.NEW_FOLDER)"
-          @click="app.modal.open(ModalNewFolder, {items: selectedItems})"
+        v-if="app.features.includes(FEATURES.NEW_FOLDER)"
+        class="mx-1.5"
+        :title="t('New Folder')"
+        @click="app.modal.open(ModalNewFolder, { items: selectedItems })"
       >
-        <NewFolderSVG/>
+        <NewFolderSVG />
       </div>
 
       <div
-          class="mx-1.5"
-          :title="t('New File')"
-          v-if="app.features.includes(FEATURES.NEW_FILE)"
-          @click="app.modal.open(ModalNewFile, {items: selectedItems})"
+        v-if="app.features.includes(FEATURES.NEW_FILE)"
+        class="mx-1.5"
+        :title="t('New File')"
+        @click="app.modal.open(ModalNewFile, { items: selectedItems })"
       >
-        <NewFileSVG/>
+        <NewFileSVG />
       </div>
 
       <div
-          class="mx-1.5"
-          :title="t('Rename')"
-          v-if="app.features.includes(FEATURES.RENAME)"
-          @click="(selectedItems.length !== 1) || app.modal.open(ModalRename, {items: selectedItems})"
+        v-if="app.features.includes(FEATURES.RENAME)"
+        class="mx-1.5"
+        :title="t('Rename')"
+        @click="selectedItems.length !== 1 || app.modal.open(ModalRename, { items: selectedItems })"
       >
-        <RenameSVG :class="(selectedItems.length === 1) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <RenameSVG
+          :class="selectedItems.length === 1 ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
+        />
       </div>
 
       <div
-          class="mx-1.5"
-          :title="t('Delete')"
-          v-if="app.features.includes(FEATURES.DELETE)"
-          @click="(!selectedItems.length) || app.modal.open(ModalDelete, {items: selectedItems})"
+        v-if="app.features.includes(FEATURES.DELETE)"
+        class="mx-1.5"
+        :title="t('Delete')"
+        @click="!selectedItems.length || app.modal.open(ModalDelete, { items: selectedItems })"
       >
-        <DeleteSVG :class="(selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <DeleteSVG :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'" />
       </div>
 
       <div
-          class="mx-1.5"
-          :title="t('Upload')"
-          v-if="app.features.includes(FEATURES.UPLOAD)"
-          @click="app.modal.open(ModalUpload, {items: selectedItems})"
+        v-if="app.features.includes(FEATURES.UPLOAD)"
+        class="mx-1.5"
+        :title="t('Upload')"
+        @click="app.modal.open(ModalUpload, { items: selectedItems })"
       >
-        <UploadSVG/>
+        <UploadSVG />
       </div>
 
       <div
-          class="mx-1.5"
-          v-if="app.features.includes(FEATURES.UNARCHIVE) && selectedItems.length === 1 && selectedItems[0].mime_type === 'application/zip'"
-          :title="t('Unarchive')"
-          @click="(!selectedItems.length) || app.modal.open(ModalUnarchive, {items: selectedItems})"
+        v-if="
+          app.features.includes(FEATURES.UNARCHIVE) &&
+          selectedItems.length === 1 &&
+          selectedItems[0].mime_type === 'application/zip'
+        "
+        class="mx-1.5"
+        :title="t('Unarchive')"
+        @click="!selectedItems.length || app.modal.open(ModalUnarchive, { items: selectedItems })"
       >
-        <UnarchiveSVG :class="(selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <UnarchiveSVG
+          :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
+        />
       </div>
 
       <div
-          class="mx-1.5"
-          v-if="app.features.includes(FEATURES.ARCHIVE)"
-          :title="t('Archive')"
-          @click="(!selectedItems.length) || app.modal.open(ModalArchive, {items: selectedItems})"
+        v-if="app.features.includes(FEATURES.ARCHIVE)"
+        class="mx-1.5"
+        :title="t('Archive')"
+        @click="!selectedItems.length || app.modal.open(ModalArchive, { items: selectedItems })"
       >
-        <ArchiveSVG :class="(selectedItems.length) ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"/>
+        <ArchiveSVG
+          :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
+        />
       </div>
     </div>
 
     <div class="vuefinder__toolbar__controls">
       <!-- Search Modal Button -->
       <div
-          v-if="app.features.includes(FEATURES.SEARCH)"
-          class="mx-1.5"
-          :title="t('Search Files')"
-          @click="app.modal.open(ModalSearch)"
+        v-if="app.features.includes(FEATURES.SEARCH)"
+        class="mx-1.5"
+        :title="t('Search Files')"
+        @click="app.modal.open(ModalSearch)"
       >
-        <SearchSVG 
-          class="vf-toolbar-icon text-(--vf-bg-primary)"
-        />
+        <SearchSVG class="vf-toolbar-icon text-(--vf-bg-primary)" />
       </div>
 
       <!-- Filter dropdown -->
       <div class="vuefinder__toolbar__control vuefinder__toolbar__dropdown-container">
-        <div :title="t('Filter')" @click="showFilterSort = !showFilterSort" class="vuefinder__toolbar__dropdown-trigger">
+        <div
+          :title="t('Filter')"
+          class="vuefinder__toolbar__dropdown-trigger"
+          @click="showFilterSort = !showFilterSort"
+        >
           <div class="relative">
-
-            <FilterSVG class="vf-toolbar-icon vuefinder__toolbar__icon w-6 h-6"/>
+            <FilterSVG class="vf-toolbar-icon vuefinder__toolbar__icon w-6 h-6" />
             <!-- Filter indicator dot -->
             <div v-if="hasActiveFilters" class="vuefinder__toolbar__filter-indicator"></div>
           </div>
@@ -279,12 +318,18 @@ const resetFilters = () => {
             <div class="vuefinder__toolbar__dropdown-section">
               <div class="vuefinder__toolbar__dropdown-label">{{ t('Sorting') }}</div>
               <div class="vuefinder__toolbar__dropdown-row">
-                <select v-model="filterSortState.sortBy" class="vuefinder__toolbar__dropdown-select">
+                <select
+                  v-model="filterSortState.sortBy"
+                  class="vuefinder__toolbar__dropdown-select"
+                >
                   <option value="name">{{ t('Name') }}</option>
                   <option value="size">{{ t('Size') }}</option>
                   <option value="modified">{{ t('Date') }}</option>
                 </select>
-                <select v-model="filterSortState.sortOrder" class="vuefinder__toolbar__dropdown-select">
+                <select
+                  v-model="filterSortState.sortOrder"
+                  class="vuefinder__toolbar__dropdown-select"
+                >
                   <option value="">{{ t('None') }}</option>
                   <option value="asc">{{ t('Asc') }}</option>
                   <option value="desc">{{ t('Desc') }}</option>
@@ -297,15 +342,33 @@ const resetFilters = () => {
               <div class="vuefinder__toolbar__dropdown-label">{{ t('Show') }}</div>
               <div class="vuefinder__toolbar__dropdown-options">
                 <label class="vuefinder__toolbar__dropdown-option">
-                  <input type="radio" name="filterKind" value="all" v-model="filterSortState.filterKind" class="vuefinder__toolbar__radio">
+                  <input
+                    v-model="filterSortState.filterKind"
+                    type="radio"
+                    name="filterKind"
+                    value="all"
+                    class="vuefinder__toolbar__radio"
+                  />
                   <span class="vuefinder__toolbar__option-text">{{ t('All items') }}</span>
                 </label>
                 <label class="vuefinder__toolbar__dropdown-option">
-                  <input type="radio" name="filterKind" value="files" v-model="filterSortState.filterKind" class="vuefinder__toolbar__radio">
+                  <input
+                    v-model="filterSortState.filterKind"
+                    type="radio"
+                    name="filterKind"
+                    value="files"
+                    class="vuefinder__toolbar__radio"
+                  />
                   <span class="vuefinder__toolbar__option-text">{{ t('Files only') }}</span>
                 </label>
                 <label class="vuefinder__toolbar__dropdown-option">
-                  <input type="radio" name="filterKind" value="folders" v-model="filterSortState.filterKind" class="vuefinder__toolbar__radio">
+                  <input
+                    v-model="filterSortState.filterKind"
+                    type="radio"
+                    name="filterKind"
+                    value="folders"
+                    class="vuefinder__toolbar__radio"
+                  />
                   <span class="vuefinder__toolbar__option-text">{{ t('Folders only') }}</span>
                 </label>
               </div>
@@ -313,13 +376,20 @@ const resetFilters = () => {
 
             <!-- Hidden Files -->
             <div class="vuefinder__toolbar__dropdown-toggle">
-              <label for="showHidden" class="vuefinder__toolbar__toggle-label">{{ t('Show hidden files') }}</label>
-              <input type="checkbox" id="showHidden" v-model="filterSortState.showHidden" class="vuefinder__toolbar__checkbox">
+              <label for="showHidden" class="vuefinder__toolbar__toggle-label">{{
+                t('Show hidden files')
+              }}</label>
+              <input
+                id="showHidden"
+                v-model="filterSortState.showHidden"
+                type="checkbox"
+                class="vuefinder__toolbar__checkbox"
+              />
             </div>
 
             <!-- Reset Button -->
             <div class="vuefinder__toolbar__dropdown-reset">
-              <button @click="resetFilters" class="vuefinder__toolbar__reset-button">
+              <button class="vuefinder__toolbar__reset-button" @click="resetFilters">
                 {{ t('Reset') }}
               </button>
             </div>
@@ -328,20 +398,16 @@ const resetFilters = () => {
       </div>
 
       <div
-          v-if="app.features.includes(FEATURES.FULL_SCREEN)"
-          @click="config.toggle('fullScreen')"
-          class="mx-1.5"
-          :title="t('Toggle Full Screen')"
+        v-if="app.features.includes(FEATURES.FULL_SCREEN)"
+        class="mx-1.5"
+        :title="t('Toggle Full Screen')"
+        @click="config.toggle('fullScreen')"
       >
-        <MinimizeSVG class="vf-toolbar-icon" v-if="configState.fullScreen"/>
-        <FullscreenSVG class="vf-toolbar-icon" v-else/>
+        <MinimizeSVG v-if="configState.fullScreen" class="vf-toolbar-icon" />
+        <FullscreenSVG v-else class="vf-toolbar-icon" />
       </div>
 
-      <div
-          class="mx-1.5"
-          :title="t('Change View')"
-          @click="toggleView()"
-      >
+      <div class="mx-1.5" :title="t('Change View')" @click="toggleView()">
         <GridViewSVG v-if="configState.view === 'grid'" class="vf-toolbar-icon" />
         <ListViewSVG v-if="configState.view === 'list'" class="vf-toolbar-icon" />
       </div>

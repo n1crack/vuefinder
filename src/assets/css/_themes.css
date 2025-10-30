@@ -47,15 +47,15 @@
 }
 
 /* Import all theme files */
-@import "./themes/light.css";
-@import "./themes/dark.css";
-@import "./themes/latte.css";
-@import "./themes/rose.css";
-@import "./themes/mythril.css";
-@import "./themes/midnight.css";
-@import "./themes/ocean.css";
-@import "./themes/palenight.css";
-@import "./themes/lime.css";
-@import "./themes/sky.css";
-@import "./themes/arctic.css";
-@import "./themes/code.css";
+@import './themes/light.css';
+@import './themes/dark.css';
+@import './themes/latte.css';
+@import './themes/rose.css';
+@import './themes/mythril.css';
+@import './themes/midnight.css';
+@import './themes/ocean.css';
+@import './themes/palenight.css';
+@import './themes/lime.css';
+@import './themes/sky.css';
+@import './themes/arctic.css';
+@import './themes/code.css';

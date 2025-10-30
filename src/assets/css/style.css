@@ -1,59 +1,59 @@
 @layer theme, base, components, utilities;
 
-@import "tailwindcss/theme.css" layer(theme);
+@import 'tailwindcss/theme.css' layer(theme);
 
 .vuefinder {
-  @import "tailwindcss/preflight.css" layer(base);
+  @import 'tailwindcss/preflight.css' layer(base);
 }
 
-@import "tailwindcss/utilities.css" layer(utilities);
+@import 'tailwindcss/utilities.css' layer(utilities);
 
 /** Previews */
-@import "./_previews.css";
+@import './_previews.css';
 
-@import "overlayscrollbars/styles/overlayscrollbars.css";
+@import 'overlayscrollbars/styles/overlayscrollbars.css';
 
 /** Components */
-@import "./components/_action_message.css";
-@import "./components/_breadcrumb.css";
-@import "./components/_context_menu.css";
-@import "./components/_explorer.css";
-@import "./components/_drag_item.css";
-@import "./components/_folder_indicator.css";
-@import "./components/_folder_loader_indicator.css";
-@import "./components/_item.css";
-@import "./components/_item_icon.css";
-@import "./components/_linear_loader.css";
-@import "./components/_message.css";
-@import "./components/_statusbar.css";
-@import "./components/_tree_view.css";
-@import "./components/_toast.css";
-@import "./components/_toolbar.css";
-@import "./components/_menubar.css";
-@import "./components/_search_modal.css";
-@import "./components/_vuefinder.css";
+@import './components/_action_message.css';
+@import './components/_breadcrumb.css';
+@import './components/_context_menu.css';
+@import './components/_explorer.css';
+@import './components/_drag_item.css';
+@import './components/_folder_indicator.css';
+@import './components/_folder_loader_indicator.css';
+@import './components/_item.css';
+@import './components/_item_icon.css';
+@import './components/_linear_loader.css';
+@import './components/_message.css';
+@import './components/_statusbar.css';
+@import './components/_tree_view.css';
+@import './components/_toast.css';
+@import './components/_toolbar.css';
+@import './components/_menubar.css';
+@import './components/_search_modal.css';
+@import './components/_vuefinder.css';
 
 /** Modals */
-@import "./components/modals/_modal__layout.css";
-@import "./components/modals/_modal_target.css";
-@import "./components/modals/_modal_about.css";
-@import "./components/modals/_modal_archive.css";
-@import "./components/modals/_modal_delete.css";
-@import "./components/modals/_modal_header.css";
-@import "./components/modals/_modal_message.css";
-@import "./components/modals/_modal_move.css";
-@import "./components/modals/_modal_new_file.css";
-@import "./components/modals/_modal_new_folder.css";
-@import "./components/modals/_modal_preview.css";
-@import "./components/modals/_modal_rename.css";
-@import "./components/modals/_modal_unarchive.css";
-@import "./components/modals/_modal_upload.css";
+@import './components/modals/_modal__layout.css';
+@import './components/modals/_modal_target.css';
+@import './components/modals/_modal_about.css';
+@import './components/modals/_modal_archive.css';
+@import './components/modals/_modal_delete.css';
+@import './components/modals/_modal_header.css';
+@import './components/modals/_modal_message.css';
+@import './components/modals/_modal_move.css';
+@import './components/modals/_modal_new_file.css';
+@import './components/modals/_modal_new_folder.css';
+@import './components/modals/_modal_preview.css';
+@import './components/modals/_modal_rename.css';
+@import './components/modals/_modal_unarchive.css';
+@import './components/modals/_modal_upload.css';
 
-@import "./_themes.css";
-@import "./_effects.css";
-@import "./_forms.css";
-@import "./_scrollbars.css";
-@import "./_drag_over.css";
+@import './_themes.css';
+@import './_effects.css';
+@import './_forms.css';
+@import './_scrollbars.css';
+@import './_drag_over.css';
 
 @source "./src/**/*.{vue,js,ts,jsx,tsx,svg}";
 

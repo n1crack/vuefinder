@@ -1,5 +1,5 @@
 /* Light Theme */
-.vuefinder__themer[data-theme="light"] {
+.vuefinder__themer[data-theme='light'] {
   --vf-selection-bg: #f9fafb;
   --vf-selection-border: #d1d5db;
   /* Background Colors */
@@ -53,7 +53,7 @@
 }
 
 /* Light Theme - Selection Area */
-.selection-area-container[data-theme="light"] {
+.selection-area-container[data-theme='light'] {
   --vf-selection-bg: #f9fafb;
   --vf-selection-border: #aabfd7;
 }

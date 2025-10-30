@@ -1,5 +1,5 @@
 /* Lime Theme */
-.vuefinder__themer[data-theme="lime"] {
+.vuefinder__themer[data-theme='lime'] {
   --vf-selection-bg: #1a2e1a;
   --vf-selection-border: #84cc16;
   /* Background Colors */
@@ -49,24 +49,24 @@
 }
 
 /* Lime Theme - Tree View */
-.vuefinder[data-theme="lime"] .vuefinder__treestorageitem__header {
+.vuefinder[data-theme='lime'] .vuefinder__treestorageitem__header {
   background-color: var(--vf-bg-primary);
   opacity: 0.7;
 }
 
 /* Lime Theme - Item Icons */
-.vuefinder[data-theme="lime"] .vuefinder__item-icon__folder {
+.vuefinder[data-theme='lime'] .vuefinder__item-icon__folder {
   fill: #84cc16;
   stroke: #84cc16;
 }
 
-.vuefinder[data-theme="lime"] .vuefinder__item-icon__folder--open {
+.vuefinder[data-theme='lime'] .vuefinder__item-icon__folder--open {
   fill: #84cc16;
   stroke: #a3e635;
 }
 
 /* Lime Theme - Selection Area */
-.selection-area-container[data-theme="lime"] {
+.selection-area-container[data-theme='lime'] {
   --vf-selection-bg: #1a2e1a;
   --vf-selection-border: #84cc16;
 }

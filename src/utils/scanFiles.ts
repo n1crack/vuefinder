@@ -4,7 +4,7 @@
  */
 export const scanFiles = async (
   resultCallback: (entry: any, file: File) => void,
-  item: any,
+  item: any
 ): Promise<void> => {
   if (!item) return;
 

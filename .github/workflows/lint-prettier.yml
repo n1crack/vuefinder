@@ -1,13 +1,13 @@
-name: Biome Check
+name: Lint and Prettier
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 jobs:
-  biome:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,7 +18,7 @@ jobs:
           node-version: 20
       - name: Install deps
         run: npm ci
-      - name: Biome check
-        run: npm run check
-
-
+      - name: Prettier check
+        run: npm run format:check
+      - name: ESLint
+        run: npm run lint

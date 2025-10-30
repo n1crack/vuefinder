@@ -1,5 +1,5 @@
 /* Palenight Theme */
-.vuefinder__themer[data-theme="palenight"] {
+.vuefinder__themer[data-theme='palenight'] {
   --vf-selection-bg: #263238;
   --vf-selection-border: #c792ea;
   /* Background Colors */
@@ -48,13 +48,13 @@
 }
 
 /* Palenight Theme - Selection Area */
-.selection-area-container[data-theme="palenight"] {
+.selection-area-container[data-theme='palenight'] {
   --vf-selection-bg: #263238;
   --vf-selection-border: #c792ea;
 }
 
 /* Palenight Theme - Context Menu */
-.vuefinder[data-theme="palenight"] .vuefinder__context-menu {
+.vuefinder[data-theme='palenight'] .vuefinder__context-menu {
   border-color: #34495e;
   box-shadow:
     0 4px 6px -1px rgba(199, 146, 234, 0.05),
@@ -62,21 +62,21 @@
 }
 
 /* Palenight Theme - Tree View */
-.vuefinder[data-theme="palenight"] .vuefinder__treestorageitem__header {
+.vuefinder[data-theme='palenight'] .vuefinder__treestorageitem__header {
   background-color: var(--vf-bg-secondary);
 }
 
 /* Palenight Theme - Item Icons */
-.vuefinder[data-theme="palenight"] .vuefinder__item-icon__folder {
+.vuefinder[data-theme='palenight'] .vuefinder__item-icon__folder {
   fill: #8b5cf6;
   stroke: #8b5cf6;
 }
 
-.vuefinder[data-theme="palenight"] .vuefinder__item-icon__folder--open {
+.vuefinder[data-theme='palenight'] .vuefinder__item-icon__folder--open {
   fill: #8b5cf6;
   stroke: #8b5cf6;
 }
 
-.vuefinder[data-theme="palenight"] .vuefinder__item-icon {
+.vuefinder[data-theme='palenight'] .vuefinder__item-icon {
   color: #a78bfa;
 }

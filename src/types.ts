@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 import type { Item as ContextMenuItem } from './utils/contextmenu';
 import ServiceContainer from './ServiceContainer';
 import type { Theme } from './stores/theme';
@@ -36,7 +36,7 @@ export interface VueFinderProps {
       getTargetPath: () => string;
       getHeaders?: () => Record<string, string>;
       t: (key: string) => string;
-    },
+    }
   ) => void;
 }
 

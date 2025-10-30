@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import {inject, ref, computed, onMounted, onUnmounted} from 'vue';
-import {useStore} from '@nanostores/vue';
-import {FEATURES} from "../features.js";
-import type {DirEntry} from "../types";
+import { inject, ref, computed, onMounted, onUnmounted } from 'vue';
+import { useStore } from '@nanostores/vue';
+import { FEATURES } from '../features.js';
+import type { DirEntry } from '../types';
 import { copyPath, copyDownloadUrl } from '../utils/clipboard';
-import ModalNewFolder from "./modals/ModalNewFolder.vue";
-import ModalNewFile from "./modals/ModalNewFile.vue";
-import ModalRename from "./modals/ModalRename.vue";
-import ModalDelete from "./modals/ModalDelete.vue";
-import ModalUpload from "./modals/ModalUpload.vue";
-import ModalUnarchive from "./modals/ModalUnarchive.vue";
-import ModalArchive from "./modals/ModalArchive.vue";
-import ModalAbout from "./modals/ModalAbout.vue";
-import ModalMove from "./modals/ModalMove.vue";
-import ModalCopy from "./modals/ModalCopy.vue";
-import ModalPreview from "./modals/ModalPreview.vue";
+import ModalNewFolder from './modals/ModalNewFolder.vue';
+import ModalNewFile from './modals/ModalNewFile.vue';
+import ModalRename from './modals/ModalRename.vue';
+import ModalDelete from './modals/ModalDelete.vue';
+import ModalUpload from './modals/ModalUpload.vue';
+import ModalUnarchive from './modals/ModalUnarchive.vue';
+import ModalArchive from './modals/ModalArchive.vue';
+import ModalAbout from './modals/ModalAbout.vue';
+import ModalMove from './modals/ModalMove.vue';
+import ModalCopy from './modals/ModalCopy.vue';
+import ModalPreview from './modals/ModalPreview.vue';
 import ModalSearch from './modals/ModalSearch.vue';
 import ModalSettings from './modals/ModalSettings.vue';
 import ModalShortcuts from './modals/ModalShortcuts.vue';
@@ -25,8 +25,7 @@ import type { ConfigState } from '../stores/config';
 
 const app = useApp();
 
-
-const {t} = app?.i18n || { t: (key: string) => key };
+const { t } = app?.i18n || { t: (key: string) => key };
 
 const fs = app?.fs;
 const config = app?.config;
@@ -42,9 +41,7 @@ const isMenuOpen = ref(false);
 
 // Check if exit option should be shown
 const shouldShowExit = computed(() => {
-  const canClose = window.opener !== null || 
-                   window.name !== '' || 
-                   window.history.length <= 1;
+  const canClose = window.opener !== null || window.name !== '' || window.history.length <= 1;
   return canClose;
 });
 
@@ -57,28 +54,28 @@ const menuItems = computed<any[]>(() => [
       {
         id: 'new-folder',
         label: t('New Folder'),
-        action: () => app?.modal?.open(ModalNewFolder, {items: selectedItems.value}),
-        enabled: () => app?.features?.includes(FEATURES.NEW_FOLDER) || false
+        action: () => app?.modal?.open(ModalNewFolder, { items: selectedItems.value }),
+        enabled: () => app?.features?.includes(FEATURES.NEW_FOLDER) || false,
       },
       {
         id: 'new-file',
         label: t('New File'),
-        action: () => app?.modal?.open(ModalNewFile, {items: selectedItems.value}),
-        enabled: () => app?.features?.includes(FEATURES.NEW_FILE) || false
+        action: () => app?.modal?.open(ModalNewFile, { items: selectedItems.value }),
+        enabled: () => app?.features?.includes(FEATURES.NEW_FILE) || false,
       },
       { type: 'separator' },
       {
         id: 'upload',
         label: t('Upload'),
-        action: () => app?.modal?.open(ModalUpload, {items: selectedItems.value}),
-        enabled: () => app?.features?.includes(FEATURES.UPLOAD) || false
+        action: () => app?.modal?.open(ModalUpload, { items: selectedItems.value }),
+        enabled: () => app?.features?.includes(FEATURES.UPLOAD) || false,
       },
       { type: 'separator' },
       {
         id: 'search',
         label: t('Search'),
         action: () => app.modal.open(ModalSearch),
-        enabled: () => app?.features?.includes(FEATURES.SEARCH)
+        enabled: () => app?.features?.includes(FEATURES.SEARCH),
       },
       { type: 'separator' },
       {
@@ -86,22 +83,26 @@ const menuItems = computed<any[]>(() => [
         label: t('Archive'),
         action: () => {
           if (selectedItems.value.length > 0) {
-            app?.modal?.open(ModalArchive, {items: selectedItems.value});
+            app?.modal?.open(ModalArchive, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.ARCHIVE)
+        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.ARCHIVE),
       },
       {
         id: 'unarchive',
         label: t('Unarchive'),
         action: () => {
-          if (selectedItems.value.length === 1 && selectedItems.value[0]?.mime_type === 'application/zip') {
-            app?.modal?.open(ModalUnarchive, {items: selectedItems.value});
+          if (
+            selectedItems.value.length === 1 &&
+            selectedItems.value[0]?.mime_type === 'application/zip'
+          ) {
+            app?.modal?.open(ModalUnarchive, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length === 1 && 
-                 selectedItems.value[0]?.mime_type === 'application/zip' && 
-                 app?.features?.includes(FEATURES.UNARCHIVE)
+        enabled: () =>
+          selectedItems.value.length === 1 &&
+          selectedItems.value[0]?.mime_type === 'application/zip' &&
+          app?.features?.includes(FEATURES.UNARCHIVE),
       },
       { type: 'separator' },
       {
@@ -109,68 +110,82 @@ const menuItems = computed<any[]>(() => [
         label: t('Preview'),
         action: () => {
           if (selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir') {
-            app?.modal?.open(ModalPreview, {storage: fs?.path?.get()?.storage, item: selectedItems.value[0]})
+            app?.modal?.open(ModalPreview, {
+              storage: fs?.path?.get()?.storage,
+              item: selectedItems.value[0],
+            });
           }
         },
-        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir'
+        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
       },
       // Only show exit option if we can actually close the window
-      ...(shouldShowExit.value ? [
-        { type: 'separator' },
-        {
-          id: 'exit',
-          label: t('Exit'),
-          action: () => {
-            try {
-              window.close();
-            } catch (e) {
-              // Window cannot be closed programmatically
-            }
-          },
-          enabled: () => true
-        }
-      ] : [])
-    ]
+      ...(shouldShowExit.value
+        ? [
+            { type: 'separator' },
+            {
+              id: 'exit',
+              label: t('Exit'),
+              action: () => {
+                try {
+                  window.close();
+                } catch (e) {
+                  // Window cannot be closed programmatically
+                }
+              },
+              enabled: () => true,
+            },
+          ]
+        : []),
+    ],
   },
   {
     id: 'edit',
     label: t('Edit'),
     items: [
       // Only show Select All and Deselect All in multiple selection mode
-      ...(app?.selectionMode === 'multiple' ? [
-        {
-          id: 'select-all',
-          label: t('Select All'),
-          action: () => fs?.selectAll((app?.selectionMode as 'single' | 'multiple') || 'multiple', app),
-          enabled: () => true
-        },
-        {
-          id: 'deselect',
-          label: t('Deselect All'),
-          action: () => fs?.clearSelection(),
-          enabled: () => selectedItems.value.length > 0
-        },
-        { type: 'separator' }
-      ] : []),
+      ...(app?.selectionMode === 'multiple'
+        ? [
+            {
+              id: 'select-all',
+              label: t('Select All'),
+              action: () =>
+                fs?.selectAll((app?.selectionMode as 'single' | 'multiple') || 'multiple', app),
+              enabled: () => true,
+            },
+            {
+              id: 'deselect',
+              label: t('Deselect All'),
+              action: () => fs?.clearSelection(),
+              enabled: () => selectedItems.value.length > 0,
+            },
+            { type: 'separator' },
+          ]
+        : []),
       {
         id: 'cut',
         label: t('Cut'),
         action: () => {
           if (selectedItems.value.length > 0) {
-            fs?.setClipboard('cut', new Set(selectedItems.value.map((item: DirEntry) => item.path)));
+            fs?.setClipboard(
+              'cut',
+              new Set(selectedItems.value.map((item: DirEntry) => item.path))
+            );
           }
         },
-        enabled: () => selectedItems.value.length > 0
+        enabled: () => selectedItems.value.length > 0,
       },
       {
         id: 'copy',
         label: t('Copy'),
         action: () => {
           if (selectedItems.value.length > 0) {
-            fs?.setClipboard('copy', new Set(selectedItems.value.map((item: DirEntry) => item.path)));
+            fs?.setClipboard(
+              'copy',
+              new Set(selectedItems.value.map((item: DirEntry) => item.path))
+            );
           }
         },
-        enabled: () => selectedItems.value.length > 0
+        enabled: () => selectedItems.value.length > 0,
       },
       {
         id: 'paste',
@@ -179,14 +194,14 @@ const menuItems = computed<any[]>(() => [
           const clipboard = fs?.getClipboard();
           if (clipboard?.items?.size > 0) {
             app?.modal?.open(clipboard.type === 'cut' ? ModalMove : ModalCopy, {
-              items: { from: Array.from(clipboard.items), to: fs?.path?.get() }
+              items: { from: Array.from(clipboard.items), to: fs?.path?.get() },
             });
           }
         },
         enabled: () => {
           const clipboard = fs?.getClipboard();
           return clipboard?.items?.size > 0;
-        }
+        },
       },
       {
         id: 'move',
@@ -194,11 +209,15 @@ const menuItems = computed<any[]>(() => [
         action: () => {
           if (selectedItems.value.length > 0) {
             const fs = app?.fs;
-            const target = { storage: fs?.path?.get()?.storage || '', path: fs?.path?.get()?.path || '', type: 'dir' as const };
+            const target = {
+              storage: fs?.path?.get()?.storage || '',
+              path: fs?.path?.get()?.path || '',
+              type: 'dir' as const,
+            };
             app?.modal?.open(ModalMove, { items: { from: selectedItems.value, to: target } });
           }
         },
-        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.MOVE)
+        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.MOVE),
       },
       { type: 'separator' },
       {
@@ -217,7 +236,7 @@ const menuItems = computed<any[]>(() => [
             }
           }
         },
-        enabled: () => true // Her zaman aktif
+        enabled: () => true, // Her zaman aktif
       },
       {
         id: 'copy-download-url',
@@ -232,7 +251,7 @@ const menuItems = computed<any[]>(() => [
             }
           }
         },
-        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir'
+        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
       },
       { type: 'separator' },
       {
@@ -240,22 +259,22 @@ const menuItems = computed<any[]>(() => [
         label: t('Rename'),
         action: () => {
           if (selectedItems.value.length === 1) {
-            app?.modal?.open(ModalRename, {items: selectedItems.value});
+            app?.modal?.open(ModalRename, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length === 1 && app?.features?.includes(FEATURES.RENAME)
+        enabled: () => selectedItems.value.length === 1 && app?.features?.includes(FEATURES.RENAME),
       },
       {
         id: 'delete',
         label: t('Delete'),
         action: () => {
           if (selectedItems.value.length > 0) {
-            app?.modal?.open(ModalDelete, {items: selectedItems.value});
+            app?.modal?.open(ModalDelete, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.DELETE)
-      }
-    ]
+        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.DELETE),
+      },
+    ],
   },
   {
     id: 'view',
@@ -267,20 +286,20 @@ const menuItems = computed<any[]>(() => [
         action: () => {
           app?.adapter.list(fs?.path?.get()?.path);
         },
-        enabled: () => true
+        enabled: () => true,
       },
       { type: 'separator' },
       {
         id: 'grid-view',
         label: t('Grid View'),
         action: () => config?.set('view', 'grid'),
-        checked: () => configState.value?.view === 'grid'
+        checked: () => configState.value?.view === 'grid',
       },
       {
         id: 'list-view',
         label: t('List View'),
         action: () => config?.set('view', 'list'),
-        checked: () => configState.value?.view === 'list'
+        checked: () => configState.value?.view === 'list',
       },
       { type: 'separator' },
       {
@@ -288,21 +307,21 @@ const menuItems = computed<any[]>(() => [
         label: t('Tree View'),
         action: () => config?.toggle('showTreeView'),
         enabled: () => true,
-        checked: () => configState.value?.showTreeView
+        checked: () => configState.value?.showTreeView,
       },
       {
         id: 'thumbnails',
         label: t('Show Thumbnails'),
         action: () => config?.toggle('showThumbnails'),
         enabled: () => true,
-        checked: () => configState.value?.showThumbnails
+        checked: () => configState.value?.showThumbnails,
       },
       {
         id: 'show-hidden-files',
         label: t('Show Hidden Files'),
         action: () => config?.toggle('showHiddenFiles'),
         enabled: () => true,
-        checked: () => configState.value?.showHiddenFiles
+        checked: () => configState.value?.showHiddenFiles,
       },
       { type: 'separator' },
       {
@@ -310,9 +329,9 @@ const menuItems = computed<any[]>(() => [
         label: t('Full Screen'),
         action: () => config?.toggle('fullScreen'),
         enabled: () => app?.features?.includes(FEATURES.FULL_SCREEN),
-        checked: () => configState.value?.fullScreen
-      }
-    ]
+        checked: () => configState.value?.fullScreen,
+      },
+    ],
   },
   {
     id: 'go',
@@ -325,7 +344,7 @@ const menuItems = computed<any[]>(() => [
           fs?.goForward();
           app?.adapter.list(fs?.currentPath?.get());
         },
-        enabled: () => fs?.canGoForward?.get() ?? false
+        enabled: () => fs?.canGoForward?.get() ?? false,
       },
       {
         id: 'back',
@@ -334,19 +353,19 @@ const menuItems = computed<any[]>(() => [
           fs?.goBack();
           app?.adapter.list(fs?.currentPath?.get());
         },
-        enabled: () => fs?.canGoBack?.get() ?? false
+        enabled: () => fs?.canGoBack?.get() ?? false,
       },
       {
         id: 'open-containing-folder',
         label: t('Open containing folder'),
         action: () => {
           const pathInfo = fs?.path?.get();
-          
+
           if (pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 0) {
             // Get parent path from breadcrumb
             const parentBreadcrumb = pathInfo.breadcrumb[pathInfo.breadcrumb.length - 2];
             const parentPath = parentBreadcrumb?.path ?? `${pathInfo.storage}://`;
-            
+
             fs?.setPath(parentPath);
             app?.adapter.list(parentPath);
           }
@@ -354,7 +373,7 @@ const menuItems = computed<any[]>(() => [
         enabled: () => {
           const pathInfo = fs?.path?.get();
           return pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 0;
-        }
+        },
       },
       { type: 'separator' },
       // Dynamic storage list items will be added here
@@ -366,7 +385,7 @@ const menuItems = computed<any[]>(() => [
           fs?.setPath(storagePath);
           app?.adapter.list(storagePath);
         },
-        enabled: () => true
+        enabled: () => true,
       })),
       { type: 'separator' },
       {
@@ -379,11 +398,11 @@ const menuItems = computed<any[]>(() => [
             app?.adapter.list(folderPath);
           }
         },
-        enabled: () => true
-      }
-    ]
+        enabled: () => true,
+      },
+    ],
   },
-  
+
   {
     id: 'help',
     label: t('Help'),
@@ -392,22 +411,22 @@ const menuItems = computed<any[]>(() => [
         id: 'settings',
         label: t('Settings'),
         action: () => app?.modal?.open(ModalSettings),
-        enabled: () => true
+        enabled: () => true,
       },
       {
         id: 'shortcuts',
         label: t('Shortcuts'),
         action: () => app?.modal?.open(ModalShortcuts),
-        enabled: () => true
+        enabled: () => true,
       },
       {
         id: 'about',
         label: t('About'),
         action: () => app?.modal?.open(ModalAbout),
-        enabled: () => true
-      }
-    ]
-  }
+        enabled: () => true,
+      },
+    ],
+  },
 ]);
 
 // Menu methods
@@ -441,7 +460,6 @@ const handleMenuAction = (action: () => void) => {
   action();
 };
 
-
 // Click outside to close menu
 const handleClickOutside = (e: MouseEvent) => {
   const target = e.target as HTMLElement;
@@ -463,8 +481,8 @@ onUnmounted(() => {
 <template>
   <div class="vuefinder__menubar" @click.stop>
     <div class="vuefinder__menubar__container">
-      <div 
-        v-for="menu in menuItems" 
+      <div
+        v-for="menu in menuItems"
         :key="menu.id"
         class="vuefinder__menubar__item"
         :class="{ 'vuefinder__menubar__item--active': activeMenu === menu.id }"
@@ -472,28 +490,35 @@ onUnmounted(() => {
         @mouseenter="openMenu(menu.id)"
       >
         <span class="vuefinder__menubar__label">{{ menu.label }}</span>
-        
+
         <!-- Dropdown menu -->
-        <div 
+        <div
           v-if="activeMenu === menu.id"
           class="vuefinder__menubar__dropdown"
           @mouseenter="openMenu(menu.id)"
         >
-          <div 
-            v-for="item in menu.items" 
+          <div
+            v-for="item in menu.items"
             :key="item.id || item.type"
             class="vuefinder__menubar__dropdown__item"
             :class="{
               'vuefinder__menubar__dropdown__item--separator': item.type === 'separator',
               'vuefinder__menubar__dropdown__item--disabled': item.enabled && !item.enabled(),
-              'vuefinder__menubar__dropdown__item--checked': item.checked && item.checked()
+              'vuefinder__menubar__dropdown__item--checked': item.checked && item.checked(),
             }"
-            @click.stop="item.type !== 'separator' && item.enabled && item.enabled() ? handleMenuAction(item.action) : null"
+            @click.stop="
+              item.type !== 'separator' && item.enabled && item.enabled()
+                ? handleMenuAction(item.action)
+                : null
+            "
           >
             <span v-if="item.type !== 'separator'" class="vuefinder__menubar__dropdown__label">
               {{ item.label }}
             </span>
-            <span v-if="item.checked && item.checked()" class="vuefinder__menubar__dropdown__checkmark">
+            <span
+              v-if="item.checked && item.checked()"
+              class="vuefinder__menubar__dropdown__checkmark"
+            >
               ✓
             </span>
           </div>

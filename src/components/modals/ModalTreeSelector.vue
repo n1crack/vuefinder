@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import {computed, ref, watch, onMounted} from 'vue';
-import {useStore} from '@nanostores/vue';
+import { computed, ref, watch, onMounted } from 'vue';
+import { useStore } from '@nanostores/vue';
 import FolderSVG from '../../assets/icons/folder.svg';
-import PlusSVG from "../../assets/icons/plus.svg";
-import MinusSVG from "../../assets/icons/minus.svg";
-import PinSVG from "../../assets/icons/pin.svg";
-import {OverlayScrollbars} from 'overlayscrollbars';
-import type {DirEntry} from '../../types';
+import PlusSVG from '../../assets/icons/plus.svg';
+import MinusSVG from '../../assets/icons/minus.svg';
+import PinSVG from '../../assets/icons/pin.svg';
+import { OverlayScrollbars } from 'overlayscrollbars';
+import type { DirEntry } from '../../types';
 import StorageSVG from '../../assets/icons/storage.svg';
 import ModalTreeFolderItem from './ModalTreeFolderItem.vue';
 
 import { useApp } from '../../composables/useApp';
 const app = useApp();
-const {t} = app.i18n;
+const { t } = app.i18n;
 
 const fs = app.fs;
 const config = app.config;
 
 // Props
 defineProps<{
-  modelValue: DirEntry | null
-  showPinnedFolders?: boolean
-  currentPath?: any
-}>()
+  modelValue: DirEntry | null;
+  showPinnedFolders?: boolean;
+  currentPath?: any;
+}>();
 
 // Emits
 const emit = defineEmits<{
-  'update:modelValue': [value: DirEntry | null]
-  'selectAndClose': [value: DirEntry | null]
-}>()
+  'update:modelValue': [value: DirEntry | null];
+  selectAndClose: [value: DirEntry | null];
+}>();
 
 // Use nanostores reactive values for template reactivity
 const sortedFiles = useStore(fs.sortedFiles);
@@ -46,14 +46,15 @@ const modalTreeData = ref<Record<string, DirEntry[]>>({});
 
 // watch for changes in the fs.data
 // update the modalTreeData
-watch(sortedFiles, (newFiles: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+watch(sortedFiles, (newFiles: any) => {
+   
   const folders = newFiles.filter((e: DirEntry) => e.type === 'dir');
   const currentPath = path.value?.path || '';
 
   if (currentPath) {
     modalTreeData.value[currentPath] = folders.map((item: DirEntry) => ({
       ...item,
-      type: 'dir' as const
+      type: 'dir' as const,
     }));
   }
 });
@@ -65,7 +66,7 @@ const toggleFolder = (storage: string, folderPath: string) => {
   // Toggle the expanded state - create a new object to ensure reactivity
   expandedFolders.value = {
     ...expandedFolders.value,
-    [key]: !expandedFolders.value[key]
+    [key]: !expandedFolders.value[key],
   };
 
   // Load subfolders if not already loaded and we're expanding
@@ -76,10 +77,9 @@ const toggleFolder = (storage: string, folderPath: string) => {
       const folders = (files as DirEntry[]).filter((e: DirEntry) => e.type === 'dir');
       modalTreeData.value[folderPath] = folders.map((item: DirEntry) => ({
         ...item,
-        type: 'dir' as const
+        type: 'dir' as const,
       }));
     });
-
   }
 };
 
@@ -91,13 +91,13 @@ const getFoldersForPath = (folderPath: string): DirEntry[] => {
 const selectFolder = (folder: DirEntry | null) => {
   if (!folder) return;
   emit('update:modelValue', folder);
-}
+};
 
 const selectFolderAndClose = (folder: DirEntry | null) => {
   if (!folder) return;
   emit('update:modelValue', folder);
   emit('selectAndClose', folder);
-}
+};
 
 const selectStorage = (storage: string) => {
   const storageItem: DirEntry = {
@@ -110,10 +110,10 @@ const selectStorage = (storage: string) => {
     last_modified: null,
     mime_type: null,
     visibility: 'public',
-    dir: storage + '://'
+    dir: storage + '://',
   };
   emit('update:modelValue', storageItem);
-}
+};
 
 const selectStorageAndClose = (storage: string) => {
   const storageItem: DirEntry = {
@@ -126,11 +126,11 @@ const selectStorageAndClose = (storage: string) => {
     last_modified: null,
     mime_type: null,
     visibility: 'public',
-    dir: storage + '://'
+    dir: storage + '://',
   };
   emit('update:modelValue', storageItem);
   emit('selectAndClose', storageItem);
-}
+};
 
 // Touch handling for mobile double-tap
 let lastTouchTime = 0;
@@ -147,7 +147,7 @@ const handleFolderTouch = (folder: DirEntry | null) => {
     selectFolder(folder);
   }
   lastTouchTime = currentTime;
-}
+};
 
 const handleStorageTouch = (storage: string) => {
   const currentTime = Date.now();
@@ -159,7 +159,7 @@ const handleStorageTouch = (storage: string) => {
     selectStorage(storage);
   }
   lastTouchTime = currentTime;
-}
+};
 
 onMounted(() => {
   if (modalContentElement.value) {
@@ -183,67 +183,79 @@ onMounted(() => {
 
     <div ref="modalContentElement" class="vuefinder__modal-tree__content">
       <!-- Pinned folders -->
-      <div v-if="showPinnedFolders && config.get('pinnedFolders').length" class="vuefinder__modal-tree__section">
+      <div
+        v-if="showPinnedFolders && config.get('pinnedFolders').length"
+        class="vuefinder__modal-tree__section"
+      >
         <div class="vuefinder__modal-tree__section-title">{{ t('Pinned Folders') }}</div>
         <div class="vuefinder__modal-tree__list">
           <div
-              v-for="folder in config.get('pinnedFolders')"
-              :key="folder.path"
-              class="vuefinder__modal-tree__item"
-              @click="selectFolder(folder)"
-              @dblclick="selectFolderAndClose(folder)"
-              @touchend="handleFolderTouch(folder)"
-              :class="{ 'vuefinder__modal-tree__item--selected': modelValue?.path === folder.path }"
+            v-for="folder in config.get('pinnedFolders')"
+            :key="folder.path"
+            class="vuefinder__modal-tree__item"
+            :class="{ 'vuefinder__modal-tree__item--selected': modelValue?.path === folder.path }"
+            @click="selectFolder(folder)"
+            @dblclick="selectFolderAndClose(folder)"
+            @touchend="handleFolderTouch(folder)"
           >
-            <FolderSVG class="vuefinder__modal-tree__icon vuefinder__item-icon__folder"/>
+            <FolderSVG class="vuefinder__modal-tree__icon vuefinder__item-icon__folder" />
             <div class="vuefinder__modal-tree__text">{{ folder.basename }}</div>
             <div class="vuefinder__modal-tree__text-storage">{{ folder.storage }}</div>
-            <PinSVG class="vuefinder__modal-tree__icon vuefinder__modal-tree__icon--pin"/>
+            <PinSVG class="vuefinder__modal-tree__icon vuefinder__modal-tree__icon--pin" />
           </div>
         </div>
       </div>
-      
+
       <div class="vuefinder__modal-tree__section-title">{{ t('Storages') }}</div>
 
       <!-- Storage roots with expandable subfolders -->
-      <div class="vuefinder__modal-tree__section"
-           v-for="storage in storagesList" :key="storage">
+      <div v-for="storage in storagesList" :key="storage" class="vuefinder__modal-tree__section">
         <div class="vuefinder__modal-tree__list">
           <!-- Storage Root Item -->
           <div class="vuefinder__modal-tree__storage-item">
             <div class="vuefinder__modal-tree__storage-content">
-              <div class="vuefinder__modal-tree__storage-toggle"
-                   @click.stop="toggleFolder(storage, storage + '://')">
-                <PlusSVG v-if="!expandedFolders[`${storage}:${storage}://`]"
-                         class="vuefinder__modal-tree__toggle-icon"/>
-                <MinusSVG v-else class="vuefinder__modal-tree__toggle-icon"/>
+              <div
+                class="vuefinder__modal-tree__storage-toggle"
+                @click.stop="toggleFolder(storage, storage + '://')"
+              >
+                <PlusSVG
+                  v-if="!expandedFolders[`${storage}:${storage}://`]"
+                  class="vuefinder__modal-tree__toggle-icon"
+                />
+                <MinusSVG v-else class="vuefinder__modal-tree__toggle-icon" />
               </div>
               <div
-                  class="vuefinder__modal-tree__storage-link"
-                  @click="selectStorage(storage)"
-                  @dblclick="selectStorageAndClose(storage)"
-                  @touchend="handleStorageTouch(storage)"
-                  :class="{ 'vuefinder__modal-tree__storage-link--selected': modelValue?.path === storage + '://' }"
+                class="vuefinder__modal-tree__storage-link"
+                :class="{
+                  'vuefinder__modal-tree__storage-link--selected':
+                    modelValue?.path === storage + '://',
+                }"
+                @click="selectStorage(storage)"
+                @dblclick="selectStorageAndClose(storage)"
+                @touchend="handleStorageTouch(storage)"
               >
-                <StorageSVG class="vuefinder__modal-tree__storage-icon"/>
+                <StorageSVG class="vuefinder__modal-tree__storage-icon" />
                 <span class="vuefinder__modal-tree__storage-text">{{ storage }}</span>
               </div>
             </div>
 
             <!-- Subfolders using recursive component -->
-            <div v-if="expandedFolders[`${storage}:${storage}://`]" class="vuefinder__modal-tree__subfolders">
+            <div
+              v-if="expandedFolders[`${storage}:${storage}://`]"
+              class="vuefinder__modal-tree__subfolders"
+            >
               <ModalTreeFolderItem
                 v-for="folder in getFoldersForPath(storage + '://')"
                 :key="folder.path"
                 :folder="folder"
                 :storage="storage"
-                :modelValue="modelValue"
-                :expandedFolders="expandedFolders"
-                :modalTreeData="modalTreeData"
-                :currentPath="currentPath"
-                @update:modelValue="selectFolder"
-                @selectAndClose="selectFolderAndClose"
-                @toggleFolder="toggleFolder"
+                :model-value="modelValue"
+                :expanded-folders="expandedFolders"
+                :modal-tree-data="modalTreeData"
+                :current-path="currentPath"
+                @update:model-value="selectFolder"
+                @select-and-close="selectFolderAndClose"
+                @toggle-folder="toggleFolder"
               />
             </div>
           </div>

@@ -40,7 +40,7 @@ defineExpose({
     if (searchInput.value) {
       searchInput.value.focus();
     }
-  }
+  },
 });
 </script>
 

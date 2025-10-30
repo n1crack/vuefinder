@@ -12,7 +12,7 @@ import type { ConfigStore } from '../stores/config';
  */
 export function useTheme(
   configStore: ConfigStore,
-  defaultTheme?: Theme | Ref<Theme> | (() => Theme),
+  defaultTheme?: Theme | Ref<Theme> | (() => Theme)
 ) {
   // Make configStore reactive
   const configState = useStore(configStore.state);

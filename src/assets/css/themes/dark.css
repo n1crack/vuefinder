@@ -1,5 +1,5 @@
 /* Dark Theme */
-.vuefinder__themer[data-theme="dark"] {
+.vuefinder__themer[data-theme='dark'] {
   --vf-selection-bg: #374151;
   --vf-selection-border: #374151;
   /* Background Colors */
@@ -53,23 +53,23 @@
 }
 
 /* Dark Theme - Selection Area */
-.selection-area-container[data-theme="dark"] {
+.selection-area-container[data-theme='dark'] {
   --vf-selection-bg: #374151;
   --vf-selection-border: #60a5fa;
 }
 
 /* Dark Theme - Tree View */
-.vuefinder[data-theme="dark"] .vuefinder__treestorageitem__header {
+.vuefinder[data-theme='dark'] .vuefinder__treestorageitem__header {
   @apply bg-(--vf-bg-primary);
   opacity: 0.5;
 }
 
-.vuefinder[data-theme="dark"] .vuefinder__treestorageitem__subfolder {
+.vuefinder[data-theme='dark'] .vuefinder__treestorageitem__subfolder {
   @apply bg-(--vf-bg-primary);
 }
 
 /* Dark Theme - Item Icons */
-.vuefinder[data-theme="dark"] .vuefinder__item-icon__folder--open {
+.vuefinder[data-theme='dark'] .vuefinder__item-icon__folder--open {
   fill: var(--vf-accent-primary);
   stroke: #60a5fa;
 }

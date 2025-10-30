@@ -1,5 +1,5 @@
 /* Code Theme */
-.vuefinder__themer[data-theme="code"] {
+.vuefinder__themer[data-theme='code'] {
   --vf-selection-bg: #f6f8fa;
   --vf-selection-border: #d0d7de;
   /* Background Colors */
@@ -53,7 +53,7 @@
 }
 
 /* Code Theme - Selection Area */
-.selection-area-container[data-theme="code"] {
+.selection-area-container[data-theme='code'] {
   --vf-selection-bg: #f6f8fa;
   --vf-selection-border: #0969da;
 }

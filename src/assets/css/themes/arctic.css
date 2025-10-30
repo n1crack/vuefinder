@@ -1,5 +1,5 @@
 /* Arctic Theme */
-.vuefinder__themer[data-theme="arctic"] {
+.vuefinder__themer[data-theme='arctic'] {
   --vf-selection-bg: #3b4252;
   --vf-selection-border: #88c0d0;
   /* Background Colors */
@@ -53,7 +53,7 @@
 }
 
 /* Arctic Theme - Selection Area */
-.selection-area-container[data-theme="arctic"] {
+.selection-area-container[data-theme='arctic'] {
   --vf-selection-bg: #3b4252;
   --vf-selection-border: #88c0d0;
 }

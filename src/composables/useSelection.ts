@@ -11,7 +11,7 @@ export interface UseSelectionDeps<T> {
     minRow: number,
     maxRow: number,
     minCol: number,
-    maxCol: number,
+    maxCol: number
   ) => U[];
   getKey: (item: T) => string;
   selectionObject: Ref<SelectionArea | null>;
@@ -137,7 +137,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
       ((app.root as HTMLElement).getBoundingClientRect().top ?? 0);
 
     const selectionAreaContainerElement = document.querySelector(
-      '.selection-area-container',
+      '.selection-area-container'
     ) as HTMLElement | null;
     if (selectionAreaContainerElement) {
       selectionAreaContainerElement.dataset.theme = app.theme.current;
@@ -244,7 +244,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
               minMaxIds.minRow,
               minMaxIds.maxRow,
               minMaxIds.minCol,
-              minMaxIds.maxCol,
+              minMaxIds.maxCol
             ) as any[]
           ).forEach((item) => {
             const key = getKey(item as T);
@@ -318,7 +318,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     if (selectionObject.value) {
       // Clean up selections that are no longer valid
       const currentSelection: string[] = Array.from(
-        (selectedKeys.value ?? new Set<string>()) as Set<string>,
+        (selectedKeys.value ?? new Set<string>()) as Set<string>
       );
       currentSelection.forEach((key) => {
         if (!isItemSelectable(key)) {

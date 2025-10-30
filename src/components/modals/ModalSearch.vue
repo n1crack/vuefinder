@@ -19,7 +19,6 @@ import type { CurrentPathState } from '../../stores/files';
 import { shortenPath } from '../../utils/path';
 import { copyPath } from '../../utils/clipboard';
 
-
 defineOptions({ name: 'ModalSearch' });
 
 const app = useApp();
@@ -46,13 +45,12 @@ const deepSearch = ref(false);
 const selectedDropdownOption = ref<string | null>(`size-${sizeFilter.value}`);
 const selectedItemDropdownOption = ref<string | null>(null);
 
-
 // Path expansion and dropdown states
 const expandedPaths = ref<Set<string>>(new Set());
 const activeDropdown = ref<string | null>(null);
 
 // Store subscriptions
-const currentPath : StoreValue<CurrentPathState> = useStore(fs.path);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 // Utility functions
 const togglePathExpansion = (path: string) => {
@@ -67,7 +65,7 @@ const toggleItemDropdown = (itemPath: string, event: MouseEvent) => {
   if (event && typeof event.stopPropagation === 'function') {
     event.stopPropagation();
   }
-  
+
   if (activeDropdown.value === itemPath) {
     activeDropdown.value = null;
   } else {
@@ -95,7 +93,7 @@ const openContainingFolder = (item: DirEntry) => {
 const previewItem = (item: DirEntry) => {
   app.modal.open(ModalPreview, {
     storage: currentPath?.value?.storage ?? 'local',
-    item: item
+    item: item,
   });
   closeAllDropdowns();
 };
@@ -117,11 +115,9 @@ const copyItemPath = async (item: DirEntry) => {
 
 // Watch for query changes and trigger search
 watch(query, async (newQuery) => {
-  if (newQuery.trim()) {    
+  if (newQuery.trim()) {
     await performSearch(newQuery.trim());
     selectedIndex.value = 0;
-    
-  
   } else {
     searchResults.value = [];
     isSearching.value = false;
@@ -132,7 +128,7 @@ watch(query, async (newQuery) => {
 // Watch for filter changes to update selected state and trigger search
 watch(sizeFilter, async (newValue) => {
   selectedDropdownOption.value = `size-${newValue}`;
-  
+
   // Trigger search if there's a query and we're not in the folder selector
   if (query.value.trim() && !showFolderSelector.value) {
     await performSearch(query.value.trim());
@@ -152,9 +148,9 @@ watch(deepSearch, async () => {
 // Perform search
 const performSearch = async (searchQuery: string) => {
   if (!searchQuery) return;
-  
+
   isSearching.value = true;
-  
+
   try {
     const searchPath = targetFolderEntry.value?.path || currentPath?.value?.path;
     const files = await app.adapter.search({
@@ -175,17 +171,16 @@ const performSearch = async (searchQuery: string) => {
 // Event listeners
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
-  
+
   // Initialize selected state
   selectedDropdownOption.value = `size-${sizeFilter.value}`;
-  
+
   nextTick(() => {
     if (searchInputRef.value) {
       searchInputRef.value.focus();
     }
   });
 });
-
 
 // Open folder selector modal
 const openFolderSelector = () => {
@@ -196,7 +191,7 @@ const openFolderSelector = () => {
   } else {
     // Closing folder selector
     showFolderSelector.value = false;
-    
+
     // If there's a query, perform search with current folder
     if (query.value.trim()) {
       performSearch(query.value.trim());
@@ -204,7 +199,6 @@ const openFolderSelector = () => {
     }
   }
 };
-
 
 const selectTargetFolder = (folder: DirEntry | null) => {
   if (folder) {
@@ -217,10 +211,10 @@ const handleFolderSelect = (entry: DirEntry | null) => {
   if (entry) {
     // Only update the search location, don't change current path
     selectTargetFolder(entry);
-    
+
     // Close folder selector
     showFolderSelector.value = false;
-    
+
     // If there's a query, perform search with new folder
     if (query.value.trim()) {
       performSearch(query.value.trim());
@@ -229,11 +223,9 @@ const handleFolderSelect = (entry: DirEntry | null) => {
   }
 };
 
-
-
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
-  
+
   // Cleanup child components
   if (searchOptionsDropdownRef.value) {
     searchOptionsDropdownRef.value.cleanup();
@@ -243,14 +235,14 @@ onUnmounted(() => {
 // Handle click outside to close dropdown
 const handleClickOutside = (event: MouseEvent) => {
   const target = event.target as HTMLElement;
-  
+
   // Close search options dropdown
   if (showDropdown.value) {
     const isClickOnDropdown = target.closest('.vuefinder__search-modal__dropdown');
-    
+
     if (!isClickOnDropdown) {
       showDropdown.value = false;
-      
+
       // Refocus input when dropdown closes
       nextTick(() => {
         if (searchInputRef.value) {
@@ -259,12 +251,12 @@ const handleClickOutside = (event: MouseEvent) => {
       });
     }
   }
-  
+
   // Close item dropdowns
   if (activeDropdown.value) {
     const isClickOnItemDropdown = target.closest('.vuefinder__search-modal__item-dropdown');
     const isClickOnResultItem = target.closest('.vuefinder__search-modal__result-item');
-    
+
     if (!isClickOnItemDropdown && !isClickOnResultItem) {
       closeAllDropdowns();
     }
@@ -276,7 +268,7 @@ const handleClickOutside = (event: MouseEvent) => {
   <ModalLayout class="vuefinder__search-modal-layout">
     <div class="vuefinder__search-modal">
       <ModalHeader :icon="SearchSVG" :title="t('Search files')"></ModalHeader>
-      
+
       <!-- Content Container (Input + Results) -->
       <div class="vuefinder__search-modal__content">
         <!-- Search Bar -->
@@ -300,20 +292,30 @@ const handleClickOutside = (event: MouseEvent) => {
         <!-- Search Options -->
         <div class="vuefinder__search-modal__options" @click.stop>
           <div class="vuefinder__search-modal__search-location">
-            <button 
-              @click.stop="openFolderSelector"
+            <button
               class="vuefinder__search-modal__location-btn"
               :class="{ 'vuefinder__search-modal__location-btn--open': showFolderSelector }"
+              @click.stop="openFolderSelector"
             >
               <FolderSVG class="vuefinder__search-modal__location-icon" />
-              <span class="vuefinder__search-modal__location-text" :title="targetFolderEntry?.path || currentPath.path">{{ shortenPath(targetFolderEntry?.path || currentPath.path) }}</span>
-              <svg class="vuefinder__search-modal__location-arrow" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"/>
+              <span
+                class="vuefinder__search-modal__location-text"
+                :title="targetFolderEntry?.path || currentPath.path"
+                >{{ shortenPath(targetFolderEntry?.path || currentPath.path) }}</span
+              >
+              <svg
+                class="vuefinder__search-modal__location-arrow"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+              >
+                <path
+                  d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"
+                />
               </svg>
             </button>
           </div>
           <label class="vuefinder__search-modal__deep-search" @click.stop>
-            <input 
+            <input
               v-model="deepSearch"
               type="checkbox"
               :disabled="showFolderSelector"
@@ -331,14 +333,17 @@ const handleClickOutside = (event: MouseEvent) => {
               v-model="targetFolderEntry"
               :show-pinned-folders="true"
               :current-path="currentPath"
-              @update:modelValue="selectTargetFolder"
-              @selectAndClose="handleFolderSelect"
+              @update:model-value="selectTargetFolder"
+              @select-and-close="handleFolderSelect"
             />
           </div>
         </div>
 
         <!-- Instructions -->
-        <div v-if="!query.trim() && !showFolderSelector" class="vuefinder__search-modal__instructions">
+        <div
+          v-if="!query.trim() && !showFolderSelector"
+          class="vuefinder__search-modal__instructions"
+        >
           <div class="vuefinder__search-modal__instructions-tips">
             <div class="vuefinder__search-modal__tip">
               <span class="vuefinder__search-modal__tip-key">↑↓</span>
@@ -372,7 +377,6 @@ const handleClickOutside = (event: MouseEvent) => {
           @preview="previewItem"
         />
       </div>
-
     </div>
   </ModalLayout>
 </template>

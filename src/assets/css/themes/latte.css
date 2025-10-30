@@ -1,5 +1,5 @@
 /* Latte Theme */
-.vuefinder__themer[data-theme="latte"] {
+.vuefinder__themer[data-theme='latte'] {
   --vf-selection-bg: #f5f1e8;
   --vf-selection-border: #d4c4a8;
   /* Background Colors */
@@ -52,7 +52,7 @@
 }
 
 /* Latte Theme - Selection Area */
-.selection-area-container[data-theme="latte"] {
+.selection-area-container[data-theme='latte'] {
   --vf-selection-bg: #f5f1e8;
   --vf-selection-border: #8b5a3c;
 }

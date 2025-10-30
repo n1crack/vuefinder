@@ -34,7 +34,7 @@ export class LocalAdapter extends BaseAdapter {
       // or local storage to list files
       // For now, we'll throw an error indicating this needs to be implemented
       throw new Error(
-        'LocalAdapter.list() is not yet implemented. Local file access requires File System Access API or backend proxy.',
+        'LocalAdapter.list() is not yet implemented. Local file access requires File System Access API or backend proxy.'
       );
     } catch (error) {
       throw new Error(`Failed to list directory: ${(error as Error).message}`);

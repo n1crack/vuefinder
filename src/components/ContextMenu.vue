@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {nextTick, reactive, ref} from 'vue';
+import { nextTick, reactive, ref } from 'vue';
 import { useApp } from '../composables/useApp';
 
 const app = useApp();
@@ -12,33 +12,31 @@ const context = reactive({
   items: [] as any[],
   positions: {
     left: '0px' as string,
-    top: '0px' as string
-  }
+    top: '0px' as string,
+  },
 });
-
 
 app.emitter.on('vf-context-selected', (items: any) => {
   selectedItems.value = items;
-})
+});
 
 const link = (item: any) => {
-  return item.link(app, selectedItems.value)
-}
+  return item.link(app, selectedItems.value);
+};
 
 const run = (item: any) => {
   app.emitter.emit('vf-contextmenu-hide');
   item.action(app, selectedItems.value);
 };
 
-
 app.emitter.on('vf-contextmenu-show', (payload: any) => {
-  const {event, items, target = null} = payload || {};
+  const { event, items, target = null } = payload || {};
 
   context.items = (app.contextMenuItems || []).filter((item: any) => {
     return item.show(app, {
       items,
-      target
-    })
+      target,
+    });
   });
 
   if (!target) {
@@ -48,12 +46,12 @@ app.emitter.on('vf-contextmenu-show', (payload: any) => {
   } else {
     app.emitter.emit('vf-context-selected', [target]);
   }
-  showContextMenu(event)
-})
+  showContextMenu(event);
+});
 
 app.emitter.on('vf-contextmenu-hide', () => {
   context.active = false;
-})
+});
 
 const showContextMenu = (event: any) => {
   const area = app.root as HTMLElement | null;
@@ -69,34 +67,47 @@ const showContextMenu = (event: any) => {
     // get the actual size of the context menu
     const menuContainer = contextmenu.value?.getBoundingClientRect();
 
-    let menuHeight = menuContainer?.height ?? 0;
-    let menuWidth = menuContainer?.width ?? 0;
+    const menuHeight = menuContainer?.height ?? 0;
+    const menuWidth = menuContainer?.width ?? 0;
 
     // check if the context menu is out of the container area
-    left = (areaContainer && (areaContainer.right - event.pageX + window.scrollX) < menuWidth) ? left - menuWidth : left;
-    top = (areaContainer && (areaContainer.bottom - event.pageY + window.scrollY) < menuHeight) ? top - menuHeight : top;
+    left =
+      areaContainer && areaContainer.right - event.pageX + window.scrollX < menuWidth
+        ? left - menuWidth
+        : left;
+    top =
+      areaContainer && areaContainer.bottom - event.pageY + window.scrollY < menuHeight
+        ? top - menuHeight
+        : top;
 
     context.positions = {
       left: String(left) + 'px',
-      top: String(top) + 'px'
+      top: String(top) + 'px',
     };
   });
 };
-
 </script>
 
 <template>
-  <ul ref="contextmenu" :class="{
-        'vuefinder__context-menu--active': context.active, 
-        'vuefinder__context-menu--inactive': !context.active
-        }" 
-        v-show="context.active" 
-        :style="context.positions"
-      class="vuefinder__context-menu">
-    <li class="vuefinder__context-menu__item" v-for="(item) in context.items" :key="item.title">
+  <ul
+    v-show="context.active"
+    ref="contextmenu"
+    :class="{
+      'vuefinder__context-menu--active': context.active,
+      'vuefinder__context-menu--inactive': !context.active,
+    }"
+    :style="context.positions"
+    class="vuefinder__context-menu"
+  >
+    <li v-for="item in context.items" :key="item.title" class="vuefinder__context-menu__item">
       <template v-if="item.link">
-        <a class="vuefinder__context-menu__link" target="_blank" :href="link(item)" :download="link(item)"
-           @click="app.emitter.emit('vf-contextmenu-hide')">
+        <a
+          class="vuefinder__context-menu__link"
+          target="_blank"
+          :href="link(item)"
+          :download="link(item)"
+          @click="app.emitter.emit('vf-contextmenu-hide')"
+        >
           <span>{{ item.title(app.i18n) }}</span>
         </a>
       </template>

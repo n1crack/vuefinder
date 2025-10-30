@@ -29,7 +29,7 @@ const emit = defineEmits<{
 
 const rowClasses = computed(() => [
   props.view === 'grid' ? 'vf-explorer-item-grid-row' : 'vf-explorer-item-list-row',
-  'pointer-events-none'
+  'pointer-events-none',
 ]);
 
 const rowStyle = computed(() => ({
@@ -38,33 +38,24 @@ const rowStyle = computed(() => ({
   left: 0,
   width: '100%',
   height: `${props.rowHeight}px`,
-  transform: `translateY(${props.rowIndex * props.rowHeight}px)`
+  transform: `translateY(${props.rowIndex * props.rowHeight}px)`,
 }));
 
 const gridStyle = computed(() => {
   if (props.view === 'grid') {
     return {
-      gridTemplateColumns: `repeat(${props.itemsPerRow || 1}, 1fr)`
+      gridTemplateColumns: `repeat(${props.itemsPerRow || 1}, 1fr)`,
     };
   }
   return {
-    gridTemplateColumns: '1fr'
+    gridTemplateColumns: '1fr',
   };
 });
-
 </script>
 
 <template>
-  <div
-    :class="rowClasses"
-    :data-row="rowIndex"
-    :style="rowStyle"
-  >
-    <div 
-      class="grid justify-self-start" 
-      :class="{ 'w-full': view === 'list' }"
-      :style="gridStyle"
-    >
+  <div :class="rowClasses" :data-row="rowIndex" :style="rowStyle">
+    <div class="grid justify-self-start" :class="{ 'w-full': view === 'list' }" :style="gridStyle">
       <FileItem
         v-for="(item, colIndex) in items"
         :key="item.path"
@@ -77,13 +68,13 @@ const gridStyle = computed(() => {
         :is-dragging="isDraggingItem(item.path)"
         :row-index="rowIndex"
         :col-index="colIndex"
+        :explorer-id="explorerId"
         v-on="dragNDropEvents(item)"
         @click="emit('click', $event)"
         @dblclick="emit('dblclick', $event)"
         @contextmenu="emit('contextmenu', $event)"
         @dragstart="emit('dragstart', $event)"
         @dragend="emit('dragend', $event)"
-        :explorerId="explorerId"
       >
         <template #icon="slotProps">
           <slot name="icon" v-bind="slotProps" />

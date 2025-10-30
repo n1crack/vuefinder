@@ -1,5 +1,5 @@
 /* Midnight Theme */
-.vuefinder__themer[data-theme="midnight"] {
+.vuefinder__themer[data-theme='midnight'] {
   --vf-selection-bg: #334155;
   --vf-selection-border: #334155;
   /* Background Colors */
@@ -53,13 +53,13 @@
 }
 
 /* Midnight Theme - Selection Area */
-.selection-area-container[data-theme="midnight"] {
+.selection-area-container[data-theme='midnight'] {
   --vf-selection-bg: #334155;
   --vf-selection-border: #0ea5e9;
 }
 
 /* Midnight Theme - Context Menu */
-.vuefinder[data-theme="midnight"] .vuefinder__context-menu {
+.vuefinder[data-theme='midnight'] .vuefinder__context-menu {
   border-color: #475569;
   box-shadow:
     0 4px 6px -1px rgba(14, 165, 233, 0.1),
@@ -67,18 +67,18 @@
 }
 
 /* Midnight Theme - Tree View */
-.vuefinder[data-theme="midnight"] .vuefinder__treestorageitem__header {
+.vuefinder[data-theme='midnight'] .vuefinder__treestorageitem__header {
   background-color: var(--vf-bg-primary);
   opacity: 0.7;
 }
 
 /* Midnight Theme - Item Icons */
-.vuefinder[data-theme="midnight"] .vuefinder__item-icon__folder {
+.vuefinder[data-theme='midnight'] .vuefinder__item-icon__folder {
   fill: #38bdf8;
   stroke: #38bdf8;
 }
 
-.vuefinder[data-theme="midnight"] .vuefinder__item-icon__folder--open {
+.vuefinder[data-theme='midnight'] .vuefinder__item-icon__folder--open {
   fill: #38bdf8;
   stroke: #0ea5e9;
 }
