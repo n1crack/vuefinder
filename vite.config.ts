@@ -11,13 +11,7 @@ import { resolve } from 'node:path';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue({
-      template: {
-        compilerOptions: {
-          isCustomElement: (tag) => tag.startsWith('cropper-'),
-        },
-      },
-    }),
+    vue(),
     vueDevTools(),
     tailwindcss(),
     svgLoader(),
@@ -37,7 +31,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.js'),
-      formats: ['es', 'cjs'],
+      formats: ['es'],
       name: 'VueFinder',
       // the proper extensions will be added
       fileName: 'vuefinder',

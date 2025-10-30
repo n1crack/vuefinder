@@ -1,4 +1,3 @@
- 
 import type { Item as ContextMenuItem } from './utils/contextmenu';
 import ServiceContainer from './ServiceContainer';
 import type { Theme } from './stores/theme';

@@ -47,7 +47,6 @@ const modalTreeData = ref<Record<string, DirEntry[]>>({});
 // watch for changes in the fs.data
 // update the modalTreeData
 watch(sortedFiles, (newFiles: any) => {
-   
   const folders = newFiles.filter((e: DirEntry) => e.type === 'dir');
   const currentPath = path.value?.path || '';
 
