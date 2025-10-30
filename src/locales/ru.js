@@ -1,6 +1,9 @@
 import uppyLocaleRu from '@uppy/locales/lib/ru_RU.js';
 
 export default {
+    "A modern, customizable file manager component built for Vue.": "Современный настраиваемый файловый менеджер, созданный для Vue.",
+    "Project Home": "Страница проекта",
+    "If you like it, please follow and ⭐ star on GitHub.": "Если вам нравится, подпишитесь и поставьте ⭐ звезду на GitHub.",
     "Language": "Язык",
     "Create": "Создать",
     "Close": "Закрыть",
@@ -46,7 +49,7 @@ export default {
     "Unarchive the files": "Разархивировать файлы",
     "The archive will be unarchived at": "Архив будет разархивирован в",
     "Archive name. (.zip file will be created)": "Название архива. (будет создан .zip файл)",
-    "Vuefinder is a file manager component for vue 3.": "Vuefinder - файловый менеджер, компонент для vue 3.",
+    
     "Create a new folder": "Создать новую папку",
     "Create a new file": "Создать новый файл",
     "Are you sure you want to delete these files?": "Вы уверены, что хотите удалить эти файлы?",

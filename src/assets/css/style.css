@@ -8,12 +8,6 @@
 
 @import "tailwindcss/utilities.css" layer(utilities);
 
-@import "./_themes.css";
-@import "./_effects.css";
-@import "./_forms.css";
-@import "./_scrollbars.css";
-@import "./_drag_over.css";
-
 /** Previews */
 @import "./_previews.css";
 
@@ -54,6 +48,12 @@
 @import "./components/modals/_modal_rename.css";
 @import "./components/modals/_modal_unarchive.css";
 @import "./components/modals/_modal_upload.css";
+
+@import "./_themes.css";
+@import "./_effects.css";
+@import "./_forms.css";
+@import "./_scrollbars.css";
+@import "./_drag_over.css";
 
 @source './src/**/*.{vue,js,ts,jsx,tsx,svg}';
 

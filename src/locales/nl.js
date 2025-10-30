@@ -1,6 +1,9 @@
 import uppyLocaleNl from '@uppy/locales/lib/nl_NL.js';
 
 export default {
+    "A modern, customizable file manager component built for Vue.": "Een moderne, aanpasbare bestandsbeheercomponent gebouwd voor Vue.",
+    "Project Home": "Projectpagina",
+    "If you like it, please follow and ⭐ star on GitHub.": "Als je het leuk vindt, volg het en geef een ⭐ ster op GitHub.",
     "Language": "Taal",
     "Create": "Aanmaken",
     "Close": "Sluiten",

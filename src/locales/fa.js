@@ -1,6 +1,9 @@
 import uppyLocaleFa from '@uppy/locales/lib/fa_IR.js';
 
 export default {
+    "A modern, customizable file manager component built for Vue.": "یک مدیر فایل مدرن و قابل‌سفارشی‌سازی ساخته‌شده برای Vue.",
+    "Project Home": "صفحه پروژه",
+    "If you like it, please follow and ⭐ star on GitHub.": "اگر دوست داشتید، لطفاً دنبال کنید و در گیت‌هاب ⭐ ستاره بدهید.",
     "Language": "زبان",
     "Create": "ایجاد",
     "Close": "بستن",
@@ -43,7 +46,7 @@ export default {
     "Unarchive the files": "باز کردن فایل های فشرده",
     "The archive will be unarchived at": "فایل فشرده سازه در این مسیر باز میشود: ",
     "Archive name. (.zip file will be created)": "نام فایل فشرده",
-    "Vuefinder is a file manager component for vue 3.": "Vuefinder یک کتابخانه مدیریت فایل ها برای Vue3 میباشد.",
+    
     "Create a new folder": "ایجاد پوشه جدید",
     "Create a new file": "ایجاد فایل جدید",
     "Are you sure you want to delete these files?": "آیا از حذف فایل ها مطمئن هستید ؟",

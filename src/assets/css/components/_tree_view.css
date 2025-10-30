@@ -126,7 +126,7 @@
 }
 
 .vuefinder__treesubfolderlist__item-link {
-  @apply flex cursor-pointer;
+  @apply flex cursor-pointer border border-transparent;
 }
 
 .vuefinder__treesubfolderlist__item-icon {

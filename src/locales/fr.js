@@ -2,6 +2,9 @@ import uppyLocaleFr from '@uppy/locales/lib/fr_FR.js';
 
 // todo : change the values from english to french
 export default {
+    "A modern, customizable file manager component built for Vue.": "Un gestionnaire de fichiers moderne et personnalisable conçu pour Vue.",
+    "Project Home": "Page du projet",
+    "If you like it, please follow and ⭐ star on GitHub.": "Si vous l'appréciez, suivez le projet et ajoutez une ⭐ étoile sur GitHub.",
     "Language": "Langue",
     "Create": "Créer",
     "Close": "Fermer",
@@ -47,7 +50,7 @@ export default {
     "Unarchive the files": "Désarchiver les fichiers",
     "The archive will be unarchived at": "L'archive sera désarchivée à",
     "Archive name. (.zip file will be created)": "Nom de l'archive. (un fichier .zip sera créé)",
-    "Vuefinder is a file manager component for vue 3.": "Vuefinder est un composant de gestionnaire de fichiers pour vue 3.",
+    
     "Create a new folder": "Créer un nouveau dossier",
     "Create a new file": "Créer un nouveau fichier",
     "Are you sure you want to delete these files?": "Êtes-vous sûr de vouloir supprimer ces fichiers?",

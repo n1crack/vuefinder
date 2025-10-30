@@ -14,5 +14,5 @@
 }
 
 .vuefinder__modal-header__title {
-  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
+  @apply text-lg font-medium text-(--vf-text-primary);
 }

@@ -1,6 +1,9 @@
 import uppyLocaleEn from '@uppy/locales/lib/pl_PL.js';
 
 export default {
+    "A modern, customizable file manager component built for Vue.": "Nowoczesny, konfigurowalny komponent menedżera plików zbudowany dla Vue.",
+    "Project Home": "Strona projektu",
+    "If you like it, please follow and ⭐ star on GitHub.": "Jeśli ci się podoba, obserwuj projekt i dodaj ⭐ gwiazdkę na GitHubie.",
     "Language": "Język",
     "Create": "Utwórz",
     "Close": "Zamknij",

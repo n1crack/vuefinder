@@ -1,6 +1,9 @@
 import uppyLocaleHe from '@uppy/locales/lib/he_IL.js';
 
 export default {
+    "A modern, customizable file manager component built for Vue.": "רכיב מנהל קבצים מודרני וניתן להתאמה שנבנה עבור Vue.",
+    "Project Home": "דף הפרויקט",
+    "If you like it, please follow and ⭐ star on GitHub.": "אם אהבתם, עקבו והוסיפו ⭐ כוכב ב-GitHub.",
     "Language": "שפה",
     "Create": "יצירה",
     "Close": "סגירה",
@@ -43,7 +46,7 @@ export default {
     "Unarchive the files": "חילוץ קבצים אלו",
     "The archive will be unarchived at": "הארכיןם יוחלץ ל:",
     "Archive name. (.zip file will be created)": "שם הארכיון. (סיומת .zip תווסף)",
-    "Vuefinder is a file manager component for vue 3.": "Vuefinder הינו רכיב מנהל קבצים עבור vue 3",
+    
     "Create a new folder": "יצירת תיקייה חדשה",
     "Create a new file": "יצירת קובץ חדש",
     "Are you sure you want to delete these files?": "האם בטוח למחוק קבצים אלה?",
