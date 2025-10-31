@@ -71,7 +71,8 @@ export class RemoteDriver extends BaseAdapter {
       try {
         const error = await response.json();
         throw new Error(
-          (error && (error.message || error.error)) || `HTTP ${response.status}: ${response.statusText}`
+          (error && (error.message || error.error)) ||
+            `HTTP ${response.status}: ${response.statusText}`
         );
       } catch {
         const text = await response.text();
@@ -89,7 +90,9 @@ export class RemoteDriver extends BaseAdapter {
   async list(params?: { path?: string }): Promise<FsData> {
     const queryParams = new URLSearchParams();
     if (params?.path) queryParams.append('path', params.path);
-    const url = queryParams.toString() ? `${this.config.url.list}?${queryParams.toString()}` : this.config.url.list;
+    const url = queryParams.toString()
+      ? `${this.config.url.list}?${queryParams.toString()}`
+      : this.config.url.list;
     return await this.request<FsData>(url, { method: 'GET' });
   }
 
@@ -203,7 +206,9 @@ export class RemoteDriver extends BaseAdapter {
     if (params.deep) query.set('deep', '1');
     if (params.size && params.size !== 'all') query.set('size', params.size);
     const url = query.toString() ? `${base}?${query.toString()}` : base;
-    const data = await this.request<{ files: import('../types').DirEntry[] }>(url, { method: 'GET' });
+    const data = await this.request<{ files: import('../types').DirEntry[] }>(url, {
+      method: 'GET',
+    });
     return data.files || [];
   }
 
@@ -216,5 +221,3 @@ export class RemoteDriver extends BaseAdapter {
     });
   }
 }
-
-

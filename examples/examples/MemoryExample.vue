@@ -19,7 +19,4 @@ defineProps<Props>();
     :features="features"
     :theme="theme"
   />
-  
 </template>
-
-

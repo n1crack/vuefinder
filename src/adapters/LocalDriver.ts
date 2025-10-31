@@ -143,7 +143,12 @@ export class LocalDriver extends BaseAdapter {
     };
   }
 
-  private makeFileEntry(dirFull: string, name: string, size = 0, mime: string | null = null): DirEntry {
+  private makeFileEntry(
+    dirFull: string,
+    name: string,
+    size = 0,
+    mime: string | null = null
+  ): DirEntry {
     const full = this.join(dirFull, name);
     return {
       storage: this.storage,
@@ -172,7 +177,8 @@ export class LocalDriver extends BaseAdapter {
   async list(params?: { path?: string }): Promise<FsData> {
     const requested = params?.path ?? this.combine('');
     const { storage, path } = this.split(requested);
-    const dirnameFull = storage && storage !== this.storage ? this.combine('') : this.combine(path ?? '');
+    const dirnameFull =
+      storage && storage !== this.storage ? this.combine('') : this.combine(path ?? '');
     return {
       storage: this.storage,
       storages: [this.storage],
@@ -286,12 +292,19 @@ export class LocalDriver extends BaseAdapter {
         for (const c of children) {
           const suffix = c.path.slice(oldPrefix.length);
           const suffixParent = suffix.includes('/') ? suffix.slice(0, suffix.lastIndexOf('/')) : '';
-          const childDirFull = suffixParent ? this.join(dirEntry.path, suffixParent) : dirEntry.path;
+          const childDirFull = suffixParent
+            ? this.join(dirEntry.path, suffixParent)
+            : dirEntry.path;
           if (c.type === 'dir') {
             copyTree(c, childDirFull);
           } else {
             const newChildName = this.uniqueName(childDirFull, c.basename, taken);
-            const fileEntry = this.makeFileEntry(childDirFull, newChildName, c.file_size || 0, c.mime_type);
+            const fileEntry = this.makeFileEntry(
+              childDirFull,
+              newChildName,
+              c.file_size || 0,
+              c.mime_type
+            );
             additions.push(fileEntry);
             taken.add(fileEntry.path);
             const content = this.contentStore.get(c.path);
@@ -426,7 +439,10 @@ export class LocalDriver extends BaseAdapter {
     this.validatePath(params.path);
     const value = this.contentStore.get(params.path);
     if (typeof value === 'string' || value === undefined) {
-      return { content: value ?? '', mimeType: this.findByPath(params.path)?.mime_type || undefined };
+      return {
+        content: value ?? '',
+        mimeType: this.findByPath(params.path)?.mime_type || undefined,
+      };
     }
     const bytes = new Uint8Array(value);
     let binary = '';
@@ -466,7 +482,9 @@ export class LocalDriver extends BaseAdapter {
     if (!entry) throw new Error('File not found');
     if (entry.type !== 'file') throw new Error('Can only save file content');
     this.contentStore.set(params.path, params.content);
-    this.upsert(this.cloneEntry(entry, { file_size: params.content.length, last_modified: Date.now() }));
+    this.upsert(
+      this.cloneEntry(entry, { file_size: params.content.length, last_modified: Date.now() })
+    );
     return params.path;
   }
 
@@ -493,5 +511,3 @@ export class LocalDriver extends BaseAdapter {
     });
   }
 }
-
-
