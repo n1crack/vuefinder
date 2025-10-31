@@ -1104,9 +1104,9 @@ const Hn = { render: Ss }, Fs = { class: "vuefinder__rename-modal__content" }, D
           r.value = "", f.value = !1;
           try {
             const p = new File([g], l.modal.data.item.basename, { type: "image/png" }), k = l.modal.data.item.path.split("/"), C = k.pop(), $ = k.join("/");
-            await l.adapter.upload({
+            await l.adapter.save({
               path: $,
-              files: [p]
+              content: p
             }), r.value = i("Updated."), fetch(c.value, { cache: "reload", mode: "no-cors" });
             const O = l.root?.querySelector?.('[data-src="' + c.value + '"]');
             O && O instanceof HTMLElement && Ln.resetStatus(O), l.emitter.emit("vf-refresh-thumbnails"), d(), n("success");

@@ -11,7 +11,7 @@
 }
 
 .vuefinder__status-bar__storage-icon {
-  @apply z-[1] pointer-events-none;
+  @apply z-[1] pointer-events-none h-4 w-4;
 }
 
 .vuefinder__status-bar__storage-select {
