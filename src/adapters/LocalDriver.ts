@@ -11,7 +11,7 @@ import type { DirEntry, FsData } from '../types';
 
 type FilesSource = { value: DirEntry[] } | DirEntry[];
 
-interface MemoryAdapterConfig {
+interface LocalDriverConfig {
   files: FilesSource;
   storage?: string; // defaults to 'memory'
   readOnly?: boolean;
@@ -20,13 +20,13 @@ interface MemoryAdapterConfig {
 
 // All full paths are in the form `${storage}://${pathPart}`
 // where pathPart is '' for root or 'a/b/c' without leading slash.
-export class MemoryAdapter extends BaseAdapter {
+export class LocalDriver extends BaseAdapter {
   private filesSource: FilesSource;
   private storage: string;
   private readOnly: boolean;
   private contentStore: Map<string, string | ArrayBuffer>;
 
-  constructor(config: MemoryAdapterConfig) {
+  constructor(config: LocalDriverConfig) {
     super();
     this.filesSource = config.files;
     this.storage = config.storage || 'memory';
@@ -60,7 +60,7 @@ export class MemoryAdapter extends BaseAdapter {
   private parent(full: string): string {
     const { path } = this.split(full);
     if (!path) return this.combine('');
-    const trimmed = path.replace(/\/+$|^\/+|/g, (m) => (m === '//' ? '/' : '')) || '';
+    const trimmed = path.replace(/\/+$/g, '').replace(/^\/+/, '');
     const idx = trimmed.lastIndexOf('/');
     if (idx <= 0) return this.combine('');
     return this.combine(trimmed.slice(0, idx));
@@ -170,13 +170,9 @@ export class MemoryAdapter extends BaseAdapter {
   }
 
   async list(params?: { path?: string }): Promise<FsData> {
-    // Default to storage root when no path provided
     const requested = params?.path ?? this.combine('');
     const { storage, path } = this.split(requested);
-    // If a different storage is requested, still default to our root
-    const dirnameFull = storage && storage !== this.storage
-      ? this.combine('')
-      : this.combine(path ?? '');
+    const dirnameFull = storage && storage !== this.storage ? this.combine('') : this.combine(path ?? '');
     return {
       storage: this.storage,
       storages: [this.storage],

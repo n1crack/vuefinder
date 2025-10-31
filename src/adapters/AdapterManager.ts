@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/vue-query';
 import type {
-  Adapter,
+  Driver,
   DeleteResult,
   FileOperationResult,
   FileContentResult,
@@ -66,18 +66,18 @@ export const QueryKeys = {
 };
 
 /**
- * AdapterManager wraps an Adapter with TanStack Query for enhanced functionality
+ * AdapterManager wraps a Driver with TanStack Query for enhanced functionality
  * including caching, optimistic updates, and error handling.
  */
 export class AdapterManager {
-  private adapter: Adapter;
+  private driver: Driver;
   private queryClient: QueryClient;
   private config: Required<AdapterManagerConfig>;
   private onBeforeOpen?: () => void;
   private onAfterOpen?: (data: FsData) => void;
 
-  constructor(adapter: Adapter, config: Partial<AdapterManagerConfig> = {}) {
-    this.adapter = adapter;
+  constructor(adapter: Driver, config: Partial<AdapterManagerConfig> = {}) {
+    this.driver = adapter;
     this.onBeforeOpen = config.onBeforeOpen;
     this.onAfterOpen = config.onAfterOpen;
 
@@ -109,10 +109,10 @@ export class AdapterManager {
   }
 
   /**
-   * Get the underlying adapter instance
+   * Get the underlying driver instance
    */
-  getAdapter(): Adapter {
-    return this.adapter;
+  getDriver(): Driver {
+    return this.driver;
   }
 
   /**
@@ -131,7 +131,7 @@ export class AdapterManager {
     // Use fetchQuery from TanStack Query
     return await this.queryClient.fetchQuery({
       queryKey,
-      queryFn: () => this.adapter.list({ path }),
+      queryFn: () => this.driver.list({ path }),
       staleTime: this.config.staleTime,
     });
   }
@@ -159,7 +159,7 @@ export class AdapterManager {
    * Delete files with optimistic updates
    */
   async delete(params: DeleteParams): Promise<DeleteResult> {
-    const result = await this.adapter.delete(params);
+    const result = await this.driver.delete(params);
 
     // Invalidate and refetch list queries
     this.invalidateListQueries();
@@ -171,7 +171,7 @@ export class AdapterManager {
    * Rename a file or folder
    */
   async rename(params: { path: string; item: string; name: string }): Promise<FileOperationResult> {
-    const result = await this.adapter.rename(params);
+    const result = await this.driver.rename(params);
 
     // Invalidate list queries
     this.invalidateListQueries();
@@ -183,7 +183,7 @@ export class AdapterManager {
    * Copy files to a destination
    */
   async copy(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
-    const result = await this.adapter.copy(params);
+    const result = await this.driver.copy(params);
 
     // Invalidate list queries
     this.invalidateListQueries();
@@ -195,7 +195,7 @@ export class AdapterManager {
    * Move files to a destination
    */
   async move(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
-    const result = await this.adapter.move(params);
+    const result = await this.driver.move(params);
 
     // Invalidate list queries
     this.invalidateListQueries();
@@ -207,7 +207,7 @@ export class AdapterManager {
    * Create a zip archive
    */
   async archive(params: ArchiveParams): Promise<FileOperationResult> {
-    const result = await this.adapter.archive(params);
+    const result = await this.driver.archive(params);
 
     // Invalidate list queries
     this.invalidateListQueries();
@@ -219,7 +219,7 @@ export class AdapterManager {
    * Extract files from a zip archive
    */
   async unarchive(params: { item: string; path: string }): Promise<FileOperationResult> {
-    const result = await this.adapter.unarchive(params);
+    const result = await this.driver.unarchive(params);
 
     // Invalidate list queries
     this.invalidateListQueries();
@@ -231,7 +231,7 @@ export class AdapterManager {
    * Create a new file
    */
   async createFile(params: { path: string; name: string }): Promise<FileOperationResult> {
-    const result = await this.adapter.createFile(params);
+    const result = await this.driver.createFile(params);
 
     // Invalidate list queries
     this.invalidateListQueries();
@@ -243,7 +243,7 @@ export class AdapterManager {
    * Create a new folder
    */
   async createFolder(params: { path: string; name: string }): Promise<FileOperationResult> {
-    const result = await this.adapter.createFolder(params);
+    const result = await this.driver.createFolder(params);
 
     // Invalidate list queries
     this.invalidateListQueries();
@@ -260,7 +260,7 @@ export class AdapterManager {
     // Use fetchQuery from TanStack Query
     return await this.queryClient.fetchQuery({
       queryKey,
-      queryFn: () => this.adapter.getContent(params),
+      queryFn: () => this.driver.getContent(params),
       staleTime: this.config.staleTime,
     });
   }
@@ -269,14 +269,14 @@ export class AdapterManager {
    * Get preview URL
    */
   getPreviewUrl(params: { path: string }): string {
-    return this.adapter.getPreviewUrl(params);
+    return this.driver.getPreviewUrl(params);
   }
 
   /**
    * Get download URL
    */
   getDownloadUrl(params: { path: string }): string {
-    return this.adapter.getDownloadUrl(params);
+    return this.driver.getDownloadUrl(params);
   }
 
   /**
@@ -291,7 +291,7 @@ export class AdapterManager {
     const key = QueryKeys.search(params.path, params.filter, params.deep, params.size);
     return await this.queryClient.fetchQuery({
       queryKey: key,
-      queryFn: () => this.adapter.search(params),
+      queryFn: () => this.driver.search(params),
       staleTime: this.config.staleTime,
     });
   }
@@ -300,7 +300,7 @@ export class AdapterManager {
    * Save content to file (and invalidate list cache)
    */
   async save(params: SaveParams): Promise<string> {
-    const result = await this.adapter.save(params);
+    const result = await this.driver.save(params);
 
     this.invalidateListQueries();
 

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { Driver } from '../../src/adapters';
 
 interface Props {
-  adapter: Adapter;
+  driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -237,7 +238,7 @@ const clearEventLog = () => {
   <!-- VueFinder with all events -->
   <vue-finder
     id="events-demo-vuefinder"
-    :adapter="adapter"
+    :driver="driver"
     :config="config"
     :features="features"
     :theme="theme"

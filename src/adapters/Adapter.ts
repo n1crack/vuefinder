@@ -1,5 +1,5 @@
 import type {
-  Adapter,
+  Driver,
   DeleteResult,
   FileOperationResult,
   FileContentResult,
@@ -13,7 +13,7 @@ import type { DirEntry, FsData } from '../types';
  * Base abstract adapter class that provides common functionality
  * for all adapter implementations
  */
-export abstract class BaseAdapter implements Adapter {
+export abstract class BaseAdapter implements Driver {
   /**
    * Validate that required parameters are provided
    */

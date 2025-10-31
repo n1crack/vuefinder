@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { FEATURE_ALL_NAMES } from '../src/features.js';
-import { CloudAdapter, MemoryAdapter } from '../src/adapters';
+import { RemoteDriver, LocalDriver } from '../src/adapters';
 import MemoryExample from './examples/MemoryExample.vue';
 import type { DirEntry } from '../src/types';
 
@@ -18,8 +18,8 @@ import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 
 const example = ref('arrayAdapter');
 
-// Create cloud adapter instance
-const cloudAdapter = new CloudAdapter({
+// Create remote driver instance
+const cloudAdapter = new RemoteDriver({
   baseURL: 'http://inertia-vuefinder.test/api/files',
   token: '', // Add your auth token here if needed
   url: {
@@ -37,7 +37,7 @@ const cloudAdapter = new CloudAdapter({
   },
 });
 
-// Create in-memory MemoryAdapter instance (paths use memory:// scheme)
+// Create in-memory LocalDriver instance (paths use memory:// scheme)
 const memoryFiles = ref<DirEntry[]>([
   {
     storage: 'memory',
@@ -64,9 +64,9 @@ const memoryFiles = ref<DirEntry[]>([
     visibility: 'public',
   },
 ]);
-const arrayAdapter = new MemoryAdapter({ files: memoryFiles, storage: 'memory' });
+const arrayAdapter = new LocalDriver({ files: memoryFiles, storage: 'memory' });
 
-const adapter = ref(cloudAdapter as any);
+const driver = ref(cloudAdapter as any);
 
 // Map example choices to adapter
 onMounted(() => {
@@ -174,7 +174,7 @@ onUnmounted(() => {
     <!-- Popup mode: Show only VueFinder -->
     <div v-if="isPopup">
       <WindowExamplesExample
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -185,7 +185,7 @@ onUnmounted(() => {
     <div v-if="!isPopup" class="flex flex-col [&>*]:flex-1 [&>*]:h-full min-h-80 max-h-120">
       <DefaultExample
         v-if="example === 'default'"
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -194,7 +194,7 @@ onUnmounted(() => {
 
       <ExternalSelectExample
         v-if="example === 'externalSelect'"
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -202,7 +202,7 @@ onUnmounted(() => {
 
       <ContextmenuExample
         v-if="example === 'contextmenu'"
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -210,7 +210,7 @@ onUnmounted(() => {
 
       <CustomIconsExample
         v-if="example === 'customIcons'"
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -218,7 +218,7 @@ onUnmounted(() => {
 
       <WindowExamplesExample
         v-if="example === 'windowExamples'"
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -226,7 +226,7 @@ onUnmounted(() => {
 
       <EventsDemoExample
         v-if="example === 'eventsDemo'"
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -234,7 +234,7 @@ onUnmounted(() => {
 
       <CustomDclickExample
         v-if="example === 'customDclick'"
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -242,7 +242,7 @@ onUnmounted(() => {
 
       <SingleSelectionExample
         v-if="example === 'singleSelection'"
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
@@ -250,16 +250,16 @@ onUnmounted(() => {
 
       <SelectionFilterExample
         v-if="example === 'selectionFilter'"
-        :adapter="adapter"
+        :driver="driver"
         :config="config"
         :features="features"
         :theme="currentTheme"
       />
 
-      <!-- MemoryAdapter demo uses a separate instance id to avoid persisted state collisions -->
+      <!-- LocalDriver demo uses a separate instance id to avoid persisted state collisions -->
       <MemoryExample
         v-if="example === 'arrayAdapter'"
-        :adapter="arrayAdapter"
+        :driver="arrayAdapter"
         :config="{ ...config, initialPath: 'memory://', persist: false }"
         :features="features"
         :theme="currentTheme"

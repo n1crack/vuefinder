@@ -8,7 +8,7 @@ import { format as filesizeDefault, metricFormat as filesizeMetric } from './uti
 import useModal from './composables/useModal';
 import { createConfigStore, type ConfigDefaults } from './stores/config';
 import { createFilesStore } from './stores/files.ts';
-import type { Adapter } from './adapters';
+import type { Driver } from './adapters';
 import { AdapterManager } from './adapters';
 import type { Theme } from './stores/theme.ts';
 import { useTheme } from './composables/useTheme';
@@ -16,7 +16,7 @@ import type { Item as ContextMenuItem } from './utils/contextmenu';
 import type { ConfigStore } from './stores/config';
 interface ServiceContainerProps {
   id: string;
-  adapter?: Adapter;
+  driver?: Driver;
   config?: ConfigDefaults;
   features?: boolean | string[];
   debug: boolean;
@@ -54,8 +54,8 @@ export default (props: ServiceContainerProps, options: Record<string, unknown>):
 
   // Wrap adapter with AdapterManager internally
   const rawAdapter =
-    (props.adapter as Adapter) ??
-    ((): Adapter => ({
+    (props.driver as Driver) ??
+    ((): Driver => ({
       configureUploader: () => {},
       async list() {
         return { storage: 'local', storages: ['local'], storage_info: {}, dirname: '', files: [] };

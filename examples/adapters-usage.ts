@@ -207,10 +207,10 @@ const customAdapter = new MyCustomAdapter({
  * In your Vue component, you would use it like:
  *
  * <script setup>
- * import { CloudAdapter } from '@vuefinder/adapters';
+ * import { RemoteDriver } from '@vuefinder/adapters';
  * import VueFinder from '@vuefinder/vue';
  *
- * const adapter = new CloudAdapter({
+ * const adapter = new RemoteDriver({
  *   baseURL: '/api',
  *   token: 'XYZ',
  *   url: {
@@ -223,7 +223,7 @@ const customAdapter = new MyCustomAdapter({
  *
  * <template>
  *   <VueFinder
- *     :adapter="adapter"
+ *     :driver="adapter"
  *     id="my-finder"
  *   />
  * </template>

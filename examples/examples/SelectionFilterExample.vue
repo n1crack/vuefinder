@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { Driver } from '../../src/adapters';
 
 interface Props {
-  adapter: Adapter;
+  driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -161,7 +162,7 @@ const removeMimeFilter = (mimeType: string) => {
   <!-- VueFinder with selection filters -->
   <vue-finder
     id="selection-filter-vuefinder"
-    :adapter="adapter"
+    :driver="driver"
     :config="config"
     :features="features"
     :theme="theme"

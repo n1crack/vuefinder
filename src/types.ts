@@ -1,14 +1,14 @@
 import type { Item as ContextMenuItem } from './utils/contextmenu';
 import ServiceContainer from './ServiceContainer';
 import type { Theme } from './stores/theme';
-import type { Adapter } from './adapters';
+import type { Driver } from './adapters';
 
 export type App = ReturnType<typeof ServiceContainer>;
 
 export interface VueFinderProps {
   id?: string;
   config?: Record<string, unknown>;
-  adapter?: Adapter;
+  driver?: Driver;
   features?: boolean | string[];
   debug?: boolean;
   theme?: Theme;

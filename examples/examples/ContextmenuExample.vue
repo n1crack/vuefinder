@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { contextMenuItems } from '../../src/index.js';
-import type { Adapter } from '../../src/adapters';
+import type { Driver } from '../../src/adapters';
 
 interface Props {
-  adapter: Adapter;
+  driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -34,7 +34,7 @@ const customContextMenuItems = [
 <template>
   <vue-finder
     id="my_vuefinder3"
-    :adapter="adapter"
+    :driver="driver"
     :config="config"
     :features="features"
     :theme="theme"

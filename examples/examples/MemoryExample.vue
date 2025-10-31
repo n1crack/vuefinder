@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Adapter } from '../../src/adapters';
+import type { Driver } from '../../src/adapters';
 
 interface Props {
-  adapter: Adapter;
+  driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -14,7 +14,7 @@ defineProps<Props>();
 <template>
   <vue-finder
     id="memory_vuefinder"
-    :adapter="adapter"
+    :driver="driver"
     :config="config"
     :features="features"
     :theme="theme"

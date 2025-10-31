@@ -228,8 +228,8 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
 
     if (customUploader) {
       customUploader(uppy, context);
-    } else if (app.adapter.getAdapter().configureUploader) {
-      app.adapter.getAdapter().configureUploader(uppy, context);
+    } else if (app.adapter.getDriver().configureUploader) {
+      app.adapter.getDriver().configureUploader(uppy, context);
     } else {
       throw new Error('No uploader configured');
     }

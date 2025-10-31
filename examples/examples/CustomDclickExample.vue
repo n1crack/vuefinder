@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { Driver } from '../../src/adapters';
 
 interface Props {
-  adapter: Adapter;
+  driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -112,7 +113,7 @@ const clearCustomDclickLog = () => {
   <!-- VueFinder with custom double-click events -->
   <vue-finder
     id="custom-dclick-vuefinder"
-    :adapter="adapter"
+    :driver="driver"
     :config="config"
     :features="features"
     :theme="theme"

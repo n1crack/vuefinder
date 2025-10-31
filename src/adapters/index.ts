@@ -5,10 +5,10 @@
  * in different environments (local and cloud).
  *
  * @example
- * // Using CloudAdapter
- * import { CloudAdapter } from '@vuefinder/adapters';
+ * // Using RemoteDriver
+ * import { RemoteDriver } from '@vuefinder/adapters';
  *
- * const adapter = new CloudAdapter({
+ * const adapter = new RemoteDriver({
  *   baseURL: '/api/cloud',
  *   token: 'XYZ',
  *   url: {
@@ -26,10 +26,10 @@
  * });
  *
  * @example
- * // Using LocalAdapter
- * import { LocalAdapter } from '@vuefinder/adapters';
+ * // Using LocalDriver (in-memory)
+ * import { LocalDriver } from '@vuefinder/adapters';
  *
- * const adapter = new LocalAdapter({
+ * const adapter = new LocalDriver({
  *   root: '/my-files'
  * });
  *
@@ -50,8 +50,8 @@ export { BaseAdapter } from './Adapter';
 
 // Export adapter implementations
 export { LocalAdapter } from './LocalAdapter';
-export { MemoryAdapter } from './MemoryAdapter';
-export { CloudAdapter } from './CloudAdapter';
+export { LocalDriver } from './LocalDriver';
+export { RemoteDriver } from './RemoteDriver';
 
 // Export adapter manager
 export { AdapterManager, QueryKeys } from './AdapterManager';
@@ -59,7 +59,7 @@ export type { AdapterManagerConfig } from './AdapterManager';
 
 // Export types
 export type {
-  Adapter,
+  Driver,
   LocalAdapterConfig,
   CloudAdapterConfig,
   CloudAdapterUrls,

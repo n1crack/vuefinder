@@ -31,12 +31,12 @@ Examples:
 
 ## Basic Usage
 
-### Using CloudAdapter
+### Using RemoteDriver
 
 ```typescript
-import { CloudAdapter } from '@vuefinder/adapters';
+import { RemoteDriver } from '@vuefinder/adapters';
 
-const adapter = new CloudAdapter({
+const adapter = new RemoteDriver({
   baseURL: 'http://localhost/api',
   token: 'your-auth-token',
   url: {
@@ -379,7 +379,7 @@ const adapter = new CloudAdapter({
 </script>
 
 <template>
-  <VueFinder :adapter="adapter" id="my-finder" />
+  <VueFinder :driver="adapter" id="my-finder" />
 </template>
 ```
 
@@ -388,7 +388,7 @@ const adapter = new CloudAdapter({
 ```vue
 <script setup>
 import VueFinder from '@vuefinder/vue';
-import { CloudAdapter } from '@vuefinder/adapters';
+import { RemoteDriver } from '@vuefinder/adapters';
 import AwsS3 from '@uppy/aws-s3';
 
 const adapter = new CloudAdapter({
@@ -413,7 +413,7 @@ const customUploader = (uppy, context) => {
 </script>
 
 <template>
-  <VueFinder :adapter="adapter" :customUploader="customUploader" id="my-finder" />
+  <VueFinder :driver="adapter" :customUploader="customUploader" id="my-finder" />
 </template>
 ```
 

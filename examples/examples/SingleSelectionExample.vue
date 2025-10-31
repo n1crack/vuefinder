@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { Adapter } from '../../src/adapters';
+import type { Driver } from '../../src/adapters';
 
 interface Props {
-  adapter: Adapter;
+  driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
   theme: string;
@@ -67,7 +67,7 @@ const handleSingleSelection = (files: Array<{ basename: string; path: string }>)
   <!-- VueFinder with single selection mode -->
   <vue-finder
     id="single-selection-vuefinder"
-    :adapter="adapter"
+    :driver="driver"
     :config="config"
     :features="features"
     :theme="theme"

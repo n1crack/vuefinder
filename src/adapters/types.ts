@@ -134,9 +134,9 @@ export interface UploaderContext {
 }
 
 /**
- * Adapter interface that all adapters must implement
+ * Driver interface that all drivers must implement
  */
-export interface Adapter {
+export interface Driver {
   /**
    * Configure the uploader (Uppy instance)
    * This allows adapters to customize upload behavior
