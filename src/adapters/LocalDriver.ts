@@ -191,6 +191,7 @@ export class LocalDriver extends BaseAdapter {
 
   async delete(params: DeleteParams): Promise<DeleteResult> {
     this.validateParam(params.items, 'items');
+    this.validateParam(params.path, 'path');
     const deleted: DirEntry[] = [];
     for (const it of params.items) {
       const entry = this.findByPath(it.path);
@@ -201,9 +202,12 @@ export class LocalDriver extends BaseAdapter {
         this.removeExact(entry.path);
         deleted.push(entry);
       }
+      // Remove any direct content mapped to the deleted entry
       this.contentStore.delete(entry.path);
     }
-    return { deleted };
+    // Also return updated listing so callers that expect files can update UI immediately
+    const op = this.resultForDir(params.path) as FileOperationResult;
+    return { ...op, deleted } as unknown as DeleteResult;
   }
 
   async rename(params: { path: string; name: string }): Promise<FileOperationResult> {
@@ -446,7 +450,7 @@ export class LocalDriver extends BaseAdapter {
     }
     const bytes = new Uint8Array(value);
     let binary = '';
-    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]!);
     const base64 = btoa(binary);
     return { content: base64, mimeType: this.findByPath(params.path)?.mime_type || undefined };
   }
