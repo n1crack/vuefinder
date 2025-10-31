@@ -152,8 +152,6 @@ export default {
   'Search files': 'البحث في الملفات',
   'Failed to open containing folder': 'فشل في فتح المجلد المحتوي',
   'Include subfolders': 'تضمين المجلدات الفرعية',
-  'Navigate results': 'التنقل في النتائج',
-  'Close search': 'إغلاق البحث',
   'More actions': 'المزيد من الإجراءات',
   'Open Containing Folder': 'فتح المجلد المحتوي',
   'Searching...': 'جاري البحث...',
@@ -163,5 +161,6 @@ export default {
   'Small (< 1MB)': 'صغير (< 1MB)',
   'Medium (1-10MB)': 'متوسط (1-10MB)',
   'Large (> 10MB)': 'كبير (> 10MB)',
+  'Search helper text': 'ابدأ بالكتابة للبحث عن الملفات. استخدم الخيارات للتصفية أو تضمين المجلدات الفرعية.',
   uppy: uppyLocaleAr,
 };

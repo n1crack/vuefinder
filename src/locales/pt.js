@@ -155,8 +155,6 @@ export default {
   'Search files': 'Pesquisar arquivos',
   'Failed to open containing folder': 'Falha ao abrir pasta contenedora',
   'Include subfolders': 'Incluir subpastas',
-  'Navigate results': 'Navegar resultados',
-  'Close search': 'Fechar pesquisa',
   'More actions': 'Mais ações',
   'Open Containing Folder': 'Abrir pasta contenedora',
   'Searching...': 'Pesquisando...',
@@ -166,5 +164,6 @@ export default {
   'Small (< 1MB)': 'Pequeno (< 1MB)',
   'Medium (1-10MB)': 'Médio (1-10MB)',
   'Large (> 10MB)': 'Grande (> 10MB)',
+  'Search helper text': 'Comece a digitar para pesquisar arquivos. Use as opções para filtrar ou incluir subpastas.',
   uppy: uppyLocalePt,
 };

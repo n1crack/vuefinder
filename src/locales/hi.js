@@ -152,8 +152,6 @@ export default {
   'Search files': 'फाइलें खोजें',
   'Failed to open containing folder': 'युक्त फोल्डर खोलने में विफल',
   'Include subfolders': 'उप-फोल्डर शामिल करें',
-  'Navigate results': 'परिणामों में नेविगेट करें',
-  'Close search': 'खोज बंद करें',
   'More actions': 'अधिक क्रियाएं',
   'Open Containing Folder': 'युक्त फोल्डर खोलें',
   'Searching...': 'खोज रहे हैं...',
@@ -163,5 +161,6 @@ export default {
   'Small (< 1MB)': 'छोटी (< 1MB)',
   'Medium (1-10MB)': 'मध्यम (1-10MB)',
   'Large (> 10MB)': 'बड़ी (> 10MB)',
+  'Search helper text': 'फ़ाइलों को खोजने के लिए टाइप करना शुरू करें। फ़िल्टर करने या उपफ़ोल्डरों को शामिल करने के लिए विकल्पों का उपयोग करें।',
   uppy: uppyLocaleHi,
 };

@@ -155,8 +155,6 @@ export default {
   'Search files': 'Поиск файлов',
   'Failed to open containing folder': 'Не удалось открыть содержащую папку',
   'Include subfolders': 'Включить подпапки',
-  'Navigate results': 'Навигация по результатам',
-  'Close search': 'Закрыть поиск',
   'More actions': 'Дополнительные действия',
   'Open Containing Folder': 'Открыть содержащую папку',
   'Searching...': 'Поиск...',
@@ -166,5 +164,6 @@ export default {
   'Small (< 1MB)': 'Маленькие (< 1MB)',
   'Medium (1-10MB)': 'Средние (1-10MB)',
   'Large (> 10MB)': 'Большие (> 10MB)',
+  'Search helper text': 'Начните вводить, чтобы искать файлы. Используйте параметры для фильтрации или включения вложенных папок.',
   uppy: uppyLocaleRu,
 };

@@ -149,8 +149,6 @@ export default {
   'Search files': '搜尋檔案',
   'Failed to open containing folder': '無法開啟包含資料夾',
   'Include subfolders': '包含子資料夾',
-  'Navigate results': '導航結果',
-  'Close search': '關閉搜尋',
   'More actions': '更多操作',
   'Open Containing Folder': '開啟包含資料夾',
   'Searching...': '搜尋中...',
@@ -160,5 +158,6 @@ export default {
   'Small (< 1MB)': '小檔案 (< 1MB)',
   'Medium (1-10MB)': '中等檔案 (1-10MB)',
   'Large (> 10MB)': '大檔案 (> 10MB)',
+  'Search helper text': '開始輸入以搜尋檔案。使用選項來篩選或包含子資料夾。',
   uppy: uppyLocalezhTW,
 };

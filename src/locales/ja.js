@@ -154,8 +154,6 @@ export default {
   'Search files': 'ファイルを検索',
   'Failed to open containing folder': '含むフォルダを開けませんでした',
   'Include subfolders': 'サブフォルダを含める',
-  'Navigate results': '結果をナビゲート',
-  'Close search': '検索を閉じる',
   'More actions': 'その他のアクション',
   'Open Containing Folder': '含むフォルダを開く',
   'Searching...': '検索中...',
@@ -165,5 +163,6 @@ export default {
   'Small (< 1MB)': '小さい (< 1MB)',
   'Medium (1-10MB)': '中程度 (1-10MB)',
   'Large (> 10MB)': '大きい (> 10MB)',
+  'Search helper text': 'ファイルを検索するには入力を開始してください。オプションでフィルタしたり、サブフォルダを含めたりできます。',
   uppy: uppyLocaleJa,
 };

@@ -149,8 +149,6 @@ export default {
   'Search files': '搜索文件',
   'Failed to open containing folder': '无法打开包含文件夹',
   'Include subfolders': '包含子文件夹',
-  'Navigate results': '导航结果',
-  'Close search': '关闭搜索',
   'More actions': '更多操作',
   'Open Containing Folder': '打开包含文件夹',
   'Searching...': '搜索中...',
@@ -160,5 +158,6 @@ export default {
   'Small (< 1MB)': '小文件 (< 1MB)',
   'Medium (1-10MB)': '中等文件 (1-10MB)',
   'Large (> 10MB)': '大文件 (> 10MB)',
+  'Search helper text': '开始输入以搜索文件。使用选项进行筛选或包含子文件夹。',
   uppy: uppyLocalezhCN,
 };

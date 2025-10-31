@@ -154,9 +154,7 @@ export default {
   Loading: 'Laden',
   'Search files': 'Zoek bestanden',
   'Failed to open containing folder': 'Kan de bovenliggende map niet openen',
-  'Include subfolders': 'Ondermappen opnemen',
-  'Navigate results': 'Navigeer resultaten',
-  'Close search': 'Zoeken sluiten',
+  'Include subfolders': 'Submappen opnemen',
   'More actions': 'Meer acties',
   'Open Containing Folder': 'Open bovenliggende map',
   'Searching...': 'Zoeken...',
@@ -166,5 +164,6 @@ export default {
   'Small (< 1MB)': 'Klein (< 1MB)',
   'Medium (1-10MB)': 'Gemiddeld (1-10MB)',
   'Large (> 10MB)': 'Groot (> 10MB)',
+  'Search helper text': 'Begin met typen om bestanden te zoeken. Gebruik opties om te filteren of submappen op te nemen.',
   uppy: uppyLocaleNl,
 };

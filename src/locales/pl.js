@@ -152,9 +152,7 @@ export default {
   'Search files': 'Szukaj plików',
   'Failed to open containing folder': 'Nie udało się otworzyć folderu nadrzędnego',
   'Include subfolders': 'Uwzględnij podfoldery',
-  'Navigate results': 'Nawiguj wyniki',
-  'Close search': 'Zamknij wyszukiwanie',
-  'More actions': 'Więcej akcji',
+  'More actions': 'Więcej działań',
   'Open Containing Folder': 'Otwórz folder nadrzędny',
   'Searching...': 'Wyszukiwanie...',
   'No results found': 'Nie znaleziono wyników',
@@ -163,5 +161,6 @@ export default {
   'Small (< 1MB)': 'Małe (< 1MB)',
   'Medium (1-10MB)': 'Średnie (1-10MB)',
   'Large (> 10MB)': 'Duże (> 10MB)',
+  'Search helper text': 'Zacznij pisać, aby wyszukać pliki. Użyj opcji, aby filtrować lub uwzględniać podfoldery.',
   uppy: uppyLocalePl,
 };

@@ -157,8 +157,6 @@ export default {
   'Search files': 'Rechercher des fichiers',
   'Failed to open containing folder': "Échec de l'ouverture du dossier parent",
   'Include subfolders': 'Inclure les sous-dossiers',
-  'Navigate results': 'Naviguer dans les résultats',
-  'Close search': 'Fermer la recherche',
   'More actions': "Plus d'actions",
   'Open Containing Folder': 'Ouvrir le dossier parent',
   'Searching...': 'Recherche...',
@@ -168,5 +166,6 @@ export default {
   'Small (< 1MB)': 'Petit (< 1MB)',
   'Medium (1-10MB)': 'Moyen (1-10MB)',
   'Large (> 10MB)': 'Grand (> 10MB)',
+  'Search helper text': 'Commencez à taper pour rechercher des fichiers. Utilisez les options pour filtrer ou inclure des sous-dossiers.',
   uppy: uppyLocaleFr,
 };

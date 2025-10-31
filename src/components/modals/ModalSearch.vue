@@ -344,16 +344,9 @@ const handleClickOutside = (event: MouseEvent) => {
           v-if="!query.trim() && !showFolderSelector"
           class="vuefinder__search-modal__instructions"
         >
-          <div class="vuefinder__search-modal__instructions-tips">
-            <div class="vuefinder__search-modal__tip">
-              <span class="vuefinder__search-modal__tip-key">↑↓</span>
-              <span>{{ t('Navigate results') }}</span>
-            </div>
-            <div class="vuefinder__search-modal__tip">
-              <span class="vuefinder__search-modal__tip-key">Esc</span>
-              <span>{{ t('Close search') }}</span>
-            </div>
-          </div>
+          <p class="vuefinder__search-modal__instructions-text">
+            {{ t('Search helper text') }}
+          </p>
         </div>
 
         <!-- Search Results (when query exists and folder selector closed) -->
