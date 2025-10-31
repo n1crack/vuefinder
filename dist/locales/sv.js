@@ -77,7 +77,7 @@ export default {
     'Nätverksfel, kan inte upprätta anslutning till servern eller avbruten.',
   'Pending upload': 'Väntar på uppladdning',
   'Please select file to upload first.': 'Välj fil att ladda upp först.',
-  About: 'Om',
+
   Settings: 'Inställningar',
   Shortcuts: 'Genvägar',
   Reset: 'Återställ',
@@ -151,8 +151,6 @@ export default {
   'Search files': 'Sök filer',
   'Failed to open containing folder': 'Misslyckades att öppna innehållande mapp',
   'Include subfolders': 'Inkludera undermappar',
-  'Navigate results': 'Navigera resultat',
-  'Close search': 'Stäng sökning',
   'More actions': 'Fler åtgärder',
   'Open Containing Folder': 'Öppna innehållande mapp',
   'Searching...': 'Söker...',
@@ -162,5 +160,7 @@ export default {
   'Small (< 1MB)': 'Små (< 1MB)',
   'Medium (1-10MB)': 'Medelstora (1-10MB)',
   'Large (> 10MB)': 'Stora (> 10MB)',
+  'Search helper text':
+    'Börja skriva för att söka efter filer. Använd alternativen för att filtrera eller inkludera undermappar.',
   uppy: uppyLocaleSv,
 };

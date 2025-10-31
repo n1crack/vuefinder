@@ -76,7 +76,7 @@ export default {
     'Ağ Hatası, Sunucuya bağlantı kurulamıyor veya kesiliyor.',
   'Pending upload': 'Bekliyor',
   'Please select file to upload first.': 'Lütfen önce yüklenecek dosyayı seçin.',
-  About: 'Hakkında',
+
   Settings: 'Ayarlar',
   Shortcuts: 'Kısayollar',
   Reset: 'Sıfırla',
@@ -154,8 +154,6 @@ export default {
   'Search files': 'Dosya ara',
   'Failed to open containing folder': 'İçeren klasörü açma başarısız',
   'Include subfolders': 'Alt klasörleri dahil et',
-  'Navigate results': 'Sonuçları gez',
-  'Close search': 'Aramayı kapat',
   'More actions': 'Daha fazla işlem',
   'Open Containing Folder': 'İçeren klasörü aç',
   'Searching...': 'Aranıyor...',
@@ -165,5 +163,7 @@ export default {
   'Small (< 1MB)': 'Küçük (< 1MB)',
   'Medium (1-10MB)': 'Orta (1-10MB)',
   'Large (> 10MB)': 'Büyük (> 10MB)',
+  'Search helper text':
+    'Dosyaları aramak için yazmaya başlayın. Filtrelemek veya alt klasörleri dahil etmek için seçenekleri kullanın.',
   uppy: uppyLocaleTr,
 };

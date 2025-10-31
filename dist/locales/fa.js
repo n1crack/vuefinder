@@ -77,7 +77,7 @@ export default {
     'خطای شبکه، اتصال به سرور برقرار نشد یا قطع شد.',
   'Pending upload': 'آپلود در حال انتظار',
   'Please select file to upload first.': 'لطفا ابتدا فایلی را برای آپلود انتخاب کنید.',
-  About: 'درباره',
+
   Settings: 'تنظیمات',
   Shortcuts: 'میانبر ها',
   Reset: 'بازنشانی',
@@ -151,9 +151,7 @@ export default {
   Loading: 'در حال بارگذاری',
   'Search files': 'جستجوی فایل‌ها',
   'Failed to open containing folder': 'خطا در باز کردن پوشه حاوی',
-  'Include subfolders': 'شامل زیرپوشه‌ها',
-  'Navigate results': 'پیمایش نتایج',
-  'Close search': 'بستن جستجو',
+  'Include subfolders': 'پوشه‌های فرعی را شامل شود',
   'More actions': 'اقدامات بیشتر',
   'Open Containing Folder': 'باز کردن پوشه حاوی',
   'Searching...': 'در حال جستجو...',
@@ -163,5 +161,7 @@ export default {
   'Small (< 1MB)': 'کوچک (< 1MB)',
   'Medium (1-10MB)': 'متوسط (1-10MB)',
   'Large (> 10MB)': 'بزرگ (> 10MB)',
+  'Search helper text':
+    'برای جستجوی فایل‌ها شروع به تایپ کنید. از گزینه‌ها برای فیلتر کردن یا شامل کردن زیرپوشه‌ها استفاده کنید.',
   uppy: uppyLocaleFa,
 };

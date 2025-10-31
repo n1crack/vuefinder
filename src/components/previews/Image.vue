@@ -53,9 +53,13 @@ const crop = async () => {
       const path = pathParts.join('/');
 
       // Upload using adapter
-      await (app.adapter as any).upload({
+      //    await app.adapter.upload({
+      //     path,
+      //      files: [file],
+      //   });
+      await app.adapter.save({
         path,
-        files: [file],
+        content: file,
       });
 
       message.value = t('Updated.');

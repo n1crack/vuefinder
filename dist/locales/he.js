@@ -77,7 +77,7 @@ export default {
     'שגיאת רשת, לא ניתן להתחבר לשרת או החיבור נקטע.',
   'Pending upload': 'העלאה ממתינה',
   'Please select file to upload first.': 'בחר קובץ להעלאה תחילה.',
-  About: 'אודות',
+
   Settings: 'הגדרות',
   Shortcuts: 'קיצורי דרך',
   Reset: 'איפוס',
@@ -150,8 +150,6 @@ export default {
   'Search files': 'חפש קבצים',
   'Failed to open containing folder': 'נכשל בפתיחת התיקייה המכילה',
   'Include subfolders': 'כלול תיקיות משנה',
-  'Navigate results': 'ניווט בתוצאות',
-  'Close search': 'סגור חיפוש',
   'More actions': 'פעולות נוספות',
   'Open Containing Folder': 'פתח תיקייה מכילה',
   'Searching...': 'מחפש...',
@@ -161,5 +159,7 @@ export default {
   'Small (< 1MB)': 'קטן (< 1MB)',
   'Medium (1-10MB)': 'בינוני (1-10MB)',
   'Large (> 10MB)': 'גדול (> 10MB)',
+  'Search helper text':
+    'התחל להקליד כדי לחפש קבצים. השתמש באפשרויות כדי לסנן או לכלול תיקיות משנה.',
   uppy: uppyLocaleHe,
 };

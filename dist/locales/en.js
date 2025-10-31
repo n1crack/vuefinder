@@ -78,7 +78,7 @@ export default {
     'Network Error, Unable establish connection to the server or interrupted.',
   'Pending upload': 'Pending',
   'Please select file to upload first.': 'Please select file to upload first.',
-  About: 'About',
+
   Settings: 'Settings',
   Shortcuts: 'Shortcuts',
   Reset: 'Reset',
@@ -156,8 +156,6 @@ export default {
   'Search files': 'Search files',
   'Failed to open containing folder': 'Failed to open containing folder',
   'Include subfolders': 'Include subfolders',
-  'Navigate results': 'Navigate results',
-  'Close search': 'Close search',
   'More actions': 'More actions',
   'Open Containing Folder': 'Open Containing Folder',
   'Searching...': 'Searching...',
@@ -167,5 +165,7 @@ export default {
   'Small (< 1MB)': 'Small (< 1MB)',
   'Medium (1-10MB)': 'Medium (1-10MB)',
   'Large (> 10MB)': 'Large (> 10MB)',
+  'Search helper text':
+    'Start typing to search files. Use options to filter or include subfolders.',
   uppy: uppyLocaleEn,
 };

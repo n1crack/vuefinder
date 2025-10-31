@@ -82,7 +82,7 @@ export default {
     'Error de red, No se pudo establecer conexión con el servidor o se interrumpió.',
   'Pending upload': 'Pendiente',
   'Please select file to upload first.': 'Por favor selecciona un archivo para subir primero.',
-  About: 'Acerca de',
+
   Settings: 'Configuración',
   Shortcuts: 'Atajos',
   Reset: 'Restablecer',
@@ -158,8 +158,6 @@ export default {
   'Search files': 'Buscar archivos',
   'Failed to open containing folder': 'Error al abrir la carpeta contenedora',
   'Include subfolders': 'Incluir subcarpetas',
-  'Navigate results': 'Navegar resultados',
-  'Close search': 'Cerrar búsqueda',
   'More actions': 'Más acciones',
   'Open Containing Folder': 'Abrir carpeta contenedora',
   'Searching...': 'Buscando...',
@@ -169,5 +167,7 @@ export default {
   'Small (< 1MB)': 'Pequeño (< 1MB)',
   'Medium (1-10MB)': 'Mediano (1-10MB)',
   'Large (> 10MB)': 'Grande (> 10MB)',
+  'Search helper text':
+    'Comienza a escribir para buscar archivos. Usa las opciones para filtrar o incluir subcarpetas.',
   uppy: uppyLocaleEs,
 };

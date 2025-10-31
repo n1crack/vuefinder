@@ -33,6 +33,9 @@ const removeDriver = new RemoteDriver({
     createFolder: '/create-folder',
     search: '/search',
     preview: '/preview',
+    copy: '/copy',
+    move: '/move',
+    save: '/save',
     download: '/download',
   },
 });

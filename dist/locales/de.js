@@ -81,7 +81,7 @@ export default {
     'Netzwerkfehler, Verbindung zum Server kann nicht hergestellt oder unterbrochen werden.',
   'Pending upload': 'Ausstehender',
   'Please select file to upload first.': 'Bitte wählen Sie zuerst eine Datei zum Hochladen aus.',
-  About: 'Über',
+
   Settings: 'Einstellungen',
   Shortcuts: 'Verknüpfungen',
   Reset: 'Zurücksetzen',
@@ -157,8 +157,6 @@ export default {
   'Search files': 'Dateien suchen',
   'Failed to open containing folder': 'Fehler beim Öffnen des übergeordneten Ordners',
   'Include subfolders': 'Unterordner einschließen',
-  'Navigate results': 'Ergebnisse navigieren',
-  'Close search': 'Suche schließen',
   'More actions': 'Weitere Aktionen',
   'Open Containing Folder': 'Übergeordneten Ordner öffnen',
   'Searching...': 'Suchen...',
@@ -168,5 +166,7 @@ export default {
   'Small (< 1MB)': 'Klein (< 1MB)',
   'Medium (1-10MB)': 'Mittel (1-10MB)',
   'Large (> 10MB)': 'Groß (> 10MB)',
+  'Search helper text':
+    'Beginnen Sie zu tippen, um Dateien zu suchen. Verwenden Sie Optionen zum Filtern oder zum Einbeziehen von Unterordnern.',
   uppy: uppyLocaleDe,
 };
