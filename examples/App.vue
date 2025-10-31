@@ -16,10 +16,10 @@ import CustomDclickExample from './examples/CustomDclickExample.vue';
 import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 
-const example = ref('arrayAdapter');
+const example = ref('default');
 
 // Create remote driver instance
-const cloudAdapter = new RemoteDriver({
+const removeDriver = new RemoteDriver({
   baseURL: 'http://inertia-vuefinder.test/api/files',
   token: '', // Add your auth token here if needed
   url: {
@@ -64,19 +64,13 @@ const memoryFiles = ref<DirEntry[]>([
     visibility: 'public',
   },
 ]);
-const arrayAdapter = new LocalDriver({ files: memoryFiles, storage: 'memory' });
+const localDriver = new LocalDriver({ files: memoryFiles, storage: 'memory' });
 
-const driver = ref(cloudAdapter as any);
-
-// Map example choices to adapter
-onMounted(() => {
-  // Switch adapter when choosing the ArrayAdapter demo
-  // We add a dedicated example key below
-});
+const driver = ref(removeDriver as any);
 
 const examples = {
   default: 'Inline select button example',
-  arrayAdapter: 'In-memory MemoryAdapter (no REST)',
+  localDriver: 'In-memory LocalDriver (no REST)',
   externalSelect: 'External select example',
   contextmenu: 'Custom context menu example',
   customIcons: 'Custom Icons (Scoped Slot)',
@@ -258,8 +252,8 @@ onUnmounted(() => {
 
       <!-- LocalDriver demo uses a separate instance id to avoid persisted state collisions -->
       <MemoryExample
-        v-if="example === 'arrayAdapter'"
-        :driver="arrayAdapter"
+        v-if="example === 'localDriver'"
+        :driver="localDriver"
         :config="{ ...config, initialPath: 'memory://', persist: false }"
         :features="features"
         :theme="currentTheme"

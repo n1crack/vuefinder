@@ -1,7 +1,7 @@
 import { BaseAdapter } from './Adapter';
 import XHR from '@uppy/xhr-upload';
 import type {
-  CloudAdapterConfig,
+  RemoteDriverConfig,
   FsData,
   DeleteResult,
   FileOperationResult,
@@ -18,9 +18,9 @@ import type Uppy from '@uppy/core';
  * This driver makes API calls to backend endpoints
  */
 export class RemoteDriver extends BaseAdapter {
-  private config: CloudAdapterConfig;
+  private config: RemoteDriverConfig;
 
-  constructor(config: CloudAdapterConfig) {
+  constructor(config: RemoteDriverConfig) {
     super();
     this.config = config;
   }

@@ -61,8 +61,8 @@ export type { AdapterManagerConfig } from './AdapterManager';
 export type {
   Driver,
   LocalAdapterConfig,
-  CloudAdapterConfig,
-  CloudAdapterUrls,
+  RemoteDriverConfig,
+  RemoteDriverUrls,
   DeleteResult,
   FileOperationResult,
   FileContentResult,

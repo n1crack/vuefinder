@@ -5,7 +5,13 @@
 
 ### About
 
-Vuefinder is a file manager component for Vue.js version 3
+A modern, customizable file manager component built for Vue.
+
+Organize, preview, and manage your files through a beautiful, reactive interface — just like a native file explorer.
+
+Easily integrate it into your app, connect to any storage (local, S3, etc.), and craft your own cloud experience with full control over uploads, search, and customization.
+
+If you like it, please follow and ⭐ star on GitHub.
 
 ### Demo
 
@@ -68,36 +74,18 @@ app.use(VueFinder, {
 
 ```vue
 <div>
-    <vue-finder id='my_vuefinder' :request="request"></vue-finder>
+  <vue-finder
+    id="my_vuefinder"
+    :driver="driver"
+    :config="{ initialPath: 'local://public', persist: true }"
+  />
 </div>
-...
 
 <script setup>
-const request = 'http://vuefinder-php.test';
-
-// Or ...
-const request = {
-  // ----- CHANGE ME! -----
-  // [REQUIRED] Url for development server endpoint
-  baseUrl: 'http://vuefinder-php.test',
-  // ----- CHANGE ME! -----
-
-  // Additional headers & params & body
-  headers: { 'X-ADDITIONAL-HEADER': 'yes' },
-  params: { additionalParam1: 'yes' },
-  body: { additionalBody1: ['yes'] },
-
-  // And/or transform request callback
-  transformRequest: (req) => {
-    if (req.method === 'get') {
-      req.params.vf = '1';
-    }
-    return req;
-  },
-
-  // XSRF Token header name
-  xsrfHeaderName: 'X-CSRF-TOKEN',
-};
+// Provide a Driver instance via the `driver` prop.
+// The project includes internal drivers; you may supply your own implementation
+// that conforms to the Driver interface.
+const driver = /* your Driver instance */ null;
 </script>
 ```
 
@@ -109,21 +97,20 @@ To customize or update the styles, simply find the appropriate BEM class in the 
 
 ### Props
 
-| Prop              |     Value     | Default    | Description                                                 |
-| ----------------- | :-----------: | ---------- | :---------------------------------------------------------- |
-| id                |    string     | _null_     | required                                                    |
-| request           | string/object | _object_   | required - backend url or request object, see above         |
-| locale            |    string     | en         | optional - default language code                            |
-| theme             |    string     | system     | optional - default theme, options: "system","light","dark"  |
-| max-file-size     |    string     | 10mb       | optional - client side max file upload                      |
-| max-height        |    string     | 600px      | optional - max height of the component                      |
-| features          |     array     | _null_     | optional - array of the enabled features                    |
-| path              |    string     | _null_     | optional - initial directory, example: 'media://public'     |
-| persist           |    boolean    | false      | optional - keep current directory on page refresh           |
-| full-screen       |    boolean    | false      | optional - start in full screen mode                        |
-| select-button     |    object     | _object_   | optional - adds select button in status bar, see example    |
-| loading-indicator |    string     | circular   | optional - style of loading indicator: "circular", "linear" |
-| onError           |   function    | _function_ | optional - a callback to implement custom error handling    |
+| Prop              |  Value   | Default    | Description                                                 |
+| ----------------- | :------: | ---------- | :---------------------------------------------------------- |
+| id                |  string  | _null_     | required                                                    |
+| driver            |  object  | _null_     | optional - Driver instance used for file operations         |
+| config            |  object  | _object_   | optional - configuration store defaults (e.g., initialPath) |
+| locale            |  string  | en         | optional - default language code                            |
+| theme             |  string  | system     | optional - default theme, options: "system","light","dark"  |
+| max-file-size     |  string  | 10mb       | optional - client side max file upload                      |
+| max-height        |  string  | 600px      | optional - max height of the component                      |
+| features          |  array   | _null_     | optional - array of the enabled features                    |
+| full-screen       | boolean  | false      | optional - start in full screen mode                        |
+| select-button     |  object  | _object_   | optional - adds select button in status bar, see example    |
+| loading-indicator |  string  | circular   | optional - style of loading indicator: "circular", "linear" |
+| onError           | function | _function_ | optional - a callback to implement custom error handling    |
 
 ### Events
 
@@ -315,13 +302,18 @@ declare module 'vue' {
 
 ### Backend
 
-- PHP: [VueFinder Php Library](https://github.com/n1crack/vuefinder-php)
+You can use any backend language. VueFinder talks to your server through the `driver` you provide. A driver simply calls your HTTP endpoints and returns data in the expected shape. This keeps VueFinder backend-agnostic while giving you full control over auth, storage, and business rules.
+
+- PHP (recommended for plug‑and‑play): [VueFinder Php Library 4.0](https://github.com/n1crack/vuefinder-php)
+
+Data contracts are stable and designed to be simple to implement. If you use the PHP package, these endpoints are already provided. For other stacks, mirror the same responses and you’re good to go.
+
+Older ecosystem libraries (for VueFinder 3.x and earlier):
+
+- PHP: [VueFinder Php Library 3.x](https://github.com/n1crack/vuefinder-php)
 - Python: [Python WSGI](https://github.com/abichinger/vuefinder-wsgi)
 - Go: [vuefinder-go](https://github.com/Duke1616/vuefinder-go)
 - Rust: [vuefinder-rust](https://github.com/boenfu/vuefinder-rust)
-
-You can use any backend language. Just be sure, the response should be compatible.
-If you develop a backend library for another language, please let me know to add it here.
 
 ### Collaboration
 
@@ -329,14 +321,14 @@ If you want to contribute to the project, please feel free to fork the repositor
 
 ### Dependencies
 
-- [Vue3](https://vuejs.org/)
+- [Vue 3+](https://vuejs.org/)
 - [vue-advanced-cropper](https://github.com/advanced-cropper/vue-advanced-cropper) : JavaScript image cropper
 - [viselect](https://github.com/simonwep/viselect) : Selection utility
 - [Uppy](https://github.com/transloadit/uppy) : Upload library
 - [vanilla-lazyload](https://github.com/verlok/vanilla-lazyload) : lightweight and flexible lazy loading for thumbnails
 - [mitt](https://github.com/developit/mitt) : Tiny 200 byte functional event emitter / pubsub
 - [OverlayScrollbars](https://kingsora.github.io/OverlayScrollbars) : scrollbar plugin
-- [nanostores] A tiny state manager
+- [nanostores](https://github.com/nanostores/nanostores) : A tiny state manager
 
 ### License
 

@@ -13,7 +13,7 @@ export interface LocalAdapterConfig {
 /**
  * URL configuration for Cloud Adapter endpoints
  */
-export interface CloudAdapterUrls {
+export interface RemoteDriverUrls {
   list: string;
   upload: string;
   delete: string;
@@ -33,10 +33,10 @@ export interface CloudAdapterUrls {
 /**
  * Configuration for Cloud Adapter
  */
-export interface CloudAdapterConfig {
+export interface RemoteDriverConfig {
   baseURL: string;
   token?: string;
-  url: CloudAdapterUrls;
+  url: RemoteDriverUrls;
   headers?: Record<string, string>;
 }
 
