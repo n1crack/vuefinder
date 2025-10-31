@@ -167,6 +167,7 @@ export default {
   'Small (< 1MB)': 'Pequeño (< 1MB)',
   'Medium (1-10MB)': 'Mediano (1-10MB)',
   'Large (> 10MB)': 'Grande (> 10MB)',
-  'Search helper text': 'Comienza a escribir para buscar archivos. Usa las opciones para filtrar o incluir subcarpetas.',
+  'Search helper text':
+    'Comienza a escribir para buscar archivos. Usa las opciones para filtrar o incluir subcarpetas.',
   uppy: uppyLocaleEs,
 };

@@ -161,6 +161,7 @@ export default {
   'Small (< 1MB)': 'Małe (< 1MB)',
   'Medium (1-10MB)': 'Średnie (1-10MB)',
   'Large (> 10MB)': 'Duże (> 10MB)',
-  'Search helper text': 'Zacznij pisać, aby wyszukać pliki. Użyj opcji, aby filtrować lub uwzględniać podfoldery.',
+  'Search helper text':
+    'Zacznij pisać, aby wyszukać pliki. Użyj opcji, aby filtrować lub uwzględniać podfoldery.',
   uppy: uppyLocalePl,
 };

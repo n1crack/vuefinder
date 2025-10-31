@@ -160,6 +160,7 @@ export default {
   'Small (< 1MB)': 'Små (< 1MB)',
   'Medium (1-10MB)': 'Medelstora (1-10MB)',
   'Large (> 10MB)': 'Stora (> 10MB)',
-  'Search helper text': 'Börja skriva för att söka efter filer. Använd alternativen för att filtrera eller inkludera undermappar.',
+  'Search helper text':
+    'Börja skriva för att söka efter filer. Använd alternativen för att filtrera eller inkludera undermappar.',
   uppy: uppyLocaleSv,
 };

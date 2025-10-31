@@ -164,6 +164,7 @@ export default {
   'Small (< 1MB)': 'Klein (< 1MB)',
   'Medium (1-10MB)': 'Gemiddeld (1-10MB)',
   'Large (> 10MB)': 'Groot (> 10MB)',
-  'Search helper text': 'Begin met typen om bestanden te zoeken. Gebruik opties om te filteren of submappen op te nemen.',
+  'Search helper text':
+    'Begin met typen om bestanden te zoeken. Gebruik opties om te filteren of submappen op te nemen.',
   uppy: uppyLocaleNl,
 };

@@ -165,6 +165,7 @@ export default {
   'Small (< 1MB)': 'Small (< 1MB)',
   'Medium (1-10MB)': 'Medium (1-10MB)',
   'Large (> 10MB)': 'Large (> 10MB)',
-  'Search helper text': 'Start typing to search files. Use options to filter or include subfolders.',
+  'Search helper text':
+    'Start typing to search files. Use options to filter or include subfolders.',
   uppy: uppyLocaleEn,
 };

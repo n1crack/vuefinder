@@ -166,6 +166,7 @@ export default {
   'Small (< 1MB)': 'Klein (< 1MB)',
   'Medium (1-10MB)': 'Mittel (1-10MB)',
   'Large (> 10MB)': 'Groß (> 10MB)',
-  'Search helper text': 'Beginnen Sie zu tippen, um Dateien zu suchen. Verwenden Sie Optionen zum Filtern oder zum Einbeziehen von Unterordnern.',
+  'Search helper text':
+    'Beginnen Sie zu tippen, um Dateien zu suchen. Verwenden Sie Optionen zum Filtern oder zum Einbeziehen von Unterordnern.',
   uppy: uppyLocaleDe,
 };
