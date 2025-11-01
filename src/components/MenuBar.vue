@@ -293,12 +293,14 @@ const menuItems = computed<any[]>(() => [
         id: 'grid-view',
         label: t('Grid View'),
         action: () => config?.set('view', 'grid'),
+        enabled: () => true,
         checked: () => configState.value?.view === 'grid',
       },
       {
         id: 'list-view',
         label: t('List View'),
         action: () => config?.set('view', 'list'),
+        enabled: () => true,
         checked: () => configState.value?.view === 'list',
       },
       { type: 'separator' },
@@ -342,7 +344,10 @@ const menuItems = computed<any[]>(() => [
         label: t('Forward'),
         action: () => {
           fs?.goForward();
-          app?.adapter.list(fs?.currentPath?.get());
+          const pathInfo = fs?.path?.get();
+          if (pathInfo?.path) {
+            app?.adapter.open(pathInfo.path);
+          }
         },
         enabled: () => fs?.canGoForward?.get() ?? false,
       },
@@ -351,7 +356,10 @@ const menuItems = computed<any[]>(() => [
         label: t('Back'),
         action: () => {
           fs?.goBack();
-          app?.adapter.list(fs?.currentPath?.get());
+          const pathInfo = fs?.path?.get();
+          if (pathInfo?.path) {
+            app?.adapter.open(pathInfo.path);
+          }
         },
         enabled: () => fs?.canGoBack?.get() ?? false,
       },
@@ -361,18 +369,17 @@ const menuItems = computed<any[]>(() => [
         action: () => {
           const pathInfo = fs?.path?.get();
 
-          if (pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 0) {
-            // Get parent path from breadcrumb
+          if (pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 1) {
+            // Get parent path from breadcrumb (second to last item)
             const parentBreadcrumb = pathInfo.breadcrumb[pathInfo.breadcrumb.length - 2];
             const parentPath = parentBreadcrumb?.path ?? `${pathInfo.storage}://`;
 
-            fs?.setPath(parentPath);
-            app?.adapter.list(parentPath);
+            app?.adapter.open(parentPath);
           }
         },
         enabled: () => {
           const pathInfo = fs?.path?.get();
-          return pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 0;
+          return pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 1;
         },
       },
       { type: 'separator' },
