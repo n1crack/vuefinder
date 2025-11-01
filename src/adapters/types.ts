@@ -34,7 +34,7 @@ export interface RemoteDriverUrls {
  * Configuration for Cloud Adapter
  */
 export interface RemoteDriverConfig {
-  baseURL: string;
+  baseURL?: string;
   token?: string;
   url?: Partial<RemoteDriverUrls>;
   headers?: Record<string, string>;

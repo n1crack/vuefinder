@@ -19,7 +19,7 @@ import type Uppy from '@uppy/core';
  * This driver makes API calls to backend endpoints
  */
 export class RemoteDriver extends BaseAdapter {
-  private config: RemoteDriverConfig & { url: RemoteDriverUrls };
+  private config: RemoteDriverConfig & { url: RemoteDriverUrls; baseURL: string };
 
   /**
    * Default URL endpoints
@@ -43,9 +43,6 @@ export class RemoteDriver extends BaseAdapter {
 
   constructor(config: RemoteDriverConfig) {
     super();
-    if (!config.baseURL) {
-      throw new Error('baseURL is required in RemoteDriverConfig');
-    }
 
     // Merge user-provided URLs with defaults
     const mergedUrls: RemoteDriverUrls = {
@@ -55,6 +52,7 @@ export class RemoteDriver extends BaseAdapter {
 
     this.config = {
       ...config,
+      baseURL: config.baseURL || '',
       url: mergedUrls,
     };
   }
@@ -62,11 +60,8 @@ export class RemoteDriver extends BaseAdapter {
   /**
    * Set or update the base URL for API requests
    */
-  setBaseURL(baseURL: string): void {
-    if (!baseURL) {
-      throw new Error('baseURL is required and cannot be empty');
-    }
-    this.config.baseURL = baseURL;
+  setBaseURL(baseURL?: string): void {
+    this.config.baseURL = baseURL || '';
   }
 
   /**
@@ -77,18 +72,7 @@ export class RemoteDriver extends BaseAdapter {
     this.config.token = token;
   }
 
-  /**
-   * Validate that baseURL is set
-   * Throws an error if baseURL is missing
-   */
-  private validateBaseURL(): void {
-    if (!this.config.baseURL) {
-      throw new Error('baseURL is required. Please call setBaseURL() before making requests.');
-    }
-  }
-
   configureUploader(uppy: Uppy, context: UploaderContext) {
-    this.validateBaseURL();
     const uploaderHeaders = this.getHeaders();
     delete uploaderHeaders['Content-Type'];
 
@@ -122,7 +106,6 @@ export class RemoteDriver extends BaseAdapter {
   }
 
   private async request<T>(url: string, options: RequestInit = {}): Promise<T> {
-    this.validateBaseURL();
     const fullUrl = `${this.config.baseURL}${url}`;
     const response = await fetch(fullUrl, {
       ...options,
@@ -254,14 +237,12 @@ export class RemoteDriver extends BaseAdapter {
   }
 
   getPreviewUrl(params: { path: string }): string {
-    this.validateBaseURL();
     this.validatePath(params.path);
     const queryParams = new URLSearchParams({ path: params.path });
     return `${this.config.baseURL}${this.config.url.preview}?${queryParams.toString()}`;
   }
 
   async getContent(params: { path: string }): Promise<FileContentResult> {
-    this.validateBaseURL();
     this.validatePath(params.path);
     const queryParams = new URLSearchParams({ path: params.path });
     const url = `${this.config.baseURL}${this.config.url.preview}?${queryParams.toString()}`;
@@ -272,7 +253,6 @@ export class RemoteDriver extends BaseAdapter {
   }
 
   getDownloadUrl(params: { path: string }): string {
-    this.validateBaseURL();
     this.validatePath(params.path);
     const queryParams = new URLSearchParams({ path: params.path });
     return `${this.config.baseURL}${this.config.url.download}?${queryParams.toString()}`;
