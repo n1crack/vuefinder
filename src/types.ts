@@ -33,8 +33,6 @@ export interface VueFinderProps {
     uppy: any,
     context: {
       getTargetPath: () => string;
-      getHeaders?: () => Record<string, string>;
-      t: (key: string) => string;
     }
   ) => void;
 }
