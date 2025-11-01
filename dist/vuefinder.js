@@ -8054,7 +8054,8 @@ const Zf = [
       () => l.config?.theme,
       (g) => {
         g && a.set("theme", o(g));
-      }
+      },
+      { immediate: !0 }
     ), fe(() => {
       de(
         () => a.get("path"),

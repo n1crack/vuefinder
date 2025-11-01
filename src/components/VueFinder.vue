@@ -106,7 +106,8 @@ watch(
     if (newTheme) {
       config.set('theme', unref(newTheme));
     }
-  }
+  },
+  { immediate: true }
 );
 
 // fetch initial data
