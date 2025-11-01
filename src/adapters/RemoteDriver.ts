@@ -116,21 +116,23 @@ export class RemoteDriver extends BaseAdapter {
     });
   }
 
-  async copy(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
+  async copy(params: { path: string, sources: string[]; destination: string }): Promise<FileOperationResult> {
     this.validateParam(params.sources, 'sources');
     this.validateParam(params.destination, 'destination');
+    this.validatePath(params.path);
     return await this.request<FileOperationResult>(this.config.url.copy, {
       method: 'POST',
-      body: JSON.stringify({ sources: params.sources, destination: params.destination }),
+      body: JSON.stringify({ sources: params.sources, destination: params.destination, path: params.path }),
     });
   }
 
-  async move(params: { sources: string[]; destination: string }): Promise<FileOperationResult> {
+  async move(params: {path: string, sources: string[]; destination: string }): Promise<FileOperationResult> {
     this.validateParam(params.sources, 'sources');
     this.validateParam(params.destination, 'destination');
+    this.validatePath(params.path);
     return await this.request<FileOperationResult>(this.config.url.move, {
       method: 'POST',
-      body: JSON.stringify({ sources: params.sources, destination: params.destination }),
+      body: JSON.stringify({ sources: params.sources, destination: params.destination, path: params.path }),
     });
   }
 
