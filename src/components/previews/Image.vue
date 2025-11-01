@@ -8,6 +8,7 @@ import { FEATURES } from '../../features';
 import LazyLoad from 'vanilla-lazyload';
 import { useStore } from '@nanostores/vue';
 import type { CurrentPathState } from '../../stores/files';
+import type { StoreValue } from 'nanostores';
 
 defineOptions({ name: 'ImagePreview' });
 
@@ -25,7 +26,7 @@ const tempImageData = ref(previewUrl.value);
 // Initialize useUpload for handling cropped image uploads
 const { addExternalFiles, upload: uploadFiles, queue } = useUpload(app.customUploader);
 const fs = app.fs;
-const currentPath = useStore<CurrentPathState>(fs.path);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const cropperRef = useTemplateRef<{
   getResult: (options?: { size?: { width?: number; height?: number }; fillColor?: string }) => {
