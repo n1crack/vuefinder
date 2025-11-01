@@ -176,13 +176,11 @@ export class LocalDriver extends BaseAdapter {
 
   async list(params?: { path?: string }): Promise<FsData> {
     const requested = params?.path ?? this.combine('');
-    const { storage, path } = this.split(requested);
-    const dirnameFull =
-      storage && storage !== this.storage ? this.combine('') : this.combine(path ?? '');
+    const { path } = this.split(requested);
+    const dirnameFull = this.combine(path ?? '');
+    const { storage } = this.split(dirnameFull);
     return {
-      storage: this.storage,
-      storages: [this.storage],
-      storage_info: { [this.storage]: {} },
+      storages: [storage || ''],
       dirname: dirnameFull,
       files: this.listChildren(dirnameFull),
       read_only: this.readOnly,

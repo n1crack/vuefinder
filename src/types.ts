@@ -80,9 +80,7 @@ export interface TreeViewData {
 }
 
 export interface FsData {
-  storage: string;
   storages: string[];
-  storage_info: Record<string, StorageInfo>;
   dirname: string;
   files: DirEntry[];
   read_only?: boolean;

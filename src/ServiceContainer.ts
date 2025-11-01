@@ -56,7 +56,7 @@ export default (props: ServiceContainerProps, options: Record<string, unknown>):
     ((): Driver => ({
       configureUploader: () => {},
       async list() {
-        return { storage: 'local', storages: ['local'], storage_info: {}, dirname: '', files: [] };
+        return { storage: 'local', storages: ['local'], dirname: '', files: [] };
       },
       async delete() {
         return { deleted: [] };
