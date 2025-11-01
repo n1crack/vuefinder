@@ -36,7 +36,7 @@ export interface RemoteDriverUrls {
 export interface RemoteDriverConfig {
   baseURL: string;
   token?: string;
-  url: RemoteDriverUrls;
+  url?: Partial<RemoteDriverUrls>;
   headers?: Record<string, string>;
 }
 

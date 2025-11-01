@@ -19,7 +19,7 @@ import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 const example = ref('default');
 
 // Create remote driver instance
-const removeDriver = new RemoteDriver({
+const remoteDriver = new RemoteDriver({
   baseURL: 'http://inertia-vuefinder.test/api/files',
   token: '', // Add your auth token here if needed
   url: {
@@ -69,7 +69,7 @@ const memoryFiles = ref<DirEntry[]>([
 ]);
 const localDriver = new LocalDriver({ files: memoryFiles, storage: 'memory' });
 
-const driver = ref(removeDriver as any);
+const driver = ref(remoteDriver as any);
 
 const examples = {
   default: 'Inline select button example',

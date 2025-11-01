@@ -2,6 +2,7 @@ import { BaseAdapter } from './Adapter';
 import XHR from '@uppy/xhr-upload';
 import type {
   RemoteDriverConfig,
+  RemoteDriverUrls,
   FsData,
   DeleteResult,
   FileOperationResult,
@@ -18,14 +19,76 @@ import type Uppy from '@uppy/core';
  * This driver makes API calls to backend endpoints
  */
 export class RemoteDriver extends BaseAdapter {
-  private config: RemoteDriverConfig;
+  private config: RemoteDriverConfig & { url: RemoteDriverUrls };
+
+  /**
+   * Default URL endpoints
+   */
+  private static readonly DEFAULT_URLS: RemoteDriverUrls = {
+    list: '',
+    upload: '/upload',
+    delete: '/delete',
+    rename: '/rename',
+    copy: '/copy',
+    move: '/move',
+    archive: '/archive',
+    unarchive: '/unarchive',
+    createFile: '/create-file',
+    createFolder: '/create-folder',
+    preview: '/preview',
+    download: '/download',
+    search: '/search',
+    save: '/save',
+  };
 
   constructor(config: RemoteDriverConfig) {
     super();
-    this.config = config;
+    if (!config.baseURL) {
+      throw new Error('baseURL is required in RemoteDriverConfig');
+    }
+
+    // Merge user-provided URLs with defaults
+    const mergedUrls: RemoteDriverUrls = {
+      ...RemoteDriver.DEFAULT_URLS,
+      ...(config.url || {}),
+    };
+
+    this.config = {
+      ...config,
+      url: mergedUrls,
+    };
+  }
+
+  /**
+   * Set or update the base URL for API requests
+   */
+  setBaseURL(baseURL: string): void {
+    if (!baseURL) {
+      throw new Error('baseURL is required and cannot be empty');
+    }
+    this.config.baseURL = baseURL;
+  }
+
+  /**
+   * Set or update the authentication token
+   * Pass undefined to remove the token
+   */
+  setToken(token?: string): void {
+    this.config.token = token;
+  }
+
+  /**
+   * Validate that baseURL is set
+   * Throws an error if baseURL is missing
+   */
+  private validateBaseURL(): void {
+    if (!this.config.baseURL) {
+      throw new Error('baseURL is required. Please call setBaseURL() before making requests.');
+    }
   }
 
   configureUploader(uppy: Uppy, context: UploaderContext) {
+    this.validateBaseURL();
     const uploaderHeaders = this.getHeaders();
     delete uploaderHeaders['Content-Type'];
 
@@ -59,6 +122,7 @@ export class RemoteDriver extends BaseAdapter {
   }
 
   private async request<T>(url: string, options: RequestInit = {}): Promise<T> {
+    this.validateBaseURL();
     const fullUrl = `${this.config.baseURL}${url}`;
     const response = await fetch(fullUrl, {
       ...options,
@@ -116,23 +180,39 @@ export class RemoteDriver extends BaseAdapter {
     });
   }
 
-  async copy(params: { path: string, sources: string[]; destination: string }): Promise<FileOperationResult> {
+  async copy(params: {
+    path: string;
+    sources: string[];
+    destination: string;
+  }): Promise<FileOperationResult> {
     this.validateParam(params.sources, 'sources');
     this.validateParam(params.destination, 'destination');
     this.validatePath(params.path);
     return await this.request<FileOperationResult>(this.config.url.copy, {
       method: 'POST',
-      body: JSON.stringify({ sources: params.sources, destination: params.destination, path: params.path }),
+      body: JSON.stringify({
+        sources: params.sources,
+        destination: params.destination,
+        path: params.path,
+      }),
     });
   }
 
-  async move(params: {path: string, sources: string[]; destination: string }): Promise<FileOperationResult> {
+  async move(params: {
+    path: string;
+    sources: string[];
+    destination: string;
+  }): Promise<FileOperationResult> {
     this.validateParam(params.sources, 'sources');
     this.validateParam(params.destination, 'destination');
     this.validatePath(params.path);
     return await this.request<FileOperationResult>(this.config.url.move, {
       method: 'POST',
-      body: JSON.stringify({ sources: params.sources, destination: params.destination, path: params.path }),
+      body: JSON.stringify({
+        sources: params.sources,
+        destination: params.destination,
+        path: params.path,
+      }),
     });
   }
 
@@ -174,12 +254,14 @@ export class RemoteDriver extends BaseAdapter {
   }
 
   getPreviewUrl(params: { path: string }): string {
+    this.validateBaseURL();
     this.validatePath(params.path);
     const queryParams = new URLSearchParams({ path: params.path });
     return `${this.config.baseURL}${this.config.url.preview}?${queryParams.toString()}`;
   }
 
   async getContent(params: { path: string }): Promise<FileContentResult> {
+    this.validateBaseURL();
     this.validatePath(params.path);
     const queryParams = new URLSearchParams({ path: params.path });
     const url = `${this.config.baseURL}${this.config.url.preview}?${queryParams.toString()}`;
@@ -190,6 +272,7 @@ export class RemoteDriver extends BaseAdapter {
   }
 
   getDownloadUrl(params: { path: string }): string {
+    this.validateBaseURL();
     this.validatePath(params.path);
     const queryParams = new URLSearchParams({ path: params.path });
     return `${this.config.baseURL}${this.config.url.download}?${queryParams.toString()}`;
