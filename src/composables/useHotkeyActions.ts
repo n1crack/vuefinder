@@ -10,11 +10,11 @@ import ModalPreview from '../components/modals/ModalPreview.vue';
 import ModalMove from '../components/modals/ModalMove.vue';
 import ModalCopy from '../components/modals/ModalCopy.vue';
 import ModalSearch from '../components/modals/ModalSearch.vue';
+import ModalSettings from '../components/modals/ModalSettings.vue';
+import type { CurrentPathState } from '@/stores/files';
 
 const KEYBOARD_SHORTCUTS = {
   ESCAPE: 'Escape',
-  F2: 'F2',
-  F5: 'F5',
   DELETE: 'Delete',
   ENTER: 'Enter',
   BACKSLASH: 'Backslash',
@@ -25,11 +25,15 @@ const KEYBOARD_SHORTCUTS = {
   KEY_C: 'KeyC',
   KEY_X: 'KeyX',
   KEY_V: 'KeyV',
+  KEY_S: 'KeyS',
+  KEY_R: 'KeyR',
 } as const;
 
 export function useHotkeyActions(app: any) {
   const fs = app.fs;
   const config = app.config;
+
+  const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
   // Use nanostores reactive values
   const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
@@ -40,22 +44,30 @@ export function useHotkeyActions(app: any) {
       (app.root as HTMLElement).focus();
     }
     if (app.modal.visible) return;
-    if (e.code === KEYBOARD_SHORTCUTS.F2 && app.features.includes(FEATURES.RENAME)) {
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_R && !e.shiftKey) {
+      app.adapter.invalidateListQuery(currentPath.value.path);
+      app.adapter.open(currentPath.value.path);
+      e.preventDefault();
+    }
+    if (
+      e.metaKey &&
+      e.shiftKey &&
+      e.code === KEYBOARD_SHORTCUTS.KEY_R &&
+      app.features.includes(FEATURES.RENAME)
+    ) {
       if (selectedItems.value.length === 1) {
         app.modal.open(ModalRename, { items: selectedItems.value });
+        e.preventDefault();
       }
     }
-    if (e.code === KEYBOARD_SHORTCUTS.F5) {
-      app.adapter.open(fs.path.get().path);
-    }
     if (e.code === KEYBOARD_SHORTCUTS.DELETE) {
-      if (selectedItems.value.length === 0) {
+      if (selectedItems.value.length !== 0) {
         app.modal.open(ModalDelete, { items: selectedItems.value });
       }
     }
-    if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout);
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout);
     if (
-      e.ctrlKey &&
+      e.metaKey &&
       e.code === KEYBOARD_SHORTCUTS.KEY_F &&
       app.features.includes(FEATURES.SEARCH)
     ) {
@@ -63,15 +75,19 @@ export function useHotkeyActions(app: any) {
       app.modal.open(ModalSearch);
       e.preventDefault();
     }
-    if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {
       config.toggle('showTreeView');
       e.preventDefault();
     }
-    if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.ENTER) {
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_S) {
+      app.modal.open(ModalSettings);
+      e.preventDefault();
+    }
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.ENTER) {
       config.toggle('fullScreen');
       (app.root as HTMLElement).focus();
     }
-    if (e.ctrlKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) {
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) {
       fs.selectAll(app.selectionMode || 'multiple', app);
       e.preventDefault();
     }

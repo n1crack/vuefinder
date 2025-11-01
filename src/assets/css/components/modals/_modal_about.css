@@ -81,7 +81,7 @@
 }
 
 .vuefinder__about-modal__settings {
-  @apply mt-3 text-left;
+  @apply mt-3 text-left max-h-[35vh] overflow-y-auto;
 }
 
 .vuefinder__about-modal__settings__fieldset {
@@ -137,7 +137,7 @@
 }
 
 .vuefinder__about-modal__shortcuts {
-  @apply w-full;
+  @apply w-full max-h-[35vh] overflow-y-auto;
 }
 
 .vuefinder__about-modal__shortcut {
