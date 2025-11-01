@@ -53,24 +53,25 @@ const crop = async () => {
       const path = pathParts.join('/');
 
       // Upload using adapter
-      //    await app.adapter.upload({
-      //     path,
-      //      files: [file],
-      //   });
-      await app.adapter.save({
-        path,
-        content: file,
-      });
+         await app.adapter.upload({
+          path,
+           files: [file],
+        });
+      // await app.adapter.save({
+      //   path,
+      //   content: file,
+      // });
 
       message.value = t('Updated.');
-      fetch(previewUrl.value, { cache: 'reload', mode: 'no-cors' });
+      // Reload image
+      await fetch(previewUrl.value, { cache: 'reload', mode: 'no-cors' });
       const image = app.root?.querySelector?.('[data-src="' + previewUrl.value + '"]');
       if (image && image instanceof HTMLElement) {
         LazyLoad.resetStatus(image);
       }
       app.emitter.emit('vf-refresh-thumbnails');
 
-      toggleEditMode();
+      await toggleEditMode();
       emit('success');
     } catch (e: unknown) {
       const msg = (e as { message?: string })?.message ?? 'Error';
