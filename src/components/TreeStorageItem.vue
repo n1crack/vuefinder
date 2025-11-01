@@ -7,6 +7,8 @@ import StorageSVG from '../assets/icons/storage.svg';
 import FolderLoaderIndicator from './FolderLoaderIndicator.vue';
 import TreeSubfolderList from './TreeSubfolderList.vue';
 import { useDragNDrop } from '../composables/useDragNDrop';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../stores/files';
 
 const app = useApp();
 const fs = app.fs;
@@ -18,7 +20,7 @@ const props = defineProps<{
 const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over']);
 
 // Make path reactive
-const currentPath = useStore(fs.path);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 // Computed for active state
 const isActive = computed(() => {

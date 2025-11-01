@@ -28,7 +28,7 @@ const config = app.config;
 
 const configStore: StoreValue<ConfigState> = useStore(config.state);
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
-const loading = useStore(fs.loading);
+const loading: StoreValue<boolean> = useStore(fs.loading);
 
 // dynamic shown items calculation for breadcrumbs
 const breadcrumbContainer = ref<HTMLElement | null>(null);

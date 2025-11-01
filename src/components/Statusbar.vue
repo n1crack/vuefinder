@@ -5,17 +5,18 @@ import { useStore } from '@nanostores/vue';
 import StorageSVG from '../assets/icons/storage.svg';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../stores/files';
+import type { DirEntry } from '../types';
 
 const app = useApp();
 const { t } = app.i18n;
 const fs = app.fs;
 
 // Use nanostores reactive values for template reactivity
-const sortedFiles = useStore(fs.sortedFiles);
-const path = useStore(fs.path);
-const selectedCount = useStore(fs.selectedCount);
-const storages = useStore(fs.storages);
-const selectedItems = useStore(fs.selectedItems);
+const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
+const path: StoreValue<CurrentPathState> = useStore(fs.path);
+const selectedCount: StoreValue<number> = useStore(fs.selectedCount);
+const storages: StoreValue<string[]> = useStore(fs.storages);
+const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const handleStorageSelect = (event: Event) => {

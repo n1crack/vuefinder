@@ -9,12 +9,14 @@ import useUpload from '../../composables/useUpload';
 import title_shorten from '../../utils/title_shorten';
 import UploadSVG from '../../assets/icons/upload.svg';
 import type { DirEntry } from '../../types';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../../stores/files';
 
 import { useApp } from '../../composables/useApp';
 const app = useApp();
 const { t } = app.i18n;
 const fs = app.fs;
-const currentPath = useStore(fs.path);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 // Target folder selection
 const target = ref<DirEntry>(currentPath.value);

@@ -5,13 +5,15 @@ import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
 import NewFileSVG from '../../assets/icons/new_file.svg';
 import type { FileOperationResult } from '../../adapters';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../../stores/files';
 
 import { useApp } from '../../composables/useApp';
 const app = useApp();
 const { t } = app.i18n;
 const fs = app.fs;
 
-const currentPath = useStore(fs.path);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const name = ref('');
 const message = ref('');

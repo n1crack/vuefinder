@@ -3,6 +3,7 @@ import { useApp } from '../composables/useApp';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import type { DirEntry } from '../types';
 import { useStore } from '@nanostores/vue';
+import type { StoreValue } from 'nanostores';
 
 export interface UseSelectionDeps<T> {
   getItemPosition: (itemIndex: number) => { row: number; col: number };
@@ -27,8 +28,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const fs = app.fs;
 
   // Make nanostores reactive in Vue context
-  const selectedKeys = useStore(fs.selectedKeys);
-  const sortedFiles = useStore(fs.sortedFiles);
+  const selectedKeys: StoreValue<Set<string>> = useStore(fs.selectedKeys);
+  const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
 
   const tempSelection = ref(new Set<string>());
   const isDragging = ref(false);

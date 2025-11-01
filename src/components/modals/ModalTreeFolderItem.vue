@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { inject, ref, computed } from 'vue';
 import { useStore } from '@nanostores/vue';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../../stores/files';
 import FolderSVG from '../../assets/icons/folder.svg';
 import OpenFolderSVG from '../../assets/icons/open_folder.svg';
 import PlusSVG from '../../assets/icons/plus.svg';
@@ -31,7 +33,7 @@ const emit = defineEmits<{
 }>();
 
 // Use nanostores reactive values for template reactivity
-const path = useStore(fs.path);
+const path: StoreValue<CurrentPathState> = useStore(fs.path);
 
 // Computed properties
 const isExpanded = computed(() => {

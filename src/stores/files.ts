@@ -313,14 +313,14 @@ export const createFilesStore = () => {
   // helper reactive
   const isCut = (key: string): boolean => {
     const isItemCutStore = createIsCut(key);
-    const isItemCut = useStore(isItemCutStore as unknown as { subscribe: (fn: any) => any });
-    return (isItemCut as unknown as { value?: boolean }).value ?? false;
+    const isItemCut: StoreValue<boolean> = useStore(isItemCutStore);
+    return isItemCut.value ?? false;
   };
 
   const isCopied = (key: string): boolean => {
     const isItemCopiedStore = createIsCopied(key);
-    const isItemCopied = useStore(isItemCopiedStore as unknown as { subscribe: (fn: any) => any });
-    return (isItemCopied as unknown as { value?: boolean }).value ?? false;
+    const isItemCopied: StoreValue<boolean> = useStore(isItemCopiedStore);
+    return isItemCopied.value ?? false;
   };
 
   const clearClipboard = () => {

@@ -1,7 +1,8 @@
 import { computed, type ComputedRef, type Ref, unref } from 'vue';
 import { useStore } from '@nanostores/vue';
 import type { Theme } from '../stores/theme';
-import type { ConfigStore } from '../stores/config';
+import type { ConfigStore, ConfigState } from '../stores/config';
+import type { StoreValue } from 'nanostores';
 
 /**
  * Theme management
@@ -15,7 +16,7 @@ export function useTheme(
   defaultTheme?: Theme | Ref<Theme> | (() => Theme)
 ) {
   // Make configStore reactive
-  const configState = useStore(configStore.state);
+  const configState: StoreValue<ConfigState> = useStore(configStore.state);
 
   // Computed current theme - reacts to both configStore and props changes
   const current: ComputedRef<Theme> = computed<Theme>(() => {

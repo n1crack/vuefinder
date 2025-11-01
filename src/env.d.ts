@@ -14,6 +14,8 @@ declare module '*.vue' {
 }
 
 // Minimal types for @nanostores/vue to enable useStore in TS
+// Returns a Vue ref-like object that auto-unwraps in templates
 declare module '@nanostores/vue' {
-  export function useStore<T = unknown>(store: unknown): T;
+  import type { Ref } from 'vue';
+  export function useStore<T = unknown>(store: unknown): Ref<T>;
 }

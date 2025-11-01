@@ -2,6 +2,7 @@ import ModalMove from '../components/modals/ModalMove.vue';
 import { dirname } from '../utils/path';
 import type { App, DirEntry, DirEntryType } from '../types';
 import { useStore } from '@nanostores/vue';
+import type { StoreValue } from 'nanostores';
 
 export interface DragNDropItem {
   path: string;
@@ -18,7 +19,7 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   const fs = app.fs;
 
   // Make selectedItems reactive
-  const selectedItems = useStore(fs.selectedItems);
+  const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
 
   function handleDragOver(e: DragNDropEvent, target: DragNDropItem) {
     // Skip if this is an external drag

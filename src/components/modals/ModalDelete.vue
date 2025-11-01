@@ -5,10 +5,12 @@ import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals//ModalHeader.vue';
 import { useStore } from '@nanostores/vue';
 import DeleteSVG from '../../assets/icons/delete.svg';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../../stores/files';
 const app = useApp();
 const { t } = app.i18n;
 const fs = app.fs;
-const currentPath = useStore(fs.path);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 const items = ref(app.modal.data.items);
 const message = ref('');
 

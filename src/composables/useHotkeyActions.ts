@@ -1,6 +1,8 @@
 import { onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { FEATURES } from '../features';
+import type { StoreValue } from 'nanostores';
+import type { DirEntry } from '../types';
 import ModalAbout from '../components/modals/ModalAbout.vue';
 import ModalDelete from '../components/modals/ModalDelete.vue';
 import ModalRename from '../components/modals/ModalRename.vue';
@@ -30,7 +32,7 @@ export function useHotkeyActions(app: any) {
   const config = app.config;
 
   // Use nanostores reactive values
-  const selectedItems = useStore(fs.selectedItems);
+  const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
 
   const handleKeyboardShortcuts = (e: KeyboardEvent) => {
     if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) {

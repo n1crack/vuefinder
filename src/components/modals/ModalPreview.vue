@@ -3,6 +3,7 @@ import { inject, ref, computed, onMounted } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
+import type { StoreValue } from 'nanostores';
 import Text from '../../components/previews/Text.vue';
 import Image from '../../components/previews/Image.vue';
 import Default from '../../components/previews/Default.vue';
@@ -25,7 +26,7 @@ if (!enabledPreview) {
 
 // Navigation logic - filter only files
 const currentItem = computed(() => app.modal.data.item);
-const files = useStore(app.fs.sortedFiles);
+const files: StoreValue<DirEntry[]> = useStore(app.fs.sortedFiles);
 const fileOnlyItems = computed(() => files.value.filter((f: DirEntry) => f.type === 'file'));
 const currentIndex = computed(() =>
   fileOnlyItems.value.findIndex((f: DirEntry) => f.path === currentItem.value.path)

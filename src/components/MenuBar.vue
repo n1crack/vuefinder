@@ -33,7 +33,7 @@ const config = app?.config;
 // Use nanostores reactive values for template reactivity
 const configState: StoreValue<ConfigState> = useStore(config.state);
 const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
-const storages = useStore(fs?.storages || []);
+const storages: StoreValue<string[]> = useStore(fs?.storages || []);
 
 // Menu state
 const activeMenu = ref<string | null>(null);

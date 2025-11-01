@@ -9,6 +9,8 @@ import { OverlayScrollbars } from 'overlayscrollbars';
 import type { DirEntry } from '../../types';
 import StorageSVG from '../../assets/icons/storage.svg';
 import ModalTreeFolderItem from './ModalTreeFolderItem.vue';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../../stores/files';
 
 import { useApp } from '../../composables/useApp';
 const app = useApp();
@@ -31,10 +33,10 @@ const emit = defineEmits<{
 }>();
 
 // Use nanostores reactive values for template reactivity
-const sortedFiles = useStore(fs.sortedFiles);
-const storages = useStore(fs.storages);
+const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
+const storages: StoreValue<string[]> = useStore(fs.storages);
 const storagesList = computed(() => storages.value || []);
-const path = useStore(fs.path);
+const path: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const modalContentElement = ref(null);
 

@@ -27,7 +27,7 @@ const config = app.config;
 // Use nanostores reactive values for template reactivity
 const configState: StoreValue<ConfigState> = useStore(config.state);
 const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
-const storages = useStore(fs.storages);
+const storages: StoreValue<string[]> = useStore(fs.storages);
 const storagesList = computed(() => storages.value || []);
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
