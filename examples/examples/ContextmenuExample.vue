@@ -6,7 +6,6 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
 }
 
 defineProps<Props>();
@@ -37,7 +36,6 @@ const customContextMenuItems = [
     :driver="driver"
     :config="config"
     :features="features"
-    :theme="theme"
     :context-menu-items="customContextMenuItems"
   />
 </template>

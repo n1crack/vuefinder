@@ -5,18 +5,11 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
 }
 
 defineProps<Props>();
 </script>
 
 <template>
-  <vue-finder
-    id="memory_vuefinder"
-    :driver="driver"
-    :config="config"
-    :features="features"
-    :theme="theme"
-  />
+  <vue-finder id="memory_vuefinder" :driver="driver" :config="config" :features="features" />
 </template>

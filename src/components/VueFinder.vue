@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted, provide, watch } from 'vue';
+import { inject, onMounted, provide, watch, unref } from 'vue';
 import { ServiceContainerKey } from '../composables/useApp';
 import { useStore } from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
@@ -35,7 +35,6 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
   features: true,
   debug: false,
-  theme: 'light',
   contextMenuItems: () => contextMenuItems,
   selectionMode: 'multiple',
   selectionFilterType: 'both',
@@ -100,6 +99,16 @@ app.emitter.on('vf-folder-dclick', (item: unknown) => {
   emit('folder-dclick', item as DirEntry);
 });
 
+// Watch for theme changes in config prop
+watch(
+  () => props.config?.theme,
+  (newTheme) => {
+    if (newTheme) {
+      config.set('theme', unref(newTheme));
+    }
+  }
+);
+
 // fetch initial data
 onMounted(() => {
   watch(
@@ -159,10 +168,7 @@ const handleExternalDrop = async (e: DragEvent) => {
     @dragleave="handleDragLeave"
     @drop="handleExternalDrop"
   >
-    <div
-      :class="(configState.value && configState.value.theme) || 'light'"
-      style="height: 100%; width: 100%"
-    >
+    <div :class="app.theme.current" style="height: 100%; width: 100%">
       <div
         :class="
           (configState as any)?.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'

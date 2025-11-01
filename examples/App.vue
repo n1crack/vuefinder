@@ -172,9 +172,8 @@ onUnmounted(() => {
     <div v-if="isPopup">
       <WindowExamplesExample
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
       />
     </div>
 
@@ -183,83 +182,73 @@ onUnmounted(() => {
       <DefaultExample
         v-if="example === 'default'"
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
         :on-path-change="handlePathChange"
       />
 
       <ExternalSelectExample
         v-if="example === 'externalSelect'"
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
       />
 
       <ContextmenuExample
         v-if="example === 'contextmenu'"
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
       />
 
       <CustomIconsExample
         v-if="example === 'customIcons'"
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
       />
 
       <WindowExamplesExample
         v-if="example === 'windowExamples'"
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
       />
 
       <EventsDemoExample
         v-if="example === 'eventsDemo'"
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
       />
 
       <CustomDclickExample
         v-if="example === 'customDclick'"
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
       />
 
       <SingleSelectionExample
         v-if="example === 'singleSelection'"
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
       />
 
       <SelectionFilterExample
         v-if="example === 'selectionFilter'"
         :driver="driver"
-        :config="config"
+        :config="{ ...config, theme: currentTheme }"
         :features="features"
-        :theme="currentTheme"
       />
 
       <!-- LocalDriver demo uses a separate instance id to avoid persisted state collisions -->
       <MemoryExample
         v-if="example === 'localDriver'"
         :driver="localDriver"
-        :config="{ ...config, initialPath: 'memory://', persist: false }"
+        :config="{ ...config, theme: currentTheme, initialPath: 'memory://', persist: false }"
         :features="features"
-        :theme="currentTheme"
       />
     </div>
   </div>

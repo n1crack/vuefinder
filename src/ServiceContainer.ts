@@ -6,41 +6,20 @@ import { FEATURE_ALL_NAMES } from './features.js';
 import { version } from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize';
 import useModal from './composables/useModal';
-import { createConfigStore, type ConfigDefaults } from './stores/config';
+import { createConfigStore } from './stores/config';
 import { createFilesStore } from './stores/files.ts';
-import type { Driver } from './adapters';
 import { AdapterManager } from './adapters';
-import type { Theme } from './stores/theme.ts';
 import { useTheme } from './composables/useTheme';
-import type { Item as ContextMenuItem } from './utils/contextmenu';
 import type { ConfigStore } from './stores/config';
-interface ServiceContainerProps {
-  id: string;
-  driver?: Driver;
-  config?: ConfigDefaults;
-  features?: boolean | string[];
-  debug: boolean;
-  theme?: Theme;
-  locale?: string;
-  selectionMode?: 'single' | 'multiple';
-  selectionFilterType?: 'files' | 'dirs' | 'both';
-  selectionFilterMimeIncludes?: string[];
-  contextMenuItems?: ContextMenuItem[];
-  customUploader?: (
-    uppy: any,
-    context: {
-      getTargetPath: () => string;
-    }
-  ) => void;
-}
+import type { VueFinderProps } from './types';
 
-export default (props: ServiceContainerProps, options: Record<string, unknown>): any => {
-  const storage = useStorage(props.id as string);
+export default (props: VueFinderProps, options: Record<string, unknown>): any => {
+  const storage = useStorage(props.id ?? 'vf');
   const emitter = mitt();
   const supportedLocales = options.i18n;
   const initialLang = props.locale ?? options.locale;
 
-  const configStore: ConfigStore = createConfigStore(props.id as string, props.config ?? {});
+  const configStore: ConfigStore = createConfigStore(props.id ?? 'vf', props.config ?? {});
   const filesStore = createFilesStore();
 
   const setFeatures = (features: unknown) => {
@@ -50,55 +29,11 @@ export default (props: ServiceContainerProps, options: Record<string, unknown>):
     return FEATURE_ALL_NAMES;
   };
 
-  // Wrap adapter with AdapterManager internally
-  const rawAdapter =
-    (props.driver as Driver) ??
-    ((): Driver => ({
-      configureUploader: () => {},
-      async list() {
-        return { storage: 'local', storages: ['local'], dirname: '', files: [] };
-      },
-      async delete() {
-        return { deleted: [] };
-      },
-      async rename() {
-        return { files: [], storages: [], read_only: false, dirname: '' } as any;
-      },
-      async copy() {
-        return { files: [], storages: [], read_only: false, dirname: '' } as any;
-      },
-      async move() {
-        return { files: [], storages: [], read_only: false, dirname: '' } as any;
-      },
-      async archive() {
-        return { files: [], storages: [], read_only: false, dirname: '' } as any;
-      },
-      async unarchive() {
-        return { files: [], storages: [], read_only: false, dirname: '' } as any;
-      },
-      async createFile() {
-        return { files: [], storages: [], read_only: false, dirname: '' } as any;
-      },
-      async createFolder() {
-        return { files: [], storages: [], read_only: false, dirname: '' } as any;
-      },
-      async getContent() {
-        return { content: '' };
-      },
-      getPreviewUrl() {
-        return '';
-      },
-      getDownloadUrl() {
-        return '';
-      },
-      async search() {
-        return [];
-      },
-      async save() {
-        return 'ok';
-      },
-    }))();
-  const adapterManager = new AdapterManager(rawAdapter);
+  // Driver is required - VueFinder should provide it via defaults
+  if (!props.driver) {
+    throw new Error('Driver is required for VueFinder');
+  }
+  const adapterManager = new AdapterManager(props.driver);
 
   return reactive({
     // app version
@@ -108,11 +43,9 @@ export default (props: ServiceContainerProps, options: Record<string, unknown>):
 
     // Theme
     theme: (() => {
-      const themeCtl = useTheme(configStore, () => (props.theme || 'light') as Theme);
+      const themeCtl = useTheme(configStore);
       return {
-        get current() {
-          return themeCtl.current.value as Theme;
-        },
+        current: themeCtl.current,
         set: themeCtl.set,
       };
     })(),
@@ -121,7 +54,7 @@ export default (props: ServiceContainerProps, options: Record<string, unknown>):
     // root element
     root: useTemplateRef<HTMLElement>('root'),
     // app id
-    debug: props.debug,
+    debug: props.debug ?? false,
     // Event Bus
     emitter: emitter,
     // storage

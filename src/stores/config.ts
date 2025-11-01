@@ -20,7 +20,7 @@ export interface ConfigStore {
 }
 export interface ConfigState {
   view: Viewport;
-  theme: Theme | undefined;
+  theme: Theme;
   fullScreen: boolean;
   showTreeView: boolean;
   showHiddenFiles: boolean;
@@ -39,7 +39,7 @@ export type ConfigDefaults = Partial<ConfigState>;
 
 const DEFAULT_STATE: ConfigState = {
   view: 'grid',
-  theme: undefined,
+  theme: 'light',
   fullScreen: false,
   showTreeView: false,
   showHiddenFiles: true,
@@ -62,19 +62,25 @@ export const createConfigStore = (
   const storeKey = `vuefinder_config_${id}`;
 
   // Create persistent atom with default state
-  const state = persistentAtom<ConfigState>(
-    storeKey,
-    { ...DEFAULT_STATE, ...initialConfig },
-    {
-      encode: JSON.stringify,
-      decode: JSON.parse,
-    }
-  );
+  // Ensure theme defaults to 'light' if not provided or undefined
+  const mergedConfig = { ...DEFAULT_STATE, ...initialConfig };
+  if (!mergedConfig.theme) {
+    mergedConfig.theme = 'light';
+  }
+
+  const state = persistentAtom<ConfigState>(storeKey, mergedConfig, {
+    encode: JSON.stringify,
+    decode: JSON.parse,
+  });
 
   // Helper functions
   const init = (defaults: ConfigDefaults | Record<string, unknown> = {}) => {
     const currentState = state.get();
     const newState = { ...DEFAULT_STATE, ...defaults, ...currentState };
+    // Ensure theme defaults to 'light' if not provided or undefined
+    if (!newState.theme) {
+      newState.theme = 'light';
+    }
     state.set(newState);
   };
 

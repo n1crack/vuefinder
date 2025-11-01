@@ -6,7 +6,6 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
 }
 
 defineProps<Props>();
@@ -165,7 +164,6 @@ const removeMimeFilter = (mimeType: string) => {
     :driver="driver"
     :config="config"
     :features="features"
-    :theme="theme"
     :selection-filter-type="selectionFilterType"
     :selection-filter-mime-includes="selectionFilterMimeIncludes"
     @select="handleSelectionFilter"

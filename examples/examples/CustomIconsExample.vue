@@ -7,20 +7,13 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
 }
 
 defineProps<Props>();
 </script>
 
 <template>
-  <vue-finder
-    id="my_vuefinder4"
-    :driver="driver"
-    :config="config"
-    :features="features"
-    :theme="theme"
-  >
+  <vue-finder id="my_vuefinder4" :driver="driver" :config="config" :features="features">
     <template #icon="{ item }">
       <TextIcon v-if="item.extension === 'txt'" class="vuefinder__item-icon__file" />
       <PDFIcon v-else-if="item.extension === 'pdf'" class="vuefinder__item-icon__file" />

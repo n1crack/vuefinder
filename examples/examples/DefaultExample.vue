@@ -5,7 +5,6 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
   onPathChange?: (path: string) => void;
 }
 
@@ -18,7 +17,6 @@ defineProps<Props>();
     :driver="driver"
     :config="config"
     :features="features"
-    :theme="theme"
     @path-change="onPathChange"
   >
     <template #status-bar="{ selected, path, count }">

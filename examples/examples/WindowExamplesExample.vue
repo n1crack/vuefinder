@@ -6,7 +6,6 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
 }
 
 defineProps<Props>();
@@ -92,9 +91,7 @@ onUnmounted(() => {
       style="height: 100%; width: 100%"
       :config="config"
       :features="features"
-      :theme="theme"
       @path-change="handlePathChange"
-      @select="handlePopupSelect"
     >
       <template #status-bar="{ selected, count }">
         <div class="vuefinder__status-bar__actions">

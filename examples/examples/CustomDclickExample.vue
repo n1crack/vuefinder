@@ -6,7 +6,6 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
 }
 
 defineProps<Props>();
@@ -116,7 +115,6 @@ const clearCustomDclickLog = () => {
     :driver="driver"
     :config="config"
     :features="features"
-    :theme="theme"
     @file-dclick="onCustomFileDclick"
     @folder-dclick="onCustomFolderDclick"
   />

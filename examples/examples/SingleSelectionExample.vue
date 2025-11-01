@@ -6,7 +6,6 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
 }
 
 defineProps<Props>();
@@ -70,7 +69,6 @@ const handleSingleSelection = (files: Array<{ basename: string; path: string }>)
     :driver="driver"
     :config="config"
     :features="features"
-    :theme="theme"
     selection-mode="single"
     @select="handleSingleSelection"
   />

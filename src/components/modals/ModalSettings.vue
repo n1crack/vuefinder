@@ -23,7 +23,7 @@ const configState: StoreValue<ConfigState> = useStore(config.state);
 // Selected theme computed
 const selectedTheme = computed<Theme>(() => {
   const stored = configState.value.theme;
-  return stored || 'default';
+  return stored || 'light';
 });
 
 const clearLocalStorage = async () => {
@@ -33,11 +33,7 @@ const clearLocalStorage = async () => {
 };
 
 const handleTheme = (source: Theme) => {
-  if (source !== 'default') {
-    config.set('theme', source as Theme);
-  } else {
-    config.set('theme', 'default');
-  }
+  config.set('theme', source as Theme);
   app.emitter.emit('vf-theme-saved');
 };
 

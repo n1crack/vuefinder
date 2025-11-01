@@ -1,17 +1,16 @@
 import type { Item as ContextMenuItem } from './utils/contextmenu';
 import ServiceContainer from './ServiceContainer';
-import type { Theme } from './stores/theme';
 import type { Driver } from './adapters';
+import type { ConfigDefaults } from './stores/config';
 
 export type App = ReturnType<typeof ServiceContainer>;
 
 export interface VueFinderProps {
   id?: string;
-  config?: Record<string, unknown>;
+  config?: ConfigDefaults;
   driver?: Driver;
   features?: boolean | string[];
   debug?: boolean;
-  theme?: Theme;
   locale?: string;
   contextMenuItems?: ContextMenuItem[];
   selectionMode?: 'single' | 'multiple';

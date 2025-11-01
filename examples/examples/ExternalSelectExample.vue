@@ -6,7 +6,6 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
   onSelect?: (files: Array<{ path: string; name?: string }>) => void;
 }
 
@@ -31,7 +30,6 @@ const handleButton = () => {
     :driver="driver"
     :config="config"
     :features="features"
-    :theme="theme"
     @select="handleSelect"
   />
 

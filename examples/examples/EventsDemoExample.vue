@@ -6,7 +6,6 @@ interface Props {
   driver: Driver;
   config: Record<string, unknown>;
   features: unknown;
-  theme: string;
 }
 
 defineProps<Props>();
@@ -241,7 +240,6 @@ const clearEventLog = () => {
     :driver="driver"
     :config="config"
     :features="features"
-    :theme="theme"
     @select="onSelectEvents"
     @path-change="onPathChangeEvents"
     @upload-complete="onUploadCompleteEvents"

@@ -1,5 +1,4 @@
 export type Theme =
-  | 'default'
   | 'light'
   | 'dark'
   | 'midnight'
@@ -20,7 +19,6 @@ export interface ThemeConfig {
 }
 
 export const themes: ThemeConfig[] = [
-  { name: 'default', displayName: 'Default' },
   { name: 'light', displayName: 'Light' },
   { name: 'dark', displayName: 'Dark' },
   { name: 'midnight', displayName: 'Midnight' },
