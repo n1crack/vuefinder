@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { inject, onMounted, ref, useTemplateRef } from 'vue';
+import { onMounted, ref, useTemplateRef } from 'vue';
 import { useApp } from '../../composables/useApp';
+import useUpload, { QUEUE_ENTRY_STATUS } from '../../composables/useUpload';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 import { FEATURES } from '../../features';
 import LazyLoad from 'vanilla-lazyload';
+import { useStore } from '@nanostores/vue';
+import type { CurrentPathState } from '../../stores/files';
 
 defineOptions({ name: 'ImagePreview' });
 
@@ -18,6 +21,11 @@ const message = ref('');
 const isError = ref(false);
 const previewUrl = ref(app.adapter.getPreviewUrl({ path: app.modal.data.item.path }));
 const tempImageData = ref(previewUrl.value);
+
+// Initialize useUpload for handling cropped image uploads
+const { addExternalFiles, upload: uploadFiles, queue } = useUpload(app.customUploader);
+const fs = app.fs;
+const currentPath = useStore<CurrentPathState>(fs.path);
 
 const cropperRef = useTemplateRef<{
   getResult: (options?: { size?: { width?: number; height?: number }; fillColor?: string }) => {
@@ -37,48 +45,93 @@ const crop = async () => {
   });
   const canvas = result?.canvas;
   if (!canvas) return;
-  canvas.toBlob(async (blob) => {
-    if (!blob) return;
-    message.value = '';
-    isError.value = false;
 
-    try {
-      // Convert blob to File
-      const file = new File([blob], app.modal.data.item.basename, { type: 'image/png' });
-
-      // Extract path from full path
-      const fullPath = app.modal.data.item.path;
-      const pathParts = fullPath.split('/');
-      const filename = pathParts.pop();
-      const path = pathParts.join('/');
-
-      // Upload using adapter
-         await app.adapter.upload({
-          path,
-           files: [file],
-        });
-      // await app.adapter.save({
-      //   path,
-      //   content: file,
-      // });
-
-      message.value = t('Updated.');
-      // Reload image
-      await fetch(previewUrl.value, { cache: 'reload', mode: 'no-cors' });
-      const image = app.root?.querySelector?.('[data-src="' + previewUrl.value + '"]');
-      if (image && image instanceof HTMLElement) {
-        LazyLoad.resetStatus(image);
-      }
-      app.emitter.emit('vf-refresh-thumbnails');
-
-      await toggleEditMode();
-      emit('success');
-    } catch (e: unknown) {
-      const msg = (e as { message?: string })?.message ?? 'Error';
-      message.value = t(msg);
-      isError.value = true;
+  // Resize if too large
+  let finalCanvas = canvas;
+  if (canvas.width > 1200 || canvas.height > 1200) {
+    const ratio = Math.min(1200 / canvas.width, 1200 / canvas.height);
+    const resized = document.createElement('canvas');
+    resized.width = Math.floor(canvas.width * ratio);
+    resized.height = Math.floor(canvas.height * ratio);
+    const ctx = resized.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(canvas, 0, 0, resized.width, resized.height);
+      finalCanvas = resized;
     }
+  }
+
+  // Keep original extension and save
+  const originalFilename = app.modal.data.item.basename;
+  const extension = originalFilename.split('.').pop()?.toLowerCase() || 'jpg';
+  const mimeType =
+    extension === 'png' ? 'image/png' : extension === 'gif' ? 'image/gif' : 'image/jpeg';
+
+  const blob = await new Promise<Blob | null>((resolve) => {
+    finalCanvas.toBlob((b) => resolve(b), mimeType);
   });
+
+  if (!blob) {
+    message.value = t('Failed to save image');
+    isError.value = true;
+    return;
+  }
+
+  message.value = '';
+  isError.value = false;
+
+  try {
+    const file = new File([blob], originalFilename, { type: mimeType });
+
+    // Extract target folder from the file's path
+    const fullPath = app.modal.data.item.path;
+    const pathParts = fullPath.split('/');
+    pathParts.pop();
+    const directoryPath = pathParts.join('/');
+
+    const targetFolder = {
+      path: directoryPath || (currentPath.value?.path ?? ''),
+    };
+
+    // Add file and upload
+    addExternalFiles([file]);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const fileEntry = queue.value.find((entry) => entry.name === file.name);
+    if (!fileEntry) {
+      throw new Error('File was not added to upload queue');
+    }
+
+    uploadFiles(targetFolder);
+
+    // Wait for upload to complete
+    let attempts = 0;
+    while (attempts < 150) {
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      const entry = queue.value.find((e) => e.id === fileEntry.id);
+      if (entry?.status === QUEUE_ENTRY_STATUS.DONE) break;
+      if (entry?.status === QUEUE_ENTRY_STATUS.ERROR) {
+        throw new Error(entry.statusName || 'Upload failed');
+      }
+      attempts++;
+    }
+
+    message.value = t('Updated.');
+
+    // Reload image
+    await fetch(previewUrl.value, { cache: 'reload', mode: 'no-cors' });
+    const image = app.root?.querySelector?.('[data-src="' + previewUrl.value + '"]');
+    if (image && image instanceof HTMLElement) {
+      LazyLoad.resetStatus(image);
+    }
+    app.emitter.emit('vf-refresh-thumbnails');
+
+    await toggleEditMode();
+    emit('success');
+  } catch (e: unknown) {
+    const msg = (e as { message?: string })?.message ?? 'Error';
+    message.value = t(msg);
+    isError.value = true;
+  }
 };
 
 onMounted(() => {
