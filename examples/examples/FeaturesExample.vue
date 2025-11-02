@@ -425,4 +425,15 @@ const resetToPreset = (preset: 'simple' | 'advanced') => {
   color: #6b7280;
   line-height: 1.6;
 }
+
+@media (max-width: 768px) {
+  .features-example__container {
+    grid-template-columns: 1fr;
+  }
+
+  .features-example__viewer {
+    order: -1;
+    min-height: 400px;
+  }
+}
 </style>
