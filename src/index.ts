@@ -3,6 +3,7 @@ import VueFinderProvider from './components/VueFinderProvider.vue';
 import './assets/css/style.css';
 import { menuItems as contextMenuItems, ContextMenuIds } from './utils/contextmenu';
 import { type App } from 'vue';
+import { RemoteDriver, LocalDriver } from './adapters';
 
 type VueFinderOptions = {
   i18n?: Record<string, unknown>;
@@ -27,3 +28,5 @@ export const VueFinderPlugin = {
 export default VueFinderPlugin;
 
 export { VueFinder, VueFinderProvider, contextMenuItems, ContextMenuIds };
+
+export { RemoteDriver, LocalDriver };
