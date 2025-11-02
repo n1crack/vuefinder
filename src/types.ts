@@ -7,9 +7,9 @@ import type { FeaturesConfig, FeaturesPreset } from './features';
 export type App = ReturnType<typeof ServiceContainer>;
 
 export interface VueFinderProps {
-  id?: string;
+  id: string;
+  driver: Driver;
   config?: ConfigDefaults;
-  driver?: Driver;
   features?: FeaturesPreset | FeaturesConfig;
   debug?: boolean;
   locale?: string;
