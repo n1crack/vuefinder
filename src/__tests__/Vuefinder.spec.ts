@@ -1,8 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 import { mount } from '@vue/test-utils';
 import VueFinder from '@/components/VueFinder.vue';
+import { LocalDriver } from '@/adapters/LocalDriver';
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -121,9 +122,17 @@ describe('VueFinder', () => {
   });
 
   it('mounts renders properly', () => {
+    // Create a mock driver for testing
+    const mockFiles = ref([]);
+    const driver = new LocalDriver({
+      files: mockFiles,
+      storage: 'local',
+    });
+
     const wrapper = mount(VueFinder, {
       props: {
-        request: 'http://localhost:8000/api',
+        id: 'test-vuefinder',
+        driver: driver,
       },
     });
     expect(wrapper.exists()).toBe(true);

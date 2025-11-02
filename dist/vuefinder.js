@@ -1577,22 +1577,22 @@ const Dl = {
           s("div", El, [
             l(d) ? (c(), w("div", Al, [
               a("text") ? (c(), R(Ys, {
-                key: 0,
+                key: r.value.path,
                 onSuccess: g[0] || (g[0] = (m) => i.value = !0)
               })) : a("image") ? (c(), R(nl, {
-                key: 1,
+                key: r.value.path,
                 onSuccess: g[1] || (g[1] = (m) => i.value = !0)
               })) : a("video") ? (c(), R(ml, {
-                key: 2,
+                key: r.value.path,
                 onSuccess: g[2] || (g[2] = (m) => i.value = !0)
               })) : a("audio") ? (c(), R(bl, {
-                key: 3,
+                key: r.value.path,
                 onSuccess: g[3] || (g[3] = (m) => i.value = !0)
               })) : a("application/pdf") ? (c(), R(Sl, {
-                key: 4,
+                key: r.value.path,
                 onSuccess: g[4] || (g[4] = (m) => i.value = !0)
               })) : (c(), R(ul, {
-                key: 5,
+                key: r.value.path,
                 onSuccess: g[5] || (g[5] = (m) => i.value = !0)
               }))
             ])) : A("", !0),
@@ -8124,8 +8124,8 @@ const $o = [
   __name: "VueFinder",
   props: {
     id: {},
-    config: {},
     driver: {},
+    config: {},
     features: {},
     debug: { type: Boolean },
     locale: {},
@@ -8279,8 +8279,8 @@ const $o = [
   __name: "VueFinderProvider",
   props: {
     id: {},
-    config: {},
     driver: {},
+    config: {},
     features: {},
     debug: { type: Boolean, default: !1 },
     locale: {},

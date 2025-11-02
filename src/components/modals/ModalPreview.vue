@@ -146,12 +146,32 @@ onMounted(() => {
 
       <div class="vuefinder__preview-modal__content">
         <div v-if="enabledPreview">
-          <Text v-if="loadPreview('text')" @success="loaded = true" :key="currentItem.path" />
-          <Image v-else-if="loadPreview('image')" @success="loaded = true" :key="currentItem.path"  />
-          <Video v-else-if="loadPreview('video')" @success="loaded = true" :key="currentItem.path" />
-          <Audio v-else-if="loadPreview('audio')" @success="loaded = true" :key="currentItem.path" />
-          <Pdf v-else-if="loadPreview('application/pdf')" @success="loaded = true" :key="currentItem.path" />
-          <Default v-else @success="loaded = true" :key="currentItem.path" />
+          <Text
+            v-if="loadPreview('text')"
+            :key="`text-${currentItem.path}`"
+            @success="loaded = true"
+          />
+          <Image
+            v-else-if="loadPreview('image')"
+            :key="`image-${currentItem.path}`"
+            @success="loaded = true"
+          />
+          <Video
+            v-else-if="loadPreview('video')"
+            :key="`video-${currentItem.path}`"
+            @success="loaded = true"
+          />
+          <Audio
+            v-else-if="loadPreview('audio')"
+            :key="`audio-${currentItem.path}`"
+            @success="loaded = true"
+          />
+          <Pdf
+            v-else-if="loadPreview('application/pdf')"
+            :key="`pdf-${currentItem.path}`"
+            @success="loaded = true"
+          />
+          <Default v-else :key="`default-${currentItem.path}`" @success="loaded = true" />
         </div>
 
         <div class="vuefinder__preview-modal__loading">
