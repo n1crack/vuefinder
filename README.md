@@ -30,7 +30,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 
 import 'vuefinder/dist/style.css';
-import VueFinder from 'vuefinder/dist/vuefinder';
+import VueFinder from 'vuefinder';
 
 const app = createApp(App);
 
@@ -82,10 +82,36 @@ app.use(VueFinder, {
 </div>
 
 <script setup>
-// Provide a Driver instance via the `driver` prop.
-// The project includes internal drivers; you may supply your own implementation
-// that conforms to the Driver interface.
-const driver = /* your Driver instance */ null;
+import { RemoteDriver } from 'vuefinder';
+
+// Create a driver instance
+const driver = new RemoteDriver({
+  baseURL: '/api',
+  url: {
+    list: '/files',
+    upload: '/upload',
+    delete: '/delete',
+    rename: '/rename',
+    copy: '/copy',
+    move: '/move',
+    archive: '/archive',
+    unarchive: '/unarchive',
+    createFile: '/create-file',
+    createFolder: '/create-folder',
+    preview: '/preview',
+    download: '/download',
+    search: '/search',
+    save: '/save'
+  }
+});
+
+// Or use LocalDriver for in-memory operations:
+// import { LocalDriver } from 'vuefinder';
+// const driver = new LocalDriver({
+//   files: filesArray,
+//   storage: 'memory',
+//   readOnly: false
+// });
 </script>
 ```
 
@@ -97,31 +123,41 @@ To customize or update the styles, simply find the appropriate BEM class in the 
 
 ### Props
 
-| Prop              |  Value   | Default    | Description                                                 |
-| ----------------- | :------: | ---------- | :---------------------------------------------------------- |
-| id                |  string  | _null_     | required                                                    |
-| driver            |  object  | _null_     | optional - Driver instance used for file operations         |
-| config            |  object  | _object_   | optional - configuration store defaults (e.g., initialPath) |
-| locale            |  string  | en         | optional - default language code                            |
-| theme             |  string  | system     | optional - default theme, options: "system","light","dark"  |
-| max-file-size     |  string  | 10mb       | optional - client side max file upload                      |
-| max-height        |  string  | 600px      | optional - max height of the component                      |
-| features          |  array   | _null_     | optional - array of the enabled features                    |
-| full-screen       | boolean  | false      | optional - start in full screen mode                        |
-| select-button     |  object  | _object_   | optional - adds select button in status bar, see example    |
-| loading-indicator |  string  | circular   | optional - style of loading indicator: "circular", "linear" |
-| onError           | function | _function_ | optional - a callback to implement custom error handling    |
+| Prop                         |  Value                          | Default    | Description                                                 |
+| ---------------------------- | :-----------------------------: | ---------- | :---------------------------------------------------------- |
+| id                           |  string                         | _null_     | required                                                    |
+| driver                       |  Driver                         | _null_     | **required** - Driver instance used for file operations     |
+| config                       |  ConfigDefaults                 | _object_   | optional - configuration store defaults (e.g., initialPath) |
+| locale                       |  string                         | en         | optional - default language code                            |
+| features                     |  FeaturesPreset \| FeaturesConfig | 'advanced' | optional - feature preset ('simple'/'advanced') or object   |
+| selectionMode                |  'single' \| 'multiple'         | 'multiple' | optional - selection mode                                  |
+| selectionFilterType          |  'files' \| 'dirs' \| 'both'   | 'both'     | optional - filter selectable items by type                  |
+| selectionFilterMimeIncludes  |  string[]                       | []         | optional - MIME type filters for selection                  |
+| contextMenuItems             |  ContextMenuItem[]              | _null_     | optional - custom context menu items                        |
+| debug                        |  boolean                        | false      | optional - enable debug mode                                |
+| onError                      |  function                       | _function_ | optional - error handler callback                           |
+| onSelect                     |  function                       | _function_ | optional - selection handler (alternative to @select)      |
+| onPathChange                 |  function                       | _function_ | optional - path change handler (alternative to @path-change) |
+| onUploadComplete            |  function                       | _function_ | optional - upload handler (alternative to @upload-complete) |
+| onDeleteComplete            |  function                       | _function_ | optional - delete handler (alternative to @delete-complete) |
+| onReady                      |  function                       | _function_ | optional - ready handler (alternative to @ready)           |
+| onFileDclick                 |  function                       | _function_ | optional - file double-click handler                        |
+| onFolderDclick               |  function                       | _function_ | optional - folder double-click handler                     |
+
+**Note:** Configuration options like `theme`, `maxFileSize`, `fullScreen`, `loadingIndicator`, etc. are now part of the `config` prop. See the [Configuration Guide](https://vuefinder.ozdemir.be/guide/configuration) for details.
 
 ### Events
 
-| Event                                                   | Description                                                                                                                |
-| ------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
-| `'select': (items: DirEntry[]) => void`                 | The callback function is invoked when the user selects a file or folder, and the selected elements are passed as arguments |
-| `'path-change': (path: string) => void`                 | The callback function is invoked when the user opens another folder.                                                       |
-| `'upload-complete': (files: DirEntry[]) => void`        | The callback function is invoked when file uploads are completed successfully.                                             |
-| `'delete-complete': (deletedItems: DirEntry[]) => void` | The callback function is invoked when files or folders are deleted successfully.                                           |
-| `'error': (error: any) => void`                         | The callback function is invoked when an error occurs during any operation.                                                |
-| `'ready': () => void`                                   | The callback function is invoked when VueFinder is initialized and ready to use.                                           |
+| Event                        | Description                                                                                                                |
+| ---------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `@select`                    | Emitted when the user selects a file or folder. `(items: DirEntry[]) => void`                                             |
+| `@path-change`               | Emitted when the user navigates to a different folder. `(path: string) => void`                                            |
+| `@upload-complete`           | Emitted when file uploads are completed successfully. `(files: DirEntry[]) => void`                                      |
+| `@delete-complete`           | Emitted when files or folders are deleted successfully. `(deletedItems: DirEntry[]) => void`                              |
+| `@error`                     | Emitted when an error occurs during any operation. `(error: any) => void`                                                  |
+| `@ready`                     | Emitted when VueFinder is initialized and ready to use. `() => void`                                                        |
+| `@file-dclick`               | Emitted when a file is double-clicked. Overrides default preview behavior. `(item: DirEntry) => void`                      |
+| `@folder-dclick`             | Emitted when a folder is double-clicked. Overrides default navigation behavior. `(item: DirEntry) => void`                 |
 
 ### Selection
 
@@ -132,7 +168,7 @@ There are 2 ways to select files and folders.
 You can inject a custom button into the status bar and access the reactive selection via the `status-bar` scoped slot:
 
 ```vue
-<vue-finder id="my_vuefinder" :request="request">
+<vue-finder id="my_vuefinder" :driver="driver">
   <template #status-bar="{ selected, count, path  }">
     <div class="vuefinder__status-bar__actions">
       <button class="btn"
@@ -154,7 +190,7 @@ Alternatively, you can use the select event to get the selected items.
 ```vue
 <vue-finder
   id="my_vuefinder"
-  :request="request"
+  :driver="driver"
   @select="handleSelect"
   @path-change="handlePathChange"
   @upload-complete="handleUploadComplete"
@@ -166,7 +202,17 @@ Alternatively, you can use the select event to get the selected items.
 />
 
 <script setup>
-// other codes
+import { ref } from 'vue';
+import { RemoteDriver } from 'vuefinder';
+
+// Create driver instance
+const driver = new RemoteDriver({
+  baseURL: '/api',
+  url: {
+    list: '/files',
+    // ... other endpoints
+  }
+});
 
 // we can define a ref object to store the selected items
 const selectedFiles = ref([]);
@@ -231,12 +277,20 @@ You can customize this behavior by providing `@file-dclick` and `@folder-dclick`
 
 ```vue
 <vue-finder
-  :request="request"
+  id="my_vuefinder"
+  :driver="driver"
   @file-dclick="handleFileDoubleClick"
   @folder-dclick="handleFolderDoubleClick"
 />
 
 <script setup>
+import { RemoteDriver } from 'vuefinder';
+
+const driver = new RemoteDriver({
+  baseURL: '/api',
+  url: { list: '/files' }
+});
+
 const handleFileDoubleClick = (file) => {
   // Custom file double-click behavior
   // Example: Download file, open in external app, etc.
@@ -276,10 +330,10 @@ const handleFolderDoubleClick = (folder) => {
   - Image thumbnails
   - Toast notifications
 - Appearance
-  - Multi language
-  - Full Screen
+  - Multi language (17 languages supported)
+  - Full Screen mode
   - View Modes: list, grid
-  - Dark Mode
+  - 12 Beautiful Themes: light, dark, midnight, latte, rose, mythril, lime, sky, ocean, palenight, arctic, code
 - Accessibility
   - Drag & drop support
   - Move items (to a folder or up one folder) with drag and drop

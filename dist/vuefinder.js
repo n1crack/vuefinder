@@ -108,7 +108,7 @@ function wn() {
 function Nn(t) {
   return t ? t === "simple" || t === "advanced" ? { ...Hn[t] } : { ...wn(), ...t } : wn();
 }
-const Wo = "4.0.0-dev";
+const Wo = "4.0.0";
 function nn(t, e, n, o, i) {
   return e = Math, n = e.log, o = 1024, i = n(t) / n(o) | 0, (t / e.pow(o, i)).toFixed(0) + " " + (i ? "KMGTPEZY"[--i] + "iB" : "B");
 }
@@ -1577,22 +1577,22 @@ const Dl = {
           s("div", El, [
             l(d) ? (c(), w("div", Al, [
               a("text") ? (c(), R(Ys, {
-                key: r.value.path,
+                key: `text-${r.value.path}`,
                 onSuccess: g[0] || (g[0] = (m) => i.value = !0)
               })) : a("image") ? (c(), R(nl, {
-                key: r.value.path,
+                key: `image-${r.value.path}`,
                 onSuccess: g[1] || (g[1] = (m) => i.value = !0)
               })) : a("video") ? (c(), R(ml, {
-                key: r.value.path,
+                key: `video-${r.value.path}`,
                 onSuccess: g[2] || (g[2] = (m) => i.value = !0)
               })) : a("audio") ? (c(), R(bl, {
-                key: r.value.path,
+                key: `audio-${r.value.path}`,
                 onSuccess: g[3] || (g[3] = (m) => i.value = !0)
               })) : a("application/pdf") ? (c(), R(Sl, {
-                key: r.value.path,
+                key: `pdf-${r.value.path}`,
                 onSuccess: g[4] || (g[4] = (m) => i.value = !0)
               })) : (c(), R(ul, {
-                key: r.value.path,
+                key: `default-${r.value.path}`,
                 onSuccess: g[5] || (g[5] = (m) => i.value = !0)
               }))
             ])) : A("", !0),
