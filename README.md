@@ -101,8 +101,8 @@ const driver = new RemoteDriver({
     preview: '/preview',
     download: '/download',
     search: '/search',
-    save: '/save'
-  }
+    save: '/save',
+  },
 });
 
 // Or use LocalDriver for in-memory operations:
@@ -123,41 +123,41 @@ To customize or update the styles, simply find the appropriate BEM class in the 
 
 ### Props
 
-| Prop                         |  Value                          | Default    | Description                                                 |
-| ---------------------------- | :-----------------------------: | ---------- | :---------------------------------------------------------- |
-| id                           |  string                         | _null_     | required                                                    |
-| driver                       |  Driver                         | _null_     | **required** - Driver instance used for file operations     |
-| config                       |  ConfigDefaults                 | _object_   | optional - configuration store defaults (e.g., initialPath) |
-| locale                       |  string                         | en         | optional - default language code                            |
-| features                     |  FeaturesPreset \| FeaturesConfig | 'advanced' | optional - feature preset ('simple'/'advanced') or object   |
-| selectionMode                |  'single' \| 'multiple'         | 'multiple' | optional - selection mode                                  |
-| selectionFilterType          |  'files' \| 'dirs' \| 'both'   | 'both'     | optional - filter selectable items by type                  |
-| selectionFilterMimeIncludes  |  string[]                       | []         | optional - MIME type filters for selection                  |
-| contextMenuItems             |  ContextMenuItem[]              | _null_     | optional - custom context menu items                        |
-| debug                        |  boolean                        | false      | optional - enable debug mode                                |
-| onError                      |  function                       | _function_ | optional - error handler callback                           |
-| onSelect                     |  function                       | _function_ | optional - selection handler (alternative to @select)      |
-| onPathChange                 |  function                       | _function_ | optional - path change handler (alternative to @path-change) |
-| onUploadComplete            |  function                       | _function_ | optional - upload handler (alternative to @upload-complete) |
-| onDeleteComplete            |  function                       | _function_ | optional - delete handler (alternative to @delete-complete) |
-| onReady                      |  function                       | _function_ | optional - ready handler (alternative to @ready)           |
-| onFileDclick                 |  function                       | _function_ | optional - file double-click handler                        |
-| onFolderDclick               |  function                       | _function_ | optional - folder double-click handler                     |
+| Prop                        |              Value               | Default    | Description                                                  |
+| --------------------------- | :------------------------------: | ---------- | :----------------------------------------------------------- |
+| id                          |              string              | _null_     | required                                                     |
+| driver                      |              Driver              | _null_     | **required** - Driver instance used for file operations      |
+| config                      |          ConfigDefaults          | _object_   | optional - configuration store defaults (e.g., initialPath)  |
+| locale                      |              string              | en         | optional - default language code                             |
+| features                    | FeaturesPreset \| FeaturesConfig | 'advanced' | optional - feature preset ('simple'/'advanced') or object    |
+| selectionMode               |      'single' \| 'multiple'      | 'multiple' | optional - selection mode                                    |
+| selectionFilterType         |   'files' \| 'dirs' \| 'both'    | 'both'     | optional - filter selectable items by type                   |
+| selectionFilterMimeIncludes |             string[]             | []         | optional - MIME type filters for selection                   |
+| contextMenuItems            |        ContextMenuItem[]         | _null_     | optional - custom context menu items                         |
+| debug                       |             boolean              | false      | optional - enable debug mode                                 |
+| onError                     |             function             | _function_ | optional - error handler callback                            |
+| onSelect                    |             function             | _function_ | optional - selection handler (alternative to @select)        |
+| onPathChange                |             function             | _function_ | optional - path change handler (alternative to @path-change) |
+| onUploadComplete            |             function             | _function_ | optional - upload handler (alternative to @upload-complete)  |
+| onDeleteComplete            |             function             | _function_ | optional - delete handler (alternative to @delete-complete)  |
+| onReady                     |             function             | _function_ | optional - ready handler (alternative to @ready)             |
+| onFileDclick                |             function             | _function_ | optional - file double-click handler                         |
+| onFolderDclick              |             function             | _function_ | optional - folder double-click handler                       |
 
 **Note:** Configuration options like `theme`, `maxFileSize`, `fullScreen`, `loadingIndicator`, etc. are now part of the `config` prop. See the [Configuration Guide](https://vuefinder.ozdemir.be/guide/configuration) for details.
 
 ### Events
 
-| Event                        | Description                                                                                                                |
-| ---------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
-| `@select`                    | Emitted when the user selects a file or folder. `(items: DirEntry[]) => void`                                             |
-| `@path-change`               | Emitted when the user navigates to a different folder. `(path: string) => void`                                            |
-| `@upload-complete`           | Emitted when file uploads are completed successfully. `(files: DirEntry[]) => void`                                      |
-| `@delete-complete`           | Emitted when files or folders are deleted successfully. `(deletedItems: DirEntry[]) => void`                              |
-| `@error`                     | Emitted when an error occurs during any operation. `(error: any) => void`                                                  |
-| `@ready`                     | Emitted when VueFinder is initialized and ready to use. `() => void`                                                        |
-| `@file-dclick`               | Emitted when a file is double-clicked. Overrides default preview behavior. `(item: DirEntry) => void`                      |
-| `@folder-dclick`             | Emitted when a folder is double-clicked. Overrides default navigation behavior. `(item: DirEntry) => void`                 |
+| Event              | Description                                                                                                |
+| ------------------ | :--------------------------------------------------------------------------------------------------------- |
+| `@select`          | Emitted when the user selects a file or folder. `(items: DirEntry[]) => void`                              |
+| `@path-change`     | Emitted when the user navigates to a different folder. `(path: string) => void`                            |
+| `@upload-complete` | Emitted when file uploads are completed successfully. `(files: DirEntry[]) => void`                        |
+| `@delete-complete` | Emitted when files or folders are deleted successfully. `(deletedItems: DirEntry[]) => void`               |
+| `@error`           | Emitted when an error occurs during any operation. `(error: any) => void`                                  |
+| `@ready`           | Emitted when VueFinder is initialized and ready to use. `() => void`                                       |
+| `@file-dclick`     | Emitted when a file is double-clicked. Overrides default preview behavior. `(item: DirEntry) => void`      |
+| `@folder-dclick`   | Emitted when a folder is double-clicked. Overrides default navigation behavior. `(item: DirEntry) => void` |
 
 ### Selection
 
@@ -211,7 +211,7 @@ const driver = new RemoteDriver({
   url: {
     list: '/files',
     // ... other endpoints
-  }
+  },
 });
 
 // we can define a ref object to store the selected items
@@ -288,7 +288,7 @@ import { RemoteDriver } from 'vuefinder';
 
 const driver = new RemoteDriver({
   baseURL: '/api',
-  url: { list: '/files' }
+  url: { list: '/files' },
 });
 
 const handleFileDoubleClick = (file) => {

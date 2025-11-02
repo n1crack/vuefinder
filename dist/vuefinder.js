@@ -108,7 +108,7 @@ function wn() {
 function Nn(t) {
   return t ? t === "simple" || t === "advanced" ? { ...Hn[t] } : { ...wn(), ...t } : wn();
 }
-const Wo = "4.0.0";
+const Wo = "4.0.1";
 function nn(t, e, n, o, i) {
   return e = Math, n = e.log, o = 1024, i = n(t) / n(o) | 0, (t / e.pow(o, i)).toFixed(0) + " " + (i ? "KMGTPEZY"[--i] + "iB" : "B");
 }
