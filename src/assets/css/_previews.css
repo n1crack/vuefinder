@@ -5,7 +5,7 @@
 }
 
 .vuefinder__default-preview__header {
-  @apply flex mb-4;
+  @apply mb-4 flex;
 }
 
 .vuefinder__default-preview__file-name {
@@ -17,11 +17,11 @@
 }
 
 .vuefinder__default-preview__icon-container {
-  @apply flex flex-col items-center justify-center p-8 bg-(--vf-bg-secondary) border-2 border-dashed border-(--vf-border-secondary) rounded-2xl w-[300px] justify-self-center my-4 min-h-[200px];
+  @apply my-4 flex min-h-[200px] w-[300px] flex-col items-center justify-center justify-self-center rounded-2xl border-2 border-dashed border-(--vf-border-secondary) bg-(--vf-bg-secondary) p-8;
 }
 
 .vuefinder__default-preview__file-icon {
-  @apply w-30 h-30 text-(--vf-text-secondary);
+  @apply h-30 w-30 text-(--vf-text-secondary);
 }
 
 /** Image Preview */
@@ -31,7 +31,7 @@
 }
 
 .vuefinder__image-preview__header {
-  @apply flex items-center mb-2 px-3 py-3 -mx-3 mt-0 mb-2 bg-(--vf-bg-secondary) border-b border-(--vf-border-primary);
+  @apply -mx-3 mt-0 mb-2 flex items-center border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) px-3 py-3;
 }
 
 .vuefinder__image-preview__title {
@@ -43,7 +43,7 @@
 }
 
 .vuefinder__themer .vuefinder__image-preview__crop-button {
-  @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm text-base font-medium sm:ml-3 sm:w-auto sm:text-sm;
+  @apply ml-1 rounded border border-transparent px-2 py-1 text-base font-medium shadow-sm sm:ml-3 sm:w-auto sm:text-sm;
   @apply bg-(--vf-accent-primary) text-(--vf-text-inverse);
 }
 
@@ -60,7 +60,7 @@
 }
 
 .vuefinder__image-preview__image-container {
-  @apply w-full flex justify-center;
+  @apply flex w-full justify-center;
 }
 
 .vuefinder__themer .vuefinder__image-preview__image {
@@ -100,7 +100,7 @@
 }
 
 .vuefinder__text-preview__header {
-  @apply flex items-center mb-2 px-3 py-3 -mx-3 mt-0 mb-2 border-b border-(--vf-border-primary);
+  @apply -mx-3 mt-0 mb-2 flex items-center border-b border-(--vf-border-primary) px-3 py-3;
 }
 
 .vuefinder__text-preview__title {
@@ -112,7 +112,7 @@
 }
 
 .vuefinder__themer .vuefinder__text-preview__save-button {
-  @apply ml-1 px-2 py-1 rounded border border-transparent shadow-sm text-base font-medium sm:ml-3 sm:w-auto sm:text-sm bg-(--vf-accent-primary) text-(--vf-text-inverse);
+  @apply ml-1 rounded border border-transparent bg-(--vf-accent-primary) px-2 py-1 text-base font-medium text-(--vf-text-inverse) shadow-sm sm:ml-3 sm:w-auto sm:text-sm;
 }
 
 .vuefinder__themer .vuefinder__text-preview__save-button:hover {
@@ -128,11 +128,11 @@
 }
 
 .vuefinder__text-preview__content {
-  @apply p-2 border font-normal whitespace-pre-wrap rounded min-h-[200px] max-h-[60vh] text-xs overflow-auto border-(--vf-border-primary) text-(--vf-text-primary) bg-(--vf-bg-primary);
+  @apply max-h-[60vh] min-h-[200px] overflow-auto rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) p-2 text-xs font-normal whitespace-pre-wrap text-(--vf-text-primary);
 }
 
 .vuefinder__themer .vuefinder__text-preview__textarea {
-  @apply border w-full p-2 rounded min-h-[200px] max-h-[60vh] border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary);
+  @apply max-h-[60vh] min-h-[200px] w-full rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) p-2 text-(--vf-text-primary);
 }
 
 .vuefinder__themer .vuefinder__text-preview__textarea:focus {
@@ -146,5 +146,5 @@
 }
 
 .vuefinder__themer .vuefinder__video-preview__video {
-  @apply w-full aspect-video;
+  @apply aspect-video w-full;
 }

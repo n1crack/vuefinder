@@ -22,7 +22,7 @@ defineProps<Props>();
     <template #status-bar="{ selected, path, count }">
       <div class="vuefinder__status-bar__actions">
         <button
-          class="border border-gray-300 dark:border-gray-600 rounded-xs p-0.5 disabled:opacity-50 not-disabled:hover:text-sky-400 not-disabled:cursor-pointer"
+          class="rounded-xs border border-gray-300 p-0.5 not-disabled:cursor-pointer not-disabled:hover:text-sky-400 disabled:opacity-50 dark:border-gray-600"
           :disabled="!count"
           @click="
             () => {

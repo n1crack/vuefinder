@@ -1,27 +1,27 @@
 @reference "tailwindcss";
 
 .vuefinder__about-modal__content {
-  @apply sm:items-start select-none;
+  @apply select-none sm:items-start;
 }
 
 .vuefinder__about-modal__main {
-  @apply mt-3 sm:mt-0 sm:text-left w-full;
+  @apply mt-3 w-full sm:mt-0 sm:text-left;
 }
 
 .vuefinder__about-modal__tabs {
-  @apply flex overflow-auto gap-1;
+  @apply flex gap-1 overflow-auto;
 }
 
 .vuefinder__about-modal__tab {
-  @apply px-3 py-1.5 font-medium text-sm transition-colors duration-150 whitespace-nowrap select-none cursor-pointer;
+  @apply cursor-pointer px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors duration-150 select-none;
 }
 
 .vuefinder__about-modal__tab--active {
-  @apply border-b text-(--vf-text-primary) border-(--vf-accent-primary)/40 bg-transparent cursor-default;
+  @apply cursor-default border-b border-(--vf-accent-primary)/40 bg-transparent text-(--vf-text-primary);
 }
 
 .vuefinder__about-modal__tab--inactive {
-  @apply border-b border-transparent text-(--vf-text-secondary) bg-transparent hover:text-(--vf-text-primary) hover:border-(--vf-border-primary);
+  @apply border-b border-transparent bg-transparent text-(--vf-text-secondary) hover:border-(--vf-border-primary) hover:text-(--vf-text-primary);
 }
 
 .vuefinder__about-modal__tab--inactive:hover {
@@ -41,7 +41,7 @@
 }
 
 .vuefinder__about-modal__link-btn {
-  @apply inline-flex items-center justify-center px-2.5 py-1.5 rounded border text-xs sm:text-sm bg-(--vf-bg-hover) text-(--vf-text-primary) border-(--vf-border-primary) hover:bg-(--vf-bg-primary) hover:border-(--vf-accent-primary)/40 transition-colors;
+  @apply inline-flex items-center justify-center rounded border border-(--vf-border-primary) bg-(--vf-bg-hover) px-2.5 py-1.5 text-xs text-(--vf-text-primary) transition-colors hover:border-(--vf-accent-primary)/40 hover:bg-(--vf-bg-primary) sm:text-sm;
 }
 
 .vuefinder__about-modal__description {
@@ -49,7 +49,7 @@
 }
 
 .vuefinder__about-modal__link {
-  @apply block mt-2 text-sm text-(--vf-accent-primary);
+  @apply mt-2 block text-sm text-(--vf-accent-primary);
 }
 
 .vuefinder__about-modal__social {
@@ -57,7 +57,7 @@
 }
 
 .vuefinder__about-modal__social .vuefinder__about-modal__link {
-  @apply inline text-(--vf-accent-primary) mt-0;
+  @apply mt-0 inline text-(--vf-accent-primary);
 }
 
 .vuefinder__about-modal__separator {
@@ -69,7 +69,7 @@
 }
 
 .vuefinder__about-modal__meta-item {
-  @apply flex items-center justify-between px-2.5 py-1.5 rounded border bg-(--vf-bg-primary) border-(--vf-border-primary) text-xs sm:text-sm;
+  @apply flex items-center justify-between rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2.5 py-1.5 text-xs sm:text-sm;
 }
 
 .vuefinder__about-modal__meta-label {
@@ -81,19 +81,19 @@
 }
 
 .vuefinder__about-modal__settings {
-  @apply mt-3 text-left max-h-[35vh] overflow-y-auto;
+  @apply mt-3 max-h-[35vh] overflow-y-auto text-left;
 }
 
 .vuefinder__about-modal__settings__fieldset {
-  @apply bg-(--vf-bg-primary) border-0 p-2 sm:p-3;
+  @apply border-0 bg-(--vf-bg-primary) p-2 sm:p-3;
 }
 
 .vuefinder__about-modal__settings__section-title {
-  @apply mt-4 mb-1 box-border text-xs uppercase tracking-wide text-(--vf-text-secondary);
+  @apply mt-4 mb-1 box-border text-xs tracking-wide text-(--vf-text-secondary) uppercase;
 }
 
 .vuefinder__about-modal__setting {
-  @apply grid relative items-center py-1.5 gap-x-3 gap-y-0.5 border-b-0;
+  @apply relative grid items-center gap-x-3 gap-y-0.5 border-b-0 py-1.5;
   grid-template-columns: auto 1fr;
 }
 
@@ -105,12 +105,12 @@
 }
 
 .vuefinder__about-modal__setting-input {
-  @apply h-5 flex items-center text-(--vf-text-primary) box-border flex-1;
+  @apply box-border flex h-5 flex-1 items-center text-(--vf-text-primary);
   justify-content: flex-end;
 }
 
 .vuefinder__about-modal__setting-label {
-  @apply flex flex-1 items-center justify-between text-sm gap-3 text-(--vf-text-primary);
+  @apply flex flex-1 items-center justify-between gap-3 text-sm text-(--vf-text-primary);
 }
 
 .vuefinder__about-modal__label {
@@ -118,11 +118,11 @@
 }
 
 .vuefinder__about-modal__checkbox {
-  @apply h-4 w-4 rounded focus:ring-1 border-(--vf-border-primary) text-(--vf-accent-primary) accent-(--vf-accent-primary);
+  @apply h-4 w-4 rounded border-(--vf-border-primary) text-(--vf-accent-primary) accent-(--vf-accent-primary) focus:ring-1;
 }
 
 .vuefinder__about-modal__select {
-  @apply shrink-0 sm:w-2/3 text-sm rounded border text-(--vf-text-primary) bg-(--vf-bg-primary) border-(--vf-border-primary) focus:outline-none focus:ring-1 focus:ring-(--vf-border-primary);
+  @apply shrink-0 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) text-sm text-(--vf-text-primary) focus:ring-1 focus:ring-(--vf-border-primary) focus:outline-none sm:w-2/3;
 }
 @media (min-width: 640px) {
   .vuefinder__about-modal__setting {
@@ -137,11 +137,11 @@
 }
 
 .vuefinder__about-modal__shortcuts {
-  @apply w-full max-h-[35vh] overflow-y-auto;
+  @apply max-h-[35vh] w-full overflow-y-auto;
 }
 
 .vuefinder__about-modal__shortcut {
-  @apply flex justify-between items-center py-1.5 text-sm text-(--vf-text-secondary) border-b border-(--vf-border-primary);
+  @apply flex items-center justify-between border-b border-(--vf-border-primary) py-1.5 text-sm text-(--vf-text-secondary);
 }
 
 .vuefinder__about-modal__shortcut:last-child {
@@ -149,5 +149,5 @@
 }
 
 .vuefinder__about-modal__shortcut kbd {
-  @apply px-1.5 py-0.5 text-xs font-mono text-(--vf-text-primary) bg-(--vf-bg-hover) border border-(--vf-border-primary) rounded;
+  @apply rounded border border-(--vf-border-primary) bg-(--vf-bg-hover) px-1.5 py-0.5 font-mono text-xs text-(--vf-text-primary);
 }

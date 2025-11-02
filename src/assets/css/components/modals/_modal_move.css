@@ -1,9 +1,9 @@
 .vuefinder__move-modal__content {
-  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+  @apply mt-3 w-full text-center sm:mt-0 sm:text-left;
 }
 
 .vuefinder__move-modal__description {
-  @apply text-sm pb-1 text-(--vf-text-tertiary);
+  @apply pb-1 text-sm text-(--vf-text-tertiary);
 }
 
 .vuefinder__move-modal__files {
@@ -27,11 +27,11 @@
 }
 
 .vuefinder__move-modal__target-title {
-  @apply font-bold text-xs mt-3 tracking-wider text-(--vf-text-primary);
+  @apply mt-3 text-xs font-bold tracking-wider text-(--vf-text-primary);
 }
 
 .vuefinder__move-modal__target-directory {
-  @apply flex text-sm p-1 text-(--vf-text-primary);
+  @apply flex p-1 text-sm text-(--vf-text-primary);
 }
 
 .vuefinder__move-modal__target-path {
@@ -39,7 +39,7 @@
 }
 
 .vuefinder__move-modal__selected-items {
-  @apply m-1 mr-auto font-bold text-sm self-center text-(--vf-text-secondary);
+  @apply m-1 mr-auto self-center text-sm font-bold text-(--vf-text-secondary);
 }
 
 /* Options styles */
@@ -47,11 +47,11 @@
 }
 
 .vuefinder__move-modal__checkbox-label {
-  @apply flex items-center cursor-pointer mt-2;
+  @apply mt-2 flex cursor-pointer items-center;
 }
 
 .vuefinder__move-modal__checkbox {
-  @apply mr-2 h-4 w-4 rounded focus:ring-2 text-(--vf-accent-primary) border-(--vf-border-primary) accent-(--vf-accent-primary);
+  @apply mr-2 h-4 w-4 rounded border-(--vf-border-primary) text-(--vf-accent-primary) accent-(--vf-accent-primary) focus:ring-2;
 }
 
 .vuefinder__move-modal__checkbox-text {
@@ -60,11 +60,11 @@
 
 /* Modal tree styles */
 .vuefinder__modal-tree {
-  @apply border rounded-lg bg-(--vf-bg-secondary) border-(--vf-border-secondary) flex flex-col;
+  @apply flex flex-col rounded-lg border border-(--vf-border-secondary) bg-(--vf-bg-secondary);
 }
 
 .vuefinder__modal-tree__header {
-  @apply px-4 py-1 border-b border-(--vf-border-primary) flex-shrink-0;
+  @apply flex-shrink-0 border-b border-(--vf-border-primary) px-4 py-1;
 }
 
 .vuefinder__modal-tree__title {
@@ -72,7 +72,7 @@
 }
 
 .vuefinder__modal-tree__content {
-  @apply p-2 max-h-[200px] overflow-y-auto flex-1 min-h-0;
+  @apply max-h-[200px] min-h-0 flex-1 overflow-y-auto p-2;
 }
 
 .vuefinder__modal-tree__section {
@@ -84,7 +84,7 @@
 }
 
 .vuefinder__modal-tree__section-title {
-  @apply text-xs font-medium uppercase tracking-wider my-1 text-(--vf-text-secondary);
+  @apply my-1 text-xs font-medium tracking-wider text-(--vf-text-secondary) uppercase;
 }
 
 .vuefinder__modal-tree__list {
@@ -92,7 +92,7 @@
 }
 
 .vuefinder__modal-tree__item {
-  @apply flex items-center px-1 py-0.5 rounded cursor-pointer;
+  @apply flex cursor-pointer items-center rounded px-1 py-0.5;
 }
 
 .vuefinder__modal-tree__item:hover {
@@ -104,24 +104,24 @@
 }
 
 .vuefinder__modal-tree__icon {
-  @apply h-5 w-5 mr-2 text-(--vf-text-secondary);
+  @apply mr-2 h-5 w-5 text-(--vf-text-secondary);
 }
 
 .vuefinder__modal-tree__icon--pin {
-  @apply h-4 w-4 ml-auto text-(--vf-accent-warning);
+  @apply ml-auto h-4 w-4 text-(--vf-accent-warning);
 }
 
 .vuefinder__modal-tree__text {
-  @apply text-sm truncate text-(--vf-text-primary);
+  @apply truncate text-sm text-(--vf-text-primary);
 }
 
 .vuefinder__modal-tree__text-storage {
-  @apply text-xs truncate ml-1 px-1 py-0.5 text-(--vf-accent-primary) border-(--vf-accent-primary);
+  @apply ml-1 truncate border-(--vf-accent-primary) px-1 py-0.5 text-xs text-(--vf-accent-primary);
 }
 
 /* Storage item styles */
 .vuefinder__modal-tree__storage-item {
-  @apply ml-2 relative;
+  @apply relative ml-2;
 }
 
 .vuefinder__modal-tree__storage-content {
@@ -129,7 +129,7 @@
 }
 
 .vuefinder__modal-tree__storage-toggle {
-  @apply flex border items-center justify-center w-4 h-4 mr-1 cursor-pointer rounded border-solid bg-(--vf-bg-primary) border-(--vf-border-primary);
+  @apply mr-1 flex h-4 w-4 cursor-pointer items-center justify-center rounded border border-solid border-(--vf-border-primary) bg-(--vf-bg-primary);
 }
 
 .vuefinder__modal-tree__storage-toggle:hover {
@@ -145,7 +145,7 @@
 }
 
 .vuefinder__modal-tree__storage-link {
-  @apply flex items-center flex-1 px-0.5 rounded cursor-pointer;
+  @apply flex flex-1 cursor-pointer items-center rounded px-0.5;
 }
 
 .vuefinder__modal-tree__storage-link:hover {
@@ -170,7 +170,7 @@
 
 /* Folder item styles */
 .vuefinder__modal-tree__folder-item {
-  @apply ml-2 relative;
+  @apply relative ml-2;
 }
 
 .vuefinder__modal-tree__folder-content {
@@ -178,7 +178,7 @@
 }
 
 .vuefinder__modal-tree__folder-toggle {
-  @apply flex border items-center justify-center w-4 h-4 mr-1 cursor-pointer rounded border-solid bg-(--vf-bg-primary) border-(--vf-border-primary);
+  @apply mr-1 flex h-4 w-4 cursor-pointer items-center justify-center rounded border border-solid border-(--vf-border-primary) bg-(--vf-bg-primary);
 }
 
 .vuefinder__modal-tree__folder-toggle:hover {
@@ -186,11 +186,11 @@
 }
 
 .vuefinder__modal-tree__folder-spacer {
-  @apply w-4 h-4 mr-1;
+  @apply mr-1 h-4 w-4;
 }
 
 .vuefinder__modal-tree__folder-link {
-  @apply flex items-center flex-1 px-0.5 rounded cursor-pointer;
+  @apply flex flex-1 cursor-pointer items-center rounded px-0.5;
 }
 
 .vuefinder__modal-tree__folder-link:hover {
@@ -202,7 +202,7 @@
 }
 
 .vuefinder__modal-tree__folder-icon {
-  @apply h-5 w-5 mr-1 text-(--vf-text-secondary);
+  @apply mr-1 h-5 w-5 text-(--vf-text-secondary);
 }
 
 .vuefinder__modal-tree__folder-text {

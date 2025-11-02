@@ -1,5 +1,5 @@
 .vuefinder__toast {
-  @apply max-w-fit flex flex-col bottom-0 left-1/2 -translate-x-1/2 z-10;
+  @apply bottom-0 left-1/2 z-10 flex max-w-fit -translate-x-1/2 flex-col;
 }
 
 .vuefinder__toast--fixed {
@@ -11,7 +11,7 @@
 }
 
 .vuefinder__toast__message {
-  @apply inline-block mx-auto my-0.5 py-0.5 px-2 min-w-max border text-xs sm:text-sm rounded cursor-pointer bg-(--vf-bg-secondary) border-(--vf-border-primary);
+  @apply mx-auto my-0.5 inline-block min-w-max cursor-pointer rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) px-2 py-0.5 text-xs sm:text-sm;
 }
 
 /* Transition classes */
@@ -20,7 +20,7 @@
 }
 
 .vuefinder__toast-item--leave-active {
-  @apply transition-all duration-1000 opacity-0;
+  @apply opacity-0 transition-all duration-1000;
 }
 
 .vuefinder__toast-item--leave-to {

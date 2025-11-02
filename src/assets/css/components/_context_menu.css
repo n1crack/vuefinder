@@ -1,12 +1,12 @@
 .vuefinder__context-menu {
-  @apply z-30 absolute text-xs shadow-lg rounded-md select-none origin-top-left min-w-[110px] transition-transform duration-150 ease-out animate-pop py-0.5 border bg-(--vf-bg-primary) text-(--vf-text-primary) border-(--vf-border-secondary);
+  @apply absolute z-30 min-w-[110px] origin-top-left animate-pop rounded-md border border-(--vf-border-secondary) bg-(--vf-bg-primary) py-0.5 text-xs text-(--vf-text-primary) shadow-lg transition-transform duration-150 ease-out select-none;
   box-shadow:
     0 4px 6px -1px var(--vf-shadow-sm),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .vuefinder__context-menu__item {
-  @apply cursor-pointer transition-all duration-100 ease-out rounded-sm flex items-center justify-between text-xs font-normal;
+  @apply flex cursor-pointer items-center justify-between rounded-sm text-xs font-normal transition-all duration-100 ease-out;
 }
 
 .vuefinder__context-menu__item:hover:not(.vuefinder__context-menu__item--disabled) {
@@ -22,9 +22,9 @@
 }
 
 .vuefinder__context-menu__link {
-  @apply px-2 mx-0.5 h-6 flex items-center overflow-hidden whitespace-nowrap text-ellipsis flex-1;
+  @apply mx-0.5 flex h-6 flex-1 items-center overflow-hidden px-2 text-ellipsis whitespace-nowrap;
 }
 
 .vuefinder__context-menu__action {
-  @apply px-2 mx-0.5 h-6 flex items-center overflow-hidden whitespace-nowrap text-ellipsis flex-1;
+  @apply mx-0.5 flex h-6 flex-1 items-center overflow-hidden px-2 text-ellipsis whitespace-nowrap;
 }

@@ -1,5 +1,5 @@
 .vuefinder__message {
-  @apply flex mt-2 p-1 px-2 rounded text-sm break-all dark:opacity-75;
+  @apply mt-2 flex rounded p-1 px-2 text-sm break-all dark:opacity-75;
 }
 
 .vuefinder__message--error {
@@ -15,5 +15,5 @@
 }
 
 .vuefinder__message__icon {
-  @apply w-5 h-5;
+  @apply h-5 w-5;
 }

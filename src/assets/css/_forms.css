@@ -1,13 +1,13 @@
 .vf-btn {
-  @apply inline-flex justify-center w-full px-4 py-2 rounded-md border shadow-sm text-base font-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-offset-2 mt-0.5 sm:mx-1 sm:w-auto sm:text-sm border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary);
+  @apply mt-0.5 inline-flex w-full justify-center rounded-md border border-(--vf-border-primary) bg-(--vf-bg-primary) px-4 py-2 text-base font-medium tracking-wide text-(--vf-text-primary) shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none sm:mx-1 sm:w-auto sm:text-sm;
 }
 
 .vf-btn-primary {
-  @apply border-transparent focus:ring-2 focus:ring-offset-2 bg-(--vf-accent-primary) text-(--vf-text-inverse) border-(--vf-accent-primary);
+  @apply border-(--vf-accent-primary) border-transparent bg-(--vf-accent-primary) text-(--vf-text-inverse) focus:ring-2 focus:ring-offset-2;
 }
 
 .vf-btn-primary:hover {
-  @apply bg-(--vf-accent-primary) border-(--vf-accent-primary) text-(--vf-text-inverse);
+  @apply border-(--vf-accent-primary) bg-(--vf-accent-primary) text-(--vf-text-inverse);
 }
 
 .vf-btn-primary:focus {
@@ -15,15 +15,15 @@
 }
 
 .vf-btn-primary.disabled {
-  @apply bg-(--vf-bg-disabled) text-(--vf-text-disabled) border-(--vf-border-primary);
+  @apply border-(--vf-border-primary) bg-(--vf-bg-disabled) text-(--vf-text-disabled);
 }
 
 .vf-btn-secondary {
-  @apply focus:ring-2 focus:ring-offset-2 bg-(--vf-bg-secondary) text-(--vf-text-primary) border-(--vf-border-primary);
+  @apply border-(--vf-border-primary) bg-(--vf-bg-secondary) text-(--vf-text-primary) focus:ring-2 focus:ring-offset-2;
 }
 
 .vf-btn-secondary:hover {
-  @apply bg-(--vf-bg-hover) border-(--vf-border-focus);
+  @apply border-(--vf-border-focus) bg-(--vf-bg-hover);
 }
 
 .vf-btn-secondary:focus {
@@ -31,15 +31,15 @@
 }
 
 .vf-btn-secondary.disabled {
-  @apply bg-(--vf-bg-disabled) text-(--vf-text-disabled) border-(--vf-border-primary);
+  @apply border-(--vf-border-primary) bg-(--vf-bg-disabled) text-(--vf-text-disabled);
 }
 
 .vf-btn-danger {
-  @apply border-transparent focus:ring-2 focus:ring-offset-2 bg-(--vf-accent-error) text-(--vf-text-inverse) border-(--vf-accent-error);
+  @apply border-(--vf-accent-error) border-transparent bg-(--vf-accent-error) text-(--vf-text-inverse) focus:ring-2 focus:ring-offset-2;
 }
 
 .vf-btn-danger:hover {
-  @apply bg-(--vf-accent-error) border-(--vf-accent-error);
+  @apply border-(--vf-accent-error) bg-(--vf-accent-error);
 }
 
 .vf-btn-danger:focus {
@@ -47,7 +47,7 @@
 }
 
 .disabled {
-  @apply opacity-50 cursor-not-allowed;
+  @apply cursor-not-allowed opacity-50;
 }
 
 .vf-btn-small {

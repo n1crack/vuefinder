@@ -523,7 +523,7 @@ const handleItemDragEnd = () => {
 
       <div
         ref="scrollContent"
-        class="scrollContent min-h-full"
+        class="scrollContent vuefinder__explorer__scroll-content"
         :style="{ height: `${totalHeight}px`, position: 'relative', width: '100%' }"
         @contextmenu.self.prevent="handleContentContextMenu"
         @click.self="handleContentClick"

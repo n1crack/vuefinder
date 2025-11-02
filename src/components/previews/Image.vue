@@ -169,13 +169,13 @@ onMounted(() => {
         v-if="!showEdit"
         style=""
         :src="app.adapter.getPreviewUrl({ path: app.modal.data.item.path })"
-        class="vuefinder__image-preview__image w-full h-full"
+        class="vuefinder__image-preview__image h-full w-full"
       />
 
       <Cropper
         v-else
         ref="cropperRef"
-        class="w-full h-full"
+        class="h-full w-full"
         crossorigin="anonymous"
         :src="tempImageData"
         :auto-zoom="true"

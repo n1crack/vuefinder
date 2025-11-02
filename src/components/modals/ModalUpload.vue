@@ -223,7 +223,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
 
     <template #buttons>
       <!-- Mobile group: above Upload -->
-      <div ref="actionsMenuMobileRef" class="sm:hidden relative w-full mb-2">
+      <div ref="actionsMenuMobileRef" class="relative mb-2 w-full sm:hidden">
         <div
           :class="[
             'vuefinder__upload-actions',
@@ -257,7 +257,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
         </div>
         <div
           v-if="showActions"
-          class="vuefinder__upload-actions__menu left-0 right-0 absolute bottom-full mb-2"
+          class="vuefinder__upload-actions__menu absolute right-0 bottom-full left-0 mb-2"
         >
           <div
             class="vuefinder__upload-actions__item"
@@ -314,7 +314,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
       </button>
 
       <!-- Desktop group: far left (row-reverse makes last child appear leftmost) -->
-      <div ref="actionsMenuDesktopRef" class="hidden sm:block relative mr-auto">
+      <div ref="actionsMenuDesktopRef" class="relative mr-auto hidden sm:block">
         <div
           class="vuefinder__upload-actions"
           :class="showActions ? 'vuefinder__upload-actions--ring' : ''"

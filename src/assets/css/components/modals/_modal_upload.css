@@ -1,9 +1,9 @@
 .vuefinder__upload-modal__drag-hint {
-  @apply hidden sm:block text-sm lg:text-base mb-2 sm:mb-3 text-(--vf-text-secondary);
+  @apply mb-2 hidden text-sm text-(--vf-text-secondary) sm:mb-3 sm:block lg:text-base;
 }
 
 .vuefinder__themer .vuefinder__upload-modal__drop-area {
-  @apply flex items-center justify-center text-lg mb-4 border-2 rounded border-dashed select-none cursor-pointer h-[120px] mt-2 text-(--vf-text-secondary) border-(--vf-border-primary);
+  @apply mt-2 mb-4 flex h-[120px] cursor-pointer items-center justify-center rounded border-2 border-dashed border-(--vf-border-primary) text-lg text-(--vf-text-secondary) select-none;
 }
 
 .vuefinder__upload-modal__buttons {
@@ -11,7 +11,7 @@
 }
 
 .vuefinder__upload-modal__file-list {
-  @apply text-sm mb-1 pr-1 max-h-[200px] overflow-y-auto text-(--vf-text-secondary);
+  @apply mb-1 max-h-[200px] overflow-y-auto pr-1 text-sm text-(--vf-text-secondary);
 }
 
 .vuefinder__upload-modal__file-entry {
@@ -23,15 +23,15 @@
 }
 
 .vuefinder__upload-modal__file-icon {
-  @apply rounded flex shrink-0 w-6 h-6 border text-xs cursor-default bg-(--vf-bg-tertiary) text-(--vf-text-primary) border-(--vf-border-primary);
+  @apply flex h-6 w-6 shrink-0 cursor-default rounded border border-(--vf-border-primary) bg-(--vf-bg-tertiary) text-xs text-(--vf-text-primary);
 }
 
 .vuefinder__upload-modal__file-icon-text {
-  @apply text-base m-auto;
+  @apply m-auto text-base;
 }
 
 .vuefinder__upload-modal__file-info {
-  @apply ml-1 w-full h-fit;
+  @apply ml-1 h-fit w-full;
 }
 
 .vuefinder__upload-modal__file-name {
@@ -39,11 +39,11 @@
 }
 
 .vuefinder__upload-modal__file-status {
-  @apply flex break-all text-left text-(--vf-text-secondary);
+  @apply flex text-left break-all text-(--vf-text-secondary);
 }
 
 .vuefinder__themer .vuefinder__upload-modal__file-remove {
-  @apply flex rounded w-5 h-5 border justify-center items-center text-base leading-none font-medium focus:outline-none ml-auto sm:text-xs border-(--vf-border-primary) text-(--vf-text-secondary) bg-(--vf-bg-tertiary);
+  @apply ml-auto flex h-5 w-5 items-center justify-center rounded border border-(--vf-border-primary) bg-(--vf-bg-tertiary) text-base leading-none font-medium text-(--vf-text-secondary) focus:outline-none sm:text-xs;
 }
 
 .vuefinder__themer .vuefinder__upload-modal__file-remove:hover {
@@ -51,11 +51,11 @@
 }
 
 .vuefinder__themer .vuefinder__upload-modal__file-remove.disabled {
-  @apply opacity-50 bg-(--vf-bg-disabled);
+  @apply bg-(--vf-bg-disabled) opacity-50;
 }
 
 .vuefinder__themer .vuefinder__upload-modal__file-remove-icon {
-  @apply w-5 h-5;
+  @apply h-5 w-5;
 }
 
 /* Upload actions (Select Files + caret) */
@@ -68,15 +68,15 @@
 }
 
 .vuefinder__upload-actions--ring {
-  @apply ring-1 rounded-md ring-(--vf-border-primary);
+  @apply rounded-md ring-1 ring-(--vf-border-primary);
 }
 
 .vuefinder__upload-actions__main {
-  @apply border flex-1 h-9 px-3 text-sm !m-0 !rounded-l-md !rounded-r-none cursor-pointer select-none bg-(--vf-bg-primary) text-(--vf-text-primary) border-(--vf-border-primary);
+  @apply !m-0 h-9 flex-1 cursor-pointer !rounded-l-md !rounded-r-none border border-(--vf-border-primary) bg-(--vf-bg-primary) px-3 text-sm text-(--vf-text-primary) select-none;
 }
 
 .vuefinder__upload-actions__trigger {
-  @apply border !border-l-0 -ml-px w-9 h-9 flex items-center justify-center !m-0 !px-0 !rounded-l-none !rounded-r-md cursor-pointer select-none bg-(--vf-bg-primary) text-(--vf-text-primary) border-(--vf-border-primary);
+  @apply !m-0 -ml-px flex h-9 w-9 cursor-pointer items-center justify-center !rounded-l-none !rounded-r-md border !border-l-0 border-(--vf-border-primary) bg-(--vf-bg-primary) !px-0 text-(--vf-text-primary) select-none;
 }
 
 .vuefinder__upload-actions__main:hover,
@@ -85,11 +85,11 @@
 }
 
 .vuefinder__upload-actions__menu {
-  @apply absolute bottom-full mb-2 left-0 z-10 min-w-[12rem] rounded-md border shadow-lg py-1 text-sm bg-(--vf-bg-primary) border-(--vf-border-primary);
+  @apply absolute bottom-full left-0 z-10 mb-2 min-w-[12rem] rounded-md border border-(--vf-border-primary) bg-(--vf-bg-primary) py-1 text-sm shadow-lg;
 }
 
 .vuefinder__upload-actions__item {
-  @apply block text-left px-3 py-2 text-(--vf-text-primary);
+  @apply block px-3 py-2 text-left text-(--vf-text-primary);
 }
 
 .vuefinder__upload-actions__item:hover {
@@ -103,13 +103,13 @@
 /* Disabled states */
 .vuefinder__upload-actions__main:disabled,
 .vuefinder__upload-actions__trigger:disabled {
-  @apply opacity-50 cursor-not-allowed bg-(--vf-bg-disabled) text-(--vf-text-disabled) border-(--vf-border-primary);
+  @apply cursor-not-allowed border-(--vf-border-primary) bg-(--vf-bg-disabled) text-(--vf-text-disabled) opacity-50;
 }
 
 /* Make Upload button visually disabled inside modal when :disabled */
 .vuefinder__modal-layout .vf-btn[disabled] {
-  @apply opacity-50 cursor-not-allowed;
+  @apply cursor-not-allowed opacity-50;
 }
 .vuefinder__modal-layout .vf-btn-primary[disabled] {
-  @apply bg-(--vf-bg-disabled) border-(--vf-border-primary) text-(--vf-text-disabled);
+  @apply border-(--vf-border-primary) bg-(--vf-bg-disabled) text-(--vf-text-disabled);
 }

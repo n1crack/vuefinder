@@ -178,7 +178,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Regular examples (only show if not in popup) -->
-    <div v-if="!isPopup" class="flex flex-col [&>*]:flex-1 [&>*]:h-full min-h-80 max-h-120">
+    <div v-if="!isPopup" class="flex max-h-120 min-h-80 flex-col [&>*]:h-full [&>*]:flex-1">
       <DefaultExample
         v-if="example === 'default'"
         :driver="driver"

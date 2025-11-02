@@ -1,10 +1,10 @@
 .vuefinder {
 }
 .vuefinder__main {
-  @apply max-w-screen max-h-screen h-full w-full;
+  @apply h-full max-h-screen w-full max-w-screen;
 }
 .vuefinder__main__fixed {
-  @apply fixed w-screen inset-0;
+  @apply fixed inset-0 w-screen;
 }
 
 .vuefinder__main__relative {
@@ -12,17 +12,17 @@
 }
 
 .vuefinder__main__container {
-  @apply min-h-44 h-full border flex flex-col select-none bg-(--vf-bg-primary) text-(--vf-text-primary) border-(--vf-border-primary);
+  @apply flex h-full max-h-dvh min-h-44 flex-col border border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary) select-none;
 }
 
 .vuefinder__main__content {
-  @apply relative flex overflow-hidden h-full flex-1;
+  @apply relative flex h-full flex-1 overflow-hidden;
 }
 
 .vuefinder__external-drop-overlay {
-  @apply absolute top-0 left-0 right-0 bottom-0 rounded-xl z-[1000] pointer-events-none flex items-center justify-center bg-(--vf-overlay-bg) border-2 border-dashed border-(--vf-overlay-border);
+  @apply pointer-events-none absolute top-0 right-0 bottom-0 left-0 z-[1000] flex items-center justify-center rounded-xl border-2 border-dashed border-(--vf-overlay-border) bg-(--vf-overlay-bg);
 }
 
 .vuefinder__external-drop-message {
-  @apply bg-transparent text-shadow-2xs text-white px-10 py-5 rounded-xl font-semibold text-lg border-3 border-dashed border-white/50 min-h-[60px] flex items-center justify-center;
+  @apply flex min-h-[60px] items-center justify-center rounded-xl border-3 border-dashed border-white/50 bg-transparent px-10 py-5 text-lg font-semibold text-white text-shadow-2xs;
 }

@@ -187,7 +187,7 @@ onMounted(() => {
         >{{ app.filesize(app.modal.data.item.file_size) }}
       </div>
       <div>
-        <span class="font-bold pl-2">{{ t('Last Modified') }}: </span>
+        <span class="pl-2 font-bold">{{ t('Last Modified') }}: </span>
         {{ datetimestring(app.modal.data.item.last_modified) }}
       </div>
     </div>

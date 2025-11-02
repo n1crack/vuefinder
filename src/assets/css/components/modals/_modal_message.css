@@ -3,7 +3,7 @@
 }
 
 .vuefinder__message-modal__icon-container {
-  @apply mx-auto shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10 bg-(--vf-bg-tertiary);
+  @apply mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-(--vf-bg-tertiary) sm:mx-0 sm:h-10 sm:w-10;
 }
 
 .vuefinder__message-modal__icon {
@@ -11,7 +11,7 @@
 }
 
 .vuefinder__message-modal__text {
-  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+  @apply mt-3 w-full text-center sm:mt-0 sm:text-left;
 }
 
 .vuefinder__message-modal__title {

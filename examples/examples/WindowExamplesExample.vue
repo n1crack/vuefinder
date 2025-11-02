@@ -96,7 +96,7 @@ onUnmounted(() => {
       <template #status-bar="{ selected, count }">
         <div class="vuefinder__status-bar__actions">
           <button
-            class="border bg-emerald-800 text-white border-gray-300 dark:border-gray-600 rounded-sm px-2 p-0.5 disabled:opacity-50 not-disabled:hover:bg-emerald-700 not-disabled:cursor-pointer"
+            class="rounded-sm border border-gray-300 bg-emerald-800 p-0.5 px-2 text-white not-disabled:cursor-pointer not-disabled:hover:bg-emerald-700 disabled:opacity-50 dark:border-gray-600"
             :disabled="!count"
             @click="sendSelectedToParent(selected)"
           >

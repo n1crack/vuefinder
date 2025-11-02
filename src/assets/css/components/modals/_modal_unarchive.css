@@ -1,5 +1,5 @@
 .vuefinder__unarchive-modal__content {
-  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+  @apply mt-3 w-full text-center sm:mt-0 sm:text-left;
 }
 
 .vuefinder__unarchive-modal__items {

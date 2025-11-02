@@ -1,11 +1,11 @@
 .vuefinder__drag-item__container {
-  @apply absolute -z-50 -top-96;
+  @apply absolute -top-96 -z-50;
 }
 
 .vuefinder__drag-item__icon {
-  @apply absolute h-6 w-6 md:h-12 md:w-12 m-auto z-10 stroke-(--vf-text-tertiary) fill-(--vf-bg-primary);
+  @apply absolute z-10 m-auto h-6 w-6 fill-(--vf-bg-primary) stroke-(--vf-text-tertiary) md:h-12 md:w-12;
 }
 
 .vuefinder__drag-item__count {
-  @apply p-1 absolute text-center top-4 right-[-2rem] md:top-5 md:right-[-2.4rem] z-20 text-xs text-(--vf-text-primary);
+  @apply absolute top-4 right-[-2rem] z-20 p-1 text-center text-xs text-(--vf-text-primary) md:top-5 md:right-[-2.4rem];
 }

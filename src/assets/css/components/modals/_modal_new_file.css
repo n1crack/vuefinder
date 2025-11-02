@@ -1,5 +1,5 @@
 .vuefinder__new-file-modal__content {
-  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+  @apply mt-3 w-full text-center sm:mt-0 sm:text-left;
 }
 
 .vuefinder__new-file-modal__form {
@@ -11,7 +11,7 @@
 }
 
 .vuefinder__new-file-modal__input {
-  @apply px-2 py-1 border box-border rounded w-full bg-(--vf-bg-primary) border-(--vf-border-primary) text-(--vf-text-primary);
+  @apply box-border w-full rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2 py-1 text-(--vf-text-primary);
 }
 
 .vuefinder__new-file-modal__input:focus {

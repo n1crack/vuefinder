@@ -7276,7 +7276,7 @@ const An = { render: Uv }, Kv = ["data-key", "data-row", "data-col", "draggable"
         o("div", {
           ref_key: "scrollContent",
           ref: v,
-          class: "scrollContent min-h-full",
+          class: "scrollContent vuefinder__explorer__scroll-content",
           style: He({ height: `${s(L)}px`, position: "relative", width: "100%" }),
           onContextmenu: ae(st, ["self", "prevent"]),
           onClick: te[3] || (te[3] = ae(

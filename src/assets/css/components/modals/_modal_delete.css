@@ -1,5 +1,5 @@
 .vuefinder__delete-modal__content {
-  @apply mt-3 text-center sm:mt-0 sm:text-left w-full;
+  @apply mt-3 w-full text-center sm:mt-0 sm:text-left;
 }
 
 .vuefinder__delete-modal__form {
@@ -11,7 +11,7 @@
 }
 
 .vuefinder__delete-modal__files {
-  @apply text-sm mb-1 overflow-auto max-h-[200px] text-(--vf-text-secondary);
+  @apply mb-1 max-h-[200px] overflow-auto text-sm text-(--vf-text-secondary);
 }
 
 .vuefinder__delete-modal__file {
@@ -35,5 +35,5 @@
 }
 
 .vuefinder__delete-modal__warning {
-  @apply m-auto font-bold text-sm text-center text-(--vf-accent-danger);
+  @apply m-auto text-center text-sm font-bold text-(--vf-accent-danger);
 }

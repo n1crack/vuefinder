@@ -3,37 +3,37 @@
 }
 
 .vuefinder__modal-layout__overlay {
-  @apply fixed inset-0 transition-opacity bg-(--vf-overlay-bg);
+  @apply fixed inset-0 bg-(--vf-overlay-bg) transition-opacity;
 }
 
 .vuefinder__modal-layout__container {
-  @apply fixed z-10 inset-0 overflow-hidden;
+  @apply fixed inset-0 z-10 overflow-hidden;
 }
 
 .vuefinder__modal-layout__wrapper {
-  @apply flex items-end sm:items-center justify-center min-h-full px-4 text-center sm:p-0;
+  @apply flex min-h-full items-end justify-center px-4 text-center sm:items-center sm:p-0;
 }
 
 .vuefinder__modal-layout__body {
-  @apply relative rounded-md text-left overflow-hidden transform transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-3xl w-full bg-(--vf-bg-primary);
+  @apply relative w-full transform overflow-hidden rounded-md bg-(--vf-bg-primary) text-left transition-all sm:my-8 sm:max-w-4xl md:max-w-2xl lg:max-w-3xl xl:max-w-3xl;
   box-shadow:
     0 20px 25px -5px var(--vf-shadow-modal),
     0 10px 10px -5px var(--vf-shadow-md);
 }
 
 .vuefinder__modal-layout__content {
-  @apply px-4 pt-5 pb-4 sm:p-6 sm:pb-4 bg-(--vf-bg-primary);
+  @apply bg-(--vf-bg-primary) px-4 pt-5 pb-4 sm:p-6 sm:pb-4;
 }
 
 .vuefinder__modal-layout__footer {
-  @apply px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse bg-(--vf-bg-secondary) border-(--vf-border-primary);
+  @apply border-(--vf-border-primary) bg-(--vf-bg-secondary) px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6;
 }
 
 /* Modal drag overlay - full screen coverage */
 .vuefinder__modal-drag-overlay {
-  @apply fixed top-0 left-0 right-0 bottom-0 rounded-xl z-[9999] pointer-events-none flex items-center justify-center bg-(--vf-overlay-bg) border-2 border-dashed border-(--vf-overlay-border);
+  @apply pointer-events-none fixed top-0 right-0 bottom-0 left-0 z-[9999] flex items-center justify-center rounded-xl border-2 border-dashed border-(--vf-overlay-border) bg-(--vf-overlay-bg);
 }
 
 .vuefinder__modal-drag-message {
-  @apply bg-transparent text-shadow-2xs text-white px-10 py-5 rounded-xl font-semibold text-lg border-3 border-dashed border-white/50 min-h-[60px] flex items-center justify-center;
+  @apply flex min-h-[60px] items-center justify-center rounded-xl border-3 border-dashed border-white/50 bg-transparent px-10 py-5 text-lg font-semibold text-white text-shadow-2xs;
 }

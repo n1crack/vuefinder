@@ -7,21 +7,21 @@
 }
 
 .vuefinder__item-icon--large {
-  @apply h-10 w-10 md:h-12 md:w-12 m-auto;
+  @apply m-auto h-10 w-10 md:h-12 md:w-12;
 }
 
 .vuefinder__themer .vuefinder__item-icon__extension {
-  @apply absolute md:block top-1/2 left-0 w-full text-center text-(--vf-text-tertiary);
+  @apply absolute top-1/2 left-0 w-full text-center text-(--vf-text-tertiary) md:block;
 }
 
 .vuefinder__themer .vuefinder__item-icon__folder {
-  @apply text-(--vf-text-tertiary) fill-(--vf-accent-primary) stroke-(--vf-accent-primary);
+  @apply fill-(--vf-accent-primary) stroke-(--vf-accent-primary) text-(--vf-text-tertiary);
 }
 
 .vuefinder__themer .vuefinder__item-icon__folder--open {
-  @apply text-(--vf-text-tertiary) fill-(--vf-accent-primary) stroke-(--vf-accent-secondary);
+  @apply fill-(--vf-accent-primary) stroke-(--vf-accent-secondary) text-(--vf-text-tertiary);
 }
 
 .vuefinder__themer .vuefinder__item-icon__file {
-  @apply text-(--vf-text-tertiary) w-full h-full;
+  @apply h-full w-full text-(--vf-text-tertiary);
 }

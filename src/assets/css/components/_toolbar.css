@@ -1,7 +1,7 @@
 @reference "tailwindcss";
 
 .vuefinder__toolbar {
-  @apply flex justify-between items-center py-1 text-sm grow-0 border-(--vf-border-primary);
+  @apply flex grow-0 items-center justify-between border-(--vf-border-primary) py-1 text-sm;
 }
 
 .vuefinder__toolbar__actions {
@@ -17,11 +17,11 @@
 }
 
 .vuefinder__toolbar__search-query {
-  @apply text-xs px-2 py-1 rounded bg-(--vf-bg-secondary);
+  @apply rounded bg-(--vf-bg-secondary) px-2 py-1 text-xs;
 }
 
 .vuefinder__toolbar__controls {
-  @apply flex text-center items-center justify-end;
+  @apply flex items-center justify-end text-center;
 }
 
 .vuefinder__toolbar__control {
@@ -46,18 +46,18 @@
 }
 
 .vuefinder__toolbar__filter-indicator {
-  @apply absolute -top-1 -right-1 w-2 h-2 rounded-full bg-(--vf-accent-primary);
+  @apply absolute -top-1 -right-1 h-2 w-2 rounded-full bg-(--vf-accent-primary);
 }
 
 .vuefinder__toolbar__dropdown {
-  @apply absolute right-0 z-50 mt-1 w-52 rounded shadow-lg bg-(--vf-bg-primary) border-(--vf-border-primary);
+  @apply absolute right-0 z-50 mt-1 w-52 rounded border-(--vf-border-primary) bg-(--vf-bg-primary) shadow-lg;
   box-shadow:
     0 10px 15px -3px var(--vf-shadow-md),
     0 4px 6px -2px var(--vf-shadow-sm);
 }
 
 .vuefinder__toolbar__dropdown-content {
-  @apply p-2 space-y-2 border rounded bg-(--vf-bg-secondary) border-(--vf-border-primary);
+  @apply space-y-2 rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) p-2;
   box-shadow:
     0 4px 6px -1px var(--vf-shadow-sm),
     0 2px 4px -1px var(--vf-shadow-sm);
@@ -68,7 +68,7 @@
 }
 
 .vuefinder__toolbar__dropdown-label {
-  @apply text-xs mb-1 text-(--vf-text-secondary);
+  @apply mb-1 text-xs text-(--vf-text-secondary);
 }
 
 .vuefinder__toolbar__dropdown-row {
@@ -76,7 +76,7 @@
 }
 
 .vuefinder__toolbar__dropdown-select {
-  @apply flex-1 text-xs rounded px-2 py-1 border bg-(--vf-bg-primary) border-(--vf-border-primary) text-(--vf-text-primary);
+  @apply flex-1 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2 py-1 text-xs text-(--vf-text-primary);
 }
 
 .vuefinder__toolbar__dropdown-select:hover {
@@ -93,7 +93,7 @@
 }
 
 .vuefinder__toolbar__dropdown-option {
-  @apply flex items-center gap-2 cursor-pointer p-1 rounded text-(--vf-text-primary);
+  @apply flex cursor-pointer items-center gap-2 rounded p-1 text-(--vf-text-primary);
 }
 
 .vuefinder__toolbar__dropdown-option:hover {
@@ -101,7 +101,7 @@
 }
 
 .vuefinder__toolbar__dropdown-option--disabled {
-  @apply cursor-not-allowed opacity-60 text-(--vf-text-disabled);
+  @apply cursor-not-allowed text-(--vf-text-disabled) opacity-60;
 }
 
 .vuefinder__toolbar__dropdown-option--disabled:hover {
@@ -137,27 +137,27 @@
 }
 
 .vuefinder__toolbar__dropdown-reset {
-  @apply pt-2 border-(--vf-border-primary);
+  @apply border-(--vf-border-primary) pt-2;
 }
 
 .vuefinder__toolbar__reset-button {
-  @apply w-full px-2 py-1 text-xs rounded bg-(--vf-bg-secondary) text-(--vf-text-secondary) border border-(--vf-border-primary);
+  @apply w-full rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) px-2 py-1 text-xs text-(--vf-text-secondary);
 }
 
 .vuefinder__toolbar__reset-button:hover {
-  @apply bg-(--vf-bg-hover) text-(--vf-accent-primary) border-(--vf-accent-primary);
+  @apply border-(--vf-accent-primary) bg-(--vf-bg-hover) text-(--vf-accent-primary);
 }
 
 .vuefinder__toolbar__reset-button--disabled {
-  @apply cursor-not-allowed opacity-50 bg-(--vf-bg-disabled) text-(--vf-text-disabled) border-(--vf-border-disabled);
+  @apply cursor-not-allowed border-(--vf-border-disabled) bg-(--vf-bg-disabled) text-(--vf-text-disabled) opacity-50;
 }
 
 .vuefinder__toolbar__reset-button--disabled:hover {
-  @apply bg-(--vf-bg-disabled) text-(--vf-text-disabled) border-(--vf-border-disabled);
+  @apply border-(--vf-border-disabled) bg-(--vf-bg-disabled) text-(--vf-text-disabled);
 }
 
 .vf-sort-button {
-  @apply p-1 leading-6 flex items-center bg-(--vf-bg-secondary) border-(--vf-border-primary);
+  @apply flex items-center border-(--vf-border-primary) bg-(--vf-bg-secondary) p-1 leading-6;
 }
 
 .vf-sort-button:hover {
@@ -165,7 +165,7 @@
 }
 
 .vf-toolbar-icon {
-  @apply cursor-pointer h-5 w-5 md:w-8 md:h-8 stroke-(--vf-text-secondary);
+  @apply h-5 w-5 cursor-pointer stroke-(--vf-text-secondary) md:h-8 md:w-8;
 }
 
 .vf-toolbar-icon:hover {
@@ -173,5 +173,5 @@
 }
 
 .vf-toolbar-icon-disabled {
-  @apply cursor-not-allowed h-5 w-5 md:h-8 md:w-8 stroke-(--vf-text-disabled) opacity-80;
+  @apply h-5 w-5 cursor-not-allowed stroke-(--vf-text-disabled) opacity-80 md:h-8 md:w-8;
 }

@@ -307,7 +307,7 @@ const resetFilters = () => {
           @click="showFilterSort = !showFilterSort"
         >
           <div class="relative">
-            <FilterSVG class="vf-toolbar-icon vuefinder__toolbar__icon w-6 h-6" />
+            <FilterSVG class="vf-toolbar-icon vuefinder__toolbar__icon h-6 w-6" />
             <!-- Filter indicator dot -->
             <div v-if="hasActiveFilters" class="vuefinder__toolbar__filter-indicator"></div>
           </div>
