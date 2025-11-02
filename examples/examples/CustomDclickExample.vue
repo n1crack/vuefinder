@@ -54,6 +54,18 @@ const clearCustomDclickLog = () => {
       </p>
     </div>
 
+    <!-- VueFinder with custom double-click events -->
+    <div class="custom-dclick-example__viewer">
+      <vue-finder
+        id="custom-dclick-vuefinder"
+        :driver="driver"
+        :config="config"
+        :features="features"
+        @file-dclick="onCustomFileDclick"
+        @folder-dclick="onCustomFolderDclick"
+      />
+    </div>
+
     <div class="custom-dclick-example__section">
       <h3 class="custom-dclick-example__section-title">Custom Behavior:</h3>
       <ul class="custom-dclick-example__behavior-list">
@@ -92,21 +104,9 @@ const clearCustomDclickLog = () => {
           <small class="custom-dclick-example__log-timestamp">{{ log.timestamp }}</small>
         </div>
         <div v-if="!customDclickLog.length" class="custom-dclick-example__log-empty">
-          No events yet. Try double-clicking files or folders above.
+          No events yet. Try double-clicking files or folders in the file manager above.
         </div>
       </div>
-    </div>
-
-    <!-- VueFinder with custom double-click events -->
-    <div class="custom-dclick-example__viewer">
-      <vue-finder
-        id="custom-dclick-vuefinder"
-        :driver="driver"
-        :config="config"
-        :features="features"
-        @file-dclick="onCustomFileDclick"
-        @folder-dclick="onCustomFolderDclick"
-      />
     </div>
   </div>
 </template>

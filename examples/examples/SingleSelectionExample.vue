@@ -28,6 +28,18 @@ const handleSingleSelection = (files: Array<{ basename: string; path: string }>)
       </p>
     </div>
 
+    <!-- VueFinder with single selection mode -->
+    <div class="single-selection-example__viewer">
+      <vue-finder
+        id="single-selection-vuefinder"
+        :driver="driver"
+        :config="config"
+        :features="features"
+        selection-mode="single"
+        @select="handleSingleSelection"
+      />
+    </div>
+
     <div class="single-selection-example__section">
       <h3 class="single-selection-example__section-title">Single Selection Features:</h3>
       <ul class="single-selection-example__feature-list">
@@ -55,18 +67,6 @@ const handleSingleSelection = (files: Array<{ basename: string; path: string }>)
         >
       </div>
       <div v-else class="single-selection-example__empty">No file selected</div>
-    </div>
-
-    <!-- VueFinder with single selection mode -->
-    <div class="single-selection-example__viewer">
-      <vue-finder
-        id="single-selection-vuefinder"
-        :driver="driver"
-        :config="config"
-        :features="features"
-        selection-mode="single"
-        @select="handleSingleSelection"
-      />
     </div>
   </div>
 </template>

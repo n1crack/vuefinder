@@ -47,6 +47,19 @@ const removeMimeFilter = (mimeType: string) => {
       </p>
     </div>
 
+    <!-- VueFinder with selection filters -->
+    <div class="selection-filter-example__viewer">
+      <vue-finder
+        id="selection-filter-vuefinder"
+        :driver="driver"
+        :config="config"
+        :features="features"
+        :selection-filter-type="selectionFilterType"
+        :selection-filter-mime-includes="selectionFilterMimeIncludes"
+        @select="handleSelectionFilter"
+      />
+    </div>
+
     <!-- Filter controls -->
     <div class="selection-filter-example__section">
       <div class="selection-filter-example__section-header">
@@ -135,19 +148,6 @@ const removeMimeFilter = (mimeType: string) => {
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- VueFinder with selection filters -->
-    <div class="selection-filter-example__viewer">
-      <vue-finder
-        id="selection-filter-vuefinder"
-        :driver="driver"
-        :config="config"
-        :features="features"
-        :selection-filter-type="selectionFilterType"
-        :selection-filter-mime-includes="selectionFilterMimeIncludes"
-        @select="handleSelectionFilter"
-      />
     </div>
 
     <!-- Selection info -->
