@@ -1,0 +1,24 @@
+name: Lint and Prettier
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install deps
+        run: npm ci
+      - name: Prettier check
+        run: npm run format:check
+      - name: ESLint
+        run: npm run lint -- -c eslint.config.js

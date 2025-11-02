@@ -1,0 +1,27 @@
+.vuefinder__item-icon {
+  @apply text-(--vf-text-tertiary);
+}
+
+.vuefinder__item-icon--small {
+  @apply h-5 w-5;
+}
+
+.vuefinder__item-icon--large {
+  @apply m-auto h-10 w-10 md:h-12 md:w-12;
+}
+
+.vuefinder__themer .vuefinder__item-icon__extension {
+  @apply absolute top-1/2 left-0 w-full text-center text-(--vf-text-tertiary) md:block;
+}
+
+.vuefinder__themer .vuefinder__item-icon__folder {
+  @apply fill-(--vf-accent-primary) stroke-(--vf-accent-primary) text-(--vf-text-tertiary);
+}
+
+.vuefinder__themer .vuefinder__item-icon__folder--open {
+  @apply fill-(--vf-accent-primary) stroke-(--vf-accent-secondary) text-(--vf-text-tertiary);
+}
+
+.vuefinder__themer .vuefinder__item-icon__file {
+  @apply h-full w-full text-(--vf-text-tertiary);
+}

@@ -1,0 +1,35 @@
+.vuefinder__rename-modal__content {
+  @apply mt-3 w-full text-center sm:mt-0 sm:text-left;
+}
+
+.vuefinder__rename-modal__item {
+  @apply mt-2;
+}
+
+.vuefinder__rename-modal__item-info {
+  @apply flex py-2 text-sm text-(--vf-text-secondary);
+}
+
+.vuefinder__rename-modal__icon {
+  @apply h-5 w-5 text-(--vf-text-tertiary);
+}
+
+.vuefinder__rename-modal__icon--dir {
+  @apply fill-current stroke-current text-(--vf-text-tertiary);
+}
+
+.vuefinder__rename-modal__item-name {
+  @apply ml-1.5 text-(--vf-text-primary);
+}
+
+.vuefinder__rename-modal__item-name:hover {
+  @apply text-(--vf-text-secondary);
+}
+
+.vuefinder__themer .vuefinder__rename-modal__input {
+  @apply w-full rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2 py-1 text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__rename-modal__input:focus {
+  @apply border-(--vf-border-focus) ring-(--vf-border-focus);
+}

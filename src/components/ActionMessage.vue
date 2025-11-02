@@ -1,26 +1,20 @@
-<template>
-  <div class="vuefinder__action-message" :class="{ 'vuefinder__action-message--hidden': !shown }">
-    <slot v-if="$slots.default"/>
-    <span v-else>{{ t('Saved.') }}</span>
-  </div>
-</template>
-
-<script>
-import {ref, onMounted, onUnmounted, inject} from 'vue';
+<script lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useApp } from '../composables/useApp';
 
 export default {
   props: {
-    on: {type: String, required: true},
+    on: { type: String, required: true },
   },
-  setup(props, {emit, slots}) {
-    const app = inject('ServiceContainer');
+  setup(props, { emit, slots }) {
+    const app = useApp();
     const shown = ref(false);
-    const {t} = app.i18n;
+    const { t } = app.i18n;
 
-    let timeout = null;
+    let timeout: ReturnType<typeof setTimeout> | null = null;
 
     const handleEvent = () => {
-      clearTimeout(timeout);
+      if (timeout) clearTimeout(timeout);
       shown.value = true;
       timeout = setTimeout(() => {
         shown.value = false;
@@ -32,12 +26,20 @@ export default {
     });
 
     onUnmounted(() => {
-      clearTimeout(timeout);
+      if (timeout) clearTimeout(timeout);
     });
 
     return {
-      shown, t
+      shown,
+      t,
     };
   },
 };
 </script>
+
+<template>
+  <div class="vuefinder__action-message" :class="{ 'vuefinder__action-message--hidden': !shown }">
+    <slot v-if="$slots.default" />
+    <span v-else>{{ t('Saved.') }}</span>
+  </div>
+</template>

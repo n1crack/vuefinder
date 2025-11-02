@@ -1,0 +1,58 @@
+/* Latte Theme */
+.vuefinder__themer[data-theme='latte'] {
+  --vf-selection-bg: #f5f1e8;
+  --vf-selection-border: #d4c4a8;
+  /* Background Colors */
+  --vf-bg-primary: #faf7f0;
+  --vf-bg-secondary: #f5f1e8;
+  --vf-bg-tertiary: #ede7d9;
+  --vf-bg-hover: #f5f1e8;
+  --vf-bg-selected: #ede7d9;
+  --vf-bg-disabled: #f5f1e8;
+
+  /* Text Colors */
+  --vf-text-primary: #4c2a1a;
+  --vf-text-secondary: #8b5a3c;
+  --vf-text-tertiary: #a67c52;
+  --vf-text-disabled: #c4a484;
+  --vf-text-inverse: #faf7f0;
+
+  /* Border Colors */
+  --vf-border-primary: #d4c4a8;
+  --vf-border-secondary: #e2d5c0;
+  --vf-border-focus: #8b5a3c;
+  --vf-border-error: #c65d5d;
+
+  /* Accent Colors */
+  --vf-accent-primary: #8b5a3c;
+  --vf-accent-secondary: #a67c52;
+  --vf-accent-success: #7d8b5a;
+  --vf-accent-warning: #d4a574;
+  --vf-accent-error: #c65d5d;
+
+  /* Interactive Colors */
+  --vf-interactive-hover: #f5f1e8;
+  --vf-interactive-active: #ede7d9;
+  --vf-interactive-focus: #e2d5c0;
+
+  /* Shadow Colors */
+  --vf-shadow-sm: rgba(76, 42, 26, 0.1);
+  --vf-shadow-md: rgba(76, 42, 26, 0.15);
+  --vf-shadow-lg: rgba(76, 42, 26, 0.2);
+  --vf-shadow-modal: rgba(76, 42, 26, 0.15);
+
+  /* Overlay Colors */
+  --vf-overlay-bg: rgba(75, 85, 99, 0.7);
+  --vf-overlay-border: rgba(139, 90, 60, 0.6);
+  --vf-overlay-text: #8b5a3c;
+  --vf-dropdown-bg: #faf7f0;
+  --vf-dropdown-border: #d4c4a8;
+  --vf-dropdown-text: #4c2a1a;
+  --vf-dropdown-hover: #f5f1e8;
+}
+
+/* Latte Theme - Selection Area */
+.selection-area-container[data-theme='latte'] {
+  --vf-selection-bg: #f5f1e8;
+  --vf-selection-border: #8b5a3c;
+}

@@ -1,0 +1,55 @@
+.vf-btn {
+  @apply mt-0.5 inline-flex w-full justify-center rounded-md border border-(--vf-border-primary) bg-(--vf-bg-primary) px-4 py-2 text-base font-medium tracking-wide text-(--vf-text-primary) shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none sm:mx-1 sm:w-auto sm:text-sm;
+}
+
+.vf-btn-primary {
+  @apply border-(--vf-accent-primary) border-transparent bg-(--vf-accent-primary) text-(--vf-text-inverse) focus:ring-2 focus:ring-offset-2;
+}
+
+.vf-btn-primary:hover {
+  @apply border-(--vf-accent-primary) bg-(--vf-accent-primary) text-(--vf-text-inverse);
+}
+
+.vf-btn-primary:focus {
+  @apply ring-(--vf-accent-primary);
+}
+
+.vf-btn-primary.disabled {
+  @apply border-(--vf-border-primary) bg-(--vf-bg-disabled) text-(--vf-text-disabled);
+}
+
+.vf-btn-secondary {
+  @apply border-(--vf-border-primary) bg-(--vf-bg-secondary) text-(--vf-text-primary) focus:ring-2 focus:ring-offset-2;
+}
+
+.vf-btn-secondary:hover {
+  @apply border-(--vf-border-focus) bg-(--vf-bg-hover);
+}
+
+.vf-btn-secondary:focus {
+  @apply ring-(--vf-border-focus);
+}
+
+.vf-btn-secondary.disabled {
+  @apply border-(--vf-border-primary) bg-(--vf-bg-disabled) text-(--vf-text-disabled);
+}
+
+.vf-btn-danger {
+  @apply border-(--vf-accent-error) border-transparent bg-(--vf-accent-error) text-(--vf-text-inverse) focus:ring-2 focus:ring-offset-2;
+}
+
+.vf-btn-danger:hover {
+  @apply border-(--vf-accent-error) bg-(--vf-accent-error);
+}
+
+.vf-btn-danger:focus {
+  @apply ring-(--vf-accent-error);
+}
+
+.disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.vf-btn-small {
+  @apply py-0;
+}

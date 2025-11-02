@@ -1,0 +1,28 @@
+.vuefinder {
+}
+.vuefinder__main {
+  @apply h-full max-h-screen w-full max-w-screen;
+}
+.vuefinder__main__fixed {
+  @apply fixed inset-0 w-screen;
+}
+
+.vuefinder__main__relative {
+  @apply relative md:rounded;
+}
+
+.vuefinder__main__container {
+  @apply flex h-full max-h-dvh min-h-44 flex-col border border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary) select-none;
+}
+
+.vuefinder__main__content {
+  @apply relative flex h-full flex-1 overflow-hidden;
+}
+
+.vuefinder__external-drop-overlay {
+  @apply pointer-events-none absolute top-0 right-0 bottom-0 left-0 z-[1000] flex items-center justify-center rounded-xl border-2 border-dashed border-(--vf-overlay-border) bg-(--vf-overlay-bg);
+}
+
+.vuefinder__external-drop-message {
+  @apply flex min-h-[60px] items-center justify-center rounded-xl border-3 border-dashed border-white/50 bg-transparent px-10 py-5 text-lg font-semibold text-white text-shadow-2xs;
+}

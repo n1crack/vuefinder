@@ -1,0 +1,177 @@
+@reference "tailwindcss";
+
+.vuefinder__toolbar {
+  @apply flex grow-0 items-center justify-between border-(--vf-border-primary) py-1 text-sm;
+}
+
+.vuefinder__toolbar__actions {
+  @apply flex text-center;
+}
+
+.vuefinder__toolbar__search-results {
+  @apply flex text-center;
+}
+
+.vuefinder__toolbar__search-text {
+  @apply pl-2;
+}
+
+.vuefinder__toolbar__search-query {
+  @apply rounded bg-(--vf-bg-secondary) px-2 py-1 text-xs;
+}
+
+.vuefinder__toolbar__controls {
+  @apply flex items-center justify-end text-center;
+}
+
+.vuefinder__toolbar__control {
+  @apply mx-1.5;
+}
+
+.vuefinder__toolbar__icon {
+  /* Leave empty intentionally as it's applied inline */
+}
+
+.vuefinder__toolbar__icon--disabled {
+  /* Leave empty intentionally as it's applied inline */
+}
+
+/* Dropdown styles */
+.vuefinder__toolbar__dropdown-container {
+  @apply relative;
+}
+
+.vuefinder__toolbar__dropdown-trigger {
+  @apply p-1;
+}
+
+.vuefinder__toolbar__filter-indicator {
+  @apply absolute -top-1 -right-1 h-2 w-2 rounded-full bg-(--vf-accent-primary);
+}
+
+.vuefinder__toolbar__dropdown {
+  @apply absolute right-0 z-50 mt-1 w-52 rounded border-(--vf-border-primary) bg-(--vf-bg-primary) shadow-lg;
+  box-shadow:
+    0 10px 15px -3px var(--vf-shadow-md),
+    0 4px 6px -2px var(--vf-shadow-sm);
+}
+
+.vuefinder__toolbar__dropdown-content {
+  @apply space-y-2 rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) p-2;
+  box-shadow:
+    0 4px 6px -1px var(--vf-shadow-sm),
+    0 2px 4px -1px var(--vf-shadow-sm);
+}
+
+.vuefinder__toolbar__dropdown-section {
+  @apply space-y-1;
+}
+
+.vuefinder__toolbar__dropdown-label {
+  @apply mb-1 text-xs text-(--vf-text-secondary);
+}
+
+.vuefinder__toolbar__dropdown-row {
+  @apply flex gap-1;
+}
+
+.vuefinder__toolbar__dropdown-select {
+  @apply flex-1 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2 py-1 text-xs text-(--vf-text-primary);
+}
+
+.vuefinder__toolbar__dropdown-select:hover {
+  @apply border-(--vf-border-focus);
+}
+
+.vuefinder__toolbar__dropdown-select:focus {
+  @apply border-(--vf-border-focus) outline-none;
+  box-shadow: 0 0 0 1px var(--vf-border-focus);
+}
+
+.vuefinder__toolbar__dropdown-options {
+  @apply space-y-1;
+}
+
+.vuefinder__toolbar__dropdown-option {
+  @apply flex cursor-pointer items-center gap-2 rounded p-1 text-(--vf-text-primary);
+}
+
+.vuefinder__toolbar__dropdown-option:hover {
+  @apply bg-(--vf-bg-hover);
+}
+
+.vuefinder__toolbar__dropdown-option--disabled {
+  @apply cursor-not-allowed text-(--vf-text-disabled) opacity-60;
+}
+
+.vuefinder__toolbar__dropdown-option--disabled:hover {
+  @apply bg-transparent;
+}
+
+.vuefinder__toolbar__radio {
+  @apply rounded text-(--vf-accent-primary) accent-(--vf-accent-primary);
+}
+
+.vuefinder__toolbar__radio:focus {
+  @apply outline-none;
+}
+
+.vuefinder__toolbar__option-text {
+  @apply text-xs;
+}
+
+.vuefinder__toolbar__dropdown-toggle {
+  @apply flex items-center justify-between;
+}
+
+.vuefinder__toolbar__toggle-label {
+  @apply text-xs text-(--vf-text-secondary);
+}
+
+.vuefinder__toolbar__checkbox {
+  @apply rounded text-(--vf-accent-primary) accent-(--vf-accent-primary);
+}
+
+.vuefinder__toolbar__checkbox:focus {
+  @apply outline-none;
+}
+
+.vuefinder__toolbar__dropdown-reset {
+  @apply border-(--vf-border-primary) pt-2;
+}
+
+.vuefinder__toolbar__reset-button {
+  @apply w-full rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) px-2 py-1 text-xs text-(--vf-text-secondary);
+}
+
+.vuefinder__toolbar__reset-button:hover {
+  @apply border-(--vf-accent-primary) bg-(--vf-bg-hover) text-(--vf-accent-primary);
+}
+
+.vuefinder__toolbar__reset-button--disabled {
+  @apply cursor-not-allowed border-(--vf-border-disabled) bg-(--vf-bg-disabled) text-(--vf-text-disabled) opacity-50;
+}
+
+.vuefinder__toolbar__reset-button--disabled:hover {
+  @apply border-(--vf-border-disabled) bg-(--vf-bg-disabled) text-(--vf-text-disabled);
+}
+
+.vf-sort-button {
+  @apply flex items-center border-(--vf-border-primary) bg-(--vf-bg-secondary) p-1 leading-6;
+}
+
+.vf-sort-button:hover {
+  @apply bg-(--vf-bg-hover);
+}
+
+.vf-toolbar-icon {
+  @apply h-5 w-5 cursor-pointer stroke-(--vf-text-secondary) md:h-8 md:w-8;
+}
+
+.vf-toolbar-icon:hover {
+  @apply stroke-(--vf-accent-primary);
+}
+
+.vf-toolbar-icon-disabled {
+  @apply h-5 w-5 cursor-not-allowed stroke-(--vf-text-disabled) opacity-80 md:h-8 md:w-8;
+}

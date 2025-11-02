@@ -1,0 +1,103 @@
+/* MenuBar Styles - Compact modern design */
+.vuefinder__menubar {
+  @apply relative z-40 overflow-visible border-b border-(--vf-border-primary) bg-(--vf-bg-primary) text-[13px] leading-8 whitespace-nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-shadow: none;
+}
+
+.vuefinder__menubar__container {
+  @apply flex h-full flex-nowrap;
+}
+
+.vuefinder__menubar__item {
+  @apply relative mx-0.5 inline-flex h-full flex-shrink-0 cursor-pointer items-center rounded-md border-none bg-transparent px-1.5 font-normal whitespace-nowrap text-(--vf-text-primary) transition-all duration-150 ease-out;
+}
+
+.vuefinder__menubar__item:hover {
+  @apply text-(--vf-accent-primary);
+}
+
+.vuefinder__menubar__item--active {
+  @apply text-(--vf-accent-primary);
+}
+
+.vuefinder__menubar__item--disabled {
+  @apply cursor-not-allowed text-(--vf-text-disabled) opacity-80;
+}
+
+.vuefinder__menubar__item--disabled:hover {
+  @apply text-(--vf-text-disabled);
+}
+
+.vuefinder__menubar__label {
+  @apply font-medium select-none;
+}
+
+/* Dropdown Menu */
+.vuefinder__menubar__dropdown {
+  @apply absolute top-[calc(100%-1px)] left-0 z-50 min-w-[160px] rounded-md border border-(--vf-border-primary) bg-(--vf-bg-primary) py-0.5 shadow-lg;
+  box-shadow: 0 4px 12px var(--vf-shadow-md);
+}
+
+.vuefinder__menubar__dropdown__item {
+  @apply relative mx-0.5 flex h-6 cursor-pointer items-center justify-between rounded-sm px-2 text-xs text-(--vf-text-primary) transition-all duration-100 ease-out;
+}
+
+.vuefinder__menubar__dropdown__item:hover:not(.vuefinder__menubar__dropdown__item--separator):not(
+    .vuefinder__menubar__dropdown__item--disabled
+  ) {
+  @apply bg-(--vf-bg-hover) text-(--vf-accent-primary);
+}
+
+.vuefinder__menubar__dropdown__item--separator {
+  @apply mx-2 h-px cursor-default rounded-none bg-(--vf-border-primary) p-0;
+}
+
+.vuefinder__menubar__dropdown__item--separator:hover {
+  @apply bg-(--vf-border-primary);
+}
+
+.vuefinder__menubar__dropdown__item--disabled {
+  @apply cursor-not-allowed text-(--vf-text-disabled) opacity-80;
+}
+
+.vuefinder__menubar__dropdown__item--disabled:hover {
+  @apply bg-transparent;
+}
+
+.vuefinder__menubar__dropdown__item--checked {
+  @apply font-medium text-(--vf-accent-primary);
+}
+
+.vuefinder__menubar__dropdown__label {
+  @apply flex-1 overflow-hidden text-xs font-normal text-ellipsis whitespace-nowrap;
+}
+
+.vuefinder__menubar__dropdown__shortcut {
+  @apply ml-3 text-xs font-normal text-(--vf-text-secondary);
+  font-family:
+    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+.vuefinder__menubar__dropdown__checkmark {
+  @apply ml-2 text-xs font-semibold text-(--vf-accent-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .vuefinder__menubar {
+    @apply h-[22px] text-xs leading-[22px];
+  }
+
+  .vuefinder__menubar__dropdown {
+    @apply min-w-[160px];
+  }
+
+  .vuefinder__menubar__dropdown__label {
+    @apply text-xs;
+  }
+
+  .vuefinder__menubar__dropdown__shortcut {
+    @apply text-xs;
+  }
+}

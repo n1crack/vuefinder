@@ -1,96 +1,202 @@
+<script setup lang="ts">
+import { onMounted, ref, useTemplateRef } from 'vue';
+import { useApp } from '../../composables/useApp';
+import { useFeatures } from '../../composables/useFeatures';
+import useUpload, { QUEUE_ENTRY_STATUS } from '../../composables/useUpload';
+import { Cropper } from 'vue-advanced-cropper';
+import 'vue-advanced-cropper/dist/style.css';
+import LazyLoad from 'vanilla-lazyload';
+import { useStore } from '@nanostores/vue';
+import type { CurrentPathState } from '../../stores/files';
+import type { StoreValue } from 'nanostores';
+
+defineOptions({ name: 'ImagePreview' });
+
+const emit = defineEmits(['success']);
+const app = useApp();
+const { enabled } = useFeatures();
+
+const { t } = app.i18n;
+
+const showEdit = ref(false);
+const message = ref('');
+const isError = ref(false);
+const previewUrl = ref(app.adapter.getPreviewUrl({ path: app.modal.data.item.path }));
+const tempImageData = ref(previewUrl.value);
+
+// Initialize useUpload for handling cropped image uploads
+const { addExternalFiles, upload: uploadFiles, queue } = useUpload(app.customUploader);
+const fs = app.fs;
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
+
+const cropperRef = useTemplateRef<{
+  getResult: (options?: { size?: { width?: number; height?: number }; fillColor?: string }) => {
+    canvas?: HTMLCanvasElement;
+  };
+} | null>('cropperRef');
+
+const toggleEditMode = async () => {
+  showEdit.value = !showEdit.value;
+  app.modal.setEditMode(showEdit.value);
+};
+
+const crop = async () => {
+  const result = cropperRef.value?.getResult({
+    size: { width: 795, height: 341 },
+    fillColor: '#ffffff',
+  });
+  const canvas = result?.canvas;
+  if (!canvas) return;
+
+  // Resize if too large
+  let finalCanvas = canvas;
+  if (canvas.width > 1200 || canvas.height > 1200) {
+    const ratio = Math.min(1200 / canvas.width, 1200 / canvas.height);
+    const resized = document.createElement('canvas');
+    resized.width = Math.floor(canvas.width * ratio);
+    resized.height = Math.floor(canvas.height * ratio);
+    const ctx = resized.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(canvas, 0, 0, resized.width, resized.height);
+      finalCanvas = resized;
+    }
+  }
+
+  // Keep original extension and save
+  const originalFilename = app.modal.data.item.basename;
+  const extension = originalFilename.split('.').pop()?.toLowerCase() || 'jpg';
+  const mimeType =
+    extension === 'png' ? 'image/png' : extension === 'gif' ? 'image/gif' : 'image/jpeg';
+
+  const blob = await new Promise<Blob | null>((resolve) => {
+    finalCanvas.toBlob((b) => resolve(b), mimeType);
+  });
+
+  if (!blob) {
+    message.value = t('Failed to save image');
+    isError.value = true;
+    return;
+  }
+
+  message.value = '';
+  isError.value = false;
+
+  try {
+    const file = new File([blob], originalFilename, { type: mimeType });
+
+    // Extract target folder from the file's path
+    const fullPath = app.modal.data.item.path;
+    const pathParts = fullPath.split('/');
+    pathParts.pop();
+    const directoryPath = pathParts.join('/');
+
+    const targetFolder = {
+      path: directoryPath || (currentPath.value?.path ?? ''),
+    };
+
+    // Add file and upload
+    addExternalFiles([file]);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const fileEntry = queue.value.find((entry) => entry.name === file.name);
+    if (!fileEntry) {
+      throw new Error('File was not added to upload queue');
+    }
+
+    uploadFiles(targetFolder);
+
+    // Wait for upload to complete
+    let attempts = 0;
+    while (attempts < 150) {
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      const entry = queue.value.find((e) => e.id === fileEntry.id);
+      if (entry?.status === QUEUE_ENTRY_STATUS.DONE) break;
+      if (entry?.status === QUEUE_ENTRY_STATUS.ERROR) {
+        throw new Error(entry.statusName || 'Upload failed');
+      }
+      attempts++;
+    }
+
+    message.value = t('Updated.');
+
+    // Reload image
+    await fetch(previewUrl.value, { cache: 'reload', mode: 'no-cors' });
+    const image = app.root?.querySelector?.('[data-src="' + previewUrl.value + '"]');
+    if (image && image instanceof HTMLElement) {
+      LazyLoad.resetStatus(image);
+    }
+    app.emitter.emit('vf-refresh-thumbnails');
+
+    await toggleEditMode();
+    emit('success');
+  } catch (e: unknown) {
+    const msg = (e as { message?: string })?.message ?? 'Error';
+    message.value = t(msg);
+    isError.value = true;
+  }
+};
+
+onMounted(() => {
+  emit('success');
+});
+</script>
+
 <template>
   <div class="vuefinder__image-preview">
     <div class="vuefinder__image-preview__header">
-      <h3 class="vuefinder__image-preview__title" id="modal-title" :title="app.modal.data.item.path">
+      <h3
+        id="modal-title"
+        class="vuefinder__image-preview__title"
+        :title="app.modal.data.item.path"
+      >
         {{ app.modal.data.item.basename }}
       </h3>
       <div class="vuefinder__image-preview__actions">
-        <button @click="crop" class="vuefinder__image-preview__crop-button" v-if="showEdit">
+        <button v-if="showEdit" class="vuefinder__image-preview__crop-button" @click="crop">
           {{ t('Crop') }}
         </button>
-        <button class="vuefinder__image-preview__edit-button" @click="editMode()" v-if="app.features.includes(FEATURES.EDIT)">
+        <button
+          v-if="enabled('edit')"
+          class="vuefinder__image-preview__edit-button"
+          @click="toggleEditMode()"
+        >
           {{ showEdit ? t('Cancel') : t('Edit') }}
         </button>
       </div>
     </div>
 
     <div class="vuefinder__image-preview__image-container">
-      <img ref="image" class="vuefinder__image-preview__image" :src="app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item)" alt="">
+      <img
+        v-if="!showEdit"
+        style=""
+        :src="app.adapter.getPreviewUrl({ path: app.modal.data.item.path })"
+        class="vuefinder__image-preview__image h-full w-full"
+      />
+
+      <Cropper
+        v-else
+        ref="cropperRef"
+        class="h-full w-full"
+        crossorigin="anonymous"
+        :src="tempImageData"
+        :auto-zoom="true"
+        :priority="'image'"
+        :transitions="true"
+      />
     </div>
 
-    <message v-if="message.length" @hidden="message=''" :error="isError">{{ message }}</message>
+    <message v-if="message.length" :error="isError" @hidden="message = ''">{{ message }}</message>
   </div>
 </template>
 
-<script setup>
-import 'cropperjs/dist/cropper.css';
-import Cropper from 'cropperjs';
-import {inject, onMounted, ref} from 'vue';
-import Message from '../Message.vue';
-import {FEATURES} from "../../features.js";
+<style>
+.cropper-viewers {
+  margin-top: 0.5rem;
+}
 
-const emit = defineEmits(['success']);
-
-const app = inject('ServiceContainer');
-
-const {t} = app.i18n;
-
-const image = ref(null);
-const cropper = ref(null);
-const showEdit = ref(false);
-const message = ref('');
-const isError = ref(false);
-
-const editMode = () => {
-  showEdit.value = !showEdit.value;
-
-  if (showEdit.value) {
-    cropper.value = new Cropper(image.value, {
-      crop(event) {
-      },
-    });
-  } else {
-    cropper.value.destroy();
-  }
-};
-
-const crop = () => {
-  cropper.value
-      .getCroppedCanvas({
-        width: 795,
-        height: 341
-      })
-      .toBlob(
-          blob => {
-            message.value = '';
-            isError.value = false;
-            const body = new FormData();
-            body.set('file', blob);
-            app.requester.send({
-              url: '',
-              method: 'post',
-              params: {
-                q: 'upload',
-                adapter: app.modal.data.adapter,
-                path: app.modal.data.item.path,
-              },
-              body,
-            })
-                .then(data => {
-                  message.value = t('Updated.');
-                  image.value.src = app.requester.getPreviewUrl(app.modal.data.adapter, app.modal.data.item);
-                  editMode();
-                  emit('success');
-                })
-                .catch((e) => {
-                  message.value = t(e.message);
-                  isError.value = true;
-                });
-          });
-};
-
-onMounted(() => {
-  emit('success');
-});
-
-</script>
+.cropper-viewers > cropper-viewer {
+  border: 1px solid var(--vp-c-divider);
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+</style>

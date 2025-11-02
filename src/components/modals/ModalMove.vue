@@ -1,16 +1,7 @@
-<template>
-  <ModalTransfer
-    :title="t('Move files')"
-    :body="t('Are you sure you want to move these files')"
-    :success-btn="t('Yes, Move!')"
-    :success-text="t('Files moved.')"
-  />
-</template>
-
-<script setup>
-import { inject } from "vue";
-import ModalTransfer from "./ModalTransfer.vue";
-
-const app = inject("ServiceContainer");
-const { t } = app.i18n;
+<script setup lang="ts">
+import ModalTransfer from '../../components/modals/ModalTransfer.vue';
 </script>
+
+<template>
+  <ModalTransfer :copy="false" />
+</template>

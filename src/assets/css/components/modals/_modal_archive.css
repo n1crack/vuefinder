@@ -1,0 +1,39 @@
+.vuefinder__archive-modal__content {
+  @apply mt-3 w-full text-center sm:mt-0 sm:text-left;
+}
+
+.vuefinder__archive-modal__form {
+  @apply mt-2;
+}
+
+.vuefinder__archive-modal__files {
+  @apply mb-1 max-h-[200px] overflow-auto text-sm text-(--vf-text-secondary);
+}
+
+.vuefinder__archive-modal__file {
+  @apply flex text-sm text-(--vf-text-primary);
+}
+
+.vuefinder__archive-modal__icon {
+  @apply h-5 w-5 text-(--vf-text-tertiary);
+}
+
+.vuefinder__themer .vuefinder__archive-modal__icon--dir {
+  @apply fill-current stroke-current text-(--vf-text-tertiary);
+}
+
+.vuefinder__archive-modal__file-name {
+  @apply ml-1.5 text-(--vf-text-primary);
+}
+
+.vuefinder__archive-modal__file-name:hover {
+  @apply text-(--vf-text-secondary);
+}
+
+.vuefinder__themer .vuefinder__archive-modal__input {
+  @apply my-1 w-full rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2 py-1 text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__archive-modal__input:focus {
+  @apply border-(--vf-border-focus) ring-(--vf-border-focus);
+}

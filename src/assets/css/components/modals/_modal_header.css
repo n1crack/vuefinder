@@ -1,0 +1,17 @@
+@reference "tailwindcss";
+
+.vuefinder__modal-header {
+  @apply my-1 flex items-center gap-2;
+}
+
+.vuefinder__modal-header__icon-container {
+  @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-(--vf-bg-tertiary) sm:mx-0 sm:h-10 sm:w-10;
+}
+
+.vuefinder__themer .vuefinder__modal-header__icon {
+  @apply h-8 w-8 stroke-(--vf-accent-primary) p-0.5 text-(--vf-bg-tertiary);
+}
+
+.vuefinder__modal-header__title {
+  @apply text-lg font-medium text-(--vf-text-primary);
+}

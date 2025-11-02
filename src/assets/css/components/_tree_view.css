@@ -1,0 +1,233 @@
+/**  TreeView */
+
+.vuefinder__treeview__overlay {
+  @apply z-[1] h-full w-full;
+}
+
+.vuefinder__treeview__backdrop {
+  @apply absolute backdrop-blur-sm md:hidden;
+}
+
+.vuefinder__treeview__container {
+  @apply absolute z-[1] h-full shrink-0 bg-(--vf-bg-secondary) shadow-lg duration-200 ease-in-out md:relative md:h-auto;
+}
+
+.vuefinder__treeview__scroll {
+  @apply h-full border-r border-(--vf-border-primary) pb-4;
+}
+
+/* Global Pinned List Styling - Works for all themes */
+.vuefinder__treeview__pinned-list {
+  @apply bg-(--vf-bg-primary) py-1 pb-2;
+}
+
+/* No Folders Message Styling */
+.vuefinder__treesubfolderlist__no-folders {
+  @apply px-2 py-1 text-center text-sm text-(--vf-text-tertiary) italic;
+}
+
+/* No Pinned Folders Message Styling */
+.vuefinder__treeview__no-pinned {
+  @apply px-3 py-2 text-center text-sm text-(--vf-text-tertiary) italic;
+}
+
+.vuefinder__treeview__header {
+  @apply sticky left-0 border-(--vf-border-primary);
+}
+
+.vuefinder__treeview__pinned-toggle {
+  @apply flex cursor-pointer items-center justify-between border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) p-1 py-1.5 pr-2 text-xs font-bold text-(--vf-text-tertiary) uppercase;
+}
+
+.vuefinder__treeview__pinned-label {
+  @apply flex items-center space-x-1;
+}
+
+.vuefinder__treeview__pin-icon {
+  @apply text-(--vf-accent-warning);
+}
+
+.vuefinder__treeview__pinned-item {
+  @apply flex justify-between py-0.5 pr-2 pl-2 text-sm;
+}
+
+.vuefinder__treeview__pinned-folder {
+  @apply flex cursor-pointer rounded border border-transparent text-(--vf-text-primary);
+}
+
+.vuefinder__treeview__pinned-folder:hover {
+  @apply text-(--vf-accent-primary);
+}
+
+.vuefinder__treeview__folder-icon {
+  @apply h-5 w-5;
+}
+
+.vuefinder__treeview__open-folder-icon {
+  @apply h-5 w-5;
+}
+
+.vuefinder__treeview__folder-name {
+  @apply text-nowrap;
+}
+
+.vuefinder__treeview__folder-name--active {
+  @apply underline decoration-(--vf-accent-primary);
+}
+
+.vuefinder__treeview__remove-folder {
+  @apply cursor-pointer;
+}
+
+.vuefinder__treeview__remove-icon {
+  @apply p-0.5 text-(--vf-text-tertiary);
+}
+
+.vuefinder__treeview__remove-icon:hover {
+  @apply text-(--vf-text-secondary);
+}
+
+.vuefinder__treeview__no-pinned {
+  @apply p-1 text-center text-xs;
+}
+
+.vuefinder__treeview__storage {
+  @apply sticky left-0;
+}
+
+.vuefinder__treeview__resize-handle {
+  @apply absolute top-0 -right-0.5 h-full w-1 cursor-ew-resize transition-colors;
+}
+
+.vuefinder__treeview__resize-handle:hover {
+  @apply bg-(--vf-bg-hover);
+}
+
+/** TreeSubFolderList */
+
+.vuefinder__treesubfolderlist__container {
+  @apply block;
+}
+
+.vuefinder__treesubfolderlist__item {
+  @apply flex flex-col space-x-0.5 text-sm;
+}
+
+.vuefinder__treesubfolderlist__item-content {
+  @apply flex rounded border border-transparent text-(--vf-text-primary);
+}
+
+.vuefinder__treesubfolderlist__item-content:hover {
+  @apply text-(--vf-accent-primary);
+}
+
+.vuefinder__treesubfolderlist__item-toggle {
+  @apply h-5 w-5 shrink-0;
+}
+
+.vuefinder__treesubfolderlist__item-link {
+  @apply flex cursor-pointer border border-transparent;
+}
+
+.vuefinder__treesubfolderlist__item-icon {
+  @apply h-5 w-5 shrink-0;
+}
+
+.vuefinder__treesubfolderlist__item-text {
+  @apply pr-4 text-nowrap;
+}
+
+.vuefinder__treesubfolderlist__item-text--active {
+  @apply underline decoration-(--vf-accent-primary);
+}
+
+.vuefinder__treesubfolderlist__subfolder {
+  @apply pl-4;
+}
+
+/** TreeStorageItem */
+
+.vuefinder__treestorageitem__header {
+  @apply flex cursor-pointer justify-between border-b border-(--vf-border-primary) bg-(--vf-bg-tertiary) p-1 py-1.5 text-xs font-bold text-(--vf-text-tertiary) uppercase;
+}
+
+.vuefinder__treestorageitem__info {
+  @apply flex flex-1 items-center space-x-1 border border-transparent;
+}
+
+.vuefinder__treestorageitem__info--active {
+  @apply font-bold text-(--vf-text-primary);
+}
+
+.vuefinder__treestorageitem__icon {
+  @apply h-5 w-5 shrink-0;
+}
+
+.vuefinder__treestorageitem__icon--active {
+  @apply text-(--vf-accent-primary);
+}
+
+.vuefinder__treestorageitem__loader {
+  @apply px-1;
+}
+
+.vuefinder__treestorageitem__subfolder {
+  @apply overflow-x-auto py-1;
+}
+
+/* Modal Tree Folder Item Styles */
+.vuefinder__modal-tree__folder-item {
+  @apply w-full;
+}
+
+.vuefinder__modal-tree__folder-content {
+  @apply flex w-full items-center;
+}
+
+.vuefinder__modal-tree__folder-toggle {
+  @apply flex h-4 w-4 cursor-pointer items-center justify-center rounded hover:bg-(--vf-bg-tertiary);
+}
+
+.vuefinder__modal-tree__folder-toggle-icon {
+  @apply h-3 w-3 text-(--vf-text-secondary);
+}
+
+.vuefinder__modal-tree__folder-spacer {
+  @apply h-4 w-4;
+}
+
+.vuefinder__modal-tree__folder-link {
+  @apply relative flex flex-1 cursor-pointer items-center gap-2 rounded px-2 py-1 transition-colors duration-200 hover:bg-(--vf-bg-tertiary);
+}
+
+.vuefinder__modal-tree__folder-link--selected {
+  @apply bg-(--vf-accent-color) text-(--vf-accent-text);
+}
+
+.vuefinder__modal-tree__folder-link--current {
+  @apply bg-(--vf-accent-color-light) font-medium text-(--vf-accent-color);
+}
+
+.vuefinder__modal-tree__folder-link--current .vuefinder__modal-tree__folder-icon {
+  @apply text-(--vf-accent-color);
+}
+
+.vuefinder__modal-tree__folder-icon {
+  @apply h-4 w-4 text-(--vf-text-secondary);
+}
+
+.vuefinder__modal-tree__folder-text {
+  @apply text-sm text-(--vf-text-primary);
+}
+
+.vuefinder__modal-tree__folder-link--selected .vuefinder__modal-tree__folder-text {
+  @apply text-(--vf-accent-text);
+}
+
+.vuefinder__modal-tree__folder-link--current .vuefinder__modal-tree__folder-text {
+  @apply font-medium text-(--vf-accent-color);
+}
+
+.vuefinder__modal-tree__subfolders {
+  @apply ml-4 border-l border-(--vf-border-primary) pl-2;
+}

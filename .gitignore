@@ -11,5 +11,3 @@ mix-manifest.json
 .env*
 .DS_Store
 _ide_helper.php
-webpack.mix.js
-dist

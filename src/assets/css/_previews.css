@@ -1,0 +1,150 @@
+/** Default Previews */
+
+.vuefinder__default-preview {
+  @apply flex flex-col;
+}
+
+.vuefinder__default-preview__header {
+  @apply mb-4 flex;
+}
+
+.vuefinder__default-preview__file-name {
+  @apply text-center text-sm text-(--vf-text-secondary);
+}
+
+.vuefinder__default-preview__title {
+  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__default-preview__icon-container {
+  @apply my-4 flex min-h-[200px] w-[300px] flex-col items-center justify-center justify-self-center rounded-2xl border-2 border-dashed border-(--vf-border-secondary) bg-(--vf-bg-secondary) p-8;
+}
+
+.vuefinder__default-preview__file-icon {
+  @apply h-30 w-30 text-(--vf-text-secondary);
+}
+
+/** Image Preview */
+
+.vuefinder__image-preview {
+  @apply flex flex-col;
+}
+
+.vuefinder__image-preview__header {
+  @apply -mx-3 mt-0 mb-2 flex items-center border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) px-3 py-3;
+}
+
+.vuefinder__image-preview__title {
+  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__image-preview__actions {
+  @apply ml-auto flex items-center;
+}
+
+.vuefinder__themer .vuefinder__image-preview__crop-button {
+  @apply ml-1 rounded border border-transparent px-2 py-1 text-base font-medium shadow-sm sm:ml-3 sm:w-auto sm:text-sm;
+  @apply bg-(--vf-accent-primary) text-(--vf-text-inverse);
+}
+
+.vuefinder__themer .vuefinder__image-preview__crop-button:hover {
+  @apply bg-(--vf-accent-secondary);
+}
+
+.vuefinder__themer .vuefinder__image-preview__edit-button {
+  @apply ml-1 px-2 py-1 text-(--vf-accent-primary);
+}
+
+.vuefinder__themer .vuefinder__image-preview__edit-button:hover {
+  @apply text-(--vf-accent-secondary);
+}
+
+.vuefinder__image-preview__image-container {
+  @apply flex w-full justify-center;
+}
+
+.vuefinder__themer .vuefinder__image-preview__image {
+  @apply max-h-[70vh];
+}
+.vuefinder__themer .vuefinder__image-preview__image-container cropper-canvas {
+  @apply h-full w-full;
+}
+
+/** Auido Preview */
+.vuefinder__audio-preview__title {
+  @apply mb-2 text-lg leading-6 font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__audio-preview__audio {
+  @apply w-full;
+}
+
+/** PDF Preview */
+
+.vuefinder__pdf-preview__title {
+  @apply mb-2 text-lg leading-6 font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__pdf-preview__object {
+  @apply h-[60vh];
+}
+
+.vuefinder__themer .vuefinder__pdf-preview__iframe {
+  @apply border-0;
+}
+
+/** Text Preview */
+
+.vuefinder__text-preview {
+  @apply flex flex-col;
+}
+
+.vuefinder__text-preview__header {
+  @apply -mx-3 mt-0 mb-2 flex items-center border-b border-(--vf-border-primary) px-3 py-3;
+}
+
+.vuefinder__text-preview__title {
+  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__text-preview__actions {
+  @apply ml-auto flex items-center;
+}
+
+.vuefinder__themer .vuefinder__text-preview__save-button {
+  @apply ml-1 rounded border border-transparent bg-(--vf-accent-primary) px-2 py-1 text-base font-medium text-(--vf-text-inverse) shadow-sm sm:ml-3 sm:w-auto sm:text-sm;
+}
+
+.vuefinder__themer .vuefinder__text-preview__save-button:hover {
+  @apply bg-(--vf-accent-secondary);
+}
+
+.vuefinder__themer .vuefinder__text-preview__edit-button {
+  @apply ml-1 px-2 py-1 text-(--vf-accent-primary);
+}
+
+.vuefinder__themer .vuefinder__text-preview__edit-button:hover {
+  @apply text-(--vf-accent-secondary);
+}
+
+.vuefinder__text-preview__content {
+  @apply max-h-[60vh] min-h-[200px] overflow-auto rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) p-2 text-xs font-normal whitespace-pre-wrap text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__text-preview__textarea {
+  @apply max-h-[60vh] min-h-[200px] w-full rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) p-2 text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__text-preview__textarea:focus {
+  @apply border-(--vf-accent-primary) shadow-[0_0_0_1px_var(--vf-accent-primary)];
+}
+
+/** Video Preview */
+
+.vuefinder__video-preview__title {
+  @apply mb-2 text-lg leading-6 font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__video-preview__video {
+  @apply aspect-video w-full;
+}

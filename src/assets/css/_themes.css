@@ -1,0 +1,61 @@
+/* VueFinder Theme System */
+
+/* Default theme fallback */
+.vuefinder:not([data-theme]) {
+  /* Use light as fallback */
+  --vf-bg-primary: #ffffff;
+  --vf-bg-secondary: #f9fafb;
+  --vf-bg-tertiary: #f3f4f6;
+  --vf-bg-hover: #f9fafb;
+  --vf-bg-selected: #f3f4f6;
+  --vf-bg-disabled: #f9fafb;
+
+  --vf-text-primary: #374151;
+  --vf-text-secondary: #6b7280;
+  --vf-text-tertiary: #9ca3af;
+  --vf-text-disabled: #d1d5db;
+  --vf-text-inverse: #ffffff;
+
+  --vf-border-primary: #d1d5db;
+  --vf-border-secondary: #e5e7eb;
+  --vf-border-focus: #aabfd7;
+  --vf-border-error: #040303;
+
+  --vf-accent-primary: #636e7a;
+  --vf-accent-secondary: #c8d6e6;
+  --vf-accent-success: #10b981;
+  --vf-accent-warning: #f59e0b;
+  --vf-accent-error: #ef4444;
+
+  --vf-interactive-hover: #f3f4f6;
+  --vf-interactive-active: #e5e7eb;
+  --vf-interactive-focus: #e8eff7;
+
+  --vf-shadow-sm: rgba(0, 0, 0, 0.05);
+  --vf-shadow-md: rgba(0, 0, 0, 0.1);
+  --vf-shadow-lg: rgba(0, 0, 0, 0.15);
+  --vf-shadow-modal: rgba(0, 0, 0, 0.15);
+
+  --vf-overlay-bg: rgba(17, 24, 39, 0.7);
+  --vf-overlay-border: rgba(75, 85, 99, 0.8);
+  --vf-overlay-text: #6b7280;
+}
+/* Light Theme - Selection Area */
+.selection-area-container {
+  --vf-selection-bg: #f9fafb;
+  --vf-selection-border: #aabfd7;
+}
+
+/* Import all theme files */
+@import './themes/light.css';
+@import './themes/dark.css';
+@import './themes/latte.css';
+@import './themes/rose.css';
+@import './themes/mythril.css';
+@import './themes/midnight.css';
+@import './themes/ocean.css';
+@import './themes/palenight.css';
+@import './themes/lime.css';
+@import './themes/sky.css';
+@import './themes/arctic.css';
+@import './themes/code.css';

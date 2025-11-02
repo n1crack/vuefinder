@@ -1,61 +1,81 @@
+<script setup lang="ts">
+import { computed, inject, ref, onMounted, onUnmounted } from 'vue';
+import { useApp } from '../composables/useApp';
+import { useStore } from '@nanostores/vue';
+import StorageSVG from '../assets/icons/storage.svg';
+import type { StoreValue } from 'nanostores';
+import type { CurrentPathState } from '../stores/files';
+import type { DirEntry } from '../types';
+
+const app = useApp();
+const { t } = app.i18n;
+const fs = app.fs;
+
+// Use nanostores reactive values for template reactivity
+const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
+const path: StoreValue<CurrentPathState> = useStore(fs.path);
+const selectedCount: StoreValue<number> = useStore(fs.selectedCount);
+const storages: StoreValue<string[]> = useStore(fs.storages);
+const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
+const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
+
+const handleStorageSelect = (event: Event) => {
+  const storage = (event.target as HTMLSelectElement).value;
+  app.adapter.open(storage + '://');
+};
+
+// Calculate total size of selected items
+const totalSelectedSize = computed(() => {
+  if (!selectedItems.value || selectedItems.value.length === 0) return 0;
+
+  return selectedItems.value.reduce((total: number, item: any) => {
+    return total + (item.file_size || 0);
+  }, 0);
+});
+
+const storagesList = computed(() => storages.value as string[]);
+const sortedFilesList = computed(() => sortedFiles.value as any[]);
+const selectedCountNum = computed(() => (selectedCount.value as number) || 0);
+const selectedItemsList = computed(() => selectedItems.value || []);
+</script>
+
 <template>
   <div class="vuefinder__status-bar__wrapper">
     <div class="vuefinder__status-bar__storage">
       <div class="vuefinder__status-bar__storage-container" :title="t('Storage')">
         <div class="vuefinder__status-bar__storage-icon">
-          <StorageSVG/>
+          <StorageSVG />
         </div>
-        <select v-model="app.fs.adapter" @change="handleStorageSelect"
-                class="vuefinder__status-bar__storage-select" tabindex="-1">
-          <option v-for="storage in app.fs.data.storages" :value="storage">
+        <select
+          name="vuefinder-media-selector"
+          :value="path.storage"
+          class="vuefinder__status-bar__storage-select"
+          tabindex="-1"
+          @change="handleStorageSelect"
+        >
+          <option v-for="storage in storagesList" :key="storage" :value="storage">
             {{ storage }}
           </option>
         </select>
       </div>
-      <div class="vuefinder__status-bar__info">
-        <span v-if="searchQuery.length">{{ app.fs.data.files.length }} items found. </span>
-        <span class="vuefinder__status-bar__selected-count">{{ app.dragSelect.getCount() > 0 ? t('%s item(s) selected.', app.dragSelect.getCount()) : '' }}</span>
+      <div class="vuefinder__status-bar__info space-x-2">
+        <span v-if="selectedCountNum === 0">{{ sortedFilesList.length }} {{ t('items') }}</span>
+        <span v-else>
+          {{ selectedCountNum }} {{ t('selected') }}
+          <span v-if="totalSelectedSize" class="vuefinder__status-bar__size">
+            {{ app.filesize(totalSelectedSize) }}
+          </span>
+        </span>
       </div>
     </div>
+
     <div class="vuefinder__status-bar__actions">
-      <button class="vf-btn py-0 vf-btn-primary"
-              :class="{disabled: !isSelectButtonActive}"
-              :disabled="!isSelectButtonActive"
-              v-if="app.selectButton.active" @click="app.selectButton.click(ds.getSelected(), $event)">{{ t("Select") }}</button>
-      <span class="vuefinder__status-bar__about" :title="t('About')" @click="app.modal.open(ModalAbout)">
-        <AboutSVG />
-      </span>
+      <slot
+        name="actions"
+        :path="currentPath.path"
+        :count="selectedCountNum || 0"
+        :selected="selectedItemsList"
+      ></slot>
     </div>
   </div>
 </template>
-
-<script setup>
-import {computed, inject, ref} from 'vue';
-import ModalAbout from "./modals/ModalAbout.vue";
-import StorageSVG from "./icons/storage.svg";
-import AboutSVG from "./icons/about.svg";
-
-const app = inject('ServiceContainer');
-const {t} = app.i18n;
-const {setStore} = app.storage;
-const  ds = app.dragSelect;
-
-const handleStorageSelect = () => {
-  app.emitter.emit('vf-search-exit');
-  app.emitter.emit('vf-fetch', {params:{q: 'index', adapter: app.fs.adapter}});
-  setStore('adapter', app.fs.adapter);
-};
-
-const searchQuery = ref('');
-
-app.emitter.on('vf-search-query', ({newQuery}) => {
-  searchQuery.value = newQuery;
-});
-
-const isSelectButtonActive = computed(() => {
-  const selectionAllowed = app.selectButton.multiple ? ds.getSelected().length > 0 : ds.getSelected().length === 1;
-  return app.selectButton.active && selectionAllowed;
-});
-
-</script>
-

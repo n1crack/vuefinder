@@ -1,42 +1,49 @@
-import type { Component } from "vue";
-import type VueFinder from "./components/VueFinder.vue"
-import type ServiceContainer from "./ServiceContainer";
-import type { RequestConfig } from "./utils/ajax.js";
-import type { Item as ContextMenuItem } from "./utils/contextmenu.js";
+import type { Item as ContextMenuItem } from './utils/contextmenu';
+import ServiceContainer from './ServiceContainer';
+import type { Driver } from './adapters';
+import type { ConfigDefaults } from './stores/config';
+import type { FeaturesConfig, FeaturesPreset } from './features';
 
-export type App = ReturnType<typeof ServiceContainer>
+export type App = ReturnType<typeof ServiceContainer>;
 
 export interface VueFinderProps {
-  id?: string;
-  request: string | RequestConfig;
-  persist?: boolean;
-  path?: string;
-  features?: boolean | string[];
+  id: string;
+  driver: Driver;
+  config?: ConfigDefaults;
+  features?: FeaturesPreset | FeaturesConfig;
   debug?: boolean;
-  theme?: "system" | "light" | "dark";
   locale?: string;
-  maxHeight?: string;
-  maxFileSize?: string;
-  fullScreen?: boolean;
-  showTreeView?: boolean;
-  pinnedFolders?: string[];
-  showThumbnails?: boolean;
-  selectButton?: SelectButton;
-  loadingIndicator?: "circular" | "linear";
   contextMenuItems?: ContextMenuItem[];
+  selectionMode?: 'single' | 'multiple';
+  selectionFilterType?: 'files' | 'dirs' | 'both';
+  selectionFilterMimeIncludes?: string[];
   onError?: (error: any) => void;
   onSelect?: SelectEvent;
-  'onUpdate:path'?: UpdatePathEvent;
-  icon?: CustomIcon
+  onPathChange?: UpdatePathEvent;
+  onUploadComplete?: (files: DirEntry[]) => void;
+  onDeleteComplete?: (deletedItems: DirEntry[]) => void;
+  onReady?: () => void;
+  onFileDclick?: (item: DirEntry) => void;
+  onFolderDclick?: (item: DirEntry) => void;
+  /**
+   * Custom uploader configuration (optional)
+   * If provided, will override adapter's configureUploader
+   */
+  customUploader?: (
+    uppy: any,
+    context: {
+      getTargetPath: () => string;
+    }
+  ) => void;
 }
 
 export type SelectEvent = (items: DirEntry[]) => void;
 export type UpdatePathEvent = (path: string) => void;
-export type CustomIcon = (app: App, item: DirEntry) => {is: string | Component, props?: any} | undefined;
 
-export type DirEntryType = 'file' | 'dir'
+export type DirEntryType = 'file' | 'dir';
 
 export interface DirEntry {
+  dir: string;
   basename: string;
   extension: string;
   path: string;
@@ -45,24 +52,39 @@ export interface DirEntry {
   file_size: number | null;
   last_modified: number | null;
   mime_type: string | null;
+  read_only?: boolean;
   visibility: string;
 }
 
-export type SelectButton = {
-  /**
-   * show select button
-   */
-  active: boolean;
-  /**
-   * allow multiple selection
-   */
-  multiple: boolean;
-  /**
-   * handle click event
-   */
-  click: (items: DirEntry[], event: any) => void;
-};
-
 export interface StorageInfo {
-  filesystem?: string
+  filesystem?: string;
 }
+
+export interface PinnedFolder {
+  path: string;
+  storage: string;
+  basename: string;
+  type: 'dir';
+}
+
+export interface TreeViewFolder {
+  storage: string;
+  path: string;
+  basename: string;
+  type: 'dir';
+}
+
+export interface TreeViewData {
+  path: string;
+  folders: TreeViewFolder[];
+}
+
+export interface FsData {
+  storages: string[];
+  dirname: string;
+  files: DirEntry[];
+  read_only?: boolean;
+}
+
+// Re-export feature types for convenience
+export type { FeatureName, FeaturesConfig, FeaturesPreset } from './features';

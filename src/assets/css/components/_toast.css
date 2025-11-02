@@ -1,0 +1,28 @@
+.vuefinder__toast {
+  @apply bottom-0 left-1/2 z-10 flex max-w-fit -translate-x-1/2 flex-col;
+}
+
+.vuefinder__toast--fixed {
+  @apply fixed;
+}
+
+.vuefinder__toast--absolute {
+  @apply absolute;
+}
+
+.vuefinder__toast__message {
+  @apply mx-auto my-0.5 inline-block min-w-max cursor-pointer rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) px-2 py-0.5 text-xs sm:text-sm;
+}
+
+/* Transition classes */
+.vuefinder__toast-item--enter-active {
+  @apply transition-all duration-1000;
+}
+
+.vuefinder__toast-item--leave-active {
+  @apply opacity-0 transition-all duration-1000;
+}
+
+.vuefinder__toast-item--leave-to {
+  @apply opacity-0;
+}

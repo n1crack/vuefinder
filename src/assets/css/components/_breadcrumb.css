@@ -1,0 +1,133 @@
+.vuefinder__breadcrumb__container {
+  @apply relative flex grow-0 items-center space-x-0.5 border-t border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) p-1.5 text-sm select-none;
+}
+
+.vuefinder__breadcrumb__toggle-tree {
+  @apply h-6 w-6 cursor-pointer rounded p-0.5 text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover);
+}
+
+.vuefinder__breadcrumb__toggle-tree--active {
+  @apply bg-(--vf-bg-hover) text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__refresh-icon,
+.vuefinder__breadcrumb__close-icon {
+  @apply h-6 w-6 cursor-pointer rounded p-1 text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__go-up--active {
+  @apply cursor-pointer text-(--vf-text-primary) hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__go-up--inactive {
+  @apply text-(--vf-text-disabled);
+}
+
+.vuefinder__breadcrumb__path-container {
+  @apply ml-2 flex w-full items-center overflow-hidden rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) p-1;
+}
+
+.vuefinder__breadcrumb__home-icon {
+  @apply h-6 w-6 cursor-pointer rounded p-1 text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__list {
+  @apply flex leading-6;
+}
+
+.vuefinder__breadcrumb__hidden-list {
+  @apply flex;
+}
+
+.vuefinder__breadcrumb__separator {
+  @apply mx-0.5 text-(--vf-text-tertiary);
+}
+
+.vuefinder__breadcrumb__hidden-toggle {
+  @apply cursor-pointer rounded text-(--vf-text-primary);
+}
+
+.vuefinder__breadcrumb__hidden-toggle:hover {
+  @apply bg-(--vf-bg-hover);
+}
+
+.vuefinder__breadcrumb__hidden-toggle-icon {
+  @apply h-6 w-6 rounded px-1;
+}
+
+.vuefinder__breadcrumb__visible-list {
+  @apply flex w-full overflow-hidden leading-6;
+}
+
+.vuefinder__breadcrumb__item {
+  @apply cursor-pointer rounded border border-transparent px-1.5 py-0.5 whitespace-nowrap text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__item--pointer-events-auto {
+  @apply pointer-events-auto;
+}
+/* Theme-aware drag over class */
+.vuefinder__drag-over {
+  @apply border border-(--vf-selection-border) bg-(--vf-selection-bg);
+}
+
+.vuefinder__breadcrumb__hidden-dropdown {
+  @apply absolute top-9 z-50 max-w-80 overflow-y-auto rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary) shadow-md;
+}
+
+.vuefinder__breadcrumb__hidden-item {
+  @apply cursor-pointer items-center px-2 py-0.5 whitespace-nowrap;
+}
+
+.vuefinder__breadcrumb__hidden-item:hover {
+  @apply bg-(--vf-bg-hover);
+}
+
+.vuefinder__breadcrumb__hidden-item-content {
+  @apply pointer-events-none flex items-center;
+}
+
+.vuefinder__breadcrumb__hidden-item-icon {
+  @apply h-5 w-5;
+}
+
+.vuefinder__breadcrumb__hidden-item-text {
+  @apply inline-block w-full overflow-hidden text-ellipsis;
+}
+
+/* Path Copy Mode */
+.vuefinder__breadcrumb__path-mode {
+  @apply ml-2 flex w-full items-center rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) p-0.5;
+}
+
+.vuefinder__breadcrumb__path-mode-content {
+  @apply flex w-full items-center space-x-2;
+}
+
+.vuefinder__breadcrumb__copy-icon {
+  @apply h-6 w-6 cursor-pointer rounded p-1 text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__path-text {
+  @apply max-w-[calc(100vw-164px)] flex-1 overflow-auto rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) px-2 py-0.75 font-mono text-sm whitespace-nowrap text-(--vf-text-primary);
+  @apply cursor-text select-all;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.vuefinder__breadcrumb__exit-icon {
+  @apply h-6 w-6 cursor-pointer rounded p-1 text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+}
+
+.vuefinder__breadcrumb__toggle-icon {
+  @apply h-6 w-6 cursor-pointer rounded p-1 text-(--vf-text-primary);
+  @apply hover:bg-(--vf-bg-hover) hover:text-(--vf-accent-primary);
+  @apply transition-colors duration-200;
+}

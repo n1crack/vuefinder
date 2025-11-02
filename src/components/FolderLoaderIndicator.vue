@@ -1,73 +1,48 @@
-<template>
-  <div class="vuefinder__folder-loader-indicator">
+<script setup lang="ts">
+import { ref, inject, watch } from 'vue';
 
-    <LoadingSVG v-if="loading" class="vuefinder__folder-loader-indicator--loading" />
-    <div class="vuefinder__folder-loader-indicator--icon" v-else>
-      <SquareMinusSVG class="vuefinder__folder-loader-indicator--minus" v-if="opened && getLoadedFolder()?.folders.length" />
-      <SquarePlusSVG class="vuefinder__folder-loader-indicator--plus" v-if="!opened" />
-    </div>
+import SquarePlusSVG from '../assets/icons/plus.svg';
+import SquareMinusSVG from '../assets/icons/minus.svg';
+import LoadingSVG from '../assets/icons/loading.svg';
+import upsert from '../utils/upsert';
+import type { DirEntry } from '../types';
+import { useApp } from '../composables/useApp';
 
-  </div>
-</template>
+const props = defineProps<{
+  storage: string;
+  path: string;
+}>();
 
-<script setup>
-import {ref, inject, watch} from 'vue';
+const app = useApp();
+const opened = defineModel<boolean>();
+const loading = ref(false);
 
-import SquarePlusSVG from "./icons/plus.svg";
-import SquareMinusSVG from "./icons/minus.svg";
-import LoadingSVG from "./icons/loading.svg";
-import upsert from "../utils/upsert";
-
-const props = defineProps({
-  adapter: {
-    type: String,
-    required: true,
-  },
-  path: {
-    type: String,
-    required: true,
-  }
-});
-
-const app = inject('ServiceContainer');
-const {t} = app.i18n;
-const opened = defineModel();
-const loading = ref(false)
-
-// loading..
-
-watch(() => opened.value, () =>
-    getLoadedFolder()?.folders.length || fetchSubFolders()
+watch(
+  () => opened.value,
+  () => fetchSubFolders()
 );
 
-function toggleIndicator() {
-  return opened.value = !opened.value;
-}
-
-function getLoadedFolder() {
-  return app.treeViewData.find(e => e.path === props.path) ;
-}
-
-const fetchSubFolders = () => {
+const fetchSubFolders = async () => {
   loading.value = true;
-  app.requester.send({
-    url: '',
-    method: 'get',
-    params: {
-      q: 'subfolders',
-      adapter: props.adapter,
-      path: props.path,
-    },
-  })
-      .then(data => {
-        upsert(app.treeViewData, {path: props.path, type:'dir', ...data})
-      })
-      .catch((e) => {
-      })
-      .finally(() => {
-        loading.value = false;
-      });
+  try {
+    const data = await app.adapter.list(props.path);
+    const folders = data.files.filter((file: DirEntry) => file.type === 'dir');
 
-}
+    upsert(app.treeViewData, { path: props.path, type: 'dir', folders });
+  } catch (e: unknown) {
+    console.error('Failed to fetch subfolders:', e);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
+<template>
+  <div class="vuefinder__folder-loader-indicator">
+    <LoadingSVG v-if="loading" class="vuefinder__folder-loader-indicator--loading" />
+    <div v-else class="vuefinder__folder-loader-indicator--icon">
+      <SquareMinusSVG v-if="opened" class="vuefinder__folder-loader-indicator--minus" />
+      <SquarePlusSVG v-if="!opened" class="vuefinder__folder-loader-indicator--plus" />
+    </div>
+  </div>
+</template>
