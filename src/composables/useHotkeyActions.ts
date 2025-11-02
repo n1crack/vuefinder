@@ -1,7 +1,7 @@
-import { onMounted, onBeforeUnmount } from 'vue';
+import { onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
-import type { DirEntry } from '../types';
+import type { App, DirEntry } from '../types';
 import ModalAbout from '../components/modals/ModalAbout.vue';
 import ModalDelete from '../components/modals/ModalDelete.vue';
 import ModalRename from '../components/modals/ModalRename.vue';
@@ -11,6 +11,8 @@ import ModalCopy from '../components/modals/ModalCopy.vue';
 import ModalSearch from '../components/modals/ModalSearch.vue';
 import ModalSettings from '../components/modals/ModalSettings.vue';
 import type { CurrentPathState } from '@/stores/files';
+import { useApp } from './useApp';
+import { useFeatures } from './useFeatures';
 
 const KEYBOARD_SHORTCUTS = {
   ESCAPE: 'Escape',
@@ -28,9 +30,11 @@ const KEYBOARD_SHORTCUTS = {
   KEY_R: 'KeyR',
 } as const;
 
-export function useHotkeyActions(app: any) {
+export function useHotkeyActions() {
+  const app: App = useApp();
   const fs = app.fs;
   const config = app.config;
+  const { enabled } = useFeatures();
 
   const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
@@ -40,7 +44,7 @@ export function useHotkeyActions(app: any) {
   const handleKeyboardShortcuts = (e: KeyboardEvent) => {
     if (e.code === KEYBOARD_SHORTCUTS.ESCAPE) {
       app.modal.close();
-      (app.root as HTMLElement).focus();
+      app.root.focus();
     }
     if (app.modal.visible) return;
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_R && !e.shiftKey) {
@@ -48,12 +52,7 @@ export function useHotkeyActions(app: any) {
       app.adapter.open(currentPath.value.path);
       e.preventDefault();
     }
-    if (
-      e.metaKey &&
-      e.shiftKey &&
-      e.code === KEYBOARD_SHORTCUTS.KEY_R &&
-      ((app.features as Record<string, boolean>).rename ?? false)
-    ) {
+    if (e.metaKey && e.shiftKey && e.code === KEYBOARD_SHORTCUTS.KEY_R && enabled('rename')) {
       if (selectedItems.value.length === 1) {
         app.modal.open(ModalRename, { items: selectedItems.value });
         e.preventDefault();
@@ -65,11 +64,7 @@ export function useHotkeyActions(app: any) {
       }
     }
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout);
-    if (
-      e.metaKey &&
-      e.code === KEYBOARD_SHORTCUTS.KEY_F &&
-      ((app.features as Record<string, boolean>).search ?? false)
-    ) {
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && enabled('search')) {
       // Open search modal
       app.modal.open(ModalSearch);
       e.preventDefault();
@@ -84,7 +79,7 @@ export function useHotkeyActions(app: any) {
     }
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.ENTER) {
       config.toggle('fullScreen');
-      (app.root as HTMLElement).focus();
+      app.root.focus();
     }
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_A) {
       fs.selectAll(app.selectionMode || 'multiple', app);
@@ -99,11 +94,7 @@ export function useHotkeyActions(app: any) {
       }
     }
 
-    if (
-      e.metaKey &&
-      e.code === KEYBOARD_SHORTCUTS.KEY_C &&
-      ((app.features as Record<string, boolean>).copy ?? false)
-    ) {
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_C && enabled('copy')) {
       if (selectedItems.value.length === 0) {
         app.emitter.emit('vf-toast-push', {
           type: 'error',
@@ -121,11 +112,7 @@ export function useHotkeyActions(app: any) {
       e.preventDefault();
     }
 
-    if (
-      e.metaKey &&
-      e.code === KEYBOARD_SHORTCUTS.KEY_X &&
-      ((app.features as Record<string, boolean>).copy ?? false)
-    ) {
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_X && enabled('copy')) {
       if (selectedItems.value.length === 0) {
         app.emitter.emit('vf-toast-push', {
           type: 'error',
@@ -143,11 +130,7 @@ export function useHotkeyActions(app: any) {
       e.preventDefault();
     }
 
-    if (
-      e.metaKey &&
-      e.code === KEYBOARD_SHORTCUTS.KEY_V &&
-      ((app.features as Record<string, boolean>).copy ?? false)
-    ) {
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_V && enabled('copy')) {
       if (fs.getClipboard().items.size === 0) {
         app.emitter.emit('vf-toast-push', {
           type: 'error',
@@ -180,10 +163,18 @@ export function useHotkeyActions(app: any) {
     }
   };
 
-  onMounted(() => {
+  onMounted(async () => {
+    // Wait for next tick to ensure app.root is set by VueFinder
+    await nextTick();
+    if (!app.root) {
+      console.warn('app.root is not available. Event listeners will not be attached.');
+      return;
+    }
     app.root.addEventListener('keydown', handleKeyboardShortcuts);
   });
   onBeforeUnmount(() => {
-    app.root.removeEventListener('keydown', handleKeyboardShortcuts);
+    if (app.root) {
+      app.root.removeEventListener('keydown', handleKeyboardShortcuts);
+    }
   });
 }

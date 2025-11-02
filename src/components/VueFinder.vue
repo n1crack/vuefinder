@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { inject, onMounted, provide, watch, unref, computed } from 'vue';
-import { ServiceContainerKey } from '../composables/useApp';
+import { onMounted, watch, unref, useTemplateRef } from 'vue';
+import { useApp } from '../composables/useApp';
 import { useStore } from '@nanostores/vue';
-import ServiceContainer from '../ServiceContainer';
 import { useHotkeyActions } from '../composables/useHotkeyActions';
 import { useExternalDragDrop } from '../composables/useExternalDragDrop';
 import { normalizeFeatures } from '../features';
@@ -32,22 +31,12 @@ const emit = defineEmits([
   'folder-dclick',
 ]);
 
-const props = withDefaults(defineProps<VueFinderProps>(), {
-  id: 'vf',
-  features: undefined,
-  debug: false,
-  contextMenuItems: () => contextMenuItems,
-  selectionMode: 'multiple',
-  selectionFilterType: 'both',
-  selectionFilterMimeIncludes: () => [],
-});
+const props = defineProps<VueFinderProps>();
 
-// the object is passed to all components as props
-const app = ServiceContainer(props, inject('VueFinderOptions') || {});
-provide(ServiceContainerKey, app);
+const app = useApp();
+const root = useTemplateRef<HTMLDivElement>('root');
+
 const config = app.config;
-
-// Watch for features prop changes and update app.features reactively
 watch(
   () => props.features,
   (newFeatures) => {
@@ -67,7 +56,7 @@ const fs = app.fs;
 // Use nanostores reactive values for template reactivity
 const configState: StoreValue<ConfigState> = useStore(config.state);
 
-useHotkeyActions(app);
+useHotkeyActions();
 
 const { isDraggingExternal, handleDragEnter, handleDragOver, handleDragLeave, handleDrop } =
   useExternalDragDrop();
@@ -128,6 +117,7 @@ watch(
 
 // fetch initial data
 onMounted(() => {
+  app.root = root.value;
   watch(
     () => config.get('path'),
     (path: string | undefined) => {
@@ -226,7 +216,7 @@ const handleExternalDrop = async (e: DragEvent) => {
           <Component :is="app.modal.type" v-if="app.modal.visible" />
         </Transition>
       </Teleport>
-      <ContextMenu />
+      <ContextMenu :items="contextMenuItems" />
     </div>
   </div>
 </template>

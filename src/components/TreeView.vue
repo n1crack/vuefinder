@@ -130,19 +130,19 @@ watch(sortedFiles, (newFiles) => {
     "
     class="vuefinder__treeview__container"
   >
-      <div ref="treeViewScrollElement" class="vuefinder__treeview__scroll">
-        <div v-if="enabled('pinned')" class="vuefinder__treeview__header">
-          <div
-            class="vuefinder__treeview__pinned-toggle"
-            @click="pinnedFoldersOpened = !pinnedFoldersOpened"
-          >
-            <div class="vuefinder__treeview__pinned-label">
-              <PinSVG class="vuefinder__treeview__pin-icon" />
-              <div class="vuefinder__treeview__pin-text text-nowrap">{{ t('Pinned Folders') }}</div>
-            </div>
-            <FolderIndicator v-model="pinnedFoldersOpened" />
+    <div ref="treeViewScrollElement" class="vuefinder__treeview__scroll">
+      <div v-if="enabled('pinned')" class="vuefinder__treeview__header">
+        <div
+          class="vuefinder__treeview__pinned-toggle"
+          @click="pinnedFoldersOpened = !pinnedFoldersOpened"
+        >
+          <div class="vuefinder__treeview__pinned-label">
+            <PinSVG class="vuefinder__treeview__pin-icon" />
+            <div class="vuefinder__treeview__pin-text text-nowrap">{{ t('Pinned Folders') }}</div>
           </div>
-          <ul v-if="pinnedFoldersOpened" class="vuefinder__treeview__pinned-list">
+          <FolderIndicator v-model="pinnedFoldersOpened" />
+        </div>
+        <ul v-if="pinnedFoldersOpened" class="vuefinder__treeview__pinned-list">
           <li
             v-for="folder in configState.pinnedFolders"
             :key="folder.path"

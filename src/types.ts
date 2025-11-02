@@ -2,7 +2,7 @@ import type { Item as ContextMenuItem } from './utils/contextmenu';
 import ServiceContainer from './ServiceContainer';
 import type { Driver } from './adapters';
 import type { ConfigDefaults } from './stores/config';
-import type { FeatureName, FeaturesConfig, FeaturesPreset } from './features';
+import type { FeaturesConfig, FeaturesPreset } from './features';
 
 export type App = ReturnType<typeof ServiceContainer>;
 

@@ -1,4 +1,3 @@
-import type { FeatureName } from '../features';
 import ModalNewFolder from '../components/modals/ModalNewFolder.vue';
 import ModalPreview from '../components/modals/ModalPreview.vue';
 import ModalArchive from '../components/modals/ModalArchive.vue';
@@ -44,8 +43,6 @@ export type Item = {
   link?: (app: App, selectedItems: DirEntry[]) => void;
   show: (app: App, ctx: MenuContext) => boolean;
 };
-
-// type ItemTemplate = Pick<Item, 'title' | 'action'> & { link?: Item['link']; key?: string }
 
 type ShowOptions = {
   needsSearchQuery?: boolean;
@@ -157,17 +154,13 @@ export const menuItems: Item[] = [
       );
       config.set('pinnedFolders', newPinnedFolders);
     },
-    show: showIfAll(
-      showIf({ target: 'one', targetType: 'dir', feature: 'pinned' }),
-      (app, ctx) => {
-        const config = app.config;
-        const currentPinnedFolders = config.get('pinnedFolders');
-        return (
-          currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) ===
-          -1
-        );
-      }
-    ),
+    show: showIfAll(showIf({ target: 'one', targetType: 'dir', feature: 'pinned' }), (app, ctx) => {
+      const config = app.config;
+      const currentPinnedFolders = config.get('pinnedFolders');
+      return (
+        currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1
+      );
+    }),
   },
   {
     id: ContextMenuIds.unpinFolder,
@@ -182,16 +175,13 @@ export const menuItems: Item[] = [
         )
       );
     },
-    show: showIfAll(
-      showIf({ target: 'one', targetType: 'dir', feature: 'pinned' }),
-      (app, ctx) => {
-        const config = app.config;
-        const currentPinnedFolders = config.get('pinnedFolders');
-        return (
-          currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
-        );
-      }
-    ),
+    show: showIfAll(showIf({ target: 'one', targetType: 'dir', feature: 'pinned' }), (app, ctx) => {
+      const config = app.config;
+      const currentPinnedFolders = config.get('pinnedFolders');
+      return (
+        currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
+      );
+    }),
   },
   {
     id: ContextMenuIds.preview,

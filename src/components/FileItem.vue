@@ -207,8 +207,7 @@ const delayedOpenItem = (event: TouchEvent) => {
     </div>
     <PinSVG
       v-if="
-        enabled('pinned') &&
-        config.get('pinnedFolders').find((pin: any) => pin.path === item.path)
+        enabled('pinned') && config.get('pinnedFolders').find((pin: any) => pin.path === item.path)
       "
       class="vuefinder__item--pinned"
     />

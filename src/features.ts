@@ -64,9 +64,7 @@ export function getDefaultFeatures(): FeaturesConfig {
   return FEATURE_PRESETS.advanced;
 }
 
-export function normalizeFeatures(
-  features?: FeaturesPreset | FeaturesConfig
-): FeaturesConfig {
+export function normalizeFeatures(features?: FeaturesPreset | FeaturesConfig): FeaturesConfig {
   if (!features) {
     return getDefaultFeatures();
   }

@@ -155,10 +155,7 @@ const supportedLanguages = Object.fromEntries(
               </div>
             </div>
 
-            <div
-              v-if="enabled('theme')"
-              class="vuefinder__about-modal__settings__section-title"
-            >
+            <div v-if="enabled('theme')" class="vuefinder__about-modal__settings__section-title">
               {{ t('Theme') }}
             </div>
 
@@ -183,20 +180,14 @@ const supportedLanguages = Object.fromEntries(
             </div>
 
             <div
-              v-if="
-                enabled('language') &&
-                Object.keys(supportedLanguages).length > 1
-              "
+              v-if="enabled('language') && Object.keys(supportedLanguages).length > 1"
               class="vuefinder__about-modal__settings__section-title"
             >
               {{ t('Language') }}
             </div>
 
             <div
-              v-if="
-                enabled('language') &&
-                Object.keys(supportedLanguages).length > 1
-              "
+              v-if="enabled('language') && Object.keys(supportedLanguages).length > 1"
               class="vuefinder__about-modal__setting"
             >
               <div class="vuefinder__about-modal__setting-input justify-end">

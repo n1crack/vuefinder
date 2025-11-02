@@ -1,4 +1,4 @@
-import { reactive, useTemplateRef, computed, markRaw } from 'vue';
+import { reactive, computed, markRaw } from 'vue';
 import mitt from 'mitt';
 import { useStorage } from './composables/useStorage';
 import { useI18n } from './composables/useI18n';
@@ -45,7 +45,7 @@ export default (props: VueFinderProps, options: Record<string, unknown>): any =>
     // files store
     fs: filesStore,
     // root element
-    root: useTemplateRef<HTMLElement>('root'),
+    root: null as HTMLElement | null,
     // app id
     debug: props.debug ?? false,
     // Event Bus

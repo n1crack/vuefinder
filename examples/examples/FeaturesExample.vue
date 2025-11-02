@@ -45,7 +45,16 @@ const createFeaturesObject = (enabledKeys: string[] = []): FeaturesConfig => {
 const featureMode = ref<'advanced' | 'simple' | 'custom'>('advanced');
 
 // Initialize with simple preset defaults
-const defaultEnabled = ['search', 'preview', 'rename', 'upload', 'delete', 'newfile', 'newfolder', 'download'];
+const defaultEnabled = [
+  'search',
+  'preview',
+  'rename',
+  'upload',
+  'delete',
+  'newfile',
+  'newfolder',
+  'download',
+];
 const customFeatures = ref<FeaturesConfig>(createFeaturesObject(defaultEnabled));
 
 const computedFeatures = computed<FeaturesPreset | FeaturesConfig>(() => {
@@ -63,7 +72,6 @@ const configDisplay = computed(() => {
   return `"${featureMode.value}"`;
 });
 
-
 const toggleFeature = (featureKey: string) => {
   // Ensure all features are always present in the object
   const current = customFeatures.value[featureKey as keyof FeaturesConfig];
@@ -75,10 +83,19 @@ const toggleFeature = (featureKey: string) => {
 
 const resetToPreset = (preset: 'simple' | 'advanced') => {
   featureMode.value = preset;
-  
+
   if (preset === 'simple') {
     // Simple preset: only basic features enabled
-    const simpleEnabled = ['search', 'preview', 'rename', 'upload', 'delete', 'newfile', 'newfolder', 'download'];
+    const simpleEnabled = [
+      'search',
+      'preview',
+      'rename',
+      'upload',
+      'delete',
+      'newfile',
+      'newfolder',
+      'download',
+    ];
     customFeatures.value = createFeaturesObject(simpleEnabled);
   } else {
     // Advanced preset: all features enabled
@@ -102,7 +119,10 @@ const resetToPreset = (preset: 'simple' | 'advanced') => {
             type="button"
             class="features-example__preset-btn"
             :class="{ 'features-example__preset-btn--active': featureMode === 'advanced' }"
-            @click="resetToPreset('advanced'); featureMode = 'advanced'"
+            @click="
+              resetToPreset('advanced');
+              featureMode = 'advanced';
+            "
           >
             <span class="features-example__preset-name">Advanced</span>
             <span class="features-example__preset-desc">All Features</span>
@@ -111,7 +131,10 @@ const resetToPreset = (preset: 'simple' | 'advanced') => {
             type="button"
             class="features-example__preset-btn"
             :class="{ 'features-example__preset-btn--active': featureMode === 'simple' }"
-            @click="resetToPreset('simple'); featureMode = 'simple'"
+            @click="
+              resetToPreset('simple');
+              featureMode = 'simple';
+            "
           >
             <span class="features-example__preset-name">Simple</span>
             <span class="features-example__preset-desc">Basic Only</span>
@@ -135,7 +158,7 @@ const resetToPreset = (preset: 'simple' | 'advanced') => {
               type="button"
               class="features-example__feature-btn"
               :class="{
-                'features-example__feature-btn--active': customFeatures[feature.key] === true
+                'features-example__feature-btn--active': customFeatures[feature.key] === true,
               }"
               @click="toggleFeature(feature.key)"
             >
@@ -403,4 +426,3 @@ const resetToPreset = (preset: 'simple' | 'advanced') => {
   line-height: 1.6;
 }
 </style>
-

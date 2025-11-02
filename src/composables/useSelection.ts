@@ -135,7 +135,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const onStart = ({ event, selection }: SelectionEvent) => {
     deltaY.value =
       (selectionObject.value?.getAreaLocation().y1 ?? 0) -
-      ((app.root as HTMLElement).getBoundingClientRect().top ?? 0);
+      (app.root.getBoundingClientRect().top ?? 0);
 
     const selectionAreaContainerElement = document.querySelector(
       '.selection-area-container'

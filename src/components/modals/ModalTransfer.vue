@@ -166,11 +166,7 @@ const transfer = async () => {
 
         <div v-if="enabled('copy') && enabled('move')" class="vuefinder__move-modal__options">
           <label class="vuefinder__move-modal__checkbox-label">
-            <input
-              v-model="createCopy"
-              type="checkbox"
-              class="vuefinder__move-modal__checkbox"
-            />
+            <input v-model="createCopy" type="checkbox" class="vuefinder__move-modal__checkbox" />
             <span class="vuefinder__move-modal__checkbox-text">{{
               t('Create a copy instead of moving')
             }}</span>
