@@ -21,8 +21,7 @@ if (!appId) {
 }
 
 // Create app instance with props (includes the id)
-const propsWithId = { ...props, id: appId } as VueFinderProps;
-const app = ServiceContainer(propsWithId, inject('VueFinderOptions') || {});
+const app = ServiceContainer(props, inject('VueFinderOptions') || {});
 
 // Register app and provide id to all child components
 registerApp(appId, app);

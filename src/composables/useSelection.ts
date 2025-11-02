@@ -60,6 +60,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   // Helper function to check if an item is selectable based on filters
   const isItemSelectable = (key: string): boolean => {
     const item = sortedFiles.value?.find((f: DirEntry) => getKey(f as T) === key);
+
     if (!item) return false;
 
     const filterType = app.selectionFilterType;

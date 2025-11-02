@@ -91,162 +91,369 @@ const onFolderDclickEvents = (item: { basename: string }) => {
 const clearEventLog = () => {
   eventLog.value = [];
 };
+
+const getEventTypeClass = (type: string): string => {
+  const typeMap: Record<string, string> = {
+    select: 'events-demo-example__event-item--select',
+    'path-change': 'events-demo-example__event-item--path-change',
+    'upload-complete': 'events-demo-example__event-item--upload-complete',
+    'delete-complete': 'events-demo-example__event-item--delete-complete',
+    error: 'events-demo-example__event-item--error',
+    ready: 'events-demo-example__event-item--ready',
+  };
+  return typeMap[type] || '';
+};
 </script>
 
 <template>
-  <div style="margin: 20px 0">
-    <h2>VueFinder Events Demo</h2>
-    <p>
-      This example demonstrates all VueFinder events. Interact with the file manager below to see
-      events in action.
-    </p>
+  <div class="events-demo-example">
+    <div class="events-demo-example__header">
+      <h2 class="events-demo-example__title">VueFinder Events Demo</h2>
+      <p class="events-demo-example__description">
+        This example demonstrates all VueFinder events. Interact with the file manager below to see
+        events in action.
+      </p>
+    </div>
 
     <!-- Status indicators -->
-    <div style="display: flex; gap: 20px; margin: 20px 0; flex-wrap: wrap">
-      <div
-        style="
-          padding: 10px;
-          background: #e8f5e8;
-          border-radius: 5px;
-          border-left: 4px solid #4caf50;
-        "
-      >
-        <strong>Ready:</strong> {{ isReadyEvents ? '✅ Yes' : '❌ No' }}
+    <div class="events-demo-example__status-grid">
+      <div class="events-demo-example__status-card events-demo-example__status-card--ready">
+        <strong class="events-demo-example__status-label">Ready:</strong>
+        <span class="events-demo-example__status-value">{{
+          isReadyEvents ? '✅ Yes' : '❌ No'
+        }}</span>
       </div>
-      <div
-        style="
-          padding: 10px;
-          background: #e3f2fd;
-          border-radius: 5px;
-          border-left: 4px solid #2196f3;
-        "
-      >
-        <strong>Current Path:</strong> {{ currentPathEvents || 'None' }}
+      <div class="events-demo-example__status-card events-demo-example__status-card--path">
+        <strong class="events-demo-example__status-label">Current Path:</strong>
+        <span class="events-demo-example__status-value">{{ currentPathEvents || 'None' }}</span>
       </div>
-      <div
-        style="
-          padding: 10px;
-          background: #fff3e0;
-          border-radius: 5px;
-          border-left: 4px solid #ff9800;
-        "
-      >
-        <strong>Selected:</strong> {{ selectedFilesEvents.length }} item(s)
+      <div class="events-demo-example__status-card events-demo-example__status-card--selected">
+        <strong class="events-demo-example__status-label">Selected:</strong>
+        <span class="events-demo-example__status-value"
+          >{{ selectedFilesEvents.length }} item(s)</span
+        >
       </div>
-      <div
-        style="
-          padding: 10px;
-          background: #f3e5f5;
-          border-radius: 5px;
-          border-left: 4px solid #9c27b0;
-        "
-      >
-        <strong>Uploaded:</strong> {{ uploadedFilesEvents.length }} file(s)
+      <div class="events-demo-example__status-card events-demo-example__status-card--uploaded">
+        <strong class="events-demo-example__status-label">Uploaded:</strong>
+        <span class="events-demo-example__status-value"
+          >{{ uploadedFilesEvents.length }} file(s)</span
+        >
       </div>
-      <div
-        style="
-          padding: 10px;
-          background: #ffebee;
-          border-radius: 5px;
-          border-left: 4px solid #f44336;
-        "
-      >
-        <strong>Deleted:</strong> {{ deletedFilesEvents.length }} item(s)
+      <div class="events-demo-example__status-card events-demo-example__status-card--deleted">
+        <strong class="events-demo-example__status-label">Deleted:</strong>
+        <span class="events-demo-example__status-value"
+          >{{ deletedFilesEvents.length }} item(s)</span
+        >
       </div>
     </div>
 
     <!-- Event log -->
-    <div style="margin: 20px 0">
-      <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 10px;
-        "
-      >
-        <h3>Event Log ({{ eventLog.length }} events)</h3>
-        <button class="btn" :disabled="!eventLog.length" @click="clearEventLog">Clear Log</button>
+    <div class="events-demo-example__event-log-section">
+      <div class="events-demo-example__event-log-header">
+        <h3 class="events-demo-example__event-log-title">
+          Event Log ({{ eventLog.length }} events)
+        </h3>
+        <button
+          type="button"
+          class="events-demo-example__clear-btn"
+          :disabled="!eventLog.length"
+          @click="clearEventLog"
+        >
+          Clear Log
+        </button>
       </div>
-      <div
-        style="
-          max-height: 300px;
-          overflow-y: auto;
-          border: 1px solid #ccc;
-          padding: 10px;
-          background-color: #f9f9f9;
-          border-radius: 5px;
-        "
-      >
-        <div v-if="!eventLog.length" style="text-align: center; color: #666; padding: 20px">
+      <div class="events-demo-example__event-log">
+        <div v-if="!eventLog.length" class="events-demo-example__log-empty">
           No events yet. Interact with the file manager to see events here.
         </div>
         <div
           v-for="(event, index) in eventLog"
           :key="index"
-          :style="{
-            marginBottom: '8px',
-            padding: '8px',
-            borderRadius: '4px',
-            backgroundColor: 'white',
-            borderLeft: `4px solid ${
-              event.type === 'select'
-                ? '#4caf50'
-                : event.type === 'path-change'
-                  ? '#2196f3'
-                  : event.type === 'upload-complete'
-                    ? '#9c27b0'
-                    : event.type === 'delete-complete'
-                      ? '#f44336'
-                      : event.type === 'error'
-                        ? '#ff5722'
-                        : event.type === 'ready'
-                          ? '#4caf50'
-                          : '#666'
-            }`,
-          }"
+          :class="['events-demo-example__event-item', getEventTypeClass(event.type)]"
         >
-          <div style="display: flex; justify-content: space-between; align-items: center">
-            <div>
-              <strong :style="{ color: event.type === 'error' ? '#f44336' : '#333' }">
+          <div class="events-demo-example__event-header">
+            <div class="events-demo-example__event-type-wrapper">
+              <strong
+                :class="[
+                  'events-demo-example__event-type',
+                  event.type === 'error' && 'events-demo-example__event-type--error',
+                ]"
+              >
                 {{ event.type.toUpperCase() }}
               </strong>
-              <span
-                v-if="event.count !== undefined"
-                style="
-                  margin-left: 8px;
-                  padding: 2px 6px;
-                  background: #e0e0e0;
-                  border-radius: 10px;
-                  font-size: 0.8em;
-                "
-              >
+              <span v-if="event.count !== undefined" class="events-demo-example__event-count">
                 {{ event.count }}
               </span>
             </div>
-            <small style="color: #666">{{ event.timestamp }}</small>
+            <small class="events-demo-example__event-timestamp">{{ event.timestamp }}</small>
           </div>
-          <div style="margin-top: 4px; font-size: 0.9em; color: #555">
-            {{ event.message }}
-          </div>
+          <div class="events-demo-example__event-message">{{ event.message }}</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- VueFinder with all events -->
-  <vue-finder
-    id="events-demo-vuefinder"
-    :driver="driver"
-    :config="config"
-    :features="features"
-    @select="onSelectEvents"
-    @path-change="onPathChangeEvents"
-    @upload-complete="onUploadCompleteEvents"
-    @delete-complete="onDeleteCompleteEvents"
-    @error="onErrorEvents"
-    @ready="onReadyEvents"
-    @file-dclick="onFileDclickEvents"
-    @folder-dclick="onFolderDclickEvents"
-  />
+    <!-- VueFinder with all events -->
+    <div class="events-demo-example__viewer">
+      <vue-finder
+        id="events-demo-vuefinder"
+        :driver="driver"
+        :config="config"
+        :features="features"
+        @select="onSelectEvents"
+        @path-change="onPathChangeEvents"
+        @upload-complete="onUploadCompleteEvents"
+        @delete-complete="onDeleteCompleteEvents"
+        @error="onErrorEvents"
+        @ready="onReadyEvents"
+        @file-dclick="onFileDclickEvents"
+        @folder-dclick="onFolderDclickEvents"
+      />
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.events-demo-example {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.events-demo-example__header {
+  margin-bottom: 0.5rem;
+}
+
+.events-demo-example__title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.events-demo-example__description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.events-demo-example__status-grid {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.events-demo-example__status-card {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.75rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-left: 4px solid #6b7280;
+  border-radius: 8px;
+}
+
+.events-demo-example__status-card--ready {
+  border-left-color: #4caf50;
+}
+
+.events-demo-example__status-card--path {
+  border-left-color: #2196f3;
+}
+
+.events-demo-example__status-card--selected {
+  border-left-color: #ff9800;
+}
+
+.events-demo-example__status-card--uploaded {
+  border-left-color: #9c27b0;
+}
+
+.events-demo-example__status-card--deleted {
+  border-left-color: #f44336;
+}
+
+.events-demo-example__status-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.events-demo-example__status-value {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.events-demo-example__event-log-section {
+  padding: 0.75rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.events-demo-example__event-log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.events-demo-example__event-log-title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.events-demo-example__clear-btn {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.events-demo-example__clear-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.events-demo-example__clear-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.events-demo-example__event-log {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+}
+
+.events-demo-example__event-log::-webkit-scrollbar {
+  width: 6px;
+}
+
+.events-demo-example__event-log::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 3px;
+}
+
+.events-demo-example__event-log::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.events-demo-example__event-log::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+.events-demo-example__event-item {
+  padding: 0.5rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-left: 4px solid #6b7280;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.events-demo-example__event-item:last-child {
+  margin-bottom: 0;
+}
+
+.events-demo-example__event-item--select {
+  border-left-color: #4caf50;
+}
+
+.events-demo-example__event-item--path-change {
+  border-left-color: #2196f3;
+}
+
+.events-demo-example__event-item--upload-complete {
+  border-left-color: #9c27b0;
+}
+
+.events-demo-example__event-item--delete-complete {
+  border-left-color: #f44336;
+}
+
+.events-demo-example__event-item--error {
+  border-left-color: #ff5722;
+}
+
+.events-demo-example__event-item--ready {
+  border-left-color: #4caf50;
+}
+
+.events-demo-example__event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.events-demo-example__event-type-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.events-demo-example__event-type {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.events-demo-example__event-type--error {
+  color: #f44336;
+}
+
+.events-demo-example__event-count {
+  padding: 0.125rem 0.375rem;
+  background: #f3f4f6;
+  border-radius: 10px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.events-demo-example__event-timestamp {
+  font-size: 0.625rem;
+  color: #6b7280;
+}
+
+.events-demo-example__event-message {
+  font-size: 0.75rem;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.events-demo-example__log-empty {
+  text-align: center;
+  color: #6b7280;
+  padding: 2rem;
+  font-size: 0.75rem;
+}
+
+.events-demo-example__viewer {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow: hidden;
+}
+</style>

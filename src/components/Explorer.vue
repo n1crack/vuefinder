@@ -169,13 +169,9 @@ onMounted(() => {
   }
 
   // Watch for filter changes and update selection area
-  watch(
-    () => [app.selectionFilterType, app.selectionFilterMimeIncludes],
-    () => {
-      updateSelectionArea();
-    },
-    { deep: true }
-  );
+  watch(() => [app.selectionFilterType, app.selectionFilterMimeIncludes], updateSelectionArea, {
+    deep: true,
+  });
 
   // Initialize OverlayScrollbars custom track
   if (scrollBarContainer.value) {

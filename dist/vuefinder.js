@@ -7192,13 +7192,9 @@ const In = { render: Qv }, Xv = ["data-key", "data-row", "data-col", "draggable"
       }), d.value && (h = new zn({
         elements_selector: ".lazy",
         container: d.value
-      })), ae(
-        () => [n.selectionFilterType, n.selectionFilterMimeIncludes],
-        () => {
-          b();
-        },
-        { deep: !0 }
-      ), $.value) {
+      })), ae(() => [n.selectionFilterType, n.selectionFilterMimeIncludes], b, {
+        deep: !0
+      }), $.value) {
         const B = Et(
           $.value,
           {
@@ -8306,10 +8302,10 @@ const $o = [
     const e = t, n = e.id ?? wt(Qt);
     if (!n)
       throw new Error('VueFinderProvider requires an "id" prop.');
-    const o = { ...e, id: n }, i = es(o, wt("VueFinderOptions") || {});
-    return zo(n, i), Io(Qt, n), Vn(() => {
+    const o = es(e, wt("VueFinderOptions") || {});
+    return zo(n, o), Io(Qt, n), Vn(() => {
       Ho(n);
-    }), (a, d) => (c(), R(f_, tt(nt(e)), null, 16));
+    }), (i, a) => (c(), R(f_, tt(nt(e)), null, 16));
   }
 }), S_ = {
   install(t, e = {}) {
