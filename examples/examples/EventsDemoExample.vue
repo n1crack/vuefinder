@@ -110,8 +110,8 @@ const getEventTypeClass = (type: string): string => {
     <div class="events-demo-example__header">
       <h2 class="events-demo-example__title">VueFinder Events Demo</h2>
       <p class="events-demo-example__description">
-        This example demonstrates all VueFinder events. Interact with the file manager to see
-        events in action.
+        This example demonstrates all VueFinder events. Interact with the file manager to see events
+        in action.
       </p>
     </div>
 
