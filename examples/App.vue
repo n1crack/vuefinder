@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { FEATURE_ALL_NAMES } from '../src/features.js';
 import { RemoteDriver, LocalDriver } from '../src/adapters';
 import MemoryExample from './examples/MemoryExample.vue';
 import type { DirEntry } from '../src/types';
@@ -15,6 +14,7 @@ import EventsDemoExample from './examples/EventsDemoExample.vue';
 import CustomDclickExample from './examples/CustomDclickExample.vue';
 import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
+import FeaturesExample from './examples/FeaturesExample.vue';
 
 const example = ref('default');
 
@@ -82,6 +82,7 @@ const examples = {
   customDclick: 'Custom Double-Click Events Demo',
   singleSelection: 'Single Selection Mode Demo',
   selectionFilter: 'Selection Filter Demo',
+  features: 'Features Configuration Demo',
 };
 
 // Theme management
@@ -106,7 +107,8 @@ const isPopup = ref(false);
 
 const maxFileSize = ref('500MB');
 
-const features = [...FEATURE_ALL_NAMES];
+// Use "advanced" preset to enable all features (or undefined for default)
+const features = 'advanced';
 
 const config = {
   maxFileSize: maxFileSize,
@@ -243,6 +245,12 @@ onUnmounted(() => {
         :features="features"
       />
 
+      <FeaturesExample
+        v-if="example === 'features'"
+        :driver="driver"
+        :config="{ ...config, theme: currentTheme }"
+      />
+
       <!-- LocalDriver demo uses a separate instance id to avoid persisted state collisions -->
       <MemoryExample
         v-if="example === 'localDriver'"
@@ -260,8 +268,8 @@ body {
   background: #eeeeee;
 }
 .wrapper {
-  max-width: 800px;
-  margin: 80px auto;
+  max-width: 1200px;
+  margin: 40px auto;
 }
 
 .btn {

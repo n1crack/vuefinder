@@ -2,6 +2,7 @@ import type { Item as ContextMenuItem } from './utils/contextmenu';
 import ServiceContainer from './ServiceContainer';
 import type { Driver } from './adapters';
 import type { ConfigDefaults } from './stores/config';
+import type { FeatureName, FeaturesConfig, FeaturesPreset } from './features';
 
 export type App = ReturnType<typeof ServiceContainer>;
 
@@ -9,7 +10,7 @@ export interface VueFinderProps {
   id?: string;
   config?: ConfigDefaults;
   driver?: Driver;
-  features?: boolean | string[];
+  features?: FeaturesPreset | FeaturesConfig;
   debug?: boolean;
   locale?: string;
   contextMenuItems?: ContextMenuItem[];
@@ -84,3 +85,6 @@ export interface FsData {
   files: DirEntry[];
   read_only?: boolean;
 }
+
+// Re-export feature types for convenience
+export type { FeatureName, FeaturesConfig, FeaturesPreset } from './features';

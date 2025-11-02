@@ -185,7 +185,11 @@ onMounted(() => {
     <div ref="modalContentElement" class="vuefinder__modal-tree__content">
       <!-- Pinned folders -->
       <div
-        v-if="showPinnedFolders && config.get('pinnedFolders').length"
+        v-if="
+          showPinnedFolders &&
+          (app.features as Record<string, boolean>).pinned &&
+          config.get('pinnedFolders').length
+        "
         class="vuefinder__modal-tree__section"
       >
         <div class="vuefinder__modal-tree__section-title">{{ t('Pinned Folders') }}</div>

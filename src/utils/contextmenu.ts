@@ -1,4 +1,4 @@
-import { FEATURES } from '../features';
+import type { FeatureName } from '../features';
 import ModalNewFolder from '../components/modals/ModalNewFolder.vue';
 import ModalPreview from '../components/modals/ModalPreview.vue';
 import ModalArchive from '../components/modals/ModalArchive.vue';
@@ -75,7 +75,10 @@ function showIf(options: Partial<ShowOptions>) {
     if (merged.target !== undefined && merged.target !== getTarget(ctx)) return false;
     if (merged.targetType !== undefined && merged.targetType !== ctx.target?.type) return false;
     if (merged.mimeType !== undefined && merged.mimeType !== ctx.target?.mime_type) return false;
-    if (merged.feature !== undefined && !app.features.includes(merged.feature)) return false;
+    if (merged.feature !== undefined) {
+      const features = app.features as Record<string, boolean>;
+      if (!(features[merged.feature] ?? false)) return false;
+    }
     return true;
   };
 }
@@ -127,7 +130,7 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.new_folder,
     title: ({ t }) => t('New Folder'),
     action: (app) => app.modal.open(ModalNewFolder),
-    show: showIf({ target: 'none', feature: FEATURES.NEW_FOLDER }),
+    show: showIf({ target: 'none', feature: 'newfolder' }),
   },
   {
     id: ContextMenuIds.open,
@@ -154,13 +157,17 @@ export const menuItems: Item[] = [
       );
       config.set('pinnedFolders', newPinnedFolders);
     },
-    show: showIfAll(showIf({ target: 'one', targetType: 'dir' }), (app, ctx) => {
-      const config = app.config;
-      const currentPinnedFolders = config.get('pinnedFolders');
-      return (
-        currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1
-      );
-    }),
+    show: showIfAll(
+      showIf({ target: 'one', targetType: 'dir', feature: 'pinned' }),
+      (app, ctx) => {
+        const config = app.config;
+        const currentPinnedFolders = config.get('pinnedFolders');
+        return (
+          currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) ===
+          -1
+        );
+      }
+    ),
   },
   {
     id: ContextMenuIds.unpinFolder,
@@ -175,13 +182,16 @@ export const menuItems: Item[] = [
         )
       );
     },
-    show: showIfAll(showIf({ target: 'one', targetType: 'dir' }), (app, ctx) => {
-      const config = app.config;
-      const currentPinnedFolders = config.get('pinnedFolders');
-      return (
-        currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
-      );
-    }),
+    show: showIfAll(
+      showIf({ target: 'one', targetType: 'dir', feature: 'pinned' }),
+      (app, ctx) => {
+        const config = app.config;
+        const currentPinnedFolders = config.get('pinnedFolders');
+        return (
+          currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
+        );
+      }
+    ),
   },
   {
     id: ContextMenuIds.preview,
@@ -189,7 +199,7 @@ export const menuItems: Item[] = [
     action: (app, selectedItems) =>
       app.modal.open(ModalPreview, { storage: selectedItems[0]?.storage, item: selectedItems[0] }),
     show: showIfAll(
-      showIf({ target: 'one', feature: FEATURES.PREVIEW }),
+      showIf({ target: 'one', feature: 'preview' }),
       (app, ctx) => ctx.target?.type !== 'dir'
     ),
   },
@@ -204,7 +214,7 @@ export const menuItems: Item[] = [
     title: ({ t }) => t('Download'),
     action: () => {},
     show: showIfAll(
-      showIf({ target: 'one', feature: FEATURES.DOWNLOAD }),
+      showIf({ target: 'one', feature: 'download' }),
       (app, ctx) => ctx.target?.type !== 'dir'
     ),
   },
@@ -212,7 +222,7 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.rename,
     title: ({ t }) => t('Rename'),
     action: (app, selectedItems) => app.modal.open(ModalRename, { items: selectedItems }),
-    show: showIf({ target: 'one', feature: FEATURES.RENAME }),
+    show: showIf({ target: 'one', feature: 'rename' }),
   },
   {
     id: ContextMenuIds.move,
@@ -227,8 +237,8 @@ export const menuItems: Item[] = [
       app.modal.open(ModalMove, { items: { from: selectedItems, to: target } });
     },
     show: showIfAny(
-      showIf({ target: 'one', feature: FEATURES.MOVE }),
-      showIf({ target: 'many', feature: FEATURES.MOVE })
+      showIf({ target: 'one', feature: 'move' }),
+      showIf({ target: 'many', feature: 'move' })
     ),
   },
   {
@@ -240,8 +250,8 @@ export const menuItems: Item[] = [
       }
     },
     show: showIfAny(
-      showIf({ target: 'one', feature: FEATURES.COPY }),
-      showIf({ target: 'many', feature: FEATURES.COPY })
+      showIf({ target: 'one', feature: 'copy' }),
+      showIf({ target: 'many', feature: 'copy' })
     ),
   },
   {
@@ -275,6 +285,8 @@ export const menuItems: Item[] = [
       }
     },
     show: (app, _ctx) => {
+      const features = app.features as Record<string, boolean>;
+      if (!(features?.copy ?? false)) return false;
       const clipboard = app.fs.getClipboard();
       return clipboard?.items?.size > 0;
     },
@@ -284,9 +296,9 @@ export const menuItems: Item[] = [
     title: ({ t }) => t('Archive'),
     action: (app, selectedItems) => app.modal.open(ModalArchive, { items: selectedItems }),
     show: showIfAny(
-      showIf({ target: 'many', feature: FEATURES.ARCHIVE }),
+      showIf({ target: 'many', feature: 'archive' }),
       showIfAll(
-        showIf({ target: 'one', feature: FEATURES.ARCHIVE }),
+        showIf({ target: 'one', feature: 'archive' }),
         (app, ctx) => ctx.target?.mime_type !== 'application/zip'
       )
     ),
@@ -295,7 +307,7 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.unarchive,
     title: ({ t }) => t('Unarchive'),
     action: (app, selectedItems) => app.modal.open(ModalUnarchive, { items: selectedItems }),
-    show: showIf({ target: 'one', feature: FEATURES.UNARCHIVE, mimeType: 'application/zip' }),
+    show: showIf({ target: 'one', feature: 'unarchive', mimeType: 'application/zip' }),
   },
   {
     id: ContextMenuIds.delete,
@@ -304,8 +316,8 @@ export const menuItems: Item[] = [
       app.modal.open(ModalDelete, { items: selectedItems });
     },
     show: showIfAny(
-      showIf({ feature: FEATURES.DELETE, target: 'one' }),
-      showIf({ feature: FEATURES.DELETE, target: 'many' })
+      showIf({ feature: 'delete', target: 'one' }),
+      showIf({ feature: 'delete', target: 'many' })
     ),
   },
 ];

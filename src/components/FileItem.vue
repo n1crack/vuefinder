@@ -6,6 +6,7 @@ import title_shorten from '../utils/title_shorten';
 import type { DirEntry } from '../types';
 import LockSVG from '../assets/icons/lock.svg';
 import { useApp } from '../composables/useApp';
+import { useFeatures } from '../composables/useFeatures';
 
 const props = defineProps<{
   item: DirEntry;
@@ -70,16 +71,17 @@ let touchTimeOut: ReturnType<typeof setTimeout> | null = null;
 const doubleTapTimeOut = ref<ReturnType<typeof setTimeout> | null>(null);
 let tappedTwice = false;
 
+const { enabled } = useFeatures();
+
+const draggable = computed(() => enabled('move'));
+
 const clearTimeOut = () => {
   if (touchTimeOut) {
     clearTimeout(touchTimeOut);
   }
-  draggable.value = true;
 };
-const draggable = ref(true);
 
 const delayedOpenItem = (event: TouchEvent) => {
-  draggable.value = false;
   if (touchTimeOut) {
     event.preventDefault();
     clearTimeout(touchTimeOut);
@@ -204,7 +206,10 @@ const delayedOpenItem = (event: TouchEvent) => {
       </div>
     </div>
     <PinSVG
-      v-if="config.get('pinnedFolders').find((pin: any) => pin.path === item.path)"
+      v-if="
+        enabled('pinned') &&
+        config.get('pinnedFolders').find((pin: any) => pin.path === item.path)
+      "
       class="vuefinder__item--pinned"
     />
   </div>

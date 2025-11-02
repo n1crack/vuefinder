@@ -27,6 +27,16 @@ export function useDragNDrop(app: App, classList: string[] = []) {
       return;
     }
 
+    // Check if move feature is enabled
+    const features = app.features as Record<string, boolean>;
+    if (!(features?.move ?? false)) {
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'none';
+        e.dataTransfer.effectAllowed = 'none';
+      }
+      return;
+    }
+
     e.preventDefault();
 
     const selfTarget = fs.getDraggedItem() === target.path;
@@ -58,6 +68,12 @@ export function useDragNDrop(app: App, classList: string[] = []) {
       return;
     }
 
+    // Check if move feature is enabled
+    const features = app.features as Record<string, boolean>;
+    if (!(features?.move ?? false)) {
+      return;
+    }
+
     e.preventDefault();
     const el: HTMLElement = e.currentTarget;
     const currentCount = Number(el.dataset[DATASET_COUNTER_KEY] || 0);
@@ -67,6 +83,12 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   function handleDragLeave(e: DragNDropEvent) {
     // Skip if this is an external drag
     if (e.isExternalDrag) {
+      return;
+    }
+
+    // Check if move feature is enabled
+    const features = app.features as Record<string, boolean>;
+    if (!(features?.move ?? false)) {
       return;
     }
 
@@ -85,6 +107,12 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   function handleDropZone(e: DragNDropEvent, target: DragNDropItem) {
     // Skip if this is an external drag
     if (e.isExternalDrag) {
+      return;
+    }
+
+    // Check if move feature is enabled
+    const features = app.features as Record<string, boolean>;
+    if (!(features?.move ?? false)) {
       return;
     }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, inject, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
+import { useFeatures } from '../../composables/useFeatures';
 // import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
@@ -12,6 +13,7 @@ import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
 
 const app = useApp();
+const { enabled } = useFeatures();
 const { t } = app.i18n;
 // const fs = app.fs;
 // const currentPath = useStore(fs.path);
@@ -22,7 +24,8 @@ const props = defineProps<{
 const items = ref(app.modal.data.items.from);
 const destination = ref<DirEntry>(app.modal.data.items.to);
 const message = ref('');
-const createCopy = ref(props.copy || false);
+// If move is disabled, force copy mode
+const createCopy = ref(props.copy || !enabled('move'));
 const operation = computed(() => (createCopy.value ? 'copy' : 'move'));
 const showTreeSelector = ref(false);
 
@@ -161,9 +164,13 @@ const transfer = async () => {
           />
         </div>
 
-        <div class="vuefinder__move-modal__options">
+        <div v-if="enabled('copy') && enabled('move')" class="vuefinder__move-modal__options">
           <label class="vuefinder__move-modal__checkbox-label">
-            <input v-model="createCopy" type="checkbox" class="vuefinder__move-modal__checkbox" />
+            <input
+              v-model="createCopy"
+              type="checkbox"
+              class="vuefinder__move-modal__checkbox"
+            />
             <span class="vuefinder__move-modal__checkbox-text">{{
               t('Create a copy instead of moving')
             }}</span>

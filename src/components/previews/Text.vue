@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
-import { FEATURES } from '../../features.ts';
+import { useFeatures } from '../../composables/useFeatures';
 
 const emit = defineEmits(['success']);
 const content = ref('');
@@ -13,6 +13,7 @@ const message = ref('');
 const isError = ref(false);
 
 const app = useApp();
+const { enabled } = useFeatures();
 
 const { t } = app.i18n;
 
@@ -71,7 +72,7 @@ const save = async () => {
           {{ t('Save') }}
         </button>
         <button
-          v-if="app.features.includes(FEATURES.EDIT)"
+          v-if="enabled('edit')"
           class="vuefinder__text-preview__edit-button"
           @click="toggleEditMode()"
         >

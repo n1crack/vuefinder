@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch, computed } from 'vue';
 import { useApp } from '../composables/useApp';
+import { useFeatures } from '../composables/useFeatures';
 import { useStore } from '@nanostores/vue';
 import FolderSVG from '../assets/icons/folder.svg';
 import OpenFolderSVG from '../assets/icons/open_folder.svg';
@@ -18,6 +19,7 @@ import type { ConfigState } from '../stores/config';
 import type { CurrentPathState } from '../stores/files';
 
 const app = useApp();
+const { enabled } = useFeatures();
 const { t } = app.i18n;
 const { getStore, setStore } = app.storage;
 
@@ -128,19 +130,19 @@ watch(sortedFiles, (newFiles) => {
     "
     class="vuefinder__treeview__container"
   >
-    <div ref="treeViewScrollElement" class="vuefinder__treeview__scroll">
-      <div class="vuefinder__treeview__header">
-        <div
-          class="vuefinder__treeview__pinned-toggle"
-          @click="pinnedFoldersOpened = !pinnedFoldersOpened"
-        >
-          <div class="vuefinder__treeview__pinned-label">
-            <PinSVG class="vuefinder__treeview__pin-icon" />
-            <div class="vuefinder__treeview__pin-text text-nowrap">{{ t('Pinned Folders') }}</div>
+      <div ref="treeViewScrollElement" class="vuefinder__treeview__scroll">
+        <div v-if="enabled('pinned')" class="vuefinder__treeview__header">
+          <div
+            class="vuefinder__treeview__pinned-toggle"
+            @click="pinnedFoldersOpened = !pinnedFoldersOpened"
+          >
+            <div class="vuefinder__treeview__pinned-label">
+              <PinSVG class="vuefinder__treeview__pin-icon" />
+              <div class="vuefinder__treeview__pin-text text-nowrap">{{ t('Pinned Folders') }}</div>
+            </div>
+            <FolderIndicator v-model="pinnedFoldersOpened" />
           </div>
-          <FolderIndicator v-model="pinnedFoldersOpened" />
-        </div>
-        <ul v-if="pinnedFoldersOpened" class="vuefinder__treeview__pinned-list">
+          <ul v-if="pinnedFoldersOpened" class="vuefinder__treeview__pinned-list">
           <li
             v-for="folder in configState.pinnedFolders"
             :key="folder.path"

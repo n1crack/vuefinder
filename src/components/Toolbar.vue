@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject, ref, watch, onMounted, onUnmounted, computed } from 'vue';
 import { useApp } from '../composables/useApp';
+import { useFeatures } from '../composables/useFeatures';
 import { useStore } from '@nanostores/vue';
-import { FEATURES } from '../features.js';
 import ModalNewFolder from './modals/ModalNewFolder.vue';
 import ModalNewFile from './modals/ModalNewFile.vue';
 import ModalRename from './modals/ModalRename.vue';
@@ -31,6 +31,7 @@ import type { DirEntry } from '../types';
 import type { SortState, FilterState } from '../stores/files';
 
 const app = useApp();
+const { enabled } = useFeatures();
 const { t } = app.i18n;
 
 defineOptions({ name: 'VfToolbar' });
@@ -215,7 +216,7 @@ const resetFilters = () => {
   <div class="vuefinder__toolbar">
     <div class="vuefinder__toolbar__actions">
       <div
-        v-if="app.features.includes(FEATURES.NEW_FOLDER)"
+        v-if="enabled('newfolder')"
         class="mx-1.5"
         :title="t('New Folder')"
         @click="app.modal.open(ModalNewFolder, { items: selectedItems })"
@@ -224,7 +225,7 @@ const resetFilters = () => {
       </div>
 
       <div
-        v-if="app.features.includes(FEATURES.NEW_FILE)"
+        v-if="enabled('newfile')"
         class="mx-1.5"
         :title="t('New File')"
         @click="app.modal.open(ModalNewFile, { items: selectedItems })"
@@ -233,7 +234,7 @@ const resetFilters = () => {
       </div>
 
       <div
-        v-if="app.features.includes(FEATURES.RENAME)"
+        v-if="enabled('rename')"
         class="mx-1.5"
         :title="t('Rename')"
         @click="selectedItems.length !== 1 || app.modal.open(ModalRename, { items: selectedItems })"
@@ -244,7 +245,7 @@ const resetFilters = () => {
       </div>
 
       <div
-        v-if="app.features.includes(FEATURES.DELETE)"
+        v-if="enabled('delete')"
         class="mx-1.5"
         :title="t('Delete')"
         @click="!selectedItems.length || app.modal.open(ModalDelete, { items: selectedItems })"
@@ -253,7 +254,7 @@ const resetFilters = () => {
       </div>
 
       <div
-        v-if="app.features.includes(FEATURES.UPLOAD)"
+        v-if="enabled('upload')"
         class="mx-1.5"
         :title="t('Upload')"
         @click="app.modal.open(ModalUpload, { items: selectedItems })"
@@ -263,7 +264,7 @@ const resetFilters = () => {
 
       <div
         v-if="
-          app.features.includes(FEATURES.UNARCHIVE) &&
+          enabled('unarchive') &&
           selectedItems.length === 1 &&
           selectedItems[0].mime_type === 'application/zip'
         "
@@ -277,7 +278,7 @@ const resetFilters = () => {
       </div>
 
       <div
-        v-if="app.features.includes(FEATURES.ARCHIVE)"
+        v-if="enabled('archive')"
         class="mx-1.5"
         :title="t('Archive')"
         @click="!selectedItems.length || app.modal.open(ModalArchive, { items: selectedItems })"
@@ -291,7 +292,7 @@ const resetFilters = () => {
     <div class="vuefinder__toolbar__controls">
       <!-- Search Modal Button -->
       <div
-        v-if="app.features.includes(FEATURES.SEARCH)"
+        v-if="enabled('search')"
         class="mx-1.5"
         :title="t('Search Files')"
         @click="app.modal.open(ModalSearch)"
@@ -398,7 +399,7 @@ const resetFilters = () => {
       </div>
 
       <div
-        v-if="app.features.includes(FEATURES.FULL_SCREEN)"
+        v-if="enabled('fullscreen')"
         class="mx-1.5"
         :title="t('Toggle Full Screen')"
         @click="config.toggle('fullScreen')"

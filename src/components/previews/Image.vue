@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref, useTemplateRef } from 'vue';
 import { useApp } from '../../composables/useApp';
+import { useFeatures } from '../../composables/useFeatures';
 import useUpload, { QUEUE_ENTRY_STATUS } from '../../composables/useUpload';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
-import { FEATURES } from '../../features';
 import LazyLoad from 'vanilla-lazyload';
 import { useStore } from '@nanostores/vue';
 import type { CurrentPathState } from '../../stores/files';
@@ -14,6 +14,7 @@ defineOptions({ name: 'ImagePreview' });
 
 const emit = defineEmits(['success']);
 const app = useApp();
+const { enabled } = useFeatures();
 
 const { t } = app.i18n;
 
@@ -155,7 +156,7 @@ onMounted(() => {
           {{ t('Crop') }}
         </button>
         <button
-          v-if="app.features.includes(FEATURES.EDIT)"
+          v-if="enabled('edit')"
           class="vuefinder__image-preview__edit-button"
           @click="toggleEditMode()"
         >

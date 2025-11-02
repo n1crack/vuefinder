@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { inject, onMounted, provide, watch, unref } from 'vue';
+import { inject, onMounted, provide, watch, unref, computed } from 'vue';
 import { ServiceContainerKey } from '../composables/useApp';
 import { useStore } from '@nanostores/vue';
 import ServiceContainer from '../ServiceContainer';
 import { useHotkeyActions } from '../composables/useHotkeyActions';
 import { useExternalDragDrop } from '../composables/useExternalDragDrop';
+import { normalizeFeatures } from '../features';
 
 import MenuBar from '../components/MenuBar.vue';
 import Toolbar from '../components/Toolbar.vue';
@@ -33,7 +34,7 @@ const emit = defineEmits([
 
 const props = withDefaults(defineProps<VueFinderProps>(), {
   id: 'vf',
-  features: true,
+  features: undefined,
   debug: false,
   contextMenuItems: () => contextMenuItems,
   selectionMode: 'multiple',
@@ -45,6 +46,21 @@ const props = withDefaults(defineProps<VueFinderProps>(), {
 const app = ServiceContainer(props, inject('VueFinderOptions') || {});
 provide(ServiceContainerKey, app);
 const config = app.config;
+
+// Watch for features prop changes and update app.features reactively
+watch(
+  () => props.features,
+  (newFeatures) => {
+    const normalized = normalizeFeatures(newFeatures);
+    // Clear existing features first
+    Object.keys(app.features).forEach((key) => {
+      delete app.features[key];
+    });
+    // Assign new features
+    Object.assign(app.features, normalized);
+  },
+  { deep: true }
+);
 
 const fs = app.fs;
 

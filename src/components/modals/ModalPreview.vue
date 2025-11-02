@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, computed, onMounted } from 'vue';
 import { useApp } from '../../composables/useApp';
+import { useFeatures } from '../../composables/useFeatures';
 import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import type { StoreValue } from 'nanostores';
@@ -11,15 +12,15 @@ import Video from '../../components/previews/Video.vue';
 import Audio from '../../components/previews/Audio.vue';
 import Pdf from '../../components/previews/Pdf.vue';
 import datetimestring from '../../utils/datetimestring';
-import { FEATURES } from '../../features';
 import type { DirEntry } from '../../types';
 
 const app = useApp();
+const { enabled } = useFeatures();
 const { t } = app.i18n;
 const loaded = ref(false);
 const loadPreview = (type: string) => (app.modal.data.item.mime_type ?? '').startsWith(type);
 
-const enabledPreview = app.features.includes(FEATURES.PREVIEW);
+const enabledPreview = enabled('preview');
 if (!enabledPreview) {
   loaded.value = true;
 }
@@ -191,7 +192,7 @@ onMounted(() => {
         {{ datetimestring(app.modal.data.item.last_modified) }}
       </div>
     </div>
-    <div v-if="app.features.includes(FEATURES.DOWNLOAD)" class="vuefinder__preview-modal__note">
+    <div v-if="enabled('download')" class="vuefinder__preview-modal__note">
       <span>{{
         t(
           'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".'
@@ -204,7 +205,7 @@ onMounted(() => {
         {{ t('Close') }}
       </button>
       <a
-        v-if="app.features.includes(FEATURES.DOWNLOAD)"
+        v-if="enabled('download')"
         target="_blank"
         class="vf-btn vf-btn-primary"
         :download="app.adapter.getDownloadUrl({ path: app.modal.data.item.path })"

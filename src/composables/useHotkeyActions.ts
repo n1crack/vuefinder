@@ -1,6 +1,5 @@
 import { onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '@nanostores/vue';
-import { FEATURES } from '../features';
 import type { StoreValue } from 'nanostores';
 import type { DirEntry } from '../types';
 import ModalAbout from '../components/modals/ModalAbout.vue';
@@ -53,7 +52,7 @@ export function useHotkeyActions(app: any) {
       e.metaKey &&
       e.shiftKey &&
       e.code === KEYBOARD_SHORTCUTS.KEY_R &&
-      app.features.includes(FEATURES.RENAME)
+      ((app.features as Record<string, boolean>).rename ?? false)
     ) {
       if (selectedItems.value.length === 1) {
         app.modal.open(ModalRename, { items: selectedItems.value });
@@ -69,7 +68,7 @@ export function useHotkeyActions(app: any) {
     if (
       e.metaKey &&
       e.code === KEYBOARD_SHORTCUTS.KEY_F &&
-      app.features.includes(FEATURES.SEARCH)
+      ((app.features as Record<string, boolean>).search ?? false)
     ) {
       // Open search modal
       app.modal.open(ModalSearch);
@@ -100,7 +99,11 @@ export function useHotkeyActions(app: any) {
       }
     }
 
-    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_C) {
+    if (
+      e.metaKey &&
+      e.code === KEYBOARD_SHORTCUTS.KEY_C &&
+      ((app.features as Record<string, boolean>).copy ?? false)
+    ) {
       if (selectedItems.value.length === 0) {
         app.emitter.emit('vf-toast-push', {
           type: 'error',
@@ -118,7 +121,11 @@ export function useHotkeyActions(app: any) {
       e.preventDefault();
     }
 
-    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_X) {
+    if (
+      e.metaKey &&
+      e.code === KEYBOARD_SHORTCUTS.KEY_X &&
+      ((app.features as Record<string, boolean>).copy ?? false)
+    ) {
       if (selectedItems.value.length === 0) {
         app.emitter.emit('vf-toast-push', {
           type: 'error',
@@ -136,7 +143,11 @@ export function useHotkeyActions(app: any) {
       e.preventDefault();
     }
 
-    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_V) {
+    if (
+      e.metaKey &&
+      e.code === KEYBOARD_SHORTCUTS.KEY_V &&
+      ((app.features as Record<string, boolean>).copy ?? false)
+    ) {
       if (fs.getClipboard().items.size === 0) {
         app.emitter.emit('vf-toast-push', {
           type: 'error',

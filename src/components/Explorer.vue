@@ -434,6 +434,13 @@ const handleContentContextMenu = (event: MouseEvent) => {
 };
 
 const handleItemDragStart = (event: DragEvent) => {
+  // Check if move feature is enabled
+  const features = app.features as Record<string, boolean>;
+  if (!(features?.move ?? false)) {
+    event.preventDefault();
+    return false;
+  }
+
   if (event.altKey || event.ctrlKey || event.metaKey) {
     event.preventDefault();
     return false;

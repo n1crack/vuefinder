@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from '@nanostores/vue';
-import { FEATURES } from '../features.js';
+import { useFeatures } from '../composables/useFeatures';
 import type { DirEntry } from '../types';
 import { copyPath, copyDownloadUrl } from '../utils/clipboard';
 import ModalNewFolder from './modals/ModalNewFolder.vue';
@@ -24,6 +24,7 @@ import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
 
 const app = useApp();
+const { enabled } = useFeatures();
 
 const { t } = app?.i18n || { t: (key: string) => key };
 
@@ -55,27 +56,27 @@ const menuItems = computed<any[]>(() => [
         id: 'new-folder',
         label: t('New Folder'),
         action: () => app?.modal?.open(ModalNewFolder, { items: selectedItems.value }),
-        enabled: () => app?.features?.includes(FEATURES.NEW_FOLDER) || false,
+        enabled: () => enabled('newfolder'),
       },
       {
         id: 'new-file',
         label: t('New File'),
         action: () => app?.modal?.open(ModalNewFile, { items: selectedItems.value }),
-        enabled: () => app?.features?.includes(FEATURES.NEW_FILE) || false,
+        enabled: () => enabled('newfile'),
       },
       { type: 'separator' },
       {
         id: 'upload',
         label: t('Upload'),
         action: () => app?.modal?.open(ModalUpload, { items: selectedItems.value }),
-        enabled: () => app?.features?.includes(FEATURES.UPLOAD) || false,
+        enabled: () => enabled('upload'),
       },
       { type: 'separator' },
       {
         id: 'search',
         label: t('Search'),
         action: () => app.modal.open(ModalSearch),
-        enabled: () => app?.features?.includes(FEATURES.SEARCH),
+        enabled: () => enabled('search'),
       },
       { type: 'separator' },
       {
@@ -86,7 +87,7 @@ const menuItems = computed<any[]>(() => [
             app?.modal?.open(ModalArchive, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.ARCHIVE),
+        enabled: () => selectedItems.value.length > 0 && enabled('archive'),
       },
       {
         id: 'unarchive',
@@ -102,7 +103,7 @@ const menuItems = computed<any[]>(() => [
         enabled: () =>
           selectedItems.value.length === 1 &&
           selectedItems.value[0]?.mime_type === 'application/zip' &&
-          app?.features?.includes(FEATURES.UNARCHIVE),
+          enabled('unarchive'),
       },
       { type: 'separator' },
       {
@@ -116,7 +117,10 @@ const menuItems = computed<any[]>(() => [
             });
           }
         },
-        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
+        enabled: () =>
+          selectedItems.value.length === 1 &&
+          selectedItems.value[0]?.type !== 'dir' &&
+          enabled('preview'),
       },
       // Only show exit option if we can actually close the window
       ...(shouldShowExit.value
@@ -161,65 +165,73 @@ const menuItems = computed<any[]>(() => [
             { type: 'separator' },
           ]
         : []),
-      {
-        id: 'cut',
-        label: t('Cut'),
-        action: () => {
-          if (selectedItems.value.length > 0) {
-            fs?.setClipboard(
-              'cut',
-              new Set(selectedItems.value.map((item: DirEntry) => item.path))
-            );
-          }
-        },
-        enabled: () => selectedItems.value.length > 0,
-      },
-      {
-        id: 'copy',
-        label: t('Copy'),
-        action: () => {
-          if (selectedItems.value.length > 0) {
-            fs?.setClipboard(
-              'copy',
-              new Set(selectedItems.value.map((item: DirEntry) => item.path))
-            );
-          }
-        },
-        enabled: () => selectedItems.value.length > 0,
-      },
-      {
-        id: 'paste',
-        label: t('Paste'),
-        action: () => {
-          const clipboard = fs?.getClipboard();
-          if (clipboard?.items?.size > 0) {
-            app?.modal?.open(clipboard.type === 'cut' ? ModalMove : ModalCopy, {
-              items: { from: Array.from(clipboard.items), to: fs?.path?.get() },
-            });
-          }
-        },
-        enabled: () => {
-          const clipboard = fs?.getClipboard();
-          return clipboard?.items?.size > 0;
-        },
-      },
-      {
-        id: 'move',
-        label: t('Move'),
-        action: () => {
-          if (selectedItems.value.length > 0) {
-            const fs = app?.fs;
-            const target = {
-              storage: fs?.path?.get()?.storage || '',
-              path: fs?.path?.get()?.path || '',
-              type: 'dir' as const,
-            };
-            app?.modal?.open(ModalMove, { items: { from: selectedItems.value, to: target } });
-          }
-        },
-        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.MOVE),
-      },
-      { type: 'separator' },
+      ...(enabled('copy')
+        ? [
+            {
+              id: 'cut',
+              label: t('Cut'),
+              action: () => {
+                if (selectedItems.value.length > 0) {
+                  fs?.setClipboard(
+                    'cut',
+                    new Set(selectedItems.value.map((item: DirEntry) => item.path))
+                  );
+                }
+              },
+              enabled: () => selectedItems.value.length > 0,
+            },
+            {
+              id: 'copy',
+              label: t('Copy'),
+              action: () => {
+                if (selectedItems.value.length > 0) {
+                  fs?.setClipboard(
+                    'copy',
+                    new Set(selectedItems.value.map((item: DirEntry) => item.path))
+                  );
+                }
+              },
+              enabled: () => selectedItems.value.length > 0,
+            },
+            {
+              id: 'paste',
+              label: t('Paste'),
+              action: () => {
+                const clipboard = fs?.getClipboard();
+                if (clipboard?.items?.size > 0) {
+                  app?.modal?.open(clipboard.type === 'cut' ? ModalMove : ModalCopy, {
+                    items: { from: Array.from(clipboard.items), to: fs?.path?.get() },
+                  });
+                }
+              },
+              enabled: () => {
+                const clipboard = fs?.getClipboard();
+                return clipboard?.items?.size > 0;
+              },
+            },
+          ]
+        : []),
+      ...(enabled('move')
+        ? [
+            {
+              id: 'move',
+              label: t('Move'),
+              action: () => {
+                if (selectedItems.value.length > 0) {
+                  const fs = app?.fs;
+                  const target = {
+                    storage: fs?.path?.get()?.storage || '',
+                    path: fs?.path?.get()?.path || '',
+                    type: 'dir' as const,
+                  };
+                  app?.modal?.open(ModalMove, { items: { from: selectedItems.value, to: target } });
+                }
+              },
+              enabled: () => selectedItems.value.length > 0,
+            },
+            { type: 'separator' },
+          ]
+        : []),
       {
         id: 'copy-path',
         label: t('Copy Path'),
@@ -262,7 +274,7 @@ const menuItems = computed<any[]>(() => [
             app?.modal?.open(ModalRename, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length === 1 && app?.features?.includes(FEATURES.RENAME),
+        enabled: () => selectedItems.value.length === 1 && enabled('rename'),
       },
       {
         id: 'delete',
@@ -272,7 +284,7 @@ const menuItems = computed<any[]>(() => [
             app?.modal?.open(ModalDelete, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length > 0 && app?.features?.includes(FEATURES.DELETE),
+        enabled: () => selectedItems.value.length > 0 && enabled('delete'),
       },
     ],
   },
@@ -330,7 +342,7 @@ const menuItems = computed<any[]>(() => [
         id: 'fullscreen',
         label: t('Full Screen'),
         action: () => config?.toggle('fullScreen'),
-        enabled: () => app?.features?.includes(FEATURES.FULL_SCREEN),
+        enabled: () => enabled('fullscreen'),
         checked: () => configState.value?.fullScreen,
       },
     ],
@@ -339,30 +351,34 @@ const menuItems = computed<any[]>(() => [
     id: 'go',
     label: t('Go'),
     items: [
-      {
-        id: 'forward',
-        label: t('Forward'),
-        action: () => {
-          fs?.goForward();
-          const pathInfo = fs?.path?.get();
-          if (pathInfo?.path) {
-            app?.adapter.open(pathInfo.path);
-          }
-        },
-        enabled: () => fs?.canGoForward?.get() ?? false,
-      },
-      {
-        id: 'back',
-        label: t('Back'),
-        action: () => {
-          fs?.goBack();
-          const pathInfo = fs?.path?.get();
-          if (pathInfo?.path) {
-            app?.adapter.open(pathInfo.path);
-          }
-        },
-        enabled: () => fs?.canGoBack?.get() ?? false,
-      },
+      ...(enabled('history')
+        ? [
+            {
+              id: 'forward',
+              label: t('Forward'),
+              action: () => {
+                fs?.goForward();
+                const pathInfo = fs?.path?.get();
+                if (pathInfo?.path) {
+                  app?.adapter.open(pathInfo.path);
+                }
+              },
+              enabled: () => fs?.canGoForward?.get() ?? false,
+            },
+            {
+              id: 'back',
+              label: t('Back'),
+              action: () => {
+                fs?.goBack();
+                const pathInfo = fs?.path?.get();
+                if (pathInfo?.path) {
+                  app?.adapter.open(pathInfo.path);
+                }
+              },
+              enabled: () => fs?.canGoBack?.get() ?? false,
+            },
+          ]
+        : []),
       {
         id: 'open-containing-folder',
         label: t('Open containing folder'),

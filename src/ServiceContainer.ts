@@ -2,7 +2,7 @@ import { reactive, useTemplateRef, computed, markRaw } from 'vue';
 import mitt from 'mitt';
 import { useStorage } from './composables/useStorage';
 import { useI18n } from './composables/useI18n';
-import { FEATURE_ALL_NAMES } from './features.js';
+import { normalizeFeatures } from './features';
 import { version } from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize';
 import useModal from './composables/useModal';
@@ -21,13 +21,6 @@ export default (props: VueFinderProps, options: Record<string, unknown>): any =>
 
   const configStore: ConfigStore = createConfigStore(props.id ?? 'vf', props.config ?? {});
   const filesStore = createFilesStore();
-
-  const setFeatures = (features: unknown) => {
-    if (Array.isArray(features)) {
-      return features;
-    }
-    return FEATURE_ALL_NAMES;
-  };
 
   // Driver is required - VueFinder should provide it via defaults
   if (!props.driver) {
@@ -72,7 +65,7 @@ export default (props: VueFinderProps, options: Record<string, unknown>): any =>
     // Use markRaw to prevent TanStack Query from being made reactive
     adapter: markRaw(adapterManager),
     // active features
-    features: setFeatures(props.features),
+    features: normalizeFeatures(props.features),
     // selection mode
     selectionMode: props.selectionMode || 'multiple',
     // selection filters - computed properties for better reactivity

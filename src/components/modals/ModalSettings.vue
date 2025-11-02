@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
 import { useApp } from '../../composables/useApp';
+import { useFeatures } from '../../composables/useFeatures';
 import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
 import ActionMessage from '../../components/ActionMessage.vue';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from '../../utils/filesize';
 import { themes, type Theme } from '../../stores/theme';
-import { FEATURES } from '../../features';
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../../stores/config';
 import SettingsIcon from '../../assets/icons/gear.svg';
 
 const app = useApp();
+const { enabled } = useFeatures();
 const config = app.config;
 const { clearStore } = app.storage;
 const { t } = app.i18n;
@@ -154,9 +155,14 @@ const supportedLanguages = Object.fromEntries(
               </div>
             </div>
 
-            <div class="vuefinder__about-modal__settings__section-title">{{ t('Theme') }}</div>
+            <div
+              v-if="enabled('theme')"
+              class="vuefinder__about-modal__settings__section-title"
+            >
+              {{ t('Theme') }}
+            </div>
 
-            <div class="vuefinder__about-modal__setting">
+            <div v-if="enabled('theme')" class="vuefinder__about-modal__setting">
               <div class="vuefinder__about-modal__setting-input justify-end">
                 <select
                   id="theme"
@@ -178,7 +184,7 @@ const supportedLanguages = Object.fromEntries(
 
             <div
               v-if="
-                app.features.includes(FEATURES.LANGUAGE) &&
+                enabled('language') &&
                 Object.keys(supportedLanguages).length > 1
               "
               class="vuefinder__about-modal__settings__section-title"
@@ -188,7 +194,7 @@ const supportedLanguages = Object.fromEntries(
 
             <div
               v-if="
-                app.features.includes(FEATURES.LANGUAGE) &&
+                enabled('language') &&
                 Object.keys(supportedLanguages).length > 1
               "
               class="vuefinder__about-modal__setting"
