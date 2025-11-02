@@ -110,9 +110,27 @@ const getEventTypeClass = (type: string): string => {
     <div class="events-demo-example__header">
       <h2 class="events-demo-example__title">VueFinder Events Demo</h2>
       <p class="events-demo-example__description">
-        This example demonstrates all VueFinder events. Interact with the file manager below to see
+        This example demonstrates all VueFinder events. Interact with the file manager to see
         events in action.
       </p>
+    </div>
+
+    <!-- VueFinder with all events -->
+    <div class="events-demo-example__viewer">
+      <vue-finder
+        id="events-demo-vuefinder"
+        :driver="driver"
+        :config="config"
+        :features="features"
+        @select="onSelectEvents"
+        @path-change="onPathChangeEvents"
+        @upload-complete="onUploadCompleteEvents"
+        @delete-complete="onDeleteCompleteEvents"
+        @error="onErrorEvents"
+        @ready="onReadyEvents"
+        @file-dclick="onFileDclickEvents"
+        @folder-dclick="onFolderDclickEvents"
+      />
     </div>
 
     <!-- Status indicators -->
@@ -190,24 +208,6 @@ const getEventTypeClass = (type: string): string => {
           <div class="events-demo-example__event-message">{{ event.message }}</div>
         </div>
       </div>
-    </div>
-
-    <!-- VueFinder with all events -->
-    <div class="events-demo-example__viewer">
-      <vue-finder
-        id="events-demo-vuefinder"
-        :driver="driver"
-        :config="config"
-        :features="features"
-        @select="onSelectEvents"
-        @path-change="onPathChangeEvents"
-        @upload-complete="onUploadCompleteEvents"
-        @delete-complete="onDeleteCompleteEvents"
-        @error="onErrorEvents"
-        @ready="onReadyEvents"
-        @file-dclick="onFileDclickEvents"
-        @folder-dclick="onFolderDclickEvents"
-      />
     </div>
   </div>
 </template>
