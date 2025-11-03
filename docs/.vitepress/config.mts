@@ -8,6 +8,21 @@ export default defineConfig({
   title: 'VueFinder',
   description:
     'Empower your Vue.js applications with this versatile and customizable file manager component',
+  head: [
+    [
+      'script',
+      { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-6BYQESCJ6R' }
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);} 
+window.gtag = gtag;
+gtag('js', new Date());
+gtag('config', 'G-6BYQESCJ6R');`
+    ]
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
