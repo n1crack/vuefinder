@@ -11,3 +11,7 @@ mix-manifest.json
 .env*
 .DS_Store
 _ide_helper.php
+
+# VitePress
+docs/.vitepress/cache
+docs/.vitepress/dist

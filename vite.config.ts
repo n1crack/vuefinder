@@ -8,6 +8,7 @@ import { resolve } from 'node:path';
 
 // https://vite.dev/config/
 export default defineConfig({
+  publicDir: false,
   plugins: [
     vue(),
     vueDevTools(),

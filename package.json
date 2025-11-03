@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "A sleek, developer-friendly file manager for Vue — organize, preview, and manage files with ease.",
   "type": "module",
   "engines": {
@@ -34,7 +34,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs --outDir <root>/public",
+    "docs:preview": "vitepress preview docs"
   },
   "homepage": "https://github.com/n1crack/vuefinder#readme",
   "keywords": [
@@ -124,6 +127,7 @@
     "vite": "^7.1.7",
     "vite-plugin-vue-devtools": "^8.0.2",
     "vitest": "^3.2.4",
+    "vitepress": "^2.0.0-alpha.12",
     "vue-tsc": "^3.1.0"
   }
 }
