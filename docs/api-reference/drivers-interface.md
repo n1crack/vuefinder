@@ -28,6 +28,17 @@ export interface Driver {
 }
 ```
 
+### Built-in drivers
+
+VueFinder ships with ready-to-use drivers that implement this interface:
+
+- ArrayDriver — In-memory, array-backed storage for demos/tests
+- IndexedDBDriver — Browser-persistent storage using IndexedDB
+- RemoteDriver — HTTP API backend integration
+
+See the guide for usage and configuration of these drivers:
+[Guide - Drivers & Adapters](../guide/drivers-adapters.md)
+
 ## Method Details
 
 ### `list`
