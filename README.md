@@ -105,9 +105,9 @@ const driver = new RemoteDriver({
   },
 });
 
-// Or use LocalDriver for in-memory operations:
-// import { LocalDriver } from 'vuefinder';
-// const driver = new LocalDriver({
+// Or use ArrayDriver for in-memory operations:
+// import { ArrayDriver } from 'vuefinder';
+// const driver = new ArrayDriver({
 //   files: filesArray,
 //   storage: 'memory',
 //   readOnly: false

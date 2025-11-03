@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 
 import { mount } from '@vue/test-utils';
 import VueFinder from '@/components/VueFinder.vue';
-import { LocalDriver } from '@/adapters/LocalDriver';
+import { ArrayDriver } from '@/adapters/ArrayDriver';
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -124,7 +124,7 @@ describe('VueFinder', () => {
   it('mounts renders properly', () => {
     // Create a mock driver for testing
     const mockFiles = ref([]);
-    const driver = new LocalDriver({
+    const driver = new ArrayDriver({
       files: mockFiles,
       storage: 'local',
     });

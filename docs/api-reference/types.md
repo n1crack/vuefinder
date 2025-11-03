@@ -22,7 +22,8 @@ VueFinder exports the following types:
 | `Theme`               | Theme type                                     |
 | `FsData`              | File system data response                      |
 | `RemoteDriverConfig`  | RemoteDriver configuration                     |
-| `LocalDriverConfig`   | LocalDriver configuration                      |
+| `ArrayDriverConfig`   | ArrayDriver configuration                      |
+| `IndexedDBDriverConfig` | IndexedDBDriver configuration                |
 | `ListParams`          | Parameters for list operation                  |
 | `DeleteParams`        | Parameters for delete operation                |
 | `RenameParams`        | Parameters for rename operation                |

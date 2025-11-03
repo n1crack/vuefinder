@@ -4,10 +4,14 @@ import type { DirEntry, FsData } from '../types';
 export type { FsData };
 
 /**
- * Configuration for Local Driver
+ * Configuration for IndexedDB Driver
+ * Note: The actual IndexedDBDriverConfig is exported from IndexedDBDriver.ts
  */
-export interface LocalDriverConfig {
-  root: string;
+export interface IndexedDBDriverConfig {
+  dbName?: string;
+  storage?: string;
+  readOnly?: boolean;
+  version?: number;
 }
 
 /**

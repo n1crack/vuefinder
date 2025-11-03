@@ -8,10 +8,11 @@ VueFinder uses a driver-based architecture that abstracts file operations. This 
 
 ## Driver Interface
 
-All drivers must implement the `Driver` interface. VueFinder provides two built-in drivers:
+All drivers must implement the `Driver` interface. VueFinder provides three built-in drivers:
 
 - **RemoteDriver** - For HTTP API backends
-- **LocalDriver** - For in-memory file operations
+- **ArrayDriver** - For in-memory file operations (using arrays)
+- **IndexedDBDriver** - For browser-based persistent storage (using IndexedDB)
 
 ## RemoteDriver
 
@@ -80,14 +81,14 @@ const driver = new RemoteDriver({
 });
 ```
 
-## LocalDriver
+## ArrayDriver
 
-Use `LocalDriver` for in-memory file operations. Useful for demos, testing, or client-only applications.
+Use `ArrayDriver` for in-memory file operations using arrays. Useful for demos, testing, or client-only applications. Files are stored in memory and lost on page reload.
 
 ### Basic Usage
 
 ```js
-import { LocalDriver } from 'vuefinder';
+import { ArrayDriver } from 'vuefinder';
 import { ref } from 'vue';
 
 const files = ref([
@@ -117,10 +118,56 @@ const files = ref([
   },
 ]);
 
-const driver = new LocalDriver({
+const driver = new ArrayDriver({
   files: files,
   storage: 'memory',
 });
+```
+
+## IndexedDBDriver
+
+Use `IndexedDBDriver` for browser-based persistent storage using IndexedDB. Files persist across page reloads and browser sessions. This is ideal for offline-first applications or when you need client-side file storage without a backend.
+
+### Basic Usage
+
+```js
+import { IndexedDBDriver } from 'vuefinder';
+
+const driver = new IndexedDBDriver({
+  dbName: 'vuefinder', // Optional: defaults to 'vuefinder'
+  storage: 'indexeddb', // Optional: defaults to 'indexeddb'
+  readOnly: false, // Optional: defaults to false
+  version: 1, // Optional: defaults to 1
+});
+```
+
+### Configuration Options
+
+- `dbName`: Name of the IndexedDB database (default: `'vuefinder'`)
+- `storage`: Storage identifier used in paths (default: `'indexeddb'`)
+- `readOnly`: Whether the driver should allow write operations (default: `false`)
+- `version`: Database version number for schema migrations (default: `1`)
+
+### Features
+
+- **Persistent storage**: Files persist across browser sessions
+- **Automatic initialization**: Database and object stores are created automatically
+- **Full CRUD operations**: Create, read, update, and delete files and folders
+- **Content storage**: File contents are stored separately from metadata
+- **Search support**: Full-text search across file names and paths
+
+### Example
+
+```js
+import { IndexedDBDriver } from 'vuefinder';
+
+// Create driver with custom database name
+const driver = new IndexedDBDriver({
+  dbName: 'my-app-files',
+  storage: 'indexeddb',
+});
+
+// Files will be persisted to IndexedDB and available on next page load
 ```
 
 ## Custom Driver

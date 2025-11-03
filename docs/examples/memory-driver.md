@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Memory Driver
+# Array Driver
 
-Example showing how to use LocalDriver for in-memory file operations.
+Example showing how to use ArrayDriver for in-memory file operations.
 
 ## Code Example
 
@@ -21,7 +21,7 @@ Example showing how to use LocalDriver for in-memory file operations.
 </template>
 
 <script setup>
-import { LocalDriver } from 'vuefinder';
+import { ArrayDriver } from 'vuefinder';
 import { ref } from 'vue';
 
 // Initialize with some files
@@ -52,7 +52,7 @@ const files = ref([
   },
 ]);
 
-const driver = new LocalDriver({
+const driver = new ArrayDriver({
   files: files,
   storage: 'memory',
 });
@@ -61,7 +61,7 @@ const driver = new LocalDriver({
 
 ## Explanation
 
-LocalDriver is useful for:
+ArrayDriver is useful for:
 
 - **Demos and testing**: No backend required
 - **Client-only applications**: In-memory file management

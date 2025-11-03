@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { RemoteDriver, LocalDriver } from '../src/adapters';
+import { RemoteDriver, ArrayDriver, IndexedDBDriver } from '../src/adapters';
 import MemoryExample from './examples/MemoryExample.vue';
+import IndexedDBExample from './examples/IndexedDBExample.vue';
 import type { DirEntry } from '../src/types';
 
 // Import example components
@@ -40,7 +41,7 @@ const remoteDriver = new RemoteDriver({
   },
 });
 
-// Create in-memory LocalDriver instance (paths use memory:// scheme)
+// Create in-memory ArrayDriver instance (paths use memory:// scheme)
 const memoryFiles = ref<DirEntry[]>([
   {
     storage: 'memory',
@@ -67,13 +68,20 @@ const memoryFiles = ref<DirEntry[]>([
     visibility: 'public',
   },
 ]);
-const localDriver = new LocalDriver({ files: memoryFiles, storage: 'memory' });
+const arrayDriver = new ArrayDriver({ files: memoryFiles, storage: 'memory' });
+
+// Create IndexedDB driver instance (persists to browser IndexedDB)
+const indexedDBDriver = new IndexedDBDriver({
+  dbName: 'vuefinder-example',
+  storage: 'indexeddb',
+});
 
 const driver = ref(remoteDriver as any);
 
 const examples = {
   default: 'Inline select button example',
-  localDriver: 'In-memory LocalDriver (no REST)',
+  arrayDriver: 'In-memory ArrayDriver (no REST)',
+  indexedDB: 'IndexedDB Driver (persistent)',
   externalSelect: 'External select example',
   contextmenu: 'Custom context menu example',
   customIcons: 'Custom Icons (Scoped Slot)',
@@ -251,11 +259,19 @@ onUnmounted(() => {
         :config="{ ...config, theme: currentTheme }"
       />
 
-      <!-- LocalDriver demo uses a separate instance id to avoid persisted state collisions -->
+      <!-- ArrayDriver demo uses a separate instance id to avoid persisted state collisions -->
       <MemoryExample
-        v-if="example === 'localDriver'"
-        :driver="localDriver"
+        v-if="example === 'arrayDriver'"
+        :driver="arrayDriver"
         :config="{ ...config, theme: currentTheme, initialPath: 'memory://', persist: false }"
+        :features="features"
+      />
+
+      <!-- IndexedDBDriver demo - persists to browser IndexedDB -->
+      <IndexedDBExample
+        v-if="example === 'indexedDB'"
+        :driver="indexedDBDriver"
+        :config="{ ...config, theme: currentTheme, initialPath: 'indexeddb://', persist: false }"
         :features="features"
       />
     </div>

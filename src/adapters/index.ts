@@ -26,11 +26,12 @@
  * });
  *
  * @example
- * // Using LocalDriver (in-memory)
- * import { LocalDriver } from '@vuefinder/adapters';
+ * // Using ArrayDriver (in-memory)
+ * import { ArrayDriver } from '@vuefinder/adapters';
  *
- * const adapter = new LocalDriver({
- *   root: '/my-files'
+ * const adapter = new ArrayDriver({
+ *   files: filesArray,
+ *   storage: 'memory'
  * });
  *
  * @example
@@ -49,8 +50,11 @@
 export { BaseAdapter } from './Adapter';
 
 // Export adapter implementations
-export { LocalDriver } from './LocalDriver';
+export { ArrayDriver } from './ArrayDriver';
+export type { ArrayDriverConfig } from './ArrayDriver';
 export { RemoteDriver } from './RemoteDriver';
+export { IndexedDBDriver } from './IndexedDBDriver';
+export type { IndexedDBDriverConfig } from './IndexedDBDriver';
 
 // Export adapter manager
 export { AdapterManager, QueryKeys } from './AdapterManager';
@@ -59,7 +63,6 @@ export type { AdapterManagerConfig } from './AdapterManager';
 // Export types
 export type {
   Driver,
-  LocalDriverConfig,
   RemoteDriverConfig,
   RemoteDriverUrls,
   DeleteResult,

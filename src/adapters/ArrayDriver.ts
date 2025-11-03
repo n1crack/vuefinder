@@ -11,7 +11,7 @@ import type { DirEntry, FsData } from '../types';
 
 type FilesSource = { value: DirEntry[] } | DirEntry[];
 
-interface LocalDriverConfig {
+export interface ArrayDriverConfig {
   files: FilesSource;
   storage?: string; // defaults to 'memory'
   readOnly?: boolean;
@@ -20,13 +20,13 @@ interface LocalDriverConfig {
 
 // All full paths are in the form `${storage}://${pathPart}`
 // where pathPart is '' for root or 'a/b/c' without leading slash.
-export class LocalDriver extends BaseAdapter {
+export class ArrayDriver extends BaseAdapter {
   private filesSource: FilesSource;
   private storage: string;
   private readOnly: boolean;
   private contentStore: Map<string, string | ArrayBuffer>;
 
-  constructor(config: LocalDriverConfig) {
+  constructor(config: ArrayDriverConfig) {
     super();
     this.filesSource = config.files;
     this.storage = config.storage || 'memory';
@@ -513,3 +513,4 @@ export class LocalDriver extends BaseAdapter {
     });
   }
 }
+

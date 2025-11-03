@@ -46,7 +46,8 @@ import type {
   Theme,
   FsData,
   RemoteDriverConfig,
-  LocalDriverConfig,
+  ArrayDriverConfig,
+  IndexedDBDriverConfig,
 } from 'vuefinder';
 ```
 
@@ -168,6 +169,7 @@ VueFinder exports the following types:
 | `Theme`              | Theme type                                     |
 | `FsData`             | File system data response                      |
 | `RemoteDriverConfig` | RemoteDriver configuration                     |
-| `LocalDriverConfig`  | LocalDriver configuration                      |
+| `ArrayDriverConfig`  | ArrayDriver configuration                      |
+| `IndexedDBDriverConfig` | IndexedDBDriver configuration                |
 
 For a complete list of all types, see [API Reference - Types](../api-reference/types.md).
