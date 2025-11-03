@@ -1,8 +1,7 @@
-// https://vitepress.dev/guide/custom-theme
 import { h } from 'vue';
 import type { Theme } from 'vitepress';
 import DefaultTheme from 'vitepress/theme';
-import ClientOnly from '../components/ClientOnly.vue';
+import GithubButton from 'vue-github-button';
 import './style.css';
 
 export default {
@@ -13,9 +12,6 @@ export default {
     });
   },
   enhanceApp({ app }) {
-    // Register ClientOnly component globally
-    app.component('ClientOnly', ClientOnly);
-
     // Register VueFinder plugin globally only on client side
     if (typeof window !== 'undefined') {
       import('vuefinder').then((module) => {
@@ -23,5 +19,8 @@ export default {
       });
       import('vuefinder/dist/style.css');
     }
+
+    // Register GithubButton component globally
+    app.component('GithubButton', GithubButton);
   },
 } satisfies Theme;
