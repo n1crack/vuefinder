@@ -4,9 +4,9 @@ import type { DirEntry, FsData } from '../types';
 export type { FsData };
 
 /**
- * Configuration for Local Adapter
+ * Configuration for Local Driver
  */
-export interface LocalAdapterConfig {
+export interface LocalDriverConfig {
   root: string;
 }
 

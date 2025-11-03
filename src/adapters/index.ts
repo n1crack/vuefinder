@@ -49,7 +49,6 @@
 export { BaseAdapter } from './Adapter';
 
 // Export adapter implementations
-export { LocalAdapter } from './LocalAdapter';
 export { LocalDriver } from './LocalDriver';
 export { RemoteDriver } from './RemoteDriver';
 
@@ -60,7 +59,7 @@ export type { AdapterManagerConfig } from './AdapterManager';
 // Export types
 export type {
   Driver,
-  LocalAdapterConfig,
+  LocalDriverConfig,
   RemoteDriverConfig,
   RemoteDriverUrls,
   DeleteResult,

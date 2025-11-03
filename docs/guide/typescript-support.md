@@ -46,7 +46,7 @@ import type {
   Theme,
   FsData,
   RemoteDriverConfig,
-  LocalAdapterConfig,
+  LocalDriverConfig,
 } from 'vuefinder';
 ```
 
@@ -157,7 +157,7 @@ class MyDriver extends BaseAdapter implements Driver {
 VueFinder exports the following types:
 
 | Type                 | Description                                    |
-| -------------------- | ---------------------------------------------- |
+|----------------------| ---------------------------------------------- |
 | `VueFinderProps`     | Component props interface                      |
 | `DirEntry`           | File/folder entry type                         |
 | `Driver`             | Driver interface                               |
@@ -168,6 +168,6 @@ VueFinder exports the following types:
 | `Theme`              | Theme type                                     |
 | `FsData`             | File system data response                      |
 | `RemoteDriverConfig` | RemoteDriver configuration                     |
-| `LocalAdapterConfig` | LocalDriver configuration                      |
+| `LocalDriverConfig`  | LocalDriver configuration                      |
 
 For a complete list of all types, see [API Reference - Types](../api-reference/types.md).

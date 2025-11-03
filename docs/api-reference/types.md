@@ -11,7 +11,7 @@ Complete reference of VueFinder TypeScript types.
 VueFinder exports the following types:
 
 | Type                  | Description                                    |
-| --------------------- | ---------------------------------------------- |
+|-----------------------| ---------------------------------------------- |
 | `VueFinderProps`      | Component props interface                      |
 | `DirEntry`            | File/folder entry type                         |
 | `Driver`              | Driver interface                               |
@@ -22,7 +22,7 @@ VueFinder exports the following types:
 | `Theme`               | Theme type                                     |
 | `FsData`              | File system data response                      |
 | `RemoteDriverConfig`  | RemoteDriver configuration                     |
-| `LocalAdapterConfig`  | LocalDriver configuration                      |
+| `LocalDriverConfig`   | LocalDriver configuration                      |
 | `ListParams`          | Parameters for list operation                  |
 | `DeleteParams`        | Parameters for delete operation                |
 | `RenameParams`        | Parameters for rename operation                |
