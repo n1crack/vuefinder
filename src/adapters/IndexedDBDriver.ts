@@ -495,7 +495,9 @@ export class IndexedDBDriver extends BaseAdapter {
         const newDirPath = this.join(targetDirFull, newName);
 
         const children = allFiles.filter(
-          (c) => c.storage === this.storage && (c.path === oldPrefix || c.path.startsWith(oldPrefix + '/'))
+          (c) =>
+            c.storage === this.storage &&
+            (c.path === oldPrefix || c.path.startsWith(oldPrefix + '/'))
         );
 
         for (const child of children) {
@@ -743,4 +745,3 @@ export class IndexedDBDriver extends BaseAdapter {
     });
   }
 }
-
