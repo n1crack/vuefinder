@@ -92,3 +92,11 @@
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
+
+/**
+ * Z-index overrides
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-z-index-nav: 45;
+}

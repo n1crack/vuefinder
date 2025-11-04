@@ -83,7 +83,6 @@ features:
 }
 
 .home-footer {
-  margin-top: 4rem;
   padding: 2rem;
   text-align: center;
   color: var(--vp-c-text-2);

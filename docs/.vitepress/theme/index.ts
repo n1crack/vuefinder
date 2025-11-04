@@ -3,21 +3,22 @@ import type { Theme } from 'vitepress';
 import DefaultTheme from 'vitepress/theme';
 import GithubButton from 'vue-github-button';
 import './style.css';
+import HomeHeroVueFinderDemo from './components/HomeHeroVueFinderDemo.vue';
+import VueFinderPlugin from 'vuefinder';
+import 'vuefinder/dist/style.css';
 
 export default {
   extends: DefaultTheme,
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
+      'home-features-after': () => h(HomeHeroVueFinderDemo),
     });
   },
   enhanceApp({ app }) {
-    // Register VueFinder plugin globally only on client side
-    if (typeof window !== 'undefined') {
-      import('vuefinder').then((module) => {
-        app.use(module.default);
-      });
-      import('vuefinder/dist/style.css');
+    // Register VueFinder plugin globally on client side, synchronously
+    if (!import.meta.env.SSR) {
+      app.use(VueFinderPlugin);
     }
 
     // Register GithubButton component globally

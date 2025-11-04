@@ -8,6 +8,7 @@
 
 .vuefinder__status-bar__storage-container {
   @apply flex items-center rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) leading-5;
+  @apply relative;
 }
 
 .vuefinder__status-bar__storage-icon {
@@ -16,6 +17,7 @@
 
 .vuefinder__status-bar__storage-select {
   @apply cursor-pointer rounded border-0 bg-(--vf-bg-primary) py-0.5 text-xs text-(--vf-text-secondary) uppercase focus:outline-0;
+  @apply appearance-none pr-4;
 }
 
 .vuefinder__status-bar__info {
@@ -28,6 +30,12 @@
 
 .vuefinder__status-bar__actions {
   @apply flex items-center justify-end leading-5;
+}
+
+/* Caret indicator (up/down chevrons) */
+.vuefinder__status-bar__storage-caret {
+  @apply absolute right-1 top-1/2 transform -translate-y-1/2 w-[9px] h-[12px] pointer-events-none opacity-50 bg-no-repeat bg-center bg-contain;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12' fill='currentColor'><path d='M4 1l3 3H1l3-3zM4 11l-3-3h6l-3 3z'/></svg>");
 }
 
 .vuefinder__themer .vuefinder__status-bar__about {
