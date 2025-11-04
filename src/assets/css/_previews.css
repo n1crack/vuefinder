@@ -64,7 +64,7 @@
 }
 
 .vuefinder__themer .vuefinder__image-preview__image {
-  @apply max-h-[70vh];
+  @apply max-h-[50vh] object-contain;
 }
 .vuefinder__themer .vuefinder__image-preview__image-container cropper-canvas {
   @apply h-full w-full;

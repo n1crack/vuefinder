@@ -6,7 +6,7 @@ title: VueFinder Demo
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 
-const baseURL = ref(import.meta.env.VITE_VUEFINDER_API_URL || "http://inertia-vuefinder.test/api/files")
+const baseURL = ref("http://vuefinder-api-php.test/api/files")
 const driver = ref(null)
 const selectedFiles = ref([])
 const currentTheme = ref('light')
@@ -96,7 +96,7 @@ watch(baseURL, async (val) => {
   <div class="demo-controls">
     <div class="form-group">
       <label>API URL:</label>
-      <input v-model="baseURL" type="text" placeholder="http://inertia-vuefinder.test/api/files" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+      <input v-model="baseURL" type="text" placeholder="http://vuefinder-api-php.test/api/files" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
     </div>
 
   </div>

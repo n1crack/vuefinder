@@ -21,7 +21,7 @@ const example = ref('default');
 
 // Create remote driver instance
 const remoteDriver = new RemoteDriver({
-  baseURL: 'http://inertia-vuefinder.test/api/files',
+  baseURL: 'http://vuefinder-api-php.test/api/files',
   token: '', // Add your auth token here if needed
   url: {
     list: '', // GET /api/files
