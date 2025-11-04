@@ -15,7 +15,7 @@ If you like it, please follow and ⭐ star on GitHub.
 
 ### Demo
 
-[Live Demo](https://vuefinder.ozdemir.be/) [ [Source](https://github.com/n1crack/vuefinder.ozdemir.be) ]
+[Live Demo](https://vuefinder.ozdemir.be/)
 
 ### Installation
 

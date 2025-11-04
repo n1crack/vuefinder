@@ -34,9 +34,9 @@ onMounted(() => {
 
 <style scoped>
 .vf-hero-demo { 
-    margin: auto; 
-    padding-top: 2rem;
-    max-width: 800px; 
+    margin: auto;
+    margin-top: 2rem;
+    max-width: 800px;
     height: 420px;
 }
 .vf-hero-demo__loading { 

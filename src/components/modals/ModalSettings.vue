@@ -58,19 +58,23 @@ const { i18n } = inject('VueFinderOptions') as unknown as { i18n: Record<string,
 
 const languageList = {
   ar: 'Arabic (العربيّة)',
+  zhCN: 'Chinese-Simplified (简体中文)',
+  zhTW: 'Chinese-Traditional (繁體中文)',
+  nl: 'Dutch (Nederlands)',
   en: 'English',
   fr: 'French (Français)',
   de: 'German (Deutsch)',
-  fa: 'Persian (فارسی)',
   he: 'Hebrew (עִברִית)',
   hi: 'Hindi (हिंदी)',
+  it: 'Italian (Italiano)',
+  ja: 'Japanese (日本語)',
+  fa: 'Persian (فارسی)',
   pl: 'Polish (Polski)',
+  pt: 'Portuguese (Português)',
   ru: 'Russian (Pусский)',
+  es: 'Spanish (Español)',
   sv: 'Swedish (Svenska)',
   tr: 'Turkish (Türkçe)',
-  nl: 'Dutch (Nederlands)',
-  zhCN: 'Simplified Chinese (简体中文)',
-  zhTW: 'Traditional Chinese (繁體中文)',
 };
 
 const supportedLanguages = Object.fromEntries(

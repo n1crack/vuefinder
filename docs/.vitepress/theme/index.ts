@@ -18,7 +18,29 @@ export default {
   enhanceApp({ app }) {
     // Register VueFinder plugin globally on client side, synchronously
     if (!import.meta.env.SSR) {
-      app.use(VueFinderPlugin);
+      app.use(VueFinderPlugin, {
+        locale: 'en',
+        i18n: {
+            ar:  () =>    import ("../../../dist/locales/ar.js"),
+            de:  () =>    import ("../../../dist/locales/de.js"),
+            en:  () =>    import ("../../../dist/locales/en.js"),
+            es:  () =>    import ("../../../dist/locales/es.js"),
+            fa:  () =>    import ("../../../dist/locales/fa.js"),
+            fr:  () =>    import ("../../../dist/locales/fr.js"),
+            he:  () =>    import ("../../../dist/locales/he.js"),
+            hi:  () =>    import ("../../../dist/locales/hi.js"),
+            it:  () =>   import ("../../../dist/locales/it.js"),
+            ja:  () =>   import ("../../../dist/locales/ja.js"),
+            nl:  () =>   import ("../../../dist/locales/nl.js"),
+            pl:  () =>   import ("../../../dist/locales/pl.js"),
+            pt:  () =>   import ("../../../dist/locales/pt.js"),
+            ru:  () =>    import ("../../../dist/locales/ru.js"),
+            sv:  () =>    import ("../../../dist/locales/sv.js"),
+            tr:  () =>    import ("../../../dist/locales/tr.js"),
+            zhCN:  () =>  import ("../../../dist/locales/zhCN.js"),
+            zhTW:  () =>  import ("../../../dist/locales/zhTW.js"),
+        }
+      });
     }
 
     // Register GithubButton component globally

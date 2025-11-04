@@ -34,7 +34,7 @@
 
 /* Caret indicator (up/down chevrons) */
 .vuefinder__status-bar__storage-caret {
-  @apply absolute right-1 top-1/2 transform -translate-y-1/2 w-[9px] h-[12px] pointer-events-none opacity-50 bg-no-repeat bg-center bg-contain;
+  @apply pointer-events-none absolute top-1/2 right-1 h-[12px] w-[9px] -translate-y-1/2 transform bg-contain bg-center bg-no-repeat opacity-50;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12' fill='currentColor'><path d='M4 1l3 3H1l3-3zM4 11l-3-3h6l-3 3z'/></svg>");
 }
 
