@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch, computed } from 'vue';
 import { useApp } from '../composables/useApp';
-import { useFeatures } from '../composables/useFeatures';
+import { useFeature } from '../composables/useFeature';
 import { useStore } from '@nanostores/vue';
 import FolderSVG from '../assets/icons/folder.svg';
 import OpenFolderSVG from '../assets/icons/open_folder.svg';
@@ -19,7 +19,7 @@ import type { ConfigState } from '../stores/config';
 import type { CurrentPathState } from '../stores/files';
 
 const app = useApp();
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 const { t } = app.i18n;
 const { getStore, setStore } = app.storage;
 

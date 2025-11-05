@@ -12,7 +12,7 @@ import ModalSearch from '../components/modals/ModalSearch.vue';
 import ModalSettings from '../components/modals/ModalSettings.vue';
 import type { CurrentPathState } from '@/stores/files';
 import { useApp } from './useApp';
-import { useFeatures } from './useFeatures';
+import { useFeature } from './useFeature';
 
 const KEYBOARD_SHORTCUTS = {
   ESCAPE: 'Escape',
@@ -34,7 +34,7 @@ export function useHotkeyActions() {
   const app: App = useApp();
   const fs = app.fs;
   const config = app.config;
-  const { enabled } = useFeatures();
+  const { enabled } = useFeature();
 
   const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 

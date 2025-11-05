@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, computed, onMounted } from 'vue';
 import { useApp } from '../../composables/useApp';
-import { useFeatures } from '../../composables/useFeatures';
+import { useFeature } from '../../composables/useFeature';
 import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import type { StoreValue } from 'nanostores';
@@ -15,7 +15,7 @@ import datetimestring from '../../utils/datetimestring';
 import type { DirEntry } from '../../types';
 
 const app = useApp();
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 const { t } = app.i18n;
 const loaded = ref(false);
 const loadPreview = (type: string) => (app.modal.data.item.mime_type ?? '').startsWith(type);

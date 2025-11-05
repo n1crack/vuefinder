@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { inject } from 'vue';
 import { useApp } from '../../composables/useApp';
-import { useFeatures } from '../../composables/useFeatures';
+import { useFeature } from '../../composables/useFeature';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
 import KeyboardIcon from '../../assets/icons/about.svg';
 
 const app = useApp();
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 const { t } = app.i18n;
 </script>
 

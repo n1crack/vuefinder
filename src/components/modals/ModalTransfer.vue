@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, inject, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
-import { useFeatures } from '../../composables/useFeatures';
+import { useFeature } from '../../composables/useFeature';
 // import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
@@ -13,7 +13,7 @@ import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
 
 const app = useApp();
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 const { t } = app.i18n;
 // const fs = app.fs;
 // const currentPath = useStore(fs.path);

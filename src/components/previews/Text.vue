@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
-import { useFeatures } from '../../composables/useFeatures';
+import { useFeature } from '../../composables/useFeature';
 
 const emit = defineEmits(['success']);
 const content = ref('');
@@ -13,7 +13,7 @@ const message = ref('');
 const isError = ref(false);
 
 const app = useApp();
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 
 const { t } = app.i18n;
 

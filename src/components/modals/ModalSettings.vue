@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
 import { useApp } from '../../composables/useApp';
-import { useFeatures } from '../../composables/useFeatures';
+import { useFeature } from '../../composables/useFeature';
 import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
@@ -13,7 +13,7 @@ import type { ConfigState } from '../../stores/config';
 import SettingsIcon from '../../assets/icons/gear.svg';
 
 const app = useApp();
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 const config = app.config;
 const { clearStore } = app.storage;
 const { t } = app.i18n;

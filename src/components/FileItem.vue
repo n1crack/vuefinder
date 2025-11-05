@@ -6,7 +6,7 @@ import title_shorten from '../utils/title_shorten';
 import type { DirEntry } from '../types';
 import LockSVG from '../assets/icons/lock.svg';
 import { useApp } from '../composables/useApp';
-import { useFeatures } from '../composables/useFeatures';
+import { useFeature } from '../composables/useFeature';
 
 const props = defineProps<{
   item: DirEntry;
@@ -71,7 +71,7 @@ let touchTimeOut: ReturnType<typeof setTimeout> | null = null;
 const doubleTapTimeOut = ref<ReturnType<typeof setTimeout> | null>(null);
 let tappedTwice = false;
 
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 
 const draggable = computed(() => enabled('move'));
 

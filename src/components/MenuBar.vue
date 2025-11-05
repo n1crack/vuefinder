@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from '@nanostores/vue';
-import { useFeatures } from '../composables/useFeatures';
+import { useFeature } from '../composables/useFeature';
 import type { DirEntry } from '../types';
 import { copyPath, copyDownloadUrl } from '../utils/clipboard';
 import ModalNewFolder from './modals/ModalNewFolder.vue';
@@ -24,7 +24,7 @@ import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
 
 const app = useApp();
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 
 const { t } = app?.i18n || { t: (key: string) => key };
 

@@ -7,7 +7,7 @@ import type { FeatureName } from '../features';
  *
  * @returns Reactive features object with enabled function for checking feature state
  */
-export function useFeatures() {
+export function useFeature() {
   const app = useApp();
   const features = computed(() => app.features);
 

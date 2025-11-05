@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, watch, onMounted, onUnmounted, computed } from 'vue';
 import { useApp } from '../composables/useApp';
-import { useFeatures } from '../composables/useFeatures';
+import { useFeature } from '../composables/useFeature';
 import { useStore } from '@nanostores/vue';
 import ModalNewFolder from './modals/ModalNewFolder.vue';
 import ModalNewFile from './modals/ModalNewFile.vue';
@@ -31,7 +31,7 @@ import type { DirEntry } from '../types';
 import type { SortState, FilterState } from '../stores/files';
 
 const app = useApp();
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 const { t } = app.i18n;
 
 defineOptions({ name: 'VfToolbar' });

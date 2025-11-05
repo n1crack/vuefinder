@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, useTemplateRef } from 'vue';
 import { useApp } from '../../composables/useApp';
-import { useFeatures } from '../../composables/useFeatures';
+import { useFeature } from '../../composables/useFeature';
 import useUpload, { QUEUE_ENTRY_STATUS } from '../../composables/useUpload';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
@@ -14,7 +14,7 @@ defineOptions({ name: 'ImagePreview' });
 
 const emit = defineEmits(['success']);
 const app = useApp();
-const { enabled } = useFeatures();
+const { enabled } = useFeature();
 
 const { t } = app.i18n;
 
