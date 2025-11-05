@@ -18,7 +18,47 @@ const app = useApp();
 const { enabled } = useFeature();
 const { t } = app.i18n;
 const loaded = ref(false);
-const loadPreview = (type: string) => (app.modal.data.item.mime_type ?? '').startsWith(type);
+const getExtension = (path: string): string => {
+  const name = (path || '').split('/').pop() || '';
+  const idx = name.lastIndexOf('.');
+  return idx >= 0 ? name.slice(idx + 1).toLowerCase() : '';
+};
+
+const extMatches = (type: string, ext: string): boolean => {
+  if (!ext) return false;
+  const image = new Set(['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'bmp', 'ico', 'avif']);
+  const video = new Set(['mp4', 'webm', 'ogg', 'ogv', 'mov', 'm4v']);
+  const audio = new Set(['mp3', 'wav', 'ogg', 'oga', 'm4a', 'flac', 'aac']);
+  const text = new Set([
+    'txt',
+    'md',
+    'json',
+    'js',
+    'ts',
+    'css',
+    'scss',
+    'html',
+    'xml',
+    'csv',
+    'log',
+    'yml',
+    'yaml',
+  ]);
+
+  if (type === 'image') return image.has(ext);
+  if (type === 'video') return video.has(ext);
+  if (type === 'audio') return audio.has(ext);
+  if (type === 'text') return text.has(ext);
+  if (type === 'application/pdf') return ext === 'pdf';
+  return false;
+};
+
+const loadPreview = (type: string) => {
+  const mime = app.modal.data.item.mime_type;
+  if (mime && typeof mime === 'string') return mime.startsWith(type);
+  const ext = getExtension(app.modal.data.item.path);
+  return extMatches(type, ext);
+};
 
 const enabledPreview = enabled('preview');
 if (!enabledPreview) {
