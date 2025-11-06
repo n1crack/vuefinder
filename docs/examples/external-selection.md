@@ -6,6 +6,12 @@ outline: deep
 
 Example showing how to handle selection externally using the `@select` event.
 
+## Live Demo
+
+<ClientOnly>
+  <ExternalSelectDemo />
+</ClientOnly>
+
 ## Code Example
 
 ```vue

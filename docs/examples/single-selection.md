@@ -6,6 +6,12 @@ outline: deep
 
 Example showing how to use single selection mode.
 
+## Live Demo
+
+<ClientOnly>
+  <SingleSelectionDemo />
+</ClientOnly>
+
 ## Code Example
 
 ```vue

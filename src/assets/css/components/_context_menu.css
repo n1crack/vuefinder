@@ -22,7 +22,12 @@
 }
 
 .vuefinder__context-menu__link {
-  @apply mx-0.5 flex h-6 flex-1 items-center overflow-hidden px-2 text-ellipsis whitespace-nowrap;
+  @apply mx-0.5 flex h-6 flex-1 items-center overflow-hidden px-2 font-normal text-ellipsis whitespace-nowrap text-(--vf-text-primary) no-underline;
+}
+
+.vuefinder__context-menu .vuefinder__context-menu__link,
+.vuefinder__context-menu__link {
+  @apply font-normal text-(--vf-text-primary) no-underline;
 }
 
 .vuefinder__context-menu__action {

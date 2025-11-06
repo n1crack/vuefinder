@@ -6,6 +6,12 @@ outline: deep
 
 Learn how to customize file and folder icons using the `icon` slot.
 
+## Live Demo
+
+<ClientOnly>
+  <CustomIconsDemo />
+</ClientOnly>
+
 ## Code Example
 
 Use the `icon` slot to customize the icons displayed for files and folders:

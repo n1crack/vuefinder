@@ -6,6 +6,12 @@ outline: deep
 
 Example showing how to filter selectable items by type and MIME type.
 
+## Live Demo
+
+<ClientOnly>
+  <SelectionFilterDemo />
+</ClientOnly>
+
 ## Code Example
 
 ### Filter by Type

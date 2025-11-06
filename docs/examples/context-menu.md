@@ -6,6 +6,12 @@ outline: deep
 
 Example showing how to customize the context menu with additional items.
 
+## Live Demo
+
+<ClientOnly>
+  <ContextMenuDemo />
+</ClientOnly>
+
 ## Code Example
 
 ```vue

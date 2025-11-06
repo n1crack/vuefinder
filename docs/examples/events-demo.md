@@ -6,6 +6,12 @@ outline: deep
 
 Example demonstrating all VueFinder events.
 
+## Live Demo
+
+<ClientOnly>
+  <EventsDemo />
+</ClientOnly>
+
 ## Code Example
 
 ```vue

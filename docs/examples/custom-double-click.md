@@ -6,6 +6,12 @@ outline: deep
 
 Example showing how to override default double-click behavior.
 
+## Live Demo
+
+<ClientOnly>
+  <CustomDclickDemo />
+</ClientOnly>
+
 ## Code Example
 
 ```vue

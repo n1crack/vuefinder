@@ -6,6 +6,12 @@ outline: deep
 
 Learn how to use VueFinder's feature presets for quick setup.
 
+## Live Demo
+
+<ClientOnly>
+  <FeaturesDemo />
+</ClientOnly>
+
 ## Code Example
 
 ### Simple Preset

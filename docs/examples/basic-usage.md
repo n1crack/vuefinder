@@ -6,6 +6,12 @@ outline: deep
 
 A minimal example showing how to set up VueFinder with a RemoteDriver.
 
+## Live Demo
+
+<ClientOnly>
+  <BasicUsageDemo />
+</ClientOnly>
+
 ## Code Example
 
 ```vue

@@ -6,6 +6,12 @@ outline: deep
 
 Example showing how to use ArrayDriver for in-memory file operations.
 
+## Live Demo
+
+<ClientOnly>
+  <MemoryDriverDemo />
+</ClientOnly>
+
 ## Code Example
 
 ```vue

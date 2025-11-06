@@ -5,6 +5,19 @@ import GithubButton from 'vue-github-button';
 import './style.css';
 import HomeHeroVueFinderDemo from './components/HomeHeroVueFinderDemo.vue';
 
+// Import demo components
+import BasicUsageDemo from './components/examples/BasicUsageDemo.vue';
+import MemoryDriverDemo from './components/examples/MemoryDriverDemo.vue';
+import FeaturesDemo from './components/examples/FeaturesDemo.vue';
+import IndexedDBDemo from './components/examples/IndexedDBDemo.vue';
+import ContextMenuDemo from './components/examples/ContextMenuDemo.vue';
+import CustomIconsDemo from './components/examples/CustomIconsDemo.vue';
+import CustomDclickDemo from './components/examples/CustomDclickDemo.vue';
+import EventsDemo from './components/examples/EventsDemo.vue';
+import SelectionFilterDemo from './components/examples/SelectionFilterDemo.vue';
+import SingleSelectionDemo from './components/examples/SingleSelectionDemo.vue';
+import ExternalSelectDemo from './components/examples/ExternalSelectDemo.vue';
+
 export default {
   extends: DefaultTheme,
   Layout: () => {
@@ -59,5 +72,20 @@ export default {
 
     // Register GithubButton component globally
     app.component('GithubButton', GithubButton);
+
+    // Register demo components globally (client-side only)
+    if (!import.meta.env.SSR) {
+      app.component('BasicUsageDemo', BasicUsageDemo);
+      app.component('MemoryDriverDemo', MemoryDriverDemo);
+      app.component('FeaturesDemo', FeaturesDemo);
+      app.component('IndexedDBDemo', IndexedDBDemo);
+      app.component('ContextMenuDemo', ContextMenuDemo);
+      app.component('CustomIconsDemo', CustomIconsDemo);
+      app.component('CustomDclickDemo', CustomDclickDemo);
+      app.component('EventsDemo', EventsDemo);
+      app.component('SelectionFilterDemo', SelectionFilterDemo);
+      app.component('SingleSelectionDemo', SingleSelectionDemo);
+      app.component('ExternalSelectDemo', ExternalSelectDemo);
+    }
   },
 } satisfies Theme;

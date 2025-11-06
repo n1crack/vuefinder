@@ -100,3 +100,17 @@
 :root {
   --vp-z-index-nav: 45;
 }
+
+/**
+ * Reset VitePress default list styles
+ * Remove padding/margins from .vp-doc ul elements
+ * -------------------------------------------------------------------------- */
+
+.vp-doc ul {
+  padding-left: 0 !important;
+  margin: 0 !important;
+}
+
+.vp-doc ul li {
+  margin: 0 !important;
+}
