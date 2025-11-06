@@ -36,16 +36,29 @@ import CustomIcon from './CustomIcon.vue';
 <template>
   <vue-finder id="conditional-icons" :driver="driver">
     <template #icon="{ item }">
-      <TextIcon v-if="item.extension === 'txt'" />
-      <PDFIcon v-else-if="item.extension === 'pdf'" />
+      <FolderIcon v-if="item.type === 'dir'" class="custom-icon" />
+      <TextIcon v-else-if="item.extension === 'txt'" class="custom-icon" />
+      <PDFIcon v-else-if="item.extension === 'pdf'" class="custom-icon" />
+      <ImageIcon v-else-if="['jpg', 'png', 'gif', 'webp'].includes(item.extension)" class="custom-icon" />
     </template>
   </vue-finder>
 </template>
 
 <script setup>
-import TextIcon from './TextIcon.vue';
-import PDFIcon from './PDFIcon.vue';
+import FolderIcon from './icons/folder.svg';
+import TextIcon from './icons/text_file.svg';
+import PDFIcon from './icons/pdf_file.svg';
+import ImageIcon from './icons/image_file.svg';
 </script>
+
+<style scoped>
+.custom-icon {
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-block;
+  vertical-align: middle;
+}
+</style>
 ```
 
 ## Explanation

@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+// svg plugin
+import svgLoader from 'vite-svg-loader';
 
 export default defineConfig({
+    plugins: [svgLoader({ defaultImport: 'component' })],
   resolve: {
     alias: [
       {

@@ -34,5 +34,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <VueFinder v-bind="props" />
+  <VueFinder v-bind="props">
+    <template #icon="slotProps">
+      <slot name="icon" v-bind="slotProps" />
+    </template>
+    <template #status-bar="slotProps">
+      <slot name="status-bar" v-bind="slotProps" />
+    </template>
+  </VueFinder>
 </template>
