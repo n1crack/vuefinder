@@ -39,7 +39,7 @@ onMounted(() => {
   border-radius: 8px;
   overflow: hidden;
   background: var(--vp-c-bg);
-  min-height: 420px;
+  height: 340px;
 }
 
 .vf-demo-loading {

@@ -96,7 +96,7 @@ onMounted(() => {
   border: 1px solid var(--vp-c-border);
   border-radius: 8px;
   overflow: hidden;
-  min-height: 420px;
+  height: 340px;
 }
 
 .custom-dclick-demo__event-log-section {

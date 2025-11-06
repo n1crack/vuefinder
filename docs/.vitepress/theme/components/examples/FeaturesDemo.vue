@@ -256,12 +256,10 @@ onMounted(() => {
 .features-demo {
   height: 100%;
   width: 100%;
-  max-height: 600px;
 }
 
 .features-demo__container {
-  display: flex;
-  flex-direction: column;
+ 
   gap: 0.5rem;
   height: 100%;
 }
@@ -484,7 +482,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 500px;
+  height: 340px;
   background: var(--vp-c-bg);
   border: 1px solid var(--vp-c-border);
   border-radius: 8px;
