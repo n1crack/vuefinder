@@ -30,23 +30,7 @@ A minimal example showing how to set up VueFinder with a RemoteDriver.
 import { RemoteDriver } from 'vuefinder';
 
 const driver = new RemoteDriver({
-  baseURL: '/api',
-  url: {
-    list: '/files',
-    upload: '/upload',
-    delete: '/delete',
-    rename: '/rename',
-    copy: '/copy',
-    move: '/move',
-    archive: '/archive',
-    unarchive: '/unarchive',
-    createFile: '/create-file',
-    createFolder: '/create-folder',
-    preview: '/preview',
-    download: '/download',
-    search: '/search',
-    save: '/save',
-  },
+  baseURL: 'http://vuefinder-api-php.test/api/files',
 });
 </script>
 ```
