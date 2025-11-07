@@ -1,24 +1,16 @@
 import { persistentAtom } from '@nanostores/persistent';
+import { atom, computed } from 'nanostores';
 import type { DirEntry } from '../types';
 import type { Theme } from './theme.ts';
 import type { Store } from 'nanostores';
 
 type Viewport = 'grid' | 'list';
 
-export interface ConfigStore {
-  state: Store<ConfigState>;
-  set: <K extends keyof ConfigState>(
-    keyOrPatch: K | Partial<ConfigState>,
-    value?: ConfigState[K]
-  ) => void;
-  // Convenience accessors used across the app
-  get: <K extends keyof ConfigState>(key: K) => ConfigState[K];
-  all: () => ConfigState;
-  toggle: (key: keyof ConfigState) => void;
-  reset: () => void;
-  init: (defaults?: ConfigDefaults | Record<string, unknown>) => void;
-}
-export interface ConfigState {
+/**
+ * Persistent config state (saved to localStorage)
+ * These values are persisted across page reloads
+ */
+export interface PersistenceConfigState {
   view: Viewport;
   theme: Theme;
   fullScreen: boolean;
@@ -29,15 +21,45 @@ export interface ConfigState {
   showThumbnails: boolean;
   persist: boolean;
   path: string;
-  initialPath: string | null;
   loadingIndicator: 'linear' | 'circular' | string;
   maxFileSize: number | string | null;
   pinnedFolders: DirEntry[];
 }
 
+/**
+ * Non-persistent config state (runtime only)
+ * These values are not saved to localStorage and reset on page reload
+ */
+export interface NonPersistenceConfigState {
+  initialPath: string | null;
+}
+
+/**
+ * Combined config state (for convenience)
+ * Union of persistent and non-persistent config states
+ */
+export type ConfigState = PersistenceConfigState & NonPersistenceConfigState;
+
+/**
+ * Config store interface providing access to both persistent and non-persistent config
+ */
+export interface ConfigStore {
+  state: Store<ConfigState>;
+  set: <K extends keyof PersistenceConfigState>(
+    keyOrPatch: K | Partial<PersistenceConfigState>,
+    value?: PersistenceConfigState[K]
+  ) => void;
+  // Convenience accessors used across the app
+  get: <K extends keyof ConfigState>(key: K) => ConfigState[K];
+  all: () => ConfigState;
+  toggle: (key: keyof PersistenceConfigState) => void;
+  reset: () => void;
+  init: (defaults?: ConfigDefaults | Record<string, unknown>) => void;
+}
+
 export type ConfigDefaults = Partial<ConfigState>;
 
-const DEFAULT_STATE: ConfigState = {
+const DEFAULT_PERSISTENCE_STATE: PersistenceConfigState = {
   view: 'grid',
   theme: 'light',
   fullScreen: false,
@@ -48,74 +70,206 @@ const DEFAULT_STATE: ConfigState = {
   showThumbnails: true,
   persist: false,
   path: '',
-  initialPath: null,
   loadingIndicator: 'circular',
   maxFileSize: null,
   pinnedFolders: [] as DirEntry[],
 };
 
-// Config store factory function
+const DEFAULT_NON_PERSISTENCE_STATE: NonPersistenceConfigState = {
+  initialPath: null,
+};
+
+// Cached non-persistence keys for performance
+const NON_PERSISTENCE_KEYS = new Set<keyof NonPersistenceConfigState>(
+  Object.keys(DEFAULT_NON_PERSISTENCE_STATE) as Array<keyof NonPersistenceConfigState>
+);
+
+/**
+ * Normalizes theme value to ensure it defaults to 'light' if not provided or undefined
+ */
+function normalizeTheme(theme: Theme | undefined | null): Theme {
+  return theme || 'light';
+}
+
+/**
+ * Checks if a key belongs to non-persistence config state
+ */
+function isNonPersistenceKey(key: string): key is keyof NonPersistenceConfigState {
+  return NON_PERSISTENCE_KEYS.has(key as keyof NonPersistenceConfigState);
+}
+
+/**
+ * Separates persistent and non-persistent config values
+ */
+function separateConfig(config: ConfigDefaults | Record<string, unknown>) {
+  const persistenceConfig: Partial<PersistenceConfigState> = {};
+  const nonPersistenceConfig: Partial<NonPersistenceConfigState> = {};
+
+  // Type guard to ensure config is indexable
+  const configRecord = config as Record<string, unknown>;
+
+  for (const key in configRecord) {
+    if (isNonPersistenceKey(key)) {
+      nonPersistenceConfig[key] = configRecord[key] as NonPersistenceConfigState[typeof key];
+    } else if (key in DEFAULT_PERSISTENCE_STATE) {
+      const persistenceKey = key as keyof PersistenceConfigState;
+      const value = configRecord[key] as PersistenceConfigState[typeof persistenceKey];
+      (persistenceConfig as Record<string, unknown>)[persistenceKey] = value;
+    }
+  }
+
+  return { persistenceConfig, nonPersistenceConfig };
+}
+
+/**
+ * Merges persistence config with defaults, ensuring theme is normalized
+ */
+function mergePersistenceConfig(
+  defaults: Partial<PersistenceConfigState>,
+  current: PersistenceConfigState
+): PersistenceConfigState {
+  const merged = { ...DEFAULT_PERSISTENCE_STATE, ...defaults, ...current };
+  merged.theme = normalizeTheme(merged.theme);
+  return merged;
+}
+
+/**
+ * Merges non-persistence config with defaults
+ */
+function mergeNonPersistenceConfig(
+  defaults: Partial<NonPersistenceConfigState>,
+  current: NonPersistenceConfigState
+): NonPersistenceConfigState {
+  return { ...DEFAULT_NON_PERSISTENCE_STATE, ...current, ...defaults };
+}
+
+/**
+ * Creates a config store with separate persistent and non-persistent state management
+ *
+ * @param id - Unique identifier for this config store instance (used for localStorage key)
+ * @param initialConfig - Initial configuration values (can include both persistent and non-persistent)
+ * @returns ConfigStore instance with methods to get/set config values
+ */
 export const createConfigStore = (
   id: string,
   initialConfig: ConfigDefaults | Record<string, unknown> = {}
 ) => {
   const storeKey = `vuefinder_config_${id}`;
 
-  // Create persistent atom with default state
-  // Ensure theme defaults to 'light' if not provided or undefined
-  const mergedConfig = { ...DEFAULT_STATE, ...initialConfig };
-  if (!mergedConfig.theme) {
-    mergedConfig.theme = 'light';
-  }
+  // Separate persistent and non-persistent config
+  const { persistenceConfig, nonPersistenceConfig } = separateConfig(initialConfig);
 
-  const state = persistentAtom<ConfigState>(storeKey, mergedConfig, {
-    encode: JSON.stringify,
-    decode: JSON.parse,
-  });
+  const mergedPersistenceConfig = mergePersistenceConfig(
+    persistenceConfig,
+    DEFAULT_PERSISTENCE_STATE
+  );
 
-  // Helper functions
-  const init = (defaults: ConfigDefaults | Record<string, unknown> = {}) => {
-    const currentState = state.get();
-    const newState = { ...DEFAULT_STATE, ...defaults, ...currentState };
-    // Ensure theme defaults to 'light' if not provided or undefined
-    if (!newState.theme) {
-      newState.theme = 'light';
+  const mergedNonPersistenceConfig = mergeNonPersistenceConfig(
+    nonPersistenceConfig,
+    DEFAULT_NON_PERSISTENCE_STATE
+  );
+
+  // Create two separate stores
+  const persistenceState = persistentAtom<PersistenceConfigState>(
+    storeKey,
+    mergedPersistenceConfig,
+    {
+      encode: JSON.stringify,
+      decode: JSON.parse,
     }
-    state.set(newState);
+  );
+
+  const nonPersistenceState = atom<NonPersistenceConfigState>(mergedNonPersistenceConfig);
+
+  // Combined state (computed from both stores)
+  const state = computed(
+    [persistenceState, nonPersistenceState],
+    (persistence, nonPersistence): ConfigState => ({
+      ...persistence,
+      ...nonPersistence,
+    })
+  );
+
+  /**
+   * Initializes config store with new defaults, merging with current state
+   */
+  const init = (defaults: ConfigDefaults | Record<string, unknown> = {}) => {
+    const currentPersistence = persistenceState.get();
+    const currentNonPersistence = nonPersistenceState.get();
+
+    // Separate defaults
+    const { persistenceConfig: persistenceDefaults, nonPersistenceConfig: nonPersistenceDefaults } =
+      separateConfig(defaults);
+
+    const persistenceFromDefaults = mergePersistenceConfig(persistenceDefaults, currentPersistence);
+    const nonPersistenceFromDefaults = mergeNonPersistenceConfig(
+      nonPersistenceDefaults,
+      currentNonPersistence
+    );
+
+    persistenceState.set(persistenceFromDefaults);
+    nonPersistenceState.set(nonPersistenceFromDefaults);
   };
 
+  /**
+   * Gets a config value by key, checking non-persistence state first
+   */
   const get = <K extends keyof ConfigState>(key: K): ConfigState[K] => {
-    return state.get()[key];
+    // Use direct property access for better performance
+    if (isNonPersistenceKey(key)) {
+      return nonPersistenceState.get()[key] as ConfigState[K];
+    }
+    // Otherwise, get from persistence state
+    return persistenceState.get()[key as keyof PersistenceConfigState] as ConfigState[K];
   };
 
+  /**
+   * Gets all config values (both persistent and non-persistent)
+   */
   const all = (): ConfigState => {
-    return state.get();
+    return {
+      ...persistenceState.get(),
+      ...nonPersistenceState.get(),
+    };
   };
 
-  const set = <K extends keyof ConfigState>(
-    keyOrPatch: K | Partial<ConfigState>,
-    value?: ConfigState[K]
+  /**
+   * Sets a persistent config value or multiple values
+   */
+  const set = <K extends keyof PersistenceConfigState>(
+    keyOrPatch: K | Partial<PersistenceConfigState>,
+    value?: PersistenceConfigState[K]
   ): void => {
-    const currentState = state.get();
+    const currentPersistence = persistenceState.get();
 
     if (typeof keyOrPatch === 'object' && keyOrPatch !== null) {
-      state.set({ ...currentState, ...keyOrPatch });
+      persistenceState.set({ ...currentPersistence, ...keyOrPatch });
     } else {
-      state.set({ ...currentState, [keyOrPatch]: value as ConfigState[K] });
+      persistenceState.set({
+        ...currentPersistence,
+        [keyOrPatch]: value as PersistenceConfigState[K],
+      });
     }
   };
 
-  const toggle = (key: keyof ConfigState) => {
-    const currentState = state.get();
-    set(key, !currentState[key]);
+  /**
+   * Toggles a boolean persistent config value
+   */
+  const toggle = (key: keyof PersistenceConfigState) => {
+    const currentPersistence = persistenceState.get();
+    set(key, !currentPersistence[key]);
   };
 
+  /**
+   * Resets all config values to defaults
+   */
   const reset = () => {
-    state.set({ ...DEFAULT_STATE });
+    persistenceState.set({ ...DEFAULT_PERSISTENCE_STATE });
+    nonPersistenceState.set({ ...DEFAULT_NON_PERSISTENCE_STATE });
   };
 
   return {
-    // Store atom
+    // Store atom (combined)
     state,
 
     // Methods
