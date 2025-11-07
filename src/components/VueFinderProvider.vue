@@ -2,7 +2,7 @@
 import { provide, onBeforeUnmount, inject, useTemplateRef, onMounted } from 'vue';
 import { registerApp, unregisterApp, ServiceContainerIdKey, useApp } from '../composables/useApp';
 import ServiceContainer from '../ServiceContainer';
-import VueFinder from './VueFinder.vue';
+import VueFinderView from './VueFinderView.vue';
 import type { VueFinderProps } from '../types';
 import { menuItems as contextMenuItems } from '../utils/contextmenu';
 
@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <VueFinder v-bind="props">
+  <VueFinderView v-bind="props">
     <template #icon="slotProps">
       <slot name="icon" v-bind="slotProps" />
     </template>

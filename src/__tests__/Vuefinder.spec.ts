@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { computed, ref } from 'vue';
 
 import { mount } from '@vue/test-utils';
-import VueFinder from '@/components/VueFinder.vue';
+import VueFinderView from '@/components/VueFinderView.vue';
 import { ArrayDriver } from '@/adapters/ArrayDriver';
 
 // Mock window.matchMedia
@@ -129,7 +129,7 @@ describe('VueFinder', () => {
       storage: 'local',
     });
 
-    const wrapper = mount(VueFinder, {
+    const wrapper = mount(VueFinderView, {
       props: {
         id: 'test-vuefinder',
         driver: driver,
