@@ -23,7 +23,7 @@ const driver = ref(null);
 async function initDriver() {
   const { RemoteDriver } = await import('vuefinder');
   driver.value = new RemoteDriver({
-    baseURL: 'http://vuefinder-api-php.test/api/files'
+    baseURL: 'https://vuefinder-api.ozdemir.be/api/files'
   });
 }
 

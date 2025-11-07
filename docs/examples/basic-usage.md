@@ -30,7 +30,7 @@ A minimal example showing how to set up VueFinder with a RemoteDriver.
 import { RemoteDriver } from 'vuefinder';
 
 const driver = new RemoteDriver({
-  baseURL: 'http://vuefinder-api-php.test/api/files',
+  baseURL: 'https://vuefinder-api.ozdemir.be/api/files',
 });
 </script>
 ```

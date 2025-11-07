@@ -73,7 +73,7 @@ const handleSelect = (selected: DirEntry[]) => {
 
 onMounted(() => {
   driver.value = new RemoteDriver({
-    baseURL: 'http://vuefinder-api-php.test/api/files'
+    baseURL: 'https://vuefinder-api.ozdemir.be/api/files'
   });
 });
 </script>

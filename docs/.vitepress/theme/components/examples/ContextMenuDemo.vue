@@ -25,7 +25,7 @@ const customContextMenuItems = ref<Item[]>([]);
 onMounted(async () => {
   const { RemoteDriver, contextMenuItems } = await import('vuefinder');
   driver.value = new RemoteDriver({
-    baseURL: 'http://vuefinder-api-php.test/api/files'
+    baseURL: 'https://vuefinder-api.ozdemir.be/api/files'
   });
   
   customContextMenuItems.value = [
