@@ -19,6 +19,8 @@ import ModalSearch from './modals/ModalSearch.vue';
 import ModalSettings from './modals/ModalSettings.vue';
 import ModalShortcuts from './modals/ModalShortcuts.vue';
 import { useApp } from '../composables/useApp';
+import { toast } from 'vue-sonner';
+import { getErrorMessage } from '../utils/errorHandler';
 
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
@@ -414,11 +416,36 @@ const menuItems = computed<any[]>(() => [
       {
         id: 'go-to-folder',
         label: t('Go to Folder'),
-        action: () => {
+        action: async () => {
           const folderPath = prompt(t('Enter folder path:'));
           if (folderPath) {
-            fs?.setPath(folderPath);
-            app?.adapter.list(folderPath);
+            // Validate path format: must be storage://path/to/folder
+            if (!folderPath.includes('://')) {
+              alert(t('Invalid path format. Path must be in format: storage://path/to/folder'));
+              return;
+            }
+
+            // Extract storage name from path
+            const storageIndex = folderPath.indexOf('://');
+            const storageName = folderPath.slice(0, storageIndex);
+
+            // Validate that storage exists in storages list
+            if (!storages.value || !storages.value.includes(storageName)) {
+              alert(t('Invalid storage. Storage "%s" is not available.', storageName));
+              return;
+            }
+
+            // Path is valid, try to navigate
+            // Use adapter.open() instead of setPath + list
+            // adapter.open() will only update path if successful (via onAfterOpen callback)
+            try {
+              await app?.adapter.open(folderPath);
+            } catch (error: unknown) {
+              // If error occurs, path won't be updated (onAfterOpen won't be called)
+              const errorMessage = getErrorMessage(error, t('Failed to navigate to folder'));
+              toast.error(errorMessage);
+              app.fs.setLoading(false);
+            }
           }
         },
         enabled: () => true,

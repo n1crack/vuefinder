@@ -30,6 +30,12 @@ export default {
   Storage: 'Opslag',
   'Go up a directory': 'Ga een map omhoog',
   Go: 'Ga',
+  'Enter folder path:': 'Voer mappad in:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'Ongeldig padformaat. Het pad moet in het formaat zijn: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.':
+    'Ongeldige opslag. Opslag "%s" is niet beschikbaar.',
+  'Failed to navigate to folder': 'Kan niet naar map navigeren',
   'Search anything..': 'Zoek iets...',
   Name: 'Naam',
   Size: 'Grootte',

@@ -30,6 +30,11 @@ export default {
   Storage: 'אחסון',
   'Go up a directory': 'מעבר תיקייה אחת למעלה',
   Go: 'לך',
+  'Enter folder path:': 'הזן נתיב תיקייה:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'פורמט נתיב לא תקין. הנתיב חייב להיות בפורמט: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.': 'אחסון לא תקין. האחסון "%s" אינו זמין.',
+  'Failed to navigate to folder': 'נכשל בניווט לתיקייה',
   'Search anything..': 'חיפוש...',
   Name: 'שם',
   Size: 'גודל',

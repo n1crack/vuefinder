@@ -30,6 +30,12 @@ export default {
   Storage: 'Lagring',
   'Go up a directory': 'Gå upp en katalog',
   Go: 'Gå',
+  'Enter folder path:': 'Ange mappsökväg:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'Ogiltigt sökvägsformat. Sökvägen måste vara i formatet: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.':
+    'Ogiltig lagring. Lagring "%s" är inte tillgänglig.',
+  'Failed to navigate to folder': 'Kunde inte navigera till mappen',
   'Search anything..': 'Sök överallt..',
   Name: 'Namn',
   Size: 'Storlek',

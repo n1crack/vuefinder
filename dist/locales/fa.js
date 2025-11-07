@@ -30,6 +30,12 @@ export default {
   Storage: 'فضا',
   'Go up a directory': 'برو به پوشه',
   Go: 'برو',
+  'Enter folder path:': 'مسیر پوشه را وارد کنید:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'فرمت مسیر نامعتبر است. مسیر باید به فرمت باشد: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.':
+    'فضای ذخیره‌سازی نامعتبر است. فضای ذخیره‌سازی "%s" در دسترس نیست.',
+  'Failed to navigate to folder': 'پیمایش به پوشه ناموفق بود',
   'Search anything..': 'به دنبال چه چیزی هستید ؟ جستجو کنید ...',
   Name: 'نام',
   Size: 'سایز',

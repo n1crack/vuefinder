@@ -26,6 +26,10 @@ export default {
   'Go up a directory': 'Yukarı git',
   Go: 'Git',
   'Enter folder path:': 'Klasör yolunu girin:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'Geçersiz yol formatı. Yol şu formatta olmalıdır: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.': 'Geçersiz depo. "%s" deposu mevcut değil.',
+  'Failed to navigate to folder': 'Klasöre gidilemedi',
   'Copy Path': 'Yolu Kopyala',
   'Copy Download URL': "İndirme URL'sini Kopyala",
   'Search anything..': 'Herhangi bir şey ara..',

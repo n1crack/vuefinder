@@ -31,6 +31,10 @@ export default {
   'Go up a directory': 'إذهب لِأعلى',
   Go: 'اذهب',
   'Enter folder path:': 'أدخل مسار المجلد:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'تنسيق المسار غير صالح. يجب أن يكون المسار بالتنسيق: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.': 'تخزين غير صالح. التخزين "%s" غير متاح.',
+  'Failed to navigate to folder': 'فشل الانتقال إلى المجلد',
   'Copy Path': 'نسخ المسار',
   'Copy Download URL': 'نسخ رابط التحميل',
   'Search anything..': 'ابحث عن أي شيء..',

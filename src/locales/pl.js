@@ -30,6 +30,12 @@ export default {
   Storage: 'Pamięć',
   'Go up a directory': 'Przejdź do katalogu wyżej',
   Go: 'Idź',
+  'Enter folder path:': 'Wprowadź ścieżkę folderu:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'Nieprawidłowy format ścieżki. Ścieżka musi być w formacie: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.':
+    'Nieprawidłowe magazyn. Magazyn "%s" nie jest dostępny.',
+  'Failed to navigate to folder': 'Nie udało się przejść do folderu',
   'Search anything..': 'Szukaj czegokolwiek..',
   Name: 'Nazwa',
   Size: 'Rozmiar',

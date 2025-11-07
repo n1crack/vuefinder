@@ -31,6 +31,11 @@ export default {
   'Go up a directory': '上のディレクトリに移動',
   Go: '移動',
   'Enter folder path:': 'フォルダパスを入力:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    '無効なパス形式。パスは storage://path/to/folder の形式である必要があります',
+  'Invalid storage. Storage "%s" is not available.':
+    '無効なストレージ。ストレージ "%s" は利用できません。',
+  'Failed to navigate to folder': 'フォルダに移動できませんでした',
   'Copy Path': 'パスをコピー',
   'Copy Download URL': 'ダウンロードURLをコピー',
   'Search anything..': '何でも検索..',

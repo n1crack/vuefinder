@@ -32,6 +32,11 @@ export default {
   'Go up a directory': "Remonter d'un répertoire",
   Go: 'Aller',
   'Enter folder path:': 'Entrer le chemin du dossier:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'Format de chemin invalide. Le chemin doit être au format: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.':
+    'Stockage invalide. Le stockage "%s" n\'est pas disponible.',
+  'Failed to navigate to folder': 'Échec de la navigation vers le dossier',
   'Copy Path': 'Copier le chemin',
   'Copy Download URL': "Copier l'URL de téléchargement",
   'Search anything..': 'Rechercher...',

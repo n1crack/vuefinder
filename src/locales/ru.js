@@ -31,6 +31,11 @@ export default {
   'Go up a directory': 'Вверх',
   Go: 'Перейти',
   'Enter folder path:': 'Введите путь к папке:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'Неверный формат пути. Путь должен быть в формате: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.':
+    'Неверное хранилище. Хранилище "%s" недоступно.',
+  'Failed to navigate to folder': 'Не удалось перейти в папку',
   'Copy Path': 'Копировать путь',
   'Copy Download URL': 'Копировать URL загрузки',
   'Search anything..': 'Поиск...',

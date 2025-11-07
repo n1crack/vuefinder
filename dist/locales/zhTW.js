@@ -30,6 +30,11 @@ export default {
   Storage: '儲存',
   'Go up a directory': '上一個目錄',
   Go: '前往',
+  'Enter folder path:': '輸入資料夾路徑:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    '路徑格式無效。路徑必須為格式: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.': '儲存無效。儲存 "%s" 不可用。',
+  'Failed to navigate to folder': '導航到資料夾失敗',
   'Search anything..': '搜尋..',
   Name: '名稱',
   Size: '大小',

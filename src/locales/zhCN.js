@@ -30,6 +30,11 @@ export default {
   Storage: '存储',
   'Go up a directory': '上一级目录',
   Go: '前往',
+  'Enter folder path:': '输入文件夹路径:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    '路径格式无效。路径必须为格式: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.': '存储无效。存储 "%s" 不可用。',
+  'Failed to navigate to folder': '导航到文件夹失败',
   'Search anything..': '搜索..',
   Name: '名称',
   Size: '大小',

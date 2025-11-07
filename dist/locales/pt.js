@@ -31,6 +31,11 @@ export default {
   'Go up a directory': 'Subir um diretório',
   Go: 'Ir',
   'Enter folder path:': 'Digite o caminho da pasta:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'Formato de caminho inválido. O caminho deve estar no formato: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.':
+    'Armazenamento inválido. O armazenamento "%s" não está disponível.',
+  'Failed to navigate to folder': 'Falha ao navegar para a pasta',
   'Copy Path': 'Copiar caminho',
   'Copy Download URL': 'Copiar URL de download',
   'Search anything..': 'Pesquisar qualquer coisa..',

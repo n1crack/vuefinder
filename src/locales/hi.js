@@ -30,6 +30,11 @@ export default {
   Storage: 'संग्रहण',
   'Go up a directory': 'एक निर्देशिका ऊपर जाएं',
   Go: 'जाएं',
+  'Enter folder path:': 'फ़ोल्डर पथ दर्ज करें:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'अमान्य पथ प्रारूप। पथ इस प्रारूप में होना चाहिए: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.': 'अमान्य संग्रहण। संग्रहण "%s" उपलब्ध नहीं है।',
+  'Failed to navigate to folder': 'फ़ोल्डर पर नेविगेट करने में विफल',
   'Search anything..': 'कुछ भी खोजें..',
   Name: 'नाम',
   Size: 'आकार',

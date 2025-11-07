@@ -26,6 +26,11 @@ export default {
   'Go up a directory': 'Go up a directory',
   Go: 'Go',
   'Enter folder path:': 'Enter folder path:',
+  'Invalid path format. Path must be in format: storage://path/to/folder':
+    'Invalid path format. Path must be in format: storage://path/to/folder',
+  'Invalid storage. Storage "%s" is not available.':
+    'Invalid storage. Storage "%s" is not available.',
+  'Failed to navigate to folder': 'Failed to navigate to folder',
   'Copy Path': 'Copy Path',
   'Path copied to clipboard': 'Path copied to clipboard',
   'Toggle Path Copy Mode': 'Toggle Path Copy Mode',
