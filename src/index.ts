@@ -36,8 +36,6 @@ export type {
   DirEntry,
   CancelableDclickEvent,
   VueFinderProps,
-  ConfigDefaults,
-  ConfigState,
   FsData,
   SelectEvent,
   UpdatePathEvent,

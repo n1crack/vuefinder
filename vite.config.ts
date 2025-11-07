@@ -18,6 +18,7 @@ export default defineConfig({
       targets: [
         { src: 'src/locales/*', dest: 'dist/locales' },
         { src: 'src/features.js', dest: 'dist' },
+        { src: 'src/index.d.ts', dest: 'dist' },
       ],
       hook: 'writeBundle',
     }),
