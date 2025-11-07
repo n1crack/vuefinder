@@ -3,7 +3,7 @@
     <ClientOnly>
       <vue-finder
         v-if="driver"
-        id="statusbar-select-demo"
+        id="demo-statusbar-select"
         :driver="driver"
         :config="{ initialPath: 'local://', persist: false }"
       >

@@ -3,7 +3,7 @@
     <ClientOnly>
       <vue-finder
         v-if="driver"
-        id="contextmenu-demo"
+        id="demo-contextmenu"
         :driver="driver"
         :config="{ initialPath: 'local://', persist: false }"
         :context-menu-items="customContextMenuItems"

@@ -3,7 +3,7 @@
     <ClientOnly>
       <vue-finder
         v-if="driver"
-        id="custom-icons-demo"
+        id="demo-custom-icons"
         :driver="driver"
         :config="{ initialPath: 'local://', persist: false }"
       >

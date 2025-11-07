@@ -1604,7 +1604,7 @@ class ls {
 function ds(n) {
   const e = K(n.state);
   return {
-    current: j(() => e.value.theme || "light"),
+    current: j(() => e.value.theme || "silver"),
     set: (s) => {
       n.set("theme", s);
     }
@@ -2717,7 +2717,7 @@ const Bi = {
   stroke: "currentColor",
   "stroke-width": "2",
   "aria-hidden": "true",
-  class: "h-6 w-6 stroke-blue-600 dark:stroke-blue-100",
+  class: "h-6 w-6 stroke-blue-600",
   viewBox: "0 0 24 24"
 };
 function Xi(n, e) {
@@ -3295,7 +3295,7 @@ function tr(n, e) {
       r: "10",
       stroke: "currentColor",
       "stroke-width": "4",
-      class: "opacity-25 stroke-blue-900 dark:stroke-blue-100"
+      class: "opacity-25 stroke-blue-900"
     }, null, -1),
     i("path", {
       fill: "currentColor",

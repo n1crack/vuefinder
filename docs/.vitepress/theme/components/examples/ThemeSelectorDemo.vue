@@ -18,7 +18,7 @@
       <ClientOnly>
         <vue-finder
           v-if="driver"
-          id="theme-selector-demo"
+          id="demo-theme-selector"
           :driver="driver"
           :config="{ initialPath: 'memory://', persist: false, theme: currentTheme }"
         />

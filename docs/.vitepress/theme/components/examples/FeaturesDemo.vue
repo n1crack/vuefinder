@@ -84,7 +84,7 @@
 
         <div class="features-demo__viewer">
           <vue-finder
-            id="features_demo"
+            id="demo-features"
             :driver="driver"
             :config="{ initialPath: 'local://', persist: false }"
             :features="computedFeatures"

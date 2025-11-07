@@ -3,7 +3,7 @@
     <div v-if="driver" class="events-demo">
       <div class="events-demo__viewer">
         <vue-finder
-          id="events-demo"
+          id="demo-events"
           :driver="driver"
           :config="{ initialPath: 'local://', persist: false }"
           @select="onSelectEvents"

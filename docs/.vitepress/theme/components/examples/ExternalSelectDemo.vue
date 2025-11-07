@@ -3,7 +3,7 @@
     <div v-if="driver" class="external-select-demo">
       <div class="external-select-demo__viewer">
         <vue-finder
-          id="external-select-demo"
+          id="demo-external-select"
           :driver="driver"
           :config="{ initialPath: 'local://', persist: false }"
           @select="handleSelect"

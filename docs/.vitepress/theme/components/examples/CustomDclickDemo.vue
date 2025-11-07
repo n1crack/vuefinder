@@ -3,7 +3,7 @@
     <div v-if="driver" class="custom-dclick-demo">
       <div class="custom-dclick-demo__viewer">
         <vue-finder
-          id="custom-dclick-demo"
+          id="demo-custom-dclick"
           :driver="driver"
           :config="{ initialPath: 'local://', persist: false }"
           @file-dclick="onCustomFileDclick"

@@ -3,7 +3,7 @@
     <ClientOnly>
       <vue-finder
         v-if="driver"
-        id="basic-usage-demo"
+        id="demo-basic-usage"
         :driver="driver"
         :config="{ initialPath: 'local://', persist: false }"
       /> 

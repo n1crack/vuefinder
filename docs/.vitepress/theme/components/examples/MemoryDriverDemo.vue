@@ -3,7 +3,7 @@
     <ClientOnly>
       <vue-finder
         v-if="driver"
-        id="memory-driver-demo"
+        id="demo-memory-driver"
         :driver="driver"
         :config="{ initialPath: 'memory://', persist: false }"
       />

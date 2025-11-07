@@ -3,7 +3,7 @@
     <div v-if="driver" class="selection-filter-demo">
       <div class="selection-filter-demo__viewer">
         <vue-finder
-          id="selection-filter-demo"
+          id="demo-selection-filter"
           :driver="driver"
           :config="{ initialPath: 'local://', persist: false }"
           :selection-filter-type="selectionFilterType"

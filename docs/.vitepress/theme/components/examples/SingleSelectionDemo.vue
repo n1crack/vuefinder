@@ -3,7 +3,7 @@
     <div v-if="driver" class="single-selection-demo">
       <div class="single-selection-demo__viewer">
         <vue-finder
-          id="single-selection-demo"
+          id="demo-single-selection"
           :driver="driver"
           :config="{ initialPath: 'local://', persist: false }"
           selection-mode="single"

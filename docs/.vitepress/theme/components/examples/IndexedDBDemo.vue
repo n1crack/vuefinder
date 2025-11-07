@@ -3,7 +3,7 @@
     <ClientOnly>
       <vue-finder
         v-if="driver"
-        id="indexeddb-demo"
+        id="demo-indexeddb"
         :driver="driver"
         :config="{ initialPath: 'indexeddb://', persist: true }"
       />
