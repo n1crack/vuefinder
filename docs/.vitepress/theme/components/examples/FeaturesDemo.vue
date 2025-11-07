@@ -88,17 +88,7 @@
             :driver="driver"
             :config="{ initialPath: 'local://', persist: false }"
             :features="computedFeatures"
-          >
-            <template #status-bar="{ count }">
-              <div class="vuefinder__status-bar__actions">
-                <div class="features-demo__status-info">
-                  <strong>Features Mode:</strong> {{ featureMode }}
-                  <br />
-                  <strong>Selected:</strong> {{ count ?? 0 }} item(s)
-                </div>
-              </div>
-            </template>
-          </vue-finder>
+          />
         </div>
       </div>
     </div>
@@ -487,14 +477,6 @@ onMounted(() => {
   border: 1px solid var(--vp-c-border);
   border-radius: 8px;
   overflow: hidden;
-}
-
-.features-demo__status-info {
-  padding: 0.5rem;
-  background: var(--vp-c-bg-soft);
-  border-radius: 4px;
-  font-size: 0.875rem;
-  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
