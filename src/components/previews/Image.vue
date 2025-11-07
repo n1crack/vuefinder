@@ -21,7 +21,9 @@ const { t } = app.i18n;
 const showEdit = ref(false);
 const message = ref('');
 const isError = ref(false);
-const previewUrl = ref(app.adapter.getPreviewUrl({ path: app.modal.data.item.path }));
+const previewUrl = ref(
+  app.modal.data.item.previewUrl ?? app.adapter.getPreviewUrl({ path: app.modal.data.item.path })
+);
 const tempImageData = ref(previewUrl.value);
 
 // Initialize useUpload for handling cropped image uploads
@@ -169,7 +171,10 @@ onMounted(() => {
       <img
         v-if="!showEdit"
         style=""
-        :src="app.adapter.getPreviewUrl({ path: app.modal.data.item.path })"
+        :src="
+          app.modal.data.item.previewUrl ??
+          app.adapter.getPreviewUrl({ path: app.modal.data.item.path })
+        "
         class="vuefinder__image-preview__image h-full w-full"
       />
 

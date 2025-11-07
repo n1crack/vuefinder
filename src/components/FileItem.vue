@@ -165,7 +165,7 @@ const delayedOpenItem = (event: TouchEvent) => {
           v-if="(item.mime_type ?? '').startsWith('image') && showThumbnails"
           src="data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
           class="vuefinder__explorer__item-thumbnail lazy"
-          :data-src="app.adapter.getPreviewUrl({ path: item.path })"
+          :data-src="item.previewUrl ?? app.adapter.getPreviewUrl({ path: item.path })"
           :alt="item.basename"
           @touchstart="$event.preventDefault()"
         />

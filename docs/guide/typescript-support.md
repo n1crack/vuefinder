@@ -168,6 +168,7 @@ VueFinder exports the following types:
 | `FeaturesPreset`     | Feature preset type (`'simple' \| 'advanced'`) |
 | `Theme`              | Theme type                                     |
 | `FsData`             | File system data response                      |
+| `ItemDclickEvent`    | Double-click event object type                 |
 | `RemoteDriverConfig` | RemoteDriver configuration                     |
 | `ArrayDriverConfig`  | ArrayDriver configuration                      |
 | `IndexedDBDriverConfig` | IndexedDBDriver configuration                |

@@ -77,6 +77,7 @@ export interface DirEntry {
   mime_type: string | null;
   read_only?: boolean;
   visibility: string;
+  previewUrl?: string;
 }
 
 export interface StorageInfo {

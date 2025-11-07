@@ -58,6 +58,7 @@ const createSampleData = () => {
       last_modified: now,
       mime_type: 'image/jpeg',
       visibility: 'public',
+      previewUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300&h=150&fit=crop',
     },
   ];
 };

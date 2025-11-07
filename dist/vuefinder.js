@@ -2285,7 +2285,9 @@ const ai = { class: "vuefinder__image-preview" }, ri = { class: "vuefinder__imag
   __name: "Image",
   emits: ["success"],
   setup(n, { emit: e }) {
-    const t = e, o = Z(), { enabled: s } = Ie(), { t: l } = o.i18n, d = E(!1), r = E(""), c = E(!1), u = E(o.adapter.getPreviewUrl({ path: o.modal.data.item.path })), f = E(u.value), { addExternalFiles: h, upload: v, queue: w } = to(o.customUploader), S = o.fs, F = K(S.path), _ = je("cropperRef"), g = async () => {
+    const t = e, o = Z(), { enabled: s } = Ie(), { t: l } = o.i18n, d = E(!1), r = E(""), c = E(!1), u = E(
+      o.modal.data.item.previewUrl ?? o.adapter.getPreviewUrl({ path: o.modal.data.item.path })
+    ), f = E(u.value), { addExternalFiles: h, upload: v, queue: w } = to(o.customUploader), S = o.fs, F = K(S.path), _ = je("cropperRef"), g = async () => {
       d.value = !d.value, o.modal.setEditMode(d.value);
     }, m = async () => {
       const x = _.value?.getResult({
@@ -2372,7 +2374,7 @@ const ai = { class: "vuefinder__image-preview" }, ri = { class: "vuefinder__imag
         }, null, 8, ["src"])) : (p(), y("img", {
           key: 0,
           style: {},
-          src: a(o).adapter.getPreviewUrl({ path: a(o).modal.data.item.path }),
+          src: a(o).modal.data.item.previewUrl ?? a(o).adapter.getPreviewUrl({ path: a(o).modal.data.item.path }),
           class: "vuefinder__image-preview__image h-full w-full"
         }, null, 8, ui))
       ]),
@@ -8029,7 +8031,7 @@ const Bn = { render: rv }, lv = ["data-key", "data-row", "data-col", "draggable"
             key: 0,
             src: "data:image/png;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
             class: "vuefinder__explorer__item-thumbnail lazy",
-            "data-src": a(s).adapter.getPreviewUrl({ path: n.item.path }),
+            "data-src": n.item.previewUrl ?? a(s).adapter.getPreviewUrl({ path: n.item.path }),
             alt: n.item.basename,
             onTouchstart: x[0] || (x[0] = (C) => C.preventDefault())
           }, null, 40, uv)) : (p(), R(Rn, {
