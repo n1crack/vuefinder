@@ -41,5 +41,5 @@ onBeforeUnmount(() => {
     <template #status-bar="slotProps">
       <slot name="status-bar" v-bind="slotProps" />
     </template>
-  </VueFinder>
+  </VueFinderView>
 </template>

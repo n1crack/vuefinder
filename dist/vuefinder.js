@@ -9203,7 +9203,7 @@ const To = [
   key: 0,
   class: "vuefinder__external-drop-overlay vuefinder__external-drop-overlay--relative"
 }, bp = { class: "vuefinder__external-drop-message" }, xp = { class: "vuefinder__main__content" }, kp = /* @__PURE__ */ J({
-  __name: "VueFinder",
+  __name: "VueFinderView",
   props: {
     id: {},
     driver: {},

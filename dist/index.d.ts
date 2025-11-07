@@ -16,14 +16,33 @@ export default VueFinderPlugin;
 export class RemoteDriver {
   constructor(config?: import('./adapters/types').RemoteDriverConfig);
   list(params?: import('./adapters/types').ListParams): Promise<import('./types').FsData>;
-  delete(params: import('./adapters/types').DeleteParams): Promise<import('./adapters/types').DeleteResult>;
-  rename(params: import('./adapters/types').RenameParams): Promise<import('./adapters/types').FileOperationResult>;
-  copy(params: import('./adapters/types').TransferParams): Promise<import('./adapters/types').FileOperationResult>;
-  move(params: import('./adapters/types').TransferParams): Promise<import('./adapters/types').FileOperationResult>;
-  archive(params: import('./adapters/types').ArchiveParams): Promise<import('./adapters/types').FileOperationResult>;
-  unarchive(params: { item: string; path: string }): Promise<import('./adapters/types').FileOperationResult>;
-  createFile(params: { path: string; name: string }): Promise<import('./adapters/types').FileOperationResult>;
-  createFolder(params: { path: string; name: string }): Promise<import('./adapters/types').FileOperationResult>;
+  delete(
+    params: import('./adapters/types').DeleteParams
+  ): Promise<import('./adapters/types').DeleteResult>;
+  rename(
+    params: import('./adapters/types').RenameParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  copy(
+    params: import('./adapters/types').TransferParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  move(
+    params: import('./adapters/types').TransferParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  archive(
+    params: import('./adapters/types').ArchiveParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  unarchive(params: {
+    item: string;
+    path: string;
+  }): Promise<import('./adapters/types').FileOperationResult>;
+  createFile(params: {
+    path: string;
+    name: string;
+  }): Promise<import('./adapters/types').FileOperationResult>;
+  createFolder(params: {
+    path: string;
+    name: string;
+  }): Promise<import('./adapters/types').FileOperationResult>;
   getContent(params: { path: string }): Promise<import('./adapters/types').FileContentResult>;
   getPreviewUrl(params: { path: string }): string;
   getDownloadUrl(params: { path: string }): string;
@@ -34,14 +53,33 @@ export class RemoteDriver {
 export class ArrayDriver {
   constructor(config: import('./adapters/ArrayDriver').ArrayDriverConfig);
   list(params?: import('./adapters/types').ListParams): Promise<import('./types').FsData>;
-  delete(params: import('./adapters/types').DeleteParams): Promise<import('./adapters/types').DeleteResult>;
-  rename(params: import('./adapters/types').RenameParams): Promise<import('./adapters/types').FileOperationResult>;
-  copy(params: import('./adapters/types').TransferParams): Promise<import('./adapters/types').FileOperationResult>;
-  move(params: import('./adapters/types').TransferParams): Promise<import('./adapters/types').FileOperationResult>;
-  archive(params: import('./adapters/types').ArchiveParams): Promise<import('./adapters/types').FileOperationResult>;
-  unarchive(params: { item: string; path: string }): Promise<import('./adapters/types').FileOperationResult>;
-  createFile(params: { path: string; name: string }): Promise<import('./adapters/types').FileOperationResult>;
-  createFolder(params: { path: string; name: string }): Promise<import('./adapters/types').FileOperationResult>;
+  delete(
+    params: import('./adapters/types').DeleteParams
+  ): Promise<import('./adapters/types').DeleteResult>;
+  rename(
+    params: import('./adapters/types').RenameParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  copy(
+    params: import('./adapters/types').TransferParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  move(
+    params: import('./adapters/types').TransferParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  archive(
+    params: import('./adapters/types').ArchiveParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  unarchive(params: {
+    item: string;
+    path: string;
+  }): Promise<import('./adapters/types').FileOperationResult>;
+  createFile(params: {
+    path: string;
+    name: string;
+  }): Promise<import('./adapters/types').FileOperationResult>;
+  createFolder(params: {
+    path: string;
+    name: string;
+  }): Promise<import('./adapters/types').FileOperationResult>;
   getContent(params: { path: string }): Promise<import('./adapters/types').FileContentResult>;
   getPreviewUrl(params: { path: string }): string;
   getDownloadUrl(params: { path: string }): string;
@@ -52,14 +90,33 @@ export class ArrayDriver {
 export class IndexedDBDriver {
   constructor(config?: import('./adapters/types').IndexedDBDriverConfig);
   list(params?: import('./adapters/types').ListParams): Promise<import('./types').FsData>;
-  delete(params: import('./adapters/types').DeleteParams): Promise<import('./adapters/types').DeleteResult>;
-  rename(params: import('./adapters/types').RenameParams): Promise<import('./adapters/types').FileOperationResult>;
-  copy(params: import('./adapters/types').TransferParams): Promise<import('./adapters/types').FileOperationResult>;
-  move(params: import('./adapters/types').TransferParams): Promise<import('./adapters/types').FileOperationResult>;
-  archive(params: import('./adapters/types').ArchiveParams): Promise<import('./adapters/types').FileOperationResult>;
-  unarchive(params: { item: string; path: string }): Promise<import('./adapters/types').FileOperationResult>;
-  createFile(params: { path: string; name: string }): Promise<import('./adapters/types').FileOperationResult>;
-  createFolder(params: { path: string; name: string }): Promise<import('./adapters/types').FileOperationResult>;
+  delete(
+    params: import('./adapters/types').DeleteParams
+  ): Promise<import('./adapters/types').DeleteResult>;
+  rename(
+    params: import('./adapters/types').RenameParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  copy(
+    params: import('./adapters/types').TransferParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  move(
+    params: import('./adapters/types').TransferParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  archive(
+    params: import('./adapters/types').ArchiveParams
+  ): Promise<import('./adapters/types').FileOperationResult>;
+  unarchive(params: {
+    item: string;
+    path: string;
+  }): Promise<import('./adapters/types').FileOperationResult>;
+  createFile(params: {
+    path: string;
+    name: string;
+  }): Promise<import('./adapters/types').FileOperationResult>;
+  createFolder(params: {
+    path: string;
+    name: string;
+  }): Promise<import('./adapters/types').FileOperationResult>;
   getContent(params: { path: string }): Promise<import('./adapters/types').FileContentResult>;
   getPreviewUrl(params: { path: string }): string;
   getDownloadUrl(params: { path: string }): string;
@@ -137,4 +194,3 @@ export type {
 
 // Type exports from stores/theme.ts
 export type { Theme } from './stores/theme';
-
