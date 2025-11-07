@@ -155,6 +155,7 @@ export default {
   'Small (< 1MB)': '小文件 (< 1MB)',
   'Medium (1-10MB)': '中等文件 (1-10MB)',
   'Large (> 10MB)': '大文件 (> 10MB)',
-  'Search helper text': '开始输入以搜索文件。使用选项进行筛选或包含子文件夹。',
+  'Start typing to search files. Use options to filter or include subfolders.':
+    '开始输入以搜索文件。使用选项进行筛选或包含子文件夹。',
   uppy: uppyLocalezhCN,
 };

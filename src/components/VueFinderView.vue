@@ -220,7 +220,7 @@ const handleExternalDrop = async (e: DragEvent) => {
         </Transition>
       </Teleport>
       <ContextMenu :items="contextMenuItems" />
-      <Toaster position="bottom-center"  />
+      <Toaster position="bottom-center" />
     </div>
   </div>
 </template>

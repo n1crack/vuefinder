@@ -155,6 +155,7 @@ export default {
   'Small (< 1MB)': '小檔案 (< 1MB)',
   'Medium (1-10MB)': '中等檔案 (1-10MB)',
   'Large (> 10MB)': '大檔案 (> 10MB)',
-  'Search helper text': '開始輸入以搜尋檔案。使用選項來篩選或包含子資料夾。',
+  'Start typing to search files. Use options to filter or include subfolders.':
+    '開始輸入以搜尋檔案。使用選項來篩選或包含子資料夾。',
   uppy: uppyLocalezhTW,
 };

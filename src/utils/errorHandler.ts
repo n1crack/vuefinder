@@ -49,4 +49,3 @@ export function handleError(
   const message = getErrorMessage(error, fallbackMessage);
   showToast(message);
 }
-

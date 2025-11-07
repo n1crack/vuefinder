@@ -266,9 +266,7 @@ export function parseBackendError(
 
     // Check for errors array (validation errors)
     if (error.errors && Array.isArray(error.errors) && error.errors.length > 0) {
-      const messages = error.errors
-        .map((e) => e.message)
-        .filter((m): m is string => !!m);
+      const messages = error.errors.map((e) => e.message).filter((m): m is string => !!m);
       if (messages.length > 0) {
         return messages.join(', ');
       }

@@ -161,7 +161,7 @@ export default {
   'Small (< 1MB)': 'Маленькие (< 1MB)',
   'Medium (1-10MB)': 'Средние (1-10MB)',
   'Large (> 10MB)': 'Большие (> 10MB)',
-  'Search helper text':
+  'Start typing to search files. Use options to filter or include subfolders.':
     'Начните вводить, чтобы искать файлы. Используйте параметры для фильтрации или включения вложенных папок.',
   uppy: uppyLocaleRu,
 };

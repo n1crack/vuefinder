@@ -161,7 +161,7 @@ export default {
   'Small (< 1MB)': 'Pequeno (< 1MB)',
   'Medium (1-10MB)': 'Médio (1-10MB)',
   'Large (> 10MB)': 'Grande (> 10MB)',
-  'Search helper text':
+  'Start typing to search files. Use options to filter or include subfolders.':
     'Comece a digitar para pesquisar arquivos. Use as opções para filtrar ou incluir subpastas.',
   uppy: uppyLocalePt,
 };
