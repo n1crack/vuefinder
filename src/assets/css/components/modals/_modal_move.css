@@ -6,6 +6,10 @@
   @apply pb-1 text-sm text-(--vf-text-tertiary);
 }
 
+.vuefinder__move-modal__destination-folder {
+  @apply text-(--vf-text-primary);
+}
+
 .vuefinder__move-modal__files {
   @apply max-h-[200px] overflow-y-auto text-left;
 }

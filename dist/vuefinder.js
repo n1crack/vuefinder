@@ -3098,7 +3098,7 @@ const dn = { render: ca }, ua = { class: "vuefinder__modal-tree__folder-item" },
   "stroke-width": "1"
 }, za = { class: "vuefinder__move-modal__file-name" }, Na = { class: "vuefinder__move-modal__target-title" }, Ua = { class: "vuefinder__move-modal__target-container" }, Ha = { class: "vuefinder__move-modal__target-path" }, ja = { class: "vuefinder__move-modal__target-storage" }, Ka = {
   key: 0,
-  class: "vuefinder__move-modal__Destination-folder"
+  class: "vuefinder__move-modal__destination-folder"
 }, qa = { class: "vuefinder__move-modal__target-badge" }, Wa = {
   key: 0,
   class: "vuefinder__move-modal__options"

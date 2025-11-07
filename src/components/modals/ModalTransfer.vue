@@ -139,7 +139,7 @@ const transfer = async () => {
               >
               <span
                 v-if="getDestinationParts().path"
-                class="vuefinder__move-modal__Destination-folder"
+                class="vuefinder__move-modal__destination-folder"
                 >{{ getDestinationParts().path }}</span
               >
             </div>

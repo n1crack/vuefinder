@@ -33,6 +33,7 @@ const customContextMenuItems = [
       );
       console.log(selectedItems.length + ' item(s) selected:\n', info.join('\n'));
       console.log(selectedItems);
+      alert(JSON.stringify(selectedItems));
     },
     show: () => true,
   },
@@ -48,7 +49,6 @@ onMounted(() => {
 <style scoped>
 .vf-demo-wrapper {
   border-radius: 8px;
-  overflow: hidden;
   background: var(--vp-c-bg);
   height: 340px;
 }

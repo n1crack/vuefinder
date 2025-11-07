@@ -97,7 +97,6 @@ onMounted(() => {
 <style scoped>
 .vf-demo-wrapper {
   border-radius: 8px;
-  overflow: hidden;
   background: var(--vp-c-bg);
   height: 340px;
 }
