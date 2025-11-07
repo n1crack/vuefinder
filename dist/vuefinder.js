@@ -1018,7 +1018,7 @@ function Mn() {
 function ro(n) {
   return n ? n === "simple" || n === "advanced" ? { ...ao[n] } : { ...Mn(), ...n } : Mn();
 }
-const ri = "4.0.7";
+const ri = "4.0.8";
 function hn(n, e, t, o, s) {
   return e = Math, t = e.log, o = 1024, s = t(n) / t(o) | 0, (n / e.pow(o, s)).toFixed(0) + " " + (s ? "KMGTPEZY"[--s] + "iB" : "B");
 }
