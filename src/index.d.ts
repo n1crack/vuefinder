@@ -149,7 +149,7 @@ export const ContextMenuIds: {
 // Type exports from types.ts
 export type {
   DirEntry,
-  CancelableDclickEvent,
+  ItemDclickEvent,
   VueFinderProps,
   FsData,
   SelectEvent,

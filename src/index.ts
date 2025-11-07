@@ -34,7 +34,7 @@ export { RemoteDriver, ArrayDriver, IndexedDBDriver };
 // Export types from types.ts
 export type {
   DirEntry,
-  CancelableDclickEvent,
+  ItemDclickEvent,
   VueFinderProps,
   FsData,
   SelectEvent,

@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { RemoteDriver } from 'vuefinder';
-import type { Driver, CancelableDclickEvent } from 'vuefinder';
+import type { Driver, ItemDclickEvent } from 'vuefinder';
 
 const driver = ref<Driver | null>(null);
 const customDclickLog = ref<Array<{ type: string; message: string; timestamp: string }>>([]);
@@ -61,7 +61,7 @@ const addCustomDclickLog = (type: string, message: string) => {
   });
 };
 
-const onCustomFileDclick = (event: CancelableDclickEvent) => {
+const onCustomFileDclick = (event: ItemDclickEvent) => {
     console.log(event);
   const item = event.item;
   addCustomDclickLog('file-dclick', `Custom file double-click: ${item.basename}`);
@@ -72,7 +72,7 @@ const onCustomFileDclick = (event: CancelableDclickEvent) => {
   event.preventDefault();
 };
 
-const onCustomFolderDclick = (event: CancelableDclickEvent) => {
+const onCustomFolderDclick = (event: ItemDclickEvent) => {
   const item = event.item;
   addCustomDclickLog('folder-dclick', `Custom folder double-click: ${item.basename}`);
   alert(`Custom Folder Double-Click!\n\nFolder: ${item.basename}\nPath: ${item.path}`);

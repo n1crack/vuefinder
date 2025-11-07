@@ -17,7 +17,7 @@ import { useSelection } from '../composables/useSelection';
 import SortIcon from './SortIcon.vue';
 import DragItem from './DragItem.vue';
 import FileRow from './FileRow.vue';
-import type { DirEntry, App, CancelableDclickEvent } from '../types';
+import type { DirEntry, App, ItemDclickEvent } from '../types';
 import type { Item as ContextMenuItem } from '../utils/contextmenu';
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
 import Toast from './Toast.vue';
@@ -30,8 +30,8 @@ import type { SortState } from '../stores/files';
 import { useApp } from '../composables/useApp';
 
 const props = defineProps<{
-  onFileDclick?: (event: CancelableDclickEvent) => void;
-  onFolderDclick?: (event: CancelableDclickEvent) => void;
+  onFileDclick?: (event: ItemDclickEvent) => void;
+  onFolderDclick?: (event: ItemDclickEvent) => void;
 }>();
 
 const app = useApp();
@@ -302,10 +302,10 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
 };
 
 /**
- * Creates a cancelable event object for double-click handlers
+ * Creates an item double-click event object for handlers
  */
-function createCancelableEvent(item: DirEntry): CancelableDclickEvent {
-  const event: CancelableDclickEvent = {
+function createCancelableEvent(item: DirEntry): ItemDclickEvent {
+  const event: ItemDclickEvent = {
     item,
     defaultPrevented: false,
     preventDefault() {

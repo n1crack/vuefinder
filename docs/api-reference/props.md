@@ -26,8 +26,8 @@ Complete reference of all VueFinder component props.
 | `onUploadComplete`            | `(files: DirEntry[]) => void`                                   | -            | No       | Upload handler (alternative to `@upload-complete`)            |
 | `onDeleteComplete`            | `(deletedItems: DirEntry[]) => void`                            | -            | No       | Delete handler (alternative to `@delete-complete`)            |
 | `onReady`                     | `() => void`                                                    | -            | No       | Ready handler (alternative to `@ready`)                       |
-| `onFileDclick`                | `(item: DirEntry) => void`                                      | -            | No       | File double-click handler (alternative to `@file-dclick`)     |
-| `onFolderDclick`              | `(item: DirEntry) => void`                                      | -            | No       | Folder double-click handler (alternative to `@folder-dclick`) |
+| `onFileDclick`                | `(event: ItemDclickEvent) => void`                               | -            | No       | File double-click handler (alternative to `@file-dclick`)     |
+| `onFolderDclick`              | `(event: ItemDclickEvent) => void`                               | -            | No       | Folder double-click handler (alternative to `@folder-dclick`) |
 | `customUploader`              | `(uppy: any, context: { getTargetPath: () => string }) => void` | -            | No       | Custom uploader configuration                                 |
 
 ## Detailed Descriptions

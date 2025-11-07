@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Driver } from '../../src/adapters';
-import type { CancelableDclickEvent } from '../../src/types';
+import type { ItemDclickEvent } from '../../src/types';
 
 interface Props {
   driver: Driver;
@@ -21,7 +21,7 @@ const addCustomDclickLog = (type: string, message: string) => {
   });
 };
 
-const onCustomFileDclick = (event: CancelableDclickEvent) => {
+const onCustomFileDclick = (event: ItemDclickEvent) => {
   const item = event.item;
   addCustomDclickLog('file-dclick', `Custom file double-click: ${item.basename}`);
   alert(
@@ -31,7 +31,7 @@ const onCustomFileDclick = (event: CancelableDclickEvent) => {
   event.preventDefault();
 };
 
-const onCustomFolderDclick = (event: CancelableDclickEvent) => {
+const onCustomFolderDclick = (event: ItemDclickEvent) => {
   const item = event.item;
   addCustomDclickLog('folder-dclick', `Custom folder double-click: ${item.basename}`);
   alert(

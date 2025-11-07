@@ -152,12 +152,12 @@ const onReadyEvents = () => {
   addEventLog('ready', 'VueFinder is ready and initialized');
 };
 
-const onFileDclickEvents = (item: DirEntry) => {
-  addEventLog('file-dclick', `Double-clicked file: ${item.basename}`, 1);
+const onFileDclickEvents = (event: { item: DirEntry }) => {
+  addEventLog('file-dclick', `Double-clicked file: ${event.item.basename}`, 1);
 };
 
-const onFolderDclickEvents = (item: DirEntry) => {
-  addEventLog('folder-dclick', `Double-clicked folder: ${item.basename}`, 1);
+const onFolderDclickEvents = (event: { item: DirEntry }) => {
+  addEventLog('folder-dclick', `Double-clicked folder: ${event.item.basename}`, 1);
 };
 
 const clearEventLog = () => {

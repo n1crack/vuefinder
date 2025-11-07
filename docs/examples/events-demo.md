@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Events Demo
+# Events
 
 Example demonstrating all VueFinder events.
 
@@ -75,12 +75,12 @@ const handleReady = () => {
   addEvent('ready', 'VueFinder is ready');
 };
 
-const handleFileDclick = (file) => {
-  addEvent('file-dclick', `File: ${file.name}`);
+const handleFileDclick = (event) => {
+  addEvent('file-dclick', `File: ${event.item.basename}`);
 };
 
-const handleFolderDclick = (folder) => {
-  addEvent('folder-dclick', `Folder: ${folder.name}`);
+const handleFolderDclick = (event) => {
+  addEvent('folder-dclick', `Folder: ${event.item.basename}`);
 };
 </script>
 ```

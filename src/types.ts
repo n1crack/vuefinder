@@ -28,13 +28,13 @@ export interface VueFinderProps {
    * Receives a cancelable event object. Call event.preventDefault() to prevent default behavior.
    * @param event - Cancelable event object containing the file item
    */
-  onFileDclick?: (event: CancelableDclickEvent) => void;
+  onFileDclick?: (event: ItemDclickEvent) => void;
   /**
    * Handler for folder double-click events
    * Receives a cancelable event object. Call event.preventDefault() to prevent default behavior.
    * @param event - Cancelable event object containing the folder item
    */
-  onFolderDclick?: (event: CancelableDclickEvent) => void;
+  onFolderDclick?: (event: ItemDclickEvent) => void;
   /**
    * Custom uploader configuration (optional)
    * If provided, will override adapter's configureUploader
@@ -51,10 +51,10 @@ export type SelectEvent = (items: DirEntry[]) => void;
 export type UpdatePathEvent = (path: string) => void;
 
 /**
- * Cancelable event object for double-click events
+ * Double-click event object carrying the clicked item
  * Allows handlers to prevent default behavior by calling preventDefault()
  */
-export interface CancelableDclickEvent {
+export interface ItemDclickEvent {
   /** The file or folder that was double-clicked */
   item: DirEntry;
   /** Whether the default behavior was prevented */

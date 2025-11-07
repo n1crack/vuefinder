@@ -16,8 +16,8 @@ Complete reference of all VueFinder events.
 | `delete-complete` | `DirEntry[]` | Emitted when deletion completes       |
 | `error`           | `any`        | Emitted when an error occurs          |
 | `ready`           | -            | Emitted when component is ready       |
-| `file-dclick`     | `DirEntry`   | Emitted when file is double-clicked   |
-| `folder-dclick`   | `DirEntry`   | Emitted when folder is double-clicked |
+| `file-dclick`     | `ItemDclickEvent` | Emitted when file is double-clicked   |
+| `folder-dclick`   | `ItemDclickEvent` | Emitted when folder is double-clicked |
 
 ## Event Details
 
@@ -121,7 +121,7 @@ const handleReady = () => {
 
 Emitted when a file is double-clicked.
 
-**Payload:** `CancelableDclickEvent` - Cancelable event object containing the file that was double-clicked
+**Payload:** `ItemDclickEvent` - Cancelable event object containing the file that was double-clicked
 
 **Event Object:**
 - `item: DirEntry` - The file that was double-clicked
@@ -157,7 +157,7 @@ const handleFileDclick = (event) => {
 
 Emitted when a folder is double-clicked.
 
-**Payload:** `CancelableDclickEvent` - Cancelable event object containing the folder that was double-clicked
+**Payload:** `ItemDclickEvent` - Cancelable event object containing the folder that was double-clicked
 
 **Event Object:**
 - `item: DirEntry` - The folder that was double-clicked

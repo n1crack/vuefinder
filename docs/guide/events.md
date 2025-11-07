@@ -141,7 +141,7 @@ const handleFileDclick = (event) => {
 </script>
 ```
 
-**Payload:** `CancelableDclickEvent` - Cancelable event object containing:
+**Payload:** `ItemDclickEvent` - Cancelable event object containing:
 - `item: DirEntry` - The file that was double-clicked
 - `defaultPrevented: boolean` - Whether the default behavior was prevented
 - `preventDefault(): void` - Method to prevent the default behavior
@@ -182,7 +182,7 @@ const handleFolderDclick = (event) => {
 </script>
 ```
 
-**Payload:** `CancelableDclickEvent` - Cancelable event object containing:
+**Payload:** `ItemDclickEvent` - Cancelable event object containing:
 - `item: DirEntry` - The folder that was double-clicked
 - `defaultPrevented: boolean` - Whether the default behavior was prevented
 - `preventDefault(): void` - Method to prevent the default behavior

@@ -25,18 +25,28 @@ Example showing how to override default double-click behavior.
 </template>
 
 <script setup>
-const handleFileDclick = (file) => {
+const handleFileDclick = (event) => {
   // Custom behavior for file double-click
+  const file = event.item;
   console.log('File double-clicked:', file);
+  
+  // Prevent default preview behavior
+  event.preventDefault();
+  
   // Example: Download instead of preview
-  window.open(file.downloadUrl, '_blank');
+  // window.open(file.downloadUrl, '_blank');
 };
 
-const handleFolderDclick = (folder) => {
+const handleFolderDclick = (event) => {
   // Custom behavior for folder double-click
+  const folder = event.item;
   console.log('Folder double-clicked:', folder);
+  
+  // Prevent default navigation behavior
+  event.preventDefault();
+  
   // Example: Show folder info instead of navigating
-  alert(`Folder: ${folder.name}`);
+  alert(`Folder: ${folder.basename}`);
 };
 </script>
 ```
