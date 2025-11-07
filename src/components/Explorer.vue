@@ -20,7 +20,6 @@ import FileRow from './FileRow.vue';
 import type { DirEntry, App, ItemDclickEvent } from '../types';
 import type { Item as ContextMenuItem } from '../utils/contextmenu';
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
-import Toast from './Toast.vue';
 import { useDragNDrop } from '../composables/useDragNDrop';
 import { OverlayScrollbars } from 'overlayscrollbars';
 import 'overlayscrollbars/overlayscrollbars.css';
@@ -616,6 +615,5 @@ const handleItemDragEnd = () => {
         </template>
       </div>
     </div>
-    <Toast />
   </div>
 </template>

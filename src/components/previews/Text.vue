@@ -2,15 +2,14 @@
 import { inject, onMounted, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
+import { getErrorMessage } from '../../utils/errorHandler';
+import { toast } from 'vue-sonner';
 
 const emit = defineEmits(['success']);
 const content = ref('');
 const contentTemp = ref('');
 const editInput = ref(null);
 const showEdit = ref(false);
-
-const message = ref('');
-const isError = ref(false);
 
 const app = useApp();
 const { enabled } = useFeature();
@@ -22,8 +21,9 @@ onMounted(async () => {
     const result = await app.adapter.getContent({ path: app.modal.data.item.path });
     content.value = result.content;
     emit('success');
-  } catch (error) {
-    console.error('Failed to load text content:', error);
+  } catch (error: unknown) {
+    // Error is handled silently - content will be empty
+    getErrorMessage(error, 'Failed to load text content');
     emit('success');
   }
 });
@@ -35,9 +35,6 @@ const toggleEditMode = () => {
 };
 
 const save = async () => {
-  message.value = '';
-  isError.value = false;
-
   try {
     // Save content using adapter
     const fullPath = app.modal.data.item.path;
@@ -46,13 +43,11 @@ const save = async () => {
       content: contentTemp.value,
     });
     content.value = contentTemp.value;
-    message.value = t('Updated.');
+    toast.success(t('Updated.'));
     emit('success');
     showEdit.value = !showEdit.value;
   } catch (e: unknown) {
-    const error = e as { message?: string };
-    message.value = t(error.message || 'Error');
-    isError.value = true;
+    toast.error(getErrorMessage(e, t('Failed to save file')));
   }
 };
 </script>
@@ -92,7 +87,6 @@ const save = async () => {
           rows="10"
         ></textarea>
       </div>
-      <message v-if="message.length" :error="isError" @hidden="message = ''">{{ message }}</message>
     </div>
   </div>
 </template>

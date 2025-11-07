@@ -160,7 +160,7 @@ export default {
   'Small (< 1MB)': 'Küçük (< 1MB)',
   'Medium (1-10MB)': 'Orta (1-10MB)',
   'Large (> 10MB)': 'Büyük (> 10MB)',
-  'Search helper text':
+  'Start typing to search files. Use options to filter or include subfolders.':
     'Dosyaları aramak için yazmaya başlayın. Filtrelemek veya alt klasörleri dahil etmek için seçenekleri kullanın.',
   uppy: uppyLocaleTr,
 };

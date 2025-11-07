@@ -8,6 +8,9 @@ import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
 
 import { useApp } from '../../composables/useApp';
+import { toast } from 'vue-sonner';
+import { getErrorMessage } from '../../utils/errorHandler';
+
 const app = useApp();
 const { t } = app.i18n;
 const fs = app.fs;
@@ -15,7 +18,6 @@ const fs = app.fs;
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const name = ref('');
-const message = ref('');
 
 const createFolder = () => {
   if (name.value !== '') {
@@ -25,12 +27,12 @@ const createFolder = () => {
         name: name.value,
       })
       .then((result: any) => {
-        app.emitter.emit('vf-toast-push', { label: t('%s is created.', name.value) });
+        toast.success(t('%s is created.', name.value));
         app.fs.setFiles(result.files);
         app.modal.close();
       })
-      .catch((e: any) => {
-        app.emitter.emit('vf-toast-push', { label: t(e.message), type: 'error' });
+      .catch((e: unknown) => {
+        toast.error(getErrorMessage(e, t('Failed to create folder')));
       });
   }
 };
@@ -51,7 +53,6 @@ const createFolder = () => {
             autofocus
             @keyup.enter="createFolder"
           />
-          <message v-if="message.length" error @hidden="message = ''">{{ message }}</message>
         </div>
       </div>
     </div>

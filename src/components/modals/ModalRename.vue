@@ -2,6 +2,8 @@
 import { inject, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useStore } from '@nanostores/vue';
+import { toast } from 'vue-sonner';
+import { getErrorMessage } from '../../utils/errorHandler';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
 import RenameSVG from '../../assets/icons/rename.svg';
@@ -15,7 +17,6 @@ const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const item = ref(app.modal.data.items[0]);
 const name = ref(item.value.basename);
-const message = ref('');
 
 const rename = () => {
   if (name.value != item.value.basename) {
@@ -26,12 +27,12 @@ const rename = () => {
         name: name.value,
       })
       .then((result: any) => {
-        app.emitter.emit('vf-toast-push', { label: t('%s is renamed.', name.value) });
+        toast.success(t('%s is renamed.', name.value));
         app.fs.setFiles(result.files);
         app.modal.close();
       })
-      .catch((e: any) => {
-        app.emitter.emit('vf-toast-push', { label: t(e.message), type: 'error' });
+      .catch((e: unknown) => {
+        toast.error(getErrorMessage(e, t('Failed to rename')));
       });
   }
 };
@@ -83,7 +84,6 @@ const rename = () => {
             type="text"
             @keyup.enter="rename"
           />
-          <message v-if="message.length" error @hidden="message = ''">{{ message }}</message>
         </div>
       </div>
     </div>

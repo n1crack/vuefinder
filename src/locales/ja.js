@@ -160,7 +160,7 @@ export default {
   'Small (< 1MB)': '小さい (< 1MB)',
   'Medium (1-10MB)': '中程度 (1-10MB)',
   'Large (> 10MB)': '大きい (> 10MB)',
-  'Search helper text':
+  'Start typing to search files. Use options to filter or include subfolders.':
     'ファイルを検索するには入力を開始してください。オプションでフィルタしたり、サブフォルダを含めたりできます。',
   uppy: uppyLocaleJa,
 };

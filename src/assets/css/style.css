@@ -13,6 +13,7 @@
 @import './_previews.css';
 
 @import 'overlayscrollbars/styles/overlayscrollbars.css';
+@import 'vue-sonner/style.css';
 
 /** Components */
 @import './components/_action_message.css';

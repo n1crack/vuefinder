@@ -2,6 +2,8 @@
 import { inject, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
+import { toast } from 'vue-sonner';
+import { getErrorMessage } from '../../utils/errorHandler';
 import ModalHeader from '../../components/modals//ModalHeader.vue';
 import { useStore } from '@nanostores/vue';
 import DeleteSVG from '../../assets/icons/delete.svg';
@@ -12,13 +14,8 @@ const { t } = app.i18n;
 const fs = app.fs;
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 const items = ref(app.modal.data.items);
-const message = ref('');
 
 const remove = () => {
-  console.log(
-    items.value.map(({ path, type }: { path: string; type: string }) => ({ path, type }))
-  );
-
   if (items.value.length) {
     app.adapter
       .delete({
@@ -29,13 +26,13 @@ const remove = () => {
         })),
       })
       .then((result: any) => {
-        app.emitter.emit('vf-toast-push', { label: t('Files deleted.') });
+        toast.success(t('Files deleted.'));
         app.fs.setFiles(result.files);
         // app.emitter.emit('vf-delete-complete', items.value);
         app.modal.close();
       })
-      .catch((e: any) => {
-        app.emitter.emit('vf-toast-push', { label: t(e.message), type: 'error' });
+      .catch((e: unknown) => {
+        toast.error(getErrorMessage(e, t('Failed to delete files')));
       });
   }
 };
@@ -85,7 +82,6 @@ const remove = () => {
               <span class="vuefinder__delete-modal__file-name">{{ item.basename }}</span>
             </p>
           </div>
-          <message v-if="message.length" error @hidden="message = ''">{{ message }}</message>
         </div>
       </div>
     </div>

@@ -19,6 +19,8 @@ import type { VueFinderProps, DirEntry } from '../types';
 import type { FsData } from '../adapters/types';
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
+import { Toaster } from 'vue-sonner';
+import 'vue-sonner/style.css';
 
 const emit = defineEmits([
   'select',
@@ -218,6 +220,7 @@ const handleExternalDrop = async (e: DragEvent) => {
         </Transition>
       </Teleport>
       <ContextMenu :items="contextMenuItems" />
+      <Toaster position="bottom-center"  />
     </div>
   </div>
 </template>

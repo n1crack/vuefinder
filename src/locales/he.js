@@ -156,7 +156,7 @@ export default {
   'Small (< 1MB)': 'קטן (< 1MB)',
   'Medium (1-10MB)': 'בינוני (1-10MB)',
   'Large (> 10MB)': 'גדול (> 10MB)',
-  'Search helper text':
+  'Start typing to search files. Use options to filter or include subfolders.':
     'התחל להקליד כדי לחפש קבצים. השתמש באפשרויות כדי לסנן או לכלול תיקיות משנה.',
   uppy: uppyLocaleHe,
 };

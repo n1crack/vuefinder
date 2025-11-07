@@ -1,4 +1,6 @@
 import { reactive, ref, watch } from 'vue';
+import { toast } from 'vue-sonner';
+import { getErrorMessage } from '../utils/errorHandler';
 
 export async function loadLocale(locale: string, supportedLocales: Record<string, any>) {
   const localeData = supportedLocales[locale];
@@ -23,20 +25,17 @@ export function useI18n(
         locale.value = newLocale;
         setStore('translations', i18n);
         if (Object.values(supportedLocales).length > 1) {
-          emitter.emit('vf-toast-push', { label: 'The language is set to ' + newLocale });
+          toast.success('The language is set to ' + newLocale);
           emitter.emit('vf-language-saved');
         }
       })
-      .catch((e) => {
+      .catch((e: unknown) => {
         if (defaultLocale) {
-          emitter.emit('vf-toast-push', {
-            label: 'The selected locale is not yet supported!',
-            type: 'error',
-          });
+          toast.error('The selected locale is not yet supported!');
           changeLocale(defaultLocale, null);
         } else {
-          console.error(e);
-          emitter.emit('vf-toast-push', { label: 'Locale cannot be loaded!', type: 'error' });
+          const errorMessage = getErrorMessage(e, 'Locale cannot be loaded!');
+          toast.error(errorMessage);
         }
       });
   };

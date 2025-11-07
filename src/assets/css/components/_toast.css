@@ -1,28 +1,70 @@
-.vuefinder__toast {
-  @apply bottom-0 left-1/2 z-10 flex max-w-fit -translate-x-1/2 flex-col;
+/* Sonner Toast Customization for VueFinder */
+
+/* Toast container customization */
+[data-sonner-toaster] {
+  --toast-bg: var(--vf-bg-secondary);
+  --toast-border: var(--vf-border-primary);
+  --toast-color: var(--vf-text-primary);
+  --toast-success-bg: var(--vf-accent-success);
+  --toast-success-border: var(--vf-accent-success);
+  --toast-error-bg: var(--vf-accent-error);
+  --toast-error-border: var(--vf-accent-error);
+  --toast-warning-bg: var(--vf-accent-warning);
+  --toast-warning-border: var(--vf-accent-warning);
 }
 
-.vuefinder__toast--fixed {
-  @apply fixed;
+/* Toast item styling */
+[data-sonner-toast] {
+  background: var(--vf-bg-secondary) !important;
+  border: 1px solid var(--vf-border-primary) !important;
+  color: var(--vf-text-primary) !important;
+  box-shadow: 0 4px 12px var(--vf-shadow-md) !important;
 }
 
-.vuefinder__toast--absolute {
-  @apply absolute;
+/* Success toast */
+[data-sonner-toast][data-type='success'] {
+  background: var(--vf-bg-secondary) !important;
+  border-color: var(--vf-accent-success) !important;
+  color: var(--vf-text-primary) !important;
 }
 
-.vuefinder__toast__message {
-  @apply mx-auto my-0.5 inline-block min-w-max cursor-pointer rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) px-2 py-0.5 text-xs sm:text-sm;
+/* Error toast */
+[data-sonner-toast][data-type='error'] {
+  background: var(--vf-bg-secondary) !important;
+  border-color: var(--vf-accent-error) !important;
+  color: var(--vf-text-primary) !important;
 }
 
-/* Transition classes */
-.vuefinder__toast-item--enter-active {
-  @apply transition-all duration-1000;
+/* Warning toast */
+[data-sonner-toast][data-type='warning'] {
+  background: var(--vf-bg-secondary) !important;
+  border-color: var(--vf-accent-warning) !important;
+  color: var(--vf-text-primary) !important;
 }
 
-.vuefinder__toast-item--leave-active {
-  @apply opacity-0 transition-all duration-1000;
+/* Info toast */
+[data-sonner-toast][data-type='info'] {
+  background: var(--vf-bg-secondary) !important;
+  border-color: var(--vf-accent-primary) !important;
+  color: var(--vf-text-primary) !important;
 }
 
-.vuefinder__toast-item--leave-to {
-  @apply opacity-0;
+/* Toast description text */
+[data-sonner-toast] [data-description] {
+  color: var(--vf-text-primary) !important;
+}
+
+/* Toast title text */
+[data-sonner-toast] [data-title] {
+  color: var(--vf-text-primary) !important;
+}
+
+/* Toast close button */
+[data-sonner-toast] [data-close-button] {
+  color: var(--vf-text-secondary) !important;
+}
+
+[data-sonner-toast] [data-close-button]:hover {
+  color: var(--vf-text-primary) !important;
+  background: var(--vf-interactive-hover) !important;
 }

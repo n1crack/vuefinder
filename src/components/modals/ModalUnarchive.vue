@@ -2,6 +2,8 @@
 import { inject, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useStore } from '@nanostores/vue';
+import { toast } from 'vue-sonner';
+import { getErrorMessage } from '../../utils/errorHandler';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
 import UnarchiveSVG from '../../assets/icons/unarchive.svg';
@@ -14,7 +16,6 @@ const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 const { t } = app.i18n;
 
 const zipItem = ref(app.modal.data.items[0]);
-const message = ref('');
 
 // todo: get zip folder content
 const items = ref<any[]>([]);
@@ -26,12 +27,12 @@ const unarchive = () => {
       path: currentPath.value.path,
     })
     .then((result: any) => {
-      app.emitter.emit('vf-toast-push', { label: t('The file unarchived.') });
+      toast.success(t('The file unarchived.'));
       app.fs.setFiles(result.files);
       app.modal.close();
     })
-    .catch((e: any) => {
-      app.emitter.emit('vf-toast-push', { label: t(e.message), type: 'error' });
+    .catch((e: unknown) => {
+      toast.error(getErrorMessage(e, t('Failed to unarchive')));
     });
 };
 </script>
@@ -78,8 +79,6 @@ const unarchive = () => {
           <p class="vuefinder__unarchive-modal__info">
             {{ t('The archive will be unarchived at') }} ({{ currentPath.path }})
           </p>
-
-          <message v-if="message.length" error @hidden="message = ''">{{ message }}</message>
         </div>
       </div>
     </div>

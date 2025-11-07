@@ -7,6 +7,7 @@ import LoadingSVG from '../assets/icons/loading.svg';
 import upsert from '../utils/upsert';
 import type { DirEntry } from '../types';
 import { useApp } from '../composables/useApp';
+import { getErrorMessage } from '../utils/errorHandler';
 
 const props = defineProps<{
   storage: string;
@@ -30,7 +31,9 @@ const fetchSubFolders = async () => {
 
     upsert(app.treeViewData, { path: props.path, type: 'dir', folders });
   } catch (e: unknown) {
-    console.error('Failed to fetch subfolders:', e);
+    // Silently fail for tree view loading - user can retry by expanding again
+    // Error message is already handled by the adapter layer
+    getErrorMessage(e, 'Failed to fetch subfolders');
   } finally {
     loading.value = false;
   }

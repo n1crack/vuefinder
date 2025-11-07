@@ -3,6 +3,8 @@ import { onMounted, ref, useTemplateRef } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
 import useUpload, { QUEUE_ENTRY_STATUS } from '../../composables/useUpload';
+import { getErrorMessage } from '../../utils/errorHandler';
+import { toast } from 'vue-sonner';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 import LazyLoad from 'vanilla-lazyload';
@@ -19,8 +21,6 @@ const { enabled } = useFeature();
 const { t } = app.i18n;
 
 const showEdit = ref(false);
-const message = ref('');
-const isError = ref(false);
 const previewUrl = ref(
   app.modal.data.item.previewUrl ?? app.adapter.getPreviewUrl({ path: app.modal.data.item.path })
 );
@@ -75,13 +75,9 @@ const crop = async () => {
   });
 
   if (!blob) {
-    message.value = t('Failed to save image');
-    isError.value = true;
+    toast.error(t('Failed to save image'));
     return;
   }
-
-  message.value = '';
-  isError.value = false;
 
   try {
     const file = new File([blob], originalFilename, { type: mimeType });
@@ -119,7 +115,7 @@ const crop = async () => {
       attempts++;
     }
 
-    message.value = t('Updated.');
+    toast.success(t('Updated.'));
 
     // Reload image
     await fetch(previewUrl.value, { cache: 'reload', mode: 'no-cors' });
@@ -132,9 +128,7 @@ const crop = async () => {
     await toggleEditMode();
     emit('success');
   } catch (e: unknown) {
-    const msg = (e as { message?: string })?.message ?? 'Error';
-    message.value = t(msg);
-    isError.value = true;
+    toast.error(getErrorMessage(e, t('Failed to save image')));
   }
 };
 
@@ -189,8 +183,6 @@ onMounted(() => {
         :transitions="true"
       />
     </div>
-
-    <message v-if="message.length" :error="isError" @hidden="message = ''">{{ message }}</message>
   </div>
 </template>
 

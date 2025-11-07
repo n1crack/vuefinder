@@ -13,6 +13,7 @@ import ModalSettings from '../components/modals/ModalSettings.vue';
 import type { CurrentPathState } from '@/stores/files';
 import { useApp } from './useApp';
 import { useFeature } from './useFeature';
+import { toast } from 'vue-sonner';
 
 const KEYBOARD_SHORTCUTS = {
   ESCAPE: 'Escape',
@@ -96,53 +97,39 @@ export function useHotkeyActions() {
 
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_C && enabled('copy')) {
       if (selectedItems.value.length === 0) {
-        app.emitter.emit('vf-toast-push', {
-          type: 'error',
-          label: app.i18n.t('No items selected'),
-        });
+        toast.error(app.i18n.t('No items selected'));
         return;
       }
       fs.setClipboard('copy', new Set(selectedItems.value.map((item: any) => item.path)));
-      app.emitter.emit('vf-toast-push', {
-        label:
-          selectedItems.value.length === 1
-            ? app.i18n.t('Item copied to clipboard')
-            : app.i18n.t('%s items copied to clipboard', selectedItems.value.length),
-      });
+      toast.success(
+        selectedItems.value.length === 1
+          ? app.i18n.t('Item copied to clipboard')
+          : app.i18n.t('%s items copied to clipboard', selectedItems.value.length)
+      );
       e.preventDefault();
     }
 
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_X && enabled('copy')) {
       if (selectedItems.value.length === 0) {
-        app.emitter.emit('vf-toast-push', {
-          type: 'error',
-          label: app.i18n.t('No items selected'),
-        });
+        toast.error(app.i18n.t('No items selected'));
         return;
       }
       fs.setClipboard('cut', new Set(selectedItems.value.map((item: any) => item.path)));
-      app.emitter.emit('vf-toast-push', {
-        label:
-          selectedItems.value.length === 1
-            ? app.i18n.t('Item cut to clipboard')
-            : app.i18n.t('%s items cut to clipboard', selectedItems.value.length),
-      });
+      toast.success(
+        selectedItems.value.length === 1
+          ? app.i18n.t('Item cut to clipboard')
+          : app.i18n.t('%s items cut to clipboard', selectedItems.value.length)
+      );
       e.preventDefault();
     }
 
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_V && enabled('copy')) {
       if (fs.getClipboard().items.size === 0) {
-        app.emitter.emit('vf-toast-push', {
-          type: 'error',
-          label: app.i18n.t('No items in clipboard'),
-        });
+        toast.error(app.i18n.t('No items in clipboard'));
         return;
       }
       if (fs.getClipboard().path === fs.path.get().path) {
-        app.emitter.emit('vf-toast-push', {
-          type: 'error',
-          label: app.i18n.t('Cannot paste items to the same directory'),
-        });
+        toast.error(app.i18n.t('Cannot paste items to the same directory'));
         return;
       }
       if (fs.getClipboard().type === 'cut') {

@@ -4,6 +4,8 @@ import { useStore } from '@nanostores/vue';
 import { inject } from 'vue';
 import { useApp } from '../../composables/useApp';
 import useDebouncedRef from '../../composables/useDebouncedRef';
+import { toast } from 'vue-sonner';
+import { getErrorMessage } from '../../utils/errorHandler';
 import SearchSVG from '../../assets/icons/search.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
 import ModalLayout from './ModalLayout.vue';
@@ -86,7 +88,7 @@ const openContainingFolder = (item: DirEntry) => {
     app.modal.close();
     closeAllDropdowns();
   } catch {
-    app.emitter.emit('vf-toast-push', { label: t('Failed to open containing folder') });
+    toast.error(t('Failed to open containing folder'));
   }
 };
 
@@ -161,8 +163,8 @@ const performSearch = async (searchQuery: string) => {
     });
     searchResults.value = files || [];
     isSearching.value = false;
-  } catch (error) {
-    console.error('Search error:', error);
+  } catch (error: unknown) {
+    toast.error(getErrorMessage(error, t('Search failed')));
     searchResults.value = [];
     isSearching.value = false;
   }
@@ -345,7 +347,7 @@ const handleClickOutside = (event: MouseEvent) => {
           class="vuefinder__search-modal__instructions"
         >
           <p class="vuefinder__search-modal__instructions-text">
-            {{ t('Search helper text') }}
+            {{ t('Start typing to search files. Use options to filter or include subfolders.') }}
           </p>
         </div>
 

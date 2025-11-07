@@ -219,6 +219,78 @@ export interface Driver {
 }
 
 /**
+ * Backend error response formats that can be received
+ */
+export interface BackendErrorResponse {
+  message?: string;
+  error?: string | { message?: string; code?: string };
+  errors?: Array<{ message?: string; field?: string }>;
+  detail?: string;
+  title?: string;
+}
+
+/**
+ * Parse backend error response and extract standardized error message
+ * Handles various backend error formats and always returns a string message
+ */
+export function parseBackendError(
+  responseText: string | null,
+  statusCode: number,
+  statusText: string
+): string {
+  // Default fallback message
+  const defaultMessage = `HTTP ${statusCode}: ${statusText}`;
+
+  if (!responseText) {
+    return defaultMessage;
+  }
+
+  // Try to parse as JSON
+  try {
+    const error: BackendErrorResponse = JSON.parse(responseText);
+
+    // Check for direct message field
+    if (error.message) {
+      return error.message;
+    }
+
+    // Check for error field (can be string or object)
+    if (error.error) {
+      if (typeof error.error === 'string') {
+        return error.error;
+      }
+      if (error.error.message) {
+        return error.error.message;
+      }
+    }
+
+    // Check for errors array (validation errors)
+    if (error.errors && Array.isArray(error.errors) && error.errors.length > 0) {
+      const messages = error.errors
+        .map((e) => e.message)
+        .filter((m): m is string => !!m);
+      if (messages.length > 0) {
+        return messages.join(', ');
+      }
+    }
+
+    // Check for other common fields
+    if (error.detail) {
+      return error.detail;
+    }
+    if (error.title) {
+      return error.title;
+    }
+
+    // If JSON but no recognized fields, return the text
+    return responseText;
+  } catch {
+    // Not JSON, return as plain text
+    return responseText || defaultMessage;
+  }
+}
+
+/**
  * Base adapter error class
  */
 export class AdapterError extends Error {

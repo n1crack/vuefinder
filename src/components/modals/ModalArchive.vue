@@ -2,6 +2,8 @@
 import { inject, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
+import { toast } from 'vue-sonner';
+import { getErrorMessage } from '../../utils/errorHandler';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
 import { useStore } from '@nanostores/vue';
 import ArchiveSVG from '../../assets/icons/archive.svg';
@@ -15,7 +17,6 @@ const fs = app.fs;
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const name = ref('');
-const message = ref('');
 
 const items = ref(app.modal.data.items);
 
@@ -31,12 +32,12 @@ const archive = () => {
         name: name.value,
       })
       .then((result: any) => {
-        app.emitter.emit('vf-toast-push', { label: t('The file(s) archived.') });
+        toast.success(t('The file(s) archived.'));
         app.fs.setFiles(result.files);
         app.modal.close();
       })
-      .catch((e: any) => {
-        app.emitter.emit('vf-toast-push', { label: t(e.message), type: 'error' });
+      .catch((e: unknown) => {
+        toast.error(getErrorMessage(e, t('Failed to archive files')));
       });
   }
 };
@@ -90,7 +91,6 @@ const archive = () => {
             type="text"
             @keyup.enter="archive"
           />
-          <message v-if="message.length" error @hidden="message = ''">{{ message }}</message>
         </div>
       </div>
     </div>

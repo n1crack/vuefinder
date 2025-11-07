@@ -12,6 +12,7 @@ import type {
   SaveParams,
   UploaderContext,
 } from './types';
+import { parseBackendError } from './types';
 import type Uppy from '@uppy/core';
 
 /**
@@ -115,16 +116,9 @@ export class RemoteDriver extends BaseAdapter {
       },
     });
     if (!response.ok) {
-      try {
-        const error = await response.json();
-        throw new Error(
-          (error && (error.message || error.error)) ||
-            `HTTP ${response.status}: ${response.statusText}`
-        );
-      } catch {
-        const text = await response.text();
-        throw new Error(text || `HTTP ${response.status}: ${response.statusText}`);
-      }
+      const text = await response.text();
+      const errorMessage = parseBackendError(text, response.status, response.statusText);
+      throw new Error(errorMessage);
     }
     const contentType = response.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
@@ -247,7 +241,11 @@ export class RemoteDriver extends BaseAdapter {
     const queryParams = new URLSearchParams({ path: params.path });
     const url = `${this.config.baseURL}${this.config.url.preview}?${queryParams.toString()}`;
     const response = await fetch(url, { headers: this.getHeaders() });
-    if (!response.ok) throw new Error(`Failed to get content: ${response.statusText}`);
+    if (!response.ok) {
+      const text = await response.text();
+      const errorMessage = parseBackendError(text, response.status, response.statusText);
+      throw new Error(errorMessage);
+    }
     const content = await response.text();
     return { content, mimeType: response.headers.get('Content-Type') || undefined };
   }
