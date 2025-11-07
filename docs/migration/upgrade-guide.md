@@ -130,7 +130,7 @@ const driver = createDriver();
   :driver="driver"
   :config="{
     persist: true,
-    theme: 'dark',
+    theme: 'valorite',
     maxFileSize: '50mb',
   }"
 />

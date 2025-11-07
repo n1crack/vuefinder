@@ -78,7 +78,7 @@ const mockServiceContainer = {
     parentFolderPath: computed(() => 'local://'),
   },
   theme: {
-    actualValue: 'light',
+    actualValue: 'silver',
   },
   fullScreen: false,
   features: [],

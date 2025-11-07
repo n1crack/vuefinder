@@ -94,10 +94,10 @@ const examples = {
 };
 
 // Theme management
-const currentTheme = ref('light');
+const currentTheme = ref('silver');
 const themes = [
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
+  { value: 'silver', label: 'Silver' },
+  { value: 'valorite', label: 'Valorite' },
   { value: 'midnight', label: 'Midnight' },
   { value: 'latte', label: 'Latte' },
   { value: 'rose', label: 'Rose' },

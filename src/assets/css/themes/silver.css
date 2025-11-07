@@ -1,5 +1,5 @@
-/* Light Theme */
-.vuefinder__themer[data-theme='light'] {
+/* Silver Theme */
+.vuefinder__themer[data-theme='silver'] {
   --vf-selection-bg: #f9fafb;
   --vf-selection-border: #d1d5db;
   /* Background Colors */
@@ -52,8 +52,8 @@
   --vf-dropdown-hover: #f9fafb;
 }
 
-/* Light Theme - Selection Area */
-.selection-area-container[data-theme='light'] {
+/* Silver Theme - Selection Area */
+.selection-area-container[data-theme='silver'] {
   --vf-selection-bg: #f9fafb;
   --vf-selection-border: #aabfd7;
 }

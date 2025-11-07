@@ -1,6 +1,6 @@
 export type Theme =
-  | 'light'
-  | 'dark'
+  | 'silver'
+  | 'valorite'
   | 'midnight'
   | 'latte'
   | 'rose'
@@ -19,8 +19,8 @@ export interface ThemeConfig {
 }
 
 export const themes: ThemeConfig[] = [
-  { name: 'light', displayName: 'Light' },
-  { name: 'dark', displayName: 'Dark' },
+  { name: 'silver', displayName: 'Silver' },
+  { name: 'valorite', displayName: 'Valorite' },
   { name: 'midnight', displayName: 'Midnight' },
   { name: 'latte', displayName: 'Latte' },
   { name: 'rose', displayName: 'Rose' },

@@ -92,9 +92,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'Fungerar inte nedladdningen? Du kan högerklicka på "Ladda ner"-knappen, välja "Spara länk som...".',
   Theme: 'Tema',
-  Dark: 'Mörk',
-  Light: 'Ljus',
-  System: 'System',
   'Target Directory': 'Mål katalog',
   Select: 'Välj',
   'Compact list view': 'Kompakt listvy',

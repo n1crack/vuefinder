@@ -65,7 +65,7 @@ All individual config props are now consolidated into the `config` prop:
 <vue-finder
   :config="{
     persist: true,
-    theme: 'dark',
+    theme: 'valorite',
     maxFileSize: '50mb',
   }"
 />

@@ -94,9 +94,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'هل التنزيل لا يعمل؟ يمكنك محاولة النقر بزر الفأرة الأيمن على زر "تنزيل"، ثم تحديد "حفظ الرابط باسم...',
   Theme: 'السمة',
-  Dark: 'مظلم',
-  Light: 'فاتح',
-  System: 'النّظام',
   'Target Directory': 'المجلد الهدف',
   Select: 'اختيار',
   'Compact list view': 'القائمة المضغوطة',

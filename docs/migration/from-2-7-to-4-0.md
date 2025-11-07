@@ -127,7 +127,7 @@ import VueFinder from 'vuefinder';
 **Before (2.7):**
 
 ```vue
-<vue-finder :persist="true" :theme="'dark'" :max-height="'800px'" :max-file-size="'50mb'" />
+<vue-finder :persist="true" :theme="'valorite'" :max-height="'800px'" :max-file-size="'50mb'" />
 ```
 
 **After (4.0):**
@@ -136,7 +136,7 @@ import VueFinder from 'vuefinder';
 <vue-finder
   :config="{
     persist: true,
-    theme: 'dark',
+    theme: 'valorite',
     maxFileSize: '50mb',
   }"
 />
@@ -150,7 +150,7 @@ import VueFinder from 'vuefinder';
 
 **After (4.0):**
 
-- 12 themes available: `'light'`, `'dark'`, `'midnight'`, `'latte'`, `'rose'`, `'mythril'`, `'lime'`, `'sky'`, `'ocean'`, `'palenight'`, `'arctic'`, `'code'`
+- 12 themes available: `'silver'`, `'valorite'`, `'midnight'`, `'latte'`, `'rose'`, `'mythril'`, `'lime'`, `'sky'`, `'ocean'`, `'palenight'`, `'arctic'`, `'code'`
 - `'system'` theme is no longer supported
 
 ## Step-by-Step Migration

@@ -46,11 +46,11 @@ Example showing how to implement a theme selector for VueFinder with all availab
 import { ref } from 'vue';
 import { ArrayDriver } from 'vuefinder';
 
-const currentTheme = ref('light');
+const currentTheme = ref('silver');
 
 const themes = [
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
+  { value: 'silver', label: 'Silver' },
+  { value: 'valorite', label: 'Valorite' },
   { value: 'midnight', label: 'Midnight' },
   { value: 'latte', label: 'Latte' },
   { value: 'rose', label: 'Rose' },
@@ -132,7 +132,7 @@ VueFinder supports 12 beautiful themes that can be switched dynamically at runti
 **Key Features:**
 
 - **Dynamic Theme Switching**: Change themes instantly by updating the `theme` config property
-- **12 Available Themes**: Light, Dark, Midnight, Latte, Rose, Mythril, Lime, Sky, Ocean, Palenight, Arctic, and Code
+- **12 Available Themes**: Silver, Valorite, Midnight, Latte, Rose, Mythril, Lime, Sky, Ocean, Palenight, Arctic, and Code
 - **Reactive Updates**: Vue's reactivity system ensures the theme updates immediately when changed
 
 **Implementation Notes:**
@@ -149,7 +149,7 @@ VueFinder supports 12 beautiful themes that can be switched dynamically at runti
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 
-const currentTheme = ref('light');
+const currentTheme = ref('silver');
 
 // Load saved theme on mount
 onMounted(() => {

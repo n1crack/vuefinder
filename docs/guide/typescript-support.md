@@ -73,7 +73,7 @@ const driver = new RemoteDriver({
 
 const config: ConfigDefaults = {
   view: 'grid',
-  theme: 'dark',
+  theme: 'valorite',
   persist: true,
 };
 </script>

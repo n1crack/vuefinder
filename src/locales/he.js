@@ -92,9 +92,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'ההורדה לא עובדה? ניתן לנסות ללחוץ ימינה על כפתור "הורדה", ולבחור "שמור קישור בשם...".',
   Theme: 'ערכת נושא',
-  Dark: 'כהה',
-  Light: 'בהיר',
-  System: 'מערכת',
   'Target Directory': 'תיקיית יעד',
   Select: 'בחר',
   'Compact list view': 'תצוגת רשימה קומפקטית',

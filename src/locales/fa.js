@@ -92,9 +92,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'دانلود کار نمیکند؟ میتوانید روی دکمه "دانلود" راست کلیک کرده و "ذخیره لینک به عنوان..." را انتخاب کنید',
   Theme: 'تم',
-  Dark: 'تاریک',
-  Light: 'روشن',
-  System: 'سیستم',
   'Target Directory': 'پوشه مقصد',
   Select: 'انتخاب',
   'Compact list view': 'نمایش لیست کوچک',

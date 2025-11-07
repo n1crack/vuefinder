@@ -95,9 +95,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'Загрузка не работает? Вы можете попробовать щелкнуть правой кнопкой мыши по кнопке "Скачать", выбрать "Сохранить ссылку как...".',
   Theme: 'Тема',
-  Dark: 'Темный',
-  Light: 'Светлый',
-  System: 'Система',
   'Target Directory': 'Целевая директория',
   Select: 'Выбрать',
   'Compact list view': 'Компактный вид списка',

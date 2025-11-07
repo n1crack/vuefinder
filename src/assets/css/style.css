@@ -58,8 +58,6 @@
 
 @source './src/**/*.{vue,js,ts,jsx,tsx,svg}';
 
-@custom-variant dark (&:is(.dark *));
-
 .vf-scrollbars-theme {
   box-sizing: border-box;
   --os-size: 10px;
@@ -109,12 +107,5 @@
 
   .selection-area-container {
     @apply !z-100;
-  }
-}
-
-@layer components {
-  .vf-theme-dark,
-  .vf-theme-light {
-    @apply box-border;
   }
 }

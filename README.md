@@ -333,7 +333,7 @@ const handleFolderDoubleClick = (folder) => {
   - Multi language (17 languages supported)
   - Full Screen mode
   - View Modes: list, grid
-  - 12 Beautiful Themes: light, dark, midnight, latte, rose, mythril, lime, sky, ocean, palenight, arctic, code
+  - 12 Beautiful Themes: silver, valorite, midnight, latte, rose, mythril, lime, sky, ocean, palenight, arctic, code
 - Accessibility
   - Drag & drop support
   - Move items (to a folder or up one folder) with drag and drop

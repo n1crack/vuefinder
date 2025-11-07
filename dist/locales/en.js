@@ -93,9 +93,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".',
   Theme: 'Theme',
-  Dark: 'Dark',
-  Light: 'Light',
-  System: 'System',
   'Target Directory': 'Target Directory',
   Select: 'Select',
   'Compact list view': 'Compact list view',

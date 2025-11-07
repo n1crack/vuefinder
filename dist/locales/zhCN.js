@@ -91,9 +91,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     '下载不管用？您可以尝试右键点击“下载”按钮，选择“链接另存为...”。',
   Theme: '主题',
-  Dark: '深色',
-  Light: '浅色',
-  System: '系统',
   'Target Directory': '目标目录',
   Select: '选择',
   'Compact list view': '紧凑列表视图',

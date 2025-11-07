@@ -1,12 +1,7 @@
-.dark .vuefinder__linear-loader {
-  --vuefinder__linear-loader-primary: var(--color-slate-300);
-  --vuefinder__linear-loader-bg: var(--color-slate-700);
-}
-
 /** CREDIT: https://css-loaders.com/progress/ */
 .vuefinder__linear-loader {
-  --vuefinder__linear-loader-primary: var(--color-sky-600);
-  --vuefinder__linear-loader-bg: var(--color-sky-300);
+  --vuefinder__linear-loader-primary: var(--vf-accent-primary);
+  --vuefinder__linear-loader-bg: var(--vf-accent-secondary);
 
   @apply absolute top-0 right-0 left-0 h-0.5;
   --vuefinder__linear-loader-gradient: no-repeat

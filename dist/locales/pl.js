@@ -93,9 +93,6 @@ export default {
   "Download doesn't work? You can try right-click 'Download' button, select 'Save link as...'.":
     "Pobieranie nie działa? Możesz spróbować kliknąć prawym przyciskiem na przycisk 'Pobierz', wybrać 'Zapisz link jako...'.",
   Theme: 'Motyw',
-  Dark: 'Ciemny',
-  Light: 'Jasny',
-  System: 'System',
   'Target Directory': 'Docelowy katalog',
   Select: 'Wybierz',
   'Compact list view': 'Widok listy w formacie kompaktowym',

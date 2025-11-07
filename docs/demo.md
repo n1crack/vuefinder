@@ -9,11 +9,11 @@ import { ref, watch, onMounted } from 'vue'
 const baseURL = ref("http://vuefinder-api-php.test/api/files")
 const driver = ref(null)
 const selectedFiles = ref([])
-const currentTheme = ref('light')
+const currentTheme = ref('silver')
 const themes = ref([
-  { value: 'light', label: 'Default' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
+  { value: 'silver', label: 'Default' },
+  { value: 'silver', label: 'Silver' },
+  { value: 'valorite', label: 'Valorite' },
   { value: 'midnight', label: 'Midnight' },
   { value: 'latte', label: 'Latte' },
   { value: 'rose', label: 'Rose' },

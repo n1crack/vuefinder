@@ -8,9 +8,9 @@ VueFinder includes 12 beautiful themes to match your application's design.
 
 ## Available Themes
 
-- **light** - Light theme (default)
+- **silver** - Silver theme (default)
 
-- **dark** - Dark theme
+- **valorite** - Valorite theme
 
 - **midnight** - Deep dark theme
 
@@ -38,7 +38,7 @@ Set the theme via the `config` prop:
 
 ```vue
 <template>
-  <vue-finder id="themed" :driver="driver" :config="{ theme: 'dark' }" />
+  <vue-finder id="themed" :driver="driver" :config="{ theme: 'valorite' }" />
 </template>
 ```
 
@@ -59,22 +59,22 @@ Users can switch themes at runtime if the `theme` feature is enabled:
 <script setup>
 import { ref } from 'vue';
 
-const currentTheme = ref('light');
+const currentTheme = ref('silver');
 </script>
 ```
 
 ## Examples
 
-### Light Theme
+### Silver Theme
 
 ```vue
-<vue-finder :config="{ theme: 'light' }" />
+<vue-finder :config="{ theme: 'silver' }" />
 ```
 
-### Dark Theme
+### Valorite Theme
 
 ```vue
-<vue-finder :config="{ theme: 'dark' }" />
+<vue-finder :config="{ theme: 'valorite' }" />
 ```
 
 ### Midnight Theme
@@ -88,8 +88,8 @@ const currentTheme = ref('light');
 ```vue
 <template>
   <div>
-    <vue-finder id="light-instance" :driver="driver" :config="{ theme: 'light' }" />
-    <vue-finder id="dark-instance" :driver="driver" :config="{ theme: 'dark' }" />
+    <vue-finder id="silver-instance" :driver="driver" :config="{ theme: 'silver' }" />
+    <vue-finder id="valorite-instance" :driver="driver" :config="{ theme: 'valorite' }" />
   </div>
 </template>
 ```

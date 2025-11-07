@@ -24,7 +24,7 @@ const configState: StoreValue<ConfigState> = useStore(config.state);
 // Selected theme computed
 const selectedTheme = computed<Theme>(() => {
   const stored = configState.value.theme;
-  return stored || 'light';
+  return stored || 'silver';
 });
 
 const clearLocalStorage = async () => {

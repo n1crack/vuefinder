@@ -73,7 +73,7 @@ VueFinder requires a backend that implements the VueFinder API. For VueFinder 4.
     :driver="driver"
     locale="en"
     :config="{
-      theme: 'light',
+      theme: 'silver',
       maxFileSize: '10mb',
       persist: true,
       fullScreen: false,

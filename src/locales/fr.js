@@ -97,9 +97,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'Le téléchargement ne fonctionne pas? Vous pouvez essayer de cliquer avec le bouton droit sur le bouton "Télécharger", puis sélectionner "Enregistrer le lien sous...".',
   Theme: 'Thème',
-  Dark: 'Sombre',
-  Light: 'Clair',
-  System: 'Système',
   'Target Directory': 'Répertoire cible',
   Select: 'Sélectionner',
   'Compact list view': 'Vue en liste compacte',

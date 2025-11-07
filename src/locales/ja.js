@@ -95,9 +95,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'ダウンロードが機能しませんか？「ダウンロード」ボタンを右クリックして「リンクを名前を付けて保存...」を選択してみてください。',
   Theme: 'テーマ',
-  Dark: 'ダーク',
-  Light: 'ライト',
-  System: 'システム',
   'Target Directory': 'ターゲットディレクトリ',
   Select: '選択',
   'Compact list view': 'コンパクトリスト表示',

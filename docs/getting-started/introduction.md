@@ -74,7 +74,7 @@ Version 3.0 was skipped for organizational reasons. VueFinder 4.0 represents a s
 
 - **Vue 3 Compatible** - Built from the ground up for Vue 3
 - **TypeScript Support** - Comprehensive type definitions included
-- **Multiple Themes** - 12 beautiful themes: light, dark, midnight, latte, rose, mythril, lime, sky, ocean, palenight, arctic, code
+- **Multiple Themes** - 12 beautiful themes: silver, valorite, midnight, latte, rose, mythril, lime, sky, ocean, palenight, arctic, code
 - **Multi-language Support** - 17 languages: en, tr, ru, de, es, fr, it, ja, nl, pl, pt, sv, ar, fa, he, hi, zhCN, zhTW
 - **Flexible Features System** - Enable or disable features as needed
 - **Local and Remote Drivers** - Support for both in-memory and HTTP API backends

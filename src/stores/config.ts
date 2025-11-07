@@ -61,7 +61,7 @@ export type ConfigDefaults = Partial<ConfigState>;
 
 const DEFAULT_PERSISTENCE_STATE: PersistenceConfigState = {
   view: 'grid',
-  theme: 'light',
+  theme: 'silver',
   fullScreen: false,
   showTreeView: false,
   showHiddenFiles: true,
@@ -85,10 +85,10 @@ const NON_PERSISTENCE_KEYS = new Set<keyof NonPersistenceConfigState>(
 );
 
 /**
- * Normalizes theme value to ensure it defaults to 'light' if not provided or undefined
+ * Normalizes theme value to ensure it defaults to 'silver' if not provided or undefined
  */
 function normalizeTheme(theme: Theme | undefined | null): Theme {
-  return theme || 'light';
+  return theme || 'silver';
 }
 
 /**

@@ -10,7 +10,7 @@ A simple file manager with basic functionality:
 <template>
   <div class="file-manager">
     <h2>My File Manager</h2>
-    <vue-finder id="basic_manager" :request="backendUrl" locale="en" theme="light" />
+    <vue-finder id="basic_manager" :request="backendUrl" locale="en" theme="silver" />
   </div>
 </template>
 

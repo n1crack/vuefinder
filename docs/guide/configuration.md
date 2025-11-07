@@ -16,7 +16,7 @@ All configuration options are passed via the `config` prop:
   :driver="driver"
   :config="{
     view: 'grid',
-    theme: 'dark',
+    theme: 'valorite',
     persist: true,
   }"
 />
@@ -27,7 +27,7 @@ All configuration options are passed via the `config` prop:
 | Property           | Type                               | Default      | Description                                                 |
 | ------------------ | ---------------------------------- | ------------ | ----------------------------------------------------------- |
 | `view`             | `'grid' \| 'list'`                 | `'grid'`     | View mode: grid or list                                     |
-| `theme`            | `Theme`                            | `'light'`    | Theme name (see [Theming](./theming.md))                    |
+| `theme`            | `Theme`                            | `'silver'`    | Theme name (see [Theming](./theming.md))                    |
 | `fullScreen`       | `boolean`                          | `false`      | Start in full-screen mode                                   |
 | `showTreeView`     | `boolean`                          | `false`      | Show sidebar tree view                                      |
 | `showHiddenFiles`  | `boolean`                          | `true`       | Show hidden files                                           |
@@ -51,7 +51,7 @@ All configuration options are passed via the `config` prop:
     :driver="driver"
     :config="{
       view: 'grid',
-      theme: 'light',
+      theme: 'silver',
       persist: false,
     }"
   />
@@ -67,7 +67,7 @@ All configuration options are passed via the `config` prop:
     :driver="driver"
     :config="{
       view: 'list',
-      theme: 'dark',
+      theme: 'valorite',
       fullScreen: false,
       showTreeView: true,
       showHiddenFiles: false,

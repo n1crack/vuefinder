@@ -93,9 +93,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'डाउनलोड काम नहीं करता? आप सीधे दायाँ क्लिक करके "डाउनलोड" बटन पर क्लिक करके "लिंक को सहेजें..." चुन सकते हैं।',
   Theme: 'थीम',
-  Dark: 'डार्क',
-  Light: 'लाइट',
-  System: 'सिस्टम',
   'Target Directory': 'लक्षित निर्देशिका',
   Select: 'चयन',
   'Compact list view': 'संक्षिप्त सूची दृश्य',

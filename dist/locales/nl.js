@@ -95,9 +95,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     "Werkt downloaden niet? Klik met de rechtermuisknop op de knop 'Downloaden' en selecteer 'Link opslaan als...'.",
   Theme: 'Thema',
-  Dark: 'Donker',
-  Light: 'Licht',
-  System: 'Systeem',
   'Target Directory': 'Doelmap',
   Select: 'Selecteren',
   'Compact list view': 'Compacte lijstweergave',

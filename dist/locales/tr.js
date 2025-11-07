@@ -91,9 +91,6 @@ export default {
   'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".':
     'Download çalışmıyor mu?  "İndir" düğmesine sağ tıklayarak, "Farklı kaydet..." seçebilirsiniz.',
   Theme: 'Tema',
-  Dark: 'Koyu',
-  Light: 'Açık',
-  System: 'Sistem',
   'Target Directory': 'Hedef Klasör',
   Select: 'Seç',
   'Compact list view': 'Kompakt liste görünümü',

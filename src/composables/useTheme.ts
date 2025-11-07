@@ -17,8 +17,8 @@ export function useTheme(configStore: ConfigStore) {
   // Computed current theme - reacts to configStore changes
   const current: ComputedRef<Theme> = computed<Theme>(() => {
     const stored = configState.value.theme;
-    // Theme is always defined in config (defaults to 'light'), so just use it
-    return stored || 'light';
+    // Theme is always defined in config (defaults to 'silver'), so just use it
+    return stored || 'silver';
   });
 
   // Set theme function

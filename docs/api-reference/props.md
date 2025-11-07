@@ -48,7 +48,7 @@ Configuration object. See [Configuration](../guide/configuration.md) for all opt
 <vue-finder
   :config="{
     view: 'grid',
-    theme: 'dark',
+    theme: 'valorite',
     persist: true,
   }"
 />
