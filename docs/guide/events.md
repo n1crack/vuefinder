@@ -126,18 +126,34 @@ Emitted when a file is double-clicked:
 </template>
 
 <script setup>
-const handleFileDclick = (file) => {
+const handleFileDclick = (event) => {
+  const file = event.item;
   console.log('File double-clicked:', file);
+  
   // Custom behavior
+  // ...
+  
+  // Prevent default preview behavior
+  event.preventDefault();
+  
+  // Or allow default behavior by not calling preventDefault()
 };
 </script>
 ```
 
-**Payload:** `DirEntry` - The file that was double-clicked
+**Payload:** `CancelableDclickEvent` - Cancelable event object containing:
+- `item: DirEntry` - The file that was double-clicked
+- `defaultPrevented: boolean` - Whether the default behavior was prevented
+- `preventDefault(): void` - Method to prevent the default behavior
 
-::: tip Custom Behavior
+::: tip Cancelable Events
 
-When you provide a `@file-dclick` handler, it overrides the default behavior (opening preview). You can implement your own logic, such as downloading the file or opening it in an external application.
+When you provide a `@file-dclick` handler, you can control whether the default preview behavior executes:
+
+- **Call `event.preventDefault()`** to prevent the default behavior and implement your own logic
+- **Don't call `event.preventDefault()`** to allow the default preview behavior to continue after your custom logic
+
+This allows you to add custom behavior while still allowing the default preview to work if needed.
 
 :::
 
@@ -151,18 +167,34 @@ Emitted when a folder is double-clicked:
 </template>
 
 <script setup>
-const handleFolderDclick = (folder) => {
+const handleFolderDclick = (event) => {
+  const folder = event.item;
   console.log('Folder double-clicked:', folder);
+  
   // Custom behavior
+  // ...
+  
+  // Prevent default navigation behavior
+  event.preventDefault();
+  
+  // Or allow default behavior by not calling preventDefault()
 };
 </script>
 ```
 
-**Payload:** `DirEntry` - The folder that was double-clicked
+**Payload:** `CancelableDclickEvent` - Cancelable event object containing:
+- `item: DirEntry` - The folder that was double-clicked
+- `defaultPrevented: boolean` - Whether the default behavior was prevented
+- `preventDefault(): void` - Method to prevent the default behavior
 
-::: tip Custom Behavior
+::: tip Cancelable Events
 
-When you provide a `@folder-dclick` handler, it overrides the default behavior (navigating into the folder). You can implement your own logic, such as showing folder information or adding it to favorites.
+When you provide a `@folder-dclick` handler, you can control whether the default navigation behavior executes:
+
+- **Call `event.preventDefault()`** to prevent the default behavior and implement your own logic
+- **Don't call `event.preventDefault()`** to allow the default navigation behavior to continue after your custom logic
+
+This allows you to add custom behavior while still allowing the default navigation to work if needed.
 
 :::
 
@@ -209,12 +241,15 @@ const handleReady = () => {
   console.log('Ready!');
 };
 
-const handleFileDclick = (file) => {
-  console.log('File:', file);
+const handleFileDclick = (event) => {
+  console.log('File:', event.item);
+  // Prevent default preview behavior
+  event.preventDefault();
 };
 
-const handleFolderDclick = (folder) => {
-  console.log('Folder:', folder);
+const handleFolderDclick = (event) => {
+  console.log('Folder:', event.item);
+  // Allow default navigation behavior by not calling preventDefault()
 };
 </script>
 ```

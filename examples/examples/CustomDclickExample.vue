@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Driver } from '../../src/adapters';
+import type { CancelableDclickEvent } from '../../src/types';
 
 interface Props {
   driver: Driver;
@@ -20,23 +21,24 @@ const addCustomDclickLog = (type: string, message: string) => {
   });
 };
 
-const onCustomFileDclick = (item: {
-  basename: string;
-  path: string;
-  file_size?: number;
-  mime_type?: string;
-}) => {
+const onCustomFileDclick = (event: CancelableDclickEvent) => {
+  const item = event.item;
   addCustomDclickLog('file-dclick', `Custom file double-click: ${item.basename}`);
   alert(
     `Custom File Double-Click!\n\nFile: ${item.basename}\nPath: ${item.path}\nSize: ${item.file_size ? (item.file_size / 1024).toFixed(2) + ' KB' : 'Unknown'}\nType: ${item.mime_type || 'Unknown'}`
   );
+  // Prevent default preview behavior
+  event.preventDefault();
 };
 
-const onCustomFolderDclick = (item: { basename: string; path: string; storage?: string }) => {
+const onCustomFolderDclick = (event: CancelableDclickEvent) => {
+  const item = event.item;
   addCustomDclickLog('folder-dclick', `Custom folder double-click: ${item.basename}`);
   alert(
     `Custom Folder Double-Click!\n\nFolder: ${item.basename}\nPath: ${item.path}\nStorage: ${item.storage}`
   );
+  // Prevent default navigation behavior
+  event.preventDefault();
 };
 
 const clearCustomDclickLog = () => {

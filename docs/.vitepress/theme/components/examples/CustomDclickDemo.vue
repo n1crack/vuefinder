@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { RemoteDriver } from 'vuefinder';
-import type { Driver } from 'vuefinder';
+import type { Driver, CancelableDclickEvent } from 'vuefinder';
 
 const driver = ref<Driver | null>(null);
 const customDclickLog = ref<Array<{ type: string; message: string; timestamp: string }>>([]);
@@ -61,16 +61,23 @@ const addCustomDclickLog = (type: string, message: string) => {
   });
 };
 
-const onCustomFileDclick = (item) => {
+const onCustomFileDclick = (event: CancelableDclickEvent) => {
+    console.log(event);
+  const item = event.item;
   addCustomDclickLog('file-dclick', `Custom file double-click: ${item.basename}`);
   alert(
     `Custom File Double-Click!\n\nFile: ${item.basename}\nPath: ${item.path}\nSize: ${item.file_size ? (item.file_size / 1024).toFixed(2) + ' KB' : 'Unknown'}\nType: ${item.mime_type || 'Unknown'}`
   );
+  // Prevent default preview behavior
+  event.preventDefault();
 };
 
-const onCustomFolderDclick = (item) => {
+const onCustomFolderDclick = (event: CancelableDclickEvent) => {
+  const item = event.item;
   addCustomDclickLog('folder-dclick', `Custom folder double-click: ${item.basename}`);
   alert(`Custom Folder Double-Click!\n\nFolder: ${item.basename}\nPath: ${item.path}`);
+  // Prevent default navigation behavior
+  event.preventDefault();
 };
 
 const clearCustomDclickLog = () => {

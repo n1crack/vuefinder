@@ -121,11 +121,16 @@ const handleReady = () => {
 
 Emitted when a file is double-clicked.
 
-**Payload:** `DirEntry` - The file that was double-clicked
+**Payload:** `CancelableDclickEvent` - Cancelable event object containing the file that was double-clicked
 
-::: tip
+**Event Object:**
+- `item: DirEntry` - The file that was double-clicked
+- `defaultPrevented: boolean` - Whether the default behavior was prevented
+- `preventDefault(): void` - Method to prevent the default behavior
 
-When you provide a `@file-dclick` handler, it overrides the default preview behavior.
+::: tip Cancelable Events
+
+When you provide a `@file-dclick` handler, you can control whether the default preview behavior executes. Call `event.preventDefault()` to prevent the default behavior, or omit it to allow the default behavior to continue.
 
 :::
 
@@ -133,8 +138,17 @@ When you provide a `@file-dclick` handler, it overrides the default preview beha
 <vue-finder @file-dclick="handleFileDclick" />
 
 <script setup>
-const handleFileDclick = (file) => {
+const handleFileDclick = (event) => {
+  // Access the file
+  const file = event.item;
+  
   // Custom file action
+  console.log('File clicked:', file.basename);
+  
+  // Prevent default preview behavior
+  event.preventDefault();
+  
+  // Or allow default behavior by not calling preventDefault()
 };
 </script>
 ```
@@ -143,11 +157,16 @@ const handleFileDclick = (file) => {
 
 Emitted when a folder is double-clicked.
 
-**Payload:** `DirEntry` - The folder that was double-clicked
+**Payload:** `CancelableDclickEvent` - Cancelable event object containing the folder that was double-clicked
 
-::: tip
+**Event Object:**
+- `item: DirEntry` - The folder that was double-clicked
+- `defaultPrevented: boolean` - Whether the default behavior was prevented
+- `preventDefault(): void` - Method to prevent the default behavior
 
-When you provide a `@folder-dclick` handler, it overrides the default navigation behavior.
+::: tip Cancelable Events
+
+When you provide a `@folder-dclick` handler, you can control whether the default navigation behavior executes. Call `event.preventDefault()` to prevent the default behavior, or omit it to allow the default behavior to continue.
 
 :::
 
@@ -155,8 +174,17 @@ When you provide a `@folder-dclick` handler, it overrides the default navigation
 <vue-finder @folder-dclick="handleFolderDclick" />
 
 <script setup>
-const handleFolderDclick = (folder) => {
+const handleFolderDclick = (event) => {
+  // Access the folder
+  const folder = event.item;
+  
   // Custom folder action
+  console.log('Folder clicked:', folder.basename);
+  
+  // Prevent default navigation behavior
+  event.preventDefault();
+  
+  // Or allow default behavior by not calling preventDefault()
 };
 </script>
 ```

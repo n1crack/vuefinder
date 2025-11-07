@@ -17,7 +17,7 @@ import { useSelection } from '../composables/useSelection';
 import SortIcon from './SortIcon.vue';
 import DragItem from './DragItem.vue';
 import FileRow from './FileRow.vue';
-import type { DirEntry, App } from '../types';
+import type { DirEntry, App, CancelableDclickEvent } from '../types';
 import type { Item as ContextMenuItem } from '../utils/contextmenu';
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
 import Toast from './Toast.vue';
@@ -30,8 +30,8 @@ import type { SortState } from '../stores/files';
 import { useApp } from '../composables/useApp';
 
 const props = defineProps<{
-  onFileDclick?: (item: DirEntry) => void;
-  onFolderDclick?: (item: DirEntry) => void;
+  onFileDclick?: (event: CancelableDclickEvent) => void;
+  onFolderDclick?: (event: CancelableDclickEvent) => void;
 }>();
 
 const app = useApp();
@@ -301,16 +301,41 @@ const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
   fs.setSelectedCount(selectedKeys.value?.size || 0);
 };
 
-const openItem = (item: DirEntry) => {
-  // Check if custom handlers are provided
-  if (item.type === 'file' && props.onFileDclick) {
-    app.emitter.emit('vf-file-dclick', item);
-    return;
-  }
+/**
+ * Creates a cancelable event object for double-click handlers
+ */
+function createCancelableEvent(item: DirEntry): CancelableDclickEvent {
+  const event: CancelableDclickEvent = {
+    item,
+    defaultPrevented: false,
+    preventDefault() {
+      this.defaultPrevented = true;
+    },
+  };
+  return event;
+}
 
-  if (item.type === 'dir' && props.onFolderDclick) {
-    app.emitter.emit('vf-folder-dclick', item);
-    return;
+const openItem = (item: DirEntry) => {
+  // Create cancelable event object
+  const event = createCancelableEvent(item);
+
+  // Emit event if custom handlers are provided
+  if (item.type === 'file' && props.onFileDclick) {
+    app.emitter.emit('vf-file-dclick', event);
+    // If default was not prevented, continue with default behavior
+    if (!event.defaultPrevented) {
+      // Fall through to default behavior
+    } else {
+      return; // Default behavior was prevented
+    }
+  } else if (item.type === 'dir' && props.onFolderDclick) {
+    app.emitter.emit('vf-folder-dclick', event);
+    // If default was not prevented, continue with default behavior
+    if (!event.defaultPrevented) {
+      // Fall through to default behavior
+    } else {
+      return; // Default behavior was prevented
+    }
   }
 
   // Default behavior - execute context menu action

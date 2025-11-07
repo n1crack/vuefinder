@@ -96,12 +96,13 @@ app.emitter.on('vf-delete-complete', (deletedItems: unknown) => {
 });
 
 // Listen for custom double-click events
-app.emitter.on('vf-file-dclick', (item: unknown) => {
-  emit('file-dclick', item as DirEntry);
+// Emit the cancelable event object directly to handlers
+app.emitter.on('vf-file-dclick', (event: unknown) => {
+  emit('file-dclick', event);
 });
 
-app.emitter.on('vf-folder-dclick', (item: unknown) => {
-  emit('folder-dclick', item as DirEntry);
+app.emitter.on('vf-folder-dclick', (event: unknown) => {
+  emit('folder-dclick', event);
 });
 
 // Watch for theme changes in config prop
