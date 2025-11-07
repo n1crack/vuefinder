@@ -18,6 +18,7 @@ import SelectionFilterDemo from './components/examples/SelectionFilterDemo.vue';
 import SingleSelectionDemo from './components/examples/SingleSelectionDemo.vue';
 import ExternalSelectDemo from './components/examples/ExternalSelectDemo.vue';
 import StatusBarSelectDemo from './components/examples/StatusBarSelectDemo.vue';
+import ThemeSelectorDemo from './components/examples/ThemeSelectorDemo.vue';
 
 export default {
   extends: DefaultTheme,
@@ -88,6 +89,7 @@ export default {
       app.component('SingleSelectionDemo', SingleSelectionDemo);
       app.component('ExternalSelectDemo', ExternalSelectDemo);
       app.component('StatusBarSelectDemo', StatusBarSelectDemo);
+      app.component('ThemeSelectorDemo', ThemeSelectorDemo);
     }
   },
 } satisfies Theme;

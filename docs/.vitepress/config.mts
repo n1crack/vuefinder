@@ -86,6 +86,8 @@ gtag('config', 'G-6BYQESCJ6R');`
             { text: 'Events', link: '/examples/events-demo' },
             { text: 'Context Menu', link: '/examples/context-menu' },
             { text: 'Memory Driver', link: '/examples/memory-driver' },
+            { text: 'IndexedDB Driver', link: '/examples/indexeddb-driver' },
+            { text: 'Themes', link: '/examples/themes' },
           ],
         },
       ],
