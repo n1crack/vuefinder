@@ -100,8 +100,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick } from 'vue';
-import { RemoteDriver } from 'vuefinder';
-import type { FeaturesConfig, FeaturesPreset, Driver } from 'vuefinder';
+ import type { FeaturesConfig, FeaturesPreset, Driver } from 'vuefinder';
 
 // Type for element with click outside event handler
 interface ElementWithClickOutside extends HTMLElement {
@@ -235,7 +234,8 @@ const resetToPreset = (preset: 'simple' | 'advanced') => {
   closeDropdown();
 };
 
-onMounted(() => {
+onMounted(async () => {
+  const { RemoteDriver } = await import('vuefinder');
   driver.value = new RemoteDriver({
     baseURL: 'http://vuefinder-api-php.test/api/files'
   });

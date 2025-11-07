@@ -23,8 +23,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, defineComponent, h } from 'vue';
-import { RemoteDriver } from 'vuefinder';
-import type { Driver } from 'vuefinder';
+ import type { Driver } from 'vuefinder';
 
 // Define SVG icons as components
 const FolderIcon = defineComponent({
@@ -87,7 +86,8 @@ const ImageIcon = defineComponent({
 
 const driver = ref<Driver | null>(null);
 
-onMounted(() => {
+onMounted(async () => {
+  const { RemoteDriver } = await import('vuefinder');
   driver.value = new RemoteDriver({
     baseURL: 'http://vuefinder-api-php.test/api/files'
   });

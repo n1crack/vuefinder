@@ -47,8 +47,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { RemoteDriver } from 'vuefinder';
-import type { Driver, ItemDclickEvent } from 'vuefinder';
+ import type { Driver, ItemDclickEvent } from 'vuefinder';
 
 const driver = ref<Driver | null>(null);
 const customDclickLog = ref<Array<{ type: string; message: string; timestamp: string }>>([]);
@@ -84,7 +83,8 @@ const clearCustomDclickLog = () => {
   customDclickLog.value = [];
 };
 
-onMounted(() => {
+onMounted(async () => {
+  const { RemoteDriver } = await import('vuefinder');
   driver.value = new RemoteDriver({
     baseURL: 'http://vuefinder-api-php.test/api/files'
   });

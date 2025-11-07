@@ -156,6 +156,9 @@ export type {
   UpdatePathEvent,
 } from './types';
 
+// Export context menu item type
+export type { Item } from './utils/contextmenu';
+
 // Type exports from adapters/types.ts
 export type {
   Driver,

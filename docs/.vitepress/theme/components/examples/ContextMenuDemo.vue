@@ -17,32 +17,33 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { RemoteDriver, contextMenuItems } from 'vuefinder';
-import type { Driver } from 'vuefinder';
+import type { Driver, Item } from 'vuefinder';
 
 const driver = ref<Driver | null>(null);
+const customContextMenuItems = ref<Item[]>([]);
 
-const customContextMenuItems = [
-  ...contextMenuItems,
-  {
-    id: 'loginfo',
-    title: () => 'Log Info',
-    action: (app, selectedItems) => {
-      const info = selectedItems.map(
-        (i) => `Name: ${i.basename}, Type: ${i.type}, Path: ${i.path}`
-      );
-      console.log(selectedItems.length + ' item(s) selected:\n', info.join('\n'));
-      console.log(selectedItems);
-      alert(JSON.stringify(selectedItems));
-    },
-    show: () => true,
-  },
-];
-
-onMounted(() => {
+onMounted(async () => {
+  const { RemoteDriver, contextMenuItems } = await import('vuefinder');
   driver.value = new RemoteDriver({
     baseURL: 'http://vuefinder-api-php.test/api/files'
   });
+  
+  customContextMenuItems.value = [
+    ...contextMenuItems,
+    {
+      id: 'loginfo',
+      title: () => 'Log Info',
+      action: (app, selectedItems) => {
+        const info = selectedItems.map(
+          (i) => `Name: ${i.basename}, Type: ${i.type}, Path: ${i.path}`
+        );
+        console.log(selectedItems.length + ' item(s) selected:\n', info.join('\n'));
+        console.log(selectedItems);
+        alert(JSON.stringify(selectedItems));
+      },
+      show: () => true,
+    },
+  ];
 });
 </script>
 

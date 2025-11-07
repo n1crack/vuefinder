@@ -16,12 +16,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { IndexedDBDriver } from 'vuefinder';
-import type { Driver } from 'vuefinder';
+ import type { Driver } from 'vuefinder';
 
 const driver = ref<Driver | null>(null);
 
-onMounted(() => {
+onMounted(async () => {
+  const { IndexedDBDriver } = await import('vuefinder');
   driver.value = new IndexedDBDriver({
     dbName: 'vuefinder-demo',
     storage: 'indexeddb',

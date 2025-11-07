@@ -108,8 +108,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { RemoteDriver } from 'vuefinder';
-import type { Driver, DirEntry } from 'vuefinder';
+ import type { Driver, DirEntry } from 'vuefinder';
 
 const driver = ref<Driver | null>(null);
 const selectionFilterType = ref<'files' | 'dirs' | 'both'>('both');
@@ -137,7 +136,8 @@ const removeMimeFilter = (mimeType: string) => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
+  const { RemoteDriver } = await import('vuefinder');
   driver.value = new RemoteDriver({
     baseURL: 'http://vuefinder-api-php.test/api/files'
   });

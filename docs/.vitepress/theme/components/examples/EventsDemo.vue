@@ -82,8 +82,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { RemoteDriver } from 'vuefinder';
-import type { Driver, DirEntry } from 'vuefinder';
+ import type { Driver, DirEntry } from 'vuefinder';
 
 const driver = ref<Driver | null>(null);
 const eventLog = ref<Array<{ type: string; message: string; timestamp: string; count?: number }>>([]);
@@ -164,7 +163,8 @@ const clearEventLog = () => {
   eventLog.value = [];
 };
 
-onMounted(() => {
+onMounted(async () => {
+  const { RemoteDriver } = await import('vuefinder');
   driver.value = new RemoteDriver({
     baseURL: 'http://vuefinder-api-php.test/api/files'
   });
