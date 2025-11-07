@@ -473,10 +473,6 @@ onMounted(async () => {
   flex-direction: column;
   flex: 1;
   height: 340px;
-  background: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 8px;
-  overflow: hidden;
 }
 
 @media (max-width: 768px) {

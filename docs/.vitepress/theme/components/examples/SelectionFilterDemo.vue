@@ -152,10 +152,6 @@ onMounted(async () => {
 }
 
 .selection-filter-demo__viewer {
-  background: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-border);
-  border-radius: 8px;
-  overflow: hidden;
   height: 340px;
 }
 
