@@ -1,5 +1,5 @@
 .vuefinder__message {
-  @apply mt-2 flex rounded p-1 px-2 text-sm break-all dark:opacity-75;
+  @apply mt-2 flex rounded p-1 px-2 text-sm break-all;
 }
 
 .vuefinder__message--error {

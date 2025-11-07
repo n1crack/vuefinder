@@ -62,7 +62,7 @@
 
 /* Focus states for accessibility */
 .vuefinder__preview-modal__nav-side:focus {
-  @apply ring-2 ring-blue-500 ring-offset-2 outline-none dark:ring-offset-gray-900;
+  @apply ring-2 ring-blue-500 ring-offset-2 outline-none;
 }
 
 /* Disable focus outline for modal content */
