@@ -1,5 +1,4 @@
 import ModalMove from '../components/modals/ModalMove.vue';
-import { dirname } from '../utils/path';
 import type { App, DirEntry, DirEntryType } from '../types';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
@@ -21,6 +20,42 @@ export function useDragNDrop(app: App, classList: string[] = []) {
   // Make selectedItems reactive
   const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
 
+  function isInvalidDropTarget(target: DragNDropItem, draggedPath: string): boolean {
+    // Target is missing
+    if (!target) {
+      return true;
+    }
+
+    // Target is not a directory
+    if (target.type !== 'dir') {
+      return true;
+    }
+
+    // Dragging onto itself, or a parent of the dragged item
+    if (target.path.startsWith(draggedPath)) {
+      return true;
+    }
+
+    const hasConflictingSelection = selectedItems.value.some((item: DirEntry) => {
+      // the dragged item is one of the selected items, then that means we are dragging multiple items to a target
+      if (item.path === draggedPath) {
+        return false;
+      }
+      // the target is a child of the selected item
+      if (target.path.startsWith(item.path)) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (hasConflictingSelection) {
+      return true;
+    }
+
+    return false;
+  }
+
   function handleDragOver(e: DragNDropEvent, target: DragNDropItem) {
     // Skip if this is an external drag
     if (e.isExternalDrag) {
@@ -39,16 +74,9 @@ export function useDragNDrop(app: App, classList: string[] = []) {
 
     e.preventDefault();
 
-    const selfTarget = fs.getDraggedItem() === target.path;
+    const draggedPath = fs.getDraggedItem() as string;
 
-    if (
-      selfTarget ||
-      !target ||
-      target.type !== 'dir' ||
-      selectedItems.value.some(
-        (item: DirEntry) => item.path === target.path || dirname(item.path) === target.path
-      )
-    ) {
+    if (isInvalidDropTarget(target, draggedPath)) {
       if (e.dataTransfer) {
         e.dataTransfer.dropEffect = 'none';
         e.dataTransfer.effectAllowed = 'none';
