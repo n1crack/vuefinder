@@ -4,7 +4,7 @@ outline: deep
 
 # OpenAPI Specification
 
-The VueFinder RemoteDriver API is fully specified using OpenAPI 3.1. This specification defines the contract that backend implementations must follow to work with VueFinder's RemoteDriver.
+The VueFinder RemoteDriver API is fully specified using OpenAPI 3.0.3. This specification defines the contract that backend implementations must follow to work with VueFinder's RemoteDriver.
 
 ## Interactive API Documentation
 
@@ -24,7 +24,7 @@ When working locally, you can also:
 
 ## Download Specification
 
-- [OpenAPI 3.1 YAML](/api-reference/openapi.yaml) - Download the raw OpenAPI specification file
+- [OpenAPI 3.0.3 YAML](/api-reference/openapi.yaml) - Download the raw OpenAPI specification file
 
 ## Using the Specification
 
@@ -50,20 +50,20 @@ The RemoteDriver in VueFinder already implements this contract. You can:
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/files` | List files and folders |
-| `POST` | `/files/upload` | Upload files |
-| `POST` | `/files/delete` | Delete files or folders |
-| `POST` | `/files/rename` | Rename a file or folder |
-| `POST` | `/files/copy` | Copy files or folders |
-| `POST` | `/files/move` | Move files or folders |
-| `POST` | `/files/archive` | Create a zip archive |
-| `POST` | `/files/unarchive` | Extract files from archive |
-| `POST` | `/files/create-file` | Create a new file |
-| `POST` | `/files/create-folder` | Create a new folder |
-| `GET` | `/files/preview` | Get file preview |
-| `GET` | `/files/download` | Download a file |
-| `GET` | `/files/search` | Search for files |
-| `POST` | `/files/save` | Save content to file |
+| `GET` | `/` | List files and folders |
+| `POST` | `/upload` | Upload files |
+| `POST` | `/delete` | Delete files or folders |
+| `POST` | `/rename` | Rename a file or folder |
+| `POST` | `/copy` | Copy files or folders |
+| `POST` | `/move` | Move files or folders |
+| `POST` | `/archive` | Create a zip archive |
+| `POST` | `/unarchive` | Extract files from archive |
+| `POST` | `/create-file` | Create a new file |
+| `POST` | `/create-folder` | Create a new folder |
+| `GET` | `/preview` | Get file preview |
+| `GET` | `/download` | Download a file |
+| `GET` | `/search` | Search for files |
+| `POST` | `/save` | Save content to file |
 
 ### Authentication
 
@@ -96,20 +96,20 @@ The base URL is configurable when creating a RemoteDriver:
 const driver = new RemoteDriver({
   baseURL: '/api',  // Your API base URL
   url: {
-    list: '/files',           // GET /api/files
-    upload: '/files/upload',  // POST /api/files/upload
-    delete: '/files/delete',  // POST /api/files/delete
-    rename: '/files/rename',  // POST /api/files/rename
-    copy: '/files/copy',      // POST /api/files/copy
-    move: '/files/move',      // POST /api/files/move
-    archive: '/files/archive',      // POST /api/files/archive
-    unarchive: '/files/unarchive',  // POST /api/files/unarchive
-    createFile: '/files/create-file',    // POST /api/files/create-file
-    createFolder: '/files/create-folder', // POST /api/files/create-folder
-    preview: '/files/preview',     // GET /api/files/preview
-    download: '/files/download',   // GET /api/files/download
-    search: '/files/search',       // GET /api/files/search
-    save: '/files/save',          // POST /api/files/save
+    list: '/',           // GET {baseUrl}/
+    upload: '/upload',  // POST {baseUrl}/upload
+    delete: '/delete',  // POST {baseUrl}/delete
+    rename: '/rename',  // POST {baseUrl}/rename
+    copy: '/copy',      // POST {baseUrl}/copy
+    move: '/move',      // POST {baseUrl}/move
+    archive: '/archive',      // POST {baseUrl}/archive
+    unarchive: '/unarchive',  // POST {baseUrl}/unarchive
+    createFile: '/create-file',    // POST {baseUrl}/create-file
+    createFolder: '/create-folder', // POST {baseUrl}/create-folder
+    preview: '/preview',     // GET {baseUrl}/preview
+    download: '/download',   // GET {baseUrl}/download
+    search: '/search',       // GET {baseUrl}/search
+    save: '/save',          // POST {baseUrl}/save
   },
 });
 ```
@@ -121,8 +121,10 @@ Here's a minimal example of what a backend endpoint should return:
 ### List Files Request
 
 ```
-GET /api/files?path=local://uploads
+GET {baseUrl}/?path=local://uploads
 ```
+
+Note: `{baseUrl}` is typically `http://localhost:8000/api/files` (configurable)
 
 ### List Files Response
 
@@ -151,7 +153,7 @@ GET /api/files?path=local://uploads
 ### Delete Request
 
 ```
-POST /api/files/delete?path=local://uploads
+POST {baseUrl}/delete?path=local://uploads
 Content-Type: application/json
 
 {
@@ -164,25 +166,99 @@ Content-Type: application/json
 }
 ```
 
+Note: This endpoint uses POST method instead of DELETE to support request body with items array, as required by the RemoteDriver implementation.
+
+Note: `{baseUrl}` is typically `http://localhost:8000/api/files` (configurable)
+
 ### Delete Response
+
+Note: Delete endpoint returns the updated file list (same format as list endpoint), not a list of deleted items.
 
 ```json
 {
-  "deleted": [
+  "storages": ["local"],
+  "dirname": "local://uploads",
+  "read_only": false,
+  "files": [
     {
       "dir": "local://uploads",
-      "basename": "file.txt",
+      "basename": "remaining-file.txt",
       "extension": "txt",
-      "path": "local://uploads/file.txt",
+      "path": "local://uploads/remaining-file.txt",
       "storage": "local",
       "type": "file",
-      "file_size": 1024,
+      "file_size": 2048,
       "last_modified": 1699123456,
       "mime_type": "text/plain",
       "visibility": "public"
     }
   ]
 }
+```
+
+### Upload Request
+
+```
+POST {baseUrl}/upload?path=local://uploads
+Content-Type: multipart/form-data
+
+file: [binary file data]
+```
+
+### Upload Response
+
+Returns empty JSON object on success.
+
+```json
+{}
+```
+
+### Search Request
+
+```
+GET {baseUrl}/search?path=local://uploads&filter=*.pdf&deep=true&size=large
+```
+
+### Search Response
+
+```json
+{
+  "dirname": "local://uploads",
+  "storages": ["local"],
+  "files": [
+    {
+      "dir": "local://uploads",
+      "basename": "document1.pdf",
+      "extension": "pdf",
+      "path": "local://uploads/document1.pdf",
+      "storage": "local",
+      "type": "file",
+      "file_size": 2048,
+      "last_modified": 1699123456,
+      "mime_type": "application/pdf",
+      "visibility": "public"
+    }
+  ]
+}
+```
+
+### Save Request
+
+```
+POST {baseUrl}/save?path=local://uploads/file.txt
+Content-Type: application/json
+
+{
+  "content": "Hello, World!\nThis is the file content."
+}
+```
+
+### Save Response
+
+Returns file content as binary stream (same as preview endpoint), not JSON.
+
+```
+[Binary file content]
 ```
 
 ## Related Documentation

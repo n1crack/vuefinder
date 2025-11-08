@@ -401,11 +401,13 @@ paths:
                   description: File to upload
       responses:
         '200':
-          description: Files uploaded successfully
+          description: Files uploaded successfully. Returns empty JSON response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FileOperationResult'
+                type: object
+                description: Empty response object
+              example: {}
         '400':
           description: Bad request (invalid file, path, etc.)
           content:
@@ -436,7 +438,7 @@ paths:
       tags:
         - Files
       summary: Delete files or folders
-      description: "Delete one or more files or folders from the specified path. Note: Using POST instead of DELETE to support request body with items array."
+      description: Delete one or more files or folders from the specified path.
       operationId: deleteFiles
       parameters:
         - name: path
@@ -460,11 +462,26 @@ paths:
                   type: "dir"
       responses:
         '200':
-          description: Items deleted successfully
+          description: Items deleted successfully. Returns updated file list (same format as list endpoint).
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeleteResult'
+                $ref: '#/components/schemas/FileOperationResult'
+              example:
+                storages: ["local"]
+                dirname: "local://uploads"
+                read_only: false
+                files:
+                  - dir: "local://uploads"
+                    basename: "remaining-file.txt"
+                    extension: "txt"
+                    path: "local://uploads/remaining-file.txt"
+                    storage: "local"
+                    type: "file"
+                    file_size: 2048
+                    last_modified: 1699123456
+                    mime_type: "text/plain"
+                    visibility: "public"
         '400':
           description: Bad request
           content:
@@ -991,13 +1008,27 @@ paths:
               schema:
                 type: object
                 required:
+                  - dirname
                   - files
+                  - storages
                 properties:
+                  dirname:
+                    type: string
+                    description: Base search directory path
+                    example: "local://uploads"
                   files:
                     type: array
                     items:
                       $ref: '#/components/schemas/DirEntry'
+                  storages:
+                    type: array
+                    items:
+                      type: string
+                    description: Available storage identifiers
+                    example: ["local"]
               example:
+                dirname: "local://uploads"
+                storages: ["local"]
                 files:
                   - dir: "local://uploads"
                     basename: "document1.pdf"
@@ -1047,13 +1078,16 @@ paths:
               content: "Hello, World!\nThis is the file content."
       responses:
         '200':
-          description: File saved successfully
+          description: File saved successfully. Returns file content as binary stream (same as preview endpoint).
           content:
-            application/json:
+            text/plain:
               schema:
                 type: string
-                description: Saved file path
-                example: "local://uploads/file.txt"
+                example: "File content here"
+            '*/*':
+              schema:
+                type: string
+                format: binary
         '400':
           description: Bad request (invalid path, content, etc.)
           content:
