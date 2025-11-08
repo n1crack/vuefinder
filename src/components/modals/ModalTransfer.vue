@@ -2,21 +2,23 @@
 import { computed, inject, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
-// import {useStore} from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
 import MoveSVG from '../../assets/icons/move.svg';
+import CopySVG from '../../assets/icons/copy.svg';
 import ModalTreeSelector from './ModalTreeSelector.vue';
+import Message from '../../components/Message.vue';
 import type { DirEntry } from '../../types';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
+import FolderSVG from '../../assets/icons/folder.svg';
+import FileSVG from '../../assets/icons/file.svg';
 
 const app = useApp();
 const { enabled } = useFeature();
 const { t } = app.i18n;
-// const fs = app.fs;
-// const currentPath = useStore(fs.path);
+
 const props = defineProps<{
   copy: boolean;
 }>();
@@ -53,6 +55,62 @@ const selectDestinationFolderAndClose = (folder: DirEntry | null) => {
   }
 };
 
+// Check if destination is invalid based on items
+const isInvalidDestination = computed(() => {
+  const dest = destination.value;
+
+  // Destination is missing
+  if (!dest) {
+    return true;
+  }
+
+  // Check if destination is invalid for any item
+  return items.value.some((item: DirEntry) => {
+    // Destination is the item itself
+    if (dest.path === item.path) {
+      return true;
+    }
+
+    // Item is a child of destination (cannot move item into its parent)
+    if (item.path.startsWith(dest.path + '/')) {
+      return true;
+    }
+
+    // If item is a directory, destination cannot be a child of it
+    if (item.type === 'dir' && dest.path.startsWith(item.path + '/')) {
+      return true;
+    }
+
+    return false;
+  });
+});
+
+const invalidDestinationMessage = computed(() => {
+  if (!isInvalidDestination.value) {
+    return '';
+  }
+
+  const dest = destination.value;
+  if (!dest) {
+    return t('Please select a destination directory');
+  }
+
+  // Find which item is causing the conflict
+  const conflictingItem = items.value.find((item: DirEntry) => {
+    return (
+      dest.path === item.path ||
+      item.path.startsWith(dest.path + '/') ||
+      (item.type === 'dir' && dest.path.startsWith(item.path + '/'))
+    );
+  });
+
+  if (conflictingItem) {
+    return t('Cannot move/copy item to itself or its parent/child directory');
+  }
+
+  return t('Invalid destination directory');
+});
+
 // Simple function to split storage and path
 const getDestinationParts = () => {
   const path = destination.value.path;
@@ -87,42 +145,17 @@ const transfer = async () => {
 <template>
   <ModalLayout>
     <div>
-      <ModalHeader :icon="MoveSVG" :title="title"></ModalHeader>
+      <ModalHeader :icon="createCopy ? CopySVG : MoveSVG" :title="title"></ModalHeader>
       <div class="vuefinder__move-modal__content">
         <p class="vuefinder__move-modal__description">{{ body }}</p>
         <div class="vuefinder__move-modal__files vf-scrollbar">
           <div v-for="node in items" :key="node.path" class="vuefinder__move-modal__file">
             <div>
-              <svg
+              <FolderSVG
                 v-if="node.type === 'dir'"
                 class="vuefinder__move-modal__icon vuefinder__move-modal__icon--dir"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="1"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                />
-              </svg>
-              <svg
-                v-else
-                class="vuefinder__move-modal__icon"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="1"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                />
-              </svg>
+              />
+              <FileSVG v-else class="vuefinder__move-modal__icon" />
             </div>
             <div class="vuefinder__move-modal__file-name">{{ node.path }}</div>
           </div>
@@ -173,12 +206,22 @@ const transfer = async () => {
           </label>
         </div>
 
-        <message v-if="message.length" error @hidden="message = ''">{{ message }}</message>
+        <Message v-if="invalidDestinationMessage" error>
+          {{ invalidDestinationMessage }}
+        </Message>
+        <Message v-if="message.length && !invalidDestinationMessage" error @hidden="message = ''">
+          {{ message }}
+        </Message>
       </div>
     </div>
 
     <template #buttons>
-      <button type="button" class="vf-btn vf-btn-primary" @click="transfer">
+      <button
+        type="button"
+        class="vf-btn vf-btn-primary"
+        :disabled="isInvalidDestination"
+        @click="transfer"
+      >
         {{ successBtn }}
       </button>
       <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">

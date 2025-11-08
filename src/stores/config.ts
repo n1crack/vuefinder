@@ -110,11 +110,10 @@ function separateConfig(config: ConfigDefaults | Record<string, unknown>) {
 
   for (const key in configRecord) {
     if (isNonPersistenceKey(key)) {
-      nonPersistenceConfig[key] = configRecord[key] as NonPersistenceConfigState[typeof key];
+      (nonPersistenceConfig as Record<string, unknown>)[key] = configRecord[key];
     } else if (key in DEFAULT_PERSISTENCE_STATE) {
       const persistenceKey = key as keyof PersistenceConfigState;
-      const value = configRecord[key] as PersistenceConfigState[typeof persistenceKey];
-      (persistenceConfig as Record<string, unknown>)[persistenceKey] = value;
+      (persistenceConfig as Record<string, unknown>)[persistenceKey] = configRecord[key];
     }
   }
 

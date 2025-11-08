@@ -40,19 +40,21 @@ export default defineConfig({
       // make sure to externalize deps that shouldn't be bundled
       // into the library
       external: [
+        '@nanostores/vue',
+        '@nanostores/persistent',
         '@tanstack/vue-query',
         '@uppy/core',
         '@uppy/xhr-upload',
         '@uppy/locales',
         '@viselect/vanilla',
+        '@floating-ui/dom',
         'mitt',
-        'overlayscrollbars',
         'nanostores',
-        '@nanostores/vue',
-        '@nanostores/persistent',
+        'overlayscrollbars',
         'vanilla-lazyload',
         'vue',
         'vue-advanced-cropper',
+        'vue-sonner'
       ],
       output: {
         exports: 'named',

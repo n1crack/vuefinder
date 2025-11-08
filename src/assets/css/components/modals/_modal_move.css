@@ -7,7 +7,7 @@
 }
 
 .vuefinder__move-modal__destination-folder {
-  @apply text-(--vf-text-primary);
+  @apply text-xs text-(--vf-text-primary);
 }
 
 .vuefinder__move-modal__files {
