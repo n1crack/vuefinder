@@ -1,5 +1,4 @@
 import ModalMove from '../components/modals/ModalMove.vue';
-import { dirname } from '../utils/path';
 import type { App, DirEntry, DirEntryType } from '../types';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
