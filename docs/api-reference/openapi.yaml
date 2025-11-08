@@ -1,0 +1,1074 @@
+openapi: 3.0.3
+info:
+  title: VueFinder RemoteDriver API
+  description: "RESTful API specification for VueFinder RemoteDriver backend endpoints. This specification defines the contract that backend implementations must follow to work with VueFinder's RemoteDriver. Authentication is optional. If a token is configured, it will be included in the Authorization header. The base URL is configurable via the baseURL parameter. Errors can be returned in various formats including message, error, errors, detail, or title fields."
+  version: 4.0.0
+  contact:
+    name: VueFinder Support
+    url: https://github.com/n1crack/vuefinder
+  license:
+    name: MIT
+    url: https://github.com/n1crack/vuefinder/blob/master/LICENSE
+
+servers:
+  - url: '{baseUrl}'
+    description: Configure your API base URL
+    variables:
+      baseUrl:
+        default: 'http://localhost:8000/api/files'
+        description: API server base URL
+
+tags:
+  - name: Files
+    description: File and directory operations
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Optional Bearer token authentication (only used if token is configured in RemoteDriver)
+
+  schemas:
+    DirEntry:
+      type: object
+      required:
+        - dir
+        - basename
+        - extension
+        - path
+        - storage
+        - type
+        - visibility
+      properties:
+        dir:
+          type: string
+          description: Directory path containing this item
+          example: "/documents"
+        basename:
+          type: string
+          description: Base name of the file or folder
+          example: "example.txt"
+        extension:
+          type: string
+          description: File extension (empty string for folders)
+          example: "txt"
+        path:
+          type: string
+          description: Full path to the item (including storage prefix, e.g., "local://documents/example.txt")
+          example: "local://documents/example.txt"
+        storage:
+          type: string
+          description: Storage identifier
+          example: "local"
+        type:
+          type: string
+          enum: [file, dir]
+          description: Item type - file or directory
+        file_size:
+          type: integer
+          nullable: true
+          description: File size in bytes (null for directories)
+          example: 1024
+        last_modified:
+          type: integer
+          nullable: true
+          description: Last modified timestamp in seconds (Unix timestamp)
+          example: 1699123456
+        mime_type:
+          type: string
+          nullable: true
+          description: MIME type of the file (null for directories)
+          example: "text/plain"
+        read_only:
+          type: boolean
+          description: Whether the item is read-only
+          example: false
+        visibility:
+          type: string
+          description: Visibility status
+          example: "public"
+        previewUrl:
+          type: string
+          description: Optional preview URL for the file
+          example: "https://api.example.com/api/files/preview?path=local://documents/example.txt"
+
+    FsData:
+      type: object
+      required:
+        - storages
+        - dirname
+        - files
+        - read_only
+      properties:
+        storages:
+          type: array
+          items:
+            type: string
+          description: List of available storage identifiers
+          example: ["local"]
+        dirname:
+          type: string
+          description: Current directory name/path
+          example: "local://documents"
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/DirEntry'
+          description: List of files and folders in the directory
+        read_only:
+          type: boolean
+          description: Whether the current directory is read-only
+          example: false
+
+    DeleteResult:
+      type: object
+      required:
+        - deleted
+      properties:
+        deleted:
+          type: array
+          items:
+            $ref: '#/components/schemas/DirEntry'
+          description: List of successfully deleted items
+
+    FileOperationResult:
+      type: object
+      required:
+        - files
+        - storages
+        - read_only
+        - dirname
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/DirEntry'
+          description: Updated file list after the operation
+        storages:
+          type: array
+          items:
+            type: string
+          description: Available storage identifiers
+          example: ["local"]
+        read_only:
+          type: boolean
+          description: Whether the path is read-only
+          example: false
+        dirname:
+          type: string
+          description: Current directory name/path
+          example: "local://documents"
+
+    FileContentResult:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: File content as text
+          example: "Hello, World!"
+        mimeType:
+          type: string
+          description: MIME type of the content
+          example: "text/plain"
+
+    DeleteRequest:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            required:
+              - path
+              - type
+            properties:
+              path:
+                type: string
+                description: Full path to the item (including storage prefix)
+                example: "local://documents/file.txt"
+              type:
+                type: string
+                enum: [file, dir]
+                description: Item type
+
+    RenameRequest:
+      type: object
+      required:
+        - item
+        - name
+      properties:
+        item:
+          type: string
+          description: Current full path of the item to rename (including storage prefix)
+          example: "local://documents/old-name.txt"
+        name:
+          type: string
+          description: New name for the item
+          example: "new-name.txt"
+
+    TransferRequest:
+      type: object
+      required:
+        - sources
+        - destination
+      properties:
+        sources:
+          type: array
+          items:
+            type: string
+          description: Array of full paths to items to copy/move (including storage prefix)
+          example: ["local://documents/file1.txt", "local://documents/file2.txt"]
+        destination:
+          type: string
+          description: Full destination path (including storage prefix)
+          example: "local://backup"
+
+    ArchiveRequest:
+      type: object
+      required:
+        - items
+        - path
+        - name
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            required:
+              - path
+              - type
+            properties:
+              path:
+                type: string
+                description: Full path to the item (including storage prefix)
+              type:
+                type: string
+                enum: [file, dir]
+                description: Item type
+          description: Array of items to include in archive
+        path:
+          type: string
+          description: Directory path where archive should be created (including storage prefix)
+          example: "local://documents"
+        name:
+          type: string
+          description: Name for the archive file (typically .zip)
+          example: "archive.zip"
+
+    UnarchiveRequest:
+      type: object
+      required:
+        - item
+        - path
+      properties:
+        item:
+          type: string
+          description: Full path to the archive file to extract (including storage prefix)
+          example: "local://documents/archive.zip"
+        path:
+          type: string
+          description: Directory path where archive contents should be extracted (including storage prefix)
+          example: "local://documents/extracted"
+
+    CreateItemRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name for the new item
+          example: "new-file.txt"
+
+    SaveRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: Content to save (as string)
+          example: "Hello, World!"
+
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Error message
+          example: "The specified path does not exist."
+        code:
+          type: string
+          description: Error code
+          example: "path_not_found"
+        status:
+          type: boolean
+          description: Status flag (typically false for errors)
+          example: false
+
+paths:
+  /:
+    get:
+      tags:
+        - Files
+      summary: List files and folders
+      description: List files and folders in a directory at the specified path. The path parameter is required and should include the storage prefix.
+      operationId: listFiles
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Directory path to list (including storage prefix, e.g., "local://uploads")
+          schema:
+            type: string
+          example: "local://uploads"
+      responses:
+        '200':
+          description: Successfully retrieved file list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FsData'
+              example:
+                storages: ["local"]
+                dirname: "local://uploads"
+                read_only: false
+                files:
+                  - dir: "local://uploads"
+                    basename: "file1.txt"
+                    extension: "txt"
+                    path: "local://uploads/file1.txt"
+                    storage: "local"
+                    type: "file"
+                    file_size: 1024
+                    last_modified: 1699123456
+                    mime_type: "text/plain"
+                    visibility: "public"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Path not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /upload:
+    post:
+      tags:
+        - Files
+      summary: Upload files
+      description: Upload one or more files to the specified directory. Uses multipart/form-data encoding. The file field name should be 'file'. The target path should be provided as a query parameter.
+      operationId: uploadFiles
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Target directory path for upload (including storage prefix)
+          schema:
+            type: string
+          example: "local://uploads"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: File to upload
+      responses:
+        '200':
+          description: Files uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileOperationResult'
+        '400':
+          description: Bad request (invalid file, path, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: File too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /delete:
+    post:
+      tags:
+        - Files
+      summary: Delete files or folders
+      description: "Delete one or more files or folders from the specified path. Note: Using POST instead of DELETE to support request body with items array."
+      operationId: deleteFiles
+      parameters:
+        - name: path
+          in: query
+          required: false
+          description: Current directory path (optional)
+          schema:
+            type: string
+          example: "local://uploads"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteRequest'
+            example:
+              items:
+                - path: "local://uploads/file.txt"
+                  type: "file"
+                - path: "local://uploads/folder"
+                  type: "dir"
+      responses:
+        '200':
+          description: Items deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResult'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Items not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /rename:
+    post:
+      tags:
+        - Files
+      summary: Rename a file or folder
+      description: Rename a file or folder to a new name.
+      operationId: renameFile
+      parameters:
+        - name: path
+          in: query
+          required: false
+          description: Current directory path (optional)
+          schema:
+            type: string
+          example: "local://uploads"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RenameRequest'
+            example:
+              item: "local://uploads/old-name.txt"
+              name: "new-name.txt"
+      responses:
+        '200':
+          description: Item renamed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileOperationResult'
+        '400':
+          description: Bad request (invalid name, conflict, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /copy:
+    post:
+      tags:
+        - Files
+      summary: Copy files or folders
+      description: Copy one or more files or folders to a destination path.
+      operationId: copyFiles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+            example:
+              sources:
+                - "local://uploads/file1.txt"
+                - "local://uploads/file2.txt"
+              destination: "local://backup"
+      responses:
+        '200':
+          description: Items copied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileOperationResult'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Source items or destination not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /move:
+    post:
+      tags:
+        - Files
+      summary: Move files or folders
+      description: Move (cut) one or more files or folders to a destination path.
+      operationId: moveFiles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+            example:
+              sources:
+                - "local://uploads/file.txt"
+              destination: "local://archive"
+      responses:
+        '200':
+          description: Items moved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileOperationResult'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Source items or destination not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /archive:
+    post:
+      tags:
+        - Files
+      summary: Create a zip archive
+      description: Create a zip archive containing the specified files and folders.
+      operationId: createArchive
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveRequest'
+            example:
+              path: "local://uploads"
+              name: "my-archive.zip"
+              items:
+                - path: "local://uploads/file1.txt"
+                  type: "file"
+                - path: "local://uploads/folder"
+                  type: "dir"
+      responses:
+        '200':
+          description: Archive created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileOperationResult'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /unarchive:
+    post:
+      tags:
+        - Files
+      summary: Extract files from archive
+      description: Extract files and folders from a zip archive.
+      operationId: extractArchive
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnarchiveRequest'
+            example:
+              item: "local://uploads/archive.zip"
+              path: "local://uploads/extracted"
+      responses:
+        '200':
+          description: Archive extracted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileOperationResult'
+        '400':
+          description: Bad request (invalid archive, corrupted, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Archive not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /create-file:
+    post:
+      tags:
+        - Files
+      summary: Create a new file
+      description: Create a new empty file at the specified path.
+      operationId: createFile
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Target directory path (including storage prefix)
+          schema:
+            type: string
+          example: "local://uploads"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateItemRequest'
+            example:
+              name: "new-file.txt"
+      responses:
+        '200':
+          description: File created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileOperationResult'
+        '400':
+          description: Bad request (file already exists, invalid name, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /create-folder:
+    post:
+      tags:
+        - Files
+      summary: Create a new folder
+      description: Create a new empty folder at the specified path.
+      operationId: createFolder
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Target directory path (including storage prefix)
+          schema:
+            type: string
+          example: "local://uploads"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateItemRequest'
+            example:
+              name: "new-folder"
+      responses:
+        '200':
+          description: Folder created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileOperationResult'
+        '400':
+          description: Bad request (folder already exists, invalid name, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /preview:
+    get:
+      tags:
+        - Files
+      summary: Get file preview
+      description: Get a preview of a file. Returns the file content directly. For text files, returns the text content. For images, returns the image. The response content-type should match the file's MIME type.
+      operationId: previewFile
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Full path to the file (including storage prefix)
+          schema:
+            type: string
+          example: "local://uploads/image.jpg"
+      responses:
+        '200':
+          description: File preview content
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "File content here"
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            '*/*':
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /download:
+    get:
+      tags:
+        - Files
+      summary: Download a file
+      description: Get a download URL or trigger file download. Returns the file content with appropriate headers for download.
+      operationId: downloadFile
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Full path to the file to download (including storage prefix)
+          schema:
+            type: string
+          example: "local://uploads/file.pdf"
+      responses:
+        '200':
+          description: File download
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            '*/*':
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              description: Attachment header for file download
+              schema:
+                type: string
+                example: 'attachment; filename="file.pdf"'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /search:
+    get:
+      tags:
+        - Files
+      summary: Search for files
+      description: Search for files and folders matching the specified criteria. Searches can be performed by filename, content, or other criteria depending on backend implementation.
+      operationId: searchFiles
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Base path to search within (including storage prefix)
+          schema:
+            type: string
+          example: "local://uploads"
+        - name: filter
+          in: query
+          required: false
+          description: Search query string (filename or content search, e.g., "*.pdf")
+          schema:
+            type: string
+          example: "*.pdf"
+        - name: deep
+          in: query
+          required: false
+          description: Search in subdirectories recursively
+          schema:
+            type: boolean
+            default: false
+          example: true
+        - name: size
+          in: query
+          required: false
+          description: File size filter
+          schema:
+            type: string
+            enum: [all, small, medium, large]
+            default: all
+          example: "large"
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - files
+                properties:
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DirEntry'
+              example:
+                files:
+                  - dir: "local://uploads"
+                    basename: "document1.pdf"
+                    extension: "pdf"
+                    path: "local://uploads/document1.pdf"
+                    storage: "local"
+                    type: "file"
+                    file_size: 2048
+                    last_modified: 1699123456
+                    mime_type: "application/pdf"
+                    visibility: "public"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /save:
+    post:
+      tags:
+        - Files
+      summary: Save content to file
+      description: Save text or binary content to a file at the specified path. Overwrites existing file if it already exists. The file path is provided as a query parameter.
+      operationId: saveFile
+      parameters:
+        - name: path
+          in: query
+          required: true
+          description: Full file path where content should be saved (including storage prefix)
+          schema:
+            type: string
+          example: "local://uploads/file.txt"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveRequest'
+            example:
+              content: "Hello, World!\nThis is the file content."
+      responses:
+        '200':
+          description: File saved successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Saved file path
+                example: "local://uploads/file.txt"
+        '400':
+          description: Bad request (invalid path, content, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden (read-only or insufficient permissions)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
