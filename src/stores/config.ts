@@ -21,8 +21,6 @@ export interface PersistenceConfigState {
   showThumbnails: boolean;
   persist: boolean;
   path: string;
-  loadingIndicator: 'linear' | 'circular' | string;
-  maxFileSize: number | string | null;
   pinnedFolders: DirEntry[];
 }
 
@@ -31,7 +29,9 @@ export interface PersistenceConfigState {
  * These values are not saved to localStorage and reset on page reload
  */
 export interface NonPersistenceConfigState {
+  loadingIndicator: 'linear' | 'circular' | null;
   initialPath: string | null;
+  maxFileSize: number | string | null;
 }
 
 /**
@@ -70,13 +70,13 @@ const DEFAULT_PERSISTENCE_STATE: PersistenceConfigState = {
   showThumbnails: true,
   persist: false,
   path: '',
-  loadingIndicator: 'circular',
-  maxFileSize: null,
   pinnedFolders: [] as DirEntry[],
 };
 
 const DEFAULT_NON_PERSISTENCE_STATE: NonPersistenceConfigState = {
   initialPath: null,
+  maxFileSize: null as number | string | null,
+  loadingIndicator: 'circular',
 };
 
 // Cached non-persistence keys for performance
