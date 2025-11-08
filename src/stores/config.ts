@@ -3,6 +3,7 @@ import { atom, computed } from 'nanostores';
 import type { DirEntry } from '../types';
 import type { Theme } from './theme.ts';
 import type { Store } from 'nanostores';
+import { unref } from 'vue';
 
 type Viewport = 'grid' | 'list';
 
@@ -189,6 +190,26 @@ export const createConfigStore = (
       ...nonPersistence,
     })
   );
+
+  /**
+   * Override localStorage values with props.config values if provided
+   */
+  if (Object.keys(persistenceConfig).length > 0) {
+    const currentState = persistenceState.get();
+    
+    // Unwrap Vue ref values (same as theme handling in VueFinderView)
+    const unwrappedConfig: Record<string, unknown> = {};
+    for (const key in persistenceConfig) {
+      const value = persistenceConfig[key as keyof typeof persistenceConfig];
+      unwrappedConfig[key] = unref(value as unknown);
+    }
+    
+    const updatedState = { ...currentState, ...unwrappedConfig } as PersistenceConfigState;
+    // Only update if there are actual changes to avoid unnecessary writes
+    if (JSON.stringify(currentState) !== JSON.stringify(updatedState)) {
+      persistenceState.set(updatedState);
+    }
+  }
 
   /**
    * Initializes config store with new defaults, merging with current state

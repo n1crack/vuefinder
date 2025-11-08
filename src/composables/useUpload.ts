@@ -195,7 +195,7 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
   onMounted(() => {
     uppy = new Uppy({
       debug: app.debug,
-      restrictions: { maxFileSize: parse(config.maxFileSize ?? '10mb') },
+      restrictions: { maxFileSize: parse(config.get('maxFileSize') ?? '10mb') },
       locale: app.i18n.t('uppy'),
       onBeforeFileAdded: (file: any, files: any) => {
         const duplicated = files[file.id] != null;
