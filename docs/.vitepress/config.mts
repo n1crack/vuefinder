@@ -100,6 +100,7 @@ gtag('config', 'G-6BYQESCJ6R');`
             { text: 'Slots', link: '/api-reference/slots' },
             { text: 'Types', link: '/api-reference/types' },
             { text: 'Drivers Interface', link: '/api-reference/drivers-interface' },
+            { text: 'OpenAPI Specification', link: '/api-reference/openapi' },
           ],
         },
       ],
