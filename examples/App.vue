@@ -119,7 +119,7 @@ const maxFileSize = ref('500MB');
 const features = 'advanced';
 
 const config = {
-  maxFileSize: maxFileSize,
+  maxFileSize: maxFileSize.value,
 };
 
 const handlePathChange = (path: string) => {
