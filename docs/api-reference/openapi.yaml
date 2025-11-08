@@ -438,7 +438,7 @@ paths:
       tags:
         - Files
       summary: Delete files or folders
-      description: "Delete one or more files or folders from the specified path. Note: Using POST instead of DELETE to support request body with items array."
+      description: Delete one or more files or folders from the specified path.
       operationId: deleteFiles
       parameters:
         - name: path

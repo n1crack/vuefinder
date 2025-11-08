@@ -4,7 +4,7 @@ outline: deep
 
 # OpenAPI Specification
 
-The VueFinder RemoteDriver API is fully specified using OpenAPI 3.1. This specification defines the contract that backend implementations must follow to work with VueFinder's RemoteDriver.
+The VueFinder RemoteDriver API is fully specified using OpenAPI 3.0.3. This specification defines the contract that backend implementations must follow to work with VueFinder's RemoteDriver.
 
 ## Interactive API Documentation
 
@@ -24,7 +24,7 @@ When working locally, you can also:
 
 ## Download Specification
 
-- [OpenAPI 3.1 YAML](/api-reference/openapi.yaml) - Download the raw OpenAPI specification file
+- [OpenAPI 3.0.3 YAML](/api-reference/openapi.yaml) - Download the raw OpenAPI specification file
 
 ## Using the Specification
 
@@ -166,6 +166,8 @@ Content-Type: application/json
 }
 ```
 
+Note: This endpoint uses POST method instead of DELETE to support request body with items array, as required by the RemoteDriver implementation.
+
 Note: `{baseUrl}` is typically `http://localhost:8000/api/files` (configurable)
 
 ### Delete Response
@@ -192,6 +194,71 @@ Note: Delete endpoint returns the updated file list (same format as list endpoin
     }
   ]
 }
+```
+
+### Upload Request
+
+```
+POST {baseUrl}/upload?path=local://uploads
+Content-Type: multipart/form-data
+
+file: [binary file data]
+```
+
+### Upload Response
+
+Returns empty JSON object on success.
+
+```json
+{}
+```
+
+### Search Request
+
+```
+GET {baseUrl}/search?path=local://uploads&filter=*.pdf&deep=true&size=large
+```
+
+### Search Response
+
+```json
+{
+  "dirname": "local://uploads",
+  "storages": ["local"],
+  "files": [
+    {
+      "dir": "local://uploads",
+      "basename": "document1.pdf",
+      "extension": "pdf",
+      "path": "local://uploads/document1.pdf",
+      "storage": "local",
+      "type": "file",
+      "file_size": 2048,
+      "last_modified": 1699123456,
+      "mime_type": "application/pdf",
+      "visibility": "public"
+    }
+  ]
+}
+```
+
+### Save Request
+
+```
+POST {baseUrl}/save?path=local://uploads/file.txt
+Content-Type: application/json
+
+{
+  "content": "Hello, World!\nThis is the file content."
+}
+```
+
+### Save Response
+
+Returns file content as binary stream (same as preview endpoint), not JSON.
+
+```
+[Binary file content]
 ```
 
 ## Related Documentation

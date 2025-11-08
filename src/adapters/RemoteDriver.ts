@@ -141,7 +141,7 @@ export class RemoteDriver extends BaseAdapter {
     this.validateParam(params.items, 'items');
     this.validateParam(params.path, 'path');
     return await this.request<DeleteResult>(this.config.url.delete, {
-      method: 'DELETE',
+      method: 'POST',
       body: JSON.stringify({ path: params.path, items: params.items }),
     });
   }
