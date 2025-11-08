@@ -166,8 +166,6 @@ Content-Type: application/json
 }
 ```
 
-Note: This endpoint uses POST method instead of DELETE to support request body with items array, as required by the RemoteDriver implementation.
-
 Note: `{baseUrl}` is typically `http://localhost:8000/api/files` (configurable)
 
 ### Delete Response

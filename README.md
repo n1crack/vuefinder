@@ -31,7 +31,9 @@ You can use any backend language. VueFinder talks to your server through the `dr
 
 - PHP (recommended for plug‑and‑play): [VueFinder Php Library 4.0](https://github.com/n1crack/vuefinder-php)
 
-Data contracts are stable and designed to be simple to implement. If you use the PHP package, these endpoints are already provided. For other stacks, mirror the same responses and you’re good to go.
+Data contracts are stable and designed to be simple to implement. If you use the PHP package, these endpoints are already provided. For other stacks, mirror the same responses and you're good to go.
+
+The complete API specification is available as an [OpenAPI 3.0 specification](https://vuefinder.ozdemir.be/api-reference/openapi.html) for easy integration and validation.
 
 Older ecosystem libraries (for VueFinder 3.x and earlier):
 
