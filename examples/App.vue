@@ -70,6 +70,36 @@ const memoryFiles = ref<DirEntry[]>([
 ]);
 const arrayDriver = new ArrayDriver({ files: memoryFiles, storage: 'memory' });
 
+// Generate 50k folders in root for performance demo
+function generateLargeDataset(): DirEntry[] {
+  const files: DirEntry[] = [];
+  const storage = 'performance';
+  const baseTime = Date.now();
+  
+  // Create 50k folders in root
+  for (let i = 0; i < 50000; i++) {
+    const folderName = `folder-${String(i).padStart(5, '0')}`;
+    files.push({
+      storage,
+      dir: `${storage}://`,
+      basename: folderName,
+      extension: '',
+      path: `${storage}://${folderName}`,
+      type: 'dir',
+      file_size: null,
+      last_modified: baseTime - Math.random() * 86400000 * 30,
+      mime_type: null,
+      visibility: 'public',
+    });
+  }
+  
+  return files;
+}
+
+// Create performance demo ArrayDriver with 50k items
+const performanceFiles: DirEntry[] = generateLargeDataset();
+const performanceDriver: ArrayDriver = new ArrayDriver({ files: performanceFiles, storage: 'performance' });
+
 // Create IndexedDB driver instance (persists to browser IndexedDB)
 const indexedDBDriver = new IndexedDBDriver({
   dbName: 'vuefinder-example',
@@ -81,6 +111,7 @@ const driver = ref(remoteDriver as any);
 const examples = {
   default: 'Inline select button example',
   arrayDriver: 'In-memory ArrayDriver (no REST)',
+  performanceDemo: 'Performance Demo - 50k Items (ArrayDriver)',
   indexedDB: 'IndexedDB Driver (persistent)',
   externalSelect: 'External select example',
   contextmenu: 'Custom context menu example',
@@ -188,7 +219,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Regular examples (only show if not in popup) -->
-    <div v-if="!isPopup" class="flex max-h-120 min-h-80 flex-col [&>*]:h-full [&>*]:flex-1">
+    <div v-if="!isPopup" class="flex max-h-120 min-h-80 flex-col">
       <DefaultExample
         v-if="example === 'default'"
         :driver="driver"
@@ -264,6 +295,14 @@ onUnmounted(() => {
         v-if="example === 'arrayDriver'"
         :driver="arrayDriver"
         :config="{ ...config, theme: currentTheme, initialPath: 'memory://', persist: false }"
+        :features="features"
+      />
+
+      <!-- Performance demo with 100k items -->
+      <MemoryExample
+        v-if="example === 'performanceDemo' && performanceDriver"
+        :driver="performanceDriver"
+        :config="{ ...config, theme: currentTheme, initialPath: 'performance://', persist: false }"
         :features="features"
       />
 

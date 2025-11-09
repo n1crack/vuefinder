@@ -8,6 +8,7 @@ import HomeHeroVueFinderDemo from './components/HomeHeroVueFinderDemo.vue';
 // Import demo components
 import BasicUsageDemo from './components/examples/BasicUsageDemo.vue';
 import MemoryDriverDemo from './components/examples/MemoryDriverDemo.vue';
+import LargeDatasetDemo from './components/examples/LargeDatasetDemo.vue';
 import FeaturesDemo from './components/examples/FeaturesDemo.vue';
 import IndexedDBDemo from './components/examples/IndexedDBDemo.vue';
 import ContextMenuDemo from './components/examples/ContextMenuDemo.vue';
@@ -79,6 +80,7 @@ export default {
     if (!import.meta.env.SSR) {
       app.component('BasicUsageDemo', BasicUsageDemo);
       app.component('MemoryDriverDemo', MemoryDriverDemo);
+      app.component('LargeDatasetDemo', LargeDatasetDemo);
       app.component('FeaturesDemo', FeaturesDemo);
       app.component('IndexedDBDemo', IndexedDBDemo);
       app.component('ContextMenuDemo', ContextMenuDemo);

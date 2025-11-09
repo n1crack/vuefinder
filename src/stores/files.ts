@@ -183,14 +183,25 @@ export const createFilesStore = () => {
 
     currentKeys.add(key);
     selectedKeys.set(currentKeys);
-    selectedCount.set(currentKeys.size);
+  };
+
+  const selectMultiple = (keys: string[], selectionMode: 'single' | 'multiple' = 'multiple') => {
+    const currentKeys = new Set(selectedKeys.get());
+
+    // In single selection mode, clear existing selection before adding new one
+    if (selectionMode === 'single') {
+      currentKeys.clear();
+    }
+
+    // Add all keys at once
+    keys.forEach((key) => currentKeys.add(key));
+    selectedKeys.set(currentKeys);
   };
 
   const deselect = (key: string) => {
     const currentKeys = new Set(selectedKeys.get());
     currentKeys.delete(key);
     selectedKeys.set(currentKeys);
-    selectedCount.set(currentKeys.size);
   };
 
   const isSelected = (key: string) => {
@@ -210,7 +221,6 @@ export const createFilesStore = () => {
       currentKeys.add(key);
     }
     selectedKeys.set(currentKeys);
-    selectedCount.set(currentKeys.size);
   };
 
   const selectAll = (selectionMode: 'single' | 'multiple' = 'multiple', app?: any) => {
@@ -255,13 +265,12 @@ export const createFilesStore = () => {
           .map((f) => f.path);
 
         selectedKeys.set(new Set(selectableKeys));
-        selectedCount.set(selectableKeys.length);
       } else {
         // No filters, select all
         const allKeys = new Set(files.get().map((f) => f.path));
         selectedKeys.set(allKeys);
-        selectedCount.set(allKeys.size);
       }
+      setSelectedCount(selectedKeys.get().size);
     }
   };
 
@@ -425,6 +434,7 @@ export const createFilesStore = () => {
     setFilter,
     clearFilter,
     select,
+    selectMultiple,
     deselect,
     toggleSelect,
     selectAll,

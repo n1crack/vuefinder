@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 import SquarePlusSVG from '../assets/icons/plus.svg';
 import SquareMinusSVG from '../assets/icons/minus.svg';

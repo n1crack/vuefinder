@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, type Ref } from 'vue';
+import { ref, computed, onMounted, onUnmounted, type Ref } from 'vue';
 import { useApp } from '../composables/useApp';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import type { DirEntry } from '../types';
@@ -31,6 +31,17 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const selectedKeys: StoreValue<Set<string>> = useStore(fs.selectedKeys);
   const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
 
+  // Cache: Key-to-item map for O(1) lookup instead of O(n) find
+  const keyToItemMap = computed(() => {
+    const map = new Map<string, DirEntry>();
+    if (sortedFiles.value) {
+      sortedFiles.value.forEach((file: DirEntry) => {
+        map.set(getKey(file as T), file);
+      });
+    }
+    return map;
+  });
+
   const tempSelection = ref(new Set<string>());
   const isDragging = ref(false);
   const selectionStarted = ref(false);
@@ -41,26 +52,66 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const cleanupSelection = (event: SelectionEvent) => {
-    event.selection.getSelection().forEach((item: Element) => {
-      event.selection.deselect(item, true);
-    });
+    event.selection.clearSelection(true, true);
   };
 
   const refreshSelection = (event: SelectionEvent) => {
-    if (selectedKeys.value) {
-      selectedKeys.value.forEach((id: string) => {
-        const el = document.querySelector(`[data-key="${id}"]`);
-        if (el && isItemSelectable(id)) {
-          event.selection.select(el, true);
+    if (selectedKeys.value && selectedKeys.value.size > 0) {
+      // Tek bir querySelectorAll ile tüm elementleri bul (performans optimizasyonu)
+      const allElements = document.querySelectorAll(`.file-item-${explorerId}[data-key]`);
+      const elementsMap = new Map<string, Element>();
+      allElements.forEach((el) => {
+        const key = el.getAttribute('data-key');
+        if (key) {
+          elementsMap.set(key, el);
         }
+      });
+
+      // Batch select: Collect all selectable elements first, then select all at once
+      const elementsToSelect: Element[] = [];
+      selectedKeys.value.forEach((id: string) => {
+        const el = elementsMap.get(id);
+        if (el) {
+          // Use cached map for O(1) lookup
+          const item = keyToItemMap.value.get(id);
+          if (item) {
+            const filterType = app.selectionFilterType;
+            const allowedMimes = app.selectionFilterMimeIncludes;
+
+            // Check type filter
+            if (filterType === 'files' && item.type === 'dir') return;
+            if (filterType === 'dirs' && item.type === 'file') return;
+
+            // Check MIME filter
+            if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+              if (item.type === 'dir') {
+                // Directories are always selectable when MIME filters are active
+                elementsToSelect.push(el);
+                return;
+              }
+              if (!item.mime_type) return;
+              if (allowedMimes.some((prefix: string) => item.mime_type?.startsWith(prefix))) {
+                elementsToSelect.push(el);
+              }
+            } else {
+              // No filters, item is selectable
+              elementsToSelect.push(el);
+            }
+          }
+        }
+      });
+
+      // Batch select all elements at once (more efficient than individual selects)
+      elementsToSelect.forEach((el) => {
+        event.selection.select(el, true);
       });
     }
   };
 
   // Helper function to check if an item is selectable based on filters
   const isItemSelectable = (key: string): boolean => {
-    const item = sortedFiles.value?.find((f: DirEntry) => getKey(f as T) === key);
-
+    // Use cached map for O(1) lookup instead of O(n) find
+    const item = keyToItemMap.value.get(key);
     if (!item) return false;
 
     const filterType = app.selectionFilterType;
@@ -84,16 +135,37 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const getSelectionRange = (selectionParam: Set<string>) => {
-    if (selectionParam.size === 0) return null;
+    if (selectionParam.size === 0) {
+      return null;
+    }
+
+    // Optimize: Create key->index map once instead of findIndex for each key
+    const keyToIndexMap = new Map<string, number>();
+    if (sortedFiles.value) {
+      sortedFiles.value.forEach((f: DirEntry, index: number) => {
+        keyToIndexMap.set(getKey(f as T), index);
+      });
+    }
+
     const ids = Array.from(selectionParam);
-    const positions = ids.map((key) => {
-      const index = sortedFiles.value?.findIndex((f: DirEntry) => getKey(f as T) === key) ?? -1;
-      return getItemPosition(index >= 0 ? index : 0);
-    });
-    const minRow = Math.min(...positions.map((p) => p.row));
-    const maxRow = Math.max(...positions.map((p) => p.row));
-    const minCol = Math.min(...positions.map((p) => p.col));
-    const maxCol = Math.max(...positions.map((p) => p.col));
+    const positions = ids
+      .map((key) => {
+        const index = keyToIndexMap.get(key) ?? -1;
+        return index >= 0 ? getItemPosition(index) : null;
+      })
+      .filter((pos): pos is { row: number; col: number } => pos !== null);
+
+    if (positions.length === 0) {
+      return null;
+    }
+
+    // Optimize: Use reduce instead of Math.min/max with spread operator for better performance
+    const firstPos = positions[0]!; // Safe: positions.length > 0 checked above
+    const minRow = positions.reduce((min, p) => (p.row < min ? p.row : min), firstPos.row);
+    const maxRow = positions.reduce((max, p) => (p.row > max ? p.row : max), firstPos.row);
+    const minCol = positions.reduce((min, p) => (p.col < min ? p.col : min), firstPos.col);
+    const maxCol = positions.reduce((max, p) => (p.col > max ? p.col : max), firstPos.col);
+
     return { minRow, maxRow, minCol, maxCol };
   };
 
@@ -187,8 +259,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     if (app.selectionMode === 'single') {
       return;
     }
-
-    const selection = event.selection;
     const addedData = extractIds(event.store.changed.added);
     const removedData = extractIds(event.store.changed.removed);
 
@@ -204,12 +274,14 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     removedData.forEach((id) => {
       const el = document.querySelector(`[data-key="${id}"]`);
-      if (el && sortedFiles.value?.find((file: DirEntry) => getKey(file as T) === id)) {
+      // Use cached map for O(1) lookup instead of O(n) find
+      if (el && keyToItemMap.value.has(id)) {
         tempSelection.value.delete(id);
       }
       fs.deselect(id);
     });
-    selection.resolveSelectables();
+    event.selection.resolveSelectables();
+
     refreshSelection(event);
   };
 
@@ -221,11 +293,18 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     if (event.event && startPosition.value) {
       // If we have tempSelection items, use them along with start position
       if (tempSelection.value.size > 0) {
+        // Optimize: Create key->index map once instead of findIndex for each key
+        const keyToIndexMap = new Map<string, number>();
+        if (sortedFiles.value) {
+          sortedFiles.value.forEach((f: DirEntry, index: number) => {
+            keyToIndexMap.set(getKey(f as T), index);
+          });
+        }
+
         const keys = Array.from(tempSelection.value);
         const positions = keys
           .map((key) => {
-            const index =
-              sortedFiles.value?.findIndex((f: DirEntry) => getKey(f as T) === key) ?? -1;
+            const index = keyToIndexMap.get(key) ?? -1;
             return index >= 0 ? getItemPosition(index) : null;
           })
           .filter((pos): pos is { row: number; col: number } => pos !== null);
@@ -234,27 +313,47 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
           // Include start position in the range calculation
           const allPositions = [...positions, startPosition.value];
           // Calculate the actual min/max row and column from all positions including start
+          // Optimize: Use reduce instead of Math.min/max with spread operator
+          const firstPos = allPositions[0]!;
           const minMaxIds = {
-            minRow: Math.min(...allPositions.map((p) => p.row)),
-            maxRow: Math.max(...allPositions.map((p) => p.row)),
-            minCol: Math.min(...allPositions.map((p) => p.col)),
-            maxCol: Math.max(...allPositions.map((p) => p.col)),
+            minRow: allPositions.reduce((min, p) => (p.row < min ? p.row : min), firstPos.row),
+            maxRow: allPositions.reduce((max, p) => (p.row > max ? p.row : max), firstPos.row),
+            minCol: allPositions.reduce((min, p) => (p.col < min ? p.col : min), firstPos.col),
+            maxCol: allPositions.reduce((max, p) => (p.col > max ? p.col : max), firstPos.col),
           };
-          (
-            getItemsInRange(
-              (sortedFiles.value as any[]) || [],
-              minMaxIds.minRow,
-              minMaxIds.maxRow,
-              minMaxIds.minCol,
-              minMaxIds.maxCol
-            ) as any[]
-          ).forEach((item) => {
-            const key = getKey(item as T);
-            const el = document.querySelector(`[data-key="${key}"]`);
-            if (!el) {
-              fs.select(key, (app.selectionMode as 'single' | 'multiple') || 'multiple');
+          const itemsInRange = getItemsInRange(
+            (sortedFiles.value as any[]) || [],
+            minMaxIds.minRow,
+            minMaxIds.maxRow,
+            minMaxIds.minCol,
+            minMaxIds.maxCol
+          ) as any[];
+
+          // Optimize: Get all elements at once instead of querySelector in loop
+          const allElements = document.querySelectorAll(`.file-item-${explorerId}[data-key]`);
+          const elementsMap = new Map<string, Element>();
+          allElements.forEach((el) => {
+            const key = el.getAttribute('data-key');
+            if (key) {
+              elementsMap.set(key, el);
             }
           });
+
+          // Optimize: Batch select operations - collect all keys first, then select all at once
+          const keysToSelect: string[] = [];
+          itemsInRange.forEach((item) => {
+            const key = getKey(item as T);
+            const el = elementsMap.get(key);
+            if (!el) {
+              keysToSelect.push(key);
+            }
+          });
+
+          // Batch select all keys at once
+          if (keysToSelect.length > 0) {
+            const selectionMode = (app.selectionMode as 'single' | 'multiple') || 'multiple';
+            fs.selectMultiple(keysToSelect, selectionMode);
+          }
         }
       } else {
         // If no tempSelection, don't do range selection
@@ -362,6 +461,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
       }
     };
     document.addEventListener('dragleave', handleDragLeave);
+
     onUnmounted(() => {
       document.removeEventListener('dragleave', handleDragLeave);
     });

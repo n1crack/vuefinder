@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useStore } from '@nanostores/vue';
 import Message from '../../components/Message.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';

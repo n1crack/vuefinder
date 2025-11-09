@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
 import { getErrorMessage } from '../../utils/errorHandler';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useStore } from '@nanostores/vue';
 import { toast } from 'vue-sonner';

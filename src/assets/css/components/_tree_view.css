@@ -26,6 +26,19 @@
   @apply px-2 py-1 text-center text-sm text-(--vf-text-tertiary) italic;
 }
 
+/* More Folders Note Styling */
+.vuefinder__treesubfolderlist__more-note {
+  @apply px-2 py-1;
+}
+
+.vuefinder__treesubfolderlist__more-note-text {
+  @apply text-xs text-(--vf-text-tertiary) italic;
+}
+
+.vuefinder__treesubfolderlist__load-more {
+  @apply cursor-pointer text-xs text-(--vf-accent-primary) underline hover:text-(--vf-accent-primary-hover);
+}
+
 /* No Pinned Folders Message Styling */
 .vuefinder__treeview__no-pinned {
   @apply px-3 py-2 text-center text-sm text-(--vf-text-tertiary) italic;
@@ -230,4 +243,17 @@
 
 .vuefinder__modal-tree__subfolders {
   @apply ml-4 border-l border-(--vf-border-primary) pl-2;
+}
+
+/* More Folders Note Styling for Modal */
+.vuefinder__modal-tree__more-note {
+  @apply px-2 py-1;
+}
+
+.vuefinder__modal-tree__more-note-text {
+  @apply text-xs text-(--vf-text-tertiary) italic;
+}
+
+.vuefinder__modal-tree__load-more {
+  @apply cursor-pointer text-xs text-(--vf-accent-primary) underline hover:text-(--vf-accent-primary-hover);
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useApp } from '../../composables/useApp';
-import { inject, onMounted } from 'vue';
+import { onMounted } from 'vue';
 
 const emit = defineEmits(['success']);
 const app = useApp();

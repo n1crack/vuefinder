@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, nextTick, onMounted, ref } from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 
 const modalBody = ref<HTMLElement | null>(null);

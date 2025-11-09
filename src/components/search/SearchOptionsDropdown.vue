@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, nextTick, watch, onUnmounted } from 'vue';
+import { ref, nextTick, watch, onUnmounted } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
 import GearSVG from '../../assets/icons/gear.svg';
