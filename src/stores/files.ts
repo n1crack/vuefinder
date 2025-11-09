@@ -257,6 +257,7 @@ export const createFilesStore = () => {
         const allKeys = new Set(files.get().map((f) => f.path));
         selectedKeys.set(allKeys);
       }
+      setSelectedCount(selectedKeys.get().size);
     }
   };
 
