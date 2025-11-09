@@ -4,7 +4,6 @@ import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import type { DirEntry } from '../types';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
-import { debounce } from '../utils/debounce';
 
 export interface UseSelectionDeps<T> {
   getItemPosition: (itemIndex: number) => { row: number; col: number };
@@ -37,9 +36,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const selectionStarted = ref(false);
   const startPosition = ref<{ row: number; col: number } | null>(null);
 
-  // Debounced resolveSelectables for performance (called on scroll)
-  let debouncedResolveSelectables: (() => void) | null = null;
-
   const extractIds = (els: Element[]): string[] => {
     return els.map((v) => v.getAttribute('data-key')).filter((v): v is string => Boolean(v));
   };
@@ -49,9 +45,20 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const refreshSelection = (event: SelectionEvent) => {
-    if (selectedKeys.value) {
+    if (selectedKeys.value && selectedKeys.value.size > 0) {
+      // Tek bir querySelectorAll ile tüm elementleri bul (performans optimizasyonu)
+      const allElements = document.querySelectorAll(`.file-item-${explorerId}[data-key]`);
+      const elementsMap = new Map<string, Element>();
+      allElements.forEach((el) => {
+        const key = el.getAttribute('data-key');
+        if (key) {
+          elementsMap.set(key, el);
+        }
+      });
+
+      // Sadece seçili ve selectable olanları işle
       selectedKeys.value.forEach((id: string) => {
-        const el = document.querySelector(`[data-key="${id}"]`);
+        const el = elementsMap.get(id);
         if (el && isItemSelectable(id)) {
           event.selection.select(el, true);
         }
@@ -208,6 +215,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
       }
       fs.deselect(id);
     });
+    event.selection.resolveSelectables();
 
     refreshSelection(event);
   };
@@ -361,25 +369,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
       }
     };
     document.addEventListener('dragleave', handleDragLeave);
-
-    // Setup debounced resolveSelectables on scroll for performance
-    debouncedResolveSelectables = debounce(() => {
-      if (selectionObject.value) {
-        selectionObject.value.resolveSelectables();
-      }
-    }, 100); // 100ms debounce delay for scroll events
-
-    // Find scroll container and attach scroll listener
-    const scrollContainer = document.querySelector(`.scroller-${explorerId}`) as HTMLElement;
-    if (scrollContainer && debouncedResolveSelectables) {
-      scrollContainer.addEventListener('scroll', debouncedResolveSelectables, { passive: true });
-
-      onUnmounted(() => {
-        if (scrollContainer && debouncedResolveSelectables) {
-          scrollContainer.removeEventListener('scroll', debouncedResolveSelectables);
-        }
-      });
-    }
 
     onUnmounted(() => {
       document.removeEventListener('dragleave', handleDragLeave);
