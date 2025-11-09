@@ -50,6 +50,11 @@
   --vf-dropdown-border: #434c5e;
   --vf-dropdown-text: #d8dee9;
   --vf-dropdown-hover: #3b4252;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(136, 192, 208, 0.4);
+  --vf-scrollbar-handle-hover: rgba(136, 192, 208, 0.6);
+  --vf-scrollbar-handle-active: rgba(136, 192, 208, 0.8);
 }
 
 /* Arctic Theme - Selection Area */

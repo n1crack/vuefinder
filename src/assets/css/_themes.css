@@ -39,6 +39,11 @@
   --vf-overlay-bg: rgba(17, 24, 39, 0.7);
   --vf-overlay-border: rgba(75, 85, 99, 0.8);
   --vf-overlay-text: #6b7280;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(107, 114, 128, 0.4);
+  --vf-scrollbar-handle-hover: rgba(107, 114, 128, 0.6);
+  --vf-scrollbar-handle-active: rgba(107, 114, 128, 0.8);
 }
 /* Silver Theme - Selection Area */
 .selection-area-container {

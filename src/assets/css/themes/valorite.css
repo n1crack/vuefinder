@@ -50,6 +50,11 @@
   --vf-dropdown-border: #374151;
   --vf-dropdown-text: #f9fafb;
   --vf-dropdown-hover: #374151;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(156, 163, 175, 0.4);
+  --vf-scrollbar-handle-hover: rgba(156, 163, 175, 0.6);
+  --vf-scrollbar-handle-active: rgba(156, 163, 175, 0.8);
 }
 
 /* Valorite Theme - Selection Area */

@@ -50,6 +50,11 @@
   --vf-dropdown-border: #d0d7de;
   --vf-dropdown-text: #24292f;
   --vf-dropdown-hover: #f6f8fa;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(101, 109, 118, 0.4);
+  --vf-scrollbar-handle-hover: rgba(101, 109, 118, 0.6);
+  --vf-scrollbar-handle-active: rgba(101, 109, 118, 0.8);
 }
 
 /* Code Theme - Selection Area */

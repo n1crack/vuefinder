@@ -45,6 +45,11 @@
   --vf-dropdown-border: #cbd5e1;
   --vf-dropdown-text: #1e293b;
   --vf-dropdown-hover: #f1f5f9;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(14, 165, 233, 0.4);
+  --vf-scrollbar-handle-hover: rgba(14, 165, 233, 0.6);
+  --vf-scrollbar-handle-active: rgba(14, 165, 233, 0.8);
 }
 
 /* Mythril Theme - Context Menu */

@@ -68,9 +68,10 @@
   --os-handle-interactive-area-offset: 4px;
   --os-handle-border-radius: 10px;
 
-  --os-handle-bg: var(--vf-shadow-sm);
-  --os-handle-bg-hover: var(--vf-shadow-md);
-  --os-handle-bg-active: var(--vf-shadow-lg);
+  /* Default scrollbar colors - will be overridden by theme-specific values */
+  --os-handle-bg: var(--vf-scrollbar-handle, var(--vf-border-primary));
+  --os-handle-bg-hover: var(--vf-scrollbar-handle-hover, var(--vf-text-tertiary));
+  --os-handle-bg-active: var(--vf-scrollbar-handle-active, var(--vf-text-secondary));
 }
 
 @layer base {

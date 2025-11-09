@@ -45,6 +45,11 @@
   --vf-dropdown-border: #2c3e50;
   --vf-dropdown-text: #a6accd;
   --vf-dropdown-hover: #1e2326;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(199, 146, 234, 0.4);
+  --vf-scrollbar-handle-hover: rgba(199, 146, 234, 0.6);
+  --vf-scrollbar-handle-active: rgba(199, 146, 234, 0.8);
 }
 
 /* Palenight Theme - Selection Area */
