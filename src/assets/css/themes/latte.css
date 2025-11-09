@@ -49,6 +49,11 @@
   --vf-dropdown-border: #d4c4a8;
   --vf-dropdown-text: #4c2a1a;
   --vf-dropdown-hover: #f5f1e8;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(139, 90, 60, 0.4);
+  --vf-scrollbar-handle-hover: rgba(139, 90, 60, 0.6);
+  --vf-scrollbar-handle-active: rgba(139, 90, 60, 0.8);
 }
 
 /* Latte Theme - Selection Area */

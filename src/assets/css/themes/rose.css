@@ -46,6 +46,11 @@
   --vf-dropdown-border: #fecaca;
   --vf-dropdown-text: #7c2d12;
   --vf-dropdown-hover: #fef7f7;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(225, 29, 72, 0.4);
+  --vf-scrollbar-handle-hover: rgba(225, 29, 72, 0.6);
+  --vf-scrollbar-handle-active: rgba(225, 29, 72, 0.8);
 }
 
 /* Rose Theme - Context Menu */

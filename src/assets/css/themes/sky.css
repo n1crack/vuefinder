@@ -50,6 +50,11 @@
   --vf-dropdown-border: #1a1f2e;
   --vf-dropdown-text: #e0f2fe;
   --vf-dropdown-hover: #0f1419;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(125, 211, 252, 0.4);
+  --vf-scrollbar-handle-hover: rgba(125, 211, 252, 0.6);
+  --vf-scrollbar-handle-active: rgba(125, 211, 252, 0.8);
 }
 
 /* Sky Theme - Selection Area */

@@ -50,6 +50,11 @@
   --vf-dropdown-border: #334155;
   --vf-dropdown-text: #f1f5f9;
   --vf-dropdown-hover: #1e293b;
+
+  /* Scrollbar Colors */
+  --vf-scrollbar-handle: rgba(148, 163, 184, 0.4);
+  --vf-scrollbar-handle-hover: rgba(148, 163, 184, 0.6);
+  --vf-scrollbar-handle-active: rgba(148, 163, 184, 0.8);
 }
 
 /* Midnight Theme - Selection Area */
