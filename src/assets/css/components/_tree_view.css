@@ -35,6 +35,10 @@
   @apply text-xs text-(--vf-text-tertiary) italic;
 }
 
+.vuefinder__treesubfolderlist__load-more {
+  @apply cursor-pointer text-xs text-(--vf-accent-primary) underline hover:text-(--vf-accent-primary-hover);
+}
+
 /* No Pinned Folders Message Styling */
 .vuefinder__treeview__no-pinned {
   @apply px-3 py-2 text-center text-sm text-(--vf-text-tertiary) italic;
@@ -248,4 +252,8 @@
 
 .vuefinder__modal-tree__more-note-text {
   @apply text-xs text-(--vf-text-tertiary) italic;
+}
+
+.vuefinder__modal-tree__load-more {
+  @apply cursor-pointer text-xs text-(--vf-accent-primary) underline hover:text-(--vf-accent-primary-hover);
 }

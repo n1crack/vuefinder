@@ -26,6 +26,7 @@ const props = defineProps<{
   path: string;
 }>();
 const parentSubfolderList = ref(null);
+const displayedCount = ref(50);
 
 onMounted(() => {
   // only initialize overlay scrollbars for the root folder
@@ -43,10 +44,10 @@ const treeSubFolders = computed(() => {
     | undefined;
   const allFolders = entry?.folders || [];
 
-  // Limit render to first 50 folders for performance at any level
+  // Limit render to displayedCount folders for performance at any level
   // This prevents rendering too many folders at once (e.g., 50k folders)
-  if (allFolders.length > 50) {
-    return allFolders.slice(0, 50);
+  if (allFolders.length > displayedCount.value) {
+    return allFolders.slice(0, displayedCount.value);
   }
 
   return allFolders;
@@ -60,8 +61,12 @@ const totalFoldersCount = computed(() => {
 });
 
 const showMoreFoldersNote = computed(() => {
-  return totalFoldersCount.value > 50;
+  return totalFoldersCount.value > displayedCount.value;
 });
+
+const loadMore = () => {
+  displayedCount.value += 50;
+};
 </script>
 
 <template>
@@ -124,8 +129,8 @@ const showMoreFoldersNote = computed(() => {
       </div>
     </li>
     <li v-if="showMoreFoldersNote" class="vuefinder__treesubfolderlist__more-note">
-      <div class="vuefinder__treesubfolderlist__more-note-text">
-        {{ t('... and %s more folders', totalFoldersCount - 50) }}
+      <div class="vuefinder__treesubfolderlist__load-more" @click="loadMore">
+        {{ t('load more') }}
       </div>
     </li>
   </ul>

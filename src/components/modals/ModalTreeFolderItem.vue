@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
@@ -14,6 +14,9 @@ const app = useApp();
 const { t } = app.i18n;
 
 const fs = app.fs;
+
+// Track displayed count per folder path (for recursive components)
+const displayedCounts = ref<Record<string, number>>({});
 
 // Props
 const props = defineProps<{
@@ -55,11 +58,12 @@ const allSubfolders = computed(() => {
 
 const subfolders = computed(() => {
   const allFolders = allSubfolders.value;
+  const displayedCount = displayedCounts.value[props.folder.path] || 50;
 
-  // Limit render to first 50 folders for performance at any level
+  // Limit render to displayedCount folders for performance at any level
   // This prevents rendering too many folders at once (e.g., 50k folders)
-  if (allFolders.length > 50) {
-    return allFolders.slice(0, 50);
+  if (allFolders.length > displayedCount) {
+    return allFolders.slice(0, displayedCount);
   }
 
   return allFolders;
@@ -69,9 +73,17 @@ const totalSubfoldersCount = computed(() => {
   return allSubfolders.value.length;
 });
 
-const showMoreFoldersNote = computed(() => {
-  return totalSubfoldersCount.value > 50;
+const displayedCount = computed(() => {
+  return displayedCounts.value[props.folder.path] || 50;
 });
+
+const showMoreFoldersNote = computed(() => {
+  return totalSubfoldersCount.value > displayedCount.value;
+});
+
+const loadMore = () => {
+  displayedCounts.value[props.folder.path] = (displayedCount.value || 50) + 50;
+};
 
 const hasSubfolders = computed(() => {
   // Check if subfolders exist or if this folder can potentially have subfolders
@@ -156,8 +168,8 @@ const handleFolderTouch = () => {
         @toggle-folder="(storage, folderPath) => $emit('toggleFolder', storage, folderPath)"
       />
       <div v-if="showMoreFoldersNote" class="vuefinder__modal-tree__more-note">
-        <div class="vuefinder__modal-tree__more-note-text">
-          {{ t('... and %s more folders', totalSubfoldersCount - 50) }}
+        <div class="vuefinder__modal-tree__load-more" @click="loadMore">
+          {{ t('load more') }}
         </div>
       </div>
     </div>

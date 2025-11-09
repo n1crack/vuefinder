@@ -46,6 +46,9 @@ const expandedFolders = ref<Record<string, boolean>>({});
 // Modal-specific tree data
 const modalTreeData = ref<Record<string, DirEntry[]>>({});
 
+// Track displayed count per path (for load more functionality)
+const displayedCounts = ref<Record<string, number>>({});
+
 // watch for changes in the fs.data
 // update the modalTreeData
 watch(sortedFiles, (newFiles: any) => {
@@ -89,12 +92,18 @@ const getFoldersForPath = (folderPath: string): DirEntry[] => {
   return modalTreeData.value[folderPath] || [];
 };
 
-// Function to get limited folders for a path (max 50)
+// Function to get displayed count for a path
+const getDisplayedCountForPath = (folderPath: string): number => {
+  return displayedCounts.value[folderPath] || 50;
+};
+
+// Function to get limited folders for a path
 const getLimitedFoldersForPath = (folderPath: string): DirEntry[] => {
   const allFolders = getFoldersForPath(folderPath);
-  // Limit render to first 50 folders for performance
-  if (allFolders.length > 50) {
-    return allFolders.slice(0, 50);
+  const displayedCount = getDisplayedCountForPath(folderPath);
+  // Limit render to displayedCount folders for performance
+  if (allFolders.length > displayedCount) {
+    return allFolders.slice(0, displayedCount);
   }
   return allFolders;
 };
@@ -106,7 +115,12 @@ const getTotalFoldersCountForPath = (folderPath: string): number => {
 
 // Function to check if should show more folders note
 const shouldShowMoreFoldersNote = (folderPath: string): boolean => {
-  return getTotalFoldersCountForPath(folderPath) > 50;
+  return getTotalFoldersCountForPath(folderPath) > getDisplayedCountForPath(folderPath);
+};
+
+// Function to load more folders
+const loadMoreFolders = (folderPath: string) => {
+  displayedCounts.value[folderPath] = getDisplayedCountForPath(folderPath) + 50;
 };
 
 const selectFolder = (folder: DirEntry | null) => {
@@ -286,10 +300,11 @@ onMounted(() => {
                 v-if="shouldShowMoreFoldersNote(storage + '://')"
                 class="vuefinder__modal-tree__more-note"
               >
-                <div class="vuefinder__modal-tree__more-note-text">
-                  {{
-                    t('... and %s more folders', getTotalFoldersCountForPath(storage + '://') - 50)
-                  }}
+                <div
+                  class="vuefinder__modal-tree__load-more"
+                  @click="loadMoreFolders(storage + '://')"
+                >
+                  {{ t('load more') }}
                 </div>
               </div>
             </div>
