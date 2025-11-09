@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, type Ref } from 'vue';
+import { ref, computed, onMounted, onUnmounted, type Ref } from 'vue';
 import { useApp } from '../composables/useApp';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import type { DirEntry } from '../types';
@@ -31,6 +31,17 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const selectedKeys: StoreValue<Set<string>> = useStore(fs.selectedKeys);
   const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
 
+  // Cache: Key-to-item map for O(1) lookup instead of O(n) find
+  const keyToItemMap = computed(() => {
+    const map = new Map<string, DirEntry>();
+    if (sortedFiles.value) {
+      sortedFiles.value.forEach((file: DirEntry) => {
+        map.set(getKey(file as T), file);
+      });
+    }
+    return map;
+  });
+
   const tempSelection = ref(new Set<string>());
   const isDragging = ref(false);
   const selectionStarted = ref(false);
@@ -56,19 +67,51 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         }
       });
 
-      // Sadece seçili ve selectable olanları işle
+      // Batch select: Collect all selectable elements first, then select all at once
+      const elementsToSelect: Element[] = [];
       selectedKeys.value.forEach((id: string) => {
         const el = elementsMap.get(id);
-        if (el && isItemSelectable(id)) {
-          event.selection.select(el, true);
+        if (el) {
+          // Use cached map for O(1) lookup
+          const item = keyToItemMap.value.get(id);
+          if (item) {
+            const filterType = app.selectionFilterType;
+            const allowedMimes = app.selectionFilterMimeIncludes;
+
+            // Check type filter
+            if (filterType === 'files' && item.type === 'dir') return;
+            if (filterType === 'dirs' && item.type === 'file') return;
+
+            // Check MIME filter
+            if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
+              if (item.type === 'dir') {
+                // Directories are always selectable when MIME filters are active
+                elementsToSelect.push(el);
+                return;
+              }
+              if (!item.mime_type) return;
+              if (allowedMimes.some((prefix: string) => item.mime_type?.startsWith(prefix))) {
+                elementsToSelect.push(el);
+              }
+            } else {
+              // No filters, item is selectable
+              elementsToSelect.push(el);
+            }
+          }
         }
+      });
+
+      // Batch select all elements at once (more efficient than individual selects)
+      elementsToSelect.forEach((el) => {
+        event.selection.select(el, true);
       });
     }
   };
 
   // Helper function to check if an item is selectable based on filters
   const isItemSelectable = (key: string): boolean => {
-    const item = sortedFiles.value?.find((f: DirEntry) => getKey(f as T) === key);
+    // Use cached map for O(1) lookup instead of O(n) find
+    const item = keyToItemMap.value.get(key);
     if (!item) return false;
 
     const filterType = app.selectionFilterType;
@@ -231,7 +274,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     removedData.forEach((id) => {
       const el = document.querySelector(`[data-key="${id}"]`);
-      if (el && sortedFiles.value?.find((file: DirEntry) => getKey(file as T) === id)) {
+      // Use cached map for O(1) lookup instead of O(n) find
+      if (el && keyToItemMap.value.has(id)) {
         tempSelection.value.delete(id);
       }
       fs.deselect(id);
