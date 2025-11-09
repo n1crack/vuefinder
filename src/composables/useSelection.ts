@@ -45,9 +45,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const cleanupSelection = (event: SelectionEvent) => {
-    event.selection.getSelection().forEach((item: Element) => {
-      event.selection.deselect(item, true);
-    });
+    event.selection.clearSelection(true, true);
   };
 
   const refreshSelection = (event: SelectionEvent) => {
