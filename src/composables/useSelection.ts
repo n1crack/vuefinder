@@ -4,6 +4,7 @@ import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import type { DirEntry } from '../types';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
+import { debounce } from '../utils/debounce';
 
 export interface UseSelectionDeps<T> {
   getItemPosition: (itemIndex: number) => { row: number; col: number };
@@ -36,6 +37,9 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const selectionStarted = ref(false);
   const startPosition = ref<{ row: number; col: number } | null>(null);
 
+  // Debounced resolveSelectables for performance (called on scroll)
+  let debouncedResolveSelectables: (() => void) | null = null;
+
   const extractIds = (els: Element[]): string[] => {
     return els.map((v) => v.getAttribute('data-key')).filter((v): v is string => Boolean(v));
   };
@@ -60,7 +64,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   // Helper function to check if an item is selectable based on filters
   const isItemSelectable = (key: string): boolean => {
     const item = sortedFiles.value?.find((f: DirEntry) => getKey(f as T) === key);
-
     if (!item) return false;
 
     const filterType = app.selectionFilterType;
@@ -187,8 +190,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     if (app.selectionMode === 'single') {
       return;
     }
-
-    const selection = event.selection;
     const addedData = extractIds(event.store.changed.added);
     const removedData = extractIds(event.store.changed.removed);
 
@@ -209,7 +210,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
       }
       fs.deselect(id);
     });
-    selection.resolveSelectables();
+
     refreshSelection(event);
   };
 
@@ -362,6 +363,26 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
       }
     };
     document.addEventListener('dragleave', handleDragLeave);
+
+    // Setup debounced resolveSelectables on scroll for performance
+    debouncedResolveSelectables = debounce(() => {
+      if (selectionObject.value) {
+        selectionObject.value.resolveSelectables();
+      }
+    }, 100); // 100ms debounce delay for scroll events
+
+    // Find scroll container and attach scroll listener
+    const scrollContainer = document.querySelector(`.scroller-${explorerId}`) as HTMLElement;
+    if (scrollContainer && debouncedResolveSelectables) {
+      scrollContainer.addEventListener('scroll', debouncedResolveSelectables, { passive: true });
+
+      onUnmounted(() => {
+        if (scrollContainer && debouncedResolveSelectables) {
+          scrollContainer.removeEventListener('scroll', debouncedResolveSelectables);
+        }
+      });
+    }
+
     onUnmounted(() => {
       document.removeEventListener('dragleave', handleDragLeave);
     });

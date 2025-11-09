@@ -11,5 +11,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <vue-finder id="memory_vuefinder" :driver="driver" :config="config" :features="features" />
+    <div class="h-[420px]">
+        <vue-finder id="memory_vuefinder" :driver="driver" :config="config" :features="features" />
+    </div>
 </template>

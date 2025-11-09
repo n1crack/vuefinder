@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, shallowRef, onMounted, onUnmounted } from 'vue';
 import { RemoteDriver, ArrayDriver, IndexedDBDriver } from '../src/adapters';
 import MemoryExample from './examples/MemoryExample.vue';
 import IndexedDBExample from './examples/IndexedDBExample.vue';
@@ -70,6 +70,36 @@ const memoryFiles = ref<DirEntry[]>([
 ]);
 const arrayDriver = new ArrayDriver({ files: memoryFiles, storage: 'memory' });
 
+// Generate 10k folders in root for performance demo
+function generateLargeDataset(): DirEntry[] {
+  const files: DirEntry[] = [];
+  const storage = 'performance';
+  const baseTime = Date.now();
+  
+  // Create 10k folders in root
+  for (let i = 0; i < 10000; i++) {
+    const folderName = `folder-${String(i).padStart(5, '0')}`;
+    files.push({
+      storage,
+      dir: `${storage}://`,
+      basename: folderName,
+      extension: '',
+      path: `${storage}://${folderName}`,
+      type: 'dir',
+      file_size: null,
+      last_modified: baseTime - Math.random() * 86400000 * 30,
+      mime_type: null,
+      visibility: 'public',
+    });
+  }
+  
+  return files;
+}
+
+// Create performance demo ArrayDriver with 10k items
+const performanceFiles: DirEntry[] = generateLargeDataset();
+const performanceDriver: ArrayDriver = new ArrayDriver({ files: performanceFiles, storage: 'performance' });
+
 // Create IndexedDB driver instance (persists to browser IndexedDB)
 const indexedDBDriver = new IndexedDBDriver({
   dbName: 'vuefinder-example',
@@ -81,6 +111,7 @@ const driver = ref(remoteDriver as any);
 const examples = {
   default: 'Inline select button example',
   arrayDriver: 'In-memory ArrayDriver (no REST)',
+  performanceDemo: 'Performance Demo - 10k Items (ArrayDriver)',
   indexedDB: 'IndexedDB Driver (persistent)',
   externalSelect: 'External select example',
   contextmenu: 'Custom context menu example',
@@ -188,7 +219,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Regular examples (only show if not in popup) -->
-    <div v-if="!isPopup" class="flex max-h-120 min-h-80 flex-col [&>*]:h-full [&>*]:flex-1">
+    <div v-if="!isPopup" class="flex max-h-120 min-h-80 flex-col">
       <DefaultExample
         v-if="example === 'default'"
         :driver="driver"
@@ -264,6 +295,14 @@ onUnmounted(() => {
         v-if="example === 'arrayDriver'"
         :driver="arrayDriver"
         :config="{ ...config, theme: currentTheme, initialPath: 'memory://', persist: false }"
+        :features="features"
+      />
+
+      <!-- Performance demo with 100k items -->
+      <MemoryExample
+        v-if="example === 'performanceDemo' && performanceDriver"
+        :driver="performanceDriver"
+        :config="{ ...config, theme: currentTheme, initialPath: 'performance://', persist: false }"
         :features="features"
       />
 
