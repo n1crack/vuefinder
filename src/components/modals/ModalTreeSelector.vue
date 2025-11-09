@@ -89,6 +89,26 @@ const getFoldersForPath = (folderPath: string): DirEntry[] => {
   return modalTreeData.value[folderPath] || [];
 };
 
+// Function to get limited folders for a path (max 50)
+const getLimitedFoldersForPath = (folderPath: string): DirEntry[] => {
+  const allFolders = getFoldersForPath(folderPath);
+  // Limit render to first 50 folders for performance
+  if (allFolders.length > 50) {
+    return allFolders.slice(0, 50);
+  }
+  return allFolders;
+};
+
+// Function to get total folder count for a path
+const getTotalFoldersCountForPath = (folderPath: string): number => {
+  return getFoldersForPath(folderPath).length;
+};
+
+// Function to check if should show more folders note
+const shouldShowMoreFoldersNote = (folderPath: string): boolean => {
+  return getTotalFoldersCountForPath(folderPath) > 50;
+};
+
 const selectFolder = (folder: DirEntry | null) => {
   if (!folder) return;
   emit('update:modelValue', folder);
@@ -250,7 +270,7 @@ onMounted(() => {
               class="vuefinder__modal-tree__subfolders"
             >
               <ModalTreeFolderItem
-                v-for="folder in getFoldersForPath(storage + '://')"
+                v-for="folder in getLimitedFoldersForPath(storage + '://')"
                 :key="folder.path"
                 :folder="folder"
                 :storage="storage"
@@ -262,6 +282,16 @@ onMounted(() => {
                 @select-and-close="selectFolderAndClose"
                 @toggle-folder="toggleFolder"
               />
+              <div
+                v-if="shouldShowMoreFoldersNote(storage + '://')"
+                class="vuefinder__modal-tree__more-note"
+              >
+                <div class="vuefinder__modal-tree__more-note-text">
+                  {{
+                    t('... and %s more folders', getTotalFoldersCountForPath(storage + '://') - 50)
+                  }}
+                </div>
+              </div>
             </div>
           </div>
         </div>

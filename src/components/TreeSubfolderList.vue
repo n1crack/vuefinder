@@ -41,7 +41,26 @@ const treeSubFolders = computed(() => {
   const entry = app.treeViewData.find((e: TreeViewData) => e.path === props.path) as
     | TreeViewData
     | undefined;
-  return entry?.folders || [];
+  const allFolders = entry?.folders || [];
+
+  // Limit render to first 50 folders for performance at any level
+  // This prevents rendering too many folders at once (e.g., 50k folders)
+  if (allFolders.length > 50) {
+    return allFolders.slice(0, 50);
+  }
+
+  return allFolders;
+});
+
+const totalFoldersCount = computed(() => {
+  const entry = app.treeViewData.find((e: TreeViewData) => e.path === props.path) as
+    | TreeViewData
+    | undefined;
+  return entry?.folders?.length || 0;
+});
+
+const showMoreFoldersNote = computed(() => {
+  return totalFoldersCount.value > 50;
 });
 </script>
 
@@ -102,6 +121,11 @@ const treeSubFolders = computed(() => {
           :storage="props.storage"
           :path="item.path"
         />
+      </div>
+    </li>
+    <li v-if="showMoreFoldersNote" class="vuefinder__treesubfolderlist__more-note">
+      <div class="vuefinder__treesubfolderlist__more-note-text">
+        {{ t('... and %s more folders', totalFoldersCount - 50) }}
       </div>
     </li>
   </ul>

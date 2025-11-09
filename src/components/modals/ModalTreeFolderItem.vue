@@ -49,13 +49,33 @@ const isCurrentPath = computed(() => {
   return props.currentPath?.path === props.folder.path;
 });
 
-const subfolders = computed(() => {
+const allSubfolders = computed(() => {
   return props.modalTreeData[props.folder.path] || [];
+});
+
+const subfolders = computed(() => {
+  const allFolders = allSubfolders.value;
+
+  // Limit render to first 50 folders for performance at any level
+  // This prevents rendering too many folders at once (e.g., 50k folders)
+  if (allFolders.length > 50) {
+    return allFolders.slice(0, 50);
+  }
+
+  return allFolders;
+});
+
+const totalSubfoldersCount = computed(() => {
+  return allSubfolders.value.length;
+});
+
+const showMoreFoldersNote = computed(() => {
+  return totalSubfoldersCount.value > 50;
 });
 
 const hasSubfolders = computed(() => {
   // Check if subfolders exist or if this folder can potentially have subfolders
-  return subfolders.value.length > 0 || props.folder.type === 'dir';
+  return allSubfolders.value.length > 0 || props.folder.type === 'dir';
 });
 
 // Methods
@@ -135,6 +155,11 @@ const handleFolderTouch = () => {
         @select-and-close="$emit('selectAndClose', $event)"
         @toggle-folder="(storage, folderPath) => $emit('toggleFolder', storage, folderPath)"
       />
+      <div v-if="showMoreFoldersNote" class="vuefinder__modal-tree__more-note">
+        <div class="vuefinder__modal-tree__more-note-text">
+          {{ t('... and %s more folders', totalSubfoldersCount - 50) }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
