@@ -70,14 +70,14 @@ const memoryFiles = ref<DirEntry[]>([
 ]);
 const arrayDriver = new ArrayDriver({ files: memoryFiles, storage: 'memory' });
 
-// Generate 10k folders in root for performance demo
+// Generate 50k folders in root for performance demo
 function generateLargeDataset(): DirEntry[] {
   const files: DirEntry[] = [];
   const storage = 'performance';
   const baseTime = Date.now();
   
-  // Create 10k folders in root
-  for (let i = 0; i < 10000; i++) {
+  // Create 50k folders in root
+  for (let i = 0; i < 50000; i++) {
     const folderName = `folder-${String(i).padStart(5, '0')}`;
     files.push({
       storage,
@@ -96,7 +96,7 @@ function generateLargeDataset(): DirEntry[] {
   return files;
 }
 
-// Create performance demo ArrayDriver with 10k items
+// Create performance demo ArrayDriver with 50k items
 const performanceFiles: DirEntry[] = generateLargeDataset();
 const performanceDriver: ArrayDriver = new ArrayDriver({ files: performanceFiles, storage: 'performance' });
 
@@ -111,7 +111,7 @@ const driver = ref(remoteDriver as any);
 const examples = {
   default: 'Inline select button example',
   arrayDriver: 'In-memory ArrayDriver (no REST)',
-  performanceDemo: 'Performance Demo - 10k Items (ArrayDriver)',
+  performanceDemo: 'Performance Demo - 50k Items (ArrayDriver)',
   indexedDB: 'IndexedDB Driver (persistent)',
   externalSelect: 'External select example',
   contextmenu: 'Custom context menu example',
