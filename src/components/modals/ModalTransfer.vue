@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
@@ -14,6 +14,8 @@ import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
 import FolderSVG from '../../assets/icons/folder.svg';
 import FileSVG from '../../assets/icons/file.svg';
+import { getErrorMessage } from '../../utils/errorHandler';
+import { toast } from 'vue-sonner';
 
 const app = useApp();
 const { enabled } = useFeature();
@@ -131,13 +133,18 @@ const getDestinationParts = () => {
 
 const transfer = async () => {
   if (items.value.length) {
-    const { files } = await app.adapter[operation.value]({
-      path: currentPath.value.path,
-      sources: items.value.map(({ path }: { path: string }) => path),
-      destination: destination.value.path,
-    });
-    app.fs.setFiles(files);
-    app.modal.close();
+    try {
+      const { files } = await app.adapter[operation.value]({
+        path: currentPath.value.path,
+        sources: items.value.map(({ path }: { path: string }) => path),
+        destination: destination.value.path,
+      });
+
+      app.fs.setFiles(files);
+      app.modal.close();
+    } catch (error) {
+      toast.error(getErrorMessage(error, t('Failed to transfer files')));
+    }
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, computed, useTemplateRef, watch, onMounted, onUnmounted } from 'vue';
+import { ref, computed, useTemplateRef, watch, onMounted, onUnmounted } from 'vue';
 import { useApp } from '../../composables/useApp';
 import LoadingSVG from '../../assets/icons/loading.svg';
 import SearchResultItem from './SearchResultItem.vue';

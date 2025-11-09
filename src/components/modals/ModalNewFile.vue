@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
 import NewFileSVG from '../../assets/icons/new_file.svg';
-import type { FileOperationResult } from '../../adapters';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
 

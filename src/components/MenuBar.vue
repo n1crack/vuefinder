@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { useFeature } from '../composables/useFeature';
 import type { DirEntry } from '../types';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, onMounted, onUnmounted } from 'vue';
+import { computed } from 'vue';
 import { useApp } from '../composables/useApp';
 import { useStore } from '@nanostores/vue';
 import StorageSVG from '../assets/icons/storage.svg';

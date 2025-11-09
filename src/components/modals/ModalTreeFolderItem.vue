@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';

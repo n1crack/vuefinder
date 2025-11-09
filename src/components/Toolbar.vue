@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, watch, onMounted, onUnmounted, computed } from 'vue';
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
 import { useApp } from '../composables/useApp';
 import { useFeature } from '../composables/useFeature';
 import { useStore } from '@nanostores/vue';
@@ -18,7 +18,6 @@ import DeleteSVG from '../assets/icons/delete.svg';
 import UploadSVG from '../assets/icons/upload.svg';
 import ArchiveSVG from '../assets/icons/archive.svg';
 import UnarchiveSVG from '../assets/icons/unarchive.svg';
-import LoadingSVG from '../assets/icons/loading.svg';
 import FullscreenSVG from '../assets/icons/full_screen.svg';
 import MinimizeSVG from '../assets/icons/minimize.svg';
 import GridViewSVG from '../assets/icons/grid_view.svg';

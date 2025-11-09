@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, nextTick, onMounted, onUnmounted, ref, watch, computed } from 'vue';
+import { nextTick, onMounted, onUnmounted, ref, watch, computed } from 'vue';
 import { useStore } from '@nanostores/vue';
 import useDebouncedRef from '../composables/useDebouncedRef';
 import { copyPath } from '../utils/clipboard';

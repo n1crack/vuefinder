@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, onBeforeUnmount, inject, useTemplateRef, onMounted } from 'vue';
+import { provide, onBeforeUnmount, inject } from 'vue';
 import { registerApp, unregisterApp, ServiceContainerIdKey, useApp } from '../composables/useApp';
 import ServiceContainer from '../ServiceContainer';
 import VueFinderView from './VueFinderView.vue';

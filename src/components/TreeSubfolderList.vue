@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useApp } from '../composables/useApp';
 import { useStore } from '@nanostores/vue';
 
