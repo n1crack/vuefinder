@@ -92,16 +92,37 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const getSelectionRange = (selectionParam: Set<string>) => {
-    if (selectionParam.size === 0) return null;
+    if (selectionParam.size === 0) {
+      return null;
+    }
+
+    // Optimize: Create key->index map once instead of findIndex for each key
+    const keyToIndexMap = new Map<string, number>();
+    if (sortedFiles.value) {
+      sortedFiles.value.forEach((f: DirEntry, index: number) => {
+        keyToIndexMap.set(getKey(f as T), index);
+      });
+    }
+
     const ids = Array.from(selectionParam);
-    const positions = ids.map((key) => {
-      const index = sortedFiles.value?.findIndex((f: DirEntry) => getKey(f as T) === key) ?? -1;
-      return getItemPosition(index >= 0 ? index : 0);
-    });
-    const minRow = Math.min(...positions.map((p) => p.row));
-    const maxRow = Math.max(...positions.map((p) => p.row));
-    const minCol = Math.min(...positions.map((p) => p.col));
-    const maxCol = Math.max(...positions.map((p) => p.col));
+    const positions = ids
+      .map((key) => {
+        const index = keyToIndexMap.get(key) ?? -1;
+        return index >= 0 ? getItemPosition(index) : null;
+      })
+      .filter((pos): pos is { row: number; col: number } => pos !== null);
+
+    if (positions.length === 0) {
+      return null;
+    }
+
+    // Optimize: Use reduce instead of Math.min/max with spread operator for better performance
+    const firstPos = positions[0]!; // Safe: positions.length > 0 checked above
+    const minRow = positions.reduce((min, p) => (p.row < min ? p.row : min), firstPos.row);
+    const maxRow = positions.reduce((max, p) => (p.row > max ? p.row : max), firstPos.row);
+    const minCol = positions.reduce((min, p) => (p.col < min ? p.col : min), firstPos.col);
+    const maxCol = positions.reduce((max, p) => (p.col > max ? p.col : max), firstPos.col);
+
     return { minRow, maxRow, minCol, maxCol };
   };
 
@@ -228,11 +249,18 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     if (event.event && startPosition.value) {
       // If we have tempSelection items, use them along with start position
       if (tempSelection.value.size > 0) {
+        // Optimize: Create key->index map once instead of findIndex for each key
+        const keyToIndexMap = new Map<string, number>();
+        if (sortedFiles.value) {
+          sortedFiles.value.forEach((f: DirEntry, index: number) => {
+            keyToIndexMap.set(getKey(f as T), index);
+          });
+        }
+
         const keys = Array.from(tempSelection.value);
         const positions = keys
           .map((key) => {
-            const index =
-              sortedFiles.value?.findIndex((f: DirEntry) => getKey(f as T) === key) ?? -1;
+            const index = keyToIndexMap.get(key) ?? -1;
             return index >= 0 ? getItemPosition(index) : null;
           })
           .filter((pos): pos is { row: number; col: number } => pos !== null);
@@ -241,27 +269,47 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
           // Include start position in the range calculation
           const allPositions = [...positions, startPosition.value];
           // Calculate the actual min/max row and column from all positions including start
+          // Optimize: Use reduce instead of Math.min/max with spread operator
+          const firstPos = allPositions[0]!;
           const minMaxIds = {
-            minRow: Math.min(...allPositions.map((p) => p.row)),
-            maxRow: Math.max(...allPositions.map((p) => p.row)),
-            minCol: Math.min(...allPositions.map((p) => p.col)),
-            maxCol: Math.max(...allPositions.map((p) => p.col)),
+            minRow: allPositions.reduce((min, p) => (p.row < min ? p.row : min), firstPos.row),
+            maxRow: allPositions.reduce((max, p) => (p.row > max ? p.row : max), firstPos.row),
+            minCol: allPositions.reduce((min, p) => (p.col < min ? p.col : min), firstPos.col),
+            maxCol: allPositions.reduce((max, p) => (p.col > max ? p.col : max), firstPos.col),
           };
-          (
-            getItemsInRange(
-              (sortedFiles.value as any[]) || [],
-              minMaxIds.minRow,
-              minMaxIds.maxRow,
-              minMaxIds.minCol,
-              minMaxIds.maxCol
-            ) as any[]
-          ).forEach((item) => {
-            const key = getKey(item as T);
-            const el = document.querySelector(`[data-key="${key}"]`);
-            if (!el) {
-              fs.select(key, (app.selectionMode as 'single' | 'multiple') || 'multiple');
+          const itemsInRange = getItemsInRange(
+            (sortedFiles.value as any[]) || [],
+            minMaxIds.minRow,
+            minMaxIds.maxRow,
+            minMaxIds.minCol,
+            minMaxIds.maxCol
+          ) as any[];
+
+          // Optimize: Get all elements at once instead of querySelector in loop
+          const allElements = document.querySelectorAll(`.file-item-${explorerId}[data-key]`);
+          const elementsMap = new Map<string, Element>();
+          allElements.forEach((el) => {
+            const key = el.getAttribute('data-key');
+            if (key) {
+              elementsMap.set(key, el);
             }
           });
+
+          // Optimize: Batch select operations - collect all keys first, then select all at once
+          const keysToSelect: string[] = [];
+          itemsInRange.forEach((item) => {
+            const key = getKey(item as T);
+            const el = elementsMap.get(key);
+            if (!el) {
+              keysToSelect.push(key);
+            }
+          });
+
+          // Batch select all keys at once
+          if (keysToSelect.length > 0) {
+            const selectionMode = (app.selectionMode as 'single' | 'multiple') || 'multiple';
+            fs.selectMultiple(keysToSelect, selectionMode);
+          }
         }
       } else {
         // If no tempSelection, don't do range selection

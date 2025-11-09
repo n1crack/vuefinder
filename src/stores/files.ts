@@ -185,6 +185,19 @@ export const createFilesStore = () => {
     selectedKeys.set(currentKeys);
   };
 
+  const selectMultiple = (keys: string[], selectionMode: 'single' | 'multiple' = 'multiple') => {
+    const currentKeys = new Set(selectedKeys.get());
+
+    // In single selection mode, clear existing selection before adding new one
+    if (selectionMode === 'single') {
+      currentKeys.clear();
+    }
+
+    // Add all keys at once
+    keys.forEach((key) => currentKeys.add(key));
+    selectedKeys.set(currentKeys);
+  };
+
   const deselect = (key: string) => {
     const currentKeys = new Set(selectedKeys.get());
     currentKeys.delete(key);
@@ -421,6 +434,7 @@ export const createFilesStore = () => {
     setFilter,
     clearFilter,
     select,
+    selectMultiple,
     deselect,
     toggleSelect,
     selectAll,
