@@ -113,6 +113,7 @@
     "@vitejs/plugin-vue-jsx": "^5.1.1",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/test-utils": "^2.4.6",
+    "@vue/devtools-api": "^8.0.3",
     "@vue/tsconfig": "^0.8.1",
     "cypress": "^15.3.0",
     "eslint": "^9.38.0",
