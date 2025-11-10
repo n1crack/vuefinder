@@ -27,11 +27,9 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const app = useApp();
   const fs = app.fs;
 
-  // Make nanostores reactive in Vue context
   const selectedKeys: StoreValue<Set<string>> = useStore(fs.selectedKeys);
   const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
 
-  // Cache: Key-to-item map for O(1) lookup instead of O(n) find
   const keyToItemMap = computed(() => {
     const map = new Map<string, DirEntry>();
     if (sortedFiles.value) {
@@ -57,7 +55,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
   const refreshSelection = (event: SelectionEvent) => {
     if (selectedKeys.value && selectedKeys.value.size > 0) {
-      // Tek bir querySelectorAll ile tüm elementleri bul (performans optimizasyonu)
       const allElements = document.querySelectorAll(`.file-item-${explorerId}[data-key]`);
       const elementsMap = new Map<string, Element>();
       allElements.forEach((el) => {
@@ -67,67 +64,34 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         }
       });
 
-      // Batch select: Collect all selectable elements first, then select all at once
       const elementsToSelect: Element[] = [];
       selectedKeys.value.forEach((id: string) => {
         const el = elementsMap.get(id);
-        if (el) {
-          // Use cached map for O(1) lookup
-          const item = keyToItemMap.value.get(id);
-          if (item) {
-            const filterType = app.selectionFilterType;
-            const allowedMimes = app.selectionFilterMimeIncludes;
-
-            // Check type filter
-            if (filterType === 'files' && item.type === 'dir') return;
-            if (filterType === 'dirs' && item.type === 'file') return;
-
-            // Check MIME filter
-            if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
-              if (item.type === 'dir') {
-                // Directories are always selectable when MIME filters are active
-                elementsToSelect.push(el);
-                return;
-              }
-              if (!item.mime_type) return;
-              if (allowedMimes.some((prefix: string) => item.mime_type?.startsWith(prefix))) {
-                elementsToSelect.push(el);
-              }
-            } else {
-              // No filters, item is selectable
-              elementsToSelect.push(el);
-            }
-          }
+        if (el && isItemSelectable(id)) {
+          elementsToSelect.push(el);
         }
       });
 
-      // Batch select all elements at once (more efficient than individual selects)
       elementsToSelect.forEach((el) => {
         event.selection.select(el, true);
       });
     }
   };
 
-  // Helper function to check if an item is selectable based on filters
   const isItemSelectable = (key: string): boolean => {
-    // Use cached map for O(1) lookup instead of O(n) find
     const item = keyToItemMap.value.get(key);
     if (!item) return false;
 
     const filterType = app.selectionFilterType;
     const allowedMimes = app.selectionFilterMimeIncludes;
 
-    // Check type filter
     if (filterType === 'files' && item.type === 'dir') return false;
     if (filterType === 'dirs' && item.type === 'file') return false;
 
-    // Check MIME filter - only apply to files, not directories
     if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
-      // If it's a directory, MIME filters don't apply - it's always selectable
       if (item.type === 'dir') return true;
 
-      // For files, check MIME type
-      if (!item.mime_type) return false; // No MIME type means not selectable when MIME filters are active
+      if (!item.mime_type) return false;
       return allowedMimes.some((prefix: string) => item.mime_type?.startsWith(prefix));
     }
 
@@ -139,7 +103,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
       return null;
     }
 
-    // Optimize: Create key->index map once instead of findIndex for each key
     const keyToIndexMap = new Map<string, number>();
     if (sortedFiles.value) {
       sortedFiles.value.forEach((f: DirEntry, index: number) => {
@@ -159,8 +122,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
       return null;
     }
 
-    // Optimize: Use reduce instead of Math.min/max with spread operator for better performance
-    const firstPos = positions[0]!; // Safe: positions.length > 0 checked above
+    const firstPos = positions[0]!;
     const minRow = positions.reduce((min, p) => (p.row < min ? p.row : min), firstPos.row);
     const maxRow = positions.reduce((max, p) => (p.row > max ? p.row : max), firstPos.row);
     const minCol = positions.reduce((min, p) => (p.col < min ? p.col : min), firstPos.col);
@@ -170,12 +132,10 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const onBeforeStart = (event: SelectionEvent) => {
-    // Disable drag selection in single mode
     if (app.selectionMode === 'single') {
       return false;
     }
 
-    // reset drag state for new gesture
     isDragging.value = false;
     if (!event.event?.metaKey && !event.event?.ctrlKey) {
       selectionStarted.value = true;
@@ -187,7 +147,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
   const deltaY = ref(0);
 
-  // Normalize pointer position from mouse or touch events
   const getClientPoint = (rawEvent: Event): { x: number; y: number } | null => {
     const ev = rawEvent as unknown as TouchEvent | MouseEvent | undefined;
     if (ev && 'touches' in ev) {
@@ -216,7 +175,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     if (selectionAreaContainerElement) {
       selectionAreaContainerElement.dataset.theme = app.theme.current;
     }
-    // Disable drag selection in single mode
     if (app.selectionMode === 'single') {
       return;
     }
@@ -232,7 +190,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     }
     tempSelection.value.clear();
 
-    // Calculate start position from pointer (mouse or touch) coordinates
     if (selectionObject.value) {
       const container = selectionObject.value
         .getSelectables()[0]
@@ -244,7 +201,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
           const relativeY = point.y - rect.top + container.scrollTop;
           const relativeX = point.x - rect.left;
 
-          // Find the row and column based on pointer position
           const row = Math.floor(relativeY / rowHeight.value);
           const col = Math.floor(relativeX / itemWidth);
 
@@ -255,7 +211,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const onMove = (event: SelectionEvent) => {
-    // Disable drag selection in single mode
     if (app.selectionMode === 'single') {
       return;
     }
@@ -274,7 +229,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     removedData.forEach((id) => {
       const el = document.querySelector(`[data-key="${id}"]`);
-      // Use cached map for O(1) lookup instead of O(n) find
       if (el && keyToItemMap.value.has(id)) {
         tempSelection.value.delete(id);
       }
@@ -291,9 +245,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
   const selectSelectionRange = (event: SelectionEvent) => {
     if (event.event && startPosition.value) {
-      // If we have tempSelection items, use them along with start position
       if (tempSelection.value.size > 0) {
-        // Optimize: Create key->index map once instead of findIndex for each key
         const keyToIndexMap = new Map<string, number>();
         if (sortedFiles.value) {
           sortedFiles.value.forEach((f: DirEntry, index: number) => {
@@ -310,10 +262,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
           .filter((pos): pos is { row: number; col: number } => pos !== null);
 
         if (positions.length > 0) {
-          // Include start position in the range calculation
           const allPositions = [...positions, startPosition.value];
-          // Calculate the actual min/max row and column from all positions including start
-          // Optimize: Use reduce instead of Math.min/max with spread operator
           const firstPos = allPositions[0]!;
           const minMaxIds = {
             minRow: allPositions.reduce((min, p) => (p.row < min ? p.row : min), firstPos.row),
@@ -329,7 +278,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
             minMaxIds.maxCol
           ) as any[];
 
-          // Optimize: Get all elements at once instead of querySelector in loop
           const allElements = document.querySelectorAll(`.file-item-${explorerId}[data-key]`);
           const elementsMap = new Map<string, Element>();
           allElements.forEach((el) => {
@@ -339,7 +287,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
             }
           });
 
-          // Optimize: Batch select operations - collect all keys first, then select all at once
           const keysToSelect: string[] = [];
           itemsInRange.forEach((item) => {
             const key = getKey(item as T);
@@ -349,15 +296,11 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
             }
           });
 
-          // Batch select all keys at once
           if (keysToSelect.length > 0) {
             const selectionMode = (app.selectionMode as 'single' | 'multiple') || 'multiple';
             fs.selectMultiple(keysToSelect, selectionMode);
           }
         }
-      } else {
-        // If no tempSelection, don't do range selection
-        // This prevents unwanted selections when dragging over empty areas
       }
     }
   };
@@ -372,7 +315,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     startPosition.value = null;
   };
 
-  // Initialize SelectionArea
   const initializeSelectionArea = () => {
     selectionObject.value = new SelectionArea({
       selectables: ['.file-item-' + explorerId + ':not(.vf-explorer-item--unselectable)'],
@@ -406,7 +348,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     selectionObject.value.on('stop', onStop);
   };
 
-  // Cleanup SelectionArea
   const destroySelectionArea = () => {
     if (selectionObject.value) {
       selectionObject.value.destroy();
@@ -414,10 +355,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     }
   };
 
-  // Update SelectionArea when filters change
   const updateSelectionArea = () => {
     if (selectionObject.value) {
-      // Clean up selections that are no longer valid
       const currentSelection: string[] = Array.from(
         (selectedKeys.value ?? new Set<string>()) as Set<string>
       );
@@ -427,13 +366,11 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
         }
       });
 
-      // Re-initialize the selection area with updated selectables
       destroySelectionArea();
       initializeSelectionArea();
     }
   };
 
-  // Handle content click to clear selection
   const handleContentClick = (event: Event | PointerEvent) => {
     if (selectionStarted.value) {
       selectionObject.value?.clearSelection();
@@ -452,7 +389,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     }
   };
 
-  // Global dragleave listener to reliably reset dragging state
   onMounted(() => {
     const handleDragLeave = (e: Event) => {
       const ev = e as unknown as MouseEvent;
