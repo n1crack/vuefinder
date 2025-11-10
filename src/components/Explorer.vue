@@ -9,6 +9,7 @@ import {
   watch,
   onUpdated,
   shallowRef,
+  nextTick,
 } from 'vue';
 import { useStore } from '@nanostores/vue';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
@@ -21,7 +22,7 @@ import type { DirEntry, App, ItemDclickEvent } from '../types';
 import type { Item as ContextMenuItem } from '../utils/contextmenu';
 import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
 import { useDragNDrop } from '../composables/useDragNDrop';
-import { OverlayScrollbars } from 'overlayscrollbars';
+import { OverlayScrollbars, SizeObserverPlugin } from 'overlayscrollbars';
 import 'overlayscrollbars/overlayscrollbars.css';
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
@@ -61,8 +62,6 @@ let vfLazyLoad: ILazyLoadInstance | null = null;
 
 // OverlayScrollbars custom bar refs/state
 const osInstance = ref<ReturnType<typeof OverlayScrollbars> | null>(null);
-const scrollBar = useTemplateRef<HTMLElement>('customScrollBar');
-const scrollBarContainer = useTemplateRef<HTMLElement>('customScrollBarContainer');
 
 const rowHeight = computed(() => {
   const view = configState.value.view;
@@ -172,42 +171,32 @@ onMounted(() => {
     deep: true,
   });
 
-  // Initialize OverlayScrollbars custom track
-  if (scrollBarContainer.value) {
+  OverlayScrollbars.plugin([SizeObserverPlugin]);
+
+  if (scrollContainer.value) {
     const instance = OverlayScrollbars(
-      scrollBarContainer.value,
+      scrollContainer.value,
       {
         scrollbars: { theme: 'vf-scrollbars-theme' },
       },
       {
         initialized: (inst: ReturnType<typeof OverlayScrollbars>) => {
           osInstance.value = inst;
+          // Listen to scroll events on the viewport element (the actual scrolling element)
+          const { viewport } = inst.elements();
+          if (viewport) {
+            viewport.addEventListener('scroll', handleScroll);
+          }
         },
-        scroll: (inst: ReturnType<typeof OverlayScrollbars>) => {
-          const { scrollOffsetElement } = inst.elements();
-          if (scrollContainer.value) {
-            scrollContainer.value.scrollTo({
-              top: (scrollOffsetElement as HTMLElement).scrollTop,
-              left: 0,
-            });
+        updated: (inst: ReturnType<typeof OverlayScrollbars>) => {
+          const { viewport } = inst.elements();
+          if (viewport) {
+            // Safari / iOS bug: viewport.scrollHeight is not updated when the content height changes
           }
         },
       }
     );
     osInstance.value = instance as unknown as ReturnType<typeof OverlayScrollbars>;
-  }
-
-  // Sync custom bar when content scrolls
-  if (scrollContainer.value) {
-    scrollContainer.value.addEventListener('scroll', () => {
-      const inst = osInstance.value;
-      if (!inst) return;
-      const { scrollOffsetElement } = inst.elements();
-      (scrollOffsetElement as HTMLElement).scrollTo({
-        top: scrollContainer.value!.scrollTop,
-        left: 0,
-      });
-    });
   }
 });
 
@@ -223,14 +212,6 @@ onUpdated(() => {
   if (vfLazyLoad) {
     vfLazyLoad.update();
   }
-  // Update custom scrollbar height/visibility
-  const inst = osInstance.value;
-  if (inst && scrollBar.value && scrollContainer.value) {
-    const needsBar = scrollContainer.value.scrollHeight > scrollContainer.value.clientHeight;
-    const barEl = scrollBar.value;
-    barEl.style.display = needsBar ? 'block' : 'none';
-    barEl.style.height = `${totalHeight.value}px`;
-  }
 });
 
 onUnmounted(() => {
@@ -239,7 +220,12 @@ onUnmounted(() => {
     vfLazyLoad.destroy();
     vfLazyLoad = null;
   }
+  // Remove scroll listener from viewport before destroying
   if (osInstance.value) {
+    const { viewport } = osInstance.value.elements();
+    if (viewport) {
+      viewport.removeEventListener('scroll', handleScroll);
+    }
     osInstance.value.destroy();
     osInstance.value = null;
   }
@@ -495,14 +481,6 @@ const handleItemDragEnd = () => {
 
 <template>
   <div class="vuefinder__explorer__container">
-    <!-- Custom Scrollbar Container (OverlayScrollbars) -->
-    <div
-      ref="customScrollBarContainer"
-      class="vuefinder__explorer__scrollbar-container"
-      :class="[{ 'grid-view': configState.view === 'grid' }]"
-    >
-      <div ref="customScrollBar" class="vuefinder__explorer__scrollbar"></div>
-    </div>
     <!-- List header like Explorer (shown only in list view) -->
     <div v-if="configState.view === 'list'" class="vuefinder__explorer__header">
       <div
@@ -541,7 +519,6 @@ const handleItemDragEnd = () => {
       ref="scrollContainer"
       class="vuefinder__explorer__selector-area"
       :class="'scroller-' + explorerId"
-      @scroll="handleScroll"
     >
       <div
         v-if="config.get('loadingIndicator') === 'linear' && loading"

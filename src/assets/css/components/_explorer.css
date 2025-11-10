@@ -2,7 +2,7 @@
   @apply cursor-not-allowed opacity-50;
 }
 .vuefinder__explorer__container {
-  @apply relative flex min-h-40 flex-auto flex-col;
+  @apply relative flex flex-auto flex-col;
 }
 
 .vuefinder__explorer__header {
@@ -96,17 +96,6 @@
 
 .vf-explorer-selected {
   @apply border-(--vf-border-primary) bg-(--vf-bg-selected);
-}
-
-.vuefinder__explorer__scrollbar-container {
-  @apply pointer-events-none absolute top-[33px] right-0 z-[10] h-[calc(100%-33px)] p-1;
-}
-.vuefinder__explorer__scrollbar-container.grid-view:not(.search-active) {
-  @apply top-0 h-full;
-}
-
-.vuefinder__explorer__scrollbar {
-  @apply pointer-events-none w-4 bg-transparent;
 }
 
 /* Row classes for virtual scrolling */

@@ -60,7 +60,7 @@ export default (props: VueFinderProps, options: Record<string, unknown>): any =>
       supportedLocales as Record<string, unknown>
     ),
     // modal state
-    modal: useModal(),
+    modal: useModal(configStore),
     // adapter for file operations (always wrapped with AdapterManager)
     // Use markRaw to prevent TanStack Query from being made reactive
     adapter: markRaw(adapterManager),
