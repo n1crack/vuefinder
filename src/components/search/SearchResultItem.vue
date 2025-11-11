@@ -6,6 +6,7 @@ import { shortenPath } from '../../utils/path.ts';
 import { copyPath } from '../../utils/clipboard.ts';
 import { format } from '../../utils/filesize.ts';
 import FileSVG from '../../assets/icons/file.svg';
+import CopySVG from '../../assets/icons/copy.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
 import DotsSVG from '../../assets/icons/dots.svg';
 import type { DirEntry } from '../../types.ts';
@@ -286,18 +287,7 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
             "
             @focus="selectItemDropdownOption(`copy-path-${item.path}`)"
           >
-            <svg
-              class="vuefinder__search-modal__item-dropdown-icon"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-            >
-              <path
-                d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6z"
-              />
-              <path
-                d="M2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"
-              />
-            </svg>
+            <CopySVG class="vuefinder__search-modal__item-dropdown-icon" />
             <span>{{ t('Copy Path') }}</span>
           </div>
           <div
