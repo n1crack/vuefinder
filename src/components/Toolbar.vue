@@ -47,17 +47,12 @@ const fsFilterState: StoreValue<FilterState> = useStore(fs.filter);
 watch(
   () => configState.value.fullScreen,
   () => {
-    if (configState.value.fullScreen) {
-      // add body overflow hidden
-      const body = document.querySelector('body');
-      if (body) body.style.overflow = 'hidden';
-    } else {
-      // remove body overflow hidden
-      const body = document.querySelector('body');
-      if (body) body.style.overflow = '';
+    const body = document.querySelector('body');
+    if (body) {
+      body.style.overflow = configState.value.fullScreen ? 'hidden' : '';
     }
-    app.emitter.emit('vf-fullscreen-toggle');
-  }
+  },
+  { immediate: true }
 );
 
 // Dropdown visibility state (local, non-persistent)
@@ -71,6 +66,11 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 onMounted(() => {
+  // Ensure body overflow is set on mount (for refresh case when localStorage loads after watch)
+  const body = document.querySelector('body');
+  if (body && configState.value.fullScreen) {
+    setTimeout(() => (body.style.overflow = 'hidden'));
+  }
   document.addEventListener('click', handleClickOutside);
 });
 
