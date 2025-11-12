@@ -1,33 +1,21 @@
 <script setup lang="ts">
-import {
-  ref,
-  onMounted,
-  onUnmounted,
-  useTemplateRef,
-  computed,
-  inject,
-  watch,
-  onUpdated,
-  shallowRef,
-  nextTick,
-} from 'vue';
+import { ref, onMounted, useTemplateRef, computed, watch, shallowRef } from 'vue';
 import { useStore } from '@nanostores/vue';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
-import useVirtualColumns from '../composables/useVirtualColumns';
-import { useSelection } from '../composables/useSelection';
-import SortIcon from './SortIcon.vue';
 import DragItem from './DragItem.vue';
 import FileRow from './FileRow.vue';
-import type { DirEntry, App, ItemDclickEvent } from '../types';
-import type { Item as ContextMenuItem } from '../utils/contextmenu';
-import LazyLoad, { type ILazyLoadInstance } from 'vanilla-lazyload';
+import ExplorerHeader from './ExplorerHeader.vue';
+import useVirtualColumns from '../composables/useVirtualColumns';
+import { useSelection } from '../composables/useSelection';
 import { useDragNDrop } from '../composables/useDragNDrop';
-import { OverlayScrollbars, SizeObserverPlugin } from 'overlayscrollbars';
-import 'overlayscrollbars/overlayscrollbars.css';
+import { useApp } from '../composables/useApp';
+import { useItemEvents } from '../composables/useItemEvents';
+import { useScrollSetup } from '../composables/useScrollSetup';
+import { useLazyLoad } from '../composables/useLazyLoad';
+import type { DirEntry, ItemDclickEvent } from '../types';
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
 import type { SortState } from '../stores/files';
-import { useApp } from '../composables/useApp';
 
 const props = defineProps<{
   onFileDclick?: (event: ItemDclickEvent) => void;
@@ -57,11 +45,6 @@ const loading: StoreValue<boolean> = useStore(fs.loading);
 const isSelected = (path: string) => {
   return selectedKeys.value?.has(path as never) ?? false;
 };
-
-let vfLazyLoad: ILazyLoadInstance | null = null;
-
-// OverlayScrollbars custom bar refs/state
-const osInstance = ref<ReturnType<typeof OverlayScrollbars> | null>(null);
 
 const rowHeight = computed(() => {
   const view = configState.value.view;
@@ -145,6 +128,21 @@ const getItemAtRow = (rowIndex: number): DirEntry | undefined => {
   return sortedFiles.value?.[rowIndex];
 };
 
+useScrollSetup(scrollContainer, handleScroll);
+
+useLazyLoad(scrollContainer, app);
+
+const { handleItemClick, handleItemDblClick, handleItemContextMenu, handleContentContextMenu } =
+  useItemEvents(
+    app,
+    explorerId,
+    sortedFiles,
+    selectedKeys,
+    selectionObject,
+    props.onFileDclick,
+    props.onFolderDclick
+  );
+
 onMounted(() => {
   // Initialize SelectionArea
   initializeSelectionArea();
@@ -158,286 +156,11 @@ onMounted(() => {
     });
   }
 
-  // Initialize LazyLoad for thumbnails
-  if (scrollContainer.value) {
-    vfLazyLoad = new LazyLoad({
-      elements_selector: '.lazy',
-      container: scrollContainer.value,
-    });
-  }
-
   // Watch for filter changes and update selection area
   watch(() => [app.selectionFilterType, app.selectionFilterMimeIncludes], updateSelectionArea, {
     deep: true,
   });
-
-  OverlayScrollbars.plugin([SizeObserverPlugin]);
-
-  if (scrollContainer.value) {
-    const instance = OverlayScrollbars(
-      scrollContainer.value,
-      {
-        scrollbars: { theme: 'vf-scrollbars-theme' },
-      },
-      {
-        initialized: (inst: ReturnType<typeof OverlayScrollbars>) => {
-          osInstance.value = inst;
-          // Listen to scroll events on the viewport element (the actual scrolling element)
-          const { viewport } = inst.elements();
-          if (viewport) {
-            viewport.addEventListener('scroll', handleScroll);
-          }
-        },
-        updated: (inst: ReturnType<typeof OverlayScrollbars>) => {
-          const { viewport } = inst.elements();
-          if (viewport) {
-            // Safari / iOS bug: viewport.scrollHeight is not updated when the content height changes
-          }
-        },
-      }
-    );
-    osInstance.value = instance as unknown as ReturnType<typeof OverlayScrollbars>;
-  }
 });
-
-onMounted(() => {
-  app.emitter.on('vf-refresh-thumbnails', () => {
-    if (vfLazyLoad) {
-      vfLazyLoad.update();
-    }
-  });
-});
-
-onUpdated(() => {
-  if (vfLazyLoad) {
-    vfLazyLoad.update();
-  }
-});
-
-onUnmounted(() => {
-  destroySelectionArea();
-  if (vfLazyLoad) {
-    vfLazyLoad.destroy();
-    vfLazyLoad = null;
-  }
-  // Remove scroll listener from viewport before destroying
-  if (osInstance.value) {
-    const { viewport } = osInstance.value.elements();
-    if (viewport) {
-      viewport.removeEventListener('scroll', handleScroll);
-    }
-    osInstance.value.destroy();
-    osInstance.value = null;
-  }
-});
-
-const handleItemClick = (event: Event | MouseEvent | TouchEvent) => {
-  const el = (event.target as Element | null)?.closest('.file-item-' + explorerId);
-  const mouse = event as MouseEvent | null;
-  if (el) {
-    const key = String(el.getAttribute('data-key'));
-    const item = sortedFiles.value?.find((f: DirEntry) => f.path === key);
-    // Block selection if not selectable per filters
-    const filterType = app.selectionFilterType;
-    const allowedMimes = app.selectionFilterMimeIncludes;
-    const typeAllowed =
-      !filterType ||
-      filterType === 'both' ||
-      (filterType === 'files' && item?.type === 'file') ||
-      (filterType === 'dirs' && item?.type === 'dir');
-
-    // Check MIME filter - only apply to files, not directories
-    let mimeAllowed = true;
-    if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
-      // If it's a directory, MIME filters don't apply - it's always selectable
-      if (item?.type === 'dir') {
-        mimeAllowed = true;
-      } else {
-        // For files, check MIME type
-        if (!item?.mime_type) {
-          mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
-        } else {
-          mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
-        }
-      }
-    }
-
-    if (!typeAllowed || !mimeAllowed) {
-      return;
-    }
-    const selectionMode = app.selectionMode || 'multiple';
-
-    if (
-      !mouse?.ctrlKey &&
-      !mouse?.metaKey &&
-      (event.type !== 'touchstart' || !fs.isSelected(key))
-    ) {
-      fs.clearSelection();
-      selectionObject.value?.clearSelection(true, true);
-    }
-    selectionObject.value?.resolveSelectables();
-    if (event.type === 'touchstart' && fs.isSelected(key)) {
-      fs.select(key, selectionMode);
-    } else {
-      fs.toggleSelect(key, selectionMode);
-    }
-  }
-
-  fs.setSelectedCount(selectedKeys.value?.size || 0);
-};
-
-/**
- * Creates an item double-click event object for handlers
- */
-function createCancelableEvent(item: DirEntry): ItemDclickEvent {
-  const event: ItemDclickEvent = {
-    item,
-    defaultPrevented: false,
-    preventDefault() {
-      this.defaultPrevented = true;
-    },
-  };
-  return event;
-}
-
-const openItem = (item: DirEntry) => {
-  // Create cancelable event object
-  const event = createCancelableEvent(item);
-
-  // Emit event if custom handlers are provided
-  if (item.type === 'file' && props.onFileDclick) {
-    app.emitter.emit('vf-file-dclick', event);
-    // If default was not prevented, continue with default behavior
-    if (!event.defaultPrevented) {
-      // Fall through to default behavior
-    } else {
-      return; // Default behavior was prevented
-    }
-  } else if (item.type === 'dir' && props.onFolderDclick) {
-    app.emitter.emit('vf-folder-dclick', event);
-    // If default was not prevented, continue with default behavior
-    if (!event.defaultPrevented) {
-      // Fall through to default behavior
-    } else {
-      return; // Default behavior was prevented
-    }
-  }
-
-  // Default behavior - execute context menu action
-  const contextMenuItem = app.contextMenuItems?.find((cmi: ContextMenuItem) => {
-    return cmi.show(app, {
-      items: [item],
-      target: item,
-      searchQuery: '',
-    });
-  });
-
-  if (contextMenuItem) {
-    contextMenuItem.action(app, [item]);
-  }
-};
-
-const handleItemDblClick = (event: MouseEvent | TouchEvent) => {
-  const el = (event.target as Element | null)?.closest(
-    '.file-item-' + explorerId
-  ) as HTMLElement | null;
-  const key = el ? String(el.getAttribute('data-key')) : null;
-  if (!key) return;
-  const item = sortedFiles.value?.find((f: DirEntry) => f.path === key);
-  // Block open if not selectable
-  const filterType = app.selectionFilterType;
-  const allowedMimes = app.selectionFilterMimeIncludes;
-  const typeAllowed =
-    !filterType ||
-    filterType === 'both' ||
-    (filterType === 'files' && item?.type === 'file') ||
-    (filterType === 'dirs' && item?.type === 'dir');
-
-  // Check MIME filter - only apply to files, not directories
-  let mimeAllowed = true;
-  if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
-    // If it's a directory, MIME filters don't apply - it's always selectable
-    if (item?.type === 'dir') {
-      mimeAllowed = true;
-    } else {
-      // For files, check MIME type
-      if (!item?.mime_type) {
-        mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
-      } else {
-        mimeAllowed = allowedMimes.some((p: string) => (item?.mime_type as string).startsWith(p));
-      }
-    }
-  }
-
-  if (!typeAllowed || !mimeAllowed) return;
-  if (item) {
-    openItem(item);
-  }
-};
-
-const getSelectedItems = () => {
-  const selected = selectedKeys.value;
-  return sortedFiles.value?.filter((f: DirEntry) => selected?.has(f.path)) || [];
-};
-
-const handleItemContextMenu = (event: MouseEvent) => {
-  event.preventDefault();
-  const el = (event.target as Element | null)?.closest(
-    '.file-item-' + explorerId
-  ) as HTMLElement | null;
-  if (el) {
-    const key = String(el.getAttribute('data-key'));
-    const targetItem = sortedFiles.value?.find((f: DirEntry) => f.path === key);
-
-    // Check if the item is selectable according to filters
-    const filterType = app.selectionFilterType;
-    const allowedMimes = app.selectionFilterMimeIncludes;
-    const typeAllowed =
-      !filterType ||
-      filterType === 'both' ||
-      (filterType === 'files' && targetItem?.type === 'file') ||
-      (filterType === 'dirs' && targetItem?.type === 'dir');
-
-    // Check MIME filter - only apply to files, not directories
-    let mimeAllowed = true;
-    if (allowedMimes && Array.isArray(allowedMimes) && allowedMimes.length > 0) {
-      // If it's a directory, MIME filters don't apply - it's always selectable
-      if (targetItem?.type === 'dir') {
-        mimeAllowed = true;
-      } else {
-        // For files, check MIME type
-        if (!targetItem?.mime_type) {
-          mimeAllowed = false; // No MIME type means not selectable when MIME filters are active
-        } else {
-          mimeAllowed = allowedMimes.some((p: string) =>
-            (targetItem?.mime_type as string).startsWith(p)
-          );
-        }
-      }
-    }
-
-    // Only allow context menu if item is selectable
-    if (!typeAllowed || !mimeAllowed) {
-      return; // Don't show context menu for unselectable items
-    }
-
-    // Ensure the clicked item is selected if not already
-    if (!selectedKeys.value?.has(key)) {
-      fs.clearSelection();
-      fs.select(key);
-    }
-    app.emitter.emit('vf-contextmenu-show', {
-      event,
-      items: getSelectedItems(),
-      target: targetItem,
-    });
-  }
-};
-
-const handleContentContextMenu = (event: MouseEvent) => {
-  event.preventDefault();
-  app.emitter.emit('vf-contextmenu-show', { event, items: getSelectedItems() });
-};
 
 const handleItemDragStart = (event: DragEvent) => {
   // Check if move feature is enabled
@@ -482,38 +205,12 @@ const handleItemDragEnd = () => {
 <template>
   <div class="vuefinder__explorer__container">
     <!-- List header like Explorer (shown only in list view) -->
-    <div v-if="configState.view === 'list'" class="vuefinder__explorer__header">
-      <div
-        class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--name vf-sort-button"
-        @click="fs.toggleSort('basename')"
-      >
-        {{ t('Name') }}
-        <SortIcon
-          v-show="fsSortState.active && fsSortState.column === 'basename'"
-          :direction="fsSortState.order"
-        />
-      </div>
-      <div
-        class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--size vf-sort-button"
-        @click="fs.toggleSort('file_size')"
-      >
-        {{ t('Size') }}
-        <SortIcon
-          v-show="fsSortState.active && fsSortState.column === 'file_size'"
-          :direction="fsSortState.order"
-        />
-      </div>
-      <div
-        class="vuefinder__explorer__sort-button vuefinder__explorer__sort-button--date vf-sort-button"
-        @click="fs.toggleSort('last_modified')"
-      >
-        {{ t('Date') }}
-        <SortIcon
-          v-show="fsSortState.active && fsSortState.column === 'last_modified'"
-          :direction="fsSortState.order"
-        />
-      </div>
-    </div>
+    <ExplorerHeader
+      v-if="configState.view === 'list'"
+      :fs="fs"
+      :fs-sort-state="fsSortState"
+      :t="t"
+    />
     <!-- Content -->
     <div
       ref="scrollContainer"

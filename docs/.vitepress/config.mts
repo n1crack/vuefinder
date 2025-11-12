@@ -1,4 +1,68 @@
 import { defineConfig } from 'vitepress';
+import { writeFileSync, readdirSync, statSync } from 'node:fs';
+import { resolve, join } from 'node:path';
+
+// Generate sitemap XML from VitePress pages
+function generateSitemap(pages: string[], baseUrl: string): string {
+  const urls = pages
+    .map((page) => {
+      // Convert page path to URL
+      // pages are like: index.html, getting-started/introduction.html, etc.
+      let url = page.replace(/index\.html$/, '').replace(/\.html$/, '') || '/';
+      // Ensure URL starts with /
+      if (!url.startsWith('/')) {
+        url = '/' + url;
+      }
+      return url;
+    })
+    .filter((url) => {
+      // Filter out 404 and other non-content pages
+      return !url.includes('404') && !url.startsWith('/assets/') && url !== '';
+    })
+    .sort()
+    .map((url) => {
+      // Determine priority based on URL depth
+      const depth = url.split('/').filter(Boolean).length;
+      let priority = '0.8';
+      let changefreq = 'monthly';
+
+      if (url === '/') {
+        priority = '1.0';
+        changefreq = 'weekly';
+      } else if (depth === 1) {
+        priority = '0.9';
+      } else if (depth === 2) {
+        priority = '0.8';
+      } else {
+        priority = '0.7';
+      }
+
+      // Special priorities for important sections
+      if (url.startsWith('/getting-started/')) {
+        priority = '0.9';
+      } else if (url.startsWith('/api-reference/')) {
+        priority = '0.9';
+      } else if (url.startsWith('/guide/')) {
+        priority = '0.8';
+      } else if (url.startsWith('/examples/')) {
+        priority = '0.7';
+      } else if (url.startsWith('/migration/')) {
+        priority = '0.6';
+      }
+
+      return `  <url>
+    <loc>${baseUrl}${url}</loc>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`;
+    })
+    .join('\n');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>`;
+}
 
 // https://vitepress.dev/reference/site-config
 // outDir is relative to the VitePress project root (docs/ folder)
@@ -23,6 +87,41 @@ gtag('js', new Date());
 gtag('config', 'G-6BYQESCJ6R');`
     ]
   ],
+  buildEnd: async ({ outDir }) => {
+    const baseUrl = 'https://vuefinder.ozdemir.be';
+    
+    // Scan the output directory for HTML files
+    const scanDirectory = (dir: string, basePath = ''): string[] => {
+      const files: string[] = [];
+      try {
+        const entries = readdirSync(dir);
+        for (const entry of entries) {
+          // Skip assets and other non-content directories
+          if (entry === 'assets' || entry.startsWith('.')) {
+            continue;
+          }
+          
+          const fullPath = join(dir, entry);
+          const stat = statSync(fullPath);
+          if (stat.isDirectory()) {
+            files.push(...scanDirectory(fullPath, join(basePath, entry)));
+          } else if (entry.endsWith('.html')) {
+            const url = join(basePath, entry).replace(/\\/g, '/');
+            files.push(url);
+          }
+        }
+      } catch (err) {
+        // Ignore errors
+      }
+      return files;
+    };
+    
+    const htmlFiles = scanDirectory(outDir);
+    const sitemap = generateSitemap(htmlFiles, baseUrl);
+    const sitemapPath = resolve(outDir, 'sitemap.xml');
+    writeFileSync(sitemapPath, sitemap, 'utf-8');
+    console.log('✅ Sitemap generated at', sitemapPath);
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
