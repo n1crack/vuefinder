@@ -49,7 +49,7 @@
 }
 
 .vuefinder__treeview__pinned-toggle {
-  @apply flex cursor-pointer items-center justify-between border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) p-1 py-1.5 pr-2 text-xs font-bold text-(--vf-text-tertiary) uppercase;
+  @apply sticky top-0 z-1 flex cursor-pointer items-center justify-between border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) p-1 py-1.5 pr-2 text-xs font-bold text-(--vf-text-tertiary) uppercase;
 }
 
 .vuefinder__treeview__pinned-label {
@@ -161,7 +161,7 @@
 /** TreeStorageItem */
 
 .vuefinder__treestorageitem__header {
-  @apply flex cursor-pointer justify-between border-b border-(--vf-border-primary) bg-(--vf-bg-tertiary) p-1 py-1.5 text-xs font-bold text-(--vf-text-tertiary) uppercase;
+  @apply sticky top-0 z-1 flex cursor-pointer justify-between border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) bg-(--vf-bg-tertiary) p-1 py-1.5 text-xs font-bold text-(--vf-text-tertiary) uppercase;
 }
 
 .vuefinder__treestorageitem__info {
