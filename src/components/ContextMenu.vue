@@ -32,12 +32,18 @@ const run = (item: any) => {
 app.emitter.on('vf-contextmenu-show', (payload: any) => {
   const { event, items, target = null } = payload || {};
 
-  context.items = (app.contextMenuItems || []).filter((item: any) => {
-    return item.show(app, {
-      items,
-      target,
+  context.items = (app.contextMenuItems || [])
+    .filter((item: any) => {
+      return item.show(app, {
+        items,
+        target,
+      });
+    })
+    .sort((a: any, b: any) => {
+      const orderA = a.order ?? Infinity;
+      const orderB = b.order ?? Infinity;
+      return orderA - orderB;
     });
-  });
 
   if (!target) {
     app.emitter.emit('vf-context-selected', []);

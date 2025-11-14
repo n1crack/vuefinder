@@ -42,6 +42,7 @@ onMounted(async () => {
         alert(JSON.stringify(selectedItems));
       },
       show: () => true,
+      order: 60
     },
   ];
 });

@@ -26,6 +26,7 @@ const customContextMenuItems = [
       console.log(selectedItems);
     },
     show: () => true,
+    order: 60
   },
 ];
 </script>

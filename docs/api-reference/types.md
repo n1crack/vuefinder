@@ -140,6 +140,64 @@ const handleFolderDclick = (event: ItemDclickEvent) => {
 };
 ```
 
+### `ContextMenuItem` (also exported as `Item`)
+
+Represents a context menu item that can be added to VueFinder's right-click context menu.
+
+```ts
+export type ContextMenuItem = {
+  id: string;                                                      // Unique identifier (required)
+  title: (i18n: App['i18n']) => string;                          // Function that returns display text
+  action: (app: App, selectedItems: DirEntry[]) => void;          // Function called on click
+  link?: (app: App, selectedItems: DirEntry[]) => string | void; // Optional link URL function
+  show: (app: App, ctx: MenuContext) => boolean;                  // Function to determine visibility
+  order?: number;                                                 // Optional sort order (lower = first)
+}
+```
+
+**Properties:**
+
+- `id` - Unique identifier for the menu item (required)
+- `title` - Function that receives the i18n object and returns the display text for the menu item
+- `action` - Function called when the menu item is clicked. Receives the app instance and array of selected items
+- `link` - Optional function that returns a URL string. If provided, the menu item becomes a link (useful for download actions)
+- `show` - Function that determines whether the menu item should be displayed. Receives the app instance and menu context, returns a boolean
+- `order` - Optional number to control the position in the menu. Lower numbers appear first. Items without an `order` value are sorted last. Built-in items use values like 10, 20, 30, etc.
+
+**MenuContext:**
+
+```ts
+type MenuContext = {
+  searchQuery: string;      // Current search query
+  items: DirEntry[];        // All selected items
+  target: DirEntry | null;  // The item under the cursor (if any)
+}
+```
+
+**Usage Example:**
+
+```ts
+import type { Item as ContextMenuItem } from 'vuefinder';
+import { contextMenuItems } from 'vuefinder';
+
+const customMenuItems: ContextMenuItem[] = [
+  ...contextMenuItems,
+  {
+    id: 'custom-action',
+    title: ({ t }) => t('Custom Action'), // or: title: () => 'Custom Action'
+    action: (app, selectedItems) => {
+      console.log('Selected items:', selectedItems);
+      // Perform custom action
+    },
+    show: (app, ctx) => {
+      // Only show for files
+      return ctx.target?.type === 'file';
+    },
+    order: 15, // Appears between items with order 10 and 20
+  },
+];
+```
+
 ## Usage
 
 Import types in your TypeScript files:
@@ -153,6 +211,7 @@ import type {
   FeaturesConfig,
   Theme,
   ItemDclickEvent,
+  Item as ContextMenuItem,
 } from 'vuefinder';
 ```
 
