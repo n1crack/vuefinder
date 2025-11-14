@@ -75,7 +75,7 @@ const { enabled } = useFeature();
 
 const draggable = computed(() => enabled('move'));
 
-const clearTimeOut = () => {
+const clearTouchTimeout = () => {
   if (touchTimeOut) {
     clearTimeout(touchTimeOut);
     touchTimeOut = null;
@@ -85,8 +85,7 @@ const clearTimeOut = () => {
 const delayedOpenItem = (event: TouchEvent) => {
   if (touchTimeOut) {
     event.preventDefault();
-    clearTimeout(touchTimeOut);
-    touchTimeOut = null;
+    clearTouchTimeout();
   }
   if (!tappedTwice) {
     tappedTwice = true;
@@ -97,10 +96,7 @@ const delayedOpenItem = (event: TouchEvent) => {
   } else {
     tappedTwice = false;
     emit('dblclick', event);
-    if (touchTimeOut) {
-      clearTimeout(touchTimeOut);
-      touchTimeOut = null;
-    }
+    clearTouchTimeout();
     return false;
   }
 };
@@ -115,7 +111,6 @@ const delayedOpenItem = (event: TouchEvent) => {
     :data-col="colIndex"
     :draggable="draggable"
     @touchstart="delayedOpenItem($event)"
-    @touchmove="clearTimeOut()"
     @click="emit('click', $event)"
     @dblclick="emit('dblclick', $event)"
     @contextmenu.prevent.stop="emit('contextmenu', $event)"
