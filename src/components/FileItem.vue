@@ -70,7 +70,6 @@ const itemStyle = computed(() => ({
 let touchTimeOut: ReturnType<typeof setTimeout> | null = null;
 const doubleTapTimeOut = ref<ReturnType<typeof setTimeout> | null>(null);
 let tappedTwice = false;
-let contextMenuShown = false;
 
 const { enabled } = useFeature();
 
@@ -84,9 +83,6 @@ const clearTimeOut = () => {
 };
 
 const delayedOpenItem = (event: TouchEvent) => {
-  // Reset context menu flag on new touch
-  contextMenuShown = false;
-
   if (touchTimeOut) {
     event.preventDefault();
     clearTimeout(touchTimeOut);
@@ -107,25 +103,6 @@ const delayedOpenItem = (event: TouchEvent) => {
     }
     return false;
   }
-
-  if (event.currentTarget && event.currentTarget instanceof HTMLElement) {
-    touchTimeOut = setTimeout(() => {
-      // Mark that context menu is being shown
-      // contextMenuShown = true;
-
-      // Context menu will be triggered by the normal event flow
-      touchTimeOut = null;
-    }, 500); // 500ms long press delay for mobile
-  }
-};
-
-const handleTouchEnd = (event: TouchEvent) => {
-  // If context menu was shown, prevent the click event
-  if (contextMenuShown) {
-    event.preventDefault();
-    //contextMenuShown = false;
-  }
-  clearTimeOut();
 };
 </script>
 
@@ -138,7 +115,6 @@ const handleTouchEnd = (event: TouchEvent) => {
     :data-col="colIndex"
     :draggable="draggable"
     @touchstart="delayedOpenItem($event)"
-    @touchend="handleTouchEnd($event)"
     @touchmove="clearTimeOut()"
     @click="emit('click', $event)"
     @dblclick="emit('dblclick', $event)"
