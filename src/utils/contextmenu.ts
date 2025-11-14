@@ -42,6 +42,7 @@ export type Item = {
   action: (app: App, selectedItems: DirEntry[]) => void;
   link?: (app: App, selectedItems: DirEntry[]) => void;
   show: (app: App, ctx: MenuContext) => boolean;
+  order?: number;
 };
 
 type ShowOptions = {
@@ -100,6 +101,7 @@ export const menuItems: Item[] = [
       app.adapter.open(selectedItem.dir);
     },
     show: showIf({ target: 'one', needsSearchQuery: true }),
+    order: 10,
   },
   {
     id: ContextMenuIds.refresh,
@@ -110,6 +112,7 @@ export const menuItems: Item[] = [
       app.adapter.open(fs.path.get().path);
     },
     show: showIfAny(showIf({ target: 'none' }), showIf({ target: 'many' })),
+    order: 20,
   },
   {
     id: ContextMenuIds.selectAll,
@@ -122,12 +125,14 @@ export const menuItems: Item[] = [
       // Only show Select All in multiple selection mode
       return app.selectionMode === 'multiple' && showIf({ target: 'none' })(app, ctx);
     },
+    order: 30,
   },
   {
     id: ContextMenuIds.new_folder,
     title: ({ t }) => t('New Folder'),
     action: (app) => app.modal.open(ModalNewFolder),
     show: showIf({ target: 'none', feature: 'newfolder' }),
+    order: 40,
   },
   {
     id: ContextMenuIds.open,
@@ -139,6 +144,7 @@ export const menuItems: Item[] = [
       app.adapter.open(selectedItems[0].path);
     },
     show: showIf({ target: 'one', targetType: 'dir' }),
+    order: 50,
   },
   {
     id: ContextMenuIds.pinFolder,
@@ -161,6 +167,7 @@ export const menuItems: Item[] = [
         currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) === -1
       );
     }),
+    order: 60,
   },
   {
     id: ContextMenuIds.unpinFolder,
@@ -182,6 +189,7 @@ export const menuItems: Item[] = [
         currentPinnedFolders.findIndex((item: DirEntry) => item.path === ctx.target?.path) !== -1
       );
     }),
+    order: 70,
   },
   {
     id: ContextMenuIds.preview,
@@ -192,6 +200,7 @@ export const menuItems: Item[] = [
       showIf({ target: 'one', feature: 'preview' }),
       (app, ctx) => ctx.target?.type !== 'dir'
     ),
+    order: 80,
   },
   {
     id: ContextMenuIds.download,
@@ -207,12 +216,14 @@ export const menuItems: Item[] = [
       showIf({ target: 'one', feature: 'download' }),
       (app, ctx) => ctx.target?.type !== 'dir'
     ),
+    order: 90,
   },
   {
     id: ContextMenuIds.rename,
     title: ({ t }) => t('Rename'),
     action: (app, selectedItems) => app.modal.open(ModalRename, { items: selectedItems }),
     show: showIf({ target: 'one', feature: 'rename' }),
+    order: 100,
   },
   {
     id: ContextMenuIds.move,
@@ -230,6 +241,7 @@ export const menuItems: Item[] = [
       showIf({ target: 'one', feature: 'move' }),
       showIf({ target: 'many', feature: 'move' })
     ),
+    order: 110,
   },
   {
     id: ContextMenuIds.copy,
@@ -243,6 +255,7 @@ export const menuItems: Item[] = [
       showIf({ target: 'one', feature: 'copy' }),
       showIf({ target: 'many', feature: 'copy' })
     ),
+    order: 120,
   },
   {
     id: ContextMenuIds.paste,
@@ -280,6 +293,7 @@ export const menuItems: Item[] = [
       const clipboard = app.fs.getClipboard();
       return clipboard?.items?.size > 0;
     },
+    order: 130,
   },
   {
     id: ContextMenuIds.archive,
@@ -292,12 +306,14 @@ export const menuItems: Item[] = [
         (app, ctx) => ctx.target?.mime_type !== 'application/zip'
       )
     ),
+    order: 140,
   },
   {
     id: ContextMenuIds.unarchive,
     title: ({ t }) => t('Unarchive'),
     action: (app, selectedItems) => app.modal.open(ModalUnarchive, { items: selectedItems }),
     show: showIf({ target: 'one', feature: 'unarchive', mimeType: 'application/zip' }),
+    order: 150,
   },
   {
     id: ContextMenuIds.delete,
@@ -309,5 +325,6 @@ export const menuItems: Item[] = [
       showIf({ feature: 'delete', target: 'one' }),
       showIf({ feature: 'delete', target: 'many' })
     ),
+    order: 160,
   },
 ];

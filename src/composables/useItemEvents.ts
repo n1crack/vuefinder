@@ -100,6 +100,8 @@ export function useItemEvents(
    */
   const handleItemContextMenu = (event: MouseEvent) => {
     event.preventDefault();
+    event.stopPropagation(); // Prevent event from bubbling further
+
     const result = getItemFromEvent(event);
     if (!result) return;
 
@@ -115,6 +117,7 @@ export function useItemEvents(
       fs.clearSelection();
       fs.select(key);
     }
+
     app.emitter.emit('vf-contextmenu-show', {
       event,
       items: getSelectedItems(),

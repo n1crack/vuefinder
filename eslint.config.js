@@ -5,7 +5,7 @@ import vueTs from '@vue/eslint-config-typescript';
 import configPrettier from 'eslint-config-prettier';
 
 export default [
-  { ignores: ['dist', 'docs', 'public', 'build', 'coverage', 'node_modules'] },
+  { ignores: ['dist', 'docs', 'public', 'build', 'coverage', 'node_modules', 'src/__tests__'] },
   js.configs.recommended,
   // Vue 3 flat recommended
   ...vue.configs['flat/recommended'],

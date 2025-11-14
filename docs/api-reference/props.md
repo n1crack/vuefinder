@@ -97,6 +97,23 @@ Array of MIME types or prefixes to allow selection:
 <vue-finder :selection-filter-mime-includes="['image/', 'video/', 'application/pdf']" />
 ```
 
+### `contextMenuItems`
+
+Custom context menu items to add to the right-click menu. Items are automatically sorted by their `order` property (lower values appear first).
+
+```vue
+<vue-finder :context-menu-items="customMenuItems" />
+```
+
+Each menu item should have:
+- `id` - Unique identifier
+- `title` - Function returning display text
+- `action` - Function called on click
+- `show` - Function determining visibility
+- `order` - Optional number for sorting (lower = first)
+
+See [Context Menu Example](../examples/context-menu.md) for detailed usage.
+
 ### Handler Props vs Events
 
 Handler props (`onSelect`, `onPathChange`, etc.) are alternatives to event listeners. Both work the same:

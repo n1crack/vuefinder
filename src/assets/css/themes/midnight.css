@@ -74,7 +74,6 @@
 /* Midnight Theme - Tree View */
 .vuefinder[data-theme='midnight'] .vuefinder__treestorageitem__header {
   background-color: var(--vf-bg-primary);
-  opacity: 0.7;
 }
 
 /* Midnight Theme - Item Icons */

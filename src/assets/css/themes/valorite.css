@@ -66,7 +66,6 @@
 /* Valorite Theme - Tree View */
 .vuefinder[data-theme='valorite'] .vuefinder__treestorageitem__header {
   @apply bg-(--vf-bg-primary);
-  opacity: 0.5;
 }
 
 .vuefinder[data-theme='valorite'] .vuefinder__treestorageitem__subfolder {

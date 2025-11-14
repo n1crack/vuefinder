@@ -75,16 +75,17 @@ const { enabled } = useFeature();
 
 const draggable = computed(() => enabled('move'));
 
-const clearTimeOut = () => {
+const clearTouchTimeout = () => {
   if (touchTimeOut) {
     clearTimeout(touchTimeOut);
+    touchTimeOut = null;
   }
 };
 
 const delayedOpenItem = (event: TouchEvent) => {
   if (touchTimeOut) {
     event.preventDefault();
-    clearTimeout(touchTimeOut);
+    clearTouchTimeout();
   }
   if (!tappedTwice) {
     tappedTwice = true;
@@ -95,44 +96,8 @@ const delayedOpenItem = (event: TouchEvent) => {
   } else {
     tappedTwice = false;
     emit('dblclick', event);
-    if (touchTimeOut) {
-      clearTimeout(touchTimeOut);
-    }
+    clearTouchTimeout();
     return false;
-  }
-
-  if (event.currentTarget && event.currentTarget instanceof HTMLElement) {
-    const rect = event.currentTarget.getBoundingClientRect();
-
-    event.preventDefault();
-    touchTimeOut = setTimeout(() => {
-      // Calculate optimal position for context menu
-      const contextMenuHeight = 146; // Approximate height of context menu
-      const padding = 10; // Padding from screen edge
-
-      let contextMenuY = rect.y + rect.height;
-
-      // If context menu would go below screen, show it above the item
-      if (contextMenuY + contextMenuHeight > window.innerHeight - padding) {
-        contextMenuY = rect.y - contextMenuHeight;
-      }
-
-      // Ensure context menu doesn't go above screen
-      if (contextMenuY < padding) {
-        contextMenuY = padding;
-      }
-
-      const cmEvent = new MouseEvent('contextmenu', {
-        bubbles: true,
-        cancelable: true,
-        view: window,
-        button: 2,
-        buttons: 0,
-        clientX: rect.x,
-        clientY: contextMenuY,
-      });
-      event.target?.dispatchEvent(cmEvent);
-    }, 300);
   }
 };
 </script>
@@ -146,7 +111,6 @@ const delayedOpenItem = (event: TouchEvent) => {
     :data-col="colIndex"
     :draggable="draggable"
     @touchstart="delayedOpenItem($event)"
-    @touchend="clearTimeOut()"
     @click="emit('click', $event)"
     @dblclick="emit('dblclick', $event)"
     @contextmenu.prevent.stop="emit('contextmenu', $event)"

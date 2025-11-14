@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { nextTick, reactive, ref } from 'vue';
+import { nextTick, onUnmounted, reactive, ref } from 'vue';
+import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
 import { useApp } from '../composables/useApp';
 
 const app = useApp();
@@ -7,13 +8,13 @@ const app = useApp();
 const contextmenu = ref<HTMLElement | null>(null);
 const selectedItems = ref([]);
 
+let cleanupPositioning: (() => void) | null = null;
+let virtualElement: { getBoundingClientRect: () => DOMRect } | null = null;
+
 const context = reactive({
   active: false,
   items: [] as any[],
-  positions: {
-    left: '0px' as string,
-    top: '0px' as string,
-  },
+  positions: {} as Record<string, string>,
 });
 
 app.emitter.on('vf-context-selected', (items: any) => {
@@ -32,12 +33,18 @@ const run = (item: any) => {
 app.emitter.on('vf-contextmenu-show', (payload: any) => {
   const { event, items, target = null } = payload || {};
 
-  context.items = (app.contextMenuItems || []).filter((item: any) => {
-    return item.show(app, {
-      items,
-      target,
+  context.items = (app.contextMenuItems || [])
+    .filter((item: any) => {
+      return item.show(app, {
+        items,
+        target,
+      });
+    })
+    .sort((a: any, b: any) => {
+      const orderA = a.order ?? Infinity;
+      const orderB = b.order ?? Infinity;
+      return orderA - orderB;
     });
-  });
 
   if (!target) {
     app.emitter.emit('vf-context-selected', []);
@@ -51,41 +58,150 @@ app.emitter.on('vf-contextmenu-show', (payload: any) => {
 
 app.emitter.on('vf-contextmenu-hide', () => {
   context.active = false;
+  if (cleanupPositioning) {
+    cleanupPositioning();
+    cleanupPositioning = null;
+  }
+  virtualElement = null;
+  context.positions = {};
 });
 
-const showContextMenu = (event: any) => {
-  const area = app.root as HTMLElement | null;
-  const rootContainer = area?.getBoundingClientRect?.();
-  const areaContainer = area?.getBoundingClientRect?.();
+const showContextMenu = async (event: MouseEvent | TouchEvent) => {
+  if (cleanupPositioning) {
+    cleanupPositioning();
+    cleanupPositioning = null;
+  }
 
-  let left = event.clientX - (rootContainer?.left ?? 0);
-  let top = event.clientY - (rootContainer?.top ?? 0);
+  const getCoordinates = (e: MouseEvent | TouchEvent): { x: number; y: number } => {
+    if ('clientX' in e && 'clientY' in e) {
+      return { x: e.clientX, y: e.clientY };
+    }
+    const touch =
+      ('touches' in e && e.touches[0]) || ('changedTouches' in e && e.changedTouches[0]);
+    return touch ? { x: touch.clientX, y: touch.clientY } : { x: 0, y: 0 };
+  };
+
+  const coords = getCoordinates(event);
+
+  // Create virtual element from mouse/touch position
+  virtualElement = {
+    getBoundingClientRect: () => {
+      return {
+        width: 0,
+        height: 0,
+        x: coords.x,
+        y: coords.y,
+        top: coords.y,
+        left: coords.x,
+        right: coords.x,
+        bottom: coords.y,
+      } as DOMRect;
+    },
+  };
+
+  context.positions = {
+    position: 'fixed',
+    zIndex: '10001',
+    opacity: '0',
+    visibility: 'hidden',
+    left: '-9999px',
+    top: '-9999px',
+  };
 
   context.active = true;
-  // wait for the next tick to get the actual size of the context menu
-  nextTick(() => {
-    // get the actual size of the context menu
-    const menuContainer = contextmenu.value?.getBoundingClientRect();
 
-    const menuHeight = menuContainer?.height ?? 0;
-    const menuWidth = menuContainer?.width ?? 0;
+  await nextTick();
 
-    // check if the context menu is out of the container area
-    left =
-      areaContainer && areaContainer.right - event.pageX + window.scrollX < menuWidth
-        ? left - menuWidth
-        : left;
-    top =
-      areaContainer && areaContainer.bottom - event.pageY + window.scrollY < menuHeight
-        ? top - menuHeight
-        : top;
+  if (!contextmenu.value || !virtualElement) return;
 
-    context.positions = {
-      left: String(left) + 'px',
-      top: String(top) + 'px',
-    };
+  await new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(resolve);
+    });
   });
+
+  const middleware = [
+    offset(8),
+    flip({
+      padding: 16,
+      fallbackPlacements: ['left-start', 'right-end', 'left-end', 'top-start', 'bottom-start'],
+    }),
+    shift({ padding: 16 }),
+  ];
+
+  let x = 0;
+  let y = 0;
+  try {
+    const position = await computePosition(virtualElement, contextmenu.value, {
+      placement: 'right-start',
+      strategy: 'fixed',
+      middleware,
+    });
+    x = position.x;
+    y = position.y;
+  } catch (error) {
+    console.warn('[ContextMenu] Floating UI initial positioning error:', error);
+    return;
+  }
+
+  context.positions = {
+    position: 'fixed',
+    zIndex: '10001',
+    left: `${x}px`,
+    top: `${y}px`,
+    opacity: '0',
+    visibility: 'visible',
+    transform: 'translateY(-8px)',
+    transition: 'opacity 150ms ease-out, transform 150ms ease-out',
+  };
+
+  requestAnimationFrame(() => {
+    if (contextmenu.value) {
+      context.positions = {
+        ...context.positions,
+        opacity: '1',
+        transform: 'translateY(0)',
+      };
+    }
+  });
+
+  setTimeout(() => {
+    if (!contextmenu.value || !virtualElement) return;
+
+    try {
+      cleanupPositioning = autoUpdate(virtualElement, contextmenu.value, async () => {
+        if (!virtualElement || !contextmenu.value) return;
+
+        try {
+          const { x: newX, y: newY } = await computePosition(virtualElement, contextmenu.value, {
+            placement: 'right-start',
+            strategy: 'fixed',
+            middleware,
+          });
+
+          context.positions = {
+            ...context.positions,
+            left: `${newX}px`,
+            top: `${newY}px`,
+          };
+        } catch (error) {
+          console.warn('Floating UI positioning error:', error);
+        }
+      });
+    } catch (error) {
+      console.warn('Floating UI autoUpdate setup error:', error);
+      cleanupPositioning = null;
+    }
+  }, 200);
 };
+
+onUnmounted(() => {
+  if (cleanupPositioning) {
+    cleanupPositioning();
+    cleanupPositioning = null;
+  }
+  virtualElement = null;
+});
 </script>
 
 <template>
