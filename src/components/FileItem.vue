@@ -70,6 +70,7 @@ const itemStyle = computed(() => ({
 let touchTimeOut: ReturnType<typeof setTimeout> | null = null;
 const doubleTapTimeOut = ref<ReturnType<typeof setTimeout> | null>(null);
 let tappedTwice = false;
+let contextMenuShown = false;
 
 const { enabled } = useFeature();
 
@@ -78,13 +79,18 @@ const draggable = computed(() => enabled('move'));
 const clearTimeOut = () => {
   if (touchTimeOut) {
     clearTimeout(touchTimeOut);
+    touchTimeOut = null;
   }
 };
 
 const delayedOpenItem = (event: TouchEvent) => {
+  // Reset context menu flag on new touch
+  contextMenuShown = false;
+
   if (touchTimeOut) {
     event.preventDefault();
     clearTimeout(touchTimeOut);
+    touchTimeOut = null;
   }
   if (!tappedTwice) {
     tappedTwice = true;
@@ -97,43 +103,29 @@ const delayedOpenItem = (event: TouchEvent) => {
     emit('dblclick', event);
     if (touchTimeOut) {
       clearTimeout(touchTimeOut);
+      touchTimeOut = null;
     }
     return false;
   }
 
   if (event.currentTarget && event.currentTarget instanceof HTMLElement) {
-    const rect = event.currentTarget.getBoundingClientRect();
-
-    event.preventDefault();
     touchTimeOut = setTimeout(() => {
-      // Calculate optimal position for context menu
-      const contextMenuHeight = 146; // Approximate height of context menu
-      const padding = 10; // Padding from screen edge
+      // Mark that context menu is being shown
+      // contextMenuShown = true;
 
-      let contextMenuY = rect.y + rect.height;
-
-      // If context menu would go below screen, show it above the item
-      if (contextMenuY + contextMenuHeight > window.innerHeight - padding) {
-        contextMenuY = rect.y - contextMenuHeight;
-      }
-
-      // Ensure context menu doesn't go above screen
-      if (contextMenuY < padding) {
-        contextMenuY = padding;
-      }
-
-      const cmEvent = new MouseEvent('contextmenu', {
-        bubbles: true,
-        cancelable: true,
-        view: window,
-        button: 2,
-        buttons: 0,
-        clientX: rect.x,
-        clientY: contextMenuY,
-      });
-      event.target?.dispatchEvent(cmEvent);
-    }, 300);
+      // Context menu will be triggered by the normal event flow
+      touchTimeOut = null;
+    }, 500); // 500ms long press delay for mobile
   }
+};
+
+const handleTouchEnd = (event: TouchEvent) => {
+  // If context menu was shown, prevent the click event
+  if (contextMenuShown) {
+    event.preventDefault();
+    //contextMenuShown = false;
+  }
+  clearTimeOut();
 };
 </script>
 
@@ -146,7 +138,8 @@ const delayedOpenItem = (event: TouchEvent) => {
     :data-col="colIndex"
     :draggable="draggable"
     @touchstart="delayedOpenItem($event)"
-    @touchend="clearTimeOut()"
+    @touchend="handleTouchEnd($event)"
+    @touchmove="clearTimeOut()"
     @click="emit('click', $event)"
     @dblclick="emit('dblclick', $event)"
     @contextmenu.prevent.stop="emit('contextmenu', $event)"
