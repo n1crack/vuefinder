@@ -67,12 +67,52 @@ ${urls}
 // https://vitepress.dev/reference/site-config
 // outDir is relative to the VitePress project root (docs/ folder)
 // So '../public' means: from docs/ go up one level to project root, then into public/
+const baseUrl = 'https://vuefinder.ozdemir.be';
+const siteTitle = 'VueFinder - Vue File Manager';
+const siteDescription = 'A sleek, developer-friendly file manager for Vue.js. Organize, preview, and manage files with ease. Full-featured with upload, download, rename, delete, archive, search, and preview capabilities.';
+
 export default defineConfig({
   outDir: '../public',
   title: 'VueFinder',
-  description:
-    'Empower your Vue.js applications with this versatile and customizable file manager component',
+  description: siteDescription,
   head: [
+    // Open Graph / Facebook
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:url', content: baseUrl }],
+    ['meta', { property: 'og:title', content: siteTitle }],
+    ['meta', { property: 'og:description', content: siteDescription }],
+    ['meta', { property: 'og:image', content: `${baseUrl}/vuefinder_preview.png` }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { property: 'og:image:type', content: 'image/png' }],
+    ['meta', { property: 'og:site_name', content: 'VueFinder' }],
+    ['meta', { property: 'og:locale', content: 'en_US' }],
+    
+    // Twitter Card
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:url', content: baseUrl }],
+    ['meta', { name: 'twitter:title', content: siteTitle }],
+    ['meta', { name: 'twitter:description', content: siteDescription }],
+    ['meta', { name: 'twitter:image', content: `${baseUrl}/vuefinder_preview.png` }],
+    ['meta', { name: 'twitter:site', content: '@n1crack' }],
+    ['meta', { name: 'twitter:creator', content: '@n1crack' }],
+    
+    // Additional SEO
+    ['meta', { name: 'author', content: 'Yusuf Özdemir' }],
+    ['meta', { name: 'keywords', content: 'vue, vue3, file-manager, file-explorer, file-browser, file-upload, vue-component, vue-plugin, cloud-storage, media-manager, uploader, finder' }],
+    ['meta', { name: 'robots', content: 'index, follow' }],
+    ['meta', { name: 'googlebot', content: 'index, follow' }],
+    ['meta', { name: 'language', content: 'English' }],
+    ['meta', { name: 'revisit-after', content: '7 days' }],
+    
+    // Canonical URL
+    ['link', { rel: 'canonical', href: baseUrl }],
+    
+    // Favicon (if exists, otherwise will be handled by VitePress default)
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
+    
+    // Google Analytics
     [
       'script',
       { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-6BYQESCJ6R' }
@@ -85,11 +125,49 @@ function gtag(){dataLayer.push(arguments);}
 window.gtag = gtag;
 gtag('js', new Date());
 gtag('config', 'G-6BYQESCJ6R');`
-    ]
+    ],
+    
+    // Structured Data (JSON-LD)
+    [
+      'script',
+      { type: 'application/ld+json' },
+      JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'VueFinder',
+        applicationCategory: 'WebApplication',
+        operatingSystem: 'Web',
+        description: siteDescription,
+        url: baseUrl,
+        author: {
+          '@type': 'Person',
+          name: 'Yusuf Özdemir',
+          url: 'https://ozdemir.be'
+        },
+        publisher: {
+          '@type': 'Person',
+          name: 'Yusuf Özdemir',
+          url: 'https://ozdemir.be'
+        },
+        license: 'https://opensource.org/licenses/MIT',
+        codeRepository: 'https://github.com/n1crack/vuefinder',
+        softwareVersion: '4.0.15',
+        programmingLanguage: 'TypeScript',
+        runtimePlatform: 'Vue.js 3',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD'
+        },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '5',
+          ratingCount: '1'
+        }
+      })
+    ],
   ],
   buildEnd: async ({ outDir }) => {
-    const baseUrl = 'https://vuefinder.ozdemir.be';
-    
     // Scan the output directory for HTML files
     const scanDirectory = (dir: string, basePath = ''): string[] => {
       const files: string[] = [];
