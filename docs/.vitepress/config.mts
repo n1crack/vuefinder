@@ -115,7 +115,7 @@ export default defineConfig({
     // Google Analytics
     [
       'script',
-      { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-6BYQESCJ6R' }
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-6BYQESCJ6R' }
     ],
     [
       'script',
@@ -208,6 +208,16 @@ gtag('config', 'G-6BYQESCJ6R');`
       console.log('✅ robots.txt copied to', robotsDestPath);
     } else {
       console.warn('⚠️  robots.txt not found at', robotsSourcePath);
+    }
+
+    // Copy OG image from public folder to output directory
+    const ogImageSourcePath = resolve(__dirname, 'public', 'vuefinder_preview.png');
+    const ogImageDestPath = resolve(outDir, 'vuefinder_preview.png');
+    if (existsSync(ogImageSourcePath)) {
+      copyFileSync(ogImageSourcePath, ogImageDestPath);
+      console.log('✅ OG image copied to', ogImageDestPath);
+    } else {
+      console.warn('⚠️  OG image not found at', ogImageSourcePath);
     }
   },
   themeConfig: {
