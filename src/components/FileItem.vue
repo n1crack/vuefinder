@@ -72,9 +72,7 @@ const doubleTapTimeOut = ref<ReturnType<typeof setTimeout> | null>(null);
 let tappedTwice = false;
 let longPressTimeout: ReturnType<typeof setTimeout> | null = null;
 let touchStartEvent: TouchEvent | null = null;
-let touchStartElement: HTMLElement | null = null;
 let longPressTriggered = false;
-const isLongPressActive = ref(false);
 
 const { enabled } = useFeature();
 
@@ -84,14 +82,7 @@ const isTouchDevice =
 
 const draggable = computed(() => {
   // On touch devices, disable drag completely to prevent conflicts with long-press
-  if (isTouchDevice) {
-    return false;
-  }
-  // Disable drag during long-press to prevent drag from starting
-  if (isLongPressActive.value) {
-    return false;
-  }
-  return enabled('move');
+  return isTouchDevice ? false : enabled('move');
 });
 
 const clearTouchTimeout = () => {
@@ -101,81 +92,39 @@ const clearTouchTimeout = () => {
   }
 };
 
-const clearLongPressTimeout = (clearValues: boolean = true) => {
+const clearLongPressTimeout = () => {
   if (longPressTimeout) {
     clearTimeout(longPressTimeout);
     longPressTimeout = null;
   }
-
-  // Only clear values if explicitly requested (not when called from timeout)
-  if (clearValues) {
-    touchStartEvent = null;
-    touchStartElement = null;
-    longPressTriggered = false;
-    isLongPressActive.value = false;
-  }
+  touchStartEvent = null;
+  longPressTriggered = false;
 };
 
 const handleTouchStart = (event: TouchEvent) => {
-  // Clear any existing long-press timeout first
-  if (longPressTimeout) {
-    clearTimeout(longPressTimeout);
-    longPressTimeout = null;
-  }
+  clearLongPressTimeout();
 
-  // Store the original event and element reference
   touchStartEvent = event;
-  const target = event.currentTarget as HTMLElement;
-  touchStartElement = target;
-
-  // Reset flags
   longPressTriggered = false;
-  isLongPressActive.value = true;
 
-  // Stop propagation to prevent parent handlers from interfering
   event.stopPropagation();
   event.stopImmediatePropagation();
 
-  // Set long-press timeout (500ms is standard for context menu)
   longPressTimeout = setTimeout(() => {
-    // Store references before clearing to avoid race conditions
-    const eventToUse = touchStartEvent;
-    const elementToUse = touchStartElement;
-    const timeoutId = longPressTimeout;
+    if (!touchStartEvent || longPressTimeout === null) return;
 
-    // Check if timeout was already cleared
-    if (!timeoutId || timeoutId !== longPressTimeout) {
-      return;
+    longPressTriggered = true;
+    if (touchStartEvent.cancelable) {
+      touchStartEvent.preventDefault();
     }
+    touchStartEvent.stopPropagation();
 
-    if (eventToUse && elementToUse) {
-      longPressTriggered = true;
-
-      // Prevent default click behavior and drag
-      if (eventToUse.cancelable) {
-        eventToUse.preventDefault();
-      }
-      eventToUse.stopPropagation();
-
-      // Emit context menu event with the touch event
-      emit('contextmenu', eventToUse);
-
-      // Clear values after emitting
-      touchStartEvent = null;
-      touchStartElement = null;
-      isLongPressActive.value = false;
-    }
-
-    // Clear timeout
-    if (longPressTimeout) {
-      clearTimeout(longPressTimeout);
-      longPressTimeout = null;
-    }
+    emit('contextmenu', touchStartEvent);
+    clearLongPressTimeout();
   }, 500);
 };
 
 const handleTouchEnd = (event: TouchEvent) => {
-  // If long-press was triggered, prevent click event
   if (longPressTriggered) {
     event.preventDefault();
     event.stopPropagation();
@@ -183,39 +132,29 @@ const handleTouchEnd = (event: TouchEvent) => {
     return;
   }
 
-  // Store timeout reference to check if it's still valid
+  // Wait a bit to see if long-press fires (prevents race condition)
   const currentTimeout = longPressTimeout;
-
-  // Don't clear timeout immediately - wait a bit to see if long-press fires
-  // This prevents race condition where touchend fires before timeout
   setTimeout(() => {
-    // Only clear if timeout is still the same (wasn't already cleared or replaced)
     if (currentTimeout === longPressTimeout && !longPressTriggered) {
-      // Clear long-press timeout since touch ended before long-press
       clearLongPressTimeout();
-
-      // Process as normal click/double-click
       delayedOpenItem(event);
     }
   }, 100);
 };
 
 const handleTouchMove = (event: TouchEvent) => {
-  // Only cancel long-press if user moves finger significantly
-  // Small movements should be allowed for long-press
-  if (touchStartEvent) {
-    const startTouch = touchStartEvent.touches[0] || touchStartEvent.changedTouches[0];
-    const currentTouch = event.touches[0] || event.changedTouches[0];
+  if (!touchStartEvent) return;
 
-    if (startTouch && currentTouch) {
-      const deltaX = Math.abs(currentTouch.clientX - startTouch.clientX);
-      const deltaY = Math.abs(currentTouch.clientY - startTouch.clientY);
-      const threshold = 15; // pixels - increased threshold for iOS
+  const startTouch = touchStartEvent.touches[0] || touchStartEvent.changedTouches[0];
+  const currentTouch = event.touches[0] || event.changedTouches[0];
 
-      // Only cancel if movement is significant
-      if (deltaX > threshold || deltaY > threshold) {
-        clearLongPressTimeout();
-      }
+  if (startTouch && currentTouch) {
+    const deltaX = Math.abs(currentTouch.clientX - startTouch.clientX);
+    const deltaY = Math.abs(currentTouch.clientY - startTouch.clientY);
+
+    // Cancel if movement is significant (15px threshold for iOS)
+    if (deltaX > 15 || deltaY > 15) {
+      clearLongPressTimeout();
     }
   }
 };
@@ -230,8 +169,7 @@ const handleClick = (event: MouseEvent) => {
 };
 
 const handleDragStart = (event: DragEvent) => {
-  // Prevent drag if long-press is active or was just triggered
-  if (isLongPressActive.value || longPressTriggered) {
+  if (longPressTriggered) {
     event.preventDefault();
     event.stopPropagation();
     return false;
