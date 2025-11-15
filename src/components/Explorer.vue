@@ -212,7 +212,6 @@ const handleContentTouchStart = (event: TouchEvent) => {
   }
 
   contentTouchStartEvent = event;
-  event.stopPropagation();
 
   if (contentLongPressTimeout) {
     clearTimeout(contentLongPressTimeout);

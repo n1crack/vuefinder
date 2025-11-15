@@ -108,7 +108,6 @@ const handleTouchStart = (event: TouchEvent) => {
   longPressTriggered = false;
 
   event.stopPropagation();
-  event.stopImmediatePropagation();
 
   longPressTimeout = setTimeout(() => {
     if (!touchStartEvent || longPressTimeout === null) return;
