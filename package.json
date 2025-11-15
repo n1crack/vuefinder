@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "4.0.15",
+  "version": "4.0.16",
   "description": "A sleek, developer-friendly file manager for Vue — organize, preview, and manage files with ease.",
   "type": "module",
   "engines": {
@@ -30,7 +30,7 @@
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build --declaration --emitDeclarationOnly",
+    "type-check": "vue-tsc --noEmit -p tsconfig.app.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
