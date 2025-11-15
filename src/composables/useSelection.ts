@@ -52,7 +52,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const tempSelection = ref(new Set<string>());
   const isDragging = ref(false);
   const selectionStarted = ref(false);
-  const startPosition = ref<{ row: number; col: number } | null>(null);
+  const startPosition = ref<{ row: number; col: number; relativeX: number } | null>(null);
+  const endPosition = ref<{ row: number; col: number } | null>(null);
 
   const extractIds = (els: Element[]): string[] => {
     return els.map((v) => v.getAttribute('data-key')).filter((v): v is string => Boolean(v));
@@ -213,7 +214,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
           const row = Math.floor(relativeY / rowHeight.value);
           const col = Math.floor(relativeX / itemWidth);
 
-          startPosition.value = { row, col };
+          startPosition.value = { row, col, relativeX };
         }
       }
     }
@@ -245,6 +246,26 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     });
     event.selection.resolveSelectables();
 
+    // Track end position for range calculation
+    if (selectionObject.value && event.event) {
+      const container = selectionObject.value
+        .getSelectables()[0]
+        ?.closest('.scroller-' + explorerId) as HTMLElement;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        const point = getClientPoint(event.event as unknown as Event);
+        if (point) {
+          const relativeY = point.y - rect.top + container.scrollTop;
+          const relativeX = point.x - rect.left;
+
+          const row = Math.floor(relativeY / rowHeight.value);
+          const col = Math.floor(relativeX / itemWidth);
+
+          endPosition.value = { row, col };
+        }
+      }
+    }
+
     refreshSelection(event);
   };
 
@@ -271,20 +292,63 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
           .filter((pos): pos is { row: number; col: number } => pos !== null);
 
         if (positions.length > 0) {
-          const allPositions = [...positions, startPosition.value];
+          // Calculate column range based on selection direction
+          let minCol = startPosition.value.col;
+          let maxCol = startPosition.value.col;
+
+          if (endPosition.value) {
+            // Determine selection direction based on end position
+            const startCol = startPosition.value.col;
+            const endCol = endPosition.value.col;
+
+            // Calculate position within the clicked item (0 to itemWidth)
+            const relativeXInItem = startPosition.value.relativeX - startCol * itemWidth;
+
+            // If clicking in the left half of an item and dragging right, include that item
+            // If clicking in the right half of an item and dragging left, include that item
+            if (endCol > startCol) {
+              // Dragging right: if clicked in left half, start from clicked item, otherwise from next
+              minCol = relativeXInItem < itemWidth / 2 ? startCol : startCol + 1;
+              maxCol = endCol;
+            } else if (endCol < startCol) {
+              // Dragging left: if clicked in right half, start from clicked item, otherwise from previous
+              minCol = endCol;
+              maxCol = relativeXInItem >= itemWidth / 2 ? startCol : startCol - 1;
+            } else {
+              // Same column, use clicked item
+              minCol = startCol;
+              maxCol = startCol;
+            }
+          } else {
+            // No end position, use positions from selected items
+            const allPositions = [
+              ...positions,
+              { row: startPosition.value.row, col: startPosition.value.col },
+            ];
+            const firstPos = allPositions[0]!;
+            minCol = allPositions.reduce((min, p) => (p.col < min ? p.col : min), firstPos.col);
+            maxCol = allPositions.reduce((max, p) => (p.col > max ? p.col : max), firstPos.col);
+          }
+
+          // Ensure valid column range
+          minCol = Math.max(0, minCol);
+          maxCol = Math.max(minCol, maxCol);
+
+          // Calculate row range
+          const allPositions = [
+            ...positions,
+            { row: startPosition.value.row, col: startPosition.value.col },
+          ];
           const firstPos = allPositions[0]!;
-          const minMaxIds = {
-            minRow: allPositions.reduce((min, p) => (p.row < min ? p.row : min), firstPos.row),
-            maxRow: allPositions.reduce((max, p) => (p.row > max ? p.row : max), firstPos.row),
-            minCol: allPositions.reduce((min, p) => (p.col < min ? p.col : min), firstPos.col),
-            maxCol: allPositions.reduce((max, p) => (p.col > max ? p.col : max), firstPos.col),
-          };
+          const minRow = allPositions.reduce((min, p) => (p.row < min ? p.row : min), firstPos.row);
+          const maxRow = allPositions.reduce((max, p) => (p.row > max ? p.row : max), firstPos.row);
+
           const itemsInRange = getItemsInRange(
             (sortedFiles.value as any[]) || [],
-            minMaxIds.minRow,
-            minMaxIds.maxRow,
-            minMaxIds.minCol,
-            minMaxIds.maxCol
+            minRow,
+            maxRow,
+            minCol,
+            maxCol
           ) as any[];
 
           const allElements = document.querySelectorAll(`.file-item-${explorerId}[data-key]`);
@@ -315,6 +379,26 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const onStop = (event: SelectionEvent) => {
+    // Update end position if not already set
+    if (!endPosition.value && selectionObject.value && event.event) {
+      const container = selectionObject.value
+        .getSelectables()[0]
+        ?.closest('.scroller-' + explorerId) as HTMLElement;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        const point = getClientPoint(event.event as unknown as Event);
+        if (point) {
+          const relativeY = point.y - rect.top + container.scrollTop;
+          const relativeX = point.x - rect.left;
+
+          const row = Math.floor(relativeY / rowHeight.value);
+          const col = Math.floor(relativeX / itemWidth);
+
+          endPosition.value = { row, col };
+        }
+      }
+    }
+
     selectSelectionRange(event);
     cleanupSelection(event);
     refreshSelection(event);
@@ -322,6 +406,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     isDragging.value = false;
     startPosition.value = null;
+    endPosition.value = null;
   };
 
   const initializeSelectionArea = () => {
