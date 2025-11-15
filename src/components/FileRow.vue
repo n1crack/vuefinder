@@ -21,7 +21,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   click: [event: Event | MouseEvent | TouchEvent];
   dblclick: [event: MouseEvent | TouchEvent];
-  contextmenu: [event: MouseEvent];
+  contextmenu: [event: MouseEvent | TouchEvent];
   dragstart: [event: DragEvent];
   dragend: [event: DragEvent];
 }>();

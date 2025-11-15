@@ -98,7 +98,7 @@ export function useItemEvents(
   /**
    * Handle item context menu
    */
-  const handleItemContextMenu = (event: MouseEvent) => {
+  const handleItemContextMenu = (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
     event.stopPropagation(); // Prevent event from bubbling further
 
