@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "4.0.17",
+  "version": "4.0.18",
   "description": "A sleek, developer-friendly file manager for Vue — organize, preview, and manage files with ease.",
   "type": "module",
   "engines": {

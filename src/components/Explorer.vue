@@ -77,6 +77,8 @@ const {
   }
 );
 
+const { osInstance } = useScrollSetup(scrollContainer, handleScroll);
+
 const {
   explorerId,
   isDragging,
@@ -91,6 +93,7 @@ const {
   selectionObject,
   rowHeight,
   itemWidth: 104,
+  osInstance,
 });
 
 const currentDragKey = ref<string | null>(null);
@@ -128,8 +131,6 @@ const getItemAtRow = (rowIndex: number): DirEntry | undefined => {
   return sortedFiles.value?.[rowIndex];
 };
 
-useScrollSetup(scrollContainer, handleScroll);
-
 useLazyLoad(scrollContainer, app);
 
 const { handleItemClick, handleItemDblClick, handleItemContextMenu, handleContentContextMenu } =
@@ -144,16 +145,43 @@ const { handleItemClick, handleItemDblClick, handleItemContextMenu, handleConten
   );
 
 onMounted(() => {
-  // Initialize SelectionArea
-  initializeSelectionArea();
+  // Wait for OverlayScrollbars to initialize before initializing SelectionArea
+  // This ensures the viewport element is available for boundaries
+  const initSelection = () => {
+    if (!selectionObject.value) {
+      initializeSelectionArea();
+    }
 
-  if (selectionObject.value) {
-    selectionObject.value.on('beforestart', ({ event }: SelectionEvent) => {
-      const blankArea = event?.target === scrollContent.value;
-      if (!event?.metaKey && !event?.ctrlKey && !event?.altKey && !blankArea) {
-        return false;
+    if (selectionObject.value) {
+      selectionObject.value.on('beforestart', ({ event }: SelectionEvent) => {
+        const blankArea = event?.target === scrollContent.value;
+        if (!event?.metaKey && !event?.ctrlKey && !event?.altKey && !blankArea) {
+          return false;
+        }
+      });
+    }
+  };
+
+  // If osInstance is already available, initialize immediately
+  // Otherwise wait a bit for OverlayScrollbars to initialize
+  if (osInstance.value) {
+    initSelection();
+  } else {
+    // Wait for OverlayScrollbars to initialize
+    const checkInterval = setInterval(() => {
+      if (osInstance.value) {
+        clearInterval(checkInterval);
+        initSelection();
       }
-    });
+    }, 50);
+
+    // Fallback: initialize after 500ms even if osInstance is not ready
+    setTimeout(() => {
+      clearInterval(checkInterval);
+      if (!selectionObject.value) {
+        initSelection();
+      }
+    }, 500);
   }
 
   // Watch for filter changes and update selection area

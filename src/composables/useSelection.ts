@@ -18,10 +18,11 @@ export interface UseSelectionDeps<T> {
   selectionObject: Ref<SelectionArea | null>;
   rowHeight: Ref<number>;
   itemWidth: number;
+  osInstance?: Ref<ReturnType<typeof import('overlayscrollbars').OverlayScrollbars> | null>;
 }
 
 export function useSelection<T>(deps: UseSelectionDeps<T>) {
-  const { getItemPosition, getItemsInRange, getKey, selectionObject, rowHeight, itemWidth } = deps;
+  const { getItemPosition, getItemsInRange, getKey, selectionObject, rowHeight, itemWidth, osInstance } = deps;
 
   const explorerId = Math.floor(Math.random() * 2 ** 32).toString();
   const app = useApp();
@@ -316,9 +317,20 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const initializeSelectionArea = () => {
+    // Get the actual scroll container - use OverlayScrollbars viewport if available
+    let boundaries: string | HTMLElement | (string | HTMLElement)[] = ['.scroller-' + explorerId];
+    
+    if (osInstance?.value) {
+      const { viewport } = osInstance.value.elements();
+      if (viewport) {
+        // Use the viewport element as boundary for SelectionArea scrolling
+        boundaries = viewport;
+      }
+    }
+
     selectionObject.value = new SelectionArea({
       selectables: ['.file-item-' + explorerId + ':not(.vf-explorer-item--unselectable)'],
-      boundaries: ['.scroller-' + explorerId],
+      boundaries: boundaries,
       selectionContainerClass: 'selection-area-container',
       behaviour: {
         overlap: 'invert',
