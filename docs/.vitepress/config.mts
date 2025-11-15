@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitepress';
-import { writeFileSync, readdirSync, statSync } from 'node:fs';
+import { writeFileSync, readdirSync, statSync, copyFileSync, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 
 // Generate sitemap XML from VitePress pages
@@ -121,6 +121,16 @@ gtag('config', 'G-6BYQESCJ6R');`
     const sitemapPath = resolve(outDir, 'sitemap.xml');
     writeFileSync(sitemapPath, sitemap, 'utf-8');
     console.log('✅ Sitemap generated at', sitemapPath);
+    
+    // Copy robots.txt from public folder to output directory
+    const robotsSourcePath = resolve(__dirname, 'public', 'robots.txt');
+    const robotsDestPath = resolve(outDir, 'robots.txt');
+    if (existsSync(robotsSourcePath)) {
+      copyFileSync(robotsSourcePath, robotsDestPath);
+      console.log('✅ robots.txt copied to', robotsDestPath);
+    } else {
+      console.warn('⚠️  robots.txt not found at', robotsSourcePath);
+    }
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config

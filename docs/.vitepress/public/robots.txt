@@ -1,0 +1,23 @@
+# Allow all search engines
+User-agent: *
+Allow: /
+Crawl-delay: 1
+
+# Disallow crawling of assets and build files
+User-agent: *
+Disallow: /assets/
+Disallow: /*.js$
+Disallow: /*.css$
+
+# Allow specific bots
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://vuefinder.ozdemir.be/sitemap.xml
+
