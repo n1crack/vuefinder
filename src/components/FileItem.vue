@@ -98,7 +98,7 @@ const clearLongPressTimeout = () => {
     longPressTimeout = null;
   }
   touchStartEvent = null;
-  longPressTriggered = false;
+  //   longPressTriggered = false;
 };
 
 const handleTouchStart = (event: TouchEvent) => {
@@ -130,11 +130,8 @@ const handleTouchEnd = (event: TouchEvent) => {
     clearLongPressTimeout();
     return;
   }
-
-  // Wait a bit to see if long-press fires (prevents race condition)
-  const currentTimeout = longPressTimeout;
   setTimeout(() => {
-    if (currentTimeout === longPressTimeout && !longPressTriggered) {
+    if (!longPressTriggered) {
       clearLongPressTimeout();
       delayedOpenItem(event);
     }
