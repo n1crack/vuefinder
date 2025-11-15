@@ -128,7 +128,7 @@ export function useItemEvents(
   /**
    * Handle content context menu (blank area)
    */
-  const handleContentContextMenu = (event: MouseEvent) => {
+  const handleContentContextMenu = (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
     app.emitter.emit('vf-contextmenu-show', { event, items: getSelectedItems() });
   };

@@ -200,6 +200,64 @@ const handleItemDragStart = (event: DragEvent) => {
 const handleItemDragEnd = () => {
   currentDragKey.value = null;
 };
+
+// Long-press support for content area (blank space)
+let contentLongPressTimeout: ReturnType<typeof setTimeout> | null = null;
+let contentTouchStartEvent: TouchEvent | null = null;
+
+const handleContentTouchStart = (event: TouchEvent) => {
+  // Only handle if touching the content area itself, not a file item
+  if ((event.target as HTMLElement)?.closest('.file-item-' + explorerId)) {
+    return;
+  }
+
+  contentTouchStartEvent = event;
+  event.stopPropagation();
+
+  if (contentLongPressTimeout) {
+    clearTimeout(contentLongPressTimeout);
+  }
+
+  contentLongPressTimeout = setTimeout(() => {
+    if (contentTouchStartEvent) {
+      if (contentTouchStartEvent.cancelable) {
+        contentTouchStartEvent.preventDefault();
+      }
+      contentTouchStartEvent.stopPropagation();
+      handleContentContextMenu(contentTouchStartEvent);
+    }
+    contentTouchStartEvent = null;
+    contentLongPressTimeout = null;
+  }, 500);
+};
+
+const handleContentTouchEnd = (event: TouchEvent) => {
+  if (contentLongPressTimeout) {
+    clearTimeout(contentLongPressTimeout);
+    contentLongPressTimeout = null;
+  }
+  contentTouchStartEvent = null;
+};
+
+const handleContentTouchMove = (event: TouchEvent) => {
+  if (!contentTouchStartEvent) return;
+
+  const startTouch = contentTouchStartEvent.touches[0] || contentTouchStartEvent.changedTouches[0];
+  const currentTouch = event.touches[0] || event.changedTouches[0];
+
+  if (startTouch && currentTouch) {
+    const deltaX = Math.abs(currentTouch.clientX - startTouch.clientX);
+    const deltaY = Math.abs(currentTouch.clientY - startTouch.clientY);
+
+    if (deltaX > 15 || deltaY > 15) {
+      if (contentLongPressTimeout) {
+        clearTimeout(contentLongPressTimeout);
+        contentLongPressTimeout = null;
+      }
+      contentTouchStartEvent = null;
+    }
+  }
+};
 </script>
 
 <template>
@@ -228,6 +286,10 @@ const handleItemDragEnd = () => {
         :style="{ height: `${totalHeight}px`, position: 'relative', width: '100%' }"
         @contextmenu.self.prevent="handleContentContextMenu"
         @click.self="handleContentClick"
+        @touchstart.self.capture="handleContentTouchStart"
+        @touchend.self.capture="handleContentTouchEnd"
+        @touchmove.self.capture="handleContentTouchMove"
+        @touchcancel.self.capture="handleContentTouchEnd"
       >
         <div ref="dragImage" class="vuefinder__explorer__drag-item">
           <DragItem
