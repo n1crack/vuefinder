@@ -6,14 +6,18 @@ import { resolve, join } from 'node:path';
 function generateSitemap(pages: string[], baseUrl: string): string {
   const urls = pages
     .map((page) => {
-      // Convert page path to URL
-      // pages are like: index.html, getting-started/introduction.html, etc.
-      let url = page.replace(/index\.html$/, '').replace(/\.html$/, '') || '/';
-      // Ensure URL starts with /
-      if (!url.startsWith('/')) {
-        url = '/' + url;
+      // Handle index.html -> root
+      if (page === 'index.html' || page.endsWith('/index.html')) {
+        return '/';
       }
-      return url;
+      
+      // Normalize path: remove leading/trailing slashes, ensure .html exists
+      let url = page.replace(/^\/+|\/+$/g, '');
+      if (!url.endsWith('.html')) {
+        url = url + '.html';
+      }
+      
+      return '/' + url;
     })
     .filter((url) => {
       // Filter out 404 and other non-content pages
@@ -195,10 +199,16 @@ gtag('config', 'G-6BYQESCJ6R');`
     };
     
     const htmlFiles = scanDirectory(outDir);
+    console.log('📄 Found HTML files:', htmlFiles.slice(0, 5), '...');
     const sitemap = generateSitemap(htmlFiles, baseUrl);
     const sitemapPath = resolve(outDir, 'sitemap.xml');
     writeFileSync(sitemapPath, sitemap, 'utf-8');
     console.log('✅ Sitemap generated at', sitemapPath);
+    // Debug: show first few URLs
+    const urlMatches = sitemap.match(/<loc>(.*?)<\/loc>/g);
+    if (urlMatches) {
+      console.log('🔗 Sample URLs:', urlMatches.slice(0, 3).map(m => m.replace(/<\/?loc>/g, '')));
+    }
     
     // Copy robots.txt from public folder to output directory
     const robotsSourcePath = resolve(__dirname, 'public', 'robots.txt');
