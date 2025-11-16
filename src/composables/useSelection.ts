@@ -7,6 +7,7 @@ import type { StoreValue } from 'nanostores';
 
 export interface UseSelectionDeps<T> {
   itemsPerRow: Ref<number>;
+  totalHeight: Ref<number>;
   getItemPosition: (itemIndex: number) => { row: number; col: number };
   getItemsInRange: <U>(
     items: U[],
@@ -25,6 +26,7 @@ export interface UseSelectionDeps<T> {
 export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const {
     itemsPerRow,
+    totalHeight,
     getItemPosition,
     getItemsInRange,
     getKey,
@@ -189,30 +191,42 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
       return;
     }
 
-    const containerRect = document
-      .querySelector('.scroller-' + explorerId)
-      ?.getBoundingClientRect();
-    if (!containerRect) {
+    const container = document.querySelector('.scroller-' + explorerId) as HTMLElement;
+    if (!container) {
       return;
     }
+
+    const containerRect = container.getBoundingClientRect();
     const containerX = containerRect.left;
     const containerY = containerRect.top;
+
+    // Get scroll position
+    let scrollTop = container.scrollTop;
+
+    // Use OverlayScrollbars viewport if available
+    if (osInstance?.value) {
+      const { viewport } = osInstance.value.elements();
+      if (viewport) {
+        scrollTop = viewport.scrollTop;
+      }
+    }
 
     const areaLocation = selectionObject.value?.getAreaLocation();
     if (!areaLocation) {
       return;
     }
     const pointMinX = Math.min(areaLocation.x1, areaLocation.x2);
-    const pointMinY = Math.min(areaLocation.y1, areaLocation.y2);
+    const pointMinY = scrollTop + Math.min(areaLocation.y1, areaLocation.y2);
     const pointMaxX = Math.max(areaLocation.x1, areaLocation.x2);
-    const pointMaxY = Math.max(areaLocation.y1, areaLocation.y2);
+    const pointMaxY = scrollTop + Math.max(areaLocation.y1, areaLocation.y2);
 
     const gap = 4;
 
-    console.log('pointMinX', pointMinX - containerX - gap);
-    console.log('pointMinY', pointMinY - containerY - gap);
-    console.log('pointMaxX', pointMaxX - containerX - gap);
-    console.log('pointMaxY', pointMaxY - containerY - gap);
+    // console.log('pointMinX', pointMinX - containerX - gap);
+    // console.log('pointMinY', pointMinY - containerY - gap);
+    // console.log('pointMaxX', pointMaxX - containerX - gap);
+    // console.log('pointMaxY', pointMaxY - containerY - gap);
+    // console.log('scrollTop', scrollTop);
 
     let colMin = Math.floor((pointMinX - containerX - gap) / itemWidth);
     let colMax = Math.floor((pointMaxX - containerX - gap) / itemWidth);
@@ -233,36 +247,29 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const colSafeMin = Math.max(0, colMin);
     const colSafeMax = Math.min(itemsPerRow.value - 1, colMax);
 
-    // Calculate row range (similar to column calculation)
     let rowMin = Math.floor((pointMinY - containerY - gap) / rowHeight.value);
     let rowMax = Math.floor((pointMaxY - containerY - gap) / rowHeight.value);
 
     const selectedRowMin = pointMinY - containerY - gap - rowMin * rowHeight.value;
     const selectedRowMax = pointMaxY - containerY - gap - rowMax * rowHeight.value;
+    const maximumRowCount = Math.floor((totalHeight.value - gap) / rowHeight.value);
 
-    console.log('selectedRowMin', selectedRowMin);
-    console.log('selectedRowMax', selectedRowMax);
-
-    // Row structure: items have 4px margin (gap) on top and bottom
-    // If selection starts in the bottom gap of a row, skip that row
     if (selectedRowMin > rowHeight.value - gap) {
       rowMin = rowMin + 1;
     }
-    // If selection ends in the top gap of a row, don't include that row
+
     if (selectedRowMax < gap) {
       rowMax = rowMax - 1;
     }
 
     const rowSafeMin = Math.max(0, rowMin);
-    const rowSafeMax = Math.max(rowSafeMin, rowMax); // Ensure max >= min
+    const rowSafeMax = Math.min(rowMax, maximumRowCount);
 
     console.log('colMin', colSafeMin);
     console.log('colMax', colSafeMax);
     console.log('rowMin', rowSafeMin);
     console.log('rowMax', rowSafeMax);
-    // console.log('itemWidth', itemWidth);
-    // console.log('rowHeight', rowHeight.value);
-    // console.log('items per row', itemsPerRow.value);
+
     return;
   };
 

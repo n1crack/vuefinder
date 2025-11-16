@@ -82,6 +82,7 @@ const { osInstance } = useScrollSetup(scrollContainer, handleScroll);
 const { explorerId, isDragging, initializeSelectionArea, updateSelectionArea, handleContentClick } =
   useSelection<DirEntry>({
     itemsPerRow,
+    totalHeight,
     getItemPosition,
     getItemsInRange,
     getKey: (f) => f.path,
