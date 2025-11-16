@@ -1,6 +1,6 @@
 import { ref, computed, onMounted, onUnmounted, type Ref } from 'vue';
 import { useApp } from '../composables/useApp';
-import SelectionArea, { type AreaLocation, type SelectionEvent } from '@viselect/vanilla';
+import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import type { DirEntry } from '../types';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
@@ -27,7 +27,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   const {
     itemsPerRow,
     totalHeight,
-    getItemPosition,
     getItemsInRange,
     getKey,
     selectionObject,
@@ -222,20 +221,11 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     const gap = 4;
 
-    // console.log('pointMinX', pointMinX - containerX - gap);
-    // console.log('pointMinY', pointMinY - containerY - gap);
-    // console.log('pointMaxX', pointMaxX - containerX - gap);
-    // console.log('pointMaxY', pointMaxY - containerY - gap);
-    // console.log('scrollTop', scrollTop);
-
     let colMin = Math.floor((pointMinX - containerX - gap) / itemWidth);
     let colMax = Math.floor((pointMaxX - containerX - gap) / itemWidth);
 
     const selectedColMin = pointMinX - containerX - gap - colMin * itemWidth;
     const selectedColMax = pointMaxX - containerX - gap - colMax * itemWidth;
-
-    // console.log('selectedColMin', selectedColMin);
-    // console.log('selectedColMax', selectedColMax);
 
     if (selectedColMin > itemWidth - gap) {
       colMin = colMin + 1;
@@ -265,11 +255,36 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const rowSafeMin = Math.max(0, rowMin);
     const rowSafeMax = Math.min(rowMax, maximumRowCount);
 
-    console.log('colMin', colSafeMin);
-    console.log('colMax', colSafeMax);
-    console.log('rowMin', rowSafeMin);
-    console.log('rowMax', rowSafeMax);
+    const itemsInRange = getItemsInRange(
+      sortedFiles.value,
+      rowSafeMin,
+      rowSafeMax,
+      colSafeMin,
+      colSafeMax
+    );
 
+    const allElements = document.querySelectorAll(`.file-item-${explorerId}[data-key]`);
+    const elementsMap = new Map<string, Element>();
+    allElements.forEach((el) => {
+      const key = el.getAttribute('data-key');
+      if (key) {
+        elementsMap.set(key, el);
+      }
+    });
+
+    const keysToSelect: string[] = [];
+    itemsInRange.forEach((item) => {
+      const key = getKey(item as T);
+      const el = elementsMap.get(key);
+      if (!el) {
+        keysToSelect.push(key);
+      }
+    });
+
+    if (keysToSelect.length > 0) {
+      const selectionMode = (app.selectionMode as 'single' | 'multiple') || 'multiple';
+      fs.selectMultiple(keysToSelect, selectionMode);
+    }
     return;
   };
 
