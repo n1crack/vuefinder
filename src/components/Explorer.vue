@@ -79,22 +79,17 @@ const {
 
 const { osInstance } = useScrollSetup(scrollContainer, handleScroll);
 
-const {
-  explorerId,
-  isDragging,
-  initializeSelectionArea,
-  destroySelectionArea,
-  updateSelectionArea,
-  handleContentClick,
-} = useSelection<DirEntry>({
-  getItemPosition,
-  getItemsInRange,
-  getKey: (f) => f.path,
-  selectionObject,
-  rowHeight,
-  itemWidth: 104,
-  osInstance,
-});
+const { explorerId, isDragging, initializeSelectionArea, updateSelectionArea, handleContentClick } =
+  useSelection<DirEntry>({
+    itemsPerRow,
+    getItemPosition,
+    getItemsInRange,
+    getKey: (f) => f.path,
+    selectionObject,
+    rowHeight,
+    itemWidth: 104,
+    osInstance,
+  });
 
 const currentDragKey = ref<string | null>(null);
 
