@@ -208,10 +208,7 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const pointMaxY = Math.max(areaLocation.y1, areaLocation.y2);
 
     const gap = 4;
-    // console.log('itemX', itemX - containerX - 4);
-    // console.log('itemY', itemY - containerY - 4);
-    // console.log('itemRight', itemX + itemWidth - containerX - 4);
-    // console.log('itemBottom', itemY + itemHeight - containerY - 4);
+
     console.log('pointMinX', pointMinX - containerX - gap);
     console.log('pointMinY', pointMinY - containerY - gap);
     console.log('pointMaxX', pointMaxX - containerX - gap);
@@ -223,8 +220,8 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const selectedColMin = pointMinX - containerX - gap - colMin * itemWidth;
     const selectedColMax = pointMaxX - containerX - gap - colMax * itemWidth;
 
-    console.log('selectedColMin', selectedColMin);
-    console.log('selectedColMax', selectedColMax);
+    // console.log('selectedColMin', selectedColMin);
+    // console.log('selectedColMax', selectedColMax);
 
     if (selectedColMin > itemWidth - gap) {
       colMin = colMin + 1;
@@ -236,10 +233,35 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     const colSafeMin = Math.max(0, colMin);
     const colSafeMax = Math.min(itemsPerRow.value - 1, colMax);
 
+    // Calculate row range (similar to column calculation)
+    let rowMin = Math.floor((pointMinY - containerY - gap) / rowHeight.value);
+    let rowMax = Math.floor((pointMaxY - containerY - gap) / rowHeight.value);
+
+    const selectedRowMin = pointMinY - containerY - gap - rowMin * rowHeight.value;
+    const selectedRowMax = pointMaxY - containerY - gap - rowMax * rowHeight.value;
+
+    console.log('selectedRowMin', selectedRowMin);
+    console.log('selectedRowMax', selectedRowMax);
+
+    // Row structure: items have 4px margin (gap) on top and bottom
+    // If selection starts in the bottom gap of a row, skip that row
+    if (selectedRowMin > rowHeight.value - gap) {
+      rowMin = rowMin + 1;
+    }
+    // If selection ends in the top gap of a row, don't include that row
+    if (selectedRowMax < gap) {
+      rowMax = rowMax - 1;
+    }
+
+    const rowSafeMin = Math.max(0, rowMin);
+    const rowSafeMax = Math.max(rowSafeMin, rowMax); // Ensure max >= min
+
     console.log('colMin', colSafeMin);
     console.log('colMax', colSafeMax);
+    console.log('rowMin', rowSafeMin);
+    console.log('rowMax', rowSafeMax);
     // console.log('itemWidth', itemWidth);
-    // console.log('itemHeight', itemHeight);
+    // console.log('rowHeight', rowHeight.value);
     // console.log('items per row', itemsPerRow.value);
     return;
   };
