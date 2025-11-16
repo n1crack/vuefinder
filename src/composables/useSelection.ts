@@ -108,39 +108,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     return true;
   };
 
-  const getSelectionRange = (selectionParam: Set<string>) => {
-    if (selectionParam.size === 0) {
-      return null;
-    }
-
-    const keyToIndexMap = new Map<string, number>();
-    if (sortedFiles.value) {
-      sortedFiles.value.forEach((f: DirEntry, index: number) => {
-        keyToIndexMap.set(getKey(f as T), index);
-      });
-    }
-
-    const ids = Array.from(selectionParam);
-    const positions = ids
-      .map((key) => {
-        const index = keyToIndexMap.get(key) ?? -1;
-        return index >= 0 ? getItemPosition(index) : null;
-      })
-      .filter((pos): pos is { row: number; col: number } => pos !== null);
-
-    if (positions.length === 0) {
-      return null;
-    }
-
-    const firstPos = positions[0]!;
-    const minRow = positions.reduce((min, p) => (p.row < min ? p.row : min), firstPos.row);
-    const maxRow = positions.reduce((max, p) => (p.row > max ? p.row : max), firstPos.row);
-    const minCol = positions.reduce((min, p) => (p.col < min ? p.col : min), firstPos.col);
-    const maxCol = positions.reduce((max, p) => (p.col > max ? p.col : max), firstPos.col);
-
-    return { minRow, maxRow, minCol, maxCol };
-  };
-
   const onBeforeStart = (event: SelectionEvent) => {
     if (app.selectionMode === 'single') {
       return false;
@@ -156,23 +123,6 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
   };
 
   const deltaY = ref(0);
-
-  const getClientPoint = (rawEvent: Event): { x: number; y: number } | null => {
-    const ev = rawEvent as unknown as TouchEvent | MouseEvent | undefined;
-    if (ev && 'touches' in ev) {
-      const t = ev.touches?.[0];
-      if (t) return { x: t.clientX, y: t.clientY };
-    }
-    if (ev && 'changedTouches' in ev) {
-      const ct = ev.changedTouches?.[0];
-      if (ct) return { x: ct.clientX, y: ct.clientY };
-    }
-    if (ev && 'clientX' in (ev as MouseEvent) && 'clientY' in (ev as MouseEvent)) {
-      const me = ev as MouseEvent;
-      return { x: me.clientX, y: me.clientY };
-    }
-    return null;
-  };
 
   const onStart = ({ event, selection }: SelectionEvent) => {
     deltaY.value =
@@ -238,10 +188,59 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     if (!event.event) {
       return;
     }
-    console.log(selectionObject.value?.getAreaLocation());
-    console.log('items per row', itemsPerRow.value);
-    console.log('row height', rowHeight.value);
-    console.log('item width', itemWidth);
+
+    const containerRect = document
+      .querySelector('.scroller-' + explorerId)
+      ?.getBoundingClientRect();
+    if (!containerRect) {
+      return;
+    }
+    const containerX = containerRect.left;
+    const containerY = containerRect.top;
+
+    const areaLocation = selectionObject.value?.getAreaLocation();
+    if (!areaLocation) {
+      return;
+    }
+    const pointMinX = Math.min(areaLocation.x1, areaLocation.x2);
+    const pointMinY = Math.min(areaLocation.y1, areaLocation.y2);
+    const pointMaxX = Math.max(areaLocation.x1, areaLocation.x2);
+    const pointMaxY = Math.max(areaLocation.y1, areaLocation.y2);
+
+    const gap = 4;
+    // console.log('itemX', itemX - containerX - 4);
+    // console.log('itemY', itemY - containerY - 4);
+    // console.log('itemRight', itemX + itemWidth - containerX - 4);
+    // console.log('itemBottom', itemY + itemHeight - containerY - 4);
+    console.log('pointMinX', pointMinX - containerX - gap);
+    console.log('pointMinY', pointMinY - containerY - gap);
+    console.log('pointMaxX', pointMaxX - containerX - gap);
+    console.log('pointMaxY', pointMaxY - containerY - gap);
+
+    let colMin = Math.floor((pointMinX - containerX - gap) / itemWidth);
+    let colMax = Math.floor((pointMaxX - containerX - gap) / itemWidth);
+
+    const selectedColMin = pointMinX - containerX - gap - colMin * itemWidth;
+    const selectedColMax = pointMaxX - containerX - gap - colMax * itemWidth;
+
+    console.log('selectedColMin', selectedColMin);
+    console.log('selectedColMax', selectedColMax);
+
+    if (selectedColMin > itemWidth - gap) {
+      colMin = colMin + 1;
+    }
+    if (selectedColMax < gap) {
+      colMax = colMax - 1;
+    }
+
+    const colSafeMin = Math.max(0, colMin);
+    const colSafeMax = Math.min(itemsPerRow.value - 1, colMax);
+
+    console.log('colMin', colSafeMin);
+    console.log('colMax', colSafeMax);
+    // console.log('itemWidth', itemWidth);
+    // console.log('itemHeight', itemHeight);
+    // console.log('items per row', itemsPerRow.value);
     return;
   };
 
