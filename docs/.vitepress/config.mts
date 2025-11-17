@@ -157,17 +157,7 @@ gtag('config', 'G-6BYQESCJ6R');`
         codeRepository: 'https://github.com/n1crack/vuefinder',
         softwareVersion: '4.0.15',
         programmingLanguage: 'TypeScript',
-        runtimePlatform: 'Vue.js 3',
-        offers: {
-          '@type': 'Offer',
-          price: '0',
-          priceCurrency: 'USD'
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '5',
-          ratingCount: '1'
-        }
+        runtimePlatform: 'Vue.js 3'
       })
     ],
   ],
