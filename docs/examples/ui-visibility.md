@@ -57,84 +57,6 @@ Control the visibility of menu bar and toolbar components in VueFinder.
 </template>
 ```
 
-## Reactive Toggles
-
-You can create reactive toggles to show/hide the menu bar and toolbar dynamically:
-
-```vue
-<script setup>
-import { ref } from 'vue';
-
-const showMenuBar = ref(true);
-const showToolbar = ref(true);
-
-const toggleMenuBar = () => {
-  showMenuBar.value = !showMenuBar.value;
-};
-
-const toggleToolbar = () => {
-  showToolbar.value = !showToolbar.value;
-};
-</script>
-
-<template>
-  <div>
-    <div style="margin-bottom: 1rem">
-      <button @click="toggleMenuBar">
-        {{ showMenuBar ? 'Hide' : 'Show' }} Menu Bar
-      </button>
-      <button @click="toggleToolbar" style="margin-left: 0.5rem">
-        {{ showToolbar ? 'Hide' : 'Show' }} Toolbar
-      </button>
-    </div>
-    <vue-finder
-      id="toggle-example"
-      :driver="driver"
-      :config="{
-        showMenuBar: showMenuBar,
-        showToolbar: showToolbar,
-      }"
-    />
-  </div>
-</template>
-```
-
-## Using Checkboxes
-
-You can also use checkboxes for a more intuitive UI:
-
-```vue
-<script setup>
-import { ref } from 'vue';
-
-const showMenuBar = ref(true);
-const showToolbar = ref(true);
-</script>
-
-<template>
-  <div>
-    <div style="margin-bottom: 1rem">
-      <label>
-        <input type="checkbox" v-model="showMenuBar" />
-        Show Menu Bar
-      </label>
-      <label style="margin-left: 1rem">
-        <input type="checkbox" v-model="showToolbar" />
-        Show Toolbar
-      </label>
-    </div>
-    <vue-finder
-      id="checkbox-example"
-      :driver="driver"
-      :config="{
-        showMenuBar: showMenuBar,
-        showToolbar: showToolbar,
-      }"
-    />
-  </div>
-</template>
-```
-
 ## Important Notes
 
 ### Non-Persistent Behavior
@@ -167,51 +89,6 @@ Create a clean, minimal interface by hiding both components:
     :config="{
       showMenuBar: false,
       showToolbar: false,
-    }"
-  />
-</template>
-```
-
-### Custom Toolbar
-
-Hide the default toolbar and create your own custom toolbar:
-
-```vue
-<template>
-  <div>
-    <!-- Custom toolbar -->
-    <div class="custom-toolbar">
-      <!-- Your custom toolbar content -->
-    </div>
-    <vue-finder
-      id="custom-toolbar"
-      :driver="driver"
-      :config="{
-        showToolbar: false,
-      }"
-    />
-  </div>
-</template>
-```
-
-### Conditional Display
-
-Show/hide based on user permissions or preferences:
-
-```vue
-<script setup>
-import { computed } from 'vue';
-
-const userRole = ref('admin');
-const showMenuBar = computed(() => userRole.value === 'admin');
-</script>
-
-<template>
-  <vue-finder
-    id="conditional"
-    :driver="driver"
-    :config="{
-      showMenuBar: showMenuBar,
     }"
   />
 </template>
