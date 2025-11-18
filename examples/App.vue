@@ -148,17 +148,11 @@ const isPopup = ref(false);
 
 const maxFileSize = ref('500MB');
 
-// Toggle controls for menu bar and toolbar
-const showMenuBar = ref(true);
-const showToolbar = ref(true);
-
 // Use "advanced" preset to enable all features (or undefined for default)
 const features = 'advanced';
 
 const config = computed(() => ({
-  maxFileSize: maxFileSize.value,
-  showMenuBar: showMenuBar.value,
-  showToolbar: showToolbar.value,
+  maxFileSize: maxFileSize.value
 }));
 
 const handlePathChange = (path: string) => {
@@ -214,18 +208,6 @@ onUnmounted(() => {
             </option>
           </select>
         </div>
-      </div>
-
-      <!-- Menu Bar and Toolbar Toggles -->
-      <div style="margin-top: 1rem; margin-bottom: 1rem">
-        <label>
-          <input type="checkbox" v-model="showMenuBar" />
-          Show Menu Bar
-        </label>
-        <label style="margin-left: 1rem">
-          <input type="checkbox" v-model="showToolbar" />
-          Show Toolbar
-        </label>
       </div>
     </div>
 
