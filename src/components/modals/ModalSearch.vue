@@ -176,12 +176,6 @@ onMounted(() => {
 
   // Initialize selected state
   selectedDropdownOption.value = `size-${sizeFilter.value}`;
-
-  nextTick(() => {
-    if (searchInputRef.value) {
-      searchInputRef.value.focus();
-    }
-  });
 });
 
 // Open folder selector modal
