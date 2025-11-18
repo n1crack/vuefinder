@@ -76,7 +76,15 @@
 }
 
 .vuefinder__toolbar__dropdown-select {
-  @apply flex-1 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2 py-1 text-xs text-(--vf-text-primary);
+  @apply flex-1 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2 py-1 pr-6 text-xs text-(--vf-text-primary);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 12px 12px;
+  color: var(--vf-text-primary);
 }
 
 .vuefinder__toolbar__dropdown-select:hover {
