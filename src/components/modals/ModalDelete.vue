@@ -14,9 +14,10 @@ const { t } = app.i18n;
 const fs = app.fs;
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 const items = ref(app.modal.data.items);
+const isConfirmed = ref(false);
 
 const remove = () => {
-  if (items.value.length) {
+  if (items.value.length && isConfirmed.value) {
     app.adapter
       .delete({
         path: currentPath.value.path,
@@ -87,13 +88,20 @@ const remove = () => {
     </div>
 
     <template #buttons>
-      <button type="button" class="vf-btn vf-btn-danger" @click="remove">
+      <button type="button" class="vf-btn vf-btn-danger" :disabled="!isConfirmed" @click="remove">
         {{ t('Yes, Delete!') }}
       </button>
       <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
         {{ t('Cancel') }}
       </button>
-      <div class="vuefinder__delete-modal__warning">{{ t('This action cannot be undone.') }}</div>
+      <div class="vuefinder__delete-modal__confirmation">
+        <label class="vuefinder__delete-modal__confirmation-label">
+          <input v-model="isConfirmed" type="checkbox" class="vuefinder__delete-modal__checkbox" />
+          <span class="vuefinder__delete-modal__confirmation-text">
+            {{ t("I'm sure delete it, This action cannot be undone.") }}
+          </span>
+        </label>
+      </div>
     </template>
   </ModalLayout>
 </template>

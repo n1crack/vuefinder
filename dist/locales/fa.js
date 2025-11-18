@@ -58,7 +58,8 @@ export default {
   'Create a new folder': 'ایجاد پوشه جدید',
   'Create a new file': 'ایجاد فایل جدید',
   'Are you sure you want to delete these files?': 'آیا از حذف فایل ها مطمئن هستید ؟',
-  'This action cannot be undone.': 'این تغییرات قابل بازگشت نیست!',
+  "I'm sure delete it, This action cannot be undone.":
+    'تایید می‌کنم که می‌خواهم این را حذف کنم. این تغییرات قابل بازگشت نیست!',
   'Search results for': 'نتیجه جستجو برای',
   '%s item(s) selected.': '%s آیتم(های) انتخاب شده',
   '%s is renamed.': 'تغییر نام برای %s صورت گرفت.',

@@ -55,7 +55,8 @@ export default {
   'Create a new folder': 'Yeni bir klasör oluşturun',
   'Create a new file': 'Yeni bir dosya oluşturun',
   'Are you sure you want to delete these files?': 'Bu dosyaları silmek istediğinize emin misiniz?',
-  'This action cannot be undone.': 'Bu işlem geri alınamaz.',
+  "I'm sure delete it, This action cannot be undone.":
+    'Silme işlemini onaylıyorum. Bu işlem geri alınamaz.',
   'Search results for': 'Arama sonuçları:',
   '%s item(s) selected.': '%s dosya seçildi.',
   '%s is renamed.': '%s yeniden adlandırılmıştır.',

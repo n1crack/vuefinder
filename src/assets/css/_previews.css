@@ -17,7 +17,7 @@
 }
 
 .vuefinder__default-preview__icon-container {
-  @apply my-4 flex min-h-[200px] w-[300px] flex-col items-center justify-center justify-self-center rounded-2xl border-2 border-dashed border-(--vf-border-secondary) bg-(--vf-bg-secondary) p-8;
+  @apply mx-auto my-4 flex min-h-[200px] w-[300px] flex-col items-center justify-center justify-self-center rounded-2xl border-2 border-dashed border-(--vf-border-secondary) bg-(--vf-bg-secondary) p-8;
 }
 
 .vuefinder__default-preview__file-icon {

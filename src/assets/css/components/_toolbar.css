@@ -76,7 +76,8 @@
 }
 
 .vuefinder__toolbar__dropdown-select {
-  @apply flex-1 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2 py-1 text-xs text-(--vf-text-primary);
+  @apply flex-1 appearance-none rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) bg-[length:12px_12px] bg-[right_0.5rem_center] bg-no-repeat px-2 py-1 pr-6 text-xs text-(--vf-text-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 .vuefinder__toolbar__dropdown-select:hover {
@@ -109,11 +110,29 @@
 }
 
 .vuefinder__toolbar__radio {
-  @apply rounded text-(--vf-accent-primary) accent-(--vf-accent-primary);
+  @apply relative h-3.5 w-3.5 cursor-pointer appearance-none rounded-full border border-(--vf-border-primary) bg-(--vf-bg-primary);
+  accent-color: var(--vf-accent-primary);
+}
+
+.vuefinder__toolbar__radio:checked {
+  @apply border-(--vf-accent-primary);
+  background-color: transparent;
+  background-image: radial-gradient(
+    circle,
+    var(--vf-accent-primary) 0%,
+    var(--vf-accent-primary) 30%,
+    transparent 30%
+  );
 }
 
 .vuefinder__toolbar__radio:focus {
-  @apply outline-none;
+  @apply opacity-100 outline-none;
+  box-shadow: 0 0 0 2px var(--vf-accent-primary);
+}
+
+.vuefinder__toolbar__radio:hover:not(:checked) {
+  @apply border-(--vf-accent-primary) opacity-60;
+  border-color: var(--vf-accent-primary);
 }
 
 .vuefinder__toolbar__option-text {
@@ -129,11 +148,24 @@
 }
 
 .vuefinder__toolbar__checkbox {
-  @apply rounded text-(--vf-accent-primary) accent-(--vf-accent-primary);
+  @apply relative h-3.5 w-3.5 cursor-pointer appearance-none rounded border border-(--vf-border-primary) bg-(--vf-bg-primary);
+  accent-color: var(--vf-accent-primary);
+}
+
+.vuefinder__toolbar__checkbox:checked {
+  @apply border-(--vf-accent-primary) bg-[length:10px_10px] bg-center bg-no-repeat;
+  background-color: var(--vf-accent-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M8.5 2.5L4 7L1.5 4.5' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
 }
 
 .vuefinder__toolbar__checkbox:focus {
-  @apply outline-none;
+  @apply opacity-100 outline-none;
+  box-shadow: 0 0 0 2px var(--vf-accent-primary);
+}
+
+.vuefinder__toolbar__checkbox:hover:not(:checked) {
+  @apply border-(--vf-accent-primary) opacity-60;
+  border-color: var(--vf-accent-primary);
 }
 
 .vuefinder__toolbar__dropdown-reset {

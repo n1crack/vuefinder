@@ -60,7 +60,8 @@ export default {
   'Create a new file': 'Eine neue Datei erstellen',
   'Are you sure you want to delete these files?':
     'Sind Sie sicher, dass Sie diese Dateien löschen möchten?',
-  'This action cannot be undone.': 'Diese Aktion kann nicht rückgängig gemacht werden.',
+  "I'm sure delete it, This action cannot be undone.":
+    'Ich bestätige, dass ich dies löschen möchte. Diese Aktion kann nicht rückgängig gemacht werden.',
   'Search results for': 'Suchergebnisse für',
   '%s item(s) selected.': '%s Element(e) ausgewählt.',
   '%s is renamed.': '%s wurde umbenannt.',

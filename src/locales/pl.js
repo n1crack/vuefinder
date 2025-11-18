@@ -59,7 +59,8 @@ export default {
   'Create a new folder': 'Utwórz nowy folder',
   'Create a new file': 'Utwórz nowy plik',
   'Are you sure you want to delete these files?': 'Czy na pewno chcesz usunąć te pliki?',
-  'This action cannot be undone.': 'Tej operacji nie można cofnąć.',
+  "I'm sure delete it, This action cannot be undone.":
+    'Potwierdzam, że chcę to usunąć. Tej operacji nie można cofnąć.',
   'Search results for': 'Wyniki wyszukiwania dla',
   '%s item(s) selected.': 'Wybrano %s elementów.',
   '%s is renamed.': '%s zostało przemianowane.',

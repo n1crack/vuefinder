@@ -2,16 +2,13 @@
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
 import type { SortState } from '../stores/files';
-import type { App } from '../types';
 import SortIcon from './SortIcon.vue';
+import { useApp } from '../composables/useApp';
 
-const props = defineProps<{
-  fs: App['fs'];
-  fsSortState: StoreValue<SortState>;
-  t: (key: string) => string;
-}>();
-
-const { fs, fsSortState, t } = props;
+const app = useApp();
+const fs = app.fs;
+const { t } = app.i18n;
+const fsSortState: StoreValue<SortState> = useStore(fs.sort);
 </script>
 
 <template>

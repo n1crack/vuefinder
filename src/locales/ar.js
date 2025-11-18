@@ -58,7 +58,8 @@ export default {
   'Create a new folder': 'إنشاء مجلد جديد',
   'Create a new file': 'إنشاء ملف جديد',
   'Are you sure you want to delete these files?': 'هل أنت متأكد من أنك تريد حذف هذه الملفات؟',
-  'This action cannot be undone.': 'لا يمكن التراجع عن هذا الإجراء.',
+  "I'm sure delete it, This action cannot be undone.":
+    'أؤكد أنني أريد حذف هذا. لا يمكن التراجع عن هذا الإجراء.',
   'Search results for': 'نتائج البحث عن',
   '%s item(s) selected.': 'تم تحديد %s عنصر.',
   '%s is renamed.': '%s تمت إعادة تسمية.',
