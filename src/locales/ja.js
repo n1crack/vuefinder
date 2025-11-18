@@ -59,7 +59,8 @@ export default {
   'Create a new folder': '新しいフォルダを作成',
   'Create a new file': '新しいファイルを作成',
   'Are you sure you want to delete these files?': 'これらのファイルを削除してもよろしいですか？',
-  "I'm sure delete it, This action cannot be undone.": '削除を確認します。この操作は元に戻せません。',
+  "I'm sure delete it, This action cannot be undone.":
+    '削除を確認します。この操作は元に戻せません。',
   'Search results for': '検索結果:',
   '%s item(s) selected.': '%s個のアイテムが選択されています。',
   '%s is renamed.': '%sの名前が変更されました。',

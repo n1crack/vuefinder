@@ -61,7 +61,8 @@ export default {
   'Create a new file': 'Crear un nuevo archivo',
   'Are you sure you want to delete these files?':
     '¿Estás seguro de que quieres eliminar estos archivos?',
-  "I'm sure delete it, This action cannot be undone.": 'Confirmo que quiero eliminar esto. Esta acción no se puede deshacer.',
+  "I'm sure delete it, This action cannot be undone.":
+    'Confirmo que quiero eliminar esto. Esta acción no se puede deshacer.',
   'Search results for': 'Resultados de búsqueda para',
   '%s item(s) selected.': '%s elemento(s) seleccionado(s).',
   '%s is renamed.': '%s ha sido renombrado.',

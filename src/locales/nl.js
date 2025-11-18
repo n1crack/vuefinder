@@ -60,7 +60,8 @@ export default {
   'Create a new file': 'Een nieuw bestand aanmaken',
   'Are you sure you want to delete these files?':
     'Weet je zeker dat je deze bestanden wilt verwijderen?',
-  "I'm sure delete it, This action cannot be undone.": 'Ik bevestig dat ik dit wil verwijderen. Deze actie kan niet ongedaan worden gemaakt.',
+  "I'm sure delete it, This action cannot be undone.":
+    'Ik bevestig dat ik dit wil verwijderen. Deze actie kan niet ongedaan worden gemaakt.',
   'Search results for': 'Zoekresultaten voor',
   '%s item(s) selected.': '%s item(s) geselecteerd.',
   '%s is renamed.': '%s is hernoemd.',

@@ -123,13 +123,13 @@
 }
 
 .vuefinder__about-modal__checkbox:checked {
-  @apply border-(--vf-accent-primary) bg-no-repeat bg-center bg-[length:10px_10px];
+  @apply border-(--vf-accent-primary) bg-[length:10px_10px] bg-center bg-no-repeat;
   background-color: var(--vf-accent-primary);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M8.5 2.5L4 7L1.5 4.5' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
 }
 
 .vuefinder__about-modal__checkbox:focus {
-  @apply outline-none opacity-100;
+  @apply opacity-100 outline-none;
   box-shadow: 0 0 0 2px var(--vf-accent-primary);
 }
 

@@ -59,7 +59,8 @@ export default {
   'Create a new folder': 'Crea una nuova cartella',
   'Create a new file': 'Crea un nuovo file',
   'Are you sure you want to delete these files?': 'Sei sicuro di voler eliminare questi file?',
-  "I'm sure delete it, This action cannot be undone.": 'Confermo che voglio eliminare questo. Questa azione non può essere annullata.',
+  "I'm sure delete it, This action cannot be undone.":
+    'Confermo che voglio eliminare questo. Questa azione non può essere annullata.',
   'Search results for': 'Risultati di ricerca per',
   '%s item(s) selected.': '%s elemento/i selezionato/i.',
   '%s is renamed.': '%s è stato rinominato.',

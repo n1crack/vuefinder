@@ -58,7 +58,8 @@ export default {
   'Create a new folder': 'Create a new folder',
   'Create a new file': 'Create a new file',
   'Are you sure you want to delete these files?': 'Are you sure you want to delete these files?',
-  "I'm sure delete it, This action cannot be undone.": 'I confirm I want to delete this. This action cannot be undone.',
+  "I'm sure delete it, This action cannot be undone.":
+    'I confirm I want to delete this. This action cannot be undone.',
   'Search results for': 'Search results for',
   '%s item(s) selected.': '%s item(s) selected.',
   '%s is renamed.': '%s is renamed.',

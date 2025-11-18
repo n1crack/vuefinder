@@ -35,7 +35,7 @@
 }
 
 .vuefinder__delete-modal__confirmation {
-  @apply flex flex-1 items-center justify-start w-full;
+  @apply flex w-full flex-1 items-center justify-start;
 }
 
 .vuefinder__delete-modal__confirmation-label {
@@ -43,7 +43,7 @@
 }
 
 .vuefinder__delete-modal__confirmation-text {
-  @apply text-sm text-left text-(--vf-text-secondary);
+  @apply text-left text-sm text-(--vf-text-secondary);
 }
 
 .vuefinder__delete-modal__checkbox {

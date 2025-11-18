@@ -58,7 +58,8 @@ export default {
   'Create a new folder': 'Skapa en ny mapp',
   'Create a new file': 'Skapa en ny fil',
   'Are you sure you want to delete these files?': 'Är du säker på att du vill radera dessa filer?',
-  "I'm sure delete it, This action cannot be undone.": 'Jag bekräftar att jag vill radera detta. Denna åtgärd kan inte ångras.',
+  "I'm sure delete it, This action cannot be undone.":
+    'Jag bekräftar att jag vill radera detta. Denna åtgärd kan inte ångras.',
   'Search results for': 'Sökresultat för',
   '%s item(s) selected.': '%s objekt valda.',
   '%s is renamed.': '%s har fått ett nytt namn.',
