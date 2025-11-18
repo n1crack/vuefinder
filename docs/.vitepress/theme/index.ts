@@ -20,6 +20,7 @@ import SingleSelectionDemo from './components/examples/SingleSelectionDemo.vue';
 import ExternalSelectDemo from './components/examples/ExternalSelectDemo.vue';
 import StatusBarSelectDemo from './components/examples/StatusBarSelectDemo.vue';
 import ThemeSelectorDemo from './components/examples/ThemeSelectorDemo.vue';
+import UIVisibilityDemo from './components/examples/UIVisibilityDemo.vue';
 
 export default {
   extends: DefaultTheme,
@@ -92,6 +93,7 @@ export default {
       app.component('ExternalSelectDemo', ExternalSelectDemo);
       app.component('StatusBarSelectDemo', StatusBarSelectDemo);
       app.component('ThemeSelectorDemo', ThemeSelectorDemo);
+      app.component('UIVisibilityDemo', UIVisibilityDemo);
     }
   },
 } satisfies Theme;

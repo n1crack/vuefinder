@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { RemoteDriver, ArrayDriver, IndexedDBDriver } from '../src/adapters';
 import MemoryExample from './examples/MemoryExample.vue';
 import IndexedDBExample from './examples/IndexedDBExample.vue';
@@ -16,6 +16,7 @@ import CustomDclickExample from './examples/CustomDclickExample.vue';
 import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 import FeaturesExample from './examples/FeaturesExample.vue';
+import UIVisibilityExample from './examples/UIVisibilityExample.vue';
 
 const example = ref('default');
 
@@ -122,6 +123,7 @@ const examples = {
   singleSelection: 'Single Selection Mode Demo',
   selectionFilter: 'Selection Filter Demo',
   features: 'Features Configuration Demo',
+  uiVisibility: 'UI Visibility Settings Demo',
 };
 
 // Theme management
@@ -146,12 +148,18 @@ const isPopup = ref(false);
 
 const maxFileSize = ref('500MB');
 
+// Toggle controls for menu bar and toolbar
+const showMenuBar = ref(true);
+const showToolbar = ref(true);
+
 // Use "advanced" preset to enable all features (or undefined for default)
 const features = 'advanced';
 
-const config = {
+const config = computed(() => ({
   maxFileSize: maxFileSize.value,
-};
+  showMenuBar: showMenuBar.value,
+  showToolbar: showToolbar.value,
+}));
 
 const handlePathChange = (path: string) => {
   console.log('handlePathChange called with path:', path);
@@ -206,6 +214,18 @@ onUnmounted(() => {
             </option>
           </select>
         </div>
+      </div>
+
+      <!-- Menu Bar and Toolbar Toggles -->
+      <div style="margin-top: 1rem; margin-bottom: 1rem">
+        <label>
+          <input type="checkbox" v-model="showMenuBar" />
+          Show Menu Bar
+        </label>
+        <label style="margin-left: 1rem">
+          <input type="checkbox" v-model="showToolbar" />
+          Show Toolbar
+        </label>
       </div>
     </div>
 
@@ -288,6 +308,13 @@ onUnmounted(() => {
         v-if="example === 'features'"
         :driver="driver"
         :config="{ ...config, theme: currentTheme }"
+      />
+
+      <UIVisibilityExample
+        v-if="example === 'uiVisibility'"
+        :driver="driver"
+        :config="{ ...config, theme: currentTheme }"
+        :features="features"
       />
 
       <!-- ArrayDriver demo uses a separate instance id to avoid persisted state collisions -->

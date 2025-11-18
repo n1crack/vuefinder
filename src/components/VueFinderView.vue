@@ -197,8 +197,8 @@ const handleExternalDrop = async (e: DragEvent) => {
           </div>
         </div>
 
-        <MenuBar />
-        <Toolbar />
+        <MenuBar v-if="configState.showMenuBar" />
+        <Toolbar v-if="configState.showToolbar" />
         <Breadcrumb />
         <div class="vuefinder__main__content">
           <TreeView />

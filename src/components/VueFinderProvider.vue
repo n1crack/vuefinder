@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { provide, onBeforeUnmount, inject } from 'vue';
+import { provide, onBeforeUnmount, inject, watch, unref } from 'vue';
 import { registerApp, unregisterApp, ServiceContainerIdKey, useApp } from '../composables/useApp';
 import ServiceContainer from '../ServiceContainer';
 import VueFinderView from './VueFinderView.vue';
@@ -22,6 +22,22 @@ if (!appId) {
 
 // Create app instance with props (includes the id)
 const app = ServiceContainer(props, inject('VueFinderOptions') || {});
+
+// Watch for config prop changes and update config store
+watch(
+  () => props.config,
+  (newConfig) => {
+    if (newConfig) {
+      // Unwrap refs and update config store
+      const configUpdate: Record<string, unknown> = {};
+      for (const key in newConfig) {
+        configUpdate[key] = unref((newConfig as Record<string, unknown>)[key]);
+      }
+      app.config.init(configUpdate);
+    }
+  },
+  { deep: true, immediate: true }
+);
 
 // Register app and provide id to all child components
 registerApp(appId, app);

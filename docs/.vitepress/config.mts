@@ -275,6 +275,7 @@ gtag('config', 'G-6BYQESCJ6R');`
             { text: 'Basic Usage', link: '/examples/basic-usage' },
             { text: 'Custom Icons', link: '/examples/custom-icons' },
             { text: 'Feature Presets', link: '/examples/feature-presets' },
+            { text: 'UI Visibility', link: '/examples/ui-visibility' },
             { text: 'Single Selection', link: '/examples/single-selection' },
             { text: 'Selection Filters', link: '/examples/selection-filters' },
             { text: 'Custom Double-Click', link: '/examples/custom-double-click' },
