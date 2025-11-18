@@ -129,7 +129,7 @@ function Qt() {
 function hn(o) {
   return o ? o === "simple" || o === "advanced" ? { ...pn[o] } : { ...Qt(), ...o } : Qt();
 }
-const co = "4.0.21";
+const co = "4.0.22";
 function It(o, e, t, n, a) {
   return e = Math, t = e.log, n = 1024, a = t(o) / t(n) | 0, (o / e.pow(n, a)).toFixed(0) + " " + (a ? "KMGTPEZY"[--a] + "iB" : "B");
 }
