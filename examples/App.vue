@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { RemoteDriver, ArrayDriver, IndexedDBDriver } from '../src/adapters';
 import MemoryExample from './examples/MemoryExample.vue';
 import IndexedDBExample from './examples/IndexedDBExample.vue';
@@ -16,6 +16,7 @@ import CustomDclickExample from './examples/CustomDclickExample.vue';
 import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 import FeaturesExample from './examples/FeaturesExample.vue';
+import UIVisibilityExample from './examples/UIVisibilityExample.vue';
 
 const example = ref('default');
 
@@ -122,6 +123,7 @@ const examples = {
   singleSelection: 'Single Selection Mode Demo',
   selectionFilter: 'Selection Filter Demo',
   features: 'Features Configuration Demo',
+  uiVisibility: 'UI Visibility Settings Demo',
 };
 
 // Theme management
@@ -149,9 +151,9 @@ const maxFileSize = ref('500MB');
 // Use "advanced" preset to enable all features (or undefined for default)
 const features = 'advanced';
 
-const config = {
-  maxFileSize: maxFileSize.value,
-};
+const config = computed(() => ({
+  maxFileSize: maxFileSize.value
+}));
 
 const handlePathChange = (path: string) => {
   console.log('handlePathChange called with path:', path);
@@ -288,6 +290,13 @@ onUnmounted(() => {
         v-if="example === 'features'"
         :driver="driver"
         :config="{ ...config, theme: currentTheme }"
+      />
+
+      <UIVisibilityExample
+        v-if="example === 'uiVisibility'"
+        :driver="driver"
+        :config="{ ...config, theme: currentTheme }"
+        :features="features"
       />
 
       <!-- ArrayDriver demo uses a separate instance id to avoid persisted state collisions -->

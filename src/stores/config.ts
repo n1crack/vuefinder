@@ -32,6 +32,8 @@ export interface NonPersistenceConfigState {
   loadingIndicator: 'linear' | 'circular' | null;
   initialPath: string | null;
   maxFileSize: number | string | null;
+  showMenuBar: boolean;
+  showToolbar: boolean;
 }
 
 /**
@@ -77,6 +79,8 @@ const DEFAULT_NON_PERSISTENCE_STATE: NonPersistenceConfigState = {
   initialPath: null,
   maxFileSize: null as number | string | null,
   loadingIndicator: 'circular',
+  showMenuBar: true,
+  showToolbar: true,
 };
 
 // Cached non-persistence keys for performance

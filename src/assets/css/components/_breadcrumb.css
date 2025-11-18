@@ -1,5 +1,5 @@
 .vuefinder__breadcrumb__container {
-  @apply relative flex grow-0 items-center space-x-0.5 border-t border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) p-1.5 text-sm select-none;
+  @apply relative flex grow-0 items-center space-x-0.5 border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) p-1.5 text-sm select-none;
 }
 
 .vuefinder__breadcrumb__toggle-tree {

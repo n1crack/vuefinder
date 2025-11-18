@@ -35,6 +35,8 @@ All configuration options are passed via the `config` prop:
 | `metricUnits`      | `boolean`                          | `false`      | Use metric file sizes (KB, MB) instead of binary (KiB, MiB) |
 | `showThumbnails`   | `boolean`                          | `true`       | Show image thumbnails                                       |
 | `persist`          | `boolean`                          | `false`      | Persist current path to localStorage                        |
+| `showMenuBar`      | `boolean`                          | `true`       | Show menu bar (non-persistent, resets on page reload)       |
+| `showToolbar`      | `boolean`                          | `true`       | Show toolbar (non-persistent, resets on page reload)        |
 | `initialPath`      | `string \| null`                   | `null`       | Initial path on mount                                       |
 | `loadingIndicator` | `'linear' \| 'circular' \| string` | `'circular'` | Loading indicator style                                     |
 | `maxFileSize`      | `number \| string \| null`         | `null`       | Maximum file upload size (e.g., `'10mb'`, `'50mb'`)         |
@@ -100,3 +102,9 @@ When `persist: true`, VueFinder will save the current path to localStorage, allo
   />
 </template>
 ```
+
+### UI Visibility Settings
+
+You can control the visibility of the menu bar and toolbar using the `showMenuBar` and `showToolbar` config options. These are non-persistent options that reset to their default values (`true`) on page reload.
+
+For detailed examples and usage, see the [UI Visibility example](/examples/ui-visibility).
