@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <div>
-    <AscSVG v-if="direction === 'asc'" />
-    <DescSVG v-if="direction === 'desc'" />
+    <AscSVG v-if="direction === 'asc'" class="vuefinder__explorer__sort-icon" />
+    <DescSVG v-if="direction === 'desc'" class="vuefinder__explorer__sort-icon" />
   </div>
 </template>

@@ -34,7 +34,6 @@ const config = app.config;
 
 // Use nanostores reactive values for template reactivity
 const configState: StoreValue<ConfigState> = useStore(config.state);
-const fsSortState: StoreValue<SortState> = useStore(fs.sort);
 
 // Make files store reactive
 const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
@@ -286,12 +285,7 @@ const handleContentTouchMove = (event: TouchEvent) => {
 <template>
   <div class="vuefinder__explorer__container">
     <!-- List header like Explorer (shown only in list view) -->
-    <ExplorerHeader
-      v-if="configState.view === 'list'"
-      :fs="fs"
-      :fs-sort-state="fsSortState"
-      :t="t"
-    />
+    <ExplorerHeader v-if="configState.view === 'list'" />
     <!-- Content -->
     <div
       ref="scrollContainer"

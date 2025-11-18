@@ -112,6 +112,10 @@
   @apply flex items-center justify-center;
 }
 
+.vuefinder__explorer__sort-icon {
+  @apply ml-1.5 inline-flex h-4 w-4 flex-shrink-0 text-(--vf-accent-primary);
+}
+
 /* Linear loader */
 .vuefinder__linear-loader {
   @apply absolute h-1 animate-pulse bg-(--vf-accent-primary);
