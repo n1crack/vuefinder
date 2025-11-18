@@ -1,7 +1,7 @@
 @reference "tailwindcss";
 
 .vuefinder__toolbar {
-  @apply flex grow-0 items-center justify-between border-(--vf-border-primary) py-1 text-sm;
+  @apply flex grow-0 items-center justify-between border-b border-(--vf-border-primary) py-1 text-sm;
 }
 
 .vuefinder__toolbar__actions {
