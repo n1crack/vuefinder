@@ -56,7 +56,7 @@ export default {
   'Create a new folder': '创建一个新文件夹',
   'Create a new file': '创建一个新文件',
   'Are you sure you want to delete these files?': '您确定要删除这些文件吗？',
-  'This action cannot be undone.': '此操作不能撤销。',
+  "I'm sure delete it, This action cannot be undone.": '我确认要删除此内容。此操作不能撤销。',
   'Search results for': '搜索结果为',
   '%s item(s) selected.': '%s 个文件 已选择。',
   '%s is renamed.': '%s 已重命名。',

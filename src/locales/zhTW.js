@@ -56,7 +56,7 @@ export default {
   'Create a new folder': '創建一個新資料夾',
   'Create a new file': '創建一個新檔案',
   'Are you sure you want to delete these files?': '您確定要刪除這些檔案嗎？',
-  'This action cannot be undone.': '此操作不能撤銷。',
+  "I'm sure delete it, This action cannot be undone.": '我確認要刪除此內容。此操作不能撤銷。',
   'Search results for': '搜尋結果為',
   '%s item(s) selected.': '%s 個檔案 已選取。',
   '%s is renamed.': '%s 已重新命名。',

@@ -57,7 +57,7 @@ export default {
   'Create a new folder': 'नया फ़ोल्डर बनाएं',
   'Create a new file': 'नई फ़ाइल बनाएं',
   'Are you sure you want to delete these files?': 'क्या आप वाकई इन फ़ाइलों को हटाना चाहते हैं?',
-  'This action cannot be undone.': 'इस क्रिया को पूर्वस्थित नहीं किया जा सकता है।',
+  "I'm sure delete it, This action cannot be undone.": 'मैं पुष्टि करता हूं कि मैं इसे हटाना चाहता हूं। इस क्रिया को पूर्वस्थित नहीं किया जा सकता है।',
   'Search results for': 'के लिए खोज परिणाम',
   '%s item(s) selected.': '%s आइटम(आइटम) चयनित।',
   '%s is renamed.': '%s का नाम बदला गया है।',

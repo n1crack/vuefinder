@@ -60,7 +60,7 @@ export default {
   'Create a new folder': 'Создать новую папку',
   'Create a new file': 'Создать новый файл',
   'Are you sure you want to delete these files?': 'Вы уверены, что хотите удалить эти файлы?',
-  'This action cannot be undone.': 'Это действия нельзя отменить.',
+  "I'm sure delete it, This action cannot be undone.": 'Я подтверждаю, что хочу удалить это. Это действия нельзя отменить.',
   'Search results for': 'Результаты поиска по',
   '%s item(s) selected.': '%s выбраны.',
   '%s is renamed.': '%s переименован.',

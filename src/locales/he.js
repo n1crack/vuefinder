@@ -57,7 +57,7 @@ export default {
   'Create a new folder': 'יצירת תיקייה חדשה',
   'Create a new file': 'יצירת קובץ חדש',
   'Are you sure you want to delete these files?': 'האם בטוח למחוק קבצים אלה?',
-  'This action cannot be undone.': 'לא ניתן לבטל פעולה זו.',
+  "I'm sure delete it, This action cannot be undone.": 'אני מאשר שאני רוצה למחוק את זה. לא ניתן לבטל פעולה זו.',
   'Search results for': 'תוצאות חיפוש עבור',
   '%s item(s) selected.': '%s פריט(ים) נבחרו.',
   '%s is renamed.': 'השם של %s השתנה.',
