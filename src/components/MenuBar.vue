@@ -407,8 +407,7 @@ const menuItems = computed<any[]>(() => [
         label: storage,
         action: () => {
           const storagePath = `${storage}://`;
-          fs?.setPath(storagePath);
-          app?.adapter.list(storagePath);
+          app?.adapter.open(storagePath);
         },
         enabled: () => true,
       })),

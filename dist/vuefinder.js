@@ -129,7 +129,7 @@ function Qt() {
 function hn(o) {
   return o ? o === "simple" || o === "advanced" ? { ...pn[o] } : { ...Qt(), ...o } : Qt();
 }
-const co = "4.0.22";
+const co = "4.0.23";
 function It(o, e, t, n, a) {
   return e = Math, t = e.log, n = 1024, a = t(o) / t(n) | 0, (o / e.pow(n, a)).toFixed(0) + " " + (a ? "KMGTPEZY"[--a] + "iB" : "B");
 }
@@ -1903,7 +1903,7 @@ const kn = { render: qo }, Go = { class: "vuefinder__delete-modal__content" }, W
   viewBox: "0 0 24 24",
   stroke: "currentColor",
   "stroke-width": "1"
-}, Zo = { class: "vuefinder__delete-modal__file-name" }, es = ["disabled"], ts = { class: "vuefinder__delete-modal__confirmation" }, ns = { class: "vuefinder__delete-modal__confirmation-label" }, os = { class: "vuefinder__delete-modal__confirmation-text" }, wt = /* @__PURE__ */ X({
+}, Zo = { class: "vuefinder__delete-modal__file-name" }, es = { class: "vuefinder__delete-modal__confirmation" }, ts = { class: "vuefinder__delete-modal__confirmation-label" }, ns = { class: "vuefinder__delete-modal__confirmation-text" }, os = ["disabled"], wt = /* @__PURE__ */ X({
   __name: "ModalDelete",
   setup(o) {
     const e = J(), { t } = e.i18n, n = e.fs, a = G(n.path), l = M(e.modal.data.items), d = M(!1), r = () => {
@@ -1921,29 +1921,29 @@ const kn = { render: qo }, Go = { class: "vuefinder__delete-modal__content" }, W
     };
     return (c, _) => (v(), L(Fe, null, {
       buttons: oe(() => [
-        i("button", {
-          type: "button",
-          class: "vf-btn vf-btn-danger",
-          disabled: !d.value,
-          onClick: r
-        }, y(s(t)("Yes, Delete!")), 9, es),
-        i("button", {
-          type: "button",
-          class: "vf-btn vf-btn-secondary",
-          onClick: _[0] || (_[0] = (m) => s(e).modal.close())
-        }, y(s(t)("Cancel")), 1),
-        i("div", ts, [
-          i("label", ns, [
+        i("div", es, [
+          i("label", ts, [
             pe(i("input", {
-              "onUpdate:modelValue": _[1] || (_[1] = (m) => d.value = m),
+              "onUpdate:modelValue": _[0] || (_[0] = (m) => d.value = m),
               type: "checkbox",
               class: "vuefinder__delete-modal__checkbox"
             }, null, 512), [
               [mt, d.value]
             ]),
-            i("span", os, y(s(t)("I'm sure delete it, This action cannot be undone.")), 1)
+            i("span", ns, y(s(t)("I'm sure delete it, This action cannot be undone.")), 1)
           ])
-        ])
+        ]),
+        i("button", {
+          type: "button",
+          class: "vf-btn vf-btn-danger",
+          disabled: !d.value,
+          onClick: r
+        }, y(s(t)("Yes, Delete!")), 9, os),
+        i("button", {
+          type: "button",
+          class: "vf-btn vf-btn-secondary",
+          onClick: _[1] || (_[1] = (m) => s(e).modal.close())
+        }, y(s(t)("Cancel")), 1)
       ]),
       default: oe(() => [
         i("div", null, [
@@ -5763,7 +5763,7 @@ const Ln = { render: Kl }, ql = { class: "vuefinder__archive-modal__content" }, 
             label: f,
             action: () => {
               const k = `${f}://`;
-              a?.setPath(k), e?.adapter.list(k);
+              e?.adapter.open(k);
             },
             enabled: () => !0
           })),
