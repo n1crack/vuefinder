@@ -88,12 +88,6 @@ const remove = () => {
     </div>
 
     <template #buttons>
-      <button type="button" class="vf-btn vf-btn-danger" :disabled="!isConfirmed" @click="remove">
-        {{ t('Yes, Delete!') }}
-      </button>
-      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
-        {{ t('Cancel') }}
-      </button>
       <div class="vuefinder__delete-modal__confirmation">
         <label class="vuefinder__delete-modal__confirmation-label">
           <input v-model="isConfirmed" type="checkbox" class="vuefinder__delete-modal__checkbox" />
@@ -102,6 +96,12 @@ const remove = () => {
           </span>
         </label>
       </div>
+      <button type="button" class="vf-btn vf-btn-danger" :disabled="!isConfirmed" @click="remove">
+        {{ t('Yes, Delete!') }}
+      </button>
+      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
+        {{ t('Cancel') }}
+      </button>
     </template>
   </ModalLayout>
 </template>

@@ -35,7 +35,7 @@
 }
 
 .vuefinder__delete-modal__confirmation {
-  @apply flex w-full flex-1 items-center justify-start;
+  @apply mb-3 flex w-full items-center justify-start sm:mb-0 sm:flex-1 sm:w-auto;
 }
 
 .vuefinder__delete-modal__confirmation-label {
