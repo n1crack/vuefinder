@@ -5763,7 +5763,7 @@ const Ln = { render: Kl }, ql = { class: "vuefinder__archive-modal__content" }, 
             label: f,
             action: () => {
               const k = `${f}://`;
-              a?.setPath(k), e?.adapter.list(k);
+              e?.adapter.open(k);
             },
             enabled: () => !0
           })),
