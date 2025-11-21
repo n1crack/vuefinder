@@ -78,6 +78,8 @@ export default {
   'Clear all': 'مسح الجميع',
   'Clear only successful': 'مسح الناجح فقط',
   'Drag and drop the files/folders to here.': 'اسحب وأفلت الملفات/المجلدات إلى هنا.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'يمكنك سحب وإفلات الملفات في أي مكان بينما هذا النافذة مفتوحة.',
   Canceled: 'مُلغى',
   Done: 'تم',
   'Network Error, Unable establish connection to the server or interrupted.':

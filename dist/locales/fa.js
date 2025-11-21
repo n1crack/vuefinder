@@ -78,6 +78,8 @@ export default {
   'Clear all': 'پاک کردن همه',
   'Clear only successful': 'پاک کردن فقط موفق',
   'Drag and drop the files/folders to here.': 'فایل ها/پوشه ها را به اینجا بکشید.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'می‌توانید فایل‌ها را در هر جایی بکشید و رها کنید در حالی که این پنجره باز است.',
   Canceled: 'لغو شد',
   Done: 'انجام شد',
   'Network Error, Unable establish connection to the server or interrupted.':

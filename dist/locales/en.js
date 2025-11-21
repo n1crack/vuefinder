@@ -78,6 +78,8 @@ export default {
   'Clear all': 'Clear all',
   'Clear only successful': 'Clear only successful',
   'Drag and drop the files/folders to here.': 'Drag and drop the files/folders to here.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'You can drag & drop files anywhere while this modal is open.',
   Canceled: 'Canceled',
   Done: 'Done',
   'Network Error, Unable establish connection to the server or interrupted.':

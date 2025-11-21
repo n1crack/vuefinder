@@ -82,6 +82,8 @@ export default {
   'Clear all': 'Tout effacer',
   'Clear only successful': 'Effacer uniquement les réussites',
   'Drag and drop the files/folders to here.': 'Faites glisser les fichiers/dossiers ici.',
+  'You can drag & drop files anywhere while this modal is open.':
+    "Vous pouvez glisser-déposer des fichiers n'importe où tant que ce modal est ouvert.",
   Canceled: 'Annulé',
   Done: 'Terminé',
   'Network Error, Unable establish connection to the server or interrupted.':

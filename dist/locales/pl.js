@@ -79,6 +79,8 @@ export default {
   'Clear all': 'Wyczyść wszystko',
   'Clear only successful': 'Wyczyść tylko udane',
   'Drag and drop the files/folders to here.': 'Przeciągnij i upuść pliki/foldery tutaj.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'Możesz przeciągać i upuszczać pliki w dowolnym miejscu, gdy to okno jest otwarte.',
   Canceled: 'Anulowano',
   Done: 'Gotowe',
   'Network Error, Unable establish connection to the server or interrupted.':

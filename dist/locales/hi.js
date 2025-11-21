@@ -78,6 +78,8 @@ export default {
   'Clear all': 'सब कुछ साफ़ करें',
   'Clear only successful': 'केवल सफल साफ़ करें',
   'Drag and drop the files/folders to here.': 'फ़ाइलें/फ़ोल्डर्स यहाँ खींचें।',
+  'You can drag & drop files anywhere while this modal is open.':
+    'जब यह मोडल खुला है, तो आप फ़ाइलों को कहीं भी खींच और छोड़ सकते हैं।',
   Canceled: 'रद्द कर दिया गया',
   Done: 'हो गया',
   'Network Error, Unable establish connection to the server or interrupted.':
