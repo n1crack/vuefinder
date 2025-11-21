@@ -3,7 +3,13 @@ import VueFinderProvider from './components/VueFinderProvider.vue';
 import './assets/css/style.css';
 import { menuItems as contextMenuItems, ContextMenuIds } from './utils/contextmenu';
 import { type App } from 'vue';
-import { RemoteDriver, ArrayDriver, IndexedDBDriver } from './adapters';
+import {
+  RemoteDriver,
+  ArrayDriver,
+  IndexedDBDriver,
+  BaseAdapter,
+  parseBackendError,
+} from './adapters';
 
 type VueFinderOptions = {
   i18n?: Record<string, unknown>;
@@ -29,7 +35,7 @@ export default VueFinderPlugin;
 
 export { VueFinder, VueFinderProvider, contextMenuItems, ContextMenuIds };
 
-export { RemoteDriver, ArrayDriver, IndexedDBDriver };
+export { RemoteDriver, ArrayDriver, IndexedDBDriver, BaseAdapter, parseBackendError };
 
 // Export types from types.ts
 export type {

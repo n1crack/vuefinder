@@ -75,6 +75,8 @@ export default {
   'Clear all': '全部清除',
   'Clear only successful': '僅清除成功上傳的',
   'Drag and drop the files/folders to here.': '拖曳或點擊此處上傳檔案/資料夾。',
+  'You can drag & drop files anywhere while this modal is open.':
+    '在此對話框開啟時，您可以在任何地方拖放檔案。',
   Canceled: '已取消',
   Done: '已完成',
   'Network Error, Unable establish connection to the server or interrupted.':

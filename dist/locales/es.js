@@ -82,6 +82,8 @@ export default {
   'Clear all': 'Limpiar todo',
   'Clear only successful': 'Limpiar solo exitosos',
   'Drag and drop the files/folders to here.': 'Arrastra y suelta los archivos/carpetas aquí.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'Puedes arrastrar y soltar archivos en cualquier lugar mientras este modal esté abierto.',
   Canceled: 'Cancelado',
   Done: 'Hecho',
   'Network Error, Unable establish connection to the server or interrupted.':

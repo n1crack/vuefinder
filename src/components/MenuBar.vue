@@ -217,7 +217,7 @@ const menuItems = computed<any[]>(() => [
         ? [
             {
               id: 'move',
-              label: t('Move'),
+              label: t('Move files'),
               action: () => {
                 if (selectedItems.value.length > 0) {
                   const fs = app?.fs;
@@ -298,7 +298,8 @@ const menuItems = computed<any[]>(() => [
         id: 'refresh',
         label: t('Refresh'),
         action: () => {
-          app?.adapter.list(fs?.path?.get()?.path);
+          app.adapter.invalidateListQuery(fs.path.get().path);
+          app.adapter.open(fs.path.get().path);
         },
         enabled: () => true,
       },

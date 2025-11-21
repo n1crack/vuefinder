@@ -81,6 +81,8 @@ export default {
   'Clear all': 'Alles wissen',
   'Clear only successful': 'Alleen geslaagde wissen',
   'Drag and drop the files/folders to here.': 'Sleep de bestanden/mappen hierheen.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'Je kunt bestanden overal naartoe slepen zolang dit venster open is.',
   Canceled: 'Geannuleerd',
   Done: 'Klaar',
   'Network Error, Unable establish connection to the server or interrupted.':

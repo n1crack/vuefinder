@@ -78,6 +78,8 @@ export default {
   'Clear all': 'Rensa alla',
   'Clear only successful': 'Rensa endast lyckade',
   'Drag and drop the files/folders to here.': 'Dra och släpp filerna/mapparna hit.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'Du kan dra och släppa filer var som helst medan denna modal är öppen.',
   Canceled: 'Avbruten',
   Done: 'Klar',
   'Network Error, Unable establish connection to the server or interrupted.':

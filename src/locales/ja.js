@@ -80,6 +80,8 @@ export default {
   'Clear only successful': '成功したもののみクリア',
   'Drag and drop the files/folders to here.':
     'ファイル/フォルダをここにドラッグ&ドロップしてください。',
+  'You can drag & drop files anywhere while this modal is open.':
+    'このモーダルが開いている間、ファイルをどこにでもドラッグ&ドロップできます。',
   Canceled: 'キャンセルされました',
   Done: '完了',
   'Network Error, Unable establish connection to the server or interrupted.':

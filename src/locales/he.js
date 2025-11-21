@@ -77,6 +77,8 @@ export default {
   'Clear all': 'נקה הכל',
   'Clear only successful': 'נקה רק הצלחות',
   'Drag and drop the files/folders to here.': 'גרור ושחרר את הקבצים/תיקיות לכאן.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'אתה יכול לגרור ולשחרר קבצים בכל מקום בעוד החלון הזה פתוח.',
   Canceled: 'בוטל',
   Done: 'הסתיים',
   'Network Error, Unable establish connection to the server or interrupted.':

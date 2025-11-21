@@ -51,7 +51,7 @@ defineExpose({
       ref="searchInput"
       :value="modelValue"
       type="text"
-      :placeholder="t('Search Files')"
+      :placeholder="t('Search files')"
       :disabled="disabled"
       class="vuefinder__search-modal__input"
       @keydown="handleKeydown"

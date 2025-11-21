@@ -79,6 +79,8 @@ export default {
   'Clear all': 'Cancella tutto',
   'Clear only successful': 'Cancella solo quelli riusciti',
   'Drag and drop the files/folders to here.': 'Trascina e rilascia i file/cartelle qui.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'Puoi trascinare e rilasciare i file ovunque mentre questo modale è aperto.',
   Canceled: 'Annullato',
   Done: 'Fatto',
   'Network Error, Unable establish connection to the server or interrupted.':

@@ -129,7 +129,7 @@ function Qt() {
 function hn(o) {
   return o ? o === "simple" || o === "advanced" ? { ...pn[o] } : { ...Qt(), ...o } : Qt();
 }
-const co = "4.0.23";
+const co = "4.0.24";
 function It(o, e, t, n, a) {
   return e = Math, t = e.log, n = 1024, a = t(o) / t(n) | 0, (o / e.pow(n, a)).toFixed(0) + " " + (a ? "KMGTPEZY"[--a] + "iB" : "B");
 }
@@ -3437,7 +3437,7 @@ const xt = { render: wa }, ya = { class: "vuefinder__search-modal__search-input"
         ref: d,
         value: o.modelValue,
         type: "text",
-        placeholder: s(l)("Search Files"),
+        placeholder: s(l)("Search files"),
         disabled: o.disabled,
         class: "vuefinder__search-modal__input",
         onKeydown: c,
@@ -4999,7 +4999,7 @@ const On = { render: fl }, _l = { class: "vuefinder__upload-modal__content relat
           }, null, 8, ["icon", "title"]),
           i("div", _l, [
             i("div", pl, [
-              i("div", hl, y(s(t)("Hedef Klasör")), 1),
+              i("div", hl, y(s(t)("Target Directory")), 1),
               i("div", ml, [
                 i("div", {
                   class: "vuefinder__upload-modal__target-display",
@@ -5594,7 +5594,7 @@ const Ln = { render: Kl }, ql = { class: "vuefinder__archive-modal__content" }, 
           ...t("move") ? [
             {
               id: "move",
-              label: n("Move"),
+              label: n("Move files"),
               action: () => {
                 if (r.value.length > 0) {
                   const f = e?.fs, k = {
@@ -5664,7 +5664,7 @@ const Ln = { render: Kl }, ql = { class: "vuefinder__archive-modal__content" }, 
             id: "refresh",
             label: n("Refresh"),
             action: () => {
-              e?.adapter.list(a?.path?.get()?.path);
+              e.adapter.invalidateListQuery(a.path.get().path), e.adapter.open(a.path.get().path);
             },
             enabled: () => !0
           },
@@ -8309,7 +8309,7 @@ const Rn = [
   },
   {
     id: we.move,
-    title: ({ t: o }) => o("Move"),
+    title: ({ t: o }) => o("Move files"),
     action: (o, e) => {
       const t = o.fs, n = {
         storage: t.path.get().storage || "",
@@ -8609,6 +8609,7 @@ const Rn = [
 };
 export {
   ff as ArrayDriver,
+  At as BaseAdapter,
   we as ContextMenuIds,
   _f as IndexedDBDriver,
   wn as RemoteDriver,
@@ -8616,5 +8617,6 @@ export {
   pf as VueFinderPlugin,
   Qv as VueFinderProvider,
   Rn as contextMenuItems,
-  pf as default
+  pf as default,
+  en as parseBackendError
 };

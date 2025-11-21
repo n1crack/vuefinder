@@ -75,6 +75,8 @@ export default {
   'Clear all': '清除全部',
   'Clear only successful': '清除已成功上传的',
   'Drag and drop the files/folders to here.': '拖拽或点击此处上传文件/文件夹。',
+  'You can drag & drop files anywhere while this modal is open.':
+    '在此对话框打开时，您可以在任何地方拖放文件。',
   Canceled: '已取消',
   Done: '已完成',
   'Network Error, Unable establish connection to the server or interrupted.':
