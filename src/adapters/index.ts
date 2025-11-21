@@ -60,6 +60,9 @@ export type { IndexedDBDriverConfig } from './IndexedDBDriver';
 export { AdapterManager, QueryKeys } from './AdapterManager';
 export type { AdapterManagerConfig } from './AdapterManager';
 
+// Export utility functions
+export { parseBackendError } from './types';
+
 // Export types
 export type {
   Driver,
