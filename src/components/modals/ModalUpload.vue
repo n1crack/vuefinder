@@ -118,7 +118,7 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
       <div class="vuefinder__upload-modal__content relative">
         <!-- Target Folder Selection - Compact version above dropzone -->
         <div class="vuefinder__upload-modal__target-section">
-          <div class="vuefinder__upload-modal__target-label">{{ t('Hedef Klasör') }}</div>
+          <div class="vuefinder__upload-modal__target-label">{{ t('Target Directory') }}</div>
           <div class="vuefinder__upload-modal__target-container">
             <div
               class="vuefinder__upload-modal__target-display"

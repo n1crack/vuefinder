@@ -43,7 +43,7 @@ export default {
   'Yes, Move!': 'Evet, Taşı!',
   'Delete files': 'Dosyaları Sil',
   'Yes, Delete!': 'Evet, Sil!',
-  'Upload files': 'Dosyaları Yükle',
+  'Upload Files': 'Dosyaları Yükle',
   'No files selected!': 'Dosya Seçilmedi!',
   'Select Files': 'Dosyaları Seç',
   'Archive the files': 'Dosyaları arşivleyin',
@@ -75,6 +75,8 @@ export default {
   'Clear all': 'Hepsini Temizle',
   'Clear only successful': 'Başarılı Olanları Temizle',
   'Drag and drop the files/folders to here.': 'Dosyaları/klasörleri buraya sürükleyin.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'Bu modal açıkken dosyaları herhangi bir yere sürükleyip bırakabilirsiniz.',
   Canceled: 'İptal edildi',
   Done: 'Tamamlandı',
   'Network Error, Unable establish connection to the server or interrupted.':

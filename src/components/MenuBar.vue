@@ -217,7 +217,7 @@ const menuItems = computed<any[]>(() => [
         ? [
             {
               id: 'move',
-              label: t('Move'),
+              label: t('Move files'),
               action: () => {
                 if (selectedItems.value.length > 0) {
                   const fs = app?.fs;

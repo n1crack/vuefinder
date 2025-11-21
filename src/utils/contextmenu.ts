@@ -227,7 +227,7 @@ export const menuItems: Item[] = [
   },
   {
     id: ContextMenuIds.move,
-    title: ({ t }) => t('Move'),
+    title: ({ t }) => t('Move files'),
     action: (app, selectedItems) => {
       const fs = app.fs;
       const target = {

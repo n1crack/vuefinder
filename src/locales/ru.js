@@ -80,6 +80,8 @@ export default {
   'Clear all': 'Очистить все',
   'Clear only successful': 'Очистить только успешные',
   'Drag and drop the files/folders to here.': 'Перетащите файлы/папки сюда.',
+  'You can drag & drop files anywhere while this modal is open.':
+    'Вы можете перетаскивать файлы в любое место, пока это окно открыто.',
   Canceled: 'Отменено',
   Done: 'Готово',
   'Network Error, Unable establish connection to the server or interrupted.':
