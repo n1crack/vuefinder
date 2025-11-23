@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress';
-import { writeFileSync, readdirSync, statSync, copyFileSync, existsSync } from 'node:fs';
-import { resolve, join } from 'node:path';
+import { writeFileSync, readdirSync, statSync, copyFileSync, existsSync, mkdirSync } from 'node:fs';
+import { resolve, join, dirname } from 'node:path';
 
 // Generate sitemap XML from VitePress pages
 function generateSitemap(pages: string[], baseUrl: string): string {
@@ -218,6 +218,18 @@ gtag('config', 'G-6BYQESCJ6R');`
       console.log('✅ OG image copied to', ogImageDestPath);
     } else {
       console.warn('⚠️  OG image not found at', ogImageSourcePath);
+    }
+
+    // Copy OpenAPI YAML file to api-reference directory in output
+    const yamlSourcePath = resolve(__dirname, '..', 'api-reference', 'openapi.yaml');
+    const yamlDestPath = resolve(outDir, 'api-reference', 'openapi.yaml');
+    if (existsSync(yamlSourcePath)) {
+      // Ensure the api-reference directory exists
+      mkdirSync(resolve(outDir, 'api-reference'), { recursive: true });
+      copyFileSync(yamlSourcePath, yamlDestPath);
+      console.log('✅ OpenAPI YAML copied to', yamlDestPath);
+    } else {
+      console.warn('⚠️  OpenAPI YAML not found at', yamlSourcePath);
     }
   },
   themeConfig: {
