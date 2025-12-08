@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import ItemIcon from './ItemIcon.vue';
 import PinSVG from '../assets/icons/pin.svg';
-import title_shorten from '../utils/title_shorten';
+import {titleShorten} from '../utils/titleShorten';
 import type { DirEntry } from '../types';
 import LockSVG from '../assets/icons/lock.svg';
 import { useApp } from '../composables/useApp';
@@ -233,7 +233,7 @@ const delayedOpenItem = (event: TouchEvent) => {
           </template>
         </ItemIcon>
       </div>
-      <span class="vuefinder__explorer__item-title">{{ title_shorten(item.basename) }}</span>
+      <span class="vuefinder__explorer__item-title">{{ titleShorten(item.basename) }}</span>
     </div>
 
     <!-- List View -->

@@ -6,8 +6,8 @@ import ModalHeader from '../../components/modals/ModalHeader.vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalTreeSelector from './ModalTreeSelector.vue';
 import useUpload from '../../composables/useUpload';
-import title_shorten from '../../utils/title_shorten';
 import UploadSVG from '../../assets/icons/upload.svg';
+import {titleShorten} from '../../utils/titleShorten';
 import type { DirEntry } from '../../types';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
@@ -171,10 +171,10 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
             </span>
             <div class="vuefinder__upload-modal__file-info">
               <div class="vuefinder__upload-modal__file-name hidden md:block">
-                {{ title_shorten(entry.name, 40) }} ({{ entry.size }})
+                {{ titleShorten(entry.name, 40) }} ({{ entry.size }})
               </div>
               <div class="vuefinder__upload-modal__file-name md:hidden">
-                {{ title_shorten(entry.name, 16) }} ({{ entry.size }})
+                {{ titleShorten(entry.name, 16) }} ({{ entry.size }})
               </div>
               <div
                 class="vuefinder__upload-modal__file-status"
