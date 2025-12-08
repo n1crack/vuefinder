@@ -152,7 +152,7 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
     // Store the target folder for use in the upload event handler
     uploadTargetFolder.value = targetFolder || currentPath.value;
 
-    // will look into retrying failed uploads later
+    // todo: will look into retrying failed uploads later
     // uppy.retryAll();
     uppy.upload();
   };
@@ -240,8 +240,21 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
       message.value = error.message;
     });
 
+    uppy.on('upload-start', (upFiles: any) => {
+      upFiles.forEach((upFile: any) => {
+        const entry = queue.value[findQueueEntryIndexById(upFile.id)];
+        if (entry) {
+          entry.status = QUEUE_ENTRY_STATUS.UPLOADING;
+          entry.statusName = t('Uploading');
+          entry.percent = '0%';
+        }
+      });
+    });
+
     uppy.on('upload-progress', (upFile: any, progress: any) => {
+      console.log('upload-progress', upFile, progress);
       const total = progress.bytesTotal ?? 1;
+      console.log('upload-progress', progress.bytesUploaded / total);
       const p = Math.floor((progress.bytesUploaded / total) * 100);
       const idx = findQueueEntryIndexById(upFile.id);
       if (idx !== -1 && queue.value[idx]) {
@@ -269,24 +282,29 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
     uppy.on('error', (error: any) => {
       message.value = error.message;
       uploading.value = false;
-      app.adapter.open(currentPath.value.path);
     });
 
-    uppy.on('complete', () => {
+    uppy.on('complete', (result: any) => {
       uploading.value = false;
 
       // Use the target folder for refreshing the file list
       const targetPath = uploadTargetFolder.value || currentPath.value;
 
       // Refresh the target folder and emit upload complete
-      app.adapter.invalidateListQuery(targetPath.path);
-      app.adapter.open(targetPath.path);
+      if (result.successful.length > 0) {
+        app.adapter.invalidateListQuery(targetPath.path);
+        // todo: we should prevent closing the modal here
+        // app.adapter.open(targetPath.path);
 
-      // Get uploaded file names from queue
-      const uploadedFiles = queue.value
-        .filter((entry) => entry.status === QUEUE_ENTRY_STATUS.DONE)
-        .map((entry) => entry.name);
-      app.emitter.emit('vf-upload-complete', uploadedFiles);
+        // Get uploaded file names from queue
+        const uploadedFiles = queue.value
+          .filter(
+            (entry) =>
+              entry.status === QUEUE_ENTRY_STATUS.DONE && result.successful.includes(entry.id)
+          )
+          .map((entry) => entry.name);
+        app.emitter.emit('vf-upload-complete', uploadedFiles);
+      }
     });
 
     // Event listeners
