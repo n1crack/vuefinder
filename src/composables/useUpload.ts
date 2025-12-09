@@ -252,9 +252,7 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
     });
 
     uppy.on('upload-progress', (upFile: any, progress: any) => {
-      console.log('upload-progress', upFile, progress);
       const total = progress.bytesTotal ?? 1;
-      console.log('upload-progress', progress.bytesUploaded / total);
       const p = Math.floor((progress.bytesUploaded / total) * 100);
       const idx = findQueueEntryIndexById(upFile.id);
       if (idx !== -1 && queue.value[idx]) {
