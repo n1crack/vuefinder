@@ -7,7 +7,7 @@ import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalTreeSelector from './ModalTreeSelector.vue';
 import useUpload from '../../composables/useUpload';
 import UploadSVG from '../../assets/icons/upload.svg';
-import {titleShorten} from '../../utils/titleShorten';
+import { titleShorten } from '../../utils/titleShorten';
 import type { DirEntry } from '../../types';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';

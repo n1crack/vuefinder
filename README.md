@@ -59,6 +59,7 @@ If you want to contribute to the project, please feel free to fork the repositor
 - [nanostores](https://github.com/nanostores/nanostores) : A tiny state manager
 - [vue-sonner](https://github.com/wobsoriano/vue-sonner) : Toast notification component
 - [@floating-ui/dom](https://floating-ui.com/) : Floating UI positioning library
+- [@tanstack/vue-query](https://tanstack.com/query/v5/docs/framework/vue/overview) : fetching, caching, synchronizing and updating server state
 
 ### License
 

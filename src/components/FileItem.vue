@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import ItemIcon from './ItemIcon.vue';
 import PinSVG from '../assets/icons/pin.svg';
-import {titleShorten} from '../utils/titleShorten';
+import { titleShorten } from '../utils/titleShorten';
 import type { DirEntry } from '../types';
 import LockSVG from '../assets/icons/lock.svg';
 import { useApp } from '../composables/useApp';
