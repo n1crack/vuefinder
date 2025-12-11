@@ -289,20 +289,17 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
       const targetPath = uploadTargetFolder.value || currentPath.value;
 
       // Refresh the target folder and emit upload complete
-      if (result.successful.length > 0) {
-        app.adapter.invalidateListQuery(targetPath.path);
-        // todo: we should prevent closing the modal here
-        // app.adapter.open(targetPath.path);
+      app.adapter.invalidateListQuery(targetPath.path);
+      app.adapter.open(targetPath.path);
 
-        // Get uploaded file names from queue
-        const uploadedFiles = queue.value
-          .filter(
-            (entry) =>
-              entry.status === QUEUE_ENTRY_STATUS.DONE && result.successful.includes(entry.id)
-          )
-          .map((entry) => entry.name);
-        app.emitter.emit('vf-upload-complete', uploadedFiles);
-      }
+      // Get uploaded file names from queue
+      const uploadedFiles = queue.value
+        .filter(
+          (entry) =>
+            entry.status === QUEUE_ENTRY_STATUS.DONE && result.successful.includes(entry.id)
+        )
+        .map((entry) => entry.name);
+      app.emitter.emit('vf-upload-complete', uploadedFiles);
     });
 
     // Event listeners
