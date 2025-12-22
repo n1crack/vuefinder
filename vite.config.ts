@@ -17,7 +17,6 @@ export default defineConfig({
     copy({
       targets: [
         { src: 'src/locales/*', dest: 'dist/locales' },
-        { src: 'src/features.js', dest: 'dist' },
         { src: 'src/index.d.ts', dest: 'dist' },
       ],
       hook: 'writeBundle',
@@ -30,11 +29,13 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.js'),
+      entry: {
+        vuefinder: resolve(__dirname, 'src/index.ts'),
+        features: resolve(__dirname, 'src/features.ts'),
+      },
       formats: ['es'],
       name: 'VueFinder',
-      // the proper extensions will be added
-      fileName: 'vuefinder',
+      fileName: (format, entryName) => `${entryName}.js`,
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

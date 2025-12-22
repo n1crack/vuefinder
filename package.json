@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "4.0.27",
+  "version": "4.0.28",
   "description": "A sleek, developer-friendly file manager for Vue — organize, preview, and manage files with ease.",
   "type": "module",
   "engines": {
@@ -18,7 +18,10 @@
       "default": "./dist/vuefinder.js"
     },
     "./dist/vuefinder.css": "./dist/vuefinder.css",
-    "./dist/style.css": "./dist/vuefinder.css"
+    "./dist/style.css": "./dist/vuefinder.css",
+    "./dist/vuefinder": "./dist/vuefinder.js",
+    "./dist/features.js": "./dist/features.js",
+    "./dist/locales/*": "./dist/locales/*"
   },
   "types": "./dist/index.d.ts",
   "scripts": {
