@@ -1,4 +1,4 @@
-/* MenuBar Styles - Compact modern design */
+/* MenuBar Styles */
 .vuefinder__menubar {
   @apply relative z-40 overflow-visible border-b border-(--vf-border-primary) bg-(--vf-bg-primary) text-[13px] leading-8 whitespace-nowrap;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

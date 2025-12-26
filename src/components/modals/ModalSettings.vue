@@ -44,7 +44,6 @@ const handleMetricUnits = () => {
   app.emitter.emit('vf-metric-units-saved');
 };
 
-
 const handlePersistPath = () => {
   config.toggle('persist');
   app.emitter.emit('vf-persist-path-saved');

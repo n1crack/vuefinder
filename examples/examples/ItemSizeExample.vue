@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import type { Driver } from '../../../src/adapters/types';
 
 const props = defineProps<{
@@ -164,7 +164,7 @@ const resetToDefaults = () => {
         </label>
       </div>
 
-      <button @click="resetToDefaults" class="reset-btn">Reset to Defaults</button>
+      <button class="reset-btn" @click="resetToDefaults">Reset to Defaults</button>
     </div>
 
     <div class="vuefinder-container">

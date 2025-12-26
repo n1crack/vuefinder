@@ -194,7 +194,7 @@ Emphasize icons in grid view:
 
 - All size values are in pixels
 - Changes are reactive and update immediately
-- These settings are persistent (saved to localStorage) by default
+- These settings are **not** saved to localStorage (non-persistent config)
 - Custom icons in slots automatically scale to match configured sizes
 - Switching between grid and list view uses the respective configuration values
 

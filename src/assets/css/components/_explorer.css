@@ -58,7 +58,7 @@
 }
 
 .vuefinder__explorer__item-name {
-  @apply overflow-hidden text-ellipsis whitespace-nowrap flex-1;
+  @apply flex-1 overflow-hidden text-ellipsis whitespace-nowrap;
 }
 
 .vuefinder__explorer__item-path {
@@ -123,7 +123,7 @@
 
 /* Icon styling */
 .vuefinder__explorer__item-list-icon {
-  @apply flex items-center justify-center flex-shrink-0;
+  @apply flex flex-shrink-0 items-center justify-center;
   width: var(--vf-list-icon-size, 16px);
   height: var(--vf-list-icon-size, 16px);
   min-width: var(--vf-list-icon-size, 16px);
