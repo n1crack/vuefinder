@@ -97,5 +97,7 @@ export default {
       app.component('UIVisibilityDemo', UIVisibilityDemo);
       app.component('ItemSizeConfigurationDemo', ItemSizeConfigurationDemo);
     }
+
+    requestAnimationFrame(() => void document.body.offsetHeight);
   },
 } satisfies Theme;
