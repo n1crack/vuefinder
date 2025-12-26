@@ -21,13 +21,6 @@ export interface PersistenceConfigState {
   persist: boolean;
   path: string;
   pinnedFolders: DirEntry[];
-  gridItemWidth: number;
-  gridItemHeight: number;
-  gridItemGap: number;
-  gridIconSize: number;
-  listItemHeight: number;
-  listItemGap: number;
-  listIconSize: number;
 }
 
 /**
@@ -40,6 +33,13 @@ export interface NonPersistenceConfigState {
   maxFileSize: number | string | null;
   showMenuBar: boolean;
   showToolbar: boolean;
+  gridItemWidth: number;
+  gridItemHeight: number;
+  gridItemGap: number;
+  gridIconSize: number;
+  listItemHeight: number;
+  listItemGap: number;
+  listIconSize: number;
 }
 
 /**
@@ -78,13 +78,6 @@ const DEFAULT_PERSISTENCE_STATE: PersistenceConfigState = {
   persist: false,
   path: '',
   pinnedFolders: [] as DirEntry[],
-  gridItemWidth: 96,
-  gridItemHeight: 80,
-  gridItemGap: 8,
-  gridIconSize: 48,
-  listItemHeight: 32,
-  listItemGap: 2,
-  listIconSize: 16,
 };
 
 const DEFAULT_NON_PERSISTENCE_STATE: NonPersistenceConfigState = {
@@ -93,6 +86,13 @@ const DEFAULT_NON_PERSISTENCE_STATE: NonPersistenceConfigState = {
   loadingIndicator: 'circular',
   showMenuBar: true,
   showToolbar: true,
+  gridItemWidth: 96,
+  gridItemHeight: 80,
+  gridItemGap: 8,
+  gridIconSize: 48,
+  listItemHeight: 32,
+  listItemGap: 2,
+  listIconSize: 16,
 };
 
 // Cached non-persistence keys for performance
@@ -138,13 +138,12 @@ function separateConfig(config: ConfigDefaults | Record<string, unknown>) {
 
 /**
  * Merges persistence config with defaults, ensuring theme is normalized
- * New defaults override current values (for reactivity)
+ * Current values take precedence over defaults
  */
 function mergePersistenceConfig(
   defaults: Partial<PersistenceConfigState>,
   current: PersistenceConfigState
 ): PersistenceConfigState {
-  // New defaults should override current values for reactivity
   const merged = { ...DEFAULT_PERSISTENCE_STATE, ...current, ...defaults };
   merged.theme = normalizeTheme(merged.theme);
   return merged;
