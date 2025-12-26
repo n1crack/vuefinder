@@ -44,6 +44,9 @@ const buttonElementRef = ref<HTMLElement | null>(null);
 
 // Floating UI cleanup functions
 let cleanupDropdown: (() => void) | null = null;
+let scrollHandler: (() => void) | null = null;
+let scrollContainers: (Window | HTMLElement)[] = [];
+let clickOutsideHandler: ((e: MouseEvent | TouchEvent) => void) | null = null;
 
 // Watch for activeDropdown changes to position the dropdown
 watch(
@@ -55,19 +58,153 @@ watch(
       cleanupDropdown = null;
     }
 
+    // Clean up scroll handlers
+    if (scrollHandler) {
+      scrollContainers.forEach((container) => {
+        if (container === window) {
+          window.removeEventListener('scroll', scrollHandler!, true);
+        } else {
+          (container as HTMLElement).removeEventListener('scroll', scrollHandler!, true);
+        }
+      });
+      scrollHandler = null;
+      scrollContainers = [];
+    }
+
+    // Clean up click outside handlers
+    if (clickOutsideHandler) {
+      document.removeEventListener('mousedown', clickOutsideHandler, true);
+      document.removeEventListener('touchstart', clickOutsideHandler, true);
+      clickOutsideHandler = null;
+    }
+
     if (newActiveDropdown === props.item.path && buttonElementRef.value) {
       nextTick(() => {
         setupItemDropdownPositioning(props.item.path, buttonElementRef.value!);
+        setupScrollHandler();
+        setupClickOutsideHandler();
       });
     }
   }
 );
+
+// Find all scrollable containers
+const findScrollableContainers = (element: HTMLElement | null): HTMLElement[] => {
+  const containers: HTMLElement[] = [];
+  let current: HTMLElement | null = element;
+
+  while (current && current !== document.body && current !== document.documentElement) {
+    const style = window.getComputedStyle(current);
+    const overflow = style.overflow + style.overflowX + style.overflowY;
+    
+    if (overflow.includes('scroll') || overflow.includes('auto')) {
+      containers.push(current);
+    }
+    
+    current = current.parentElement;
+  }
+
+  return containers;
+};
+
+// Setup scroll handler to close dropdown on scroll
+const setupScrollHandler = () => {
+  if (props.activeDropdown !== props.item.path) return;
+
+  const scrollableContainers = findScrollableContainers(buttonElementRef.value);
+  scrollContainers = [window, ...scrollableContainers];
+
+  scrollHandler = () => {
+    if (props.activeDropdown === props.item.path) {
+      emit('toggleItemDropdown', props.item.path, new MouseEvent('click'));
+    }
+  };
+
+  const handler = scrollHandler;
+  if (handler) {
+    scrollContainers.forEach((container) => {
+      if (container === window) {
+        window.addEventListener('scroll', handler, true);
+      } else {
+        (container as HTMLElement).addEventListener('scroll', handler, true);
+      }
+    });
+  }
+};
+
+// Setup click outside handler to close dropdown when clicking outside VueFinder
+const setupClickOutsideHandler = () => {
+  if (props.activeDropdown !== props.item.path) return;
+
+  clickOutsideHandler = (e: MouseEvent | TouchEvent) => {
+    if (props.activeDropdown !== props.item.path) return;
+
+    const target = e.target as HTMLElement;
+    if (!target) return;
+
+    // Check if click is inside dropdown
+    const dropdownElement = document.querySelector(
+      `[data-item-dropdown="${props.item.path}"]`
+    ) as HTMLElement;
+    if (dropdownElement && dropdownElement.contains(target)) {
+      return;
+    }
+
+    // Check if click is inside button that opened the dropdown
+    if (buttonElementRef.value && buttonElementRef.value.contains(target)) {
+      return;
+    }
+
+    // Check if click is inside VueFinder root element
+    const vuefinderRoot = app.root;
+    if (vuefinderRoot && vuefinderRoot.contains(target)) {
+      // Click is inside VueFinder, close the dropdown
+      emit('toggleItemDropdown', props.item.path, new MouseEvent('click'));
+      return;
+    }
+
+    // Check if click is inside modal (for search modal)
+    const modalElement = document.querySelector('.vuefinder__modal-layout');
+    if (modalElement && modalElement.contains(target)) {
+      // Click is inside modal, close the dropdown
+      emit('toggleItemDropdown', props.item.path, new MouseEvent('click'));
+      return;
+    }
+
+    // Click is outside both VueFinder and modal, close the dropdown
+    emit('toggleItemDropdown', props.item.path, new MouseEvent('click'));
+  };
+
+  // Add click outside listeners with a slight delay to avoid closing immediately after opening
+  setTimeout(() => {
+    if (clickOutsideHandler) {
+      document.addEventListener('mousedown', clickOutsideHandler, true);
+      document.addEventListener('touchstart', clickOutsideHandler, true);
+    }
+  }, 100);
+};
 
 // Cleanup on unmount
 onUnmounted(() => {
   if (cleanupDropdown) {
     cleanupDropdown();
     cleanupDropdown = null;
+  }
+  if (scrollHandler) {
+    scrollContainers.forEach((container) => {
+      if (container === window) {
+        window.removeEventListener('scroll', scrollHandler!, true);
+      } else {
+        (container as HTMLElement).removeEventListener('scroll', scrollHandler!, true);
+      }
+    });
+    scrollHandler = null;
+    scrollContainers = [];
+  }
+  if (clickOutsideHandler) {
+    document.removeEventListener('mousedown', clickOutsideHandler, true);
+    document.removeEventListener('touchstart', clickOutsideHandler, true);
+    clickOutsideHandler = null;
   }
 });
 

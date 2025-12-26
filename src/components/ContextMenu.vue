@@ -10,6 +10,9 @@ const selectedItems = ref([]);
 
 let cleanupPositioning: (() => void) | null = null;
 let virtualElement: { getBoundingClientRect: () => DOMRect } | null = null;
+let scrollHandler: (() => void) | null = null;
+let scrollContainers: (Window | HTMLElement)[] = [];
+let clickOutsideHandler: ((e: MouseEvent | TouchEvent) => void) | null = null;
 
 const context = reactive({
   active: false,
@@ -61,6 +64,22 @@ app.emitter.on('vf-contextmenu-hide', () => {
   if (cleanupPositioning) {
     cleanupPositioning();
     cleanupPositioning = null;
+  }
+  if (scrollHandler) {
+    scrollContainers.forEach((container) => {
+      if (container === window) {
+        window.removeEventListener('scroll', scrollHandler!, true);
+      } else {
+        (container as HTMLElement).removeEventListener('scroll', scrollHandler!, true);
+      }
+    });
+    scrollHandler = null;
+    scrollContainers = [];
+  }
+  if (clickOutsideHandler) {
+    document.removeEventListener('mousedown', clickOutsideHandler, true);
+    document.removeEventListener('touchstart', clickOutsideHandler, true);
+    clickOutsideHandler = null;
   }
   virtualElement = null;
   context.positions = {};
@@ -165,6 +184,77 @@ const showContextMenu = async (event: MouseEvent | TouchEvent) => {
     }
   });
 
+  // Find all scrollable containers
+  const findScrollableContainers = (element: HTMLElement | null): HTMLElement[] => {
+    const containers: HTMLElement[] = [];
+    let current: HTMLElement | null = element;
+
+    while (current && current !== document.body && current !== document.documentElement) {
+      const style = window.getComputedStyle(current);
+      const overflow = style.overflow + style.overflowX + style.overflowY;
+
+      if (overflow.includes('scroll') || overflow.includes('auto')) {
+        containers.push(current);
+      }
+
+      current = current.parentElement;
+    }
+
+    return containers;
+  };
+
+  const scrollableContainers = findScrollableContainers(contextmenu.value);
+  scrollContainers = [window, ...scrollableContainers];
+
+  // Setup scroll handler to close menu on scroll
+  scrollHandler = () => {
+    if (context.active) {
+      app.emitter.emit('vf-contextmenu-hide');
+    }
+  };
+
+  // Add scroll listener to all scrollable containers
+  const handler = scrollHandler;
+  if (handler) {
+    scrollContainers.forEach((container) => {
+      if (container === window) {
+        window.addEventListener('scroll', handler, true);
+      } else {
+        (container as HTMLElement).addEventListener('scroll', handler, true);
+      }
+    });
+  }
+
+  // Setup click outside handler to close menu when clicking outside VueFinder
+  clickOutsideHandler = (e: MouseEvent | TouchEvent) => {
+    if (!context.active) return;
+
+    const target = e.target as HTMLElement;
+    if (!target) return;
+
+    // Check if click is inside context menu
+    if (contextmenu.value && contextmenu.value.contains(target)) {
+      return;
+    }
+
+    // Check if click is inside VueFinder root element
+    const vuefinderRoot = app.root;
+    if (vuefinderRoot && vuefinderRoot.contains(target)) {
+      return;
+    }
+
+    // Click is outside VueFinder, close the menu
+    app.emitter.emit('vf-contextmenu-hide');
+  };
+
+  // Add click outside listeners with a slight delay to avoid closing immediately after opening
+  setTimeout(() => {
+    if (clickOutsideHandler) {
+      document.addEventListener('mousedown', clickOutsideHandler, true);
+      document.addEventListener('touchstart', clickOutsideHandler, true);
+    }
+  }, 100);
+
   setTimeout(() => {
     if (!contextmenu.value || !virtualElement) return;
 
@@ -199,6 +289,22 @@ onUnmounted(() => {
   if (cleanupPositioning) {
     cleanupPositioning();
     cleanupPositioning = null;
+  }
+  if (scrollHandler) {
+    scrollContainers.forEach((container) => {
+      if (container === window) {
+        window.removeEventListener('scroll', scrollHandler!, true);
+      } else {
+        (container as HTMLElement).removeEventListener('scroll', scrollHandler!, true);
+      }
+    });
+    scrollHandler = null;
+    scrollContainers = [];
+  }
+  if (clickOutsideHandler) {
+    document.removeEventListener('mousedown', clickOutsideHandler, true);
+    document.removeEventListener('touchstart', clickOutsideHandler, true);
+    clickOutsideHandler = null;
   }
   virtualElement = null;
 });
