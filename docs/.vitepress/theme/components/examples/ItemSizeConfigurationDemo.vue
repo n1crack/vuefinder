@@ -2,113 +2,115 @@
   <div class="vf-demo-wrapper">
     <ClientOnly>
       <div v-if="driver" class="item-size-demo">
-        <div class="controls">
-          <h4>Grid View Settings</h4>
-          <div class="control-group">
-            <label>
-              <span>Width: {{ gridItemWidth }}px</span>
-              <input
-                v-model.number="gridItemWidth"
-                type="range"
-                min="60"
-                max="200"
-                step="4"
-                class="slider"
-              />
-            </label>
+        <div class="controls-row">
+          <div class="controls">
+            <h4>Grid View Settings</h4>
+            <div class="control-group">
+              <label>
+                <span>Width: {{ gridItemWidth }}px</span>
+                <input
+                  v-model.number="gridItemWidth"
+                  type="range"
+                  min="60"
+                  max="200"
+                  step="4"
+                  class="slider"
+                />
+              </label>
+            </div>
+            <div class="control-group">
+              <label>
+                <span>Height: {{ gridItemHeight }}px</span>
+                <input
+                  v-model.number="gridItemHeight"
+                  type="range"
+                  min="60"
+                  max="150"
+                  step="4"
+                  class="slider"
+                />
+              </label>
+            </div>
+            <div class="control-group">
+              <label>
+                <span>Gap: {{ gridItemGap }}px</span>
+                <input
+                  v-model.number="gridItemGap"
+                  type="range"
+                  min="0"
+                  max="24"
+                  step="2"
+                  class="slider"
+                />
+              </label>
+            </div>
+            <div class="control-group">
+              <label>
+                <span>Icon Size: {{ gridIconSize }}px</span>
+                <input
+                  v-model.number="gridIconSize"
+                  type="range"
+                  min="24"
+                  max="120"
+                  step="4"
+                  class="slider"
+                />
+              </label>
+            </div>
           </div>
-          <div class="control-group">
-            <label>
-              <span>Height: {{ gridItemHeight }}px</span>
-              <input
-                v-model.number="gridItemHeight"
-                type="range"
-                min="60"
-                max="150"
-                step="4"
-                class="slider"
-              />
-            </label>
-          </div>
-          <div class="control-group">
-            <label>
-              <span>Gap: {{ gridItemGap }}px</span>
-              <input
-                v-model.number="gridItemGap"
-                type="range"
-                min="0"
-                max="24"
-                step="2"
-                class="slider"
-              />
-            </label>
-          </div>
-          <div class="control-group">
-            <label>
-              <span>Icon Size: {{ gridIconSize }}px</span>
-              <input
-                v-model.number="gridIconSize"
-                type="range"
-                min="24"
-                max="120"
-                step="4"
-                class="slider"
-              />
-            </label>
+
+          <div class="controls">
+            <h4>List View Settings</h4>
+            <div class="control-group">
+              <label>
+                <span>Item Height: {{ listItemHeight }}px</span>
+                <input
+                  v-model.number="listItemHeight"
+                  type="range"
+                  min="20"
+                  max="80"
+                  step="2"
+                  class="slider"
+                />
+              </label>
+            </div>
+            <div class="control-group">
+              <label>
+                <span>Gap: {{ listItemGap }}px</span>
+                <input
+                  v-model.number="listItemGap"
+                  type="range"
+                  min="0"
+                  max="12"
+                  step="1"
+                  class="slider"
+                />
+              </label>
+            </div>
+            <div class="control-group">
+              <label>
+                <span>Icon Size: {{ listIconSize }}px</span>
+                <input
+                  v-model.number="listIconSize"
+                  type="range"
+                  min="16"
+                  max="40"
+                  step="2"
+                  class="slider"
+                />
+              </label>
+            </div>
           </div>
         </div>
 
-        <div class="controls">
-          <h4>List View Settings</h4>
-          <div class="control-group">
-            <label>
-              <span>Item Height: {{ listItemHeight }}px</span>
-              <input
-                v-model.number="listItemHeight"
-                type="range"
-                min="20"
-                max="80"
-                step="2"
-                class="slider"
-              />
-            </label>
-          </div>
-          <div class="control-group">
-            <label>
-              <span>Gap: {{ listItemGap }}px</span>
-              <input
-                v-model.number="listItemGap"
-                type="range"
-                min="0"
-                max="12"
-                step="1"
-                class="slider"
-              />
-            </label>
-          </div>
-          <div class="control-group">
-            <label>
-              <span>Icon Size: {{ listIconSize }}px</span>
-              <input
-                v-model.number="listIconSize"
-                type="range"
-                min="16"
-                max="40"
-                step="2"
-                class="slider"
-              />
-            </label>
-          </div>
+        <div class="vuefinder-container">
+          <vue-finder
+            id="demo-item-size"
+            :driver="driver"
+            :config="computedConfig"
+          />
         </div>
       </div>
-
-<div class="vuefinder-container">
-  <vue-finder
-    id="demo-item-size"
-    :driver="driver"
-    :config="computedConfig"
-  />
-</div>
       <template #fallback>
         <div class="vf-demo-loading">Loading demo...</div>
       </template>
@@ -164,11 +166,17 @@ onMounted(async () => {
 }
 
 .item-size-demo {
-    width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.controls-row {
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  padding: 1rem;
 }
 
 .controls {
@@ -177,7 +185,6 @@ onMounted(async () => {
   border-radius: 6px;
   border: 1px solid var(--vp-c-divider);
   flex: 1;
-  padding: 1rem;
 }
 
 .controls h4 {
@@ -249,7 +256,7 @@ onMounted(async () => {
 }
 
 .vuefinder-container {
-  flex: 1;
+  width: 100%;
   min-height: 400px;
   border-radius: 6px;
   overflow: hidden;
