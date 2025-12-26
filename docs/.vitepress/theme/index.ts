@@ -1,4 +1,4 @@
-import { h, defineAsyncComponent } from 'vue';
+import { h, defineAsyncComponent, requestAnimationFrame } from 'vue';
 import type { Theme } from 'vitepress';
 import DefaultTheme from 'vitepress/theme';
 import GithubButton from 'vue-github-button';
