@@ -1,4 +1,4 @@
-import { h, defineAsyncComponent, requestAnimationFrame } from 'vue';
+import { h, defineAsyncComponent } from 'vue';
 import type { Theme } from 'vitepress';
 import DefaultTheme from 'vitepress/theme';
 import GithubButton from 'vue-github-button';
@@ -97,7 +97,5 @@ export default {
       app.component('UIVisibilityDemo', UIVisibilityDemo);
       app.component('ItemSizeConfigurationDemo', ItemSizeConfigurationDemo);
     }
-
-    requestAnimationFrame(() => void document.body.offsetHeight);
   },
 } satisfies Theme;
