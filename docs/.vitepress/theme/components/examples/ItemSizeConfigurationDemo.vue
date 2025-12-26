@@ -100,15 +100,15 @@
             </label>
           </div>
         </div>
-
-        <div class="vuefinder-container">
-          <vue-finder
-            id="demo-item-size"
-            :driver="driver"
-            :config="computedConfig"
-          />
-        </div>
       </div>
+
+<div class="vuefinder-container">
+  <vue-finder
+    id="demo-item-size"
+    :driver="driver"
+    :config="computedConfig"
+  />
+</div>
       <template #fallback>
         <div class="vf-demo-loading">Loading demo...</div>
       </template>
@@ -164,8 +164,9 @@ onMounted(async () => {
 }
 
 .item-size-demo {
+    width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1rem;
   padding: 1rem;
 }
@@ -175,6 +176,8 @@ onMounted(async () => {
   padding: 1rem;
   border-radius: 6px;
   border: 1px solid var(--vp-c-divider);
+  flex: 1;
+  padding: 1rem;
 }
 
 .controls h4 {
