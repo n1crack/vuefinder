@@ -96,11 +96,11 @@ const findScrollableContainers = (element: HTMLElement | null): HTMLElement[] =>
   while (current && current !== document.body && current !== document.documentElement) {
     const style = window.getComputedStyle(current);
     const overflow = style.overflow + style.overflowX + style.overflowY;
-    
+
     if (overflow.includes('scroll') || overflow.includes('auto')) {
       containers.push(current);
     }
-    
+
     current = current.parentElement;
   }
 

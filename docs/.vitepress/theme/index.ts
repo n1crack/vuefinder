@@ -21,6 +21,7 @@ import ExternalSelectDemo from './components/examples/ExternalSelectDemo.vue';
 import StatusBarSelectDemo from './components/examples/StatusBarSelectDemo.vue';
 import ThemeSelectorDemo from './components/examples/ThemeSelectorDemo.vue';
 import UIVisibilityDemo from './components/examples/UIVisibilityDemo.vue';
+import ItemSizeConfigurationDemo from './components/examples/ItemSizeConfigurationDemo.vue';
 
 export default {
   extends: DefaultTheme,
@@ -94,6 +95,7 @@ export default {
       app.component('StatusBarSelectDemo', StatusBarSelectDemo);
       app.component('ThemeSelectorDemo', ThemeSelectorDemo);
       app.component('UIVisibilityDemo', UIVisibilityDemo);
+      app.component('ItemSizeConfigurationDemo', ItemSizeConfigurationDemo);
     }
   },
 } satisfies Theme;

@@ -9,7 +9,6 @@ const props = defineProps<{
   view: 'grid' | 'list';
   itemsPerRow?: number;
   items: DirEntry[];
-  compact?: boolean;
   showThumbnails?: boolean;
   showPath?: boolean;
   isDraggingItem: (path: string | null) => boolean;
@@ -60,7 +59,6 @@ const gridStyle = computed(() => {
         :key="item.path"
         :item="item"
         :view="view"
-        :compact="compact"
         :show-thumbnails="showThumbnails"
         :show-path="showPath"
         :is-selected="isSelected(item.path)"

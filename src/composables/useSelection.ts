@@ -1,4 +1,4 @@
-import { ref, computed, onMounted, onUnmounted, type Ref } from 'vue';
+import { ref, computed, onMounted, onUnmounted, type Ref, type ComputedRef } from 'vue';
 import { useApp } from '../composables/useApp';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import type { DirEntry } from '../types';
@@ -18,8 +18,8 @@ export interface UseSelectionDeps<T> {
   ) => U[];
   getKey: (item: T) => string;
   selectionObject: Ref<SelectionArea | null>;
-  rowHeight: Ref<number>;
-  itemWidth: number;
+  rowHeight: Ref<number> | ComputedRef<number>;
+  itemWidth: number | Ref<number> | ComputedRef<number>;
   osInstance?: Ref<ReturnType<typeof import('overlayscrollbars').OverlayScrollbars> | null>;
 }
 
@@ -31,9 +31,15 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     getKey,
     selectionObject,
     rowHeight,
-    itemWidth,
+    itemWidth: itemWidthDep,
     osInstance,
   } = deps;
+
+  // Helper to get itemWidth value (unwrap if ref/computed)
+  const getItemWidth = (): number => {
+    if (typeof itemWidthDep === 'number') return itemWidthDep;
+    return itemWidthDep.value;
+  };
 
   const explorerId = Math.floor(Math.random() * 2 ** 32).toString();
   const app = useApp();
@@ -221,13 +227,14 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
 
     const gap = 4;
 
-    let colMin = Math.floor((pointMinX - containerX - gap) / itemWidth);
-    let colMax = Math.floor((pointMaxX - containerX - gap) / itemWidth);
+    const iw = getItemWidth();
+    let colMin = Math.floor((pointMinX - containerX - gap) / iw);
+    let colMax = Math.floor((pointMaxX - containerX - gap) / iw);
 
-    const selectedColMin = pointMinX - containerX - gap - colMin * itemWidth;
-    const selectedColMax = pointMaxX - containerX - gap - colMax * itemWidth;
+    const selectedColMin = pointMinX - containerX - gap - colMin * iw;
+    const selectedColMax = pointMaxX - containerX - gap - colMax * iw;
 
-    if (selectedColMin > itemWidth - gap) {
+    if (selectedColMin > iw - gap) {
       colMin = colMin + 1;
     }
     if (selectedColMax < gap) {

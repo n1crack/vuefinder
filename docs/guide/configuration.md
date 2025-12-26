@@ -31,7 +31,6 @@ All configuration options are passed via the `config` prop:
 | `fullScreen`       | `boolean`                          | `false`      | Start in full-screen mode                                   |
 | `showTreeView`     | `boolean`                          | `false`      | Show sidebar tree view                                      |
 | `showHiddenFiles`  | `boolean`                          | `true`       | Show hidden files                                           |
-| `compactListView`  | `boolean`                          | `true`       | Use compact list view style                                 |
 | `metricUnits`      | `boolean`                          | `false`      | Use metric file sizes (KB, MB) instead of binary (KiB, MiB) |
 | `showThumbnails`   | `boolean`                          | `true`       | Show image thumbnails                                       |
 | `persist`          | `boolean`                          | `false`      | Persist current path to localStorage                        |
@@ -41,6 +40,13 @@ All configuration options are passed via the `config` prop:
 | `loadingIndicator` | `'linear' \| 'circular' \| string` | `'circular'` | Loading indicator style                                     |
 | `maxFileSize`      | `number \| string \| null`         | `null`       | Maximum file upload size (e.g., `'10mb'`, `'50mb'`)         |
 | `pinnedFolders`    | `DirEntry[]`                       | `[]`         | Array of pinned folders                                     |
+| `gridItemWidth`    | `number`                           | `96`         | Width of grid items in pixels                               |
+| `gridItemHeight`   | `number`                           | `80`         | Height of grid items in pixels                              |
+| `gridItemGap`      | `number`                           | `8`          | Gap between grid items in pixels                            |
+| `gridIconSize`     | `number`                           | `48`         | Size of icons in grid view (pixels)                         |
+| `listItemHeight`   | `number`                           | `24`         | Height of list items in pixels                              |
+| `listItemGap`      | `number`                           | `2`          | Gap between list items in pixels                            |
+| `listIconSize`     | `number`                           | `20`         | Size of icons in list view (pixels)                         |
 
 ## Examples
 
@@ -73,7 +79,6 @@ All configuration options are passed via the `config` prop:
       fullScreen: false,
       showTreeView: true,
       showHiddenFiles: false,
-      compactListView: true,
       metricUnits: true,
       showThumbnails: true,
       persist: true,

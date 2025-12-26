@@ -16,12 +16,18 @@ export interface PersistenceConfigState {
   fullScreen: boolean;
   showTreeView: boolean;
   showHiddenFiles: boolean;
-  compactListView: boolean;
   metricUnits: boolean;
   showThumbnails: boolean;
   persist: boolean;
   path: string;
   pinnedFolders: DirEntry[];
+  gridItemWidth: number;
+  gridItemHeight: number;
+  gridItemGap: number;
+  gridIconSize: number;
+  listItemHeight: number;
+  listItemGap: number;
+  listIconSize: number;
 }
 
 /**
@@ -67,12 +73,18 @@ const DEFAULT_PERSISTENCE_STATE: PersistenceConfigState = {
   fullScreen: false,
   showTreeView: false,
   showHiddenFiles: true,
-  compactListView: true,
   metricUnits: false,
   showThumbnails: true,
   persist: false,
   path: '',
   pinnedFolders: [] as DirEntry[],
+  gridItemWidth: 96,
+  gridItemHeight: 80,
+  gridItemGap: 8,
+  gridIconSize: 48,
+  listItemHeight: 32,
+  listItemGap: 2,
+  listIconSize: 16,
 };
 
 const DEFAULT_NON_PERSISTENCE_STATE: NonPersistenceConfigState = {
@@ -126,12 +138,14 @@ function separateConfig(config: ConfigDefaults | Record<string, unknown>) {
 
 /**
  * Merges persistence config with defaults, ensuring theme is normalized
+ * New defaults override current values (for reactivity)
  */
 function mergePersistenceConfig(
   defaults: Partial<PersistenceConfigState>,
   current: PersistenceConfigState
 ): PersistenceConfigState {
-  const merged = { ...DEFAULT_PERSISTENCE_STATE, ...defaults, ...current };
+  // New defaults should override current values for reactivity
+  const merged = { ...DEFAULT_PERSISTENCE_STATE, ...current, ...defaults };
   merged.theme = normalizeTheme(merged.theme);
   return merged;
 }

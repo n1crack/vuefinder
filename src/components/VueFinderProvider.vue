@@ -29,10 +29,16 @@ watch(
   (newConfig) => {
     if (newConfig) {
       // Unwrap refs and update config store
+      // Send all provided values (not just changed ones) to ensure reactivity
       const configUpdate: Record<string, unknown> = {};
       for (const key in newConfig) {
-        configUpdate[key] = unref((newConfig as Record<string, unknown>)[key]);
+        const value = unref((newConfig as Record<string, unknown>)[key]);
+        // Include all non-undefined values to ensure reactivity
+        if (value !== undefined) {
+          configUpdate[key] = value;
+        }
       }
+      // Always call init to ensure new prop values override localStorage
       app.config.init(configUpdate);
     }
   },

@@ -108,8 +108,7 @@ onMounted(async () => {
 }
 
 .custom-icon {
-  width: 4em;
-  height: 4em;
+ 
   display: inline-block;
   vertical-align: middle;
 }

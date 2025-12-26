@@ -1,13 +1,57 @@
 .vuefinder__item-icon {
   @apply text-(--vf-text-tertiary);
+  /* Ensure custom icons are constrained */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .vuefinder__item-icon--small {
-  @apply h-5 w-5;
+  height: var(--vf-icon-size, var(--vf-list-icon-size, 20px));
+  width: var(--vf-icon-size, var(--vf-list-icon-size, 20px));
+  min-height: var(--vf-icon-size, var(--vf-list-icon-size, 20px));
+  min-width: var(--vf-icon-size, var(--vf-list-icon-size, 20px));
+  max-height: var(--vf-icon-size, var(--vf-list-icon-size, 20px));
+  max-width: var(--vf-icon-size, var(--vf-list-icon-size, 20px));
 }
 
 .vuefinder__item-icon--large {
-  @apply m-auto h-10 w-10 md:h-12 md:w-12;
+  @apply m-auto;
+  height: var(--vf-icon-size, var(--vf-grid-icon-size, 48px));
+  width: var(--vf-icon-size, var(--vf-grid-icon-size, 48px));
+  min-height: var(--vf-icon-size, var(--vf-grid-icon-size, 48px));
+  min-width: var(--vf-icon-size, var(--vf-grid-icon-size, 48px));
+  max-height: var(--vf-icon-size, var(--vf-grid-icon-size, 48px));
+  max-width: var(--vf-icon-size, var(--vf-grid-icon-size, 48px));
+}
+
+/* Ensure custom icons in slots are responsive */
+.vuefinder__item-icon > * {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* SVG icons should fill the container */
+.vuefinder__item-icon svg {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  flex-shrink: 0;
+}
+
+/* Ensure images in custom icons are constrained */
+.vuefinder__item-icon img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain;
 }
 
 .vuefinder__themer .vuefinder__item-icon__extension {

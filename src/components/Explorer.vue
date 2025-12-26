@@ -46,9 +46,39 @@ const isSelected = (path: string) => {
 };
 
 const rowHeight = computed(() => {
-  const view = configState.value.view;
-  const compact = configState.value.compactListView;
-  return view === 'grid' ? 88 : compact ? 24 : 50;
+  const view = configState.value?.view;
+  if (view === 'grid') {
+    // Grid row height = item height + gap
+    const itemHeight = configState.value?.gridItemHeight ?? 80;
+    const gap = configState.value?.gridItemGap ?? 8;
+    return itemHeight + gap * 2;
+  }
+  // List view: use configured height
+  const itemHeight = configState.value?.listItemHeight ?? 32;
+  const gap = configState.value?.listItemGap ?? 2;
+  return itemHeight + gap * 2;
+});
+
+// Computed item width for grid view
+const itemWidth = computed(() => {
+  const view = configState.value?.view;
+  if (view === 'grid') {
+    // Grid item width = item width + gap (left + right margins)
+    const itemW = configState.value?.gridItemWidth ?? 96;
+    const gap = configState.value?.gridItemGap ?? 8;
+    return itemW + gap * 2;
+  }
+  return 104; // Default for list view
+});
+
+// Computed container padding (matches CSS padding)
+const containerPadding = computed(() => {
+  const view = configState.value?.view;
+  if (view === 'grid') {
+    // Container padding matches the gap
+    return (configState.value?.gridItemGap ?? 8) * 2;
+  }
+  return 0;
 });
 
 const { t } = app.i18n;
@@ -68,10 +98,10 @@ const {
   }),
   {
     scrollContainer,
-    itemWidth: 104,
+    itemWidth,
     rowHeight,
     overscan: 2,
-    containerPadding: 0,
+    containerPadding,
     lockItemsPerRow: computed(() => configState.value.view === 'list'),
   }
 );
@@ -87,7 +117,7 @@ const { explorerId, isDragging, initializeSelectionArea, updateSelectionArea, ha
     getKey: (f) => f.path,
     selectionObject,
     rowHeight,
-    itemWidth: 104,
+    itemWidth,
     osInstance,
   });
 
@@ -350,7 +380,6 @@ const handleContentTouchMove = (event: TouchEvent) => {
             :row-height="rowHeight"
             view="list"
             :items="getItemAtRow(rowIndex) ? [getItemAtRow(rowIndex)!] : []"
-            :compact="configState.compactListView"
             :is-dragging-item="isDraggingItem"
             :is-selected="isSelected"
             :drag-n-drop-events="(item) => dragNDrop.events(item)"

@@ -38,7 +38,8 @@
 }
 
 .vuefinder__explorer__selector-area {
-  @apply z-0 h-full w-full overflow-y-auto p-1 text-xs;
+  @apply z-0 h-full w-full overflow-y-auto text-xs;
+  padding: var(--vf-grid-item-gap, 8px);
   scrollbar-width: none;
 }
 .vuefinder__explorer__selector-area::-webkit-scrollbar {
@@ -47,13 +48,19 @@
 
 .vuefinder__explorer__item-list-content {
   @apply grid grid-cols-12 items-center;
+  height: 100%;
+  min-height: var(--vf-list-item-height, 32px);
 }
 
 .vuefinder__explorer__item-list-name {
-  @apply col-span-7 flex items-center;
+  @apply col-span-7 flex items-center gap-2;
+  height: 100%;
 }
 
-.vuefinder__explorer__item-name,
+.vuefinder__explorer__item-name {
+  @apply overflow-hidden text-ellipsis whitespace-nowrap flex-1;
+}
+
 .vuefinder__explorer__item-path {
   @apply col-span-5 overflow-hidden text-ellipsis whitespace-nowrap;
 }
@@ -79,7 +86,11 @@
 }
 
 .vf-explorer-item-list {
-  @apply pointer-events-auto relative my-0.5 grid w-full grid-cols-1 border border-transparent bg-transparent select-none;
+  @apply pointer-events-auto relative grid w-full grid-cols-1 border border-transparent bg-transparent select-none;
+  margin-top: var(--vf-list-item-gap, 2px);
+  margin-bottom: var(--vf-list-item-gap, 2px);
+  min-height: var(--vf-list-item-height, 32px);
+  height: var(--vf-list-item-height, 32px);
 }
 
 .vf-explorer-item-list:hover {
@@ -87,7 +98,10 @@
 }
 
 .vf-explorer-item-grid {
-  @apply pointer-events-auto relative m-1 inline-flex h-20 w-[5.5rem] justify-center border border-transparent bg-transparent text-center select-none md:w-24;
+  @apply pointer-events-auto relative inline-flex justify-center border border-transparent bg-transparent text-center select-none;
+  width: var(--vf-grid-item-width, 96px);
+  height: var(--vf-grid-item-height, 80px);
+  margin: var(--vf-grid-item-gap, 8px);
 }
 
 .vf-explorer-item-grid:hover {
@@ -109,7 +123,13 @@
 
 /* Icon styling */
 .vuefinder__explorer__item-list-icon {
-  @apply flex items-center justify-center;
+  @apply flex items-center justify-center flex-shrink-0;
+  width: var(--vf-list-icon-size, 16px);
+  height: var(--vf-list-icon-size, 16px);
+  min-width: var(--vf-list-icon-size, 16px);
+  min-height: var(--vf-list-icon-size, 16px);
+  max-width: var(--vf-list-icon-size, 16px);
+  max-height: var(--vf-list-icon-size, 16px);
 }
 
 .vuefinder__explorer__sort-icon {

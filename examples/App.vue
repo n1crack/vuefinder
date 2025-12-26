@@ -17,6 +17,7 @@ import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 import FeaturesExample from './examples/FeaturesExample.vue';
 import UIVisibilityExample from './examples/UIVisibilityExample.vue';
+import ItemSizeExample from './examples/ItemSizeExample.vue';
 
 const example = ref('default');
 
@@ -124,6 +125,7 @@ const examples = {
   selectionFilter: 'Selection Filter Demo',
   features: 'Features Configuration Demo',
   uiVisibility: 'UI Visibility Settings Demo',
+  itemSize: 'Item Size & Spacing Configuration',
 };
 
 // Theme management
@@ -294,6 +296,13 @@ onUnmounted(() => {
 
       <UIVisibilityExample
         v-if="example === 'uiVisibility'"
+        :driver="driver"
+        :config="{ ...config, theme: currentTheme }"
+        :features="features"
+      />
+
+      <ItemSizeExample
+        v-if="example === 'itemSize'"
         :driver="driver"
         :config="{ ...config, theme: currentTheme }"
         :features="features"

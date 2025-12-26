@@ -6,16 +6,17 @@ import {
   ref,
   watch,
   type Ref,
+  type ComputedRef,
   type TemplateRef,
 } from 'vue';
 
 export interface VirtualColumnsOptions {
   scrollContainer: TemplateRef<HTMLElement>;
-  itemWidth?: number;
-  rowHeight?: number | Ref<number>;
+  itemWidth?: number | Ref<number> | ComputedRef<number>;
+  rowHeight?: number | Ref<number> | ComputedRef<number>;
   overscan?: number;
-  containerPadding?: number;
-  lockItemsPerRow: Ref<boolean>;
+  containerPadding?: number | Ref<number> | ComputedRef<number>;
+  lockItemsPerRow: Ref<boolean> | ComputedRef<boolean>;
 }
 
 export interface VirtualColumnsReturn {
@@ -58,7 +59,20 @@ export default function useVirtualColumns<T = unknown>(
   const itemsRef: Ref<T[]> = items;
 
   const getRowHeight = (): number => {
-    return typeof rowHeight === 'number' ? rowHeight : (rowHeight as Ref<number>).value;
+    if (typeof rowHeight === 'number') return rowHeight;
+    return (rowHeight as Ref<number> | ComputedRef<number>).value;
+  };
+
+  const getItemWidth = (): number => {
+    if (!itemWidth) return 100;
+    if (typeof itemWidth === 'number') return itemWidth;
+    return (itemWidth as Ref<number> | ComputedRef<number>).value;
+  };
+
+  const getContainerPadding = (): number => {
+    if (!containerPadding) return 0;
+    if (typeof containerPadding === 'number') return containerPadding;
+    return (containerPadding as Ref<number> | ComputedRef<number>).value;
   };
 
   // Refs
@@ -91,7 +105,9 @@ export default function useVirtualColumns<T = unknown>(
     return containerHeightRef.value;
   };
 
-  const isLocked = (): boolean => lockItemsPerRow.value;
+  const isLocked = (): boolean => {
+    return typeof lockItemsPerRow === 'object' ? lockItemsPerRow.value : false;
+  };
 
   const updateItemsPerRow = () => {
     if (isLocked()) {
@@ -99,8 +115,12 @@ export default function useVirtualColumns<T = unknown>(
       return;
     }
     if (scrollContainer.value) {
-      const width = scrollContainer.value.clientWidth - containerPadding;
-      itemsPerRow.value = Math.max(Math.floor(width / itemWidth), 2);
+      const padding = getContainerPadding();
+      const width = scrollContainer.value.clientWidth - padding;
+      const iw = getItemWidth();
+      if (iw > 0) {
+        itemsPerRow.value = Math.max(Math.floor(width / iw), 2);
+      }
     }
   };
 
@@ -116,6 +136,28 @@ export default function useVirtualColumns<T = unknown>(
       updateItemsPerRow();
     }
   );
+
+  // React to itemWidth changes (e.g., config changes)
+  if (itemWidth && typeof itemWidth !== 'number') {
+    watch(itemWidth as Ref<number> | ComputedRef<number>, () => {
+      updateItemsPerRow();
+    });
+  }
+
+  // React to containerPadding changes (e.g., config changes)
+  if (containerPadding && typeof containerPadding !== 'number') {
+    watch(containerPadding as Ref<number> | ComputedRef<number>, () => {
+      updateItemsPerRow();
+    });
+  }
+
+  // React to rowHeight changes (e.g., config changes)
+  if (rowHeight && typeof rowHeight !== 'number') {
+    watch(rowHeight as Ref<number> | ComputedRef<number>, () => {
+      // Row height change doesn't affect itemsPerRow, but triggers recalculation
+      // This ensures totalHeight is recalculated
+    });
+  }
 
   const getRowItems = <T>(items: T[], rowIndex: number): T[] => {
     if (!items || !Array.isArray(items)) {

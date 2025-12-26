@@ -11,7 +11,6 @@ import { useFeature } from '../composables/useFeature';
 const props = defineProps<{
   item: DirEntry;
   view: 'grid' | 'list';
-  compact?: boolean;
   showThumbnails?: boolean;
   isSelected?: boolean;
   isDragging?: boolean;
@@ -227,7 +226,7 @@ const delayedOpenItem = (event: TouchEvent) => {
           :alt="item.basename"
           @touchstart="$event.preventDefault()"
         />
-        <ItemIcon v-else :item="item" :ext="true">
+        <ItemIcon v-else :item="item" :ext="true" :view="view">
           <template #icon="slotProps">
             <slot name="icon" v-bind="slotProps" />
           </template>
@@ -240,7 +239,7 @@ const delayedOpenItem = (event: TouchEvent) => {
     <div v-else class="vuefinder__explorer__item-list-content">
       <div class="vuefinder__explorer__item-list-name">
         <div class="vuefinder__explorer__item-list-icon">
-          <ItemIcon :item="item" :small="compact">
+          <ItemIcon :item="item" :view="view">
             <template #icon="slotProps">
               <slot name="icon" v-bind="slotProps" />
             </template>

@@ -44,10 +44,6 @@ const handleMetricUnits = () => {
   app.emitter.emit('vf-metric-units-saved');
 };
 
-const handleCompactListView = () => {
-  config.toggle('compactListView');
-  app.emitter.emit('vf-compact-view-saved');
-};
 
 const handlePersistPath = () => {
   config.toggle('persist');
@@ -112,27 +108,6 @@ const supportedLanguages = Object.fromEntries(
                   @change="handleMetricUnits"
                 />
                 <action-message class="ms-3" on="vf-metric-units-saved">{{
-                  t('Saved.')
-                }}</action-message>
-              </div>
-            </div>
-
-            <div class="vuefinder__about-modal__setting">
-              <div class="vuefinder__about-modal__setting-label">
-                <label for="large_icons" class="vuefinder__about-modal__label">{{
-                  t('Compact list view')
-                }}</label>
-              </div>
-              <div class="vuefinder__about-modal__setting-input justify-end">
-                <input
-                  id="large_icons"
-                  name="large_icons"
-                  type="checkbox"
-                  :checked="config.get('compactListView')"
-                  class="vuefinder__about-modal__checkbox"
-                  @change="handleCompactListView"
-                />
-                <action-message class="ms-3" on="vf-compact-view-saved">{{
                   t('Saved.')
                 }}</action-message>
               </div>

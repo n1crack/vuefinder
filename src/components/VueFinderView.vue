@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, watch, unref, useTemplateRef } from 'vue';
+import { onMounted, watch, unref, useTemplateRef, computed } from 'vue';
 import { useApp } from '../composables/useApp';
 import { useStore } from '@nanostores/vue';
 import { useHotkeyActions } from '../composables/useHotkeyActions';
@@ -57,6 +57,20 @@ const fs = app.fs;
 
 // Use nanostores reactive values for template reactivity
 const configState: StoreValue<ConfigState> = useStore(config.state);
+
+// Computed style for CSS variables based on config
+const rootStyle = computed(() => {
+  const cfg = configState.value;
+  return {
+    '--vf-grid-item-width': `${cfg.gridItemWidth}px`,
+    '--vf-grid-item-height': `${cfg.gridItemHeight}px`,
+    '--vf-grid-item-gap': `${cfg.gridItemGap}px`,
+    '--vf-grid-icon-size': `${cfg.gridIconSize}px`,
+    '--vf-list-item-height': `${cfg.listItemHeight}px`,
+    '--vf-list-item-gap': `${cfg.listItemGap}px`,
+    '--vf-list-icon-size': `${cfg.listIconSize}px`,
+  };
+});
 
 useHotkeyActions();
 
@@ -173,6 +187,7 @@ const handleExternalDrop = async (e: DragEvent) => {
     class="vuefinder vuefinder__main vuefinder__themer"
     :data-theme="app.theme.current"
     :class="{ 'vuefinder--dragging-external': isDraggingExternal }"
+    :style="rootStyle"
     @dragenter="handleDragEnter"
     @dragover="handleDragOver"
     @dragleave="handleDragLeave"
