@@ -8,7 +8,7 @@ Learn how to customize item dimensions, spacing, and icon sizes for both grid an
 
 ## Live Demo
 
-Use the sliders below to adjust grid item dimensions and see the changes in real-time:
+Use the sliders below to adjust item dimensions and icon sizes for both grid and list views. Switch between grid and list view in the demo to see how icon sizes change:
 
 <ClientOnly>
   <ItemSizeConfigurationDemo />

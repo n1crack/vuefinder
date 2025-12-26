@@ -58,6 +58,49 @@
           </div>
         </div>
 
+        <div class="controls">
+          <h4>List View Settings</h4>
+          <div class="control-group">
+            <label>
+              <span>Item Height: {{ listItemHeight }}px</span>
+              <input
+                v-model.number="listItemHeight"
+                type="range"
+                min="20"
+                max="80"
+                step="2"
+                class="slider"
+              />
+            </label>
+          </div>
+          <div class="control-group">
+            <label>
+              <span>Gap: {{ listItemGap }}px</span>
+              <input
+                v-model.number="listItemGap"
+                type="range"
+                min="0"
+                max="12"
+                step="1"
+                class="slider"
+              />
+            </label>
+          </div>
+          <div class="control-group">
+            <label>
+              <span>Icon Size: {{ listIconSize }}px</span>
+              <input
+                v-model.number="listIconSize"
+                type="range"
+                min="16"
+                max="40"
+                step="2"
+                class="slider"
+              />
+            </label>
+          </div>
+        </div>
+
         <div class="vuefinder-container">
           <vue-finder
             id="demo-item-size"
@@ -81,15 +124,20 @@ const gridItemWidth = ref(96);
 const gridItemHeight = ref(80);
 const gridItemGap = ref(8);
 const gridIconSize = ref(48);
+const listItemHeight = ref(32);
+const listItemGap = ref(2);
+const listIconSize = ref(20);
 
 const computedConfig = computed(() => ({
   initialPath: 'local://',
   persist: false,
-  view: 'grid',
   gridItemWidth: gridItemWidth.value,
   gridItemHeight: gridItemHeight.value,
   gridItemGap: gridItemGap.value,
   gridIconSize: gridIconSize.value,
+  listItemHeight: listItemHeight.value,
+  listItemGap: listItemGap.value,
+  listIconSize: listIconSize.value,
 }));
 
 const driver = ref<Driver | null>(null);
