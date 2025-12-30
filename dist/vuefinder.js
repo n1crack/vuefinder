@@ -92,7 +92,7 @@ function ro(o, e, t, n) {
   }
   return ht({ t: p, locale: r });
 }
-const lo = "4.0.30";
+const lo = "4.0.31";
 function Ot(o, e, t, n, a) {
   return e = Math, t = e.log, n = 1024, a = t(o) / t(n) | 0, (o / e.pow(n, a)).toFixed(0) + " " + (a ? "KMGTPEZY"[--a] + "iB" : "B");
 }
@@ -6765,7 +6765,7 @@ const ln = { render: pu }, hu = ["data-key", "data-row", "data-col", "draggable"
         (ee > 15 || q > 15) && E();
       }
     }, I = (O) => {
-      _ || n("click", O);
+      _ && O.type !== "click" || n("click", O);
     }, z = (O) => {
       if (g)
         return O.preventDefault(), O.stopPropagation(), !1;
