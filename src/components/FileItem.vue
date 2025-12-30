@@ -157,7 +157,7 @@ const handleTouchMove = (event: TouchEvent) => {
 const handleClick = (event: MouseEvent) => {
   // On touch devices, ignore click events that come from touch
   // (they will be handled by touch event handlers)
-  if (isTouchDevice) {
+  if (isTouchDevice && event.type !== 'click') {
     return;
   }
   emit('click', event);
