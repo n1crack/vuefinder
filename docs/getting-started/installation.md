@@ -74,7 +74,7 @@ const driver = new RemoteDriver({
 
 ## Localization Setup
 
-VueFinder supports multiple languages. By default, it uses English, but you can add more languages:
+VueFinder supports multiple languages with a reactive i18n system powered by `nanostores`. By default, it uses English, but you can add more languages:
 
 ### Manual Import
 
@@ -88,17 +88,50 @@ app.use(VueFinder, {
 });
 ```
 
-### Async Import
+### Async Import (Recommended)
+
+For better performance, especially when supporting many languages, use async imports:
 
 ```js
 app.use(VueFinder, {
+  locale: 'en', // Optional: set default locale
   i18n: {
     en: async () => await import('vuefinder/dist/locales/en.js'),
+    tr: async () => await import('vuefinder/dist/locales/tr.js'),
     de: async () => await import('vuefinder/dist/locales/de.js'),
     // Add more locales as needed
   },
 });
 ```
+
+### Dynamic Language Switching
+
+The locale is managed globally and persists across page reloads. You can change the language dynamically using the `locale` prop:
+
+```vue
+<template>
+  <vue-finder id="manager" :driver="driver" :locale="currentLocale" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const currentLocale = ref('en');
+
+// Change language dynamically
+const switchLanguage = (lang) => {
+  currentLocale.value = lang; // Interface updates immediately
+};
+</script>
+```
+
+**Key Features:**
+- **Automatic Persistence**: Selected locale is saved to `localStorage` automatically
+- **Translation Caching**: Loaded translations are cached for better performance
+- **Reactive Updates**: Changing the `locale` prop updates the interface immediately
+- **Global State**: All VueFinder instances share the same locale state
+
+For more details, see the [Localization Guide](../guide/localization.md).
 
 ## TypeScript Support
 

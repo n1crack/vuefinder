@@ -57,6 +57,7 @@ If you want to contribute to the project, please feel free to fork the repositor
 - [mitt](https://github.com/developit/mitt) : Tiny 200 byte functional event emitter / pubsub
 - [OverlayScrollbars](https://kingsora.github.io/OverlayScrollbars) : scrollbar plugin
 - [nanostores](https://github.com/nanostores/nanostores) : A tiny state manager
+- [@nanostores/i18n](https://github.com/nanostores/i18n) : Internationalization backend for nanostores
 - [vue-sonner](https://github.com/wobsoriano/vue-sonner) : Toast notification component
 - [@floating-ui/dom](https://floating-ui.com/) : Floating UI positioning library
 - [@tanstack/vue-query](https://tanstack.com/query/v5/docs/framework/vue/overview) : fetching, caching, synchronizing and updating server state

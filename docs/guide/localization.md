@@ -108,9 +108,11 @@ app.mount('#app');
 
 ## Dynamic Language Switching
 
+VueFinder uses a reactive i18n system powered by `nanostores` that automatically manages language state and caching. The locale is stored globally and persists across page reloads.
+
 ### Language Selector Component
 
-Create a language selector to switch between languages:
+Create a language selector to switch between languages. The locale prop is reactive and will automatically update the interface:
 
 ```vue
 <template>
@@ -138,20 +140,44 @@ import { ref, onMounted } from 'vue';
 
 const selectedLocale = ref('en');
 
-// Load saved language preference
+// Load saved language preference (optional - VueFinder handles this automatically)
 onMounted(() => {
-  const savedLocale = localStorage.getItem('vuefinder-locale');
+  const savedLocale = localStorage.getItem('vuefinder_locale');
   if (savedLocale) {
-    selectedLocale.value = savedLocale;
+    try {
+      const parsed = JSON.parse(savedLocale);
+      selectedLocale.value = parsed;
+    } catch {
+      // Fallback to default
+    }
   }
 });
 
 const updateLanguage = () => {
-  // Save language preference
-  localStorage.setItem('vuefinder-locale', selectedLocale.value);
+  // Language preference is automatically saved by VueFinder
+  // The locale prop change will trigger reactive updates
   console.log('Language changed to:', selectedLocale.value);
 };
 </script>
+```
+
+### How It Works
+
+1. **Global State Management**: VueFinder uses `nanostores` to manage locale state globally across all instances
+2. **Automatic Persistence**: The selected locale is automatically saved to `localStorage` under the key `vuefinder_locale`
+3. **Translation Caching**: Loaded translations are cached in `localStorage` under `vuefinder_translations` for better performance
+4. **Reactive Updates**: When the `locale` prop changes, the interface updates reactively without page reload
+5. **Priority Order**: Locale priority is: `locale` prop > cached locale > default 'en'
+
+### Locale Prop Priority
+
+The `locale` prop takes precedence over cached settings:
+
+```vue
+<template>
+  <!-- This will override any cached locale -->
+  <vue-finder id="manager" :driver="driver" locale="tr" />
+</template>
 ```
 
 ## Custom Translations
@@ -204,11 +230,70 @@ app.use(VueFinder, {
 app.mount('#app');
 ```
 
+## Advanced Features
+
+### Global Locale Cache
+
+VueFinder automatically caches the locale and translations globally:
+
+- **Locale Cache**: Stored in `localStorage` as `vuefinder_locale` (JSON format)
+- **Translations Cache**: Stored in `localStorage` as `vuefinder_translations` (JSON object with locale keys)
+- **Shared Across Instances**: All VueFinder instances share the same locale state
+
+### Clearing Cache
+
+To reset language settings, you can clear the cache:
+
+```js
+// Clear locale cache
+localStorage.removeItem('vuefinder_locale');
+
+// Clear translations cache
+localStorage.removeItem('vuefinder_translations');
+
+// Or clear both
+localStorage.removeItem('vuefinder_locale');
+localStorage.removeItem('vuefinder_translations');
+```
+
+The Settings modal in VueFinder also provides a "Reset Settings" button that clears all caches including language settings.
+
+### Reactive Locale Updates
+
+The locale system is fully reactive. When you change the `locale` prop, the interface updates immediately:
+
+```vue
+<template>
+  <div>
+    <button @click="switchToTurkish">Switch to Turkish</button>
+    <button @click="switchToEnglish">Switch to English</button>
+    
+    <vue-finder id="manager" :driver="driver" :locale="currentLocale" />
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+
+const currentLocale = ref('en');
+
+const switchToTurkish = () => {
+  currentLocale.value = 'tr'; // Interface updates immediately
+};
+
+const switchToEnglish = () => {
+  currentLocale.value = 'en'; // Interface updates immediately
+};
+</script>
+```
+
 ## Best Practices
 
 1. **Use async loading** for better performance when supporting many languages
-2. **Store user preference** in localStorage for persistence
-3. **Provide fallbacks** for missing translations
-4. **Test RTL languages** (Arabic, Hebrew) if you plan to support them
+2. **Leverage automatic caching** - VueFinder handles translation caching automatically
+3. **Use locale prop for dynamic switching** - The prop is reactive and updates the UI immediately
+4. **Provide fallbacks** for missing translations (VueFinder uses the key as fallback)
+5. **Test RTL languages** (Arabic, Hebrew) if you plan to support them
+6. **Clear cache when needed** - Use the Settings modal or manually clear localStorage keys
 
 For more information on available languages and how to contribute translations, visit the [GitHub repository](https://github.com/n1crack/vuefinder).
