@@ -37,6 +37,9 @@ const selectedTheme = computed<Theme>(() => {
 const clearLocalStorage = async () => {
   config.reset();
   clearStore();
+  // Clear i18n cache
+  localStorage.removeItem('vuefinder_locale');
+  localStorage.removeItem('vuefinder_translations');
   location.reload();
 };
 
