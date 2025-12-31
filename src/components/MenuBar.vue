@@ -21,6 +21,8 @@ import ModalShortcuts from './modals/ModalShortcuts.vue';
 import { useApp } from '../composables/useApp';
 import { toast } from 'vue-sonner';
 import { getErrorMessage } from '../utils/errorHandler';
+import { format as filesizeDefault, metricFormat as filesizeMetric } from '../utils/filesize';
+import { inject } from 'vue';
 
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
@@ -347,6 +349,28 @@ const menuItems = computed<any[]>(() => [
         action: () => config?.toggle('fullScreen'),
         enabled: () => enabled('fullscreen'),
         checked: () => configState.value?.fullScreen,
+      },
+      { type: 'separator' },
+      {
+        id: 'persist-path',
+        label: t('Persist Path'),
+        action: () => {
+          config?.toggle('persist');
+          app.emitter.emit('vf-persist-path-saved');
+        },
+        enabled: () => true,
+        checked: () => configState.value?.persist,
+      },
+      {
+        id: 'metric-units',
+        label: t('Metric Units'),
+        action: () => {
+          config?.toggle('metricUnits');
+          app.filesize = config?.get('metricUnits') ? filesizeMetric : filesizeDefault;
+          app.emitter.emit('vf-metric-units-saved');
+        },
+        enabled: () => true,
+        checked: () => configState.value?.metricUnits,
       },
     ],
   },

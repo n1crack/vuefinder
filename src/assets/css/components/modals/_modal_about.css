@@ -146,7 +146,7 @@
 }
 @media (min-width: 640px) {
   .vuefinder__about-modal__setting {
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 1fr auto;
   }
   .vuefinder__about-modal__setting {
     @apply py-1.5;
@@ -170,4 +170,61 @@
 
 .vuefinder__about-modal__shortcut kbd {
   @apply rounded border border-(--vf-border-primary) bg-(--vf-bg-hover) px-1.5 py-0.5 font-mono text-xs text-(--vf-text-primary);
+}
+
+/* Settings Modal Styles */
+.vuefinder__settings-modal__content {
+  @apply select-none;
+}
+
+.vuefinder__settings-modal__main {
+  @apply mt-4 w-full;
+}
+
+.vuefinder__settings-modal__sections {
+  @apply space-y-5;
+}
+
+.vuefinder__settings-modal__section {
+  @apply flex flex-col gap-2.5;
+}
+
+.vuefinder__settings-modal__label {
+  @apply flex w-full items-center justify-between text-sm text-(--vf-text-primary);
+}
+
+.vuefinder__settings-modal__input-group {
+  @apply flex items-center gap-2;
+}
+
+.vuefinder__settings-modal__select {
+  @apply flex-1 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-3 py-2 text-sm text-(--vf-text-primary) transition-colors focus:border-(--vf-accent-primary) focus:ring-1 focus:ring-(--vf-accent-primary) focus:outline-none;
+  @apply appearance-none bg-no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: right 0.75rem center;
+  padding-right: 2.5rem;
+}
+
+.vuefinder__settings-modal__select:hover {
+  @apply border-(--vf-accent-primary) opacity-80;
+}
+
+.vuefinder__settings-modal__reset-section {
+  @apply mt-6 flex flex-col gap-3 rounded-lg border border-(--vf-border-primary) bg-(--vf-bg-hover) p-4 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.vuefinder__settings-modal__reset-content {
+  @apply flex-1;
+}
+
+.vuefinder__settings-modal__reset-title {
+  @apply text-sm font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__settings-modal__reset-description {
+  @apply mt-1 text-xs text-(--vf-text-secondary);
+}
+
+.vuefinder__settings-modal__reset-button {
+  @apply rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-4 py-2 text-sm font-medium text-(--vf-text-primary) transition-colors hover:border-(--vf-accent-primary) hover:bg-(--vf-bg-hover) focus:ring-1 focus:ring-(--vf-accent-primary) focus:outline-none;
 }

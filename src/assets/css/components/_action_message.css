@@ -5,3 +5,7 @@
 .vuefinder__action-message--hidden {
   @apply opacity-0;
 }
+
+.vuefinder__action-message.vuefinder__settings-modal__message {
+  @apply text-xs;
+}

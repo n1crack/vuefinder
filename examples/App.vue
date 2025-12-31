@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { RemoteDriver, ArrayDriver, IndexedDBDriver } from '../src/adapters';
 import MemoryExample from './examples/MemoryExample.vue';
 import IndexedDBExample from './examples/IndexedDBExample.vue';
@@ -18,8 +18,14 @@ import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 import FeaturesExample from './examples/FeaturesExample.vue';
 import UIVisibilityExample from './examples/UIVisibilityExample.vue';
 import ItemSizeExample from './examples/ItemSizeExample.vue';
+import MultilangExample from './examples/MultilangExample.vue';
 
 const example = ref('default');
+
+// Watch for changes and save to localStorage
+watch(example, (newValue) => {
+  localStorage.setItem('vuefinder-example', newValue);
+});
 
 // Create remote driver instance
 const remoteDriver = new RemoteDriver({
@@ -126,6 +132,7 @@ const examples = {
   features: 'Features Configuration Demo',
   uiVisibility: 'UI Visibility Settings Demo',
   itemSize: 'Item Size & Spacing Configuration',
+  multilang: 'Multilang File Manager Demo',
 };
 
 // Theme management
@@ -179,6 +186,14 @@ onMounted(() => {
   window.addEventListener('message', handleMessage);
   if (isPopup.value && window.opener && !window.opener.closed) {
     window.opener.postMessage({ type: 'popupReady' }, '*');
+  }
+  
+  // Load saved example preference (only if not in popup mode)
+  if (!isPopup.value) {
+    const savedExample = localStorage.getItem('vuefinder-example');
+    if (savedExample && examples[savedExample as keyof typeof examples]) {
+      example.value = savedExample;
+    }
   }
 });
 
@@ -303,6 +318,13 @@ onUnmounted(() => {
 
       <ItemSizeExample
         v-if="example === 'itemSize'"
+        :driver="driver"
+        :config="{ ...config, theme: currentTheme }"
+        :features="features"
+      />
+
+      <MultilangExample
+        v-if="example === 'multilang'"
         :driver="driver"
         :config="{ ...config, theme: currentTheme }"
         :features="features"

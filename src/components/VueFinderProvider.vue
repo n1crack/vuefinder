@@ -45,6 +45,19 @@ watch(
   { deep: true, immediate: true }
 );
 
+// Watch for locale prop changes and update locale atom reactively
+watch(
+  () => props.locale,
+  (newLocale) => {
+    // Only update if prop has a value and is different from current atom value
+    if (newLocale && app.i18n.localeAtom && app.i18n.localeAtom.get() !== newLocale) {
+      // Update the locale atom, which will trigger translation loading
+      app.i18n.localeAtom.set(newLocale);
+    }
+  },
+  { immediate: true }
+);
+
 // Register app and provide id to all child components
 registerApp(appId, app);
 provide(ServiceContainerIdKey, appId);
