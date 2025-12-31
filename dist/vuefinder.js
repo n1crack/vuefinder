@@ -4378,7 +4378,7 @@ const rn = /* @__PURE__ */ pr(fr, [["render", hr]]), mr = [
         l.set(x);
       }
     }), c = Y(n.state), f = U(() => c.value.theme || "silver"), _ = async () => {
-      n.reset(), a(), location.reload();
+      n.reset(), a(), localStorage.removeItem("vuefinder_locale"), localStorage.removeItem("vuefinder_translations"), location.reload();
     }, w = (x) => {
       n.set("theme", x), e.emitter.emit("vf-theme-saved");
     }, { i18n: p } = vt("VueFinderOptions"), F = Object.fromEntries(
