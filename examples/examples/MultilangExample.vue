@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { computed } from 'vue';
+import { useStore } from '@nanostores/vue';
+import { createLocaleAtom } from '../../src/stores/i18n';
 import type { Driver } from '../../src/adapters';
 
 interface Props {
@@ -10,28 +12,22 @@ interface Props {
 
 defineProps<Props>();
 
-const selectedLocale = ref('en');
+// Use the same global locale atom as VueFinder (automatically reads from localStorage)
+const localeAtom = createLocaleAtom('vuefinder_locale', 'en');
+const reactiveLocale = useStore(localeAtom);
 
-// Load saved language preference
-onMounted(() => {
-  const savedLocale = localStorage.getItem('vuefinder-locale');
-  if (savedLocale) {
-    selectedLocale.value = savedLocale;
-  }
+// Computed property for v-model binding - always returns string, fallback to 'en'
+const selectedLocale = computed({
+  get: () => String(reactiveLocale.value || 'en'),
+  set: (value: string) => localeAtom.set(value || 'en'),
 });
-
-const updateLanguage = () => {
-  // Save language preference
-  localStorage.setItem('vuefinder-locale', selectedLocale.value);
-  console.log('Language changed to:', selectedLocale.value);
-};
 </script>
 
 <template>
   <div class="multilang-file-manager">
     <div class="language-selector">
       <label for="language-select">Language:</label>
-      <select id="language-select" v-model="selectedLocale" @change="updateLanguage">
+      <select id="language-select" v-model="selectedLocale">
         <option value="en">English</option>
         <option value="tr">Türkçe</option>
         <option value="ru">Русский</option>

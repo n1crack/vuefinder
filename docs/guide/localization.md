@@ -112,14 +112,14 @@ VueFinder uses a reactive i18n system powered by `nanostores` that automatically
 
 ### Language Selector Component
 
-Create a language selector to switch between languages. The locale prop is reactive and will automatically update the interface:
+Create a language selector to switch between languages using VueFinder's nanostore-based locale system. The locale is automatically synced with VueFinder's global state:
 
 ```vue
 <template>
   <div class="multilang-file-manager">
     <div class="language-selector">
       <label for="language-select">Language:</label>
-      <select id="language-select" v-model="selectedLocale" @change="updateLanguage">
+      <select id="language-select" v-model="selectedLocale">
         <option value="en">English</option>
         <option value="tr">Türkçe</option>
         <option value="ru">Русский</option>
@@ -131,43 +131,43 @@ Create a language selector to switch between languages. The locale prop is react
       </select>
     </div>
 
-    <vue-finder id="multilang_manager" :driver="driver" :locale="selectedLocale" />
+    <vue-finder id="multilang_manager" :driver="driver" :locale="selectedLocale" :config="config" :features="features" />
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useStore } from '@nanostores/vue';
+import { createLocaleAtom } from 'vuefinder';
 
-const selectedLocale = ref('en');
+// Use the same global locale atom as VueFinder (automatically reads from localStorage)
+const localeAtom = createLocaleAtom('vuefinder_locale', 'en');
+const reactiveLocale = useStore(localeAtom);
 
-// Load saved language preference (optional - VueFinder handles this automatically)
-onMounted(() => {
-  const savedLocale = localStorage.getItem('vuefinder_locale');
-  if (savedLocale) {
-    try {
-      const parsed = JSON.parse(savedLocale);
-      selectedLocale.value = parsed;
-    } catch {
-      // Fallback to default
-    }
-  }
+// Computed property for v-model binding - always returns string, fallback to 'en'
+const selectedLocale = computed({
+  get: () => String(reactiveLocale.value || 'en'),
+  set: (value: string) => localeAtom.set(value || 'en'),
 });
-
-const updateLanguage = () => {
-  // Language preference is automatically saved by VueFinder
-  // The locale prop change will trigger reactive updates
-  console.log('Language changed to:', selectedLocale.value);
-};
 </script>
 ```
 
+**Key Points:**
+
+- Uses the same global locale atom as VueFinder, ensuring perfect synchronization
+- Automatically reads from and writes to localStorage via `persistentAtom`
+- No manual localStorage handling needed - nanostore handles persistence
+- Changes are immediately reactive and shared across all VueFinder instances
+
 ### How It Works
 
-1. **Global State Management**: VueFinder uses `nanostores` to manage locale state globally across all instances
-2. **Automatic Persistence**: The selected locale is automatically saved to `localStorage` under the key `vuefinder_locale`
-3. **Translation Caching**: Loaded translations are cached in `localStorage` under `vuefinder_translations` for better performance
-4. **Reactive Updates**: When the `locale` prop changes, the interface updates reactively without page reload
-5. **Priority Order**: Locale priority is: `locale` prop > cached locale > default 'en'
+1. **Global State Management**: VueFinder uses `nanostores` with `persistentAtom` to manage locale state globally across all instances
+2. **Automatic Persistence**: The selected locale is automatically saved to `localStorage` under the key `vuefinder_locale` (stored as JSON)
+3. **Shared Atom**: By using `createLocaleAtom('vuefinder_locale', 'en')`, you get the same atom instance that VueFinder uses internally, ensuring perfect synchronization
+4. **Translation Caching**: Loaded translations are cached in `localStorage` under `vuefinder_translations` for better performance
+5. **Reactive Updates**: When the locale atom changes, the interface updates reactively without page reload - no manual event handling needed
+6. **Priority Order**: Locale priority is: `locale` prop > cached locale (from atom) > default 'en'
+7. **Format Support**: The atom automatically handles both JSON and string formats in localStorage, with 'en' as the fallback
 
 ### Locale Prop Priority
 
@@ -234,11 +234,12 @@ app.mount('#app');
 
 ### Global Locale Cache
 
-VueFinder automatically caches the locale and translations globally:
+VueFinder automatically caches the locale and translations globally using nanostores:
 
-- **Locale Cache**: Stored in `localStorage` as `vuefinder_locale` (JSON format)
+- **Locale Cache**: Stored in `localStorage` as `vuefinder_locale` (JSON format via `persistentAtom`)
 - **Translations Cache**: Stored in `localStorage` as `vuefinder_translations` (JSON object with locale keys)
-- **Shared Across Instances**: All VueFinder instances share the same locale state
+- **Shared Across Instances**: All VueFinder instances share the same locale atom, ensuring consistent state
+- **Automatic Sync**: Using `createLocaleAtom('vuefinder_locale', 'en')` in your components automatically syncs with VueFinder's internal state
 
 ### Clearing Cache
 
@@ -291,9 +292,10 @@ const switchToEnglish = () => {
 
 1. **Use async loading** for better performance when supporting many languages
 2. **Leverage automatic caching** - VueFinder handles translation caching automatically
-3. **Use locale prop for dynamic switching** - The prop is reactive and updates the UI immediately
-4. **Provide fallbacks** for missing translations (VueFinder uses the key as fallback)
-5. **Test RTL languages** (Arabic, Hebrew) if you plan to support them
-6. **Clear cache when needed** - Use the Settings modal or manually clear localStorage keys
+3. **Use nanostore for synchronization** - When creating custom language selectors, use `createLocaleAtom('vuefinder_locale', 'en')` to ensure perfect sync with VueFinder's internal state
+4. **Use locale prop for dynamic switching** - The prop is reactive and updates the UI immediately
+5. **Provide fallbacks** for missing translations (VueFinder uses the key as fallback)
+6. **Test RTL languages** (Arabic, Hebrew) if you plan to support them
+7. **Clear cache when needed** - Use the Settings modal or manually clear localStorage keys
 
 For more information on available languages and how to contribute translations, visit the [GitHub repository](https://github.com/n1crack/vuefinder).

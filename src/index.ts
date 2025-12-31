@@ -82,3 +82,6 @@ export type {
 
 // Export types from stores/theme
 export type { Theme } from './stores/theme';
+
+// Export i18n utilities
+export { createLocaleAtom } from './stores/i18n';

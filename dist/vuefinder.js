@@ -13,7 +13,7 @@ import { OverlayScrollbars as ot, SizeObserverPlugin as no } from "overlayscroll
 import { computePosition as Xe, offset as st, flip as it, shift as at, autoUpdate as At } from "@floating-ui/dom";
 import oo from "@viselect/vanilla";
 import so from "@uppy/xhr-upload";
-const Ot = /* @__PURE__ */ new Map(), It = Symbol("ServiceContainerId");
+const Ot = /* @__PURE__ */ new Map(), It = /* @__PURE__ */ Symbol("ServiceContainerId");
 function io(o, e) {
   Ot.set(o, e);
 }
@@ -151,7 +151,7 @@ function co(o, e, t, n) {
   });
   return _t({ t: g, locale: h, localeAtom: l });
 }
-const uo = "4.0.32";
+const uo = "4.0.33";
 function Lt(o, e, t, n, a) {
   return e = Math, t = e.log, n = 1024, a = t(o) / t(n) | 0, (o / e.pow(n, a)).toFixed(0) + " " + (a ? "KMGTPEZY"[--a] + "iB" : "B");
 }
@@ -8707,6 +8707,7 @@ export {
   Xv as VueFinderPlugin,
   Mv as VueFinderProvider,
   Hn as contextMenuItems,
+  lo as createLocaleAtom,
   Xv as default,
   nn as parseBackendError
 };
