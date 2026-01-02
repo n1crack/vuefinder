@@ -22,6 +22,7 @@
   --vp-c-tip-2: var(--vp-c-brand-2);
   --vp-c-tip-3: var(--vp-c-brand-3);
   --vp-c-tip-soft: var(--vp-c-brand-soft);
+  --vp-search-button-background: #b5c6c621;
 
   --vp-c-warning-1: var(--vp-c-yellow-1);
   --vp-c-warning-2: var(--vp-c-yellow-2);
@@ -91,6 +92,7 @@
 
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
+  --docsearch-search-button-background: var(--vp-search-button-background) !important;
 }
 
 /**
