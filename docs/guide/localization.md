@@ -184,29 +184,34 @@ The `locale` prop takes precedence over cached settings:
 
 ### Creating Custom Language Pack
 
-You can create custom translations by extending or overriding the default language packs:
+You can create custom translations by extending or overriding the default language packs. **Translation keys are always in English** - they serve as identifiers. The values are the translated text for each language:
 
 ```js
 // custom-locales/custom-en.js
+import uppyLocaleEn from '@uppy/locales/lib/en_US.js';
+
 export default {
   // Override specific translations
-  'file.upload': 'Upload Files',
-  'file.download': 'Download File',
-  'file.rename': 'Rename File',
-  'file.delete': 'Delete File',
-
-  // Add custom translations
-  'custom.welcome': 'Welcome to File Manager',
-
-  // Toolbar translations
-  'toolbar.upload': 'Upload',
-  'toolbar.download': 'Download',
-
-  // ... more translations
+  'Upload Files': 'Upload Your Files',
+  'New Folder': 'Create Folder',
+  'Delete': 'Remove',
+  'Rename': 'Change Name',
+  
+  // Override messages
+  'Files deleted.': 'Files have been successfully removed.',
+  '%s item(s) selected.': 'You have selected %s item(s).',
+  
+  // Add custom translations (if needed for custom features)
+  'Custom Action': 'Custom Action',
+  
+  // Don't forget to include uppy locale if you're using file upload
+  uppy: uppyLocaleEn,
 };
 ```
 
 ### Using Custom Translations
+
+Merge your custom translations with the default language pack:
 
 ```js
 import { createApp } from 'vue';
@@ -223,12 +228,43 @@ const app = createApp(App);
 
 app.use(VueFinder, {
   i18n: {
-    en: { ...en, ...customEn }, // Merge custom translations
+    en: { ...en, ...customEn }, // Custom translations override defaults
   },
 });
 
 app.mount('#app');
 ```
+
+### Translation Key Structure
+
+VueFinder uses a flat key structure where **keys are always in English** (they serve as identifiers), and values are the translated text:
+
+**English locale (en.js):**
+```js
+export default {
+  'Upload Files': 'Upload Files',  // Key and value are the same in English
+  'Delete': 'Delete',
+  'New Folder': 'New Folder',
+};
+```
+
+**Turkish locale (tr.js):**
+```js
+export default {
+  'Upload Files': 'Dosyaları Yükle',  // Same key, Turkish value
+  'Delete': 'Sil',
+  'New Folder': 'Yeni Klasör',
+};
+```
+
+**Key Types:**
+- **Simple keys**: `'Upload'`, `'Delete'`, `'Rename'` - Always in English
+- **Keys with spaces**: `'Upload Files'`, `'New Folder'`, `'File Name'` - Always in English
+- **Message keys**: `'Files deleted.'`, `'Files moved.'`, `'Updated.'` - Always in English
+- **Parameterized keys**: `'%s item(s) selected.'`, `'%s is renamed.'` - Use `%s` for parameter substitution
+- **Uppy integration**: `uppy: uppyLocaleEn` - Required for file upload functionality (locale-specific)
+
+To see all available translation keys, check the default English locale file at `vuefinder/dist/locales/en.js`.
 
 ## Advanced Features
 
