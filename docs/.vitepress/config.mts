@@ -11,11 +11,8 @@ function generateSitemap(pages: string[], baseUrl: string): string {
         return '/';
       }
       
-      // Normalize path: remove leading/trailing slashes, ensure .html exists
-      let url = page.replace(/^\/+|\/+$/g, '');
-      if (!url.endsWith('.html')) {
-        url = url + '.html';
-      }
+      // Normalize path: remove .html extension for clean URLs
+      let url = page.replace(/^\/+|\/+$/g, '').replace(/\.html$/, '');
       
       return '/' + url;
     })
@@ -79,6 +76,7 @@ export default defineConfig({
   outDir: '../public',
   title: 'VueFinder',
   description: siteDescription,
+  cleanUrls: true,
   head: [
     // Open Graph / Facebook
     ['meta', { property: 'og:type', content: 'website' }],
