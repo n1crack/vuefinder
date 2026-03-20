@@ -69,6 +69,10 @@
   @apply font-medium text-(--vf-accent-primary);
 }
 
+.vuefinder__menubar__dropdown__item--hidden {
+  @apply hidden;
+}
+
 .vuefinder__menubar__dropdown__label {
   @apply flex-1 overflow-hidden text-xs font-normal text-ellipsis whitespace-nowrap;
 }
