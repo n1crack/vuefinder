@@ -23,7 +23,6 @@ export default defineConfig({
     lib: {
       entry: {
         vuefinder: resolve(__dirname, 'src/index.ts'),
-        features: resolve(__dirname, 'src/features.ts'),
       },
       formats: ['es'],
       name: 'VueFinder',

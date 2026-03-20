@@ -20,7 +20,6 @@
     "./dist/vuefinder.css": "./dist/vuefinder.css",
     "./dist/style.css": "./dist/vuefinder.css",
     "./dist/vuefinder": "./dist/vuefinder.js",
-    "./dist/features.js": "./dist/features.js",
     "./dist/locales/*": "./dist/locales/*"
   },
   "types": "./dist/types/index.d.ts",
