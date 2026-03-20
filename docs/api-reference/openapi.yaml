@@ -401,16 +401,8 @@ paths:
       tags:
         - Files
       summary: Upload files
-      description: Upload one or more files to the specified directory. Uses multipart/form-data encoding. The file field name should be 'file'. The target path should be provided as a query parameter.
+      description: Upload one or more files to the specified directory. Uses multipart/form-data encoding. The file field name should be 'file'. The target path should be in 'path' field.
       operationId: uploadFiles
-      parameters:
-        - name: path
-          in: query
-          required: true
-          description: Target directory path for upload (including storage prefix)
-          schema:
-            type: string
-          example: "local://uploads"
       requestBody:
         required: true
         content:
