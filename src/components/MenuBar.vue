@@ -61,29 +61,29 @@ const menuItems = computed<any[]>(() => [
         id: 'new-folder',
         label: t('New Folder'),
         action: () => app?.modal?.open(ModalNewFolder, { items: selectedItems.value }),
-        enabled: () => enabled('newfolder'),
+        hidden: () => !enabled('newfolder'),
       },
       {
         id: 'new-file',
         label: t('New File'),
         action: () => app?.modal?.open(ModalNewFile, { items: selectedItems.value }),
-        enabled: () => enabled('newfile'),
+        hidden: () => !enabled('newfile'),
       },
-      { type: 'separator' },
+      { type: 'separator', hidden: () => (!enabled('newfolder') && !enabled('newfile') || !enabled('upload')) },
       {
         id: 'upload',
         label: t('Upload'),
         action: () => app?.modal?.open(ModalUpload, { items: selectedItems.value }),
-        enabled: () => enabled('upload'),
+        hidden: () => !enabled('upload'),
       },
-      { type: 'separator' },
+      { type: 'separator', hidden: () => !enabled('search') },
       {
         id: 'search',
         label: t('Search'),
         action: () => app.modal.open(ModalSearch),
-        enabled: () => enabled('search'),
+        hidden: () => !enabled('search'),
       },
-      { type: 'separator' },
+      { type: 'separator', hidden: () => !enabled('archive') && !enabled('unarchive') },
       {
         id: 'archive',
         label: t('Archive'),
@@ -92,7 +92,8 @@ const menuItems = computed<any[]>(() => [
             app?.modal?.open(ModalArchive, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length > 0 && enabled('archive'),
+        enabled: () => selectedItems.value.length > 0,
+        hidden: () => !enabled('archive'),
       },
       {
         id: 'unarchive',
@@ -107,10 +108,10 @@ const menuItems = computed<any[]>(() => [
         },
         enabled: () =>
           selectedItems.value.length === 1 &&
-          selectedItems.value[0]?.mime_type === 'application/zip' &&
-          enabled('unarchive'),
+          selectedItems.value[0]?.mime_type === 'application/zip',
+        hidden: () => !enabled('unarchive'),
       },
-      { type: 'separator' },
+      { type: 'separator', hidden: () => !enabled('preview') },
       {
         id: 'preview',
         label: t('Preview'),
@@ -124,8 +125,8 @@ const menuItems = computed<any[]>(() => [
         },
         enabled: () =>
           selectedItems.value.length === 1 &&
-          selectedItems.value[0]?.type !== 'dir' &&
-          enabled('preview'),
+          selectedItems.value[0]?.type !== 'dir',
+        hidden: () => !enabled('preview'),
       },
       // Only show exit option if we can actually close the window
       ...(shouldShowExit.value
@@ -270,7 +271,7 @@ const menuItems = computed<any[]>(() => [
         },
         enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
       },
-      { type: 'separator' },
+      { type: 'separator', hidden: () => !enabled('rename') && !enabled('delete') },
       {
         id: 'rename',
         label: t('Rename'),
@@ -279,7 +280,8 @@ const menuItems = computed<any[]>(() => [
             app?.modal?.open(ModalRename, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length === 1 && enabled('rename'),
+        enabled: () => selectedItems.value.length === 1,
+        hidden: () => !enabled('rename'),
       },
       {
         id: 'delete',
@@ -289,7 +291,8 @@ const menuItems = computed<any[]>(() => [
             app?.modal?.open(ModalDelete, { items: selectedItems.value });
           }
         },
-        enabled: () => selectedItems.value.length > 0 && enabled('delete'),
+        enabled: () => selectedItems.value.length > 0,
+        hidden: () => !enabled('delete'),
       },
     ],
   },
@@ -343,13 +346,14 @@ const menuItems = computed<any[]>(() => [
         enabled: () => true,
         checked: () => configState.value?.showHiddenFiles,
       },
-      { type: 'separator' },
+      { type: 'separator', hidden: () => !enabled('fullscreen') },
       {
         id: 'fullscreen',
         label: t('Full Screen'),
         action: () => config?.toggle('fullScreen'),
         enabled: () => enabled('fullscreen'),
         checked: () => configState.value?.fullScreen,
+        hidden: () => !enabled('fullscreen'),
       },
       { type: 'separator' },
       {
@@ -580,6 +584,7 @@ onUnmounted(() => {
               'vuefinder__menubar__dropdown__item--separator': item.type === 'separator',
               'vuefinder__menubar__dropdown__item--disabled': item.enabled && !item.enabled(),
               'vuefinder__menubar__dropdown__item--checked': item.checked && item.checked(),
+              'vuefinder__menubar__dropdown__item--hidden': item.hidden && item.hidden(),
             }"
             @click.stop="
               item.type !== 'separator' && item.enabled && item.enabled()
