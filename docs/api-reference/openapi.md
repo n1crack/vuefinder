@@ -197,9 +197,10 @@ Note: Delete endpoint returns the updated file list (same format as list endpoin
 ### Upload Request
 
 ```
-POST {baseUrl}/upload?path=local://uploads
+POST {baseUrl}/upload
 Content-Type: multipart/form-data
 
+path: [destination folder path]
 file: [binary file data]
 ```
 
