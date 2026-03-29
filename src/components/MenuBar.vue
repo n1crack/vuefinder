@@ -69,7 +69,10 @@ const menuItems = computed<any[]>(() => [
         action: () => app?.modal?.open(ModalNewFile, { items: selectedItems.value }),
         hidden: () => !enabled('newfile'),
       },
-      { type: 'separator', hidden: () => (!enabled('newfolder') && !enabled('newfile') || !enabled('upload')) },
+      {
+        type: 'separator',
+        hidden: () => (!enabled('newfolder') && !enabled('newfile')) || !enabled('upload'),
+      },
       {
         id: 'upload',
         label: t('Upload'),
@@ -123,9 +126,7 @@ const menuItems = computed<any[]>(() => [
             });
           }
         },
-        enabled: () =>
-          selectedItems.value.length === 1 &&
-          selectedItems.value[0]?.type !== 'dir',
+        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
         hidden: () => !enabled('preview'),
       },
       // Only show exit option if we can actually close the window

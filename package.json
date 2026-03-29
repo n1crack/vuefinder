@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "A sleek, developer-friendly file manager for Vue — organize, preview, and manage files with ease.",
   "type": "module",
   "engines": {
@@ -112,9 +112,9 @@
     "@typescript-eslint/parser": "^8.46.2",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.1.1",
+    "@vue/devtools-api": "^8.0.3",
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/test-utils": "^2.4.6",
-    "@vue/devtools-api": "^8.0.3",
     "@vue/tsconfig": "^0.8.1",
     "cypress": "^15.3.0",
     "eslint": "^9.38.0",
@@ -125,6 +125,7 @@
     "npm-run-all2": "^8.0.4",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
+    "rollup-plugin-copy": "^3.5.0",
     "start-server-and-test": "^2.1.2",
     "tailwindcss": "^4.1.13",
     "typescript": "~5.9.0",
