@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import tailwindcss from '@tailwindcss/vite';
 import svgLoader from 'vite-svg-loader';
-import copy from 'rollup-plugin-copy';
 import { resolve } from 'node:path';
 
 // https://vite.dev/config/
@@ -14,13 +13,6 @@ export default defineConfig({
     vueDevTools(),
     tailwindcss(),
     svgLoader(),
-    copy({
-      targets: [
-        { src: 'src/locales/*', dest: 'dist/locales' },
-        { src: 'src/index.d.ts', dest: 'dist' },
-      ],
-      hook: 'writeBundle',
-    }),
   ],
   resolve: {
     // alias: {
@@ -31,7 +23,6 @@ export default defineConfig({
     lib: {
       entry: {
         vuefinder: resolve(__dirname, 'src/index.ts'),
-        features: resolve(__dirname, 'src/features.ts'),
       },
       formats: ['es'],
       name: 'VueFinder',

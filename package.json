@@ -13,20 +13,19 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/vuefinder.js",
       "default": "./dist/vuefinder.js"
     },
     "./dist/vuefinder.css": "./dist/vuefinder.css",
     "./dist/style.css": "./dist/vuefinder.css",
     "./dist/vuefinder": "./dist/vuefinder.js",
-    "./dist/features.js": "./dist/features.js",
     "./dist/locales/*": "./dist/locales/*"
   },
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "run-p type-gen \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
     "prepare": "cypress install",
@@ -34,6 +33,7 @@
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json",
+    "type-gen": "vue-tsc -p tsconfig.app.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -125,7 +125,6 @@
     "npm-run-all2": "^8.0.4",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
-    "rollup-plugin-copy": "^3.5.0",
     "start-server-and-test": "^2.1.2",
     "tailwindcss": "^4.1.13",
     "typescript": "~5.9.0",
