@@ -42,6 +42,20 @@
   @apply ml-auto flex items-center;
 }
 
+.vuefinder__image-preview__zoom-controls {
+  @apply mr-2 flex items-center gap-1;
+}
+
+.vuefinder__image-preview__zoom-button,
+.vuefinder__image-preview__zoom-reset {
+  @apply flex h-8 min-w-8 items-center justify-center px-2;
+}
+
+.vuefinder__image-preview__zoom-button svg,
+.vuefinder__image-preview__zoom-reset svg {
+  @apply h-4 w-4;
+}
+
 .vuefinder__themer .vuefinder__image-preview__crop-button {
   @apply ml-1 rounded border border-transparent px-2 py-1 text-base font-medium shadow-sm sm:ml-3 sm:w-auto sm:text-sm;
   @apply bg-(--vf-accent-primary) text-(--vf-text-inverse);
@@ -60,11 +74,24 @@
 }
 
 .vuefinder__image-preview__image-container {
-  @apply flex w-full justify-center;
+  @apply h-[50vh] w-full overflow-hidden rounded-lg bg-(--vf-bg-primary) p-2;
+}
+
+.vuefinder__image-preview__stage {
+  @apply flex h-full w-full items-center justify-center overflow-hidden;
 }
 
 .vuefinder__themer .vuefinder__image-preview__image {
-  @apply max-h-[50vh] object-contain;
+  @apply block max-w-none max-h-none select-none object-contain transition-transform duration-150 ease-out;
+  touch-action: none;
+}
+
+.vuefinder__themer .vuefinder__image-preview__image--zoomed {
+  @apply cursor-grab;
+}
+
+.vuefinder__themer .vuefinder__image-preview__image--panning {
+  @apply cursor-grabbing;
 }
 .vuefinder__themer .vuefinder__image-preview__image-container cropper-canvas {
   @apply h-full w-full;
