@@ -46,6 +46,7 @@ export interface UseUploadReturn {
   getClassNameForEntry: (entry: QueueEntry) => string;
   getIconForEntry: (entry: QueueEntry) => string;
   addExternalFiles: (files: File[]) => void;
+  renameEntry: (entry: QueueEntry, newName: string) => Promise<void>;
 }
 
 export default function useUpload(customUploader?: any): UseUploadReturn {
@@ -190,6 +191,61 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
     files.forEach((file) => {
       addFile(file);
     });
+  };
+
+  const joinFolderAndName = (folder: string, name: string): string => {
+    if (folder.endsWith('://') || folder.endsWith('/')) return folder + name;
+    return folder + '/' + name;
+  };
+
+  const renameEntry = async (entry: QueueEntry, newName: string): Promise<void> => {
+    const trimmed = newName.trim();
+    if (uploading.value) return;
+    if (!trimmed || trimmed === entry.name) return;
+    if (trimmed.includes('/') || trimmed.includes('\\')) {
+      message.value = t('Name cannot contain slashes.');
+      return;
+    }
+
+    if (entry.status === QUEUE_ENTRY_STATUS.DONE) {
+      const targetFolderPath = uploadTargetFolder.value?.path || currentPath.value.path;
+      // Preserve any subfolder prefix from folder uploads (e.g. "sub/file.txt").
+      const segments = entry.name.split('/');
+      segments[segments.length - 1] = trimmed;
+      const newEntryName = segments.join('/');
+      const itemPath = joinFolderAndName(targetFolderPath, entry.name);
+      const parentSegments = entry.name.split('/');
+      parentSegments.pop();
+      const parentPath = parentSegments.length
+        ? joinFolderAndName(targetFolderPath, parentSegments.join('/'))
+        : targetFolderPath;
+
+      try {
+        await app.adapter.rename({ path: parentPath, item: itemPath, name: trimmed });
+        entry.name = newEntryName;
+        app.adapter.invalidateListQuery(targetFolderPath);
+        if (targetFolderPath === currentPath.value.path) {
+          app.adapter.open(targetFolderPath);
+        }
+      } catch (e: any) {
+        message.value = e?.message || t('Failed to rename');
+      }
+      return;
+    }
+
+    // Pending / error / canceled — rename locally by re-adding to uppy with the new name.
+    const idx = findQueueEntryIndexById(entry.id);
+    if (idx === -1) return;
+    const file = entry.originalFile;
+    uppy.removeFile(entry.id);
+    queue.value.splice(idx, 1);
+    const newId = addFile(file, trimmed);
+    if (!newId) return;
+    const newIdx = findQueueEntryIndexById(newId);
+    if (newIdx !== -1 && newIdx !== idx) {
+      const moved = queue.value.splice(newIdx, 1)[0];
+      if (moved) queue.value.splice(idx, 0, moved);
+    }
   };
 
   onMounted(() => {
@@ -354,5 +410,6 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
     getClassNameForEntry,
     getIconForEntry,
     addExternalFiles,
+    renameEntry,
   };
 }

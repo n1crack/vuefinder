@@ -58,6 +58,42 @@
   @apply h-5 w-5;
 }
 
+.vuefinder__themer .vuefinder__upload-modal__file-rename-action {
+  @apply mr-1 ml-auto flex h-5 w-5 items-center justify-center rounded border border-(--vf-border-primary) bg-(--vf-bg-tertiary) text-(--vf-text-secondary) focus:outline-none;
+}
+
+.vuefinder__themer .vuefinder__upload-modal__file-rename-action:hover {
+  @apply text-(--vf-accent-primary);
+}
+
+.vuefinder__themer .vuefinder__upload-modal__file-rename-action.disabled {
+  @apply bg-(--vf-bg-disabled) opacity-50;
+}
+
+.vuefinder__upload-modal__file-rename {
+  @apply flex items-center gap-1;
+}
+
+.vuefinder__themer .vuefinder__upload-modal__file-rename-input {
+  @apply h-6 flex-1 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-1 text-sm text-(--vf-text-primary) focus:outline-none;
+}
+
+.vuefinder__themer .vuefinder__upload-modal__file-rename-btn {
+  @apply flex h-5 w-5 shrink-0 items-center justify-center rounded border border-(--vf-border-primary) bg-(--vf-bg-tertiary) text-(--vf-text-secondary) focus:outline-none;
+}
+
+.vuefinder__themer .vuefinder__upload-modal__file-rename-btn--save {
+  @apply text-(--vf-accent-success);
+}
+
+.vuefinder__themer .vuefinder__upload-modal__file-rename-btn:hover {
+  @apply text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__upload-modal__file-rename-icon {
+  @apply h-4 w-4;
+}
+
 /* Upload actions (Select Files + caret) */
 .vuefinder__upload-actions {
   @apply inline-flex items-stretch;
