@@ -82,7 +82,7 @@
 }
 
 .vuefinder__themer .vuefinder__image-preview__image {
-  @apply block max-w-none max-h-none select-none object-contain transition-transform duration-150 ease-out;
+  @apply block max-h-none max-w-none object-contain transition-transform duration-150 ease-out select-none;
   touch-action: none;
 }
 
