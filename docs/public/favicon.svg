@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="vfFavBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5fd1a0"/>
+      <stop offset="100%" stop-color="#2f8e63"/>
+    </linearGradient>
+  </defs>
+  <path d="M2 16 Q2 8 10 8 L22 8 L28 4 L54 4 Q62 4 62 12 L62 52 Q62 60 54 60 L10 60 Q2 60 2 52 Z" fill="url(#vfFavBody)"/>
+  <path d="M2 16 Q2 8 10 8 L22 8 L28 4 L54 4 Q62 4 62 12 L62 22 L2 22 Z" fill="#ffffff" fill-opacity="0.2"/>
+  <path d="M16 30 L32 52 L48 30" fill="none" stroke="#0b1220" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.75"/>
+</svg>

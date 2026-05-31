@@ -1,0 +1,329 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Inter, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="55%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#080d18"/>
+    </linearGradient>
+
+    <radialGradient id="glowGreen" cx="0.15" cy="0.2" r="0.55">
+      <stop offset="0%" stop-color="#42b883" stop-opacity="0.30"/>
+      <stop offset="60%" stop-color="#42b883" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#42b883" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowBlue" cx="0.95" cy="0.95" r="0.55">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.22"/>
+      <stop offset="70%" stop-color="#3b82f6" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+
+    <pattern id="dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#ffffff" fill-opacity="0.05"/>
+    </pattern>
+
+    <linearGradient id="folderMark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5fd1a0"/>
+      <stop offset="100%" stop-color="#2f8e63"/>
+    </linearGradient>
+    <linearGradient id="folderFront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#42b883"/>
+      <stop offset="100%" stop-color="#2f8e63"/>
+    </linearGradient>
+    <linearGradient id="folderTab" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5fd1a0"/>
+      <stop offset="100%" stop-color="#42b883"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="18"/>
+      <feOffset dx="0" dy="18" result="off"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.55"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Reusable gray folder icon (lock badge top-left, label-less) -->
+    <symbol id="grayFolder" viewBox="0 0 64 64">
+      <!-- folder shadow body -->
+      <path d="M4 18 Q4 12 10 12 L22 12 L28 8 L54 8 Q60 8 60 14 L60 48 Q60 54 54 54 L10 54 Q4 54 4 48 Z" fill="#94a3b8"/>
+      <path d="M4 18 Q4 12 10 12 L22 12 L28 8 L54 8 Q60 8 60 14 L60 22 L4 22 Z" fill="#ffffff" fill-opacity="0.18"/>
+      <!-- lock badge -->
+      <g transform="translate(0, 6)">
+        <circle cx="6" cy="6" r="6" fill="#0f172a"/>
+        <rect x="3" y="6" width="6" height="5" rx="1" fill="#94a3b8"/>
+        <path d="M4 6 V4 a2 2 0 0 1 4 0 V6" fill="none" stroke="#94a3b8" stroke-width="1"/>
+      </g>
+    </symbol>
+
+    <!-- Reusable file icon -->
+    <symbol id="mdFile" viewBox="0 0 64 64">
+      <path d="M14 4 L42 4 L58 20 L58 56 Q58 60 54 60 L14 60 Q10 60 10 56 L10 8 Q10 4 14 4 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+      <path d="M42 4 L42 20 L58 20 Z" fill="#94a3b8" fill-opacity="0.35"/>
+      <text x="20" y="48" font-size="14" font-weight="700" fill="#94a3b8" font-family="Inter,sans-serif">md</text>
+    </symbol>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" fill="url(#glowGreen)"/>
+  <rect width="1200" height="630" fill="url(#glowBlue)"/>
+
+  <line x1="0" y1="0.5" x2="1200" y2="0.5" stroke="#42b883" stroke-opacity="0.35" stroke-width="1"/>
+
+  <!-- ============ Top brand ============ -->
+  <g transform="translate(80, 70)">
+    <g>
+      <path d="M0 12 Q0 4 8 4 L18 4 L24 0 L42 0 Q50 0 50 8 L50 36 Q50 44 42 44 L8 44 Q0 44 0 36 Z" fill="url(#folderMark)"/>
+      <path d="M0 12 Q0 4 8 4 L18 4 L24 0 L42 0 Q50 0 50 8 L50 16 L0 16 Z" fill="#ffffff" fill-opacity="0.18"/>
+      <path d="M14 22 L25 38 L36 22" fill="none" stroke="#0b1220" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.65"/>
+    </g>
+    <text x="68" y="26" font-size="24" font-weight="700" fill="#f1f5f9" letter-spacing="0.2">vuefinder</text>
+    <text x="68" y="46" font-size="13" font-weight="500" fill="#64748b" letter-spacing="0.8">v4 · file manager for Vue 3</text>
+  </g>
+
+  <!-- (npm chip removed to avoid collision with rotated window) -->
+
+  <!-- ============ LEFT: Headline ============ -->
+  <g transform="translate(80, 210)">
+    <text x="0" y="0" font-size="15" font-weight="700" fill="#42d392" letter-spacing="4">VUE FILE MANAGER</text>
+    <text x="-4" y="78" font-size="84" font-weight="800" fill="#f8fafc" letter-spacing="-2.5">Manage files</text>
+    <text x="-4" y="160" font-size="84" font-weight="800" letter-spacing="-2.5">
+      <tspan fill="#f8fafc">like a</tspan><tspan fill="#42d392" dx="20">native app.</tspan>
+    </text>
+    <text x="0" y="210" font-size="20" font-weight="400" fill="#94a3b8" letter-spacing="0.1">
+      Upload · preview · search · archive — backend-agnostic.
+    </text>
+
+    <g transform="translate(0, 248)" font-size="14" font-weight="600" fill="#cbd5e1">
+      <g>
+        <rect x="0" y="0" width="118" height="36" rx="18" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.08"/>
+        <text x="59" y="23" text-anchor="middle">TypeScript</text>
+      </g>
+      <g transform="translate(130, 0)">
+        <rect x="0" y="0" width="128" height="36" rx="18" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.08"/>
+        <text x="64" y="23" text-anchor="middle">17 Languages</text>
+      </g>
+      <g transform="translate(270, 0)">
+        <rect x="0" y="0" width="106" height="36" rx="18" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.08"/>
+        <text x="53" y="23" text-anchor="middle">12 Themes</text>
+      </g>
+      <g transform="translate(388, 0)">
+        <rect x="0" y="0" width="138" height="36" rx="18" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.08"/>
+        <text x="69" y="23" text-anchor="middle">Local · S3 · FTP</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============ RIGHT: Vuefinder-style window ============ -->
+  <g transform="translate(696, 130) rotate(-5)" filter="url(#softShadow)">
+    <!-- Outer dark frame -->
+    <rect x="0" y="0" width="464" height="360" rx="14" fill="#1a1a1a"/>
+
+    <!-- Inner white card -->
+    <g transform="translate(14, 14)">
+      <rect x="0" y="0" width="436" height="332" rx="6" fill="#ffffff"/>
+
+      <!-- Menu bar -->
+      <g transform="translate(16, 22)" font-size="13" font-weight="500" fill="#1f2937">
+        <text x="0" y="0">File</text>
+        <text x="38" y="0">Edit</text>
+        <text x="80" y="0">View</text>
+        <text x="124" y="0">Go</text>
+        <text x="154" y="0">Help</text>
+      </g>
+      <line x1="0" y1="40" x2="436" y2="40" stroke="#f1f5f9" stroke-width="1"/>
+
+      <!-- Toolbar -->
+      <g transform="translate(16, 52)" stroke="#374151" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- new folder -->
+        <g transform="translate(0, 0)">
+          <path d="M2 7 Q2 4 5 4 L8 4 L10 2 L16 2 Q19 2 19 5 L19 16 Q19 19 16 19 L5 19 Q2 19 2 16 Z"/>
+          <line x1="10" y1="9" x2="10" y2="15"/>
+          <line x1="7" y1="12" x2="13" y2="12"/>
+        </g>
+        <!-- new file -->
+        <g transform="translate(28, 0)">
+          <path d="M4 3 L13 3 L18 8 L18 18 Q18 20 16 20 L4 20 Q2 20 2 18 L2 5 Q2 3 4 3 Z"/>
+          <line x1="10" y1="11" x2="10" y2="17"/>
+          <line x1="7" y1="14" x2="13" y2="14"/>
+        </g>
+        <!-- edit/pencil -->
+        <g transform="translate(56, 0)">
+          <path d="M14 3 L17 6 L7 16 L3 17 L4 13 Z"/>
+          <line x1="12" y1="5" x2="15" y2="8"/>
+        </g>
+        <!-- trash -->
+        <g transform="translate(82, 0)" stroke="#cbd5e1">
+          <line x1="3" y1="5" x2="17" y2="5"/>
+          <path d="M5 5 V17 Q5 19 7 19 L13 19 Q15 19 15 17 V5"/>
+          <path d="M8 5 V3 Q8 2 9 2 L11 2 Q12 2 12 3 V5"/>
+        </g>
+        <!-- upload -->
+        <g transform="translate(108, 0)">
+          <path d="M10 14 V3"/>
+          <path d="M6 7 L10 3 L14 7"/>
+          <path d="M3 16 V18 Q3 19 4 19 L16 19 Q17 19 17 18 V16"/>
+        </g>
+        <!-- archive -->
+        <g transform="translate(136, 0)" stroke="#cbd5e1">
+          <rect x="2" y="5" width="16" height="4"/>
+          <path d="M3 9 V17 Q3 19 5 19 L15 19 Q17 19 17 17 V9"/>
+          <line x1="8" y1="13" x2="12" y2="13"/>
+        </g>
+
+        <!-- right side group -->
+        <!-- search -->
+        <g transform="translate(282, 0)">
+          <circle cx="9" cy="9" r="5"/>
+          <line x1="13" y1="13" x2="17" y2="17"/>
+        </g>
+        <!-- filter with dot -->
+        <g transform="translate(312, 0)">
+          <path d="M3 4 L17 4 L12 11 L12 18 L8 19 L8 11 Z"/>
+          <circle cx="16" cy="3" r="2.5" fill="#42b883" stroke="none"/>
+        </g>
+        <!-- fullscreen -->
+        <g transform="translate(342, 0)">
+          <path d="M3 7 V3 H7"/>
+          <path d="M17 7 V3 H13"/>
+          <path d="M3 13 V17 H7"/>
+          <path d="M17 13 V17 H13"/>
+        </g>
+        <!-- grid -->
+        <g transform="translate(372, 0)">
+          <rect x="3" y="3" width="6" height="6"/>
+          <rect x="11" y="3" width="6" height="6"/>
+          <rect x="3" y="11" width="6" height="6"/>
+          <rect x="11" y="11" width="6" height="6"/>
+        </g>
+      </g>
+
+      <line x1="0" y1="84" x2="436" y2="84" stroke="#f1f5f9" stroke-width="1"/>
+
+      <!-- Path bar -->
+      <g transform="translate(16, 92)" stroke="#374151" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- list -->
+        <g>
+          <circle cx="3" cy="5" r="1" fill="#374151" stroke="none"/>
+          <circle cx="3" cy="10" r="1" fill="#374151" stroke="none"/>
+          <circle cx="3" cy="15" r="1" fill="#374151" stroke="none"/>
+          <line x1="6" y1="5" x2="14" y2="5"/>
+          <line x1="6" y1="10" x2="14" y2="10"/>
+          <line x1="6" y1="15" x2="14" y2="15"/>
+        </g>
+        <!-- up arrow -->
+        <g transform="translate(22, 0)">
+          <line x1="9" y1="16" x2="9" y2="4"/>
+          <path d="M5 8 L9 4 L13 8"/>
+        </g>
+        <!-- refresh -->
+        <g transform="translate(44, 0)">
+          <path d="M4 10 A 5 5 0 0 1 14 7"/>
+          <path d="M14 3 L14 7 L10 7"/>
+          <path d="M14 10 A 5 5 0 0 1 4 13"/>
+          <path d="M4 17 L4 13 L8 13"/>
+        </g>
+        <!-- Path input -->
+        <g transform="translate(70, -4)">
+          <rect x="0" y="0" width="288" height="28" rx="4" fill="#ffffff" stroke="#e5e7eb"/>
+          <!-- home icon -->
+          <g transform="translate(8, 6)" stroke="none">
+            <path d="M2 9 L9 3 L16 9 V16 H11 V12 H7 V16 H2 Z" fill="#1f2937"/>
+          </g>
+        </g>
+        <!-- right arrows -->
+        <g transform="translate(370, 0)">
+          <path d="M3 7 L13 7 M10 4 L13 7 L10 10"/>
+          <path d="M13 13 L3 13 M6 10 L3 13 L6 16"/>
+        </g>
+      </g>
+
+      <!-- ===== Folder grid (4 cols x 2 rows) ===== -->
+      <g transform="translate(22, 132)" font-size="11" font-weight="500" fill="#1f2937" text-anchor="middle">
+        <!-- Row 1 -->
+        <g transform="translate(0, 0)">
+          <use href="#grayFolder" x="20" y="0" width="60" height="60"/>
+          <text x="50" y="74">Video</text>
+        </g>
+        <g transform="translate(100, 0)">
+          <use href="#grayFolder" x="20" y="0" width="60" height="60"/>
+          <text x="50" y="74">Other</text>
+        </g>
+        <g transform="translate(200, 0)">
+          <use href="#grayFolder" x="20" y="0" width="60" height="60"/>
+          <text x="50" y="74">Code</text>
+        </g>
+        <g transform="translate(300, 0)">
+          <use href="#grayFolder" x="20" y="0" width="60" height="60"/>
+          <text x="50" y="74">Archives</text>
+        </g>
+
+        <!-- Row 2 -->
+        <g transform="translate(0, 92)">
+          <use href="#grayFolder" x="20" y="0" width="60" height="60"/>
+          <text x="50" y="74">Audio</text>
+        </g>
+        <g transform="translate(100, 92)">
+          <use href="#grayFolder" x="20" y="0" width="60" height="60"/>
+          <text x="50" y="74">Photos</text>
+        </g>
+        <g transform="translate(200, 92)">
+          <use href="#grayFolder" x="20" y="0" width="60" height="60"/>
+          <text x="50" y="74">Documents</text>
+        </g>
+        <g transform="translate(300, 92)">
+          <use href="#mdFile" x="22" y="2" width="56" height="56"/>
+          <text x="50" y="74">README.md</text>
+        </g>
+      </g>
+
+      <!-- Bottom bar -->
+      <g transform="translate(16, 304)">
+        <rect x="0" y="0" width="96" height="22" rx="3" fill="#ffffff" stroke="#cbd5e1"/>
+        <!-- database icon -->
+        <g transform="translate(7, 5)" stroke="#1f2937" stroke-width="1.2" fill="none">
+          <ellipse cx="6" cy="3" rx="5" ry="2"/>
+          <path d="M1 3 V9 Q1 11 6 11 Q11 11 11 9 V3"/>
+          <path d="M1 6 Q1 8 6 8 Q11 8 11 6"/>
+        </g>
+        <text x="26" y="15" font-size="11" font-weight="700" fill="#1f2937" letter-spacing="0.5">LOCAL</text>
+        <g transform="translate(78, 5)" stroke="#9ca3af" stroke-width="1.2" fill="none">
+          <path d="M2 4 L5 1 L8 4"/>
+          <path d="M2 8 L5 11 L8 8"/>
+        </g>
+        <text x="120" y="15" font-size="11" font-weight="500" fill="#6b7280">11 items</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Floating accent folder (bottom-right) -->
+  <g transform="translate(700, 460) rotate(8)" filter="url(#softShadow)">
+    <path d="M0 16 Q0 6 10 6 L46 6 L58 -6 L106 -6 Q116 -6 116 4 L116 16 Z" fill="url(#folderTab)"/>
+    <rect x="0" y="12" width="160" height="96" rx="11" fill="url(#folderFront)"/>
+    <rect x="0" y="12" width="160" height="32" rx="11" fill="#ffffff" fill-opacity="0.10"/>
+    <rect x="16" y="44" width="128" height="8" rx="3" fill="#ffffff" fill-opacity="0.40"/>
+    <rect x="16" y="58" width="96" height="8" rx="3" fill="#ffffff" fill-opacity="0.28"/>
+    <rect x="16" y="72" width="112" height="8" rx="3" fill="#ffffff" fill-opacity="0.22"/>
+    <rect x="16" y="86" width="70" height="8" rx="3" fill="#ffffff" fill-opacity="0.16"/>
+  </g>
+
+  <!-- ============ Bottom row ============ -->
+  <g transform="translate(80, 575)">
+    <text x="0" y="0" font-size="15" font-weight="600" fill="#64748b" letter-spacing="0.5">
+      <tspan fill="#94a3b8">vuefinder.ozdemir.be</tspan>
+      <tspan dx="14" fill="#475569">·</tspan>
+      <tspan dx="14">github.com/n1crack/vuefinder</tspan>
+    </text>
+  </g>
+
+  <g transform="translate(960, 560)">
+    <rect x="0" y="0" width="68" height="32" rx="16" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.12"/>
+    <text x="34" y="21" font-size="13" font-weight="700" fill="#cbd5e1" text-anchor="middle" letter-spacing="0.5">MIT</text>
+  </g>
+  <g transform="translate(1040, 560)">
+    <rect x="0" y="0" width="80" height="32" rx="16" fill="#42b883" fill-opacity="0.14" stroke="#42b883" stroke-opacity="0.5"/>
+    <text x="40" y="21" font-size="13" font-weight="700" fill="#42d392" text-anchor="middle" letter-spacing="0.4">★ Star</text>
+  </g>
+
+  <line x1="0" y1="629.5" x2="1200" y2="629.5" stroke="#42b883" stroke-opacity="0.25" stroke-width="1"/>
+</svg>

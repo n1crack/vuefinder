@@ -200,25 +200,8 @@ gtag('config', 'G-6BYQESCJ6R');`
       console.log('🔗 Sample URLs:', urlMatches.slice(0, 3).map(m => m.replace(/<\/?loc>/g, '')));
     }
     
-    // Copy robots.txt from public folder to output directory
-    const robotsSourcePath = resolve(__dirname, 'public', 'robots.txt');
-    const robotsDestPath = resolve(outDir, 'robots.txt');
-    if (existsSync(robotsSourcePath)) {
-      copyFileSync(robotsSourcePath, robotsDestPath);
-      console.log('✅ robots.txt copied to', robotsDestPath);
-    } else {
-      console.warn('⚠️  robots.txt not found at', robotsSourcePath);
-    }
-
-    // Copy OG image from public folder to output directory
-    const ogImageSourcePath = resolve(__dirname, 'public', 'vuefinder_preview.png');
-    const ogImageDestPath = resolve(outDir, 'vuefinder_preview.png');
-    if (existsSync(ogImageSourcePath)) {
-      copyFileSync(ogImageSourcePath, ogImageDestPath);
-      console.log('✅ OG image copied to', ogImageDestPath);
-    } else {
-      console.warn('⚠️  OG image not found at', ogImageSourcePath);
-    }
+    // Static brand assets (favicon, logo, OG image, robots.txt) live in
+    // docs/public/ and are auto-copied to outDir by VitePress.
 
     // Copy OpenAPI YAML file to api-reference directory in output
     const yamlSourcePath = resolve(__dirname, '..', 'api-reference', 'openapi.yaml');
@@ -234,6 +217,7 @@ gtag('config', 'G-6BYQESCJ6R');`
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    logo: '/logo.svg',
     nav: [
       { text: 'Guide', link: '/getting-started/introduction' },
       { text: 'API Reference', link: '/api-reference/props' },

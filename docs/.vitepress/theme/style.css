@@ -59,20 +59,17 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #0d9488 30%, #14b8a6);
 
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #0d9488 50%, #14b8a6 50%);
-  --vp-home-hero-image-filter: blur(44px);
+  --vp-home-hero-image-background-image: radial-gradient(circle, rgba(20, 184, 166, 0.35), rgba(13, 148, 136, 0.15));
+  --vp-home-hero-image-filter: blur(60px);
 }
 
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
-  }
-}
-
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(68px);
-  }
+.VPHero .image-container,
+.VPHero .VPImage.image-src {
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /**

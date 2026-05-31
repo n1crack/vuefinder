@@ -6,6 +6,9 @@ hero:
   name: 'VueFinder'
   text: 'Vue File Manager'
   tagline: A sleek, developer-friendly file manager
+  image:
+    src: /logo.svg
+    alt: VueFinder logo
   actions:
     - theme: brand
       text: Get Started

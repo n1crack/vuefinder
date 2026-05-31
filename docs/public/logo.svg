@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="192" height="192">
+  <defs>
+    <linearGradient id="vfLogoBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5fd1a0"/>
+      <stop offset="100%" stop-color="#2f8e63"/>
+    </linearGradient>
+  </defs>
+  <path d="M4 18 Q4 10 12 10 L22 10 L28 6 L52 6 Q60 6 60 14 L60 50 Q60 58 52 58 L12 58 Q4 58 4 50 Z" fill="url(#vfLogoBody)"/>
+  <path d="M4 18 Q4 10 12 10 L22 10 L28 6 L52 6 Q60 6 60 14 L60 22 L4 22 Z" fill="#ffffff" fill-opacity="0.18"/>
+  <path d="M18 30 L32 50 L46 30" fill="none" stroke="#0b1220" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.7"/>
+</svg>
