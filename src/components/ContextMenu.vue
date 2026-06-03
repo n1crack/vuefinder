@@ -321,7 +321,12 @@ onUnmounted(() => {
     :style="context.positions"
     class="vuefinder__context-menu"
   >
-    <li v-for="item in context.items" :key="item.title" class="vuefinder__context-menu__item">
+    <li
+      v-for="item in context.items"
+      :key="item.title"
+      class="vuefinder__context-menu__item"
+      :class="{ 'vuefinder__context-menu__item--has-children': item.children?.length }"
+    >
       <template v-if="item.link">
         <a
           class="vuefinder__context-menu__link"
@@ -332,6 +337,26 @@ onUnmounted(() => {
         >
           <span>{{ item.title(app.i18n) }}</span>
         </a>
+      </template>
+      <template v-else-if="item.children?.length">
+        <div class="vuefinder__context-menu__action vuefinder__context-menu__action--parent">
+          <span>{{ item.title(app.i18n) }}</span>
+          <svg
+            class="vuefinder__context-menu__chevron"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M6 4l4 4-4 4z" />
+          </svg>
+        </div>
+        <ul class="vuefinder__context-menu vuefinder__context-menu__submenu">
+          <li v-for="child in item.children" :key="child.id" class="vuefinder__context-menu__item">
+            <div class="vuefinder__context-menu__action" @click="run(child)">
+              <span>{{ child.title(app.i18n) }}</span>
+            </div>
+          </li>
+        </ul>
       </template>
       <template v-else>
         <div class="vuefinder__context-menu__action" @click="run(item)">

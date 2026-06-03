@@ -129,6 +129,38 @@ const menuItems = computed<any[]>(() => [
         enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
         hidden: () => !enabled('preview'),
       },
+      {
+        id: 'open-as',
+        label: t('Open as'),
+        items: [
+          {
+            id: 'open-as-text',
+            label: t('Text'),
+            action: () =>
+              app?.modal?.open(ModalPreview, {
+                storage: fs?.path?.get()?.storage,
+                item: selectedItems.value[0],
+                forceType: 'text',
+              }),
+            enabled: () =>
+              selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
+          },
+          {
+            id: 'open-as-image',
+            label: t('Image'),
+            action: () =>
+              app?.modal?.open(ModalPreview, {
+                storage: fs?.path?.get()?.storage,
+                item: selectedItems.value[0],
+                forceType: 'image',
+              }),
+            enabled: () =>
+              selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
+          },
+        ],
+        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
+        hidden: () => !enabled('preview'),
+      },
       // Only show exit option if we can actually close the window
       ...(shouldShowExit.value
         ? [
@@ -586,9 +618,10 @@ onUnmounted(() => {
               'vuefinder__menubar__dropdown__item--disabled': item.enabled && !item.enabled(),
               'vuefinder__menubar__dropdown__item--checked': item.checked && item.checked(),
               'vuefinder__menubar__dropdown__item--hidden': item.hidden && item.hidden(),
+              'vuefinder__menubar__dropdown__item--has-children': item.items?.length,
             }"
             @click.stop="
-              item.type !== 'separator' && item.enabled && item.enabled()
+              item.type !== 'separator' && !item.items?.length && item.enabled && item.enabled()
                 ? handleMenuAction(item.action)
                 : null
             "
@@ -602,6 +635,30 @@ onUnmounted(() => {
             >
               ✓
             </span>
+            <svg
+              v-if="item.items?.length"
+              class="vuefinder__menubar__dropdown__chevron"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M6 4l4 4-4 4z" />
+            </svg>
+            <div v-if="item.items?.length" class="vuefinder__menubar__dropdown__submenu">
+              <div
+                v-for="child in item.items"
+                :key="child.id"
+                class="vuefinder__menubar__dropdown__item"
+                :class="{
+                  'vuefinder__menubar__dropdown__item--disabled': child.enabled && !child.enabled(),
+                }"
+                @click.stop="
+                  child.enabled && child.enabled() ? handleMenuAction(child.action) : null
+                "
+              >
+                <span class="vuefinder__menubar__dropdown__label">{{ child.label }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

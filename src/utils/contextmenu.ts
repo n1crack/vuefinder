@@ -18,6 +18,7 @@ export const ContextMenuIds = {
   delete: 'delete',
   refresh: 'refresh',
   preview: 'preview',
+  openAs: 'openAs',
   openAsText: 'openAsText',
   openAsImage: 'openAsImage',
   open: 'open',
@@ -45,6 +46,8 @@ export type Item = {
   link?: (app: App, selectedItems: DirEntry[]) => void;
   show: (app: App, ctx: MenuContext) => boolean;
   order?: number;
+  // When present, the item opens a sub-menu instead of running an action.
+  children?: Item[];
 };
 
 type ShowOptions = {
@@ -205,34 +208,38 @@ export const menuItems: Item[] = [
     order: 80,
   },
   {
-    id: ContextMenuIds.openAsText,
-    title: ({ t }) => t('Open as Text'),
-    action: (app, selectedItems) =>
-      app.modal.open(ModalPreview, {
-        storage: selectedItems[0]?.storage,
-        item: selectedItems[0],
-        forceType: 'text',
-      }),
+    id: ContextMenuIds.openAs,
+    title: ({ t }) => t('Open as'),
+    action: () => {},
+    children: [
+      {
+        id: ContextMenuIds.openAsText,
+        title: ({ t }) => t('Text'),
+        action: (app, selectedItems) =>
+          app.modal.open(ModalPreview, {
+            storage: selectedItems[0]?.storage,
+            item: selectedItems[0],
+            forceType: 'text',
+          }),
+        show: () => true,
+      },
+      {
+        id: ContextMenuIds.openAsImage,
+        title: ({ t }) => t('Image'),
+        action: (app, selectedItems) =>
+          app.modal.open(ModalPreview, {
+            storage: selectedItems[0]?.storage,
+            item: selectedItems[0],
+            forceType: 'image',
+          }),
+        show: () => true,
+      },
+    ],
     show: showIfAll(
       showIf({ target: 'one', feature: 'preview' }),
       (app, ctx) => ctx.target?.type !== 'dir'
     ),
     order: 81,
-  },
-  {
-    id: ContextMenuIds.openAsImage,
-    title: ({ t }) => t('Open as Image'),
-    action: (app, selectedItems) =>
-      app.modal.open(ModalPreview, {
-        storage: selectedItems[0]?.storage,
-        item: selectedItems[0],
-        forceType: 'image',
-      }),
-    show: showIfAll(
-      showIf({ target: 'one', feature: 'preview' }),
-      (app, ctx) => ctx.target?.type !== 'dir'
-    ),
-    order: 82,
   },
   {
     id: ContextMenuIds.download,

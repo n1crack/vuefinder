@@ -33,3 +33,30 @@
 .vuefinder__context-menu__action {
   @apply mx-0.5 flex h-6 flex-1 items-center overflow-hidden px-2 text-ellipsis whitespace-nowrap;
 }
+
+.vuefinder__context-menu__item--has-children {
+  @apply relative;
+}
+
+.vuefinder__context-menu__action--parent {
+  @apply justify-between gap-2;
+}
+
+.vuefinder__context-menu__chevron {
+  @apply h-3 w-3 shrink-0 opacity-60;
+}
+
+.vuefinder__context-menu__submenu {
+  @apply invisible absolute top-0 left-full ml-0.5 origin-top-left opacity-0;
+  transition:
+    opacity 100ms ease-out,
+    visibility 0s linear 100ms;
+}
+
+.vuefinder__context-menu__item--has-children:hover > .vuefinder__context-menu__submenu,
+.vuefinder__context-menu__submenu:hover {
+  @apply visible opacity-100;
+  transition:
+    opacity 100ms ease-out,
+    visibility 0s linear 0s;
+}
