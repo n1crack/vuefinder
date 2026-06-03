@@ -1,10 +1,11 @@
-/* Navigation overlay - positioned on sides */
+/* Navigation overlay - fixed to the viewport edges (desktop) or top (mobile)
+   so it sits OUTSIDE the modal box rather than covering its preview. */
 .vuefinder__preview-modal__nav-overlay {
-  @apply pointer-events-none absolute inset-0 z-10;
+  @apply pointer-events-none fixed inset-0 z-[10002];
 }
 
 .vuefinder__preview-modal__nav-side {
-  @apply pointer-events-auto absolute top-1/2 flex h-12 w-12 -translate-y-1/2 transform items-center justify-center rounded-full bg-black/50 text-white shadow-lg transition-all duration-200 hover:bg-black/70 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-30;
+  @apply pointer-events-auto fixed top-1/2 flex h-12 w-12 -translate-y-1/2 transform items-center justify-center rounded-full bg-black/50 text-white shadow-lg transition-all duration-200 hover:bg-black/70 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-30;
 }
 
 .vuefinder__preview-modal__nav-side--left {
@@ -23,18 +24,22 @@
   @apply h-6 w-6;
 }
 
-/* Responsive navigation */
+/* Mobile: anchor to the top edge so the preview stays fully visible. */
 @media (max-width: 768px) {
   .vuefinder__preview-modal__nav-side {
-    @apply h-10 w-10;
+    @apply top-3 h-10 w-10 translate-y-0;
   }
 
   .vuefinder__preview-modal__nav-side--left {
-    @apply left-2;
+    @apply left-3;
   }
 
   .vuefinder__preview-modal__nav-side--right {
-    @apply right-2;
+    @apply right-3;
+  }
+
+  .vuefinder__preview-modal__nav-side:not(:disabled):hover {
+    @apply translate-y-0 scale-110;
   }
 
   .vuefinder__preview-modal__nav-icon {
@@ -44,7 +49,7 @@
 
 @media (max-width: 480px) {
   .vuefinder__preview-modal__nav-side {
-    @apply h-8 w-8;
+    @apply h-9 w-9;
   }
 
   .vuefinder__preview-modal__nav-side--left {

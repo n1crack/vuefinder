@@ -196,42 +196,49 @@ onMounted(() => {
 <template>
   <ModalLayout>
     <div class="vuefinder__preview-modal" tabindex="0" @keydown="handleKeydown">
-      <!-- Navigation arrows - positioned on sides -->
-      <div v-if="!app.modal.editMode" class="vuefinder__preview-modal__nav-overlay">
-        <button
-          :disabled="!canNavigatePrevious"
-          class="vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--left"
-          :title="t('Previous file')"
-          @click="navigateToPrevious"
+      <!-- Navigation arrows - viewport-anchored so they don't cover the preview.
+           Teleported to body so the modal box can't clip them. -->
+      <Teleport to="body">
+        <div
+          v-if="!app.modal.editMode"
+          class="vuefinder__themer vuefinder__preview-modal__nav-overlay"
+          :data-theme="app.theme.current"
         >
-          <svg
-            class="vuefinder__preview-modal__nav-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
+          <button
+            :disabled="!canNavigatePrevious"
+            class="vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--left"
+            :title="t('Previous file')"
+            @click="navigateToPrevious"
           >
-            <polyline points="15,18 9,12 15,6"></polyline>
-          </svg>
-        </button>
+            <svg
+              class="vuefinder__preview-modal__nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
+          </button>
 
-        <button
-          :disabled="!canNavigateNext"
-          class="vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--right"
-          :title="t('Next file')"
-          @click="navigateToNext"
-        >
-          <svg
-            class="vuefinder__preview-modal__nav-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
+          <button
+            :disabled="!canNavigateNext"
+            class="vuefinder__preview-modal__nav-side vuefinder__preview-modal__nav-side--right"
+            :title="t('Next file')"
+            @click="navigateToNext"
           >
-            <polyline points="9,18 15,12 9,6"></polyline>
-          </svg>
-        </button>
-      </div>
+            <svg
+              class="vuefinder__preview-modal__nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </Teleport>
 
       <div class="vuefinder__preview-modal__content">
         <div v-if="enabledPreview">
