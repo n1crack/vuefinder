@@ -36,6 +36,11 @@
   @apply h-4 w-4;
 }
 
+/* On desktop the group is a transparent passthrough wrapper around Close. */
+.vuefinder__preview-modal__footer-group {
+  @apply contents;
+}
+
 @media (max-width: 768px) {
   .vuefinder__preview-modal__nav-side {
     @apply hidden;
@@ -43,6 +48,12 @@
 
   .vuefinder__preview-modal__nav-inline {
     @apply inline-flex h-9 w-9 items-center justify-center p-0;
+  }
+
+  /* Keep the three buttons on one row even though the modal footer is a
+     plain block container on mobile. */
+  .vuefinder__preview-modal__footer-group {
+    @apply flex items-center justify-center gap-2;
   }
 }
 
