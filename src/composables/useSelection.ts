@@ -317,7 +317,11 @@ export function useSelection<T>(deps: UseSelectionDeps<T>) {
     }
 
     selectionObject.value = new SelectionArea({
-      selectables: ['.file-item-' + explorerId + ':not(.vf-explorer-item--unselectable)'],
+      selectables: [
+        '.file-item-' +
+          explorerId +
+          ':not(.vf-explorer-item--unselectable):not(.vf-explorer-item--no-select)',
+      ],
       boundaries: boundaries,
       selectionContainerClass: 'selection-area-container',
       behaviour: {

@@ -55,15 +55,25 @@ const isSelectableByMime = computed(() => {
 
 const isSelectable = computed(() => isSelectableByType.value && isSelectableByMime.value);
 
+// Folders are always interactive — dblclick navigates into them even when
+// they cannot be added to the current selection (e.g. selectionFilterType
+// excludes dirs). Only truly inert items (a file that fails the filters)
+// should look disabled.
+const isInteractive = computed(() => props.item.type === 'dir' || isSelectable.value);
+
 const itemClasses = computed(() => [
   'file-item-' + props.explorerId,
   props.view === 'grid' ? 'vf-explorer-item-grid' : 'vf-explorer-item-list',
   props.isSelected ? 'vf-explorer-selected' : '',
-  !isSelectable.value ? 'vf-explorer-item--unselectable' : '',
+  // Disabled appearance: only for items the user cannot interact with at all.
+  !isInteractive.value ? 'vf-explorer-item--unselectable' : '',
+  // Excluded from rectangle selection but otherwise interactive (e.g. a
+  // folder while selectionFilterType is 'files' — user can still navigate).
+  isInteractive.value && !isSelectable.value ? 'vf-explorer-item--no-select' : '',
 ]);
 
 const itemStyle = computed(() => ({
-  opacity: props.isDragging || fs.isCut(props.item.path) || !isSelectable.value ? 0.5 : '',
+  opacity: props.isDragging || fs.isCut(props.item.path) || !isInteractive.value ? 0.5 : '',
 }));
 
 let touchTimeOut: ReturnType<typeof setTimeout> | null = null;
