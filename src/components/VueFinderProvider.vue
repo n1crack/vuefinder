@@ -38,7 +38,9 @@ watch(
           configUpdate[key] = value;
         }
       }
-      // Always call init to ensure new prop values override localStorage
+      // Prop values act as initial defaults; persisted values from
+      // localStorage take precedence so user changes survive reloads.
+      // Use app.config.set() to override persisted state from outside.
       app.config.init(configUpdate);
     }
   },

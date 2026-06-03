@@ -157,14 +157,16 @@ function separateConfig(config: ConfigDefaults | Record<string, unknown>) {
 }
 
 /**
- * Merges persistence config with defaults, ensuring theme is normalized
- * Current values take precedence over defaults
+ * Merges persistence config with defaults, ensuring theme is normalized.
+ * Current values (loaded from localStorage) take precedence over the
+ * prop-provided defaults, so user changes survive across reloads. The
+ * defaults only fill in keys that are missing from the persisted state.
  */
 function mergePersistenceConfig(
   defaults: Partial<PersistenceConfigState>,
   current: PersistenceConfigState
 ): PersistenceConfigState {
-  const merged = { ...DEFAULT_PERSISTENCE_STATE, ...current, ...defaults };
+  const merged = { ...DEFAULT_PERSISTENCE_STATE, ...defaults, ...current };
   merged.theme = normalizeTheme(merged.theme);
   return merged;
 }

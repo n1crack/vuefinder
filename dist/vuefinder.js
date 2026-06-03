@@ -234,7 +234,7 @@ function nn() {
 function $n(n) {
   return n ? n === "simple" || n === "advanced" ? { ...xn[n] } : { ...nn(), ...n } : nn();
 }
-const wo = "4.2.0";
+const wo = "4.3.0";
 function Ut(n, e, t, o, s) {
   return e = Math, t = e.log, o = 1024, s = t(n) / t(o) | 0, (n / e.pow(o, s)).toFixed(0) + " " + (s ? "KMGTPEZY"[--s] + "iB" : "B");
 }
@@ -310,7 +310,7 @@ function on(n) {
   return { persistenceConfig: e, nonPersistenceConfig: t };
 }
 function sn(n, e) {
-  const t = { ...wt, ...e, ...n };
+  const t = { ...wt, ...n, ...e };
   return t.theme = xo(t.theme), t;
 }
 function an(n, e) {
