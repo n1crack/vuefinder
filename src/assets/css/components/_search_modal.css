@@ -298,7 +298,7 @@
 }
 
 .vuefinder__search-modal__result-icon {
-  @apply relative h-6 w-6 flex-shrink-0 text-(--vf-text-secondary);
+  @apply h-6 w-6 flex-shrink-0 text-(--vf-text-secondary);
 }
 
 .vuefinder__search-modal__result-icon svg {
@@ -306,7 +306,7 @@
 }
 
 .vuefinder__search-modal__result-pin {
-  @apply absolute -right-1 -bottom-1 h-3 w-3 text-(--vf-accent-primary);
+  @apply mr-1 inline-block h-3.5 w-3.5 shrink-0 align-text-bottom text-amber-600;
 }
 
 .vuefinder__search-modal__result-pin svg {
