@@ -6,8 +6,6 @@ import { useStore } from '@nanostores/vue';
 import FolderSVG from '../assets/icons/folder.svg';
 import OpenFolderSVG from '../assets/icons/open_folder.svg';
 import PinSVG from '../assets/icons/pin.svg';
-import SearchSVG from '../assets/icons/search.svg';
-import CloseSVG from '../assets/icons/close.svg';
 import XBoxSVG from '../assets/icons/x_box.svg';
 
 import { OverlayScrollbars } from 'overlayscrollbars';
@@ -15,8 +13,6 @@ import TreeStorageItem from './TreeStorageItem.vue';
 import upsert from '../utils/upsert';
 import FolderIndicator from './FolderIndicator.vue';
 import { useDragNDrop } from '../composables/useDragNDrop';
-import useDebouncedRef from '../composables/useDebouncedRef';
-import { provideTreeSearch } from '../composables/useTreeSearch';
 import type { DirEntry, PinnedFolder } from '../types';
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
@@ -42,19 +38,6 @@ const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over']);
 const treeViewWidth = ref(190);
 const pinnedFoldersOpened = ref(getStore('pinned-folders-opened', true));
 watch(pinnedFoldersOpened, (value) => setStore('pinned-folders-opened', value));
-
-// Tree search: raw input is bound to `searchInput`, then debounced into
-// `debouncedQuery` (which feeds Fuse via the provided context).
-const searchInput = ref('');
-const debouncedQuery = useDebouncedRef('', 150);
-watch(searchInput, (v) => {
-  debouncedQuery.value = v;
-});
-provideTreeSearch(app, debouncedQuery, storagesList);
-const clearSearch = () => {
-  searchInput.value = '';
-  debouncedQuery.value = '';
-};
 
 const removePin = (item: PinnedFolder) => {
   const current = config.get('pinnedFolders') as unknown as PinnedFolder[];
@@ -148,25 +131,6 @@ watch(sortedFiles, (newFiles) => {
     class="vuefinder__treeview__container"
   >
     <div ref="treeViewScrollElement" class="vuefinder__treeview__scroll">
-      <div class="vuefinder__treeview__search">
-        <SearchSVG class="vuefinder__treeview__search-icon" />
-        <input
-          v-model="searchInput"
-          type="text"
-          :placeholder="t('Search folders')"
-          class="vuefinder__treeview__search-input"
-          @keyup.stop
-        />
-        <button
-          v-if="searchInput"
-          type="button"
-          class="vuefinder__treeview__search-clear"
-          :title="t('Clear')"
-          @click="clearSearch"
-        >
-          <CloseSVG class="vuefinder__treeview__search-clear-icon" />
-        </button>
-      </div>
       <div v-if="enabled('pinned')" class="vuefinder__treeview__header">
         <div
           class="vuefinder__treeview__pinned-toggle"

@@ -8,7 +8,6 @@ import OpenFolderSVG from '../assets/icons/open_folder.svg';
 import FolderLoaderIndicator from './FolderLoaderIndicator.vue';
 import { OverlayScrollbars } from 'overlayscrollbars';
 import { useDragNDrop } from '../composables/useDragNDrop';
-import { useTreeSearch } from '../composables/useTreeSearch';
 import type { TreeViewData, DirEntry } from '../types';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../stores/files';
@@ -42,19 +41,11 @@ onMounted(() => {
     });
   }
 });
-const treeSearch = useTreeSearch();
-
 const treeSubFolders = computed(() => {
   const entry = app.treeViewData.find((e: TreeViewData) => e.path === props.path) as
     | TreeViewData
     | undefined;
-  let allFolders = entry?.folders || [];
-
-  // When searching, drop branches that contain no matches so the user only
-  // sees the path to each matched node.
-  if (treeSearch.isActive.value) {
-    allFolders = allFolders.filter((f) => treeSearch.isVisible(f.path));
-  }
+  const allFolders = entry?.folders || [];
 
   // Limit render to displayedCount folders for performance at any level
   // This prevents rendering too many folders at once (e.g., 50k folders)
@@ -64,18 +55,6 @@ const treeSubFolders = computed(() => {
 
   return allFolders;
 });
-
-/**
- * Whether a given folder should be expanded right now. During search we force
- * ancestors of matches open, but never overwrite the user's manual state — when
- * the query clears, `showSubFolders[item.path]` is what we fall back to.
- */
-const isExpanded = (path: string): boolean => {
-  if (treeSearch.isActive.value && treeSearch.shouldForceExpand(path)) {
-    return true;
-  }
-  return !!showSubFolders.value[path];
-};
 
 const totalFoldersCount = computed(() => {
   const entry = app.treeViewData.find((e: TreeViewData) => e.path === props.path) as
@@ -163,15 +142,6 @@ const loadMore = () => {
             <FolderSVG v-else class="vuefinder__item-icon__folder" />
           </div>
           <div
-            v-if="treeSearch.isActive.value"
-            class="vuefinder__treesubfolderlist__item-text"
-            :class="{
-              'vuefinder__treesubfolderlist__item-text--active': currentPath.path === item.path,
-            }"
-            v-html="treeSearch.highlight(item.basename)"
-          ></div>
-          <div
-            v-else
             class="vuefinder__treesubfolderlist__item-text"
             :class="{
               'vuefinder__treesubfolderlist__item-text--active': currentPath.path === item.path,
@@ -183,7 +153,7 @@ const loadMore = () => {
       </div>
       <div class="vuefinder__treesubfolderlist__subfolder">
         <TreeSubfolderList
-          v-show="isExpanded(item.path)"
+          v-show="showSubFolders[item.path]"
           :storage="props.storage"
           :path="item.path"
         />

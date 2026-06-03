@@ -171,8 +171,6 @@ export default {
   Storages: 'Storages',
   Loading: 'Loading',
   'Search files': 'Search files',
-  'Search folders': 'Search folders',
-  Clear: 'Clear',
   'Failed to open containing folder': 'Failed to open containing folder',
   'Include subfolders': 'Include subfolders',
   'More actions': 'More actions',
