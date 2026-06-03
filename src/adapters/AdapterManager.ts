@@ -6,6 +6,7 @@ import type {
   FileContentResult,
   DeleteParams,
   ArchiveParams,
+  UnarchiveParams,
   SaveParams,
   RenameParams,
   TransferParams,
@@ -221,7 +222,7 @@ export class AdapterManager {
   /**
    * Extract files from a zip archive
    */
-  async unarchive(params: { item: string; path: string }): Promise<FileOperationResult> {
+  async unarchive(params: UnarchiveParams): Promise<FileOperationResult> {
     const result = await this.driver.unarchive(params);
 
     // Invalidate list queries

@@ -76,6 +76,7 @@ export type {
   RenameParams,
   TransferParams,
   ArchiveParams,
+  UnarchiveParams,
   AdapterError,
   FsData,
 } from './types';

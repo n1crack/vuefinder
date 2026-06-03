@@ -6,6 +6,7 @@ import type {
   FileOperationResult,
   FileContentResult,
   ArchiveParams,
+  UnarchiveParams,
   SaveParams,
   RenameParams,
   TransferParams,
@@ -255,7 +256,7 @@ export class IndexedDBDriver extends BaseAdapter {
     return result;
   }
 
-  async unarchive(params: { item: string; path: string }): Promise<FileOperationResult> {
+  async unarchive(params: UnarchiveParams): Promise<FileOperationResult> {
     await this.ensureReady();
     const result = await this.driver.unarchive(params);
     await this.persistSnapshot();

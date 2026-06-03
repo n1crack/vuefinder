@@ -111,6 +111,28 @@ export interface ArchiveParams {
   items: { path: string; type: string }[];
   path: string;
   name: string;
+  /**
+   * Optional destination folder where the resulting archive should be written.
+   * When omitted, the backend writes the archive into `path` (the current folder).
+   * Sent forward-compatibly so backends that adopt it can place archives in a
+   * user-chosen folder.
+   */
+  destination?: string;
+}
+
+/**
+ * Parameters for unarchive operations
+ */
+export interface UnarchiveParams {
+  item: string;
+  path: string;
+  /**
+   * Optional destination folder where the archive contents should be extracted.
+   * When omitted, the backend extracts into `path` (the current folder).
+   * Sent forward-compatibly so backends that adopt it can extract into a
+   * user-chosen folder.
+   */
+  destination?: string;
 }
 
 export interface SearchParams {
@@ -193,7 +215,7 @@ export interface Driver {
   /**
    * Extract files from a zip archive
    */
-  unarchive(params: { item: string; path: string }): Promise<FileOperationResult>;
+  unarchive(params: UnarchiveParams): Promise<FileOperationResult>;
 
   /**
    * Create a new file

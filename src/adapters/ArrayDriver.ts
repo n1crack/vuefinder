@@ -5,6 +5,7 @@ import type {
   FileOperationResult,
   FileContentResult,
   ArchiveParams,
+  UnarchiveParams,
   SaveParams,
   RenameParams,
   TransferParams,
@@ -512,7 +513,7 @@ export class ArrayDriver extends BaseAdapter {
     return this.resultForDir(dir);
   }
 
-  async unarchive(params: { item: string; path: string }): Promise<FileOperationResult> {
+  async unarchive(params: UnarchiveParams): Promise<FileOperationResult> {
     this.ensureWritable();
     this.validateParam(params.item, 'item');
     this.validateParam(params.path, 'path');

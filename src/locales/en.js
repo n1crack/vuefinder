@@ -65,6 +65,7 @@ export default {
   'Unarchive the files': 'Unarchive the files',
   'The archive will be unarchived at': 'The archive will be unarchived at',
   'Archive name. (.zip file will be created)': 'Archive name. (.zip file will be created)',
+  'Target folder': 'Target folder',
   'A modern, customizable file manager component built for Vue.':
     'A modern, customizable file manager component built for Vue.',
   'Create a new folder': 'Create a new folder',

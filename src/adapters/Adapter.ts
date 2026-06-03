@@ -5,6 +5,7 @@ import type {
   FileContentResult,
   DeleteParams,
   ArchiveParams,
+  UnarchiveParams,
   SaveParams,
   RenameParams,
   TransferParams,
@@ -97,7 +98,7 @@ export abstract class BaseAdapter implements Driver {
   /**
    * Extract files from a zip archive
    */
-  abstract unarchive(params: { item: string; path: string }): Promise<FileOperationResult>;
+  abstract unarchive(params: UnarchiveParams): Promise<FileOperationResult>;
 
   /**
    * Create a new file

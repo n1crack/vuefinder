@@ -63,6 +63,7 @@ export type {
   RenameParams,
   TransferParams,
   ArchiveParams,
+  UnarchiveParams,
   SearchParams,
   SaveParams,
   FileContentResult,

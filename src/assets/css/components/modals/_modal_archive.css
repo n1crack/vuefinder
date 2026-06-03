@@ -37,3 +37,43 @@
 .vuefinder__themer .vuefinder__archive-modal__input:focus {
   @apply border-(--vf-border-focus) ring-(--vf-border-focus);
 }
+
+.vuefinder__archive-modal__target {
+  @apply mt-3;
+}
+
+.vuefinder__archive-modal__target-label {
+  @apply mb-1 text-xs text-(--vf-text-secondary);
+}
+
+.vuefinder__archive-modal__target-btn {
+  @apply flex w-full items-center gap-3 rounded-lg border border-(--vf-border-primary) bg-(--vf-bg-primary) px-3 py-1.5 text-sm transition-all duration-200 hover:bg-(--vf-bg-secondary);
+}
+
+.vuefinder__archive-modal__target-btn--open {
+  @apply rounded-b-none bg-(--vf-bg-secondary);
+}
+
+.vuefinder__archive-modal__target-icon {
+  @apply h-5 w-5 flex-shrink-0 text-(--vf-text-secondary);
+}
+
+.vuefinder__archive-modal__target-icon svg {
+  @apply fill-current stroke-current;
+}
+
+.vuefinder__archive-modal__target-text {
+  @apply flex-1 truncate text-left font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__archive-modal__target-arrow {
+  @apply h-5 w-5 flex-shrink-0 text-(--vf-text-secondary) transition-transform duration-200;
+}
+
+.vuefinder__archive-modal__target-btn--open .vuefinder__archive-modal__target-arrow {
+  @apply rotate-180 text-(--vf-text-primary);
+}
+
+.vuefinder__archive-modal__target-selector {
+  @apply max-h-[40vh] overflow-hidden rounded-b-lg border border-t-0 border-(--vf-border-primary) bg-(--vf-bg-primary);
+}

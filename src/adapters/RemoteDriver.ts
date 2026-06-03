@@ -9,6 +9,7 @@ import type {
   FileContentResult,
   DeleteParams,
   ArchiveParams,
+  UnarchiveParams,
   SaveParams,
   UploaderContext,
   ListParams,
@@ -202,16 +203,27 @@ export class RemoteDriver extends BaseAdapter {
     this.validateParam(params.path, 'path');
     return await this.request<FileOperationResult>(this.config.url.archive, {
       method: 'POST',
-      body: JSON.stringify({ items: params.items, path: params.path, name: params.name }),
+      body: JSON.stringify({
+        items: params.items,
+        path: params.path,
+        name: params.name,
+        // Optional. Backends that ignore unknown fields will fall back to `path`.
+        ...(params.destination ? { destination: params.destination } : {}),
+      }),
     });
   }
 
-  async unarchive(params: { item: string; path: string }): Promise<FileOperationResult> {
+  async unarchive(params: UnarchiveParams): Promise<FileOperationResult> {
     this.validateParam(params.item, 'item');
     this.validateParam(params.path, 'path');
     return await this.request<FileOperationResult>(this.config.url.unarchive, {
       method: 'POST',
-      body: JSON.stringify({ item: params.item, path: params.path }),
+      body: JSON.stringify({
+        item: params.item,
+        path: params.path,
+        // Optional. Backends that ignore unknown fields will fall back to `path`.
+        ...(params.destination ? { destination: params.destination } : {}),
+      }),
     });
   }
 

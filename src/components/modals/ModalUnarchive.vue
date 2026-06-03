@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useStore } from '@nanostores/vue';
 import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
+import ModalTreeSelector from './ModalTreeSelector.vue';
+import FolderSVG from '../../assets/icons/folder.svg';
 import UnarchiveSVG from '../../assets/icons/unarchive.svg';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
+import type { DirEntry } from '../../types';
+import { shortenPath } from '../../utils/path';
 
 const app = useApp();
 const notify = createNotifier(app);
@@ -21,11 +25,40 @@ const zipItem = ref(app.modal.data.items[0]);
 // todo: get zip folder content
 const items = ref<any[]>([]);
 
+// Target folder picker state. When null, the contents are extracted into the
+// current folder (existing behavior).
+const targetFolderEntry = ref<DirEntry | null>(null);
+const showFolderSelector = ref(false);
+
+const effectiveTargetPath = computed(
+  () => targetFolderEntry.value?.path || currentPath.value.path,
+);
+
+const toggleFolderSelector = () => {
+  showFolderSelector.value = !showFolderSelector.value;
+};
+
+const selectTargetFolder = (folder: DirEntry | null) => {
+  if (folder) {
+    targetFolderEntry.value = folder;
+  }
+};
+
+const handleFolderSelectAndClose = (folder: DirEntry | null) => {
+  if (folder) {
+    targetFolderEntry.value = folder;
+    showFolderSelector.value = false;
+  }
+};
+
 const unarchive = () => {
+  const destination = targetFolderEntry.value?.path;
   app.adapter
     .unarchive({
       item: zipItem.value.path,
       path: currentPath.value.path,
+      // Optional. Sent when the user explicitly picks a different folder.
+      ...(destination && destination !== currentPath.value.path ? { destination } : {}),
     })
     .then((result: any) => {
       notify.success(t('The file unarchived.'));
@@ -78,8 +111,49 @@ const unarchive = () => {
             <span class="vuefinder__unarchive-modal__item-name">{{ item.basename }}</span>
           </p>
           <p class="vuefinder__unarchive-modal__info">
-            {{ t('The archive will be unarchived at') }} ({{ currentPath.path }})
+            {{ t('The archive will be unarchived at') }} ({{ effectiveTargetPath }})
           </p>
+
+          <!-- Target folder picker -->
+          <div class="vuefinder__unarchive-modal__target">
+            <div class="vuefinder__unarchive-modal__target-label">
+              {{ t('Target folder') }}
+            </div>
+            <button
+              type="button"
+              class="vuefinder__unarchive-modal__target-btn"
+              :class="{ 'vuefinder__unarchive-modal__target-btn--open': showFolderSelector }"
+              @click="toggleFolderSelector"
+            >
+              <FolderSVG class="vuefinder__unarchive-modal__target-icon" />
+              <span
+                class="vuefinder__unarchive-modal__target-text"
+                :title="effectiveTargetPath"
+                >{{ shortenPath(effectiveTargetPath) }}</span
+              >
+              <svg
+                class="vuefinder__unarchive-modal__target-arrow"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+              >
+                <path
+                  d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z"
+                />
+              </svg>
+            </button>
+            <div
+              v-if="showFolderSelector"
+              class="vuefinder__unarchive-modal__target-selector"
+            >
+              <ModalTreeSelector
+                v-model="targetFolderEntry"
+                :show-pinned-folders="true"
+                :current-path="currentPath"
+                @update:model-value="selectTargetFolder"
+                @select-and-close="handleFolderSelectAndClose"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
