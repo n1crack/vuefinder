@@ -27,18 +27,21 @@
 /* Inline nav buttons grouped around Close in the modal footer.
    Desktop hides these (the floating side arrows handle navigation); mobile
    hides the side arrows and shows the footer group instead, so the preview
-   area is never covered. */
-.vuefinder__preview-modal__nav-inline {
-  @apply hidden;
-}
-
+   area is never covered.
+   The .footer-group selector raises specificity above the global .vf-btn rule
+   so its display/width values actually take effect. */
 .vuefinder__preview-modal__nav-inline-icon {
   @apply h-4 w-4;
 }
 
-/* On desktop the group is a transparent passthrough wrapper around Close. */
+/* Desktop: the group is a transparent passthrough wrapper and the inline
+   arrows are hidden — only Close passes through to the footer flex row. */
 .vuefinder__preview-modal__footer-group {
   @apply contents;
+}
+
+.vuefinder__preview-modal__footer-group .vuefinder__preview-modal__nav-inline {
+  @apply hidden;
 }
 
 @media (max-width: 768px) {
@@ -46,19 +49,20 @@
     @apply hidden;
   }
 
-  .vuefinder__preview-modal__nav-inline {
-    @apply inline-flex h-9 w-8 shrink-0 items-center justify-center p-0;
-  }
-
   /* Keep the three buttons on one row even though the modal footer is a
-     plain block container on mobile. The Close button grows to fill the
-     space between the compact nav arrows. */
+     plain block container on mobile. */
   .vuefinder__preview-modal__footer-group {
-    @apply flex items-stretch justify-center gap-2;
+    @apply mb-1 flex items-stretch justify-center gap-2;
   }
 
-  .vuefinder__preview-modal__footer-group > .vf-btn-secondary:not(.vuefinder__preview-modal__nav-inline) {
-    @apply flex-1 px-6;
+  .vuefinder__preview-modal__footer-group .vuefinder__preview-modal__nav-inline {
+    @apply m-0 inline-flex h-auto w-10 shrink-0 items-center justify-center p-0;
+  }
+
+  /* Close fills the remaining space between the two compact arrows. */
+  .vuefinder__preview-modal__footer-group
+    > .vf-btn-secondary:not(.vuefinder__preview-modal__nav-inline) {
+    @apply m-0 w-auto flex-1 px-6;
   }
 }
 
