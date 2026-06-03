@@ -38,6 +38,10 @@ const searchResults = ref<DirEntry[]>([]);
 const isSearching = ref(false);
 const selectedIndex = ref(-1);
 
+// Controller for the most recent in-flight search. When a new search starts,
+// the previous controller is aborted so its (potentially stale) response is dropped.
+let searchAbortController: AbortController | null = null;
+
 // Advanced search state
 const showDropdown = ref(false);
 const showFolderSelector = ref(false);
@@ -140,6 +144,11 @@ watch(query, async (newQuery) => {
     await performSearch(newQuery.trim());
     selectedIndex.value = 0;
   } else {
+    // Cancel any in-flight request so its response cannot repopulate cleared results.
+    if (searchAbortController) {
+      searchAbortController.abort();
+      searchAbortController = null;
+    }
     searchResults.value = [];
     isSearching.value = false;
     selectedIndex.value = -1;
@@ -166,9 +175,25 @@ watch(deepSearch, async () => {
   }
 });
 
+// Detect aborted requests so we don't show "Search failed" for cancellations
+// triggered by rapid input changes.
+const isAbortError = (error: unknown): boolean => {
+  if (!error || typeof error !== 'object') return false;
+  const name = (error as { name?: unknown }).name;
+  return name === 'AbortError' || name === 'CanceledError';
+};
+
 // Perform search
 const performSearch = async (searchQuery: string) => {
   if (!searchQuery) return;
+
+  // Cancel any in-flight request so a stale response cannot overwrite the
+  // results for the current query.
+  if (searchAbortController) {
+    searchAbortController.abort();
+  }
+  const controller = new AbortController();
+  searchAbortController = controller;
 
   isSearching.value = true;
 
@@ -179,10 +204,15 @@ const performSearch = async (searchQuery: string) => {
       filter: searchQuery,
       deep: deepSearch.value,
       size: sizeFilter.value,
+      signal: controller.signal,
     });
+    // Guard against a late resolution after a newer search started.
+    if (controller.signal.aborted) return;
     searchResults.value = files || [];
     isSearching.value = false;
   } catch (error: unknown) {
+    // Silently ignore aborts caused by superseding searches.
+    if (isAbortError(error) || controller.signal.aborted) return;
     notify.error(getErrorMessage(error, t('Search failed')));
     searchResults.value = [];
     isSearching.value = false;
@@ -240,6 +270,12 @@ const handleFolderSelect = (entry: DirEntry | null) => {
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
+
+  // Abort any in-flight search when the modal unmounts.
+  if (searchAbortController) {
+    searchAbortController.abort();
+    searchAbortController = null;
+  }
 
   // Cleanup child components
   if (searchOptionsDropdownRef.value) {

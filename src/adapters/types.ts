@@ -67,6 +67,7 @@ export interface FileOperationResult {
  */
 export interface ListParams {
   path?: string;
+  signal?: AbortSignal;
 }
 
 /**
@@ -117,11 +118,21 @@ export interface SearchParams {
   filter: string;
   deep?: boolean;
   size?: 'all' | 'small' | 'medium' | 'large';
+  signal?: AbortSignal;
 }
 
 export interface SaveParams {
   path: string; // full file path including storage
   content: string;
+  signal?: AbortSignal;
+}
+
+/**
+ * Parameters for getContent operations
+ */
+export interface GetContentParams {
+  path: string;
+  signal?: AbortSignal;
 }
 
 /**
@@ -197,7 +208,7 @@ export interface Driver {
   /**
    * Get file content
    */
-  getContent(params: { path: string }): Promise<FileContentResult>;
+  getContent(params: GetContentParams): Promise<FileContentResult>;
 
   /**
    * Get preview URL for a file

@@ -130,10 +130,11 @@ export class AdapterManager {
   async list(path?: string): Promise<FsData> {
     const queryKey = QueryKeys.list(path);
 
-    // Use fetchQuery from TanStack Query
+    // Use fetchQuery from TanStack Query.
+    // Forward the TanStack-provided signal so query cancellation aborts the underlying fetch.
     return await this.queryClient.fetchQuery({
       queryKey,
-      queryFn: () => this.driver.list({ path }),
+      queryFn: ({ signal }) => this.driver.list({ path, signal }),
       staleTime: this.config.staleTime,
     });
   }
@@ -256,13 +257,15 @@ export class AdapterManager {
   /**
    * Get file content (cached)
    */
-  async getContent(params: { path: string }): Promise<FileContentResult> {
+  async getContent(params: { path: string; signal?: AbortSignal }): Promise<FileContentResult> {
     const queryKey = ['adapter', 'content', params.path] as const;
 
-    // Use fetchQuery from TanStack Query
+    // Use fetchQuery from TanStack Query.
+    // Prefer caller-provided signal; otherwise rely on TanStack's signal.
     return await this.queryClient.fetchQuery({
       queryKey,
-      queryFn: () => this.driver.getContent(params),
+      queryFn: ({ signal }) =>
+        this.driver.getContent({ path: params.path, signal: params.signal ?? signal }),
       staleTime: this.config.staleTime,
     });
   }
@@ -289,11 +292,13 @@ export class AdapterManager {
     filter: string;
     deep?: boolean;
     size?: 'all' | 'small' | 'medium' | 'large';
+    signal?: AbortSignal;
   }): Promise<import('../types').DirEntry[]> {
     const key = QueryKeys.search(params.path, params.filter, params.deep, params.size);
+    // Forward the caller-provided signal when present, otherwise rely on TanStack's signal.
     return await this.queryClient.fetchQuery({
       queryKey: key,
-      queryFn: () => this.driver.search(params),
+      queryFn: ({ signal }) => this.driver.search({ ...params, signal: params.signal ?? signal }),
       staleTime: this.config.staleTime,
     });
   }
