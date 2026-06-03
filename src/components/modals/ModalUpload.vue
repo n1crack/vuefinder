@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, nextTick, ref } from 'vue';
+import type { QueueEntry } from '../../composables/useUpload';
 import { useStore } from '@nanostores/vue';
 import Message from '../../components/Message.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
@@ -72,7 +73,50 @@ const {
   getClassNameForEntry,
   getIconForEntry,
   addExternalFiles,
+  renameEntry,
 } = useUpload(app.customUploader);
+
+// Inline rename state
+const editingId = ref<string | null>(null);
+const editingName = ref('');
+const renameInputRef = ref<HTMLInputElement | null>(null);
+
+// Extract just the basename portion (drops any subfolder prefix from folder uploads).
+const entryBasename = (name: string): string => {
+  const i = name.lastIndexOf('/');
+  return i === -1 ? name : name.slice(i + 1);
+};
+
+const startEdit = (entry: QueueEntry) => {
+  if (uploading.value) return;
+  if (entry.status === definitions.value.QUEUE_ENTRY_STATUS.UPLOADING) return;
+  editingId.value = entry.id;
+  editingName.value = entryBasename(entry.name);
+  nextTick(() => {
+    const input = renameInputRef.value;
+    if (input) {
+      input.focus();
+      const dotIndex = editingName.value.lastIndexOf('.');
+      if (dotIndex > 0) input.setSelectionRange(0, dotIndex);
+      else input.select();
+    }
+  });
+};
+
+const cancelEdit = () => {
+  editingId.value = null;
+  editingName.value = '';
+};
+
+const submitEdit = async (entry: QueueEntry) => {
+  const newName = editingName.value.trim();
+  if (!newName || newName === entryBasename(entry.name)) {
+    cancelEdit();
+    return;
+  }
+  await renameEntry(entry, newName);
+  cancelEdit();
+};
 
 // Override upload function to use target folder
 const upload = () => {
@@ -170,25 +214,111 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
               ></span>
             </span>
             <div class="vuefinder__upload-modal__file-info">
-              <div class="vuefinder__upload-modal__file-name hidden md:block">
-                {{ titleShorten(entry.name, 40) }} ({{ entry.size }})
-              </div>
-              <div class="vuefinder__upload-modal__file-name md:hidden">
-                {{ titleShorten(entry.name, 16) }} ({{ entry.size }})
-              </div>
-              <div
-                class="vuefinder__upload-modal__file-status"
-                :class="getClassNameForEntry(entry)"
-              >
-                {{ entry.statusName }}
-                <b
-                  v-if="entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING"
-                  class="ml-auto"
-                  >{{ entry.percent }}</b
+              <template v-if="editingId === entry.id">
+                <div class="vuefinder__upload-modal__file-rename">
+                  <input
+                    ref="renameInputRef"
+                    v-model="editingName"
+                    type="text"
+                    class="vuefinder__upload-modal__file-rename-input"
+                    :placeholder="t('Rename')"
+                    @keyup.enter="submitEdit(entry)"
+                    @keyup.esc="cancelEdit"
+                  />
+                  <button
+                    type="button"
+                    class="vuefinder__upload-modal__file-rename-btn vuefinder__upload-modal__file-rename-btn--save"
+                    :title="t('Save')"
+                    @click="submitEdit(entry)"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      class="vuefinder__upload-modal__file-rename-icon"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      ></path>
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    class="vuefinder__upload-modal__file-rename-btn"
+                    :title="t('Cancel')"
+                    @click="cancelEdit"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      class="vuefinder__upload-modal__file-rename-icon"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </template>
+              <template v-else>
+                <div class="vuefinder__upload-modal__file-name hidden md:block">
+                  {{ titleShorten(entry.name, 40) }} ({{ entry.size }})
+                </div>
+                <div class="vuefinder__upload-modal__file-name md:hidden">
+                  {{ titleShorten(entry.name, 16) }} ({{ entry.size }})
+                </div>
+                <div
+                  class="vuefinder__upload-modal__file-status"
+                  :class="getClassNameForEntry(entry)"
                 >
-              </div>
+                  {{ entry.statusName }}
+                  <b
+                    v-if="entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING"
+                    class="ml-auto"
+                    >{{ entry.percent }}</b
+                  >
+                </div>
+              </template>
             </div>
             <button
+              v-if="editingId !== entry.id"
+              type="button"
+              class="vuefinder__upload-modal__file-rename-action"
+              :class="
+                uploading || entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING
+                  ? 'disabled'
+                  : ''
+              "
+              :title="t('Rename')"
+              :disabled="uploading || entry.status === definitions.QUEUE_ENTRY_STATUS.UPLOADING"
+              @click="startEdit(entry)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="vuefinder__upload-modal__file-rename-icon"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125"
+                ></path>
+              </svg>
+            </button>
+            <button
+              v-if="editingId !== entry.id"
               type="button"
               class="vuefinder__upload-modal__file-remove"
               :class="uploading ? 'disabled' : ''"

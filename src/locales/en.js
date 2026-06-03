@@ -11,6 +11,8 @@ export default {
   'New Folder': 'New Folder',
   'New File': 'New File',
   Rename: 'Rename',
+  'Failed to rename': 'Failed to rename',
+  'Name cannot contain slashes.': 'Name cannot contain slashes.',
   Delete: 'Delete',
   Upload: 'Upload',
   Download: 'Download',
