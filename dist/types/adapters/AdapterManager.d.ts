@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/vue-query';
-import type { Driver, DeleteResult, FileOperationResult, FileContentResult, DeleteParams, ArchiveParams, SaveParams, RenameParams, TransferParams } from './types';
+import type { Driver, DeleteResult, FileOperationResult, FileContentResult, DeleteParams, ArchiveParams, UnarchiveParams, SaveParams, RenameParams, TransferParams } from './types';
 import type { FsData } from '../types';
 /**
  * Configuration for AdapterManager
@@ -100,10 +100,7 @@ export declare class AdapterManager {
     /**
      * Extract files from a zip archive
      */
-    unarchive(params: {
-        item: string;
-        path: string;
-    }): Promise<FileOperationResult>;
+    unarchive(params: UnarchiveParams): Promise<FileOperationResult>;
     /**
      * Create a new file
      */
@@ -123,6 +120,7 @@ export declare class AdapterManager {
      */
     getContent(params: {
         path: string;
+        signal?: AbortSignal;
     }): Promise<FileContentResult>;
     /**
      * Get preview URL
@@ -144,6 +142,7 @@ export declare class AdapterManager {
         filter: string;
         deep?: boolean;
         size?: 'all' | 'small' | 'medium' | 'large';
+        signal?: AbortSignal;
     }): Promise<import('../types').DirEntry[]>;
     /**
      * Save content to file (and invalidate list cache)

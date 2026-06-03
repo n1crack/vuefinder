@@ -54,4 +54,4 @@ export type { IndexedDBDriverConfig } from './IndexedDBDriver';
 export { AdapterManager, QueryKeys } from './AdapterManager';
 export type { AdapterManagerConfig } from './AdapterManager';
 export { parseBackendError } from './types';
-export type { Driver, RemoteDriverConfig, RemoteDriverUrls, DeleteResult, FileOperationResult, FileContentResult, ListParams, DeleteParams, RenameParams, TransferParams, ArchiveParams, AdapterError, FsData, } from './types';
+export type { Driver, RemoteDriverConfig, RemoteDriverUrls, DeleteResult, FileOperationResult, FileContentResult, ListParams, DeleteParams, RenameParams, TransferParams, ArchiveParams, UnarchiveParams, AdapterError, FsData, } from './types';

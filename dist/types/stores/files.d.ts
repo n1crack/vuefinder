@@ -20,6 +20,7 @@ export interface FilterState {
     kind: 'all' | 'files' | 'folders';
     showHidden: boolean;
 }
+export declare function compareValues(a: unknown, b: unknown): number;
 export declare const createFilesStore: () => {
     files: import("nanostores").PreinitializedWritableAtom<DirEntry[]> & object;
     storages: import("nanostores").PreinitializedWritableAtom<string[]> & object;

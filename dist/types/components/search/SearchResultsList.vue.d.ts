@@ -15,20 +15,24 @@ declare const __VLS_export: import("vue").DefineComponent<Props, {
     scrollTop: () => number;
 }, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {} & {
     preview: (item: DirEntry) => any;
+    open: (item: DirEntry) => any;
     togglePathExpansion: (path: string) => any;
     toggleItemDropdown: (path: string, event: MouseEvent) => any;
     "update:selectedItemDropdownOption": (value: string | null) => any;
     copyPath: (item: DirEntry) => any;
     openContainingFolder: (item: DirEntry) => any;
+    activate: (item: DirEntry) => any;
     selectResultItem: (index: number) => any;
     selectResultItemWithDropdown: (index: number) => any;
 }, string, import("vue").PublicProps, Readonly<Props> & Readonly<{
     onPreview?: ((item: DirEntry) => any) | undefined;
+    onOpen?: ((item: DirEntry) => any) | undefined;
     onTogglePathExpansion?: ((path: string) => any) | undefined;
     onToggleItemDropdown?: ((path: string, event: MouseEvent) => any) | undefined;
     "onUpdate:selectedItemDropdownOption"?: ((value: string | null) => any) | undefined;
     onCopyPath?: ((item: DirEntry) => any) | undefined;
     onOpenContainingFolder?: ((item: DirEntry) => any) | undefined;
+    onActivate?: ((item: DirEntry) => any) | undefined;
     onSelectResultItem?: ((index: number) => any) | undefined;
     onSelectResultItemWithDropdown?: ((index: number) => any) | undefined;
 }>, {}, {}, {}, {}, string, import("vue").ComponentProvideOptions, false, {}, any>;

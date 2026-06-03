@@ -18,7 +18,7 @@ export { useVueFinder };
 export { RemoteDriver, ArrayDriver, IndexedDBDriver, BaseAdapter, parseBackendError };
 export type { DirEntry, ItemDclickEvent, VueFinderProps, FsData, SelectEvent, UpdatePathEvent, NotifyEvent, NotifyPayload, VueFinderComposable, } from './types';
 export type { Item } from './utils/contextmenu';
-export type { Driver, ListParams, DeleteParams, RenameParams, TransferParams, ArchiveParams, SearchParams, SaveParams, FileContentResult, DeleteResult, FileOperationResult, RemoteDriverConfig, RemoteDriverUrls, UploaderContext, } from './adapters/types';
+export type { Driver, ListParams, DeleteParams, RenameParams, TransferParams, ArchiveParams, UnarchiveParams, SearchParams, SaveParams, FileContentResult, DeleteResult, FileOperationResult, RemoteDriverConfig, RemoteDriverUrls, UploaderContext, } from './adapters/types';
 export type { FeaturesConfig, FeaturesPreset, FeatureName } from './features';
 export type { ConfigStore, ConfigState, ConfigDefaults, PersistenceConfigState, NonPersistenceConfigState, } from './stores/config';
 export type { Theme } from './stores/theme';

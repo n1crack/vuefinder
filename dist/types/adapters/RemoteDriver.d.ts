@@ -1,5 +1,5 @@
 import { BaseAdapter } from './Adapter';
-import type { RemoteDriverConfig, FsData, DeleteResult, FileOperationResult, FileContentResult, DeleteParams, ArchiveParams, SaveParams, UploaderContext } from './types';
+import type { RemoteDriverConfig, FsData, DeleteResult, FileOperationResult, FileContentResult, DeleteParams, ArchiveParams, UnarchiveParams, SaveParams, UploaderContext, ListParams, SearchParams, GetContentParams } from './types';
 import type Uppy from '@uppy/core';
 /**
  * Remote driver for handling file operations via HTTP requests
@@ -24,9 +24,7 @@ export declare class RemoteDriver extends BaseAdapter {
     configureUploader(uppy: Uppy, context: UploaderContext): void;
     private getHeaders;
     private request;
-    list(params?: {
-        path?: string;
-    }): Promise<FsData>;
+    list(params?: ListParams): Promise<FsData>;
     delete(params: DeleteParams): Promise<DeleteResult>;
     rename(params: {
         path: string;
@@ -44,10 +42,7 @@ export declare class RemoteDriver extends BaseAdapter {
         destination: string;
     }): Promise<FileOperationResult>;
     archive(params: ArchiveParams): Promise<FileOperationResult>;
-    unarchive(params: {
-        item: string;
-        path: string;
-    }): Promise<FileOperationResult>;
+    unarchive(params: UnarchiveParams): Promise<FileOperationResult>;
     createFile(params: {
         path: string;
         name: string;
@@ -59,17 +54,10 @@ export declare class RemoteDriver extends BaseAdapter {
     getPreviewUrl(params: {
         path: string;
     }): string;
-    getContent(params: {
-        path: string;
-    }): Promise<FileContentResult>;
+    getContent(params: GetContentParams): Promise<FileContentResult>;
     getDownloadUrl(params: {
         path: string;
     }): string;
-    search(params: {
-        path?: string;
-        filter: string;
-        deep?: boolean;
-        size?: 'all' | 'small' | 'medium' | 'large';
-    }): Promise<import('../types').DirEntry[]>;
+    search(params: SearchParams): Promise<import('../types').DirEntry[]>;
     save(params: SaveParams): Promise<string>;
 }

@@ -1,5 +1,5 @@
 import { BaseAdapter } from './Adapter';
-import type { DeleteParams, DeleteResult, FileOperationResult, FileContentResult, ArchiveParams, SaveParams, RenameParams, TransferParams } from './types';
+import type { DeleteParams, DeleteResult, FileOperationResult, FileContentResult, ArchiveParams, UnarchiveParams, SaveParams, RenameParams, TransferParams, ListParams, SearchParams, GetContentParams } from './types';
 import type { DirEntry, FsData } from '../types';
 type FilesSource = {
     value: DirEntry[];
@@ -43,18 +43,13 @@ export declare class ArrayDriver extends BaseAdapter {
     private makeDirEntry;
     private makeFileEntry;
     private resultForDir;
-    list(params?: {
-        path?: string;
-    }): Promise<FsData>;
+    list(params?: ListParams): Promise<FsData>;
     delete(params: DeleteParams): Promise<DeleteResult>;
     rename(params: RenameParams): Promise<FileOperationResult>;
     copy(params: TransferParams): Promise<FileOperationResult>;
     move(params: TransferParams): Promise<FileOperationResult>;
     archive(params: ArchiveParams): Promise<FileOperationResult>;
-    unarchive(params: {
-        item: string;
-        path: string;
-    }): Promise<FileOperationResult>;
+    unarchive(params: UnarchiveParams): Promise<FileOperationResult>;
     createFile(params: {
         path: string;
         name: string;
@@ -66,18 +61,11 @@ export declare class ArrayDriver extends BaseAdapter {
     getPreviewUrl(_params: {
         path: string;
     }): string;
-    getContent(params: {
-        path: string;
-    }): Promise<FileContentResult>;
+    getContent(params: GetContentParams): Promise<FileContentResult>;
     getDownloadUrl(_params: {
         path: string;
     }): string;
-    search(params: {
-        path?: string;
-        filter: string;
-        deep?: boolean;
-        size?: 'all' | 'small' | 'medium' | 'large';
-    }): Promise<DirEntry[]>;
+    search(params: SearchParams): Promise<DirEntry[]>;
     save(params: SaveParams): Promise<string>;
     configureUploader?(uppy: any, context: {
         getTargetPath: () => string;

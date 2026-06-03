@@ -7,6 +7,9 @@ export declare const ContextMenuIds: {
     readonly delete: "delete";
     readonly refresh: "refresh";
     readonly preview: "preview";
+    readonly openAs: "openAs";
+    readonly openAsText: "openAsText";
+    readonly openAsImage: "openAsImage";
     readonly open: "open";
     readonly openDir: "openDir";
     readonly download: "download";
@@ -30,5 +33,6 @@ export type Item = {
     link?: (app: App, selectedItems: DirEntry[]) => void;
     show: (app: App, ctx: MenuContext) => boolean;
     order?: number;
+    children?: Item[];
 };
 export declare const menuItems: Item[];
