@@ -20,6 +20,7 @@ export declare function useScrollSetup(scrollContainer: Ref<HTMLElement | null |
             <N extends keyof import("overlayscrollbars").EventListenerArgs>(name: N, listener: import("overlayscrollbars").EventListener<N>[]): void;
         };
         update: (force?: boolean) => boolean;
+        sleep: (sleeping: boolean) => void;
         state: () => import("overlayscrollbars").State;
         elements: () => import("overlayscrollbars").Elements;
         destroy: () => void;
@@ -39,6 +40,7 @@ export declare function useScrollSetup(scrollContainer: Ref<HTMLElement | null |
             <N extends keyof import("overlayscrollbars").EventListenerArgs>(name: N, listener: import("overlayscrollbars").EventListener<N>[]): void;
         };
         update: (force?: boolean) => boolean;
+        sleep: (sleeping: boolean) => void;
         state: () => import("overlayscrollbars").State;
         elements: () => import("overlayscrollbars").Elements;
         destroy: () => void;

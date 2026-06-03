@@ -10,6 +10,7 @@ export declare function useI18n(storage: {
     localeAtom: {
         set: (newValue: string) => void;
         get: () => string;
+        readonly init: string | undefined;
         readonly lc: number;
         listen: (listener: (value: string, oldValue: string) => void) => () => void;
         notify: (oldValue?: string | undefined) => void;
