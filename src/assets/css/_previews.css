@@ -174,6 +174,31 @@
   @apply border-(--vf-accent-primary) shadow-[0_0_0_1px_var(--vf-accent-primary)];
 }
 
+.vuefinder__text-preview__body {
+  @apply min-h-[200px];
+}
+
+.vuefinder__codemirror-editor {
+  @apply max-h-[60vh] min-h-[200px] overflow-auto rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary);
+}
+
+.vuefinder__codemirror-editor .cm-editor {
+  @apply h-full text-xs;
+}
+
+.vuefinder__codemirror-editor .cm-editor.cm-focused {
+  outline: 1px solid var(--vf-accent-primary);
+}
+
+.vuefinder__codemirror-editor .cm-scroller {
+  font-family:
+    'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+.vuefinder__codemirror-editor .cm-gutters {
+  @apply border-r border-(--vf-border-primary) bg-(--vf-bg-secondary) text-(--vf-text-secondary);
+}
+
 /** Video Preview */
 
 .vuefinder__video-preview__title {
