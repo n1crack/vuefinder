@@ -6,21 +6,62 @@ import VueFinderProvider from '../components/VueFinderProvider.vue';
 import { ArrayDriver } from '../adapters/ArrayDriver';
 
 // Mock @nanostores/persistent to use a simple in-memory store
-vi.mock('@nanostores/persistent', () => {
+// We delegate to a real nanostores `atom()` so the returned store has the full
+// listener API (subscribe/listen/notify/get/set/lc/value) that
+// `@nanostores/vue`'s `useStore` and other consumers rely on. We just layer the
+// localStorage-style side-effect on top of `set`, mirroring what the real
+// `@nanostores/persistent` does.
+vi.mock('@nanostores/persistent', async () => {
+  const { atom, map } = await vi.importActual<typeof import('nanostores')>('nanostores');
+  const identity = (a: any) => a;
   const memoryStore: Record<string, string> = {};
-  return {
-    persistentAtom: vi.fn((key: string, initialValue: any) => {
-      const atom = {
-        value: memoryStore[key] ? JSON.parse(memoryStore[key]) : initialValue,
-        set: vi.fn((value: any) => {
-          atom.value = value;
-          memoryStore[key] = JSON.stringify(value);
-        }),
-        get: vi.fn(() => atom.value),
-        listen: vi.fn(() => () => {}),
+
+  const persistentAtom = vi.fn(
+    (
+      name: string,
+      initial: any,
+      opts: { encode?: (v: any) => string; decode?: (v: string) => any } = {}
+    ) => {
+      const encode = opts.encode || identity;
+      const decode = opts.decode || identity;
+
+      const store = atom(name in memoryStore ? decode(memoryStore[name] as string) : initial);
+
+      const originalSet = store.set.bind(store);
+      store.set = (newValue: any) => {
+        const encoded = encode(newValue);
+        if (typeof encoded === 'undefined') {
+          delete memoryStore[name];
+        } else {
+          memoryStore[name] = encoded;
+        }
+        originalSet(newValue);
       };
-      return atom;
+
+      return store;
+    }
+  );
+
+  const persistentMap = vi.fn((prefix: string, initial: any = {}) => {
+    return map({ ...initial });
+  });
+
+  return {
+    persistentAtom,
+    persistentMap,
+    persistentJSON: persistentAtom,
+    persistentBoolean: persistentAtom,
+    setPersistentEngine: vi.fn(),
+    useTestStorageEngine: vi.fn(),
+    setTestStorageKey: vi.fn(),
+    getTestStorage: vi.fn(() => memoryStore),
+    cleanTestStorage: vi.fn(() => {
+      for (const k of Object.keys(memoryStore)) delete memoryStore[k];
     }),
+    windowPersistentEvents: {
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    },
   };
 });
 
@@ -102,18 +143,24 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mock ResizeObserver
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+class ResizeObserverMock {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+}
+global.ResizeObserver = ResizeObserverMock as any;
 
 // Mock IntersectionObserver
-global.IntersectionObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+class IntersectionObserverMock {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  root = null;
+  rootMargin = '';
+  thresholds = [];
+  takeRecords = vi.fn(() => []);
+}
+global.IntersectionObserver = IntersectionObserverMock as any;
 
 // Mock OverlayScrollbars
 vi.mock('overlayscrollbars', () => ({
