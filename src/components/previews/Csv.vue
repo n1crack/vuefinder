@@ -27,9 +27,7 @@ const showAsTable = ref(false);
 // can flip into raw view to see everything.
 const ROW_LIMIT = 1000;
 const truncated = computed(() => rows.value.length > ROW_LIMIT);
-const visibleRows = computed(() =>
-  truncated.value ? rows.value.slice(0, ROW_LIMIT) : rows.value
-);
+const visibleRows = computed(() => (truncated.value ? rows.value.slice(0, ROW_LIMIT) : rows.value));
 
 const app = useApp();
 const notify = createNotifier(app);
