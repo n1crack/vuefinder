@@ -400,6 +400,11 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
     <div class="vuefinder__search-modal__result-icon">
       <FolderSVG v-if="item.type === 'dir'" />
       <FileSVG v-else />
+      <PinSVG
+        v-if="item.type === 'dir' && pinEnabled && isPinned"
+        class="vuefinder__search-modal__result-pin"
+        :title="t('Pinned')"
+      />
     </div>
     <div class="vuefinder__search-modal__result-content">
       <div class="vuefinder__search-modal__result-name">

@@ -124,6 +124,7 @@ export default {
   'No folders': 'No folders',
   'Pin Folder': 'Pin Folder',
   'Unpin Folder': 'Unpin Folder',
+  Pinned: 'Pinned',
 
   'Project Home': 'Project Home',
   'If you like it, please follow and ⭐ star on GitHub.':

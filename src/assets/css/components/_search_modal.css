@@ -298,11 +298,19 @@
 }
 
 .vuefinder__search-modal__result-icon {
-  @apply h-6 w-6 flex-shrink-0 text-(--vf-text-secondary);
+  @apply relative h-6 w-6 flex-shrink-0 text-(--vf-text-secondary);
 }
 
 .vuefinder__search-modal__result-icon svg {
   @apply h-full w-full stroke-current;
+}
+
+.vuefinder__search-modal__result-pin {
+  @apply absolute -right-1 -bottom-1 h-3 w-3 text-(--vf-accent-primary);
+}
+
+.vuefinder__search-modal__result-pin svg {
+  @apply h-full w-full;
 }
 
 .vuefinder__search-modal__result-content {
