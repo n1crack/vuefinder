@@ -6,6 +6,7 @@ import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import type { StoreValue } from 'nanostores';
 import Text from '../../components/previews/Text.vue';
+import Csv from '../../components/previews/Csv.vue';
 import Image from '../../components/previews/Image.vue';
 import Default from '../../components/previews/Default.vue';
 import Video from '../../components/previews/Video.vue';
@@ -92,6 +93,7 @@ const extMatches = (type: string, ext: string): boolean => {
   if (type === 'image') return image.has(ext);
   if (type === 'video') return video.has(ext);
   if (type === 'audio') return audio.has(ext);
+  if (type === 'csv') return ext === 'csv' || ext === 'tsv';
   if (type === 'text') return text.has(ext);
   if (type === 'application/pdf') return ext === 'pdf';
   return false;
@@ -242,8 +244,13 @@ onMounted(() => {
 
       <div class="vuefinder__preview-modal__content">
         <div v-if="enabledPreview">
+          <Csv
+            v-if="loadPreview('csv')"
+            :key="`csv-${currentItem.path}`"
+            @success="loaded = true"
+          />
           <Text
-            v-if="loadPreview('text')"
+            v-else-if="loadPreview('text')"
             :key="`text-${currentItem.path}`"
             @success="loaded = true"
           />

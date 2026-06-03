@@ -199,6 +199,53 @@
   @apply border-r border-(--vf-border-primary) bg-(--vf-bg-secondary) text-(--vf-text-secondary);
 }
 
+/* CSV preview — table mode */
+.vuefinder__themer .vuefinder__csv-preview__view-toggle {
+  @apply mr-1 rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) px-2 py-1 text-xs font-medium text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__csv-preview__view-toggle:hover {
+  @apply bg-(--vf-bg-hover);
+}
+
+.vuefinder__csv-preview__table-wrap {
+  @apply max-h-[60vh] min-h-[200px] overflow-auto rounded border border-(--vf-border-primary) bg-(--vf-bg-primary);
+}
+
+.vuefinder__csv-preview__table {
+  @apply min-w-full border-collapse text-xs;
+}
+
+.vuefinder__themer .vuefinder__csv-preview__table thead {
+  @apply sticky top-0 z-10 bg-(--vf-bg-secondary);
+}
+
+.vuefinder__themer .vuefinder__csv-preview__table th,
+.vuefinder__themer .vuefinder__csv-preview__table td {
+  @apply max-w-[24rem] truncate border-b border-(--vf-border-primary) px-2 py-1 text-left align-top whitespace-nowrap text-(--vf-text-primary);
+}
+
+.vuefinder__themer .vuefinder__csv-preview__table th {
+  @apply font-medium text-(--vf-text-secondary);
+}
+
+.vuefinder__themer .vuefinder__csv-preview__table tbody tr:hover {
+  @apply bg-(--vf-bg-hover);
+}
+
+.vuefinder__themer .vuefinder__csv-preview__row-num {
+  @apply sticky left-0 z-[5] w-12 min-w-12 border-r border-(--vf-border-primary) bg-(--vf-bg-secondary) text-right text-(--vf-text-secondary) tabular-nums;
+}
+
+.vuefinder__csv-preview__truncated {
+  @apply px-3 py-2 text-center text-xs text-(--vf-text-secondary);
+}
+
+.vuefinder__csv-preview__error,
+.vuefinder__csv-preview__empty {
+  @apply max-h-[60vh] min-h-[200px] rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) p-4 text-center text-sm text-(--vf-text-secondary);
+}
+
 /** Video Preview */
 
 .vuefinder__video-preview__title {
