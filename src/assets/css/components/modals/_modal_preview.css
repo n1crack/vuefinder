@@ -47,13 +47,18 @@
   }
 
   .vuefinder__preview-modal__nav-inline {
-    @apply inline-flex h-9 w-9 items-center justify-center p-0;
+    @apply inline-flex h-9 w-8 shrink-0 items-center justify-center p-0;
   }
 
   /* Keep the three buttons on one row even though the modal footer is a
-     plain block container on mobile. */
+     plain block container on mobile. The Close button grows to fill the
+     space between the compact nav arrows. */
   .vuefinder__preview-modal__footer-group {
-    @apply flex items-center justify-center gap-2;
+    @apply flex items-stretch justify-center gap-2;
+  }
+
+  .vuefinder__preview-modal__footer-group > .vf-btn-secondary:not(.vuefinder__preview-modal__nav-inline) {
+    @apply flex-1 px-6;
   }
 }
 
