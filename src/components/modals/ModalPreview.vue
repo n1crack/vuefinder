@@ -54,6 +54,11 @@ const extMatches = (type: string, ext: string): boolean => {
 };
 
 const loadPreview = (type: string) => {
+  // User explicitly asked to open this file under a specific previewer
+  // (e.g. right-click → "Open as Text" on a file with an unusual MIME).
+  const force = app.modal.data.forceType as string | undefined;
+  if (force) return force === type;
+
   const mime = app.modal.data.item.mime_type;
   if (mime && typeof mime === 'string' && mime.startsWith(type)) return true;
   const ext = getExtension(app.modal.data.item.path);

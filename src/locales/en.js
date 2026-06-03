@@ -32,6 +32,8 @@ export default {
   'Open containing folder': 'Open containing folder',
   Refresh: 'Refresh',
   Preview: 'Preview',
+  'Open as Text': 'Open as Text',
+  'Open as Image': 'Open as Image',
   'Toggle Full Screen': 'Toggle Full Screen',
   'Change View': 'Change View',
   Storage: 'Storage',

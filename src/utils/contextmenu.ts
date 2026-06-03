@@ -18,6 +18,8 @@ export const ContextMenuIds = {
   delete: 'delete',
   refresh: 'refresh',
   preview: 'preview',
+  openAsText: 'openAsText',
+  openAsImage: 'openAsImage',
   open: 'open',
   openDir: 'openDir',
   download: 'download',
@@ -201,6 +203,36 @@ export const menuItems: Item[] = [
       (app, ctx) => ctx.target?.type !== 'dir'
     ),
     order: 80,
+  },
+  {
+    id: ContextMenuIds.openAsText,
+    title: ({ t }) => t('Open as Text'),
+    action: (app, selectedItems) =>
+      app.modal.open(ModalPreview, {
+        storage: selectedItems[0]?.storage,
+        item: selectedItems[0],
+        forceType: 'text',
+      }),
+    show: showIfAll(
+      showIf({ target: 'one', feature: 'preview' }),
+      (app, ctx) => ctx.target?.type !== 'dir'
+    ),
+    order: 81,
+  },
+  {
+    id: ContextMenuIds.openAsImage,
+    title: ({ t }) => t('Open as Image'),
+    action: (app, selectedItems) =>
+      app.modal.open(ModalPreview, {
+        storage: selectedItems[0]?.storage,
+        item: selectedItems[0],
+        forceType: 'image',
+      }),
+    show: showIfAll(
+      showIf({ target: 'one', feature: 'preview' }),
+      (app, ctx) => ctx.target?.type !== 'dir'
+    ),
+    order: 82,
   },
   {
     id: ContextMenuIds.download,
