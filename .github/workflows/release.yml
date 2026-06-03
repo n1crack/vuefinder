@@ -12,12 +12,17 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    env:
+      # Cypress is only needed for local e2e tests, not for publishing.
+      # Setting this at job level also skips the download during the
+      # `prepare` hook that runs as part of `npm publish`.
+      CYPRESS_INSTALL_BINARY: '0'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
@@ -40,9 +45,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        env:
-          # Cypress is only needed for local e2e tests, not for publishing.
-          CYPRESS_INSTALL_BINARY: 0
 
       - name: Type check
         run: npm run type-check
