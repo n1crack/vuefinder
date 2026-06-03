@@ -75,15 +75,19 @@
 }
 
 .vuefinder__preview-modal__content {
-  @apply mt-3 w-full sm:mt-0 sm:text-left;
+  @apply relative mt-3 w-full sm:mt-0 sm:text-left;
 }
 
 .vuefinder__preview-modal__loading {
-  @apply text-sm text-(--vf-text-primary);
+  @apply pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-(--vf-text-primary);
+}
+
+.vuefinder__preview-modal__loading-indicator {
+  @apply inline-flex items-center gap-2 rounded bg-(--vf-bg-secondary)/80 px-3 py-2 backdrop-blur-sm;
 }
 
 .vuefinder__preview-modal__spinner {
-  @apply mr-3 -ml-1 h-5 w-5 animate-spin text-(--vf-text-primary);
+  @apply h-5 w-5 animate-spin text-(--vf-text-primary);
 }
 
 .vuefinder__preview-modal__spinner-circle {
