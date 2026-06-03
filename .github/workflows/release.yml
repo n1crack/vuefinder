@@ -22,6 +22,10 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: npm
 
+      - name: Upgrade npm
+        # Trusted Publishing (OIDC) requires npm >= 11.5.1.
+        run: npm install -g npm@latest
+
       - name: Verify tag matches package.json version
         if: github.event_name == 'release'
         run: |
@@ -47,5 +51,3 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
