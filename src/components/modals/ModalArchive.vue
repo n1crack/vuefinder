@@ -30,9 +30,7 @@ const items = ref(app.modal.data.items);
 const targetFolderEntry = ref<DirEntry | null>(null);
 const showFolderSelector = ref(false);
 
-const effectiveTargetPath = computed(
-  () => targetFolderEntry.value?.path || currentPath.value.path,
-);
+const effectiveTargetPath = computed(() => targetFolderEntry.value?.path || currentPath.value.path);
 
 const toggleFolderSelector = () => {
   showFolderSelector.value = !showFolderSelector.value;
@@ -138,11 +136,9 @@ const archive = () => {
               @click="toggleFolderSelector"
             >
               <FolderSVG class="vuefinder__archive-modal__target-icon" />
-              <span
-                class="vuefinder__archive-modal__target-text"
-                :title="effectiveTargetPath"
-                >{{ shortenPath(effectiveTargetPath) }}</span
-              >
+              <span class="vuefinder__archive-modal__target-text" :title="effectiveTargetPath">{{
+                shortenPath(effectiveTargetPath)
+              }}</span>
               <svg
                 class="vuefinder__archive-modal__target-arrow"
                 viewBox="0 0 16 16"
@@ -153,10 +149,7 @@ const archive = () => {
                 />
               </svg>
             </button>
-            <div
-              v-if="showFolderSelector"
-              class="vuefinder__archive-modal__target-selector"
-            >
+            <div v-if="showFolderSelector" class="vuefinder__archive-modal__target-selector">
               <ModalTreeSelector
                 v-model="targetFolderEntry"
                 :show-pinned-folders="true"
