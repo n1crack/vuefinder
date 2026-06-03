@@ -50,8 +50,6 @@ function generateSitemap(pages: string[], baseUrl: string): string {
         priority = '0.8';
       } else if (url.startsWith('/examples/')) {
         priority = '0.7';
-      } else if (url.startsWith('/migration/')) {
-        priority = '0.6';
       }
 
       return `  <url>
@@ -222,7 +220,6 @@ gtag('config', 'G-6BYQESCJ6R');`
       { text: 'Guide', link: '/getting-started/introduction' },
       { text: 'API Reference', link: '/api-reference/props' },
       { text: 'Examples', link: '/examples/basic-usage' },
-      { text: 'Migration', link: '/migration/from-2-7-to-4-0' },
     ],
 
     sidebar: {
@@ -302,15 +299,6 @@ gtag('config', 'G-6BYQESCJ6R');`
             { text: 'Types', link: '/api-reference/types' },
             { text: 'Drivers Interface', link: '/api-reference/drivers-interface' },
             { text: 'OpenAPI Specification', link: '/api-reference/openapi' },
-          ],
-        },
-      ],
-      '/migration/': [
-        {
-          text: 'Migration',
-          items: [
-            { text: 'From 2.7 to 4.0', link: '/migration/from-2-7-to-4-0' },
-            { text: 'Breaking Changes', link: '/migration/breaking-changes' },
           ],
         },
       ],
