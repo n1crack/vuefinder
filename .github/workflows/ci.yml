@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      # Cypress only matters for local e2e; skip the download in CI.
+      CYPRESS_INSTALL_BINARY: '0'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install deps
+        run: npm ci
+      - name: Prettier check
+        run: npm run format:check
+      - name: ESLint
+        run: npm run lint -- -c eslint.config.js
+      - name: Type check
+        run: npm run type-check
+      - name: Unit tests
+        run: npx vitest run
+      - name: Build
+        run: npm run build
