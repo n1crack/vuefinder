@@ -209,7 +209,7 @@ export const menuItems: Item[] = [
   },
   {
     id: ContextMenuIds.openAs,
-    title: ({ t }) => t('Open as'),
+    title: ({ t }) => t('Preview as'),
     action: () => {},
     children: [
       {

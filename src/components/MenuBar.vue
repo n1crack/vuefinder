@@ -131,7 +131,7 @@ const menuItems = computed<any[]>(() => [
       },
       {
         id: 'open-as',
-        label: t('Open as'),
+        label: t('Preview as'),
         items: [
           {
             id: 'open-as-text',

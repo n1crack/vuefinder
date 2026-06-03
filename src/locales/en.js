@@ -32,7 +32,7 @@ export default {
   'Open containing folder': 'Open containing folder',
   Refresh: 'Refresh',
   Preview: 'Preview',
-  'Open as': 'Open as',
+  'Preview as': 'Preview as',
   Text: 'Text',
   Image: 'Image',
   'Toggle Full Screen': 'Toggle Full Screen',
