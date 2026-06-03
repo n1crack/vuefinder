@@ -317,8 +317,47 @@ onMounted(() => {
     </div>
 
     <template #buttons>
+      <!-- Mobile-only inline nav buttons grouped around Close -->
+      <button
+        v-if="!app.modal.editMode"
+        type="button"
+        class="vf-btn vf-btn-secondary vuefinder__preview-modal__nav-inline"
+        :disabled="!canNavigatePrevious"
+        :title="t('Previous file')"
+        :aria-label="t('Previous file')"
+        @click="navigateToPrevious"
+      >
+        <svg
+          class="vuefinder__preview-modal__nav-inline-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="15,18 9,12 15,6"></polyline>
+        </svg>
+      </button>
       <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
         {{ t('Close') }}
+      </button>
+      <button
+        v-if="!app.modal.editMode"
+        type="button"
+        class="vf-btn vf-btn-secondary vuefinder__preview-modal__nav-inline"
+        :disabled="!canNavigateNext"
+        :title="t('Next file')"
+        :aria-label="t('Next file')"
+        @click="navigateToNext"
+      >
+        <svg
+          class="vuefinder__preview-modal__nav-inline-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="9,18 15,12 9,6"></polyline>
+        </svg>
       </button>
       <a
         v-if="enabled('download')"

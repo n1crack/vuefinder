@@ -24,26 +24,25 @@
   @apply h-6 w-6;
 }
 
-/* Mobile: anchor to the top edge so the preview stays fully visible. */
+/* Inline nav buttons grouped around Close in the modal footer.
+   Desktop hides these (the floating side arrows handle navigation); mobile
+   hides the side arrows and shows the footer group instead, so the preview
+   area is never covered. */
+.vuefinder__preview-modal__nav-inline {
+  @apply hidden;
+}
+
+.vuefinder__preview-modal__nav-inline-icon {
+  @apply h-4 w-4;
+}
+
 @media (max-width: 768px) {
   .vuefinder__preview-modal__nav-side {
-    @apply top-3 h-10 w-10 translate-y-0;
+    @apply hidden;
   }
 
-  .vuefinder__preview-modal__nav-side--left {
-    @apply left-3;
-  }
-
-  .vuefinder__preview-modal__nav-side--right {
-    @apply right-3;
-  }
-
-  .vuefinder__preview-modal__nav-side:not(:disabled):hover {
-    @apply translate-y-0 scale-110;
-  }
-
-  .vuefinder__preview-modal__nav-icon {
-    @apply h-5 w-5;
+  .vuefinder__preview-modal__nav-inline {
+    @apply inline-flex h-9 w-9 items-center justify-center p-0;
   }
 }
 
