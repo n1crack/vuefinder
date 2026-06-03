@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref, nextTick, watch, onUnmounted } from 'vue';
+import { computed, ref, nextTick, watch, onUnmounted } from 'vue';
 import { useApp } from '../../composables/useApp';
+import { useFeature } from '../../composables/useFeature';
+import { useStore } from '@nanostores/vue';
 import { computePosition, flip, shift, offset, autoUpdate } from '@floating-ui/dom';
 import { shortenPath } from '../../utils/path.ts';
 import { copyPath } from '../../utils/clipboard.ts';
@@ -9,7 +11,10 @@ import FileSVG from '../../assets/icons/file.svg';
 import CopySVG from '../../assets/icons/copy.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
 import DotsSVG from '../../assets/icons/dots.svg';
+import PinSVG from '../../assets/icons/pin.svg';
 import type { DirEntry } from '../../types.ts';
+import type { ConfigState } from '../../stores/config';
+import type { StoreValue } from 'nanostores';
 
 defineOptions({ name: 'SearchResultItem' });
 
@@ -40,6 +45,25 @@ const emit = defineEmits<Emits>();
 
 const app = useApp();
 const { t } = app.i18n;
+const { enabled } = useFeature();
+const configState: StoreValue<ConfigState> = useStore(app.config.state);
+
+const pinEnabled = computed(() => enabled('pinned'));
+const isPinned = computed(() =>
+  configState.value.pinnedFolders.some((f: DirEntry) => f.path === props.item.path)
+);
+
+const togglePin = (item: DirEntry) => {
+  const current = app.config.get('pinnedFolders');
+  if (current.some((f: DirEntry) => f.path === item.path)) {
+    app.config.set(
+      'pinnedFolders',
+      current.filter((f: DirEntry) => f.path !== item.path)
+    );
+  } else {
+    app.config.set('pinnedFolders', [...current, item]);
+  }
+};
 
 // Store button element reference for positioning
 const buttonElementRef = ref<HTMLElement | null>(null);
@@ -464,6 +488,22 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
           >
             <FolderSVG class="vuefinder__search-modal__item-dropdown-icon" />
             <span>{{ t('Open') }}</span>
+          </div>
+          <div
+            v-if="item.type === 'dir' && pinEnabled"
+            class="vuefinder__search-modal__item-dropdown-option"
+            :class="{
+              'vuefinder__search-modal__item-dropdown-option--selected':
+                selectedItemDropdownOption === `pin-${item.path}`,
+            }"
+            @click="
+              selectItemDropdownOption(`pin-${item.path}`);
+              togglePin(item);
+            "
+            @focus="selectItemDropdownOption(`pin-${item.path}`)"
+          >
+            <PinSVG class="vuefinder__search-modal__item-dropdown-icon" />
+            <span>{{ isPinned ? t('Unpin Folder') : t('Pin Folder') }}</span>
           </div>
           <div
             v-else
