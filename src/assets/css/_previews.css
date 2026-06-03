@@ -195,6 +195,14 @@
     'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
+/* iOS Safari auto-zooms when a contenteditable has font-size < 16px.
+   Keep the editor readable at the desktop size but bump mobile to 16px. */
+@media (max-width: 640px) {
+  .vuefinder__codemirror-editor .cm-content {
+    font-size: 16px;
+  }
+}
+
 .vuefinder__codemirror-editor .cm-gutters {
   @apply border-r border-(--vf-border-primary) bg-(--vf-bg-secondary) text-(--vf-text-secondary);
 }
