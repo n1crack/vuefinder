@@ -7,6 +7,7 @@ import StorageSVG from '../assets/icons/storage.svg';
 import FolderLoaderIndicator from './FolderLoaderIndicator.vue';
 import TreeSubfolderList from './TreeSubfolderList.vue';
 import { useDragNDrop } from '../composables/useDragNDrop';
+import { useTreeSearch } from '../composables/useTreeSearch';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../stores/files';
 import type { ConfigState } from '../stores/config';
@@ -28,6 +29,18 @@ const hasExpandedPathInStorage = computed(() => {
 });
 
 const showSubFolders = ref(configState.value.expandTreeByDefault || hasExpandedPathInStorage.value);
+
+// Tree search: when an active query has any match inside this storage, force
+// the storage open so the matched descendants are reachable. We never write
+// back to `showSubFolders` (which represents the user's manual state) — instead
+// we OR the two together for rendering.
+const treeSearch = useTreeSearch();
+const storageRootPath = computed(() => `${props.storage}://`);
+const effectiveShowSubFolders = computed(
+  () =>
+    showSubFolders.value ||
+    (treeSearch.isActive.value && treeSearch.shouldForceExpand(storageRootPath.value))
+);
 
 const dragNDrop = useDragNDrop(app, ['vuefinder__drag-over']);
 
@@ -99,7 +112,7 @@ function selectOrToggle(storage: string) {
     </div>
   </div>
   <TreeSubfolderList
-    v-show="showSubFolders"
+    v-show="effectiveShowSubFolders"
     :storage="storage"
     :path="storage + '://'"
     class="vuefinder__treestorageitem__subfolder"

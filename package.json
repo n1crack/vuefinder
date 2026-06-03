@@ -98,6 +98,7 @@
     "@uppy/vue": "^3.1.0",
     "@uppy/xhr-upload": "^5.0.1",
     "@viselect/vanilla": "^3.9.0",
+    "fuse.js": "^7.1.0",
     "mitt": "^3.0.1",
     "nanostores": "^1.0.1",
     "overlayscrollbars": "^2.12.0",

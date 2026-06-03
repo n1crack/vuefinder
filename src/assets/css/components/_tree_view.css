@@ -16,6 +16,31 @@
   @apply h-full border-r border-(--vf-border-primary) pb-4;
 }
 
+/* Tree Search Input */
+.vuefinder__treeview__search {
+  @apply sticky top-0 z-2 flex items-center gap-1.5 border-b border-(--vf-border-primary) bg-(--vf-bg-secondary) px-1.5 py-1.5;
+}
+
+.vuefinder__treeview__search-icon {
+  @apply h-3.5 w-3.5 shrink-0 text-(--vf-text-tertiary);
+}
+
+.vuefinder__treeview__search-input {
+  @apply min-w-0 flex-1 border-0 bg-transparent text-xs text-(--vf-text-primary) placeholder-(--vf-text-tertiary) outline-none;
+}
+
+.vuefinder__treeview__search-clear {
+  @apply flex h-4 w-4 shrink-0 cursor-pointer items-center justify-center rounded text-(--vf-text-tertiary) hover:text-(--vf-text-secondary);
+}
+
+.vuefinder__treeview__search-clear-icon {
+  @apply h-3 w-3;
+}
+
+.vuefinder__treeview__search-highlight {
+  @apply rounded-sm bg-(--vf-accent-warning) text-(--vf-bg-primary);
+}
+
 /* Global Pinned List Styling - Works for all themes */
 .vuefinder__treeview__pinned-list {
   @apply bg-(--vf-bg-primary) py-1 pb-2;
