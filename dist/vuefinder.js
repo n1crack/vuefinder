@@ -234,7 +234,7 @@ function rn() {
 function Tn(n) {
   return n ? n === "simple" || n === "advanced" ? { ...En[n] } : { ...rn(), ...n } : rn();
 }
-const So = "4.4.0";
+const So = "4.4.1";
 function Wt(n, e, t, s, a) {
   return e = Math, t = e.log, s = 1024, a = t(n) / t(s) | 0, (n / e.pow(s, a)).toFixed(0) + " " + (a ? "KMGTPEZY"[--a] + "iB" : "B");
 }
