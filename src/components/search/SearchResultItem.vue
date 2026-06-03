@@ -30,7 +30,9 @@ interface Emits {
   (e: 'update:selectedItemDropdownOption', value: string | null): void;
   (e: 'copyPath', item: DirEntry): void;
   (e: 'openContainingFolder', item: DirEntry): void;
+  (e: 'open', item: DirEntry): void;
   (e: 'preview', item: DirEntry): void;
+  (e: 'activate', item: DirEntry): void;
 }
 
 const props = defineProps<Props>();
@@ -317,6 +319,10 @@ const previewItem = (item: DirEntry) => {
   emit('preview', item);
 };
 
+const openItem = (item: DirEntry) => {
+  emit('open', item);
+};
+
 // Enhanced keyboard navigation for item dropdowns
 const handleDropdownKeydown = (e: KeyboardEvent) => {
   if (!props.activeDropdown) return;
@@ -365,6 +371,7 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
     :class="{ 'vuefinder__search-modal__result-item--selected': index === selectedIndex }"
     :title="item.basename"
     @click="emit('select', index)"
+    @dblclick.stop="emit('activate', item)"
   >
     <div class="vuefinder__search-modal__result-icon">
       <FolderSVG v-if="item.type === 'dir'" />
@@ -443,6 +450,23 @@ const handleDropdownKeydown = (e: KeyboardEvent) => {
             <span>{{ t('Open Containing Folder') }}</span>
           </div>
           <div
+            v-if="item.type === 'dir'"
+            class="vuefinder__search-modal__item-dropdown-option"
+            :class="{
+              'vuefinder__search-modal__item-dropdown-option--selected':
+                selectedItemDropdownOption === `open-${item.path}`,
+            }"
+            @click="
+              selectItemDropdownOption(`open-${item.path}`);
+              openItem(item);
+            "
+            @focus="selectItemDropdownOption(`open-${item.path}`)"
+          >
+            <FolderSVG class="vuefinder__search-modal__item-dropdown-icon" />
+            <span>{{ t('Open') }}</span>
+          </div>
+          <div
+            v-else
             class="vuefinder__search-modal__item-dropdown-option"
             :class="{
               'vuefinder__search-modal__item-dropdown-option--selected':

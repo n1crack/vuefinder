@@ -123,6 +123,22 @@ const previewItem = (item: DirEntry) => {
   closeAllDropdowns();
 };
 
+// Navigate into a folder result and close the search modal.
+const openItem = (item: DirEntry) => {
+  app.adapter.open(item.path);
+  app.modal.close();
+  closeAllDropdowns();
+};
+
+// Double-click / Enter on a result: folders navigate, files preview.
+const activateItem = (item: DirEntry) => {
+  if (item.type === 'dir') {
+    openItem(item);
+  } else {
+    previewItem(item);
+  }
+};
+
 const selectResultItem = (index: number) => {
   selectedIndex.value = index;
   closeAllDropdowns(); // Close any open dropdowns when selecting a new item
@@ -419,7 +435,9 @@ const handleClickOutside = (event: MouseEvent) => {
           @update:selected-item-dropdown-option="selectedItemDropdownOption = $event"
           @copy-path="copyItemPath"
           @open-containing-folder="openContainingFolder"
+          @open="openItem"
           @preview="previewItem"
+          @activate="activateItem"
         />
       </div>
     </div>

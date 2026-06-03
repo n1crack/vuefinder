@@ -25,7 +25,9 @@ interface Emits {
   (e: 'update:selectedItemDropdownOption', value: string | null): void;
   (e: 'copyPath', item: DirEntry): void;
   (e: 'openContainingFolder', item: DirEntry): void;
+  (e: 'open', item: DirEntry): void;
   (e: 'preview', item: DirEntry): void;
+  (e: 'activate', item: DirEntry): void;
 }
 
 const props = defineProps<Props>();
@@ -203,7 +205,9 @@ defineExpose({
               "
               @copy-path="emit('copyPath', $event)"
               @open-containing-folder="emit('openContainingFolder', $event)"
+              @open="emit('open', $event)"
               @preview="emit('preview', $event)"
+              @activate="emit('activate', $event)"
             />
           </div>
         </div>
