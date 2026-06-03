@@ -87,12 +87,12 @@ export function useItemEvents(
 
     const { item } = result;
 
-    // Block open if not selectable
-    if (!canSelectItem(item)) return;
+    if (!item) return;
 
-    if (item) {
-      openItem(item, onFileDclick, onFolderDclick);
-    }
+    // Selection filters should not block folder navigation
+    if (item.type === 'file' && !canSelectItem(item)) return;
+
+    openItem(item, onFileDclick, onFolderDclick);
   };
 
   /**

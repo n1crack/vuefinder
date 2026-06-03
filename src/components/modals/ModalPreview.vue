@@ -55,7 +55,7 @@ const extMatches = (type: string, ext: string): boolean => {
 
 const loadPreview = (type: string) => {
   const mime = app.modal.data.item.mime_type;
-  if (mime && typeof mime === 'string') return mime.startsWith(type);
+  if (mime && typeof mime === 'string' && mime.startsWith(type)) return true;
   const ext = getExtension(app.modal.data.item.path);
   return extMatches(type, ext);
 };
