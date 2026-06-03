@@ -317,44 +317,6 @@ onBeforeUnmount(() => {
         {{ app.modal.data.item.basename }}
       </h3>
       <div class="vuefinder__image-preview__actions">
-        <div v-if="!showEdit" class="vuefinder__image-preview__zoom-controls">
-          <button
-            type="button"
-            class="vf-btn vf-btn-secondary vf-btn-small vuefinder__image-preview__zoom-button"
-            :aria-label="t('Zoom out')"
-            :title="t('Zoom out')"
-            @click="zoomOut"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="7"></circle>
-              <line x1="8" y1="11" x2="14" y2="11"></line>
-              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="vf-btn vf-btn-secondary vf-btn-small vuefinder__image-preview__zoom-reset"
-            :aria-label="t('Reset zoom')"
-            :title="t('Reset zoom')"
-            @click="resetZoom"
-          >
-            {{ Math.round(zoom * 100) }}%
-          </button>
-          <button
-            type="button"
-            class="vf-btn vf-btn-secondary vf-btn-small vuefinder__image-preview__zoom-button"
-            :aria-label="t('Zoom in')"
-            :title="t('Zoom in')"
-            @click="zoomIn"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="7"></circle>
-              <line x1="11" y1="8" x2="11" y2="14"></line>
-              <line x1="8" y1="11" x2="14" y2="11"></line>
-              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-            </svg>
-          </button>
-        </div>
         <button v-if="showEdit" class="vuefinder__image-preview__crop-button" @click="crop">
           {{ t('Crop') }}
         </button>
@@ -393,6 +355,45 @@ onBeforeUnmount(() => {
           @pointercancel="stopPanning"
           @lostpointercapture="stopPanning"
         />
+
+        <div class="vuefinder__image-preview__zoom-controls" @pointerdown.stop @wheel.stop>
+          <button
+            type="button"
+            class="vuefinder__image-preview__zoom-button"
+            :aria-label="t('Zoom out')"
+            :title="t('Zoom out')"
+            @click="zoomOut"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="vuefinder__image-preview__zoom-reset"
+            :aria-label="t('Reset zoom')"
+            :title="t('Reset zoom')"
+            @click="resetZoom"
+          >
+            {{ Math.round(zoom * 100) }}%
+          </button>
+          <button
+            type="button"
+            class="vuefinder__image-preview__zoom-button"
+            :aria-label="t('Zoom in')"
+            :title="t('Zoom in')"
+            @click="zoomIn"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <Cropper
