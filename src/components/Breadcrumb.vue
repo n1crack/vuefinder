@@ -40,6 +40,16 @@ const showHiddenBreadcrumbs = ref(false);
 const showPathCopyMode = ref(false);
 const allBreadcrumbs = computed(() => currentPath.value?.breadcrumb ?? []);
 
+const MAX_SHOWN_ITEMS = 5;
+const MIN_SHOWN_ITEMS = 1;
+const CONTAINER_SAFETY_MARGIN = 40;
+
+// Pixel widths of previously rendered segments, keyed by basename. Lets us
+// recompute the visible-item count on path changes without first re-rendering
+// every item at full width (which caused the visible "show all then collapse"
+// flash on every navigation).
+const segmentWidthCache = new Map<string, number>();
+
 function separateBreadcrumbs<T>(links: T[], show: number): [T[], T[]] {
   if (links.length > show) return [links.slice(-show), links.slice(0, -show)];
   return [links, []];
@@ -51,32 +61,70 @@ const visibleBreadcrumbs = computed(
 const hiddenBreadcrumbs = computed(
   () => separateBreadcrumbs(allBreadcrumbs.value, breadcrumbItemLimit.value)[1]
 );
-watch(breadcrumbContainerWidth, () => {
-  if (!breadcrumbContainer.value) return;
 
-  const children = breadcrumbContainer.value.children;
+// Compute the limit purely from the cache. Returns null if any segment has not
+// been measured yet (caller falls back to render-and-measure).
+function computeLimitFromCache(): number | null {
+  const segments = allBreadcrumbs.value;
+  const containerWidth = breadcrumbContainerWidth.value;
+  if (!segments.length || containerWidth <= 0) return null;
+
   let totalWidth = 0;
   let count = 0;
-  const max_shown_items = 5;
-  const min_shown_items = 1;
+  for (let i = segments.length - 1; i >= 0; i--) {
+    const name = (segments[i] as { name?: string } | undefined)?.name;
+    if (!name) continue;
+    const cached = segmentWidthCache.get(name);
+    if (cached === undefined) return null;
+    if (totalWidth + cached > containerWidth - CONTAINER_SAFETY_MARGIN) break;
+    totalWidth += cached;
+    count++;
+    if (count >= MAX_SHOWN_ITEMS) break;
+  }
+  if (count < MIN_SHOWN_ITEMS) count = MIN_SHOWN_ITEMS;
+  if (count > MAX_SHOWN_ITEMS) count = MAX_SHOWN_ITEMS;
+  return count;
+}
 
-  breadcrumbItemLimit.value = max_shown_items;
-  nextTick(() => {
-    for (let i = children.length - 1; i >= 0; i--) {
-      const child = children[i] as HTMLElement;
-      if (totalWidth + child.offsetWidth > breadcrumbContainerWidth.value - 40) {
-        break;
-      }
-      totalWidth += parseInt(child.offsetWidth.toString(), 10);
-      count++;
-    }
+function cacheRenderedSegmentWidths() {
+  if (!breadcrumbContainer.value) return;
+  const children = breadcrumbContainer.value.children;
+  const items = visibleBreadcrumbs.value;
+  for (let i = 0; i < children.length; i++) {
+    const name = (items[i] as { name?: string } | undefined)?.name;
+    if (!name) continue;
+    const w = (children[i] as HTMLElement).offsetWidth;
+    if (w > 0) segmentWidthCache.set(name, w);
+  }
+}
 
-    if (count < min_shown_items) count = min_shown_items;
-    if (count > max_shown_items) count = max_shown_items;
+async function recomputeLimit() {
+  if (!allBreadcrumbs.value.length) {
+    breadcrumbItemLimit.value = MAX_SHOWN_ITEMS;
+    return;
+  }
 
-    breadcrumbItemLimit.value = count;
-  });
-});
+  // Fast path: all visible segments already measured — set the final limit
+  // synchronously, no intermediate "show everything" render.
+  const fromCache = computeLimitFromCache();
+  if (fromCache !== null) {
+    breadcrumbItemLimit.value = fromCache;
+    return;
+  }
+
+  // Slow path: at least one segment is unmeasured. Render the max so widths
+  // can be read, measure, cache, then settle on the correct limit. This only
+  // happens the first time a given segment basename is seen.
+  breadcrumbItemLimit.value = MAX_SHOWN_ITEMS;
+  await nextTick();
+  cacheRenderedSegmentWidths();
+
+  const settled = computeLimitFromCache();
+  if (settled !== null) breadcrumbItemLimit.value = settled;
+}
+
+watch(breadcrumbContainerWidth, recomputeLimit);
+watch(allBreadcrumbs, recomputeLimit, { immediate: true });
 
 const updateContainerWidth = () => {
   if (breadcrumbContainer.value) {
