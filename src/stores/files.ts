@@ -22,7 +22,7 @@ export interface FilterState {
   showHidden: boolean;
 }
 
-function compareValues(a: unknown, b: unknown): number {
+export function compareValues(a: unknown, b: unknown): number {
   if (typeof a === 'string' && typeof b === 'string') {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   }

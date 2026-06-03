@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { inject } from 'vue';
 import { useApp } from '../../composables/useApp';
@@ -13,13 +13,14 @@ import ModalHeader from './ModalHeader.vue';
 import ModalPreview from './ModalPreview.vue';
 import ModalTreeSelector from './ModalTreeSelector.vue';
 import SearchInput from '../search/SearchInput.vue';
-import SearchOptionsDropdown from '../search/SearchOptionsDropdown.vue';
+import SearchOptionsDropdown, { type SortOption } from '../search/SearchOptionsDropdown.vue';
 import SearchResultsList from '../search/SearchResultsList.vue';
 import type { DirEntry } from '../../types';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
 import { shortenPath } from '../../utils/path';
 import { copyPath } from '../../utils/clipboard';
+import { compareValues } from '../../stores/files';
 
 defineOptions({ name: 'ModalSearch' });
 
@@ -43,6 +44,23 @@ const showFolderSelector = ref(false);
 const targetFolderEntry = ref<DirEntry | null>(null);
 const sizeFilter = ref<'all' | 'small' | 'medium' | 'large'>('all');
 const deepSearch = ref(false);
+const sortBy = ref<SortOption>('name-asc');
+
+const SORT_COLUMNS: Record<SortOption, { column: keyof DirEntry; direction: 1 | -1 }> = {
+  'name-asc': { column: 'basename', direction: 1 },
+  'name-desc': { column: 'basename', direction: -1 },
+  'size-asc': { column: 'file_size', direction: 1 },
+  'size-desc': { column: 'file_size', direction: -1 },
+  'date-asc': { column: 'last_modified', direction: 1 },
+  'date-desc': { column: 'last_modified', direction: -1 },
+};
+
+const sortedSearchResults = computed(() => {
+  const { column, direction } = SORT_COLUMNS[sortBy.value];
+  return searchResults.value
+    .slice()
+    .sort((a, b) => compareValues(a[column], b[column]) * direction);
+});
 
 // Dropdown selection state
 const selectedDropdownOption = ref<string | null>(`size-${sizeFilter.value}`);
@@ -282,6 +300,7 @@ const handleClickOutside = (event: MouseEvent) => {
             v-model:visible="showDropdown"
             v-model:size-filter="sizeFilter"
             v-model:selected-option="selectedDropdownOption"
+            v-model:sort-by="sortBy"
             :disabled="showFolderSelector"
           />
         </div>
@@ -350,7 +369,7 @@ const handleClickOutside = (event: MouseEvent) => {
         <SearchResultsList
           v-if="query.trim() && !showFolderSelector"
           ref="searchResultsListRef"
-          :search-results="searchResults"
+          :search-results="sortedSearchResults"
           :is-searching="isSearching"
           :selected-index="selectedIndex"
           :expanded-paths="expandedPaths"

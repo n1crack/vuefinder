@@ -6,16 +6,26 @@ import GearSVG from '../../assets/icons/gear.svg';
 
 defineOptions({ name: 'SearchOptionsDropdown' });
 
+export type SortOption =
+  | 'name-asc'
+  | 'name-desc'
+  | 'size-asc'
+  | 'size-desc'
+  | 'date-asc'
+  | 'date-desc';
+
 interface Props {
   visible: boolean;
   disabled?: boolean;
   sizeFilter: 'all' | 'small' | 'medium' | 'large';
   selectedOption: string | null;
+  sortBy: SortOption;
 }
 interface Emits {
   (e: 'update:visible', value: boolean): void;
   (e: 'update:sizeFilter', value: 'all' | 'small' | 'medium' | 'large'): void;
   (e: 'update:selectedOption', value: string | null): void;
+  (e: 'update:sortBy', value: SortOption): void;
   (e: 'keydown', event: KeyboardEvent): void;
 }
 
@@ -33,6 +43,15 @@ const dropdownContent = ref<HTMLElement | null>(null);
 // Floating UI cleanup functions
 let cleanupDropdown: (() => void) | null = null;
 
+const SORT_OPTIONS: { value: SortOption; key: string }[] = [
+  { value: 'name-asc', key: 'Name (A-Z)' },
+  { value: 'name-desc', key: 'Name (Z-A)' },
+  { value: 'size-asc', key: 'Size (smallest)' },
+  { value: 'size-desc', key: 'Size (largest)' },
+  { value: 'date-desc', key: 'Date (newest)' },
+  { value: 'date-asc', key: 'Date (oldest)' },
+];
+
 const selectDropdownOption = (option: string) => {
   emit('update:selectedOption', option);
 
@@ -41,6 +60,10 @@ const selectDropdownOption = (option: string) => {
     const filterValue = option.split('-')[1] as 'all' | 'small' | 'medium' | 'large';
     emit('update:sizeFilter', filterValue);
   }
+};
+
+const selectSort = (value: SortOption) => {
+  emit('update:sortBy', value);
 };
 
 const toggleDropdown = async () => {
@@ -301,6 +324,34 @@ defineExpose({
               <span>{{ t('Large (> 10MB)') }}</span>
               <div
                 v-if="sizeFilter === 'large'"
+                class="vuefinder__search-modal__dropdown-option-check"
+              >
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                  <path
+                    d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sort By Section -->
+        <div class="vuefinder__search-modal__dropdown-section">
+          <div class="vuefinder__search-modal__dropdown-title">{{ t('Sort by') }}</div>
+          <div class="vuefinder__search-modal__dropdown-options">
+            <div
+              v-for="option in SORT_OPTIONS"
+              :key="option.value"
+              class="vuefinder__search-modal__dropdown-option"
+              :class="{
+                'vuefinder__search-modal__dropdown-option--selected': sortBy === option.value,
+              }"
+              @click.stop="selectSort(option.value)"
+            >
+              <span>{{ t(option.key) }}</span>
+              <div
+                v-if="sortBy === option.value"
                 class="vuefinder__search-modal__dropdown-option-check"
               >
                 <svg viewBox="0 0 16 16" fill="currentColor">
