@@ -1,6 +1,24 @@
+import { type StyleValue } from 'vue';
 type __VLS_Props = {
     showDragOverlay?: boolean;
     dragOverlayText?: string;
+    /**
+     * Intercept Esc / overlay-click. If provided, called instead of
+     * `app.modal.close()`. Owner is responsible for actually closing once
+     * any guard (e.g. dirty-discard confirm) passes.
+     */
+    onRequestClose?: () => void;
+    /**
+     * Inline style applied to the modal body card. Used by ModalPreview to
+     * translate the entire box during swipe-to-navigate. Touch event handlers
+     * also forward here so the whole card responds to drag.
+     */
+    bodyStyle?: StyleValue;
+    bodyClass?: string;
+    onBodyTouchstart?: (e: TouchEvent) => void;
+    onBodyTouchmove?: (e: TouchEvent) => void;
+    onBodyTouchend?: (e: TouchEvent) => void;
+    onBodyTouchcancel?: (e: TouchEvent) => void;
 };
 declare var __VLS_1: {}, __VLS_3: {};
 type __VLS_Slots = {} & {

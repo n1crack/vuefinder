@@ -32,6 +32,7 @@
 @import './components/_toast.css';
 @import './components/_toolbar.css';
 @import './components/_menubar.css';
+@import './components/_image_editor.css';
 @import './components/_search_modal.css';
 @import './components/_vuefinder.css';
 
@@ -46,7 +47,9 @@
 @import './components/modals/_modal_move.css';
 @import './components/modals/_modal_new_file.css';
 @import './components/modals/_modal_new_folder.css';
+@import './components/modals/_modal_go_to_folder.css';
 @import './components/modals/_modal_preview.css';
+@import './components/modals/_preview_chrome.css';
 @import './components/modals/_modal_rename.css';
 @import './components/modals/_modal_unarchive.css';
 @import './components/modals/_modal_upload.css';

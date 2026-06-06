@@ -48,6 +48,16 @@ Options:
 - `'files'` - Files only
 - `'dirs'` - Directories only
 
+#### Folder interaction under `selection-filter-type="files"`
+
+A filter only narrows what ends up in the selection set — it does not disable navigation. Folders stay fully interactive even when the filter excludes them:
+
+- Folders look enabled (no dimming, normal cursor).
+- A double-click on a folder still navigates into it.
+- A single click on a folder clears the current selection — same behavior as clicking on empty space — so users can quickly drop the current selection by clicking a sibling folder.
+
+The folder is simply never added to the selection set, which is what the filter actually controls.
+
 ### Filter by MIME Type
 
 Restrict selection to specific file types:

@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
+import { usePreviewControls } from '../../composables/usePreviewControls';
 import useUpload, { QUEUE_ENTRY_STATUS } from '../../composables/useUpload';
 import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
-import { Cropper } from 'vue-advanced-cropper';
-import 'vue-advanced-cropper/dist/style.css';
+import { dataUrlToBlob } from '../../utils/imageEditor';
 import LazyLoad from 'vanilla-lazyload';
 import { useStore } from '@nanostores/vue';
+import ImageEditor from './ImageEditor.vue';
 import type { CurrentPathState } from '../../stores/files';
 import type { StoreValue } from 'nanostores';
+import type { DirEntry } from '../../types';
 
 defineOptions({ name: 'ImagePreview' });
 
@@ -25,7 +27,13 @@ const showEdit = ref(false);
 const previewUrl = ref(
   app.modal.data.item.previewUrl ?? app.adapter.getPreviewUrl({ path: app.modal.data.item.path })
 );
-const tempImageData = ref(previewUrl.value);
+// Working bitmap during an edit session. Initialised from previewUrl on
+// enterEdit, updated by each tab's Apply, uploaded on Save. Outside the
+// edit session it equals previewUrl.
+const workingDataUrl = ref(previewUrl.value);
+// True once at least one Apply has run — drives the chrome's dirty chip
+// + bottom Save button enable state.
+const workingDirty = ref(false);
 const zoom = ref(1);
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 3;
@@ -47,12 +55,6 @@ let initialPanY = 0;
 const { addExternalFiles, upload: uploadFiles, queue } = useUpload(app.customUploader);
 const fs = app.fs;
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
-
-const cropperRef = useTemplateRef<{
-  getResult: (options?: { size?: { width?: number; height?: number }; fillColor?: string }) => {
-    canvas?: HTMLCanvasElement;
-  };
-} | null>('cropperRef');
 
 const renderedWidth = computed(() => imageWidth.value * fitScale.value);
 const renderedHeight = computed(() => imageHeight.value * fitScale.value);
@@ -192,52 +194,53 @@ const handlePanning = (event: PointerEvent) => {
   panY.value = nextPan.y;
 };
 
-const toggleEditMode = async () => {
-  showEdit.value = !showEdit.value;
-  app.modal.setEditMode(showEdit.value);
+// Contract → chrome. Image edit mode is a multi-tab session (Crop, Rotate,
+// Grayscale, Adjust). Each tab's Apply mutates workingDataUrl and flips
+// workingDirty to true; commitEdit (= bottom Save button) uploads the
+// final working bitmap, overwriting the original file.
+usePreviewControls({
+  isEditable: computed(
+    () => enabled('edit') && !app.fs.isReadOnly(app.modal.data.item as DirEntry)
+  ),
+  isEditing: computed(() => showEdit.value),
+  isDirty: computed(() => showEdit.value && workingDirty.value),
+  primaryActionLabel: computed(() => t('Save')),
+  enterEdit: () => {
+    workingDataUrl.value = previewUrl.value;
+    workingDirty.value = false;
+    showEdit.value = true;
+    app.modal.setEditMode(true);
+  },
+  commitEdit: () => save(),
+  cancelEdit: () => {
+    showEdit.value = false;
+    workingDataUrl.value = previewUrl.value;
+    workingDirty.value = false;
+    app.modal.setEditMode(false);
+  },
+  extraInfo: computed(() => {
+    if (!imageWidth.value || !imageHeight.value) return [];
+    return [{ label: t('Dimensions'), value: `${imageWidth.value} × ${imageHeight.value}` }];
+  }),
+});
+
+const onEditorUpdate = (next: string) => {
+  workingDataUrl.value = next;
+  workingDirty.value = true;
 };
 
-const crop = async () => {
-  const result = cropperRef.value?.getResult({
-    size: { width: 795, height: 341 },
-    fillColor: '#ffffff',
-  });
-  const canvas = result?.canvas;
-  if (!canvas) return;
+const save = async () => {
+  if (!workingDirty.value) return;
 
-  // Resize if too large
-  let finalCanvas = canvas;
-  if (canvas.width > 1200 || canvas.height > 1200) {
-    const ratio = Math.min(1200 / canvas.width, 1200 / canvas.height);
-    const resized = document.createElement('canvas');
-    resized.width = Math.floor(canvas.width * ratio);
-    resized.height = Math.floor(canvas.height * ratio);
-    const ctx = resized.getContext('2d');
-    if (ctx) {
-      ctx.drawImage(canvas, 0, 0, resized.width, resized.height);
-      finalCanvas = resized;
-    }
-  }
-
-  // Keep original extension and save
   const originalFilename = app.modal.data.item.basename;
   const extension = originalFilename.split('.').pop()?.toLowerCase() || 'jpg';
   const mimeType =
     extension === 'png' ? 'image/png' : extension === 'gif' ? 'image/gif' : 'image/jpeg';
 
-  const blob = await new Promise<Blob | null>((resolve) => {
-    finalCanvas.toBlob((b) => resolve(b), mimeType);
-  });
-
-  if (!blob) {
-    notify.error(t('Failed to save image'));
-    return;
-  }
-
   try {
+    const blob = await dataUrlToBlob(workingDataUrl.value);
     const file = new File([blob], originalFilename, { type: mimeType });
 
-    // Extract target folder from the file's path
     const fullPath = app.modal.data.item.path;
     const pathParts = fullPath.split('/');
     pathParts.pop();
@@ -247,7 +250,6 @@ const crop = async () => {
       path: directoryPath || (currentPath.value?.path ?? ''),
     };
 
-    // Add file and upload
     addExternalFiles([file]);
     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -258,7 +260,6 @@ const crop = async () => {
 
     uploadFiles(targetFolder);
 
-    // Wait for upload to complete
     let attempts = 0;
     while (attempts < 150) {
       await new Promise((resolve) => setTimeout(resolve, 200));
@@ -272,7 +273,8 @@ const crop = async () => {
 
     notify.success(t('Updated.'));
 
-    // Reload image
+    // Bust the browser cache for the source image so the modal and
+    // thumbnails reload the freshly saved bytes.
     await fetch(previewUrl.value, { cache: 'reload', mode: 'no-cors' });
     const image = app.root?.querySelector?.('[data-src="' + previewUrl.value + '"]');
     if (image && image instanceof HTMLElement) {
@@ -280,7 +282,11 @@ const crop = async () => {
     }
     app.emitter.emit('vf-refresh-thumbnails');
 
-    await toggleEditMode();
+    // Exit edit mode and drop the working bitmap.
+    showEdit.value = false;
+    workingDirty.value = false;
+    workingDataUrl.value = previewUrl.value;
+    app.modal.setEditMode(false);
     emit('success');
   } catch (e: unknown) {
     notify.error(getErrorMessage(e, t('Failed to save image')));
@@ -308,28 +314,6 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="vuefinder__image-preview">
-    <div class="vuefinder__image-preview__header">
-      <h3
-        id="modal-title"
-        class="vuefinder__image-preview__title"
-        :title="app.modal.data.item.path"
-      >
-        {{ app.modal.data.item.basename }}
-      </h3>
-      <div class="vuefinder__image-preview__actions">
-        <button v-if="showEdit" class="vuefinder__image-preview__crop-button" @click="crop">
-          {{ t('Crop') }}
-        </button>
-        <button
-          v-if="enabled('edit')"
-          class="vuefinder__image-preview__edit-button"
-          @click="toggleEditMode()"
-        >
-          {{ showEdit ? t('Cancel') : t('Edit') }}
-        </button>
-      </div>
-    </div>
-
     <div ref="imageContainer" class="vuefinder__image-preview__image-container">
       <div
         v-if="!showEdit"
@@ -396,15 +380,11 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <Cropper
+      <ImageEditor
         v-else
-        ref="cropperRef"
-        class="h-full w-full"
-        crossorigin="anonymous"
-        :src="tempImageData"
-        :auto-zoom="true"
-        :priority="'image'"
-        :transitions="true"
+        :src="workingDataUrl"
+        :filename="app.modal.data.item.basename"
+        @update:src="onEditorUpdate"
       />
     </div>
   </div>

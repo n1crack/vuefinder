@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { computed, onMounted, ref, unref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
 import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
+import PreviewChrome from '../../components/previews/PreviewChrome.vue';
 import type { StoreValue } from 'nanostores';
 import Text from '../../components/previews/Text.vue';
 import Csv from '../../components/previews/Csv.vue';
@@ -12,7 +13,6 @@ import Default from '../../components/previews/Default.vue';
 import Video from '../../components/previews/Video.vue';
 import Audio from '../../components/previews/Audio.vue';
 import Pdf from '../../components/previews/Pdf.vue';
-import datetimestring from '../../utils/datetimestring';
 import type { DirEntry } from '../../types';
 
 const app = useApp();
@@ -100,8 +100,6 @@ const extMatches = (type: string, ext: string): boolean => {
 };
 
 const loadPreview = (type: string) => {
-  // User explicitly asked to open this file under a specific previewer
-  // (e.g. right-click → "Open as Text" on a file with an unusual MIME).
   const force = app.modal.data.forceType as string | undefined;
   if (force) return force === type;
 
@@ -124,85 +122,267 @@ const currentIndex = computed(() =>
   fileOnlyItems.value.findIndex((f: DirEntry) => f.path === currentItem.value.path)
 );
 
-const canNavigatePrevious = computed(() => {
-  return currentIndex.value > 0;
-});
+// app is reactive() so refs are auto-unwrapped: app.modal.controls is
+// the value, not the ref.
+const isEditable = computed(() => Boolean(unref((app.modal as any).controls?.isEditable)));
+const isEditing = computed(() => Boolean(unref((app.modal as any).controls?.isEditing)));
+const isDirty = computed(() => Boolean(unref((app.modal as any).controls?.isDirty)));
+const primaryActionLabel = computed(
+  () => unref((app.modal as any).controls?.primaryActionLabel) ?? t('Save')
+);
 
-const canNavigateNext = computed(() => {
-  return currentIndex.value < fileOnlyItems.value.length - 1;
-});
+// Edit-lifecycle actions wired to the active previewer's contract. Live
+// in the modal footer so they're easy to reach with thumb on mobile.
+const onEditToggle = async () => {
+  await (app.modal as any).controls?.enterEdit?.();
+};
+
+const onCommitEdit = async () => {
+  await (app.modal as any).controls?.commitEdit?.();
+};
+
+const onCancelEdit = async () => {
+  if (isDirty.value) {
+    const ok = window.confirm(t('Discard unsaved changes?'));
+    if (!ok) return;
+  }
+  await (app.modal as any).controls?.cancelEdit?.();
+};
+
+const canNavigatePrevious = computed(() => !isEditing.value && currentIndex.value > 0);
+const canNavigateNext = computed(
+  () => !isEditing.value && currentIndex.value < fileOnlyItems.value.length - 1
+);
 
 const navigateToPrevious = () => {
-  if (app.modal.editMode) return;
   if (!canNavigatePrevious.value) return;
   const previousItem = fileOnlyItems.value[currentIndex.value - 1];
   if (!previousItem) return;
-
-  // Clear current selection
   app.fs.clearSelection();
-
-  // Select the previous item
   app.fs.select(previousItem.path);
-
-  // Update modal data instead of opening new modal
   app.modal.data.item = previousItem;
+  loaded.value = false;
 };
 
 const navigateToNext = () => {
-  if (app.modal.editMode) return;
   if (!canNavigateNext.value) return;
   const nextItem = fileOnlyItems.value[currentIndex.value + 1];
   if (!nextItem) return;
-
-  // Clear current selection
   app.fs.clearSelection();
-
-  // Select the next item
   app.fs.select(nextItem.path);
-
-  // Update modal data instead of opening new modal
   app.modal.data.item = nextItem;
+  loaded.value = false;
 };
 
-// Keyboard navigation for preview
+// Single close path: × button, Esc, overlay click all flow through here.
+// If a previewer is mid-edit with unsaved changes, ask before closing.
+const requestClose = () => {
+  if (isEditing.value && isDirty.value) {
+    const ok = window.confirm(t('Discard unsaved changes?'));
+    if (!ok) return;
+  }
+  app.modal.close();
+};
+
+// Drag-with-animation swipe gesture for mobile navigation.
+//
+// Behavior:
+// - Touch starts on a non-interactive surface (title or empty preview area)
+// - On touchmove the entire preview pane (chrome + content) translates with
+//   the finger via translateX
+// - On touchend, if the horizontal drag exceeds COMMIT_RATIO of the viewport
+//   width, animate the pane fully off-screen in that direction, then swap to
+//   the next/previous file. Otherwise snap back to 0.
+// - Skipped entirely when in edit mode, or when the touch begins on
+//   interactive content (text editor, video, audio, form fields, cropper,
+//   chrome buttons, etc.).
+const DRAG_START_THRESHOLD = 8; // px before we commit to a drag (vs a tap)
+const HORIZONTAL_BIAS = 1.4;
+const COMMIT_RATIO = 0.22; // fraction of viewport width to trigger nav
+const ANIM_MS = 220;
+// Swipe is restricted to "safe zones" — the chrome title bar and the
+// bottom status strip. The preview content itself (image pan, PDF scroll,
+// video controls, text selection, cropper handles) never starts a modal
+// swipe; whatever component is inside owns its own touch behaviour.
+const SWIPE_ZONE_SELECTOR =
+  '.vuefinder__preview-chrome__title, .vuefinder__preview-modal__status-strip';
+
+const dragX = ref(0);
+const animating = ref(false);
+let touchStartX = 0;
+let touchStartY = 0;
+let touchActive = false;
+let dragCommitted = false;
+
+const paneStyle = computed(() => ({
+  transform: `translate3d(${dragX.value}px, 0, 0)`,
+  transition: animating.value ? `transform ${ANIM_MS}ms ease-out` : 'none',
+}));
+
+const settleAfter = (ms: number, fn: () => void) => {
+  setTimeout(fn, ms);
+};
+
+const onTouchStart = (e: TouchEvent) => {
+  if (isEditing.value) return;
+  if (e.touches.length !== 1) return;
+  const target = e.target as HTMLElement | null;
+  // Only the chrome title bar and the bottom status strip are swipe-safe.
+  // Anywhere else (content area, action buttons, etc.) is owned by the
+  // component below and shouldn't trigger modal navigation.
+  if (!target?.closest?.(SWIPE_ZONE_SELECTOR)) return;
+  const t0 = e.touches[0];
+  if (!t0) return;
+  touchActive = true;
+  dragCommitted = false;
+  touchStartX = t0.clientX;
+  touchStartY = t0.clientY;
+  animating.value = false;
+};
+
+const onTouchMove = (e: TouchEvent) => {
+  if (!touchActive) return;
+  const touch = e.touches[0];
+  if (!touch) return;
+  const dx = touch.clientX - touchStartX;
+  const dy = touch.clientY - touchStartY;
+  // Decide drag vs scroll once we leave the dead-zone. Vertical-dominant
+  // movement aborts so the user can scroll long content.
+  if (!dragCommitted) {
+    if (Math.abs(dx) < DRAG_START_THRESHOLD && Math.abs(dy) < DRAG_START_THRESHOLD) return;
+    if (Math.abs(dx) < Math.abs(dy) * HORIZONTAL_BIAS) {
+      touchActive = false;
+      return;
+    }
+    dragCommitted = true;
+  }
+  // Resist swiping past the first/last file — visual rubber-band.
+  let effective = dx;
+  if (dx > 0 && !canNavigatePrevious.value) effective = dx * 0.3;
+  if (dx < 0 && !canNavigateNext.value) effective = dx * 0.3;
+  dragX.value = effective;
+  if (e.cancelable) e.preventDefault();
+};
+
+// Two-stage card-swap commit. Outgoing pane slides fully off in the drag
+// direction, then we swap the item and the new pane is pre-positioned
+// off-screen on the OPPOSITE side and slides in. Gives the "the next file
+// is right next door" feel instead of just sliding content around.
+const commitNavigation = (direction: 'prev' | 'next') => {
+  const viewport = window.innerWidth || 1;
+  const outTo = direction === 'prev' ? viewport : -viewport;
+  const enterFrom = direction === 'prev' ? -viewport : viewport;
+  const navigate = direction === 'prev' ? navigateToPrevious : navigateToNext;
+
+  // Stage 1: slide current pane fully off-screen.
+  animating.value = true;
+  dragX.value = outTo;
+  settleAfter(ANIM_MS, () => {
+    // Swap item content, jump pane to the opposite side with no animation.
+    navigate();
+    animating.value = false;
+    dragX.value = enterFrom;
+    // Wait two frames so the browser commits the jump before we start the
+    // entrance animation; otherwise the transition is collapsed.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        animating.value = true;
+        dragX.value = 0;
+        settleAfter(ANIM_MS, () => {
+          animating.value = false;
+        });
+      });
+    });
+  });
+};
+
+const onTouchEnd = () => {
+  if (!touchActive) return;
+  touchActive = false;
+  if (!dragCommitted) return;
+
+  const viewport = window.innerWidth || 1;
+  const dx = dragX.value;
+  const commit = Math.abs(dx) >= viewport * COMMIT_RATIO;
+
+  if (commit && dx > 0 && canNavigatePrevious.value) {
+    commitNavigation('prev');
+    return;
+  }
+  if (commit && dx < 0 && canNavigateNext.value) {
+    commitNavigation('next');
+    return;
+  }
+  // Snap back.
+  animating.value = true;
+  dragX.value = 0;
+  settleAfter(ANIM_MS, () => {
+    animating.value = false;
+  });
+};
+
+const onTouchCancel = () => {
+  if (!touchActive) return;
+  touchActive = false;
+  if (!dragCommitted) return;
+  animating.value = true;
+  dragX.value = 0;
+  settleAfter(ANIM_MS, () => {
+    animating.value = false;
+  });
+};
+
 const handleKeydown = (event: KeyboardEvent) => {
-  // Handle ESC key to close modal
   if (event.key === 'Escape') {
     event.preventDefault();
     event.stopPropagation();
-    app.modal.close();
+    requestClose();
     return;
   }
-
-  // Handle arrow keys for navigation
+  // Cmd/Ctrl+S → commit edit
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
+    const c = (app.modal as any).controls;
+    if (c && unref(c.isEditing)) {
+      event.preventDefault();
+      void c.commitEdit();
+      return;
+    }
+  }
+  if (isEditing.value) return; // arrow nav off in edit mode
   if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
     event.preventDefault();
     event.stopPropagation();
-    if (event.key === 'ArrowLeft') {
-      navigateToPrevious();
-    } else {
-      navigateToNext();
-    }
+    if (event.key === 'ArrowLeft') navigateToPrevious();
+    else navigateToNext();
   }
 };
 
 onMounted(() => {
-  // Focus the modal for keyboard events
   const modalWrapper = document.querySelector('.vuefinder__preview-modal');
-  if (modalWrapper) {
-    (modalWrapper as HTMLElement).focus();
-  }
+  if (modalWrapper) (modalWrapper as HTMLElement).focus();
 });
 </script>
 
 <template>
-  <ModalLayout>
+  <ModalLayout
+    :on-request-close="requestClose"
+    :body-style="paneStyle"
+    :body-class="
+      'vuefinder__modal-layout__body--swipeable ' +
+      (isEditing ? 'vuefinder__modal-layout__body--editing' : '')
+    "
+    :on-body-touchstart="onTouchStart"
+    :on-body-touchmove="onTouchMove"
+    :on-body-touchend="onTouchEnd"
+    :on-body-touchcancel="onTouchCancel"
+  >
     <div class="vuefinder__preview-modal" tabindex="0" @keydown="handleKeydown">
-      <!-- Navigation arrows - viewport-anchored so they don't cover the preview.
-           Teleported to body so the modal box can't clip them. -->
+      <PreviewChrome @close-request="requestClose" />
+
+      <!-- Side-anchored desktop navigation arrows (hidden on mobile / edit). -->
       <Teleport to="body">
         <div
-          v-if="!app.modal.editMode"
+          v-if="!isEditing"
           class="vuefinder__themer vuefinder__preview-modal__nav-overlay"
           :data-theme="app.theme.current"
         >
@@ -277,6 +457,30 @@ onMounted(() => {
           <Default v-else :key="`default-${currentItem.path}`" @success="loaded = true" />
         </div>
 
+        <!-- Bottom status strip: pagination (view mode) OR edit-state chip
+             (edit mode). One slot, one chip, swaps content based on state
+             so the layout never moves. Hidden entirely when neither
+             pagination nor edit state applies. -->
+        <div
+          v-if="isEditing || fileOnlyItems.length > 1"
+          class="vuefinder__preview-modal__status-strip"
+        >
+          <span
+            v-if="isEditing"
+            class="vuefinder__preview-modal__edit-chip"
+            :class="{ 'vuefinder__preview-modal__edit-chip--dirty': isDirty }"
+          >
+            {{ isDirty ? t('Unsaved') : t('Editing') }}
+          </span>
+          <span
+            v-else
+            class="vuefinder__preview-modal__pagination-text"
+            :aria-label="t('File %s of %s', String(currentIndex + 1), String(fileOnlyItems.length))"
+          >
+            {{ currentIndex + 1 }} / {{ fileOnlyItems.length }}
+          </span>
+        </div>
+
         <div class="vuefinder__preview-modal__loading">
           <div v-if="loaded === false" class="vuefinder__preview-modal__loading-indicator">
             <svg
@@ -305,79 +509,37 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="vuefinder__preview-modal__details">
-      <div>
-        <span class="font-bold">{{ t('File Size') }}: </span
-        >{{ app.filesize(app.modal.data.item.file_size) }}
-      </div>
-      <div>
-        <span class="pl-2 font-bold">{{ t('Last Modified') }}: </span>
-        {{ datetimestring(app.modal.data.item.last_modified) }}
-      </div>
-    </div>
-    <div v-if="enabled('download')" class="vuefinder__preview-modal__note">
-      <span>{{
-        t(
-          'Download doesn\'t work? You can try right-click "Download" button, select "Save link as...".'
-        )
-      }}</span>
-    </div>
-
-    <template #buttons>
-      <!-- prev / close / next stay together as one row on mobile; the inline
-           arrows are hidden on desktop where the side-anchored arrows handle
-           navigation. -->
-      <div class="vuefinder__preview-modal__footer-group">
-        <button
-          v-if="!app.modal.editMode"
-          type="button"
-          class="vf-btn vf-btn-secondary vuefinder__preview-modal__nav-inline"
-          :disabled="!canNavigatePrevious"
-          :title="t('Previous file')"
-          :aria-label="t('Previous file')"
-          @click="navigateToPrevious"
-        >
-          <svg
-            class="vuefinder__preview-modal__nav-inline-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
+    <template v-if="isEditable" #buttons>
+      <!-- Wrapper keeps actions on one row even on mobile, so the modal
+           height doesn't grow when switching view↔edit (1 button vs 2). -->
+      <div class="vuefinder__preview-modal__edit-actions">
+        <template v-if="!isEditing">
+          <button
+            type="button"
+            class="vf-btn vf-btn-primary vuefinder__preview-modal__edit-btn"
+            @click="onEditToggle"
           >
-            <polyline points="15,18 9,12 15,6"></polyline>
-          </svg>
-        </button>
-        <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
-          {{ t('Close') }}
-        </button>
-        <button
-          v-if="!app.modal.editMode"
-          type="button"
-          class="vf-btn vf-btn-secondary vuefinder__preview-modal__nav-inline"
-          :disabled="!canNavigateNext"
-          :title="t('Next file')"
-          :aria-label="t('Next file')"
-          @click="navigateToNext"
-        >
-          <svg
-            class="vuefinder__preview-modal__nav-inline-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
+            {{ t('Edit') }}
+          </button>
+        </template>
+        <template v-else>
+          <button
+            type="button"
+            class="vf-btn vf-btn-primary vuefinder__preview-modal__edit-btn"
+            :disabled="!isDirty"
+            @click="onCommitEdit"
           >
-            <polyline points="9,18 15,12 9,6"></polyline>
-          </svg>
-        </button>
+            {{ primaryActionLabel }}
+          </button>
+          <button
+            type="button"
+            class="vf-btn vf-btn-secondary vuefinder__preview-modal__edit-btn"
+            @click="onCancelEdit"
+          >
+            {{ t('Cancel') }}
+          </button>
+        </template>
       </div>
-      <a
-        v-if="enabled('download')"
-        target="_blank"
-        class="vf-btn vf-btn-primary"
-        :download="app.adapter.getDownloadUrl(app.modal.data.item)"
-        :href="app.adapter.getDownloadUrl(app.modal.data.item)"
-        >{{ t('Download') }}</a
-      >
     </template>
   </ModalLayout>
 </template>

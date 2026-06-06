@@ -99,7 +99,74 @@
 }
 
 .vuefinder__preview-modal__content {
-  @apply relative mt-3 w-full sm:mt-0 sm:text-left;
+  @apply relative mt-3 w-full pb-1 sm:mt-0 sm:pb-2 sm:text-left;
+}
+
+/* Bottom status strip. Shows the pagination chip in view mode and the
+   edit-state chip (Editing / Unsaved) in edit mode — same slot, never
+   shifts modal height between modes. Hidden on desktop where the inline
+   counter in the chrome action row already shows position. */
+.vuefinder__preview-modal__status-strip {
+  @apply mt-1.5 flex justify-center sm:hidden;
+}
+
+/* Both chips share an identical box-model so swapping between them
+   between view and edit modes never nudges the modal height — both have
+   the same 1px border (transparent on pagination), same padding, same
+   line-height. */
+.vuefinder__preview-modal__pagination-text,
+.vuefinder__preview-modal__edit-chip {
+  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium;
+  line-height: 1rem;
+  border: 1px solid transparent;
+}
+
+.vuefinder__preview-modal__pagination-text {
+  @apply bg-(--vf-bg-secondary) text-(--vf-text-secondary) tabular-nums;
+}
+
+/* Amber chip signals edit mode at a glance. Two states:
+   - outline + amber text ("Editing") for edit-mode-but-clean
+   - solid amber bg ("Unsaved") once the user has made changes */
+.vuefinder__preview-modal__edit-chip {
+  @apply font-semibold tracking-wide uppercase;
+  color: var(--vf-accent-warning);
+  border-color: var(--vf-accent-warning);
+}
+
+.vuefinder__preview-modal__edit-chip--dirty {
+  color: #ffffff;
+  background: var(--vf-accent-warning);
+  border-color: var(--vf-accent-warning);
+}
+
+/* Edit-mode action wrapper keeps both buttons on a single row regardless
+   of viewport so the modal footer height stays constant between view
+   mode (1 button) and edit mode (2 buttons). */
+.vuefinder__preview-modal__edit-actions {
+  @apply flex flex-row-reverse justify-start gap-2;
+}
+
+.vuefinder__preview-modal__edit-btn {
+  @apply min-w-[6rem];
+}
+
+/* Whole modal card slides during drag-swipe. Vertical pan still works so
+   long content scrolls; our handler owns the X axis. */
+.vuefinder__modal-layout__body--swipeable {
+  @apply will-change-transform;
+  touch-action: pan-y;
+}
+
+/* Edit-mode peripheral cue: a thin amber stripe along the modal's top
+   edge. The chip in the chrome is the direct signal; the stripe is the
+   ambient "you are in edit mode" reminder the eye catches even when
+   focused on the preview content. */
+.vuefinder__modal-layout__body--editing {
+  box-shadow:
+    inset 0 3px 0 0 var(--vf-accent-warning),
+    0 20px 25px -5px var(--vf-shadow-modal),
+    0 10px 10px -5px var(--vf-shadow-md);
 }
 
 .vuefinder__preview-modal__loading {

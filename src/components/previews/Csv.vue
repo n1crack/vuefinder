@@ -2,10 +2,11 @@
 import { computed, defineAsyncComponent, onMounted, ref, shallowRef } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
+import { usePreviewControls } from '../../composables/usePreviewControls';
 import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
+import type { DirEntry } from '../../types';
 
-// CodeMirror chunk only loads if the user flips into raw / edit mode.
 const CodeMirrorEditor = defineAsyncComponent({
   loader: () => import('./CodeMirrorEditor.vue'),
   delay: 100,
@@ -19,12 +20,9 @@ const contentTemp = ref('');
 const rows = shallowRef<string[][]>([]);
 const headers = shallowRef<string[]>([]);
 const parseError = ref<string | null>(null);
-const showEdit = ref(false);
+const editing = ref(false);
 const showAsTable = ref(false);
 
-// Cap the rendered table size; very large CSVs still parse but we only
-// render the first N rows in the table to keep the DOM responsive. The user
-// can flip into raw view to see everything.
 const ROW_LIMIT = 1000;
 const truncated = computed(() => rows.value.length > ROW_LIMIT);
 const visibleRows = computed(() => (truncated.value ? rows.value.slice(0, ROW_LIMIT) : rows.value));
@@ -39,8 +37,6 @@ async function parseCsv(text: string) {
     const { parse } = await import('papaparse');
     const result = parse<string[]>(text, {
       skipEmptyLines: true,
-      // Auto-detect comma / semicolon / tab / pipe — Papaparse picks whichever
-      // produces the most consistent column count.
       delimiter: '',
     });
     if (!result.data.length) {
@@ -72,81 +68,83 @@ onMounted(async () => {
   }
 });
 
-const toggleEditMode = () => {
-  showEdit.value = !showEdit.value;
-  contentTemp.value = content.value;
-  app.modal.setEditMode(showEdit.value);
+const toggleView = () => {
+  if (editing.value) return;
+  showAsTable.value = !showAsTable.value;
 };
 
-const save = async () => {
+const inTableMode = computed(() => !editing.value && showAsTable.value);
+
+// Contract → chrome. Read-only files don't expose Edit (save would fail).
+const isEditable = computed(
+  () => enabled('edit') && !app.fs.isReadOnly(app.modal.data.item as DirEntry)
+);
+const isEditing = computed(() => editing.value);
+const isDirty = computed(() => editing.value && contentTemp.value !== content.value);
+
+const enterEdit = () => {
+  contentTemp.value = content.value;
+  editing.value = true;
+  // Editing always forces raw view (can't edit a rendered table).
+  showAsTable.value = false;
+  app.modal.setEditMode(true);
+};
+
+const cancelEdit = () => {
+  editing.value = false;
+  contentTemp.value = content.value;
+  app.modal.setEditMode(false);
+};
+
+const commitEdit = async () => {
   try {
-    const fullPath = app.modal.data.item.path;
-    await app.adapter.save({ path: fullPath, content: contentTemp.value });
+    await app.adapter.save({ path: app.modal.data.item.path, content: contentTemp.value });
     content.value = contentTemp.value;
     await parseCsv(content.value);
     notify.success(t('Updated.'));
-    emit('success');
-    showEdit.value = false;
+    editing.value = false;
     app.modal.setEditMode(false);
+    emit('success');
   } catch (e: unknown) {
     notify.error(getErrorMessage(e, t('Failed to save file')));
   }
 };
 
-const toggleView = () => {
-  if (showEdit.value) return;
-  showAsTable.value = !showAsTable.value;
-};
-
-// Default is raw text (same as any other text file). The toggle flips into
-// the parsed table view. Editing always forces raw because you can't edit a
-// rendered <table>.
-const inTableMode = computed(() => !showEdit.value && showAsTable.value);
+usePreviewControls({
+  isEditable,
+  isEditing,
+  isDirty,
+  primaryActionLabel: computed(() => t('Save')),
+  enterEdit,
+  commitEdit,
+  cancelEdit,
+});
 </script>
 
 <template>
   <div class="vuefinder__text-preview">
-    <div class="vuefinder__text-preview__header">
-      <div
-        id="modal-title"
-        class="vuefinder__text-preview__title"
-        :title="app.modal.data.item.path"
+    <div class="vuefinder__text-preview__body vuefinder__csv-preview__body">
+      <!-- Raw / Table toggle: Csv-specific, lives inside the body so it
+           doesn't pollute the global chrome. Hidden while editing. -->
+      <button
+        v-if="!editing"
+        class="vuefinder__csv-preview__view-toggle"
+        :title="inTableMode ? t('View as raw') : t('View as table')"
+        @click="toggleView"
       >
-        {{ app.modal.data.item.basename }}
-      </div>
-      <div class="vuefinder__text-preview__actions">
-        <button
-          v-if="!showEdit"
-          class="vuefinder__csv-preview__view-toggle"
-          :title="inTableMode ? t('View as raw') : t('View as table')"
-          @click="toggleView"
-        >
-          {{ inTableMode ? t('Raw') : t('Table') }}
-        </button>
-        <button v-if="showEdit" class="vuefinder__text-preview__save-button" @click="save">
-          {{ t('Save') }}
-        </button>
-        <button
-          v-if="enabled('edit')"
-          class="vuefinder__text-preview__edit-button"
-          @click="toggleEditMode()"
-        >
-          {{ showEdit ? t('Cancel') : t('Edit') }}
-        </button>
-      </div>
-    </div>
+        {{ inTableMode ? t('Raw') : t('Table') }}
+      </button>
 
-    <div class="vuefinder__text-preview__body">
       <template v-if="!inTableMode">
         <Suspense>
           <CodeMirrorEditor
-            :model-value="showEdit ? contentTemp : content"
-            :readonly="!showEdit"
+            :model-value="editing ? contentTemp : content"
+            :readonly="!editing"
             :filename="app.modal.data.item.basename"
-            @update:model-value="(v: string) => (showEdit ? (contentTemp = v) : null)"
+            @update:model-value="(v: string) => (editing ? (contentTemp = v) : null)"
           />
           <template #fallback>
-            <pre v-if="!showEdit" class="vuefinder__text-preview__content">{{ content }}</pre>
+            <pre v-if="!editing" class="vuefinder__text-preview__content">{{ content }}</pre>
             <textarea
               v-else
               v-model="contentTemp"

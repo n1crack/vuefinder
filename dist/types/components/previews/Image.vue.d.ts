@@ -1,4 +1,3 @@
-import 'vue-advanced-cropper/dist/style.css';
 declare const __VLS_export: import("vue").DefineComponent<{}, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     success: (...args: any[]) => void;
 }, string, import("vue").PublicProps, Readonly<{}> & Readonly<{

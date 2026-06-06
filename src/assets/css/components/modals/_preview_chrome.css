@@ -1,0 +1,179 @@
+/* Top bar layout. Title left, action group right — always single row.
+   On narrow screens the title shrinks via truncate() and the action group
+   stays at fixed width; if the action group itself would overflow, the
+   download label hides (see below) and counter wraps. */
+.vuefinder__preview-chrome {
+  @apply mb-2 flex items-center gap-2 border-b border-(--vf-border-primary) pb-2;
+}
+
+.vuefinder__preview-chrome__title {
+  @apply min-w-0 flex-1 truncate text-sm font-semibold text-(--vf-text-primary);
+}
+
+/* Borderless icon button shared by info (left of title) and download
+   (right action). Matches the action-row height (h-9 w-9) so they line up
+   with the bordered Edit / Close buttons. */
+.vuefinder__preview-chrome__info-host {
+  @apply shrink-0;
+}
+
+.vuefinder__preview-chrome__info-btn {
+  @apply inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded text-(--vf-text-secondary) hover:bg-(--vf-bg-secondary) hover:text-(--vf-text-primary);
+  stroke: currentColor;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+/* Info button on the left of the title — slightly bigger icon for emphasis. */
+.vuefinder__preview-chrome__info-host
+  .vuefinder__preview-chrome__info-btn
+  > .vuefinder__preview-chrome__icon {
+  @apply h-6 w-6;
+}
+
+.vuefinder__preview-chrome__info-btn--active {
+  @apply bg-(--vf-bg-secondary) text-(--vf-text-primary);
+}
+
+.vuefinder__preview-chrome__actions {
+  @apply flex shrink-0 items-stretch gap-1;
+}
+
+.vuefinder__preview-chrome__counter {
+  @apply hidden items-center px-1.5 text-xs text-(--vf-text-secondary) tabular-nums sm:flex;
+}
+
+.vuefinder__preview-chrome {
+  @apply relative;
+}
+
+/* All buttons share the same height and base styling. icon-only buttons get
+   a square footprint; labelled buttons grow with content. */
+.vuefinder__preview-chrome__btn {
+  @apply inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2.5 text-sm text-(--vf-text-primary) hover:bg-(--vf-bg-secondary);
+  transition:
+    background-color 150ms ease,
+    opacity 150ms ease;
+}
+
+.vuefinder__preview-chrome__btn:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.vuefinder__preview-chrome__btn--icon {
+  @apply h-9 w-9 p-0;
+}
+
+.vuefinder__preview-chrome__btn--close {
+  @apply h-10 w-10;
+}
+
+.vuefinder__preview-chrome__btn--primary {
+  @apply bg-(--vf-bg-selected);
+}
+
+.vuefinder__preview-chrome__btn--primary:hover:not(:disabled) {
+  @apply bg-(--vf-bg-tertiary);
+}
+
+.vuefinder__preview-chrome__btn--active {
+  @apply bg-(--vf-bg-tertiary);
+}
+
+/* Close button: borderless icon, slightly larger than the rest so it reads
+   as "primary dismiss" without competing visually with action buttons. */
+.vuefinder__preview-chrome__btn--close {
+  @apply border-transparent bg-transparent text-(--vf-text-secondary) hover:bg-(--vf-bg-secondary) hover:text-(--vf-text-primary);
+}
+
+.vuefinder__preview-chrome__icon {
+  @apply h-5 w-5;
+  /* Some icon files in this project ship with stroke="none" hardcoded at
+     the <svg> root (e.g. rename.svg) and rely on the consumer to set the
+     stroke colour via CSS. Set it here so every icon used in chrome paints,
+     no matter how its source SVG was authored. */
+  stroke: currentColor;
+}
+
+.vuefinder__preview-chrome__icon--lg {
+  @apply h-6 w-6;
+  stroke: currentColor;
+}
+
+.vuefinder__preview-chrome__btn-label {
+  @apply whitespace-nowrap;
+}
+
+/* On mobile, secondary labels (Download) hide to save space. The verb
+   buttons (Edit/Cancel/Save) keep their labels because they are the
+   primary action and the icon alone (pencil) is ambiguous next to
+   download/rename-style icons in the same row. */
+@media (max-width: 639px) {
+  .vuefinder__preview-chrome__btn-label--optional {
+    @apply hidden;
+  }
+}
+
+/* Split button (Download + ?) shares a border so they look glued. */
+.vuefinder__preview-chrome__split {
+  @apply inline-flex items-stretch;
+}
+
+.vuefinder__preview-chrome__split-main {
+  @apply rounded-r-none;
+}
+
+.vuefinder__preview-chrome__split-aux {
+  @apply rounded-l-none border-l-0;
+}
+
+/* Popover host is positioning context. */
+.vuefinder__preview-chrome__popover-host {
+  @apply relative;
+}
+
+/* Default popover anchors to the right edge of its host — correct for the
+   action group on the right side of the chrome. Cap width so it doesn't
+   spill past the viewport on narrow screens. */
+.vuefinder__preview-chrome__popover {
+  @apply absolute right-0 z-20 mt-1 w-[260px] max-w-[calc(100vw-2rem)] rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) p-3 text-xs text-(--vf-text-primary) shadow-lg;
+  top: 100%;
+}
+
+/* Info popover lives on the left side of the chrome; anchor to the left
+   edge so it extends rightward into the viewport instead of off-screen. */
+.vuefinder__preview-chrome__info-host .vuefinder__preview-chrome__popover {
+  @apply right-auto left-0;
+}
+
+.vuefinder__preview-chrome__popover-row {
+  @apply flex justify-between gap-3 py-0.5;
+}
+
+.vuefinder__preview-chrome__popover-label {
+  @apply shrink-0 font-semibold text-(--vf-text-secondary);
+}
+
+.vuefinder__preview-chrome__popover-value {
+  @apply truncate text-right;
+}
+
+/* Action row inside a popover (e.g. the actual Download button living
+   inside the download popover). Looks like a primary chrome button. */
+.vuefinder__preview-chrome__popover-action {
+  @apply inline-flex h-9 w-full cursor-pointer items-center justify-center gap-2 rounded border border-(--vf-border-primary) bg-(--vf-bg-selected) text-sm font-medium text-(--vf-text-primary) hover:bg-(--vf-bg-tertiary);
+  stroke: currentColor;
+}
+
+/* Hidden on mobile: the "right-click → Save link as..." trick doesn't
+   exist on touch devices, so the hint is just noise there. */
+.vuefinder__preview-chrome__popover-hint {
+  @apply mt-2 hidden text-[11px] leading-snug text-(--vf-text-secondary) sm:block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vuefinder__preview-chrome__btn {
+    transition: none;
+  }
+}

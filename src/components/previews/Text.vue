@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, ref } from 'vue';
+import { computed, defineAsyncComponent, onMounted, ref } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
+import { usePreviewControls } from '../../composables/usePreviewControls';
 import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
+import type { DirEntry } from '../../types';
 
-// CodeMirror lives in its own chunk so it only ships when the user actually
-// opens a text preview. While the chunk is loading we render the simple
-// <pre>/<textarea> fallback that has always been there, so the modal never
-// shows a blank state.
 const CodeMirrorEditor = defineAsyncComponent({
   loader: () => import('./CodeMirrorEditor.vue'),
   delay: 100,
@@ -17,7 +15,7 @@ const CodeMirrorEditor = defineAsyncComponent({
 const emit = defineEmits(['success']);
 const content = ref('');
 const contentTemp = ref('');
-const showEdit = ref(false);
+const editing = ref(false);
 const editorReady = ref(false);
 
 const app = useApp();
@@ -33,69 +31,70 @@ onMounted(async () => {
     contentTemp.value = result.content;
     emit('success');
   } catch (error: unknown) {
-    // Error is handled silently - content will be empty
     getErrorMessage(error, 'Failed to load text content');
     emit('success');
   }
 });
 
-const toggleEditMode = () => {
-  showEdit.value = !showEdit.value;
+// Contract → chrome. Locked / read-only files don't get an Edit button
+// at all — saving would fail anyway and showing the affordance is confusing.
+const isEditable = computed(
+  () => enabled('edit') && !app.fs.isReadOnly(app.modal.data.item as DirEntry)
+);
+const isEditing = computed(() => editing.value);
+const isDirty = computed(() => editing.value && contentTemp.value !== content.value);
+
+const enterEdit = () => {
   contentTemp.value = content.value;
-  app.modal.setEditMode(showEdit.value);
+  editing.value = true;
+  app.modal.setEditMode(true);
 };
 
-const save = async () => {
+const cancelEdit = () => {
+  editing.value = false;
+  contentTemp.value = content.value;
+  app.modal.setEditMode(false);
+};
+
+const commitEdit = async () => {
   try {
-    // Save content using adapter
-    const fullPath = app.modal.data.item.path;
     await app.adapter.save({
-      path: fullPath,
+      path: app.modal.data.item.path,
       content: contentTemp.value,
     });
     content.value = contentTemp.value;
     notify.success(t('Updated.'));
+    editing.value = false;
+    app.modal.setEditMode(false);
     emit('success');
-    showEdit.value = !showEdit.value;
   } catch (e: unknown) {
     notify.error(getErrorMessage(e, t('Failed to save file')));
   }
 };
+
+usePreviewControls({
+  isEditable,
+  isEditing,
+  isDirty,
+  primaryActionLabel: computed(() => t('Save')),
+  enterEdit,
+  commitEdit,
+  cancelEdit,
+});
 </script>
 
 <template>
   <div class="vuefinder__text-preview">
-    <div class="vuefinder__text-preview__header">
-      <div
-        id="modal-title"
-        class="vuefinder__text-preview__title"
-        :title="app.modal.data.item.path"
-      >
-        {{ app.modal.data.item.basename }}
-      </div>
-      <div class="vuefinder__text-preview__actions">
-        <button v-if="showEdit" class="vuefinder__text-preview__save-button" @click="save">
-          {{ t('Save') }}
-        </button>
-        <button
-          v-if="enabled('edit')"
-          class="vuefinder__text-preview__edit-button"
-          @click="toggleEditMode()"
-        >
-          {{ showEdit ? t('Cancel') : t('Edit') }}
-        </button>
-      </div>
-    </div>
     <div class="vuefinder__text-preview__body">
       <Suspense @resolve="editorReady = true">
         <CodeMirrorEditor
-          :model-value="showEdit ? contentTemp : content"
-          :readonly="!showEdit"
+          :model-value="editing ? contentTemp : content"
+          :readonly="!editing"
           :filename="app.modal.data.item.basename"
-          @update:model-value="(v: string) => (showEdit ? (contentTemp = v) : null)"
+          @update:model-value="(v: string) => (editing ? (contentTemp = v) : null)"
         />
         <template #fallback>
-          <pre v-if="!showEdit" class="vuefinder__text-preview__content">{{ content }}</pre>
+          <pre v-if="!editing" class="vuefinder__text-preview__content">{{ content }}</pre>
           <textarea
             v-else
             v-model="contentTemp"
@@ -106,7 +105,6 @@ const save = async () => {
           ></textarea>
         </template>
       </Suspense>
-      <!-- Keep linter happy: editorReady is updated when CM mounts -->
       <span v-show="false">{{ editorReady }}</span>
     </div>
   </div>

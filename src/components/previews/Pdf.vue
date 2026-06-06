@@ -17,9 +17,6 @@ onMounted(() => {
 
 <template>
   <div class="vuefinder__pdf-preview">
-    <h3 id="modal-title" class="vuefinder__pdf-preview__title" :title="app.modal.data.item.path">
-      {{ app.modal.data.item.basename }}
-    </h3>
     <div>
       <object
         class="vuefinder__pdf-preview__object"

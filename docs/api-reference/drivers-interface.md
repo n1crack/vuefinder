@@ -17,10 +17,10 @@ export interface Driver {
   copy(params: TransferParams): Promise<FileOperationResult>;
   move(params: TransferParams): Promise<FileOperationResult>;
   archive(params: ArchiveParams): Promise<FileOperationResult>;
-  unarchive(params: { item: string; path: string }): Promise<FileOperationResult>;
+  unarchive(params: UnarchiveParams): Promise<FileOperationResult>;
   createFile(params: { path: string; name: string }): Promise<FileOperationResult>;
   createFolder(params: { path: string; name: string }): Promise<FileOperationResult>;
-  getContent(params: { path: string }): Promise<FileContentResult>;
+  getContent(params: GetContentParams): Promise<FileContentResult>;
   getPreviewUrl(params: { path: string }): string;
   getDownloadUrl(params: { path: string }): string;
   search(params: SearchParams): Promise<DirEntry[]>;
@@ -38,6 +38,21 @@ VueFinder ships with ready-to-use drivers that implement this interface:
 
 See the guide for usage and configuration of these drivers:
 [Guide - Drivers & Adapters](../guide/drivers-adapters.md)
+
+## Cancellation (`AbortSignal`)
+
+The driver contract accepts an optional `signal?: AbortSignal` on the methods that can be cancelled mid-flight:
+
+- `list`
+- `search`
+- `getContent`
+- `save`
+
+`AdapterManager` automatically forwards the `AbortSignal` produced by TanStack Query's `queryFn` context, and prefers any explicit `signal` passed by the caller. The built-in `RemoteDriver` forwards `signal` to `fetch`, so backend requests are aborted as soon as the caller (or query invalidation) signals cancellation.
+
+Custom drivers should accept the optional `signal` field and honor it when running asynchronous work — typically by passing it through to `fetch`, or checking `signal.aborted` between long-running steps.
+
+The search modal is the first consumer in the UI: rapid typing aborts the in-flight request via `AbortController` so a late response can't overwrite the results for the current query.
 
 ## Method Details
 
@@ -88,6 +103,7 @@ List files and folders in a directory at the specified path.
 
 - `params?: ListParams` - Optional parameters object
   - `path?: string` - The directory path to list. If omitted, lists the root directory. Path format can be `"storage://path/to/dir"` or just `"path/to/dir"` depending on the driver implementation.
+  - `signal?: AbortSignal` - Optional cancellation signal. When the signal aborts, the driver should cancel any in-flight request and reject. See [Cancellation](#cancellation-abortsignal).
 
 **Returns:** `Promise<FsData>` - Promise resolving to file system data object containing:
   - `storages: string[]` - Array of available storage names
@@ -267,8 +283,9 @@ Create a zip archive containing the specified files and folders.
   - `items: { path: string; type: string }[]` - Array of items to include in archive, each containing:
     - `path: string` - Full path to the item
     - `type: string` - Item type: `'file'` or `'dir'`
-  - `path: string` - Directory path where the archive should be created
+  - `path: string` - Current directory path (the folder the operation was invoked from)
   - `name: string` - Name for the archive file (typically `.zip` extension)
+  - `destination?: string` - Optional folder where the resulting archive should be written. When omitted, the archive is written into `path`. Sent forward-compatibly so backends that don't support it can ignore the field.
 
 **Returns:** `Promise<FileOperationResult>` - Promise resolving to operation result:
   - `files: DirEntry[]` - Updated file list including the new archive
@@ -303,9 +320,10 @@ Extract files and folders from a zip archive.
 
 **Parameters:**
 
-- `params: { item: string; path: string }` - Required parameters object
+- `params: UnarchiveParams` - Required parameters object
   - `item: string` - Full path to the archive file to extract
-  - `path: string` - Directory path where archive contents should be extracted to
+  - `path: string` - Current directory path (the folder the operation was invoked from)
+  - `destination?: string` - Optional folder where the archive contents should be extracted. When omitted, contents are extracted into `path`. Sent forward-compatibly so backends that don't support it can ignore the field.
 
 **Returns:** `Promise<FileOperationResult>` - Promise resolving to operation result:
   - `files: DirEntry[]` - Updated file list with extracted files
@@ -402,8 +420,9 @@ Retrieve the text content of a file.
 
 **Parameters:**
 
-- `params: { path: string }` - Required parameters object
+- `params: GetContentParams` - Required parameters object
   - `path: string` - Full path to the file (including storage prefix if applicable)
+  - `signal?: AbortSignal` - Optional cancellation signal. See [Cancellation](#cancellation-abortsignal).
 
 **Returns:** `Promise<FileContentResult>` - Promise resolving to file content:
   - `content: string` - The file content as a string
@@ -499,6 +518,7 @@ Search for files and folders matching the specified criteria.
     - `'small'` - Small files only
     - `'medium'` - Medium files only
     - `'large'` - Large files only
+  - `signal?: AbortSignal` - Optional cancellation signal. The search modal passes a signal that aborts on each new keystroke so stale responses can't overwrite the current results. See [Cancellation](#cancellation-abortsignal).
 
 **Returns:** `Promise<DirEntry[]>` - Promise resolving to array of matching file/folder entries
 
@@ -538,6 +558,7 @@ Save text or binary content to a file at the specified path.
 - `params: SaveParams` - Required parameters object
   - `path: string` - Full file path where content should be saved (including storage prefix, e.g., `'local://documents/file.txt'`)
   - `content: string` - The content to save (as string, may contain binary data encoded)
+  - `signal?: AbortSignal` - Optional cancellation signal. See [Cancellation](#cancellation-abortsignal).
 
 **Returns:** `Promise<string>` - Promise resolving to the saved file path
 
