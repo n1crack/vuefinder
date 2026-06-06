@@ -20,11 +20,14 @@
 .vuefinder__preview-chrome__info-btn {
   @apply inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded text-(--vf-text-secondary) hover:bg-(--vf-bg-secondary) hover:text-(--vf-text-primary);
   stroke: currentColor;
-  transition: background-color 150ms ease, color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
 }
 
 /* Info button on the left of the title — slightly bigger icon for emphasis. */
-.vuefinder__preview-chrome__info-host .vuefinder__preview-chrome__info-btn
+.vuefinder__preview-chrome__info-host
+  .vuefinder__preview-chrome__info-btn
   > .vuefinder__preview-chrome__icon {
   @apply h-6 w-6;
 }
@@ -32,7 +35,6 @@
 .vuefinder__preview-chrome__info-btn--active {
   @apply bg-(--vf-bg-secondary) text-(--vf-text-primary);
 }
-
 
 .vuefinder__preview-chrome__actions {
   @apply flex shrink-0 items-stretch gap-1;
@@ -50,7 +52,9 @@
    a square footprint; labelled buttons grow with content. */
 .vuefinder__preview-chrome__btn {
   @apply inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2.5 text-sm text-(--vf-text-primary) hover:bg-(--vf-bg-secondary);
-  transition: background-color 150ms ease, opacity 150ms ease;
+  transition:
+    background-color 150ms ease,
+    opacity 150ms ease;
 }
 
 .vuefinder__preview-chrome__btn:disabled {

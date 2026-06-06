@@ -10,7 +10,9 @@ export function getRecentPaths(): string[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter((entry): entry is string => typeof entry === 'string').slice(0, MAX_RECENT);
+    return parsed
+      .filter((entry): entry is string => typeof entry === 'string')
+      .slice(0, MAX_RECENT);
   } catch {
     return [];
   }

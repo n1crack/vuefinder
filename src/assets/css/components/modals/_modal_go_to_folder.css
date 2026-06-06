@@ -39,7 +39,7 @@
 }
 
 .vuefinder__go-to-folder-modal__suggestion-tag {
-  @apply shrink-0 rounded bg-(--vf-bg-secondary) px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-(--vf-text-secondary);
+  @apply shrink-0 rounded bg-(--vf-bg-secondary) px-1.5 py-0.5 text-[10px] tracking-wide text-(--vf-text-secondary) uppercase;
 }
 
 .vuefinder__go-to-folder-modal__suggestion-fill,

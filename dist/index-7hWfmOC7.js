@@ -2187,7 +2187,7 @@ const ra = { class: "vuefinder__text-preview" }, da = { class: "vuefinder__text-
   emits: ["success"],
   setup(s, { emit: e }) {
     const t = On({
-      loader: () => import("./CodeMirrorEditor-75NDESnQ.js").then((f) => f.C),
+      loader: () => import("./CodeMirrorEditor-DTuVH__w.js").then((f) => f.C),
       delay: 100
     }), n = e, i = I(""), l = I(""), d = I(!1), r = I(!1), u = ie(), v = Re(u), { enabled: y } = ze(), { t: g } = u.i18n;
     we(async () => {
@@ -2276,7 +2276,7 @@ const ra = { class: "vuefinder__text-preview" }, da = { class: "vuefinder__text-
   emits: ["success"],
   setup(s, { emit: e }) {
     const t = On({
-      loader: () => import("./CodeMirrorEditor-75NDESnQ.js").then((Z) => Z.C),
+      loader: () => import("./CodeMirrorEditor-DTuVH__w.js").then((Z) => Z.C),
       delay: 100
     }), n = e, i = I(""), l = I(""), d = ct([]), r = ct([]), u = I(null), v = I(!1), y = I(!1), g = V(() => d.value.length > Nt), p = V(() => g.value ? d.value.slice(0, Nt) : d.value), k = ie(), b = Re(k), { enabled: $ } = ze(), { t: m } = k.i18n;
     async function h(Z) {
@@ -2693,7 +2693,9 @@ const Pa = { class: "vuefinder__image-editor" }, Da = {
       { label: "4:3", value: 4 / 3 },
       { label: "16:9", value: 16 / 9 },
       { label: "9:16", value: 9 / 16 }
-    ], y = ot("cropperRef"), g = I(0), p = I(!1), k = I(!1), b = I(!1), $ = I(0), m = I(0), h = I(0), f = V(() => Ea($.value, m.value, h.value));
+    ], y = ot("cropperRef"), g = I(0), p = I(!1), k = I(!1), b = I(!1), $ = I(0), m = I(0), h = I(0), f = V(
+      () => Ea($.value, m.value, h.value)
+    );
     pe([() => t.src, d], () => {
       g.value = 0, p.value = !1, k.value = !1, b.value = !1, $.value = 0, m.value = 0, h.value = 0;
     });
@@ -6745,11 +6747,13 @@ const fu = { class: "vuefinder__go-to-folder-modal" }, _u = { class: "vuefinder_
         const z = x.toLowerCase(), A = (P?.files ?? []).filter(
           (O) => O.type === "dir" && (!z || O.basename.toLowerCase().startsWith(z))
         );
-        d.value = A.map((O) => ({
-          path: O.path,
-          label: O.basename,
-          kind: "dir"
-        })), r.value = d.value.length ? 0 : -1;
+        d.value = A.map(
+          (O) => ({
+            path: O.path,
+            label: O.basename,
+            kind: "dir"
+          })
+        ), r.value = d.value.length ? 0 : -1;
       } catch (P) {
         if (U !== k) return;
         d.value = [], r.value = -1, y.value = Ce(P, t("Folder not found"));

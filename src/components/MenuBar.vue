@@ -588,9 +588,7 @@ onUnmounted(() => {
               'vuefinder__menubar__dropdown__item--has-children': item.items?.length,
             }"
             @click.stop="
-              item.type !== 'separator' &&
-              !item.items?.length &&
-              (!item.enabled || item.enabled())
+              item.type !== 'separator' && !item.items?.length && (!item.enabled || item.enabled())
                 ? handleMenuAction(item.action)
                 : null
             "

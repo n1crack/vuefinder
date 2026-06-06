@@ -97,11 +97,13 @@ const loadFolderSuggestions = async (parent: string, filter: string) => {
       (entry: DirEntry) =>
         entry.type === 'dir' && (!f || entry.basename.toLowerCase().startsWith(f))
     );
-    suggestions.value = folders.map((entry: DirEntry): Suggestion => ({
-      path: entry.path,
-      label: entry.basename,
-      kind: 'dir',
-    }));
+    suggestions.value = folders.map(
+      (entry: DirEntry): Suggestion => ({
+        path: entry.path,
+        label: entry.basename,
+        kind: 'dir',
+      })
+    );
     highlightedIndex.value = suggestions.value.length ? 0 : -1;
   } catch (err) {
     if (id !== lookupId) return;
@@ -164,7 +166,7 @@ const ensureHighlightedVisible = () => {
 const moveHighlight = (delta: number) => {
   if (!suggestions.value.length) return;
   const len = suggestions.value.length;
-  highlightedIndex.value = ((highlightedIndex.value + delta) % len + len) % len;
+  highlightedIndex.value = (((highlightedIndex.value + delta) % len) + len) % len;
   ensureHighlightedVisible();
 };
 
@@ -337,10 +339,7 @@ const placeholder = computed(() => {
           </div>
         </div>
 
-        <div
-          v-else-if="!isLoading"
-          class="vuefinder__go-to-folder-modal__empty"
-        >
+        <div v-else-if="!isLoading" class="vuefinder__go-to-folder-modal__empty">
           <template v-if="!input.trim()">{{ t('No recent folders yet.') }}</template>
           <template v-else>{{ t('No matching folders.') }}</template>
         </div>

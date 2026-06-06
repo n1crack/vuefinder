@@ -3,12 +3,7 @@ import { computed, ref, useTemplateRef, watch } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 import { useApp } from '../../composables/useApp';
-import {
-  adjustToFilter,
-  bakeFilter,
-  bakeRotation,
-  mimeForFilename,
-} from '../../utils/imageEditor';
+import { adjustToFilter, bakeFilter, bakeRotation, mimeForFilename } from '../../utils/imageEditor';
 
 defineOptions({ name: 'ImageEditor' });
 
@@ -62,7 +57,9 @@ const brightness = ref(0);
 const contrast = ref(0);
 const saturation = ref(0);
 
-const adjustFilter = computed(() => adjustToFilter(brightness.value, contrast.value, saturation.value));
+const adjustFilter = computed(() =>
+  adjustToFilter(brightness.value, contrast.value, saturation.value)
+);
 
 // Reset all per-tab pending state whenever switching tabs OR whenever the
 // upstream src changes (because a sibling tab applied something). Prevents
@@ -178,7 +175,7 @@ const grayscaleHasPending = computed(() => grayscaleOn.value);
     <!-- Tool strip: tabs across the top of the edit pane. -->
     <div class="vuefinder__image-editor__strip" role="tablist">
       <button
-        v-for="tab in (['crop', 'rotate', 'grayscale', 'adjust'] as Tab[])"
+        v-for="tab in ['crop', 'rotate', 'grayscale', 'adjust'] as Tab[]"
         :key="tab"
         type="button"
         role="tab"
@@ -318,7 +315,14 @@ const grayscaleHasPending = computed(() => grayscaleOn.value);
             :title="t('Rotate left 90°')"
             @click="rotateLeft"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="1 4 1 10 7 10" />
               <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
             </svg>
@@ -329,7 +333,14 @@ const grayscaleHasPending = computed(() => grayscaleOn.value);
             :title="t('Rotate right 90°')"
             @click="rotateRight"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="23 4 23 10 17 10" />
               <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
             </svg>
@@ -341,7 +352,14 @@ const grayscaleHasPending = computed(() => grayscaleOn.value);
             :title="t('Flip horizontal')"
             @click="toggleFlipX"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="8 3 4 7 8 11" />
               <polyline points="16 3 20 7 16 11" />
               <line x1="4" y1="7" x2="20" y2="7" />
@@ -355,7 +373,14 @@ const grayscaleHasPending = computed(() => grayscaleOn.value);
             :title="t('Flip vertical')"
             @click="toggleFlipY"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <polyline points="3 8 7 4 11 8" />
               <polyline points="3 16 7 20 11 16" />
               <line x1="7" y1="4" x2="7" y2="20" />
@@ -412,15 +437,21 @@ const grayscaleHasPending = computed(() => grayscaleOn.value);
       </div>
       <div class="vuefinder__image-editor__controls vuefinder__image-editor__controls--stacked">
         <div class="vuefinder__image-editor__slider">
-          <label>{{ t('Brightness') }}<span>{{ brightness }}</span></label>
+          <label
+            >{{ t('Brightness') }}<span>{{ brightness }}</span></label
+          >
           <input type="range" v-model.number="brightness" min="-100" max="100" step="1" />
         </div>
         <div class="vuefinder__image-editor__slider">
-          <label>{{ t('Contrast') }}<span>{{ contrast }}</span></label>
+          <label
+            >{{ t('Contrast') }}<span>{{ contrast }}</span></label
+          >
           <input type="range" v-model.number="contrast" min="-100" max="100" step="1" />
         </div>
         <div class="vuefinder__image-editor__slider">
-          <label>{{ t('Saturation') }}<span>{{ saturation }}</span></label>
+          <label
+            >{{ t('Saturation') }}<span>{{ saturation }}</span></label
+          >
           <input type="range" v-model.number="saturation" min="-100" max="100" step="1" />
         </div>
         <div class="vuefinder__image-editor__row">

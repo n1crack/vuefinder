@@ -29,7 +29,10 @@ export function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-function makeCanvas(width: number, height: number): {
+function makeCanvas(
+  width: number,
+  height: number
+): {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 } {

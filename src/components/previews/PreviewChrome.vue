@@ -128,14 +128,10 @@ const downloadUrl = computed(() => app.adapter.getDownloadUrl(app.modal.data.ite
         {{ currentIndex + 1 }} / {{ totalFiles }}
       </span>
 
-
       <!-- Download: icon-only toggle. Clicking opens a popover that contains
            the actual download link and a description; no inline label in the
            bar itself. -->
-      <div
-        v-if="enabled('download') && !isEditing"
-        class="vuefinder__preview-chrome__popover-host"
-      >
+      <div v-if="enabled('download') && !isEditing" class="vuefinder__preview-chrome__popover-host">
         <button
           type="button"
           class="vuefinder__preview-chrome__info-btn"
@@ -189,7 +185,6 @@ const downloadUrl = computed(() => app.adapter.getDownloadUrl(app.modal.data.ite
           </p>
         </div>
       </div>
-
 
       <button
         type="button"

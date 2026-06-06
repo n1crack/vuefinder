@@ -52,7 +52,9 @@
 
 .vuefinder__image-editor__preview {
   @apply max-h-full max-w-full object-contain;
-  transition: filter 100ms ease, transform 150ms ease;
+  transition:
+    filter 100ms ease,
+    transform 150ms ease;
 }
 
 /* ---------- Controls row (chips + apply) ---------- */
