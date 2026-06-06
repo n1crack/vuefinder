@@ -15,6 +15,8 @@ export default {
   Path: 'Path',
   'Download help': 'Download help',
   'Discard unsaved changes?': 'You have unsaved changes. Discard?',
+  Editing: 'Editing',
+  Unsaved: 'Unsaved',
   'File %s of %s': 'File %s of %s',
   'Toggle word wrap': 'Toggle word wrap',
   'Word wrap on — click to disable': 'Word wrap on — click to disable',

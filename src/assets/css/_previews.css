@@ -199,6 +199,35 @@
   @apply max-h-[60vh] min-h-[200px] overflow-auto rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-primary);
 }
 
+/* Read-only signals: the user shouldn't think this is an editor they
+   forgot to click into. Slightly grayer surface, slightly muted text,
+   no caret, no active-line highlight — reads as "preview" not "editor". */
+.vuefinder__codemirror-editor--readonly {
+  background: var(--vf-bg-secondary);
+}
+
+.vuefinder__codemirror-editor--readonly .cm-scroller,
+.vuefinder__codemirror-editor--readonly .cm-content {
+  background: var(--vf-bg-secondary);
+}
+
+.vuefinder__codemirror-editor--readonly .cm-content {
+  color: var(--vf-text-secondary);
+  caret-color: transparent;
+}
+
+.vuefinder__codemirror-editor--readonly .cm-cursor,
+.vuefinder__codemirror-editor--readonly .cm-activeLine,
+.vuefinder__codemirror-editor--readonly .cm-activeLineGutter {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+.vuefinder__codemirror-editor--readonly .cm-gutters {
+  background: var(--vf-bg-tertiary);
+  color: var(--vf-text-tertiary, var(--vf-text-secondary));
+}
+
 .vuefinder__codemirror-editor .cm-editor {
   @apply h-full text-xs;
 }

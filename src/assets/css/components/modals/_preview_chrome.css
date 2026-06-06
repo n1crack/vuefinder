@@ -33,10 +33,6 @@
   @apply bg-(--vf-bg-secondary) text-(--vf-text-primary);
 }
 
-.vuefinder__preview-chrome__dirty-dot {
-  @apply mr-1;
-  color: var(--vf-accent-primary, var(--vf-text-primary));
-}
 
 .vuefinder__preview-chrome__actions {
   @apply flex shrink-0 items-stretch gap-1;

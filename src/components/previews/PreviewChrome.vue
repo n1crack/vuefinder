@@ -115,8 +115,7 @@ const downloadUrl = computed(() => app.adapter.getDownloadUrl(app.modal.data.ite
       class="vuefinder__preview-chrome__title"
       :title="app.modal.data.item.path"
     >
-      <span v-if="isDirty" class="vuefinder__preview-chrome__dirty-dot" aria-hidden="true">•</span
-      >{{ app.modal.data.item.basename }}
+      {{ app.modal.data.item.basename }}
     </div>
 
     <!-- Action group (right). -->

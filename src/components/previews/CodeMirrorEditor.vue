@@ -253,6 +253,10 @@ onBeforeUnmount(() => {
         <path d="M3 18h6" />
       </svg>
     </button>
-    <div ref="container" class="vuefinder__codemirror-editor"></div>
+    <div
+      ref="container"
+      class="vuefinder__codemirror-editor"
+      :class="{ 'vuefinder__codemirror-editor--readonly': readonly }"
+    ></div>
   </div>
 </template>

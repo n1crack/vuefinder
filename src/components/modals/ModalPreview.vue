@@ -308,7 +308,10 @@ onMounted(() => {
   <ModalLayout
     :on-request-close="requestClose"
     :body-style="paneStyle"
-    body-class="vuefinder__modal-layout__body--swipeable"
+    :body-class="
+      'vuefinder__modal-layout__body--swipeable ' +
+      (isEditing ? 'vuefinder__modal-layout__body--editing' : '')
+    "
     :on-body-touchstart="onTouchStart"
     :on-body-touchmove="onTouchMove"
     :on-body-touchend="onTouchEnd"
@@ -395,17 +398,26 @@ onMounted(() => {
           <Default v-else :key="`default-${currentItem.path}`" @success="loaded = true" />
         </div>
 
-        <!-- Mobile pagination strip. Always rendered when there's more
-             than one file so the modal height stays constant between view
-             and edit modes; visibility-hidden in edit mode preserves the
-             slot height without distracting the user. -->
+        <!-- Bottom status strip: pagination (view mode) OR edit-state chip
+             (edit mode). One slot, one chip, swaps content based on state
+             so the layout never moves. Hidden entirely when neither
+             pagination nor edit state applies. -->
         <div
-          v-if="fileOnlyItems.length > 1"
-          class="vuefinder__preview-modal__pagination"
-          :class="{ 'vuefinder__preview-modal__pagination--hidden': isEditing }"
-          :aria-label="t('File %s of %s', String(currentIndex + 1), String(fileOnlyItems.length))"
+          v-if="isEditing || fileOnlyItems.length > 1"
+          class="vuefinder__preview-modal__status-strip"
         >
-          <span class="vuefinder__preview-modal__pagination-text">
+          <span
+            v-if="isEditing"
+            class="vuefinder__preview-modal__edit-chip"
+            :class="{ 'vuefinder__preview-modal__edit-chip--dirty': isDirty }"
+          >
+            {{ isDirty ? t('Unsaved') : t('Editing') }}
+          </span>
+          <span
+            v-else
+            class="vuefinder__preview-modal__pagination-text"
+            :aria-label="t('File %s of %s', String(currentIndex + 1), String(fileOnlyItems.length))"
+          >
             {{ currentIndex + 1 }} / {{ fileOnlyItems.length }}
           </span>
         </div>

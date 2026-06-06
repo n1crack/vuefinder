@@ -15,6 +15,8 @@ export default {
   Path: 'Yol',
   'Download help': 'İndirme yardımı',
   'Discard unsaved changes?': 'Kaydedilmemiş değişiklikler var. Iptal edilsin mi?',
+  Editing: 'Düzenleniyor',
+  Unsaved: 'Kaydedilmedi',
   'File %s of %s': '%s / %s dosya',
   'Toggle word wrap': 'Satır sarmayı aç/kapat',
   'Word wrap on — click to disable': 'Satır sarma açık — kapatmak için tıkla',
