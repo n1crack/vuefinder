@@ -1,0 +1,143 @@
+.vuefinder__image-editor {
+  @apply flex h-full w-full flex-col gap-2;
+}
+
+/* ---------- Tool strip (tabs) ---------- */
+.vuefinder__image-editor__strip {
+  @apply flex items-stretch justify-center gap-1 border-b border-(--vf-border-primary);
+}
+
+.vuefinder__image-editor__tab {
+  @apply inline-flex min-w-[64px] cursor-pointer flex-col items-center justify-center gap-0.5 px-3 py-1.5 text-[11px] font-medium text-(--vf-text-secondary);
+  border-bottom: 2px solid transparent;
+  stroke: currentColor;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.vuefinder__image-editor__tab:hover {
+  @apply text-(--vf-text-primary);
+}
+
+.vuefinder__image-editor__tab--active {
+  color: var(--vf-accent-primary);
+  border-bottom-color: var(--vf-accent-primary);
+}
+
+.vuefinder__image-editor__tab-icon {
+  @apply h-5 w-5;
+}
+
+.vuefinder__image-editor__tab-label {
+  @apply whitespace-nowrap;
+}
+
+/* ---------- Per-tab panel ----------
+   min-h-0 on flex children is critical so the stage can SHRINK to make
+   room for the controls row — without it Tailwind's default min-h: auto
+   keeps the stage at its content size and the controls overflow the
+   container's clip rect. */
+.vuefinder__image-editor__panel {
+  @apply flex h-full min-h-0 flex-1 flex-col gap-2;
+}
+
+.vuefinder__image-editor__stage {
+  @apply flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded;
+}
+
+.vuefinder__image-editor__cropper {
+  @apply h-full w-full;
+}
+
+.vuefinder__image-editor__preview {
+  @apply max-h-full max-w-full object-contain;
+  transition: filter 100ms ease, transform 150ms ease;
+}
+
+/* ---------- Controls row (chips + apply) ---------- */
+.vuefinder__image-editor__controls {
+  @apply flex flex-wrap items-center gap-2;
+}
+
+.vuefinder__image-editor__controls--stacked {
+  @apply flex-col items-stretch;
+}
+
+.vuefinder__image-editor__chips {
+  @apply flex flex-wrap gap-1;
+}
+
+.vuefinder__image-editor__chip {
+  @apply cursor-pointer rounded-full border border-(--vf-border-primary) bg-(--vf-bg-primary) px-2.5 py-1 text-xs text-(--vf-text-secondary) hover:bg-(--vf-bg-secondary);
+}
+
+.vuefinder__image-editor__chip--active {
+  border-color: var(--vf-accent-primary);
+  color: var(--vf-accent-primary);
+}
+
+.vuefinder__image-editor__apply {
+  @apply ml-auto inline-flex cursor-pointer items-center justify-center rounded px-4 py-1.5 text-sm font-semibold text-white;
+  background: var(--vf-accent-primary);
+  border: 1px solid var(--vf-accent-primary);
+  min-width: 5rem;
+}
+
+.vuefinder__image-editor__apply:disabled {
+  @apply cursor-not-allowed opacity-40;
+}
+
+.vuefinder__image-editor__apply:not(:disabled):hover {
+  filter: brightness(0.92);
+}
+
+/* ---------- Rotate buttons ---------- */
+.vuefinder__image-editor__rotate-btns {
+  @apply flex flex-wrap gap-1;
+}
+
+.vuefinder__image-editor__icon-btn {
+  @apply inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) text-(--vf-text-secondary) hover:bg-(--vf-bg-secondary) hover:text-(--vf-text-primary);
+  stroke: currentColor;
+}
+
+.vuefinder__image-editor__icon-btn svg {
+  @apply h-4 w-4;
+}
+
+.vuefinder__image-editor__icon-btn--active {
+  color: var(--vf-accent-primary);
+  border-color: var(--vf-accent-primary);
+}
+
+/* ---------- Grayscale toggle ---------- */
+.vuefinder__image-editor__toggle {
+  @apply inline-flex cursor-pointer items-center gap-2 text-sm text-(--vf-text-primary);
+}
+
+/* ---------- Adjust sliders ---------- */
+.vuefinder__image-editor__slider {
+  @apply flex flex-col gap-1;
+}
+
+.vuefinder__image-editor__slider label {
+  @apply flex items-center justify-between text-xs text-(--vf-text-secondary);
+}
+
+.vuefinder__image-editor__slider label span {
+  @apply font-mono tabular-nums;
+}
+
+.vuefinder__image-editor__slider input[type='range'] {
+  @apply w-full;
+  accent-color: var(--vf-accent-primary);
+}
+
+.vuefinder__image-editor__row {
+  @apply flex items-center gap-2;
+}
+
+.vuefinder__image-editor__reset {
+  @apply cursor-pointer rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) px-3 py-1.5 text-xs text-(--vf-text-secondary) hover:bg-(--vf-bg-secondary) hover:text-(--vf-text-primary);
+}
