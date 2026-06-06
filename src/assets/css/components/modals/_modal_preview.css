@@ -99,7 +99,43 @@
 }
 
 .vuefinder__preview-modal__content {
-  @apply relative mt-3 w-full sm:mt-0 sm:text-left;
+  @apply relative mt-3 w-full pb-3 sm:mt-0 sm:pb-2 sm:text-left;
+}
+
+/* Mobile pagination strip: small subdued counter at the bottom of the
+   preview content, in the extra padding area. Acts as the "you can swipe"
+   affordance. Hidden on desktop where the inline counter in the chrome
+   action row already shows position. */
+.vuefinder__preview-modal__pagination {
+  @apply mt-2 flex justify-center sm:hidden;
+}
+
+.vuefinder__preview-modal__pagination-text {
+  @apply rounded-full bg-(--vf-bg-secondary) px-2.5 py-0.5 text-[11px] font-medium text-(--vf-text-secondary) tabular-nums;
+}
+
+/* Keep slot height in edit mode for stable modal sizing — just hide the
+   chip. */
+.vuefinder__preview-modal__pagination--hidden {
+  visibility: hidden;
+}
+
+/* Edit-mode action wrapper keeps both buttons on a single row regardless
+   of viewport so the modal footer height stays constant between view
+   mode (1 button) and edit mode (2 buttons). */
+.vuefinder__preview-modal__edit-actions {
+  @apply flex flex-row-reverse justify-start gap-2;
+}
+
+.vuefinder__preview-modal__edit-btn {
+  @apply min-w-[6rem];
+}
+
+/* Whole modal card slides during drag-swipe. Vertical pan still works so
+   long content scrolls; our handler owns the X axis. */
+.vuefinder__modal-layout__body--swipeable {
+  @apply will-change-transform;
+  touch-action: pan-y;
 }
 
 .vuefinder__preview-modal__loading {

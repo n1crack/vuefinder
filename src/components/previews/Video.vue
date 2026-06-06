@@ -16,9 +16,6 @@ onMounted(() => {
 
 <template>
   <div class="vuefinder__video-preview">
-    <h3 id="modal-title" class="vuefinder__video-preview__title" :title="app.modal.data.item.path">
-      {{ app.modal.data.item.basename }}
-    </h3>
     <div>
       <video class="vuefinder__video-preview__video" preload="metadata" controls>
         <source :src="getVideoUrl()" type="video/mp4" />

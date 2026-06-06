@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from 'vue';
+import { nextTick, onMounted, ref, type StyleValue } from 'vue';
 import { useApp } from '../../composables/useApp';
 
 const modalBody = ref<HTMLElement | null>(null);
@@ -10,7 +10,29 @@ const config = app.config;
 const props = defineProps<{
   showDragOverlay?: boolean;
   dragOverlayText?: string;
+  /**
+   * Intercept Esc / overlay-click. If provided, called instead of
+   * `app.modal.close()`. Owner is responsible for actually closing once
+   * any guard (e.g. dirty-discard confirm) passes.
+   */
+  onRequestClose?: () => void;
+  /**
+   * Inline style applied to the modal body card. Used by ModalPreview to
+   * translate the entire box during swipe-to-navigate. Touch event handlers
+   * also forward here so the whole card responds to drag.
+   */
+  bodyStyle?: StyleValue;
+  bodyClass?: string;
+  onBodyTouchstart?: (e: TouchEvent) => void;
+  onBodyTouchmove?: (e: TouchEvent) => void;
+  onBodyTouchend?: (e: TouchEvent) => void;
+  onBodyTouchcancel?: (e: TouchEvent) => void;
 }>();
+
+const requestClose = () => {
+  if (props.onRequestClose) props.onRequestClose();
+  else app.modal.close();
+};
 
 onMounted(() => {
   // Select the first input element in the modal
@@ -60,7 +82,7 @@ const handleContextMenu = (event: MouseEvent) => {
     role="dialog"
     aria-modal="true"
     tabindex="0"
-    @keyup.esc="app.modal.close()"
+    @keyup.esc="requestClose()"
   >
     <div class="vuefinder__modal-layout__overlay"></div>
 
@@ -68,9 +90,18 @@ const handleContextMenu = (event: MouseEvent) => {
       <div
         class="vuefinder__modal-layout__wrapper"
         @contextmenu="handleContextMenu"
-        @mousedown.self="app.modal.close()"
+        @mousedown.self="requestClose()"
       >
-        <div ref="modalBody" class="vuefinder__modal-layout__body">
+        <div
+          ref="modalBody"
+          class="vuefinder__modal-layout__body"
+          :class="props.bodyClass"
+          :style="props.bodyStyle"
+          @touchstart="props.onBodyTouchstart"
+          @touchmove="props.onBodyTouchmove"
+          @touchend="props.onBodyTouchend"
+          @touchcancel="props.onBodyTouchcancel"
+        >
           <div class="vuefinder__modal-layout__content">
             <slot />
           </div>

@@ -82,7 +82,35 @@
 }
 
 .vuefinder__image-preview__image-container {
-  @apply h-[50vh] w-full overflow-hidden rounded-lg bg-(--vf-bg-primary) p-2;
+  @apply h-[50vh] w-full overflow-hidden rounded-lg bg-(--vf-bg-tertiary) p-2;
+  /* Faint checkerboard so transparent / white-edged images stand out from
+     the modal background. */
+  background-image: linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--vf-bg-tertiary) 50%, transparent) 25%,
+      transparent 25%
+    ),
+    linear-gradient(
+      -45deg,
+      color-mix(in srgb, var(--vf-bg-tertiary) 50%, transparent) 25%,
+      transparent 25%
+    ),
+    linear-gradient(
+      45deg,
+      transparent 75%,
+      color-mix(in srgb, var(--vf-bg-tertiary) 50%, transparent) 75%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 75%,
+      color-mix(in srgb, var(--vf-bg-tertiary) 50%, transparent) 75%
+    );
+  background-size: 16px 16px;
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
 }
 
 .vuefinder__image-preview__stage {
@@ -134,34 +162,6 @@
   @apply flex flex-col;
 }
 
-.vuefinder__text-preview__header {
-  @apply -mx-3 mt-0 mb-2 flex items-center border-b border-(--vf-border-primary) px-3 py-3;
-}
-
-.vuefinder__text-preview__title {
-  @apply text-lg leading-6 font-medium text-(--vf-text-primary);
-}
-
-.vuefinder__text-preview__actions {
-  @apply ml-auto flex items-center;
-}
-
-.vuefinder__themer .vuefinder__text-preview__save-button {
-  @apply ml-1 rounded border border-transparent bg-(--vf-accent-primary) px-2 py-1 text-base font-medium text-(--vf-text-inverse) shadow-sm sm:ml-3 sm:w-auto sm:text-sm;
-}
-
-.vuefinder__themer .vuefinder__text-preview__save-button:hover {
-  @apply bg-(--vf-accent-secondary);
-}
-
-.vuefinder__themer .vuefinder__text-preview__edit-button {
-  @apply ml-1 px-2 py-1 text-(--vf-accent-primary);
-}
-
-.vuefinder__themer .vuefinder__text-preview__edit-button:hover {
-  @apply text-(--vf-accent-secondary);
-}
-
 .vuefinder__text-preview__content {
   @apply max-h-[60vh] min-h-[200px] overflow-auto rounded border border-(--vf-border-primary) bg-(--vf-bg-primary) p-2 text-xs font-normal whitespace-pre-wrap text-(--vf-text-primary);
 }
@@ -176,6 +176,23 @@
 
 .vuefinder__text-preview__body {
   @apply min-h-[200px];
+}
+
+.vuefinder__codemirror-wrapper {
+  @apply relative;
+}
+
+.vuefinder__codemirror-wrap-toggle {
+  @apply absolute top-1 right-1 z-10 inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded border border-(--vf-border-primary) bg-(--vf-bg-primary)/80 text-(--vf-text-secondary) opacity-60 backdrop-blur-sm hover:bg-(--vf-bg-secondary) hover:opacity-100;
+  transition: opacity 150ms ease, background-color 150ms ease;
+}
+
+.vuefinder__codemirror-wrap-toggle--active {
+  @apply text-(--vf-text-primary) opacity-100;
+}
+
+.vuefinder__codemirror-wrap-toggle svg {
+  @apply h-4 w-4;
 }
 
 .vuefinder__codemirror-editor {
@@ -208,12 +225,12 @@
 }
 
 /* CSV preview — table mode */
-.vuefinder__themer .vuefinder__csv-preview__view-toggle {
-  @apply mr-1 rounded border border-(--vf-border-primary) bg-(--vf-bg-secondary) px-2 py-1 text-xs font-medium text-(--vf-text-primary);
+.vuefinder__csv-preview__body {
+  @apply relative;
 }
 
-.vuefinder__themer .vuefinder__csv-preview__view-toggle:hover {
-  @apply bg-(--vf-bg-hover);
+.vuefinder__themer .vuefinder__csv-preview__view-toggle {
+  @apply absolute top-1 right-9 z-10 cursor-pointer rounded border border-(--vf-border-primary) bg-(--vf-bg-primary)/80 px-2 py-1 text-xs font-medium text-(--vf-text-primary) backdrop-blur-sm hover:bg-(--vf-bg-hover);
 }
 
 .vuefinder__csv-preview__table-wrap {

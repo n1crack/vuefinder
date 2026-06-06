@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue';
 import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
+import { usePreviewControls } from '../../composables/usePreviewControls';
 import useUpload, { QUEUE_ENTRY_STATUS } from '../../composables/useUpload';
 import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
@@ -11,6 +12,7 @@ import LazyLoad from 'vanilla-lazyload';
 import { useStore } from '@nanostores/vue';
 import type { CurrentPathState } from '../../stores/files';
 import type { StoreValue } from 'nanostores';
+import type { DirEntry } from '../../types';
 
 defineOptions({ name: 'ImagePreview' });
 
@@ -197,6 +199,58 @@ const toggleEditMode = async () => {
   app.modal.setEditMode(showEdit.value);
 };
 
+// Crop mode is "dirty" only after the user has actually moved the crop
+// area. vue-advanced-cropper fires @change a few times during init
+// (auto-zoom, image-fit), so we wait ~400ms after entering edit mode
+// before counting @change as user input.
+const cropTouched = ref(false);
+const cropSettled = ref(false);
+let cropSettleTimer: ReturnType<typeof setTimeout> | null = null;
+
+const onCropperChange = () => {
+  if (!showEdit.value) return;
+  if (!cropSettled.value) return;
+  cropTouched.value = true;
+};
+
+const armCropSettle = () => {
+  cropSettled.value = false;
+  if (cropSettleTimer) clearTimeout(cropSettleTimer);
+  cropSettleTimer = setTimeout(() => {
+    cropSettled.value = true;
+  }, 400);
+};
+
+// Contract → chrome. Image's "edit" is crop mode; the primary commit action
+// is labeled "Crop" because that's what actually happens (canvas → blob →
+// upload).
+usePreviewControls({
+  isEditable: computed(
+    () => enabled('edit') && !app.fs.isReadOnly(app.modal.data.item as DirEntry)
+  ),
+  isEditing: computed(() => showEdit.value),
+  isDirty: computed(() => showEdit.value && cropTouched.value),
+  primaryActionLabel: computed(() => t('Crop')),
+  enterEdit: () => {
+    cropTouched.value = false;
+    armCropSettle();
+    showEdit.value = true;
+    app.modal.setEditMode(true);
+  },
+  commitEdit: () => crop(),
+  cancelEdit: () => {
+    showEdit.value = false;
+    cropTouched.value = false;
+    if (cropSettleTimer) clearTimeout(cropSettleTimer);
+    cropSettled.value = false;
+    app.modal.setEditMode(false);
+  },
+  extraInfo: computed(() => {
+    if (!imageWidth.value || !imageHeight.value) return [];
+    return [{ label: t('Dimensions'), value: `${imageWidth.value} × ${imageHeight.value}` }];
+  }),
+});
+
 const crop = async () => {
   const result = cropperRef.value?.getResult({
     size: { width: 795, height: 341 },
@@ -308,28 +362,6 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="vuefinder__image-preview">
-    <div class="vuefinder__image-preview__header">
-      <h3
-        id="modal-title"
-        class="vuefinder__image-preview__title"
-        :title="app.modal.data.item.path"
-      >
-        {{ app.modal.data.item.basename }}
-      </h3>
-      <div class="vuefinder__image-preview__actions">
-        <button v-if="showEdit" class="vuefinder__image-preview__crop-button" @click="crop">
-          {{ t('Crop') }}
-        </button>
-        <button
-          v-if="enabled('edit')"
-          class="vuefinder__image-preview__edit-button"
-          @click="toggleEditMode()"
-        >
-          {{ showEdit ? t('Cancel') : t('Edit') }}
-        </button>
-      </div>
-    </div>
-
     <div ref="imageContainer" class="vuefinder__image-preview__image-container">
       <div
         v-if="!showEdit"
@@ -405,6 +437,7 @@ onBeforeUnmount(() => {
         :auto-zoom="true"
         :priority="'image'"
         :transitions="true"
+        @change="onCropperChange"
       />
     </div>
   </div>

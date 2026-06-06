@@ -17,9 +17,6 @@ onMounted(() => {
 
 <template>
   <div class="vuefinder__audio-preview">
-    <h3 id="modal-title" class="vuefinder__audio-preview__title" :title="app.modal.data.item.path">
-      {{ app.modal.data.item.basename }}
-    </h3>
     <div>
       <audio class="vuefinder__audio-preview__audio" controls>
         <source :src="getAudioUrl()" type="audio/mpeg" />

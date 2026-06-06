@@ -12,6 +12,7 @@ import {
   syntaxHighlighting,
 } from '@codemirror/language';
 import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
+import { useApp } from '../../composables/useApp';
 
 defineOptions({ name: 'CodeMirrorEditor' });
 
@@ -25,10 +26,37 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void;
 }>();
 
+const app = useApp();
+const { t } = app.i18n;
+
+const WRAP_STORAGE_KEY = 'vuefinder:codemirror-wrap';
+
+const readStoredWrap = (): boolean => {
+  if (typeof window === 'undefined') return true;
+  try {
+    const raw = window.localStorage.getItem(WRAP_STORAGE_KEY);
+    if (raw === null) return true;
+    return raw === '1';
+  } catch {
+    return true;
+  }
+};
+
+const writeStoredWrap = (value: boolean): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(WRAP_STORAGE_KEY, value ? '1' : '0');
+  } catch {
+    // ignore (private mode / quota)
+  }
+};
+
 const container = ref<HTMLDivElement | null>(null);
+const wrap = ref(readStoredWrap());
 let view: EditorView | null = null;
 const readonlyCompartment = new Compartment();
 const languageCompartment = new Compartment();
+const wrapCompartment = new Compartment();
 
 // Cache resolved language extensions by extension key so navigation between
 // files of the same type doesn't re-import the language package.
@@ -127,7 +155,6 @@ function baseExtensions(): Extension[] {
     highlightSelectionMatches(),
     syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
     keymap.of([...defaultKeymap, ...historyKeymap, ...foldKeymap, ...searchKeymap, indentWithTab]),
-    EditorView.lineWrapping,
     EditorView.updateListener.of((update) => {
       if (!update.docChanged) return;
       const next = update.state.doc.toString();
@@ -135,6 +162,14 @@ function baseExtensions(): Extension[] {
     }),
   ];
 }
+
+const wrapExtension = (enabled: boolean): Extension => (enabled ? EditorView.lineWrapping : []);
+
+const toggleWrap = () => {
+  wrap.value = !wrap.value;
+  writeStoredWrap(wrap.value);
+  view?.dispatch({ effects: wrapCompartment.reconfigure(wrapExtension(wrap.value)) });
+};
 
 onMounted(async () => {
   if (!container.value) return;
@@ -147,6 +182,7 @@ onMounted(async () => {
       ...baseExtensions(),
       readonlyCompartment.of(EditorState.readOnly.of(!!props.readonly)),
       languageCompartment.of(language),
+      wrapCompartment.of(wrapExtension(wrap.value)),
     ],
   });
 
@@ -193,5 +229,30 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="container" class="vuefinder__codemirror-editor"></div>
+  <div class="vuefinder__codemirror-wrapper">
+    <button
+      type="button"
+      class="vuefinder__codemirror-wrap-toggle"
+      :class="{ 'vuefinder__codemirror-wrap-toggle--active': wrap }"
+      :title="wrap ? t('Word wrap on — click to disable') : t('Word wrap off — click to enable')"
+      :aria-label="t('Toggle word wrap')"
+      :aria-pressed="wrap"
+      @click="toggleWrap"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M3 6h18" />
+        <path d="M3 12h13a4 4 0 010 8h-3" />
+        <polyline points="16,16 13,20 16,24" />
+        <path d="M3 18h6" />
+      </svg>
+    </button>
+    <div ref="container" class="vuefinder__codemirror-editor"></div>
+  </div>
 </template>
