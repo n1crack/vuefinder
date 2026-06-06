@@ -150,8 +150,12 @@ const DRAG_START_THRESHOLD = 8; // px before we commit to a drag (vs a tap)
 const HORIZONTAL_BIAS = 1.4;
 const COMMIT_RATIO = 0.22; // fraction of viewport width to trigger nav
 const ANIM_MS = 220;
-const INTERACTIVE_SELECTOR =
-  'input, textarea, select, button, a, audio, video, .cm-editor, .vue-advanced-cropper, .vuefinder__codemirror-wrapper, .vuefinder__csv-preview__table, .vuefinder__image-preview__zoom-controls, .vuefinder__preview-chrome__actions';
+// Swipe is restricted to "safe zones" — the chrome title bar and the
+// bottom status strip. The preview content itself (image pan, PDF scroll,
+// video controls, text selection, cropper handles) never starts a modal
+// swipe; whatever component is inside owns its own touch behaviour.
+const SWIPE_ZONE_SELECTOR =
+  '.vuefinder__preview-chrome__title, .vuefinder__preview-modal__status-strip';
 
 const dragX = ref(0);
 const animating = ref(false);
@@ -173,7 +177,10 @@ const onTouchStart = (e: TouchEvent) => {
   if (isEditing.value) return;
   if (e.touches.length !== 1) return;
   const target = e.target as HTMLElement | null;
-  if (target?.closest?.(INTERACTIVE_SELECTOR)) return;
+  // Only the chrome title bar and the bottom status strip are swipe-safe.
+  // Anywhere else (content area, action buttons, etc.) is owned by the
+  // component below and shouldn't trigger modal navigation.
+  if (!target?.closest?.(SWIPE_ZONE_SELECTOR)) return;
   touchActive = true;
   dragCommitted = false;
   touchStartX = e.touches[0].clientX;
