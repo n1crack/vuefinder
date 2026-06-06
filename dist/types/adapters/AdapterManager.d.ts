@@ -76,7 +76,12 @@ export declare class AdapterManager {
      * @param path
      * @returns
      */
-    open(path?: string): Promise<FsData>;
+    open(path?: string): Promise<FsData | undefined>;
+    /**
+     * Cancel an in-flight list/open request. Aborts the underlying fetch via
+     * the AbortSignal that TanStack Query passes to the query function.
+     */
+    cancelOpen(path?: string): void;
     /**
      * Delete files with optimistic updates
      */

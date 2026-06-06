@@ -66,8 +66,8 @@ const formatDuration = (seconds?: number | null): string | null => {
 const fileInfo = computed(() => {
   const item = app.modal.data.item as DirEntry;
   const rows: { label: string; value: string }[] = [
-    { label: t('File Size'), value: app.filesize(item.file_size) },
-    { label: t('Last Modified'), value: datetimestring(item.last_modified) },
+    { label: t('File Size'), value: app.filesize(item.file_size ?? 0) },
+    { label: t('Last Modified'), value: datetimestring(item.last_modified ?? 0) },
   ];
   if (item.mime_type) rows.push({ label: t('Type'), value: item.mime_type });
   // Previewer-supplied rows: Image plugs in dimensions on load, Video could

@@ -181,10 +181,12 @@ const onTouchStart = (e: TouchEvent) => {
   // Anywhere else (content area, action buttons, etc.) is owned by the
   // component below and shouldn't trigger modal navigation.
   if (!target?.closest?.(SWIPE_ZONE_SELECTOR)) return;
+  const t0 = e.touches[0];
+  if (!t0) return;
   touchActive = true;
   dragCommitted = false;
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
+  touchStartX = t0.clientX;
+  touchStartY = t0.clientY;
   animating.value = false;
 };
 

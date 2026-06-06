@@ -97,7 +97,7 @@ const loadFolderSuggestions = async (parent: string, filter: string) => {
       (entry: DirEntry) =>
         entry.type === 'dir' && (!f || entry.basename.toLowerCase().startsWith(f))
     );
-    suggestions.value = folders.map<Suggestion>((entry) => ({
+    suggestions.value = folders.map((entry: DirEntry): Suggestion => ({
       path: entry.path,
       label: entry.basename,
       kind: 'dir',
