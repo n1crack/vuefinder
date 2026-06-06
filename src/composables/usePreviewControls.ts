@@ -17,7 +17,6 @@ export function usePreviewControls(controls: PreviewControls): void {
       // Stale app.modal from before the chrome refactor — typically a Vite
       // HMR side-effect when the upgrade ran without a full page reload.
       // The Edit button stays hidden; a hard refresh restores everything.
-      // eslint-disable-next-line no-console
       console.warn(
         '[vuefinder] PreviewControls registration skipped: app.modal.registerControls is missing. Hard refresh the page to pick up the latest modal API.'
       );

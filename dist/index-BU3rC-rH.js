@@ -2187,7 +2187,7 @@ const ra = { class: "vuefinder__text-preview" }, da = { class: "vuefinder__text-
   emits: ["success"],
   setup(s, { emit: e }) {
     const t = On({
-      loader: () => import("./CodeMirrorEditor-DTuVH__w.js").then((f) => f.C),
+      loader: () => import("./CodeMirrorEditor-DPcTUWhC.js").then((f) => f.C),
       delay: 100
     }), n = e, i = I(""), l = I(""), d = I(!1), r = I(!1), u = ie(), v = Re(u), { enabled: y } = ze(), { t: g } = u.i18n;
     we(async () => {
@@ -2276,7 +2276,7 @@ const ra = { class: "vuefinder__text-preview" }, da = { class: "vuefinder__text-
   emits: ["success"],
   setup(s, { emit: e }) {
     const t = On({
-      loader: () => import("./CodeMirrorEditor-DTuVH__w.js").then((Z) => Z.C),
+      loader: () => import("./CodeMirrorEditor-DPcTUWhC.js").then((Z) => Z.C),
       delay: 100
     }), n = e, i = I(""), l = I(""), d = ct([]), r = ct([]), u = I(null), v = I(!1), y = I(!1), g = V(() => d.value.length > Nt), p = V(() => g.value ? d.value.slice(0, Nt) : d.value), k = ie(), b = Re(k), { enabled: $ } = ze(), { t: m } = k.i18n;
     async function h(Z) {
@@ -2908,8 +2908,8 @@ const Pa = { class: "vuefinder__image-editor" }, Da = {
         o("div", oi, [
           o("label", si, [
             ge(o("input", {
-              type: "checkbox",
-              "onUpdate:modelValue": U[0] || (U[0] = (P) => b.value = P)
+              "onUpdate:modelValue": U[0] || (U[0] = (P) => b.value = P),
+              type: "checkbox"
             }, null, 512), [
               [gt, b.value]
             ]),
@@ -2938,8 +2938,8 @@ const Pa = { class: "vuefinder__image-editor" }, Da = {
               o("span", null, w($.value), 1)
             ]),
             ge(o("input", {
-              type: "range",
               "onUpdate:modelValue": U[1] || (U[1] = (P) => $.value = P),
+              type: "range",
               min: "-100",
               max: "100",
               step: "1"
@@ -2958,8 +2958,8 @@ const Pa = { class: "vuefinder__image-editor" }, Da = {
               o("span", null, w(m.value), 1)
             ]),
             ge(o("input", {
-              type: "range",
               "onUpdate:modelValue": U[2] || (U[2] = (P) => m.value = P),
+              type: "range",
               min: "-100",
               max: "100",
               step: "1"
@@ -2978,8 +2978,8 @@ const Pa = { class: "vuefinder__image-editor" }, Da = {
               o("span", null, w(h.value), 1)
             ]),
             ge(o("input", {
-              type: "range",
               "onUpdate:modelValue": U[3] || (U[3] = (P) => h.value = P),
+              type: "range",
               min: "-100",
               max: "100",
               step: "1"

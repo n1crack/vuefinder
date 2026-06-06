@@ -411,7 +411,7 @@ const grayscaleHasPending = computed(() => grayscaleOn.value);
       </div>
       <div class="vuefinder__image-editor__controls">
         <label class="vuefinder__image-editor__toggle">
-          <input type="checkbox" v-model="grayscaleOn" />
+          <input v-model="grayscaleOn" type="checkbox" />
           <span>{{ t('Grayscale') }}</span>
         </label>
         <button
@@ -440,19 +440,19 @@ const grayscaleHasPending = computed(() => grayscaleOn.value);
           <label
             >{{ t('Brightness') }}<span>{{ brightness }}</span></label
           >
-          <input type="range" v-model.number="brightness" min="-100" max="100" step="1" />
+          <input v-model.number="brightness" type="range" min="-100" max="100" step="1" />
         </div>
         <div class="vuefinder__image-editor__slider">
           <label
             >{{ t('Contrast') }}<span>{{ contrast }}</span></label
           >
-          <input type="range" v-model.number="contrast" min="-100" max="100" step="1" />
+          <input v-model.number="contrast" type="range" min="-100" max="100" step="1" />
         </div>
         <div class="vuefinder__image-editor__slider">
           <label
             >{{ t('Saturation') }}<span>{{ saturation }}</span></label
           >
-          <input type="range" v-model.number="saturation" min="-100" max="100" step="1" />
+          <input v-model.number="saturation" type="range" min="-100" max="100" step="1" />
         </div>
         <div class="vuefinder__image-editor__row">
           <button type="button" class="vuefinder__image-editor__reset" @click="resetAdjust">

@@ -50,7 +50,6 @@ export default {
   'Change View': 'Görünümü değiştir',
   Storage: 'Depo',
   'Go up a directory': 'Yukarı git',
-  Go: 'Git',
   'Enter folder path:': 'Klasör yolunu girin:',
   'Invalid path format. Path must be in format: storage://path/to/folder':
     'Geçersiz yol formatı. Yol şu formatta olmalıdır: storage://path/to/folder',
@@ -114,7 +113,6 @@ export default {
 
   Settings: 'Ayarlar',
   Shortcuts: 'Kısayollar',
-  Reset: 'Sıfırla',
   Escape: 'Çıkış',
   Search: 'Ara',
   'Toggle Sidebar': 'Kenar Çubuğunu Değiştir',

@@ -72,7 +72,6 @@ export default {
   'Change View': 'Change View',
   Storage: 'Storage',
   'Go up a directory': 'Go up a directory',
-  Go: 'Go',
   'Enter folder path:': 'Enter folder path:',
   'Invalid path format. Path must be in format: storage://path/to/folder':
     'Invalid path format. Path must be in format: storage://path/to/folder',
@@ -138,7 +137,6 @@ export default {
 
   Settings: 'Settings',
   Shortcuts: 'Shortcuts',
-  Reset: 'Reset',
   Escape: 'Escape',
   Search: 'Search',
   'Toggle Sidebar': 'Toggle Sidebar',
