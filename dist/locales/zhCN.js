@@ -227,4 +227,6 @@ export default {
   'No matching folders.': 'No matching folders.',
   'Folder not found': 'Folder not found',
   'Loading…': 'Loading…',
+
+  'Show as table': 'Show as table',
 };

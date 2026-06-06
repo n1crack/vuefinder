@@ -257,12 +257,12 @@
 }
 
 /* CSV preview — table mode */
-.vuefinder__csv-preview__body {
-  @apply relative;
+.vuefinder__csv-preview__view-checkbox {
+  @apply mt-2 inline-flex cursor-pointer items-center gap-2 text-xs text-(--vf-text-secondary);
 }
 
-.vuefinder__themer .vuefinder__csv-preview__view-toggle {
-  @apply absolute top-1 right-9 z-10 cursor-pointer rounded border border-(--vf-border-primary) bg-(--vf-bg-primary)/80 px-2 py-1 text-xs font-medium text-(--vf-text-primary) backdrop-blur-sm hover:bg-(--vf-bg-hover);
+.vuefinder__themer .vuefinder__csv-preview__view-checkbox input {
+  @apply cursor-pointer;
 }
 
 .vuefinder__csv-preview__table-wrap {

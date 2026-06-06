@@ -221,6 +221,7 @@ export default {
   Raw: 'Ham',
   'View as table': 'Tablo olarak görüntüle',
   'View as raw': 'Ham olarak görüntüle',
+  'Show as table': 'Tablo olarak göster',
   'Failed to parse CSV': 'CSV ayrıştırılamadı',
   'No rows to display': 'Görüntülenecek satır yok',
   'Showing first %s rows out of %s': '%s satırdan ilk %s tanesi gösteriliyor',
