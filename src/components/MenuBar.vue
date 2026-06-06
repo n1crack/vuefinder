@@ -621,7 +621,9 @@ onUnmounted(() => {
               'vuefinder__menubar__dropdown__item--has-children': item.items?.length,
             }"
             @click.stop="
-              item.type !== 'separator' && !item.items?.length && item.enabled && item.enabled()
+              item.type !== 'separator' &&
+              !item.items?.length &&
+              (!item.enabled || item.enabled())
                 ? handleMenuAction(item.action)
                 : null
             "
@@ -653,7 +655,7 @@ onUnmounted(() => {
                   'vuefinder__menubar__dropdown__item--disabled': child.enabled && !child.enabled(),
                 }"
                 @click.stop="
-                  child.enabled && child.enabled() ? handleMenuAction(child.action) : null
+                  !child.enabled || child.enabled() ? handleMenuAction(child.action) : null
                 "
               >
                 <span class="vuefinder__menubar__dropdown__label">{{ child.label }}</span>
