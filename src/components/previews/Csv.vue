@@ -124,17 +124,6 @@ usePreviewControls({
 <template>
   <div class="vuefinder__text-preview">
     <div class="vuefinder__text-preview__body vuefinder__csv-preview__body">
-      <!-- Raw / Table toggle: Csv-specific, lives inside the body so it
-           doesn't pollute the global chrome. Hidden while editing. -->
-      <button
-        v-if="!editing"
-        class="vuefinder__csv-preview__view-toggle"
-        :title="inTableMode ? t('View as raw') : t('View as table')"
-        @click="toggleView"
-      >
-        {{ inTableMode ? t('Raw') : t('Table') }}
-      </button>
-
       <template v-if="!inTableMode">
         <Suspense>
           <CodeMirrorEditor
@@ -182,6 +171,13 @@ usePreviewControls({
           </div>
         </div>
       </template>
+
+      <!-- Csv-specific: render as a table instead of raw text. Hidden in
+           edit mode (you can't sensibly edit a rendered table). -->
+      <label v-if="!editing" class="vuefinder__csv-preview__view-checkbox">
+        <input v-model="showAsTable" type="checkbox" />
+        <span>{{ t('Show as table') }}</span>
+      </label>
     </div>
   </div>
 </template>

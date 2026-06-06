@@ -65,6 +65,7 @@ export default {
   Raw: 'Raw',
   'View as table': 'View as table',
   'View as raw': 'View as raw',
+  'Show as table': 'Show as table',
   'Failed to parse CSV': 'Failed to parse CSV',
   'No rows to display': 'No rows to display',
   'Showing first %s rows out of %s': 'Showing first %s rows out of %s',
