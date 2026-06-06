@@ -104,6 +104,13 @@ app.adapter.onAfterOpen = (responseData: FsData) => {
   fs.setLoading(false);
 };
 
+// Refresh button turns into a cancel (X) while loading; clicking it emits
+// 'vf-fetch-abort'. Abort the in-flight list query and reset loading state.
+app.emitter.on('vf-fetch-abort', () => {
+  app.adapter.cancelOpen();
+  fs.setLoading(false);
+});
+
 // Listen for upload-complete event
 app.emitter.on('vf-upload-complete', (files: unknown) => {
   emit('upload-complete', files as DirEntry[]);

@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/vue-query';
+import { QueryClient, isCancelledError } from '@tanstack/vue-query';
 import type {
   Driver,
   DeleteResult,
@@ -145,18 +145,33 @@ export class AdapterManager {
    * @param path
    * @returns
    */
-  async open(path?: string): Promise<FsData> {
+  async open(path?: string): Promise<FsData | undefined> {
     if (this.onBeforeOpen) {
       this.onBeforeOpen();
     }
-    const data = await this.list(path);
-
-    // Update state if callback is provided
-    if (this.onAfterOpen) {
-      this.onAfterOpen(data);
+    try {
+      const data = await this.list(path);
+      if (this.onAfterOpen) {
+        this.onAfterOpen(data);
+      }
+      return data;
+    } catch (err) {
+      // User-initiated cancel via cancelOpen(): the loading state is
+      // reset by the caller that triggered the cancel; suppress here.
+      if (isCancelledError(err) || (err as Error)?.name === 'AbortError') {
+        return undefined;
+      }
+      throw err;
     }
+  }
 
-    return data;
+  /**
+   * Cancel an in-flight list/open request. Aborts the underlying fetch via
+   * the AbortSignal that TanStack Query passes to the query function.
+   */
+  cancelOpen(path?: string): void {
+    const queryKey = path === undefined ? ['adapter', 'list'] : QueryKeys.list(path);
+    void this.queryClient.cancelQueries({ queryKey });
   }
 
   /**
