@@ -46,6 +46,7 @@
 @import './components/modals/_modal_move.css';
 @import './components/modals/_modal_new_file.css';
 @import './components/modals/_modal_new_folder.css';
+@import './components/modals/_modal_go_to_folder.css';
 @import './components/modals/_modal_preview.css';
 @import './components/modals/_modal_rename.css';
 @import './components/modals/_modal_unarchive.css';
