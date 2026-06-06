@@ -100,7 +100,7 @@ All configuration options are passed via the `config` prop:
 
 ### With Persistence
 
-When `persist: true`, VueFinder will save the current path to localStorage, allowing it to remember the last visited directory when the page is reloaded:
+When `persist: true`, VueFinder saves the current path and user-toggled settings (`view`, `theme`, `showHiddenFiles`, …) to localStorage so they survive a page reload:
 
 ```vue
 <template>
@@ -114,6 +114,17 @@ When `persist: true`, VueFinder will save the current path to localStorage, allo
   />
 </template>
 ```
+
+#### How `:config` interacts with persisted values
+
+The `:config` prop is treated as **initial defaults**, not an override. When `persist: true` and a value already exists in localStorage, the persisted value wins on reload — otherwise the user toggling view/theme/etc. would silently get reset every time the page loaded.
+
+In practice:
+
+- First load (no persisted value yet) — `:config` values are used.
+- Subsequent loads — persisted values take precedence; `:config` only fills in keys the user hasn't touched.
+
+The persisted values live under the `vuefinder_config_<id>` localStorage key. To force a reset back to the `:config` defaults during development, clear that key (or call `localStorage.removeItem('vuefinder_config_<id>')`) and reload.
 
 ### UI Visibility Settings
 

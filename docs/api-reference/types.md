@@ -29,6 +29,8 @@ VueFinder exports the following types:
 | `RenameParams`        | Parameters for rename operation                |
 | `TransferParams`      | Parameters for copy/move operations            |
 | `ArchiveParams`       | Parameters for archive operation               |
+| `UnarchiveParams`     | Parameters for unarchive operation             |
+| `SearchParams`        | Parameters for search operation                |
 | `SaveParams`          | Parameters for save operation                  |
 | `DeleteResult`        | Result of delete operation                     |
 | `FileOperationResult` | Result of file operations                      |
@@ -145,6 +147,59 @@ export interface IndexedDBDriverConfig {
 
 - `storages` defines which storage prefixes this driver manages.
 - Existing data in other storage prefixes is preserved.
+
+### Driver parameter types
+
+All driver-method parameter types live here. The methods that perform asynchronous work accept an optional `signal?: AbortSignal` — `AdapterManager` forwards TanStack Query's signal automatically, and a custom `signal` from the caller takes precedence. See [Drivers Interface – Cancellation](./drivers-interface.md#cancellation-abortsignal).
+
+```ts
+export interface ListParams {
+  path?: string;
+  signal?: AbortSignal;
+}
+
+export interface SearchParams {
+  path?: string;
+  filter: string;
+  deep?: boolean;
+  size?: 'all' | 'small' | 'medium' | 'large';
+  signal?: AbortSignal;
+}
+
+// Parameter type for `Driver.getContent` — used internally by AdapterManager.
+// Not exported as a public type today; reference the shape inline when implementing a custom driver.
+type GetContentParams = {
+  path: string;
+  signal?: AbortSignal;
+};
+
+export interface SaveParams {
+  path: string;     // full file path including storage
+  content: string;
+  signal?: AbortSignal;
+}
+
+export interface ArchiveParams {
+  items: { path: string; type: string }[];
+  path: string;
+  name: string;
+  /**
+   * Optional destination folder for the resulting archive.
+   * Defaults to `path` (the current folder).
+   */
+  destination?: string;
+}
+
+export interface UnarchiveParams {
+  item: string;
+  path: string;
+  /**
+   * Optional destination folder for the extracted contents.
+   * Defaults to `path` (the current folder).
+   */
+  destination?: string;
+}
+```
 
 ### `VueFinderComposable`
 
