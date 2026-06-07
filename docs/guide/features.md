@@ -78,7 +78,7 @@ If a file's reported MIME type doesn't match its extension, VueFinder falls back
 
 ### Table view for CSV / TSV
 
-`.csv` and `.tsv` files open as text by default. The preview header has a **Table** toggle next to **Edit** — clicking it renders the file as a real table with a sticky header row and a sticky row-number column. The delimiter (`,`, `;`, `\t`, `|`) is auto-detected. Files larger than 1,000 rows show a "first 1,000 shown" note; the text view still has all rows.
+`.csv` and `.tsv` files open as text by default. A **Show as table** checkbox at the bottom of the CSV panel renders the file as a real table with a sticky header row and a sticky row-number column (the checkbox is hidden in edit mode). The delimiter (`,`, `;`, `\t`, `|`) is auto-detected. Files larger than 1,000 rows show a "first 1,000 shown" note; the text view still has all rows.
 
 Papaparse is loaded as its own lazy chunk on the first Table-view open.
 
@@ -93,6 +93,23 @@ The image previewer has a floating toolbar in the bottom-right with zoom in / zo
 - Mouse-wheel to zoom
 - `+` / `-` / `0` keyboard shortcuts
 - Click-and-drag to pan when zoomed in
+
+### Image editor
+
+Images can be edited in place via a multi-tool editor with four tabs:
+
+- **Crop** — select and crop a region of the image.
+- **Rotate** — rotate the image.
+- **Grayscale** — convert the image to grayscale.
+- **Adjust** — brightness / contrast / saturation sliders.
+
+The edited result is saved back through the driver, so it works with any backend that supports `save`.
+
+## Navigation
+
+### Go to Folder
+
+The **Go** menu in the menubar includes a **Go to Folder** action that opens a path-input modal with autocomplete: as you type, storage names and matching subfolders of the typed path are suggested, and you can navigate the suggestion list with the keyboard.
 
 ## Search
 

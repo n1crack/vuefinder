@@ -213,6 +213,7 @@ Copy one or more files or folders to a destination path.
 - `params: TransferParams` - Required parameters object
   - `sources: string[]` - Array of full paths to items to copy (including storage prefix)
   - `destination: string` - Full destination path where items should be copied to
+  - `path?: string` - Optional current directory path (used to refresh the listing after the operation)
 
 **Returns:** `Promise<FileOperationResult>` - Promise resolving to operation result:
   - `files: DirEntry[]` - Updated file list after copy operation
@@ -249,6 +250,7 @@ Move (cut) one or more files or folders to a destination path.
 - `params: TransferParams` - Required parameters object
   - `sources: string[]` - Array of full paths to items to move (including storage prefix)
   - `destination: string` - Full destination path where items should be moved to
+  - `path?: string` - Optional current directory path (used to refresh the listing after the operation)
 
 **Returns:** `Promise<FileOperationResult>` - Promise resolving to operation result:
   - `files: DirEntry[]` - Updated file list after move operation

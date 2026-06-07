@@ -6,6 +6,11 @@ outline: deep
 
 VueFinder is a file manager component for Vue.js version 3. Follow these steps to get started.
 
+## Requirements
+
+- **Vue** `^3.5`
+- **Node.js** `^20.19.0 || >=22.12.0` (for building/development)
+
 ## Install via npm
 
 ```bash

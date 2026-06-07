@@ -19,7 +19,7 @@ Easily integrate it into your app, connect to any storage (local, S3, etc.), and
 - **Production-ready file manager** — Full-featured, ready for production
 - **Zero backend lock-in** — Works with any backend (PHP, Node.js, Python, Go, Rust, etc.)
 - **Built-in text editor** — Edit files directly in the browser
-- **Image crop tool** — Built-in image cropping and editing
+- **Image editor** — Built-in multi-tool editor with Crop, Rotate, Grayscale, and Adjust (brightness / contrast / saturation)
 - **Multi-format preview** — Preview images, videos, audio, PDFs, and text files
 - **Deep search** — Recursive folder search with filters
 - **Archive management** — Create and extract ZIP archives
@@ -62,11 +62,11 @@ Easily integrate it into your app, connect to any storage (local, S3, etc.), and
 
 ## Version
 
-**Current Version:** 4.0
+**Current Version:** 4.x — see [releases](https://github.com/n1crack/vuefinder/releases) for the latest version.
 
 ::: info Version Note
 
-Version 3.0 was skipped for organizational reasons. VueFinder 4.0 represents a significant evolution of the library with a driver-based architecture, enhanced features system, and improved TypeScript support.
+Version 3.0 was skipped for organizational reasons. VueFinder 4.x represents a significant evolution of the library with a driver-based architecture, enhanced features system, and improved TypeScript support.
 
 :::
 
@@ -75,7 +75,7 @@ Version 3.0 was skipped for organizational reasons. VueFinder 4.0 represents a s
 - **Vue 3 Compatible** - Built from the ground up for Vue 3
 - **TypeScript Support** - Comprehensive type definitions included
 - **Multiple Themes** - 12 beautiful themes: silver, valorite, midnight, latte, rose, mythril, lime, sky, ocean, palenight, arctic, code
-- **Multi-language Support** - 17 languages: en, tr, ru, de, es, fr, it, ja, nl, pl, pt, sv, ar, fa, he, hi, zhCN, zhTW
+- **Multi-language Support** - 18 languages: en, tr, ru, de, es, fr, it, ja, nl, pl, pt, sv, ar, fa, he, hi, zhCN, zhTW
 - **Flexible Features System** - Enable or disable features as needed
 - **Local and Remote Drivers** - Support for both in-memory and HTTP API backends
 

@@ -15,7 +15,7 @@ Complete reference of all VueFinder events.
 | `upload-complete` | `DirEntry[]` | Emitted when upload completes         |
 | `delete-complete` | `DirEntry[]` | Emitted when deletion completes       |
 | `notify`          | `NotifyPayload` | Emitted when VueFinder creates a notification |
-| `error`           | `any`        | Emitted when an error occurs          |
+| `error`           | `string`     | Emitted when an operation fails (error message) |
 | `ready`           | -            | Emitted when component is ready       |
 | `file-dclick`     | `ItemDclickEvent` | Emitted when file is double-clicked   |
 | `folder-dclick`   | `ItemDclickEvent` | Emitted when folder is double-clicked |
@@ -88,16 +88,16 @@ const handleDeleteComplete = (deletedItems) => {
 
 ### `error`
 
-Emitted when an error occurs during any operation.
+Emitted when an operation fails. This fires alongside `notify` for every error-type notification, so you can react to failures without filtering `notify` payloads yourself.
 
-**Payload:** `any` - Error object or message
+**Payload:** `string` - Error message
 
 ```vue
 <vue-finder @error="handleError" />
 
 <script setup>
-const handleError = (error) => {
-  console.error('Error:', error);
+const handleError = (message) => {
+  console.error('Error:', message);
 };
 </script>
 ```

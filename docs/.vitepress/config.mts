@@ -153,7 +153,7 @@ gtag('config', 'G-6BYQESCJ6R');`
         },
         license: 'https://opensource.org/licenses/MIT',
         codeRepository: 'https://github.com/n1crack/vuefinder',
-        softwareVersion: '4.0.15',
+        softwareVersion: '4.5.1',
         programmingLanguage: 'TypeScript',
         runtimePlatform: 'Vue.js 3'
       })

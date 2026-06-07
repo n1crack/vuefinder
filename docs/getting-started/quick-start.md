@@ -51,9 +51,9 @@ const driver = new RemoteDriver({
 
 ## Backend Requirements
 
-VueFinder requires a backend that implements the VueFinder API. For VueFinder 4.0, the following backend is supported:
+VueFinder requires a backend that implements the VueFinder API. For VueFinder 4.x, the following backend is supported:
 
-- **PHP**: [VueFinder PHP Library 4.0](https://github.com/n1crack/vuefinder-php) - Official backend for VueFinder 4.0
+- **PHP**: [VueFinder PHP Library](https://github.com/n1crack/vuefinder-php) - Official backend for VueFinder 4.x
 
 ## Essential Props
 

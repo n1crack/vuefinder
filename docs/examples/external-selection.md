@@ -23,7 +23,7 @@ Example showing how to handle selection externally using the `@select` event.
       <h3>Selected Items ({{ selectedItems.length }})</h3>
       <ul>
         <li v-for="item in selectedItems" :key="item.path">
-          {{ item.name }}
+          {{ item.basename }}
         </li>
       </ul>
       <button @click="processSelection">Process Selection</button>

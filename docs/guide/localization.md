@@ -8,7 +8,7 @@ VueFinder supports multiple languages and provides easy ways to customize transl
 
 ## Built-in Languages
 
-VueFinder comes with 17 built-in language packs:
+VueFinder comes with 18 built-in language packs:
 
 - **English (en)** - Default language
 - **Turkish (tr)** - Türkçe
