@@ -1,5 +1,13 @@
 import { defineConfig } from 'vitepress';
-import { writeFileSync, readdirSync, statSync, copyFileSync, existsSync, mkdirSync } from 'node:fs';
+import {
+  writeFileSync,
+  readFileSync,
+  readdirSync,
+  statSync,
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+} from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
 
 // Generate sitemap XML from VitePress pages
@@ -70,6 +78,7 @@ ${urls}
 // outDir is relative to the VitePress project root (docs/ folder)
 // So '../public' means: from docs/ go up one level to project root, then into public/
 const baseUrl = 'https://vuefinder.ozdemir.be';
+const pkg = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8'));
 const siteTitle = 'VueFinder - Vue File Manager';
 const siteDescription = 'A sleek, developer-friendly file manager for Vue.js. Organize, preview, and manage files with ease. Full-featured with upload, download, rename, delete, archive, search, and preview capabilities.';
 
@@ -153,7 +162,7 @@ gtag('config', 'G-6BYQESCJ6R');`
         },
         license: 'https://opensource.org/licenses/MIT',
         codeRepository: 'https://github.com/n1crack/vuefinder',
-        softwareVersion: '4.5.1',
+        softwareVersion: pkg.version,
         programmingLanguage: 'TypeScript',
         runtimePlatform: 'Vue.js 3'
       })
