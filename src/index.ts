@@ -55,6 +55,10 @@ export type {
 // Export context menu item type
 export type { Item } from './utils/contextmenu';
 
+// Export driver config types
+export type { ArrayDriverConfig } from './adapters/ArrayDriver';
+export type { IndexedDBDriverConfig } from './adapters/IndexedDBDriver';
+
 // Export types from adapters/types.ts
 export type {
   Driver,
