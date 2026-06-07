@@ -63,6 +63,33 @@ Example showing how to:
     </div>
   </div>
 </template>
+
+<script setup>
+import { computed, ref } from 'vue';
+import { RemoteDriver } from 'vuefinder';
+
+const driver = new RemoteDriver({ baseURL: '/api' });
+
+const notificationsEnabled = ref(true);
+const notificationPosition = ref('bottom-center');
+const notificationDuration = ref(3000);
+const notifyEvents = ref([]);
+
+const config = computed(() => ({
+  notificationsEnabled: notificationsEnabled.value,
+  notificationPosition: notificationPosition.value,
+  notificationDuration: Number(notificationDuration.value) || 3000,
+}));
+
+const handleNotify = ({ type, message }) => {
+  notifyEvents.value.unshift({ type, message, at: new Date().toLocaleTimeString() });
+  notifyEvents.value = notifyEvents.value.slice(0, 20);
+};
+
+const clearNotifyEvents = () => {
+  notifyEvents.value = [];
+};
+</script>
 ```
 
 ## Notes

@@ -227,7 +227,6 @@ components:
       required:
         - sources
         - destination
-        - path
       properties:
         sources:
           type: array
@@ -241,7 +240,7 @@ components:
           example: "local://backup"
         path:
           type: string
-          description: Current directory path (including storage prefix)
+          description: Optional current directory path (including storage prefix), used to refresh the listing after the operation
           example: "local://uploads"
 
     ArchiveRequest:
@@ -345,13 +344,13 @@ paths:
       tags:
         - Files
       summary: List files and folders
-      description: List files and folders in a directory at the specified path. The path parameter is required and should include the storage prefix.
+      description: List files and folders in a directory at the specified path. The path should include the storage prefix; when omitted, the backend lists the default storage root.
       operationId: listFiles
       parameters:
         - name: path
           in: query
-          required: true
-          description: Directory path to list (including storage prefix, e.g., "local://uploads")
+          required: false
+          description: Directory path to list (including storage prefix, e.g., "local://uploads"). Defaults to the storage root when omitted.
           schema:
             type: string
           example: "local://uploads"
@@ -411,11 +410,16 @@ paths:
               type: object
               required:
                 - file
+                - path
               properties:
                 file:
                   type: string
                   format: binary
                   description: File to upload
+                path:
+                  type: string
+                  description: Target directory path (including storage prefix)
+                  example: "local://uploads"
       responses:
         '200':
           description: Files uploaded successfully. Returns empty JSON response.

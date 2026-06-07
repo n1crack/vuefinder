@@ -26,7 +26,7 @@ features:
   - title: 🎨 Beautiful Modern Interface
     details: Polished UI with context menus, breadcrumbs, thumbnails, and responsive design that works perfectly on desktop and mobile.
   - title: ⚡ Developer-Friendly
-    details: TypeScript support, 17 languages, 12 themes, flexible configuration, and easy backend integration. Built for Vue 3.
+    details: TypeScript support, 18 languages, 12 themes, flexible configuration, and easy backend integration. Built for Vue 3.
 ---
 
 <ClientOnly>

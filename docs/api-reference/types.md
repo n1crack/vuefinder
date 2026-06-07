@@ -123,6 +123,7 @@ export interface ArrayDriverConfig {
   storage?: string;
   storages?: string[];
   readOnly?: boolean;
+  contentStore?: Map<string, string | ArrayBuffer>;
 }
 ```
 
@@ -130,6 +131,7 @@ export interface ArrayDriverConfig {
 
 - `storage` is the default storage prefix used when a path does not specify one.
 - `storages` enables multi-storage mode for ArrayDriver.
+- `contentStore` optionally pre-seeds file contents keyed by full path; it is also where edited/uploaded contents are kept in memory.
 
 ### `IndexedDBDriverConfig`
 

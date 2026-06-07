@@ -15,7 +15,7 @@ import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
 import ModalUpload from '../components/modals/ModalUpload.vue';
 import { menuItems as contextMenuItems } from '../utils/contextmenu';
-import type { VueFinderProps, DirEntry } from '../types';
+import type { VueFinderProps, DirEntry, NotifyPayload } from '../types';
 import type { FsData } from '../adapters/types';
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
@@ -123,6 +123,11 @@ app.emitter.on('vf-delete-complete', (deletedItems: unknown) => {
 
 app.emitter.on('vf-notify', (payload: unknown) => {
   emit('notify', payload);
+  // Surface error-type notifications through the dedicated 'error' event too
+  const { type, message } = (payload ?? {}) as NotifyPayload;
+  if (type === 'error') {
+    emit('error', message);
+  }
 });
 
 // Listen for custom double-click events

@@ -250,7 +250,7 @@ export class ArrayDriver extends BaseAdapter {
       storages: this.storages,
       read_only: this.readOnly,
       dirname: dirnameFull,
-    } as unknown as FileOperationResult;
+    };
   }
 
   async list(params?: ListParams): Promise<FsData> {

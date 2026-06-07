@@ -52,7 +52,7 @@ const customMenuItems = [
 The `contextMenuItems` prop allows you to add custom items to the right-click context menu:
 
 - **`id`**: Unique identifier for the menu item (required)
-- **`title`**: Function that returns the display text, receives i18n object: `(i18n) => string`
+- **`title`**: Function that returns the display text, receives i18n object: `(i18n) => string`. For translated labels use `title: ({ t }) => t('Custom Action')` — built-in items do this; a plain `() => 'Custom Action'` also works but skips translation
 - **`action`**: Function called when the item is clicked, receives `(app, selectedItems)` as parameters
 - **`show`**: Function that determines if the item should be displayed, receives `(app, ctx)` as parameters, returns `boolean`
 - **`link`**: Optional function that returns a URL for link-style menu items (download, etc.)

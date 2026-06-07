@@ -82,7 +82,7 @@ const handleDeleteComplete = (deletedItems) => {
 
 ### `@error`
 
-Emitted when an error occurs during any operation:
+Emitted when an operation fails. It fires alongside `@notify` for every error-type notification:
 
 ```vue
 <template>
@@ -90,13 +90,13 @@ Emitted when an error occurs during any operation:
 </template>
 
 <script setup>
-const handleError = (error) => {
-  console.error('VueFinder error:', error);
+const handleError = (message) => {
+  console.error('VueFinder error:', message);
 };
 </script>
 ```
 
-**Payload:** `any` - Error object
+**Payload:** `string` - Error message
 
 ### `@notify`
 
@@ -256,8 +256,8 @@ const handleNotify = ({ type, message }) => {
   console.log('Notify:', type, message);
 };
 
-const handleError = (error) => {
-  console.error('Error:', error);
+const handleError = (message) => {
+  console.error('Error:', message);
 };
 
 const handleReady = () => {

@@ -50,7 +50,7 @@ export interface DeleteResult extends FileOperationResult {
  */
 export interface FileOperationResult {
     files: DirEntry[];
-    storages: Storage[];
+    storages: string[];
     read_only: boolean;
     dirname: string;
 }
