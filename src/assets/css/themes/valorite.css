@@ -1,5 +1,6 @@
 /* Valorite Theme */
 .vuefinder__themer[data-theme='valorite'] {
+  color-scheme: dark;
   --vf-selection-bg: #374151;
   --vf-selection-border: #374151;
   /* Background Colors */

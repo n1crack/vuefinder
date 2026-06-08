@@ -1,5 +1,6 @@
 /* Lime Theme */
 .vuefinder__themer[data-theme='lime'] {
+  color-scheme: dark;
   --vf-selection-bg: #1a2e1a;
   --vf-selection-border: #84cc16;
   /* Background Colors */

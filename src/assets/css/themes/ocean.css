@@ -1,5 +1,6 @@
 /* Ocean Theme */
 .vuefinder__themer[data-theme='ocean'] {
+  color-scheme: dark;
   --vf-selection-bg: #263238;
   --vf-selection-border: #00bcd4;
   /* Background Colors */

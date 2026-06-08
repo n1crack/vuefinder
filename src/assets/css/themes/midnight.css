@@ -1,5 +1,6 @@
 /* Midnight Theme */
 .vuefinder__themer[data-theme='midnight'] {
+  color-scheme: dark;
   --vf-selection-bg: #334155;
   --vf-selection-border: #334155;
   /* Background Colors */

@@ -1,5 +1,6 @@
 /* Arctic Theme */
 .vuefinder__themer[data-theme='arctic'] {
+  color-scheme: dark;
   --vf-selection-bg: #3b4252;
   --vf-selection-border: #88c0d0;
   /* Background Colors */
