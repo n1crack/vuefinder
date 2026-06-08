@@ -86,6 +86,13 @@
     border-color: var(--vf-border-primary, currentColor);
   }
 
+  /* Render native controls (checkboxes, radios, inputs, media chrome) using
+     VueFinder's own light/dark mode instead of inheriting the host page's
+     color-scheme. Dark themes override this to `dark`. */
+  .vuefinder__themer {
+    color-scheme: light;
+  }
+
   .vuefinder {
     @apply relative;
 

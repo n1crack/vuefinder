@@ -1,5 +1,6 @@
 /* Palenight Theme */
 .vuefinder__themer[data-theme='palenight'] {
+  color-scheme: dark;
   --vf-selection-bg: #263238;
   --vf-selection-border: #c792ea;
   /* Background Colors */

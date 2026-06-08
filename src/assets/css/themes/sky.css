@@ -1,5 +1,6 @@
 /* Sky Theme */
 .vuefinder__themer[data-theme='sky'] {
+  color-scheme: dark;
   --vf-selection-bg: #0f1419;
   --vf-selection-border: #7dd3fc;
   /* Background Colors */
