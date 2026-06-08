@@ -1,29 +1,65 @@
-.vf-scrollbar {
-  /* width */
-  &::-webkit-scrollbar {
-    @apply w-3;
-  }
+/**
+ * Native scrollbars & text selection inside VueFinder.
+ *
+ * Scoped to `.vuefinder__themer` so it covers the main container AND every
+ * teleported piece (modals, dropdowns, preview overlays all carry this class).
+ * The host page's color-scheme (e.g. a dark docs site) no longer leaks into
+ * VueFinder — our own theme drives every scroll area and the selection colour.
+ *
+ * OverlayScrollbars-managed areas (explorer, tree) hide their native
+ * scrollbars and are themed separately via `.vf-scrollbars-theme`; these rules
+ * only take effect on plain-overflow elements (text/csv/code previews,
+ * upload & transfer file lists, etc.).
+ */
 
-  /* Track */
-  &::-webkit-scrollbar-track-piece {
-    @apply bg-gray-100;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    @apply bg-gray-300;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400;
-  }
-
-  &::-webkit-scrollbar-corner {
-    @apply bg-transparent;
-  }
+/* Firefox + standards */
+.vuefinder__themer,
+.vuefinder__themer * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vf-scrollbar-handle, rgba(107, 114, 128, 0.4)) transparent;
 }
 
+/* WebKit / Blink */
+.vuefinder__themer ::-webkit-scrollbar,
+.vuefinder__themer::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.vuefinder__themer ::-webkit-scrollbar-track,
+.vuefinder__themer ::-webkit-scrollbar-track-piece,
+.vuefinder__themer ::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.vuefinder__themer ::-webkit-scrollbar-thumb {
+  background-color: var(--vf-scrollbar-handle, rgba(107, 114, 128, 0.4));
+  border-radius: 10px;
+}
+
+.vuefinder__themer ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--vf-scrollbar-handle-hover, rgba(107, 114, 128, 0.6));
+}
+
+.vuefinder__themer ::-webkit-scrollbar-thumb:active {
+  background-color: var(--vf-scrollbar-handle-active, rgba(107, 114, 128, 0.8));
+}
+
+/**
+ * Text selection highlight.
+ * Derived from the active theme's accent colour with transparency so it stays
+ * readable on both light and dark VueFinder themes, independent of the host.
+ */
+.vuefinder__themer ::selection,
+.vuefinder__themer::selection {
+  background-color: color-mix(in srgb, var(--vf-accent-primary, #636e7a) 30%, transparent);
+}
+
+/**
+ * Legacy helper classes kept for explicit opt-in styling. They now inherit the
+ * themed values above; `.vf-explorer-scrollbar` keeps its transparent track for
+ * the OverlayScrollbars overlay region.
+ */
 .vf-explorer-scrollbar {
   &::-webkit-scrollbar {
     @apply w-3;
