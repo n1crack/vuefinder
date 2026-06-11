@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "4.5.3",
+  "version": "4.5.4",
   "description": "A sleek, developer-friendly file manager for Vue — organize, preview, and manage files with ease.",
   "type": "module",
   "engines": {
@@ -25,7 +25,7 @@
   "types": "./dist/types/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-gen \"build-only {@}\" --",
+    "build": "run-s \"build-only {@}\" type-gen --",
     "preview": "vite preview",
     "test:unit": "vitest",
     "prepare": "cypress install",

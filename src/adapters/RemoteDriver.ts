@@ -124,6 +124,10 @@ export class RemoteDriver extends BaseAdapter {
       const errorMessage = parseBackendError(text, response.status, response.statusText);
       throw new Error(errorMessage);
     }
+    // No Content / Not Modified: no body to parse (e.g. 204 from a direct S3 upload)
+    if (response.status === 204 || response.status === 304) {
+      return {} as T;
+    }
     const contentType = response.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
       return await response.json();

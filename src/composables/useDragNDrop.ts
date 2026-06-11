@@ -31,8 +31,9 @@ export function useDragNDrop(app: App, classList: string[] = []) {
       return true;
     }
 
-    // Dragging onto itself, or a parent of the dragged item
-    if (target.path.startsWith(draggedPath)) {
+    // Dragging onto itself, or into a descendant of the dragged item.
+    // Use a trailing slash so sibling dirs sharing a prefix (e.g. 'A' / 'AA') are not blocked.
+    if (target.path === draggedPath || target.path.startsWith(`${draggedPath}/`)) {
       return true;
     }
 
@@ -42,7 +43,7 @@ export function useDragNDrop(app: App, classList: string[] = []) {
         return false;
       }
       // the target is a child of the selected item
-      if (target.path.startsWith(item.path)) {
+      if (target.path === item.path || target.path.startsWith(`${item.path}/`)) {
         return true;
       }
 
