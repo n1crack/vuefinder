@@ -98,8 +98,7 @@ const invalidDestinationMessage = computed(() => {
   // Find which item is causing the conflict
   const conflictingItem = items.value.find((item: DirEntry) => {
     return (
-      dest.path === item.path ||
-      (item.type === 'dir' && dest.path.startsWith(item.path + '/'))
+      dest.path === item.path || (item.type === 'dir' && dest.path.startsWith(item.path + '/'))
     );
   });
 
