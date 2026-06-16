@@ -234,7 +234,7 @@ function hn() {
 function Un(s) {
   return s ? s === "simple" || s === "advanced" ? { ...Vn[s] } : { ...hn(), ...s } : hn();
 }
-const Uo = "4.5.4";
+const Uo = "4.5.5";
 function Qt(s, e, t, n, i) {
   return e = Math, t = e.log, n = 1024, i = t(s) / t(n) | 0, (s / e.pow(n, i)).toFixed(0) + " " + (i ? "KMGTPEZY"[--i] + "iB" : "B");
 }
@@ -2187,7 +2187,7 @@ const ra = { class: "vuefinder__text-preview" }, da = { class: "vuefinder__text-
   emits: ["success"],
   setup(s, { emit: e }) {
     const t = On({
-      loader: () => import("./CodeMirrorEditor-D6dPPYE5.js").then((f) => f.C),
+      loader: () => import("./CodeMirrorEditor-BGR8qXFt.js").then((f) => f.C),
       delay: 100
     }), n = e, i = I(""), l = I(""), d = I(!1), r = I(!1), u = ie(), v = Re(u), { enabled: y } = ze(), { t: h } = u.i18n;
     we(async () => {
@@ -2279,7 +2279,7 @@ const ra = { class: "vuefinder__text-preview" }, da = { class: "vuefinder__text-
   emits: ["success"],
   setup(s, { emit: e }) {
     const t = On({
-      loader: () => import("./CodeMirrorEditor-D6dPPYE5.js").then((Z) => Z.C),
+      loader: () => import("./CodeMirrorEditor-BGR8qXFt.js").then((Z) => Z.C),
       delay: 100
     }), n = e, i = I(""), l = I(""), d = ut([]), r = ut([]), u = I(null), v = I(!1), y = I(!1), h = z(() => d.value.length > Nt), p = z(() => h.value ? d.value.slice(0, Nt) : d.value), k = ie(), b = Re(k), { enabled: $ } = ze(), { t: m } = k.i18n;
     async function g(Z) {
@@ -4149,12 +4149,12 @@ const It = { render: yl }, wl = { class: "vuefinder__modal-tree__folder-item" },
       E && (r.value = E, h.value = !1);
     }, f = z(() => {
       const E = r.value;
-      return E ? d.value.some((L) => !!(E.path === L.path || L.path.startsWith(E.path + "/") || L.type === "dir" && E.path.startsWith(L.path + "/"))) : !0;
+      return E ? d.value.some((L) => !!(E.path === L.path || L.type === "dir" && E.path.startsWith(L.path + "/"))) : !0;
     }), S = z(() => {
       if (!f.value)
         return "";
       const E = r.value;
-      return E ? d.value.find((q) => E.path === q.path || q.path.startsWith(E.path + "/") || q.type === "dir" && E.path.startsWith(q.path + "/")) ? i("Cannot move/copy item to itself or its parent/child directory") : i("Invalid destination directory") : i("Please select a destination directory");
+      return E ? d.value.find((q) => E.path === q.path || q.type === "dir" && E.path.startsWith(q.path + "/")) ? i("Cannot move/copy item to itself or its own subfolder") : i("Invalid destination directory") : i("Please select a destination directory");
     }), C = () => {
       const E = r.value.path;
       if (!E) return { storage: "local", path: "" };

@@ -74,12 +74,9 @@ const isInvalidDestination = computed(() => {
       return true;
     }
 
-    // Item is a child of destination (cannot move item into its parent)
-    if (item.path.startsWith(dest.path + '/')) {
-      return true;
-    }
-
-    // If item is a directory, destination cannot be a child of it
+    // If item is a directory, destination cannot be the item itself or a
+    // descendant of it (would move a folder into its own subtree).
+    // Moving an item UP into a parent/ancestor directory is valid and allowed.
     if (item.type === 'dir' && dest.path.startsWith(item.path + '/')) {
       return true;
     }
@@ -102,13 +99,12 @@ const invalidDestinationMessage = computed(() => {
   const conflictingItem = items.value.find((item: DirEntry) => {
     return (
       dest.path === item.path ||
-      item.path.startsWith(dest.path + '/') ||
       (item.type === 'dir' && dest.path.startsWith(item.path + '/'))
     );
   });
 
   if (conflictingItem) {
-    return t('Cannot move/copy item to itself or its parent/child directory');
+    return t('Cannot move/copy item to itself or its own subfolder');
   }
 
   return t('Invalid destination directory');
