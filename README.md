@@ -30,6 +30,7 @@ For detailed installation instructions, configuration options, and usage example
 You can use any backend language. VueFinder talks to your server through the `driver` you provide. A driver simply calls your HTTP endpoints and returns data in the expected shape. This keeps VueFinder backend-agnostic while giving you full control over auth, storage, and business rules.
 
 - PHP (recommended for plug‑and‑play): [VueFinder Php Library 4.0](https://github.com/n1crack/vuefinder-php)
+- CloudFlare R2: [Cloudflare R2](https://github.com/NightFurySL2001/r2-explorer-demo)
 
 Data contracts are stable and designed to be simple to implement. If you use the PHP package, these endpoints are already provided. For other stacks, mirror the same responses and you're good to go.
 
@@ -41,7 +42,6 @@ Older ecosystem libraries (for VueFinder 3.x and earlier):
 - Python: [Python WSGI](https://github.com/abichinger/vuefinder-wsgi)
 - Go: [vuefinder-go](https://github.com/Duke1616/vuefinder-go)
 - Rust: [vuefinder-rust](https://github.com/boenfu/vuefinder-rust)
-- CloudFlare R2: [Cloudflare R2](https://github.com/NightFurySL2001/r2-explorer-demo)
 
 ### Collaboration
 
