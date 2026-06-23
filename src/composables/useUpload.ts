@@ -149,6 +149,7 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
       return;
     }
     message.value = '';
+    uploading.value = true;
 
     // Store the target folder for use in the upload event handler
     uploadTargetFolder.value = targetFolder || currentPath.value;
