@@ -1,6 +1,10 @@
 {
-  "name": "vuefinder",
+  "name": "@mohammadsiabbouforwork/vuefinder",
   "version": "4.5.5",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
   "description": "A sleek, developer-friendly file manager for Vue — organize, preview, and manage files with ease.",
   "type": "module",
   "engines": {
