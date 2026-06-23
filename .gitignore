@@ -1,6 +1,7 @@
 playground
 /public
 /node_modules
+/dist
 /resources
 /vendor
 /storage
