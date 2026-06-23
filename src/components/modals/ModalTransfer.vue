@@ -127,8 +127,12 @@ const getDestinationParts = () => {
   };
 };
 
+const loading = ref(false);
+
 const transfer = async () => {
+  if (loading.value) return;
   if (items.value.length) {
+    loading.value = true;
     try {
       const { files } = await app.adapter[operation.value]({
         path: currentPath.value.path,
@@ -140,6 +144,8 @@ const transfer = async () => {
       app.modal.close();
     } catch (error) {
       notify.error(getErrorMessage(error, t('Failed to transfer files')));
+    } finally {
+      loading.value = false;
     }
   }
 };
@@ -222,12 +228,17 @@ const transfer = async () => {
       <button
         type="button"
         class="vf-btn vf-btn-primary"
-        :disabled="isInvalidDestination"
+        :disabled="isInvalidDestination || loading"
         @click="transfer"
       >
         {{ successBtn }}
       </button>
-      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
+      <button
+        type="button"
+        class="vf-btn vf-btn-secondary"
+        :disabled="loading"
+        @click="app.modal.close()"
+      >
         {{ t('Cancel') }}
       </button>
       <div class="vuefinder__move-modal__selected-items">

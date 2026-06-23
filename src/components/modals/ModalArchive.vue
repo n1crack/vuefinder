@@ -49,8 +49,12 @@ const handleFolderSelectAndClose = (folder: DirEntry | null) => {
   }
 };
 
+const loading = ref(false);
+
 const archive = () => {
+  if (loading.value) return;
   if (items.value.length) {
+    loading.value = true;
     const destination = targetFolderEntry.value?.path;
     app.adapter
       .archive({
@@ -70,6 +74,9 @@ const archive = () => {
       })
       .catch((e: unknown) => {
         notify.error(getErrorMessage(e, t('Failed to archive files')));
+      })
+      .finally(() => {
+        loading.value = false;
       });
   }
 };
@@ -164,10 +171,15 @@ const archive = () => {
     </div>
 
     <template #buttons>
-      <button type="button" class="vf-btn vf-btn-primary" @click="archive">
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="archive">
         {{ t('Archive') }}
       </button>
-      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
+      <button
+        type="button"
+        class="vf-btn vf-btn-secondary"
+        :disabled="loading"
+        @click="app.modal.close()"
+      >
         {{ t('Cancel') }}
       </button>
     </template>

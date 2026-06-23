@@ -49,7 +49,11 @@ const handleFolderSelectAndClose = (folder: DirEntry | null) => {
   }
 };
 
+const loading = ref(false);
+
 const unarchive = () => {
+  if (loading.value) return;
+  loading.value = true;
   const destination = targetFolderEntry.value?.path;
   app.adapter
     .unarchive({
@@ -65,6 +69,9 @@ const unarchive = () => {
     })
     .catch((e: unknown) => {
       notify.error(getErrorMessage(e, t('Failed to unarchive')));
+    })
+    .finally(() => {
+      loading.value = false;
     });
 };
 </script>
@@ -152,10 +159,15 @@ const unarchive = () => {
     </div>
 
     <template #buttons>
-      <button type="button" class="vf-btn vf-btn-primary" @click="unarchive">
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="unarchive">
         {{ t('Unarchive') }}
       </button>
-      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
+      <button
+        type="button"
+        class="vf-btn vf-btn-secondary"
+        :disabled="loading"
+        @click="app.modal.close()"
+      >
         {{ t('Cancel') }}
       </button>
     </template>

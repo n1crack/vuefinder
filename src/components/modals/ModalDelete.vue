@@ -16,9 +16,12 @@ const fs = app.fs;
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 const items = ref(app.modal.data.items);
 const isConfirmed = ref(false);
+const loading = ref(false);
 
 const remove = () => {
+  if (loading.value) return;
   if (items.value.length && isConfirmed.value) {
+    loading.value = true;
     app.adapter
       .delete({
         path: currentPath.value.path,
@@ -35,6 +38,9 @@ const remove = () => {
       })
       .catch((e: unknown) => {
         notify.error(getErrorMessage(e, t('Failed to delete files')));
+      })
+      .finally(() => {
+        loading.value = false;
       });
   }
 };
@@ -97,10 +103,20 @@ const remove = () => {
           </span>
         </label>
       </div>
-      <button type="button" class="vf-btn vf-btn-danger" :disabled="!isConfirmed" @click="remove">
+      <button
+        type="button"
+        class="vf-btn vf-btn-danger"
+        :disabled="!isConfirmed || loading"
+        @click="remove"
+      >
         {{ t('Yes, Delete!') }}
       </button>
-      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
+      <button
+        type="button"
+        class="vf-btn vf-btn-secondary"
+        :disabled="loading"
+        @click="app.modal.close()"
+      >
         {{ t('Cancel') }}
       </button>
     </template>

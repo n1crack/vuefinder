@@ -18,9 +18,12 @@ const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const item = ref(app.modal.data.items[0]);
 const name = ref(item.value.basename);
+const loading = ref(false);
 
 const rename = () => {
+  if (loading.value) return;
   if (name.value != item.value.basename) {
+    loading.value = true;
     app.adapter
       .rename({
         path: currentPath.value.path,
@@ -34,6 +37,9 @@ const rename = () => {
       })
       .catch((e: unknown) => {
         notify.error(getErrorMessage(e, t('Failed to rename')));
+      })
+      .finally(() => {
+        loading.value = false;
       });
   }
 };
@@ -90,8 +96,15 @@ const rename = () => {
     </div>
 
     <template #buttons>
-      <button type="button" class="vf-btn vf-btn-primary" @click="rename">{{ t('Rename') }}</button>
-      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="rename">
+        {{ t('Rename') }}
+      </button>
+      <button
+        type="button"
+        class="vf-btn vf-btn-secondary"
+        :disabled="loading"
+        @click="app.modal.close()"
+      >
         {{ t('Cancel') }}
       </button>
     </template>

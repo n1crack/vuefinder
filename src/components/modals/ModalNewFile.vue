@@ -19,9 +19,12 @@ const fs = app.fs;
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const name = ref('');
+const loading = ref(false);
 
 const createFile = () => {
+  if (loading.value) return;
   if (name.value !== '') {
+    loading.value = true;
     app.adapter
       .createFile({
         path: currentPath.value.path,
@@ -34,6 +37,9 @@ const createFile = () => {
       })
       .catch((e: unknown) => {
         notify.error(getErrorMessage(e, t('Failed to create file')));
+      })
+      .finally(() => {
+        loading.value = false;
       });
   }
 };
@@ -58,10 +64,15 @@ const createFile = () => {
     </div>
 
     <template #buttons>
-      <button type="button" class="vf-btn vf-btn-primary" @click="createFile">
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="createFile">
         {{ t('Create') }}
       </button>
-      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
+      <button
+        type="button"
+        class="vf-btn vf-btn-secondary"
+        :disabled="loading"
+        @click="app.modal.close()"
+      >
         {{ t('Cancel') }}
       </button>
     </template>

@@ -19,9 +19,12 @@ const fs = app.fs;
 const currentPath: StoreValue<CurrentPathState> = useStore(fs.path);
 
 const name = ref('');
+const loading = ref(false);
 
 const createFolder = () => {
+  if (loading.value) return;
   if (name.value !== '') {
+    loading.value = true;
     app.adapter
       .createFolder({
         path: currentPath.value.path,
@@ -34,6 +37,9 @@ const createFolder = () => {
       })
       .catch((e: unknown) => {
         notify.error(getErrorMessage(e, t('Failed to create folder')));
+      })
+      .finally(() => {
+        loading.value = false;
       });
   }
 };
@@ -59,10 +65,15 @@ const createFolder = () => {
     </div>
 
     <template #buttons>
-      <button type="button" class="vf-btn vf-btn-primary" @click="createFolder">
+      <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="createFolder">
         {{ t('Create') }}
       </button>
-      <button type="button" class="vf-btn vf-btn-secondary" @click="app.modal.close()">
+      <button
+        type="button"
+        class="vf-btn vf-btn-secondary"
+        :disabled="loading"
+        @click="app.modal.close()"
+      >
         {{ t('Cancel') }}
       </button>
     </template>
