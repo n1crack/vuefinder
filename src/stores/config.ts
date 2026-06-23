@@ -7,6 +7,15 @@ import type { Store } from 'nanostores';
 type Viewport = 'grid' | 'list';
 
 /**
+ * What to do when an uploaded file collides with an existing file of the
+ * same name in the target folder.
+ * - replace: overwrite the existing file (backend default behavior)
+ * - skip: do not upload the colliding file
+ * - keep-both: upload under a suffixed name (e.g. "file (1).txt")
+ */
+export type UploadConflictStrategy = 'replace' | 'skip' | 'keep-both';
+
+/**
  * Persistent config state (saved to localStorage)
  * These values are persisted across page reloads
  */
@@ -24,6 +33,7 @@ export interface PersistenceConfigState {
   notificationsEnabled: boolean;
   expandTreeByDefault: boolean;
   expandedTreePaths: string[];
+  uploadConflictStrategy: UploadConflictStrategy;
 }
 
 /**
@@ -94,6 +104,7 @@ const DEFAULT_PERSISTENCE_STATE: PersistenceConfigState = {
   notificationsEnabled: true,
   expandTreeByDefault: false,
   expandedTreePaths: [] as string[],
+  uploadConflictStrategy: 'replace',
 };
 
 const DEFAULT_NON_PERSISTENCE_STATE: NonPersistenceConfigState = {

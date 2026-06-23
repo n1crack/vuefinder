@@ -1,10 +1,13 @@
-import { onMounted, onUnmounted, ref, type Ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch, type Ref } from 'vue';
 import { useApp } from '../composables/useApp';
 import Uppy from '@uppy/core';
 import { parse } from '../utils/filesize';
 import { useStore } from '@nanostores/vue';
 import { scanFiles } from '../utils/scanFiles';
+import { nextFreeName } from '../utils/uniqueFilename';
 import type { CurrentPathState } from '../stores/files';
+import type { DirEntry } from '../types';
+import type { UploadConflictStrategy } from '../stores/config';
 import type { StoreValue } from 'nanostores';
 
 export const QUEUE_ENTRY_STATUS = {
@@ -35,6 +38,7 @@ export interface UseUploadReturn {
   queue: Ref<QueueEntry[]>;
   message: Ref<string>;
   uploading: Ref<boolean>;
+  conflictStrategy: Ref<UploadConflictStrategy>;
   hasFilesInDropArea: Ref<boolean>;
   definitions: Ref<{ QUEUE_ENTRY_STATUS: typeof QUEUE_ENTRY_STATUS }>;
   openFileSelector: () => void;
@@ -67,6 +71,14 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
   const uploading = ref(false);
   const hasFilesInDropArea = ref(false);
   const uploadTargetFolder = ref<any>(null);
+
+  // What to do when an uploaded file collides with an existing one in the
+  // target folder. Seeded from (and persisted back to) the config store so the
+  // user's choice survives reloads.
+  const conflictStrategy = ref<UploadConflictStrategy>(
+    config.get('uploadConflictStrategy') ?? 'replace'
+  );
+  watch(conflictStrategy, (val) => config.set('uploadConflictStrategy', val));
 
   let uppy: Uppy;
 
@@ -140,7 +152,72 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
   const openFileSelector = () => pickFiles.value?.click();
   const close = () => app.modal.close();
 
-  const upload = (targetFolder?: any) => {
+  // Applies the chosen conflict strategy against the target folder's existing
+  // files before the actual upload runs. Returns the number of files that were
+  // skipped. Only top-level entries are considered — names carrying a subfolder
+  // prefix (folder uploads) keep the previous "replace" behavior since their
+  // destination directory may not exist yet.
+  const resolveConflicts = async (targetPath: string): Promise<number> => {
+    if (conflictStrategy.value === 'replace') return 0;
+
+    let existing: Set<string>;
+    try {
+      const data = await app.adapter.list(targetPath);
+      existing = new Set(data.files.map((f: DirEntry) => f.basename));
+    } catch {
+      // If we cannot read the target folder, fall back to the backend default.
+      return 0;
+    }
+
+    // Names already claimed this batch (existing files + names we assign), so
+    // queued files don't collide with the folder or with each other.
+    const claimed = new Set(existing);
+    let skipped = 0;
+
+    // Snapshot first: applying decisions mutates the queue / uppy file list.
+    const pending = queue.value.filter(
+      (entry) => entry.status !== QUEUE_ENTRY_STATUS.DONE && !entry.name.includes('/')
+    );
+
+    for (const entry of pending) {
+      if (!existing.has(entry.name)) {
+        // No collision: still reserve the name to guard within-batch dupes.
+        if (conflictStrategy.value === 'keep-both') claimed.add(entry.name);
+        continue;
+      }
+
+      if (conflictStrategy.value === 'skip') {
+        uppy.removeFile(entry.id);
+        entry.status = QUEUE_ENTRY_STATUS.CANCELED;
+        entry.statusName = t('Skipped (already exists)');
+        entry.percent = null;
+        skipped++;
+        continue;
+      }
+
+      // keep-both: re-add to uppy under a free, suffixed name.
+      const newName = nextFreeName(entry.name, claimed);
+      claimed.add(newName);
+      const idx = findQueueEntryIndexById(entry.id);
+      const file = entry.originalFile;
+      uppy.removeFile(entry.id);
+      if (idx !== -1) queue.value.splice(idx, 1);
+      try {
+        addFile(file, newName);
+      } catch {
+        // If uppy rejects the rename, restore the original (will overwrite).
+        try {
+          addFile(file, entry.name);
+        } catch {
+          // Nothing else to recover.
+        }
+      }
+    }
+
+    return skipped;
+  };
+
+  const upload = async (targetFolder?: any) => {
     if (
       uploading.value ||
       !queue.value.filter((entry) => entry.status !== QUEUE_ENTRY_STATUS.DONE).length
@@ -153,6 +230,15 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
 
     // Store the target folder for use in the upload event handler
     uploadTargetFolder.value = targetFolder || currentPath.value;
+
+    await resolveConflicts(uploadTargetFolder.value.path);
+
+    // Everything resolved to "skip" — nothing left to send.
+    if (uppy.getFiles().length === 0) {
+      uploading.value = false;
+      message.value = t('All files already exist in the target folder.');
+      return;
+    }
 
     // todo: will look into retrying failed uploads later
     // uppy.retryAll();
@@ -418,6 +504,7 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
     queue,
     message,
     uploading,
+    conflictStrategy,
     hasFilesInDropArea,
     definitions,
     openFileSelector,

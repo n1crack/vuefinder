@@ -135,6 +135,13 @@ export default {
     'Network Error, Unable establish connection to the server or interrupted.',
   'Pending upload': 'Pending',
   'Please select file to upload first.': 'Please select file to upload first.',
+  'If a file already exists': 'If a file already exists',
+  Replace: 'Replace',
+  Skip: 'Skip',
+  'Keep both': 'Keep both',
+  'Skipped (already exists)': 'Skipped (already exists)',
+  'All files already exist in the target folder.':
+    'All files already exist in the target folder.',
 
   Settings: 'Settings',
   Shortcuts: 'Shortcuts',

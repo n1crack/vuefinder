@@ -62,6 +62,7 @@ const {
   queue,
   message,
   uploading,
+  conflictStrategy,
   hasFilesInDropArea,
   definitions,
   openFileSelector,
@@ -75,6 +76,13 @@ const {
   addExternalFiles,
   renameEntry,
 } = useUpload(app.customUploader);
+
+// Conflict strategy options shown as a segmented control.
+const conflictOptions: { value: 'replace' | 'skip' | 'keep-both'; label: string }[] = [
+  { value: 'replace', label: t('Replace') },
+  { value: 'skip', label: t('Skip') },
+  { value: 'keep-both', label: t('Keep both') },
+];
 
 // Inline rename state
 const editingId = ref<string | null>(null);
@@ -195,6 +203,32 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
               @update:model-value="selectTargetFolder"
               @select-and-close="selectTargetFolderAndClose"
             />
+          </div>
+        </div>
+
+        <!-- Conflict strategy: what to do when a file already exists -->
+        <div class="vuefinder__upload-modal__conflict-section">
+          <div class="vuefinder__upload-modal__conflict-label">
+            {{ t('If a file already exists') }}
+          </div>
+          <div class="vuefinder__upload-modal__conflict-options" role="radiogroup">
+            <button
+              v-for="option in conflictOptions"
+              :key="option.value"
+              type="button"
+              role="radio"
+              :aria-checked="conflictStrategy === option.value"
+              :disabled="uploading"
+              class="vuefinder__upload-modal__conflict-option"
+              :class="
+                conflictStrategy === option.value
+                  ? 'vuefinder__upload-modal__conflict-option--active'
+                  : ''
+              "
+              @click="conflictStrategy = option.value"
+            >
+              {{ option.label }}
+            </button>
           </div>
         </div>
 

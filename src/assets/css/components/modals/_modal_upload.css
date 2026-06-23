@@ -149,3 +149,29 @@
 .vuefinder__modal-layout .vf-btn-primary[disabled] {
   @apply border-(--vf-border-primary) bg-(--vf-bg-disabled) text-(--vf-text-disabled);
 }
+
+/* Conflict strategy (what to do when a file already exists) */
+.vuefinder__upload-modal__conflict-section {
+  @apply mb-3;
+}
+.vuefinder__upload-modal__conflict-label {
+  @apply mb-1 text-xs font-bold tracking-wider text-(--vf-text-primary);
+}
+.vuefinder__upload-modal__conflict-options {
+  @apply inline-flex w-full overflow-hidden rounded-md border border-(--vf-border-primary);
+}
+.vuefinder__upload-modal__conflict-option {
+  @apply flex-1 cursor-pointer border-l border-(--vf-border-primary) bg-(--vf-bg-primary) px-3 py-1.5 text-xs text-(--vf-text-primary) transition-colors select-none first:border-l-0;
+}
+.vuefinder__upload-modal__conflict-option:hover:not(.vuefinder__upload-modal__conflict-option--active) {
+  @apply bg-(--vf-bg-hover);
+}
+.vuefinder__upload-modal__conflict-option--active {
+  @apply bg-(--vf-accent-primary) text-white;
+}
+.vuefinder__upload-modal__conflict-option--active:hover {
+  @apply bg-(--vf-accent-primary) text-white opacity-90;
+}
+.vuefinder__upload-modal__conflict-option:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
