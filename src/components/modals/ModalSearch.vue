@@ -103,13 +103,15 @@ const closeAllDropdowns = () => {
 };
 
 // Dropdown action handlers
-const openContainingFolder = (item: DirEntry) => {
+const openContainingFolder = async (item: DirEntry) => {
   try {
     // Use the dir property from the search result item
     const parentPath = item.dir || `${item.storage}://`;
-    app.adapter.open(parentPath);
+    await app.adapter.open(parentPath);
     app.modal.close();
     closeAllDropdowns();
+    // Select the file in its folder and scroll it into view.
+    app.emitter.emit('vf-reveal-path', item.path);
   } catch {
     notify.error(t('Failed to open containing folder'));
   }

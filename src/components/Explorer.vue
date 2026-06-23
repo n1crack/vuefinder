@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, useTemplateRef, computed, watch, shallowRef } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick, useTemplateRef, computed, watch, shallowRef } from 'vue';
 import { useStore } from '@nanostores/vue';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import DragItem from './DragItem.vue';
@@ -155,6 +155,35 @@ watch(itemsPerRow, (n) => {
 const getItemAtRow = (rowIndex: number): DirEntry | undefined => {
   return sortedFiles.value?.[rowIndex];
 };
+
+// Reveal a file: select it and scroll it into view. Used after navigating into
+// a folder from search ("Open Containing Folder"). The list is virtualized, so
+// we compute the row offset and scroll the OverlayScrollbars viewport directly.
+const revealPath = (path: unknown) => {
+  if (typeof path !== 'string') return;
+  const index = (sortedFiles.value ?? []).findIndex((f: DirEntry) => f.path === path);
+  if (index < 0) return;
+
+  fs.setSelection([path]);
+
+  nextTick(() => {
+    const viewport = osInstance.value?.elements().viewport ?? scrollContainer.value;
+    if (!viewport) return;
+    const { row } = getItemPosition(index);
+    const itemTop = row * rowHeight.value;
+    const itemBottom = itemTop + rowHeight.value;
+    // Keep a few rows of breathing room around the item rather than scrolling it
+    // flush to the edge, and bias it toward the top when it isn't already visible.
+    const margin = rowHeight.value * 3;
+    if (itemTop < viewport.scrollTop || itemBottom > viewport.scrollTop + viewport.clientHeight) {
+      const maxScroll = Math.max(0, viewport.scrollHeight - viewport.clientHeight);
+      viewport.scrollTop = Math.min(Math.max(0, itemTop - margin), maxScroll);
+    }
+  });
+};
+
+app.emitter.on('vf-reveal-path', revealPath);
+onUnmounted(() => app.emitter.off('vf-reveal-path', revealPath));
 
 useLazyLoad(scrollContainer, app);
 
