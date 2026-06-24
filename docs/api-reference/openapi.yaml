@@ -175,6 +175,22 @@ components:
           description: MIME type of the content
           example: "text/plain"
 
+    ItemReference:
+      type: object
+      description: Reference to a file or folder, used by delete and archive requests.
+      required:
+        - path
+        - type
+      properties:
+        path:
+          type: string
+          description: Full path to the item (including storage prefix)
+          example: "local://documents/file.txt"
+        type:
+          type: string
+          enum: [file, dir]
+          description: Item type
+
     DeleteRequest:
       type: object
       required:
@@ -187,20 +203,9 @@ components:
           example: "local://uploads"
         items:
           type: array
+          description: Items to delete
           items:
-            type: object
-            required:
-              - path
-              - type
-            properties:
-              path:
-                type: string
-                description: Full path to the item (including storage prefix)
-                example: "local://documents/file.txt"
-              type:
-                type: string
-                enum: [file, dir]
-                description: Item type
+            $ref: '#/components/schemas/ItemReference'
 
     RenameRequest:
       type: object
@@ -252,20 +257,9 @@ components:
       properties:
         items:
           type: array
-          items:
-            type: object
-            required:
-              - path
-              - type
-            properties:
-              path:
-                type: string
-                description: Full path to the item (including storage prefix)
-              type:
-                type: string
-                enum: [file, dir]
-                description: Item type
           description: Array of items to include in archive
+          items:
+            $ref: '#/components/schemas/ItemReference'
         path:
           type: string
           description: Directory path where archive should be created (including storage prefix)
@@ -274,6 +268,12 @@ components:
           type: string
           description: Name for the archive file (typically .zip)
           example: "archive.zip"
+        destination:
+          type: string
+          description: >-
+            Optional destination directory for the archive (including storage
+            prefix). When omitted, the backend falls back to `path`.
+          example: "local://documents/backups"
 
     UnarchiveRequest:
       type: object
@@ -287,7 +287,14 @@ components:
           example: "local://documents/archive.zip"
         path:
           type: string
-          description: Directory path where archive contents should be extracted (including storage prefix)
+          description: Current directory path (including storage prefix)
+          example: "local://documents"
+        destination:
+          type: string
+          description: >-
+            Optional destination directory where the archive contents should be
+            extracted (including storage prefix). When omitted, the backend
+            extracts into `path`.
           example: "local://documents/extracted"
 
     CreateItemRequest:
@@ -420,6 +427,17 @@ paths:
                   type: string
                   description: Target directory path (including storage prefix)
                   example: "local://uploads"
+                name:
+                  type: string
+                  description: >-
+                    Optional file name sent alongside the upload. Defaults to
+                    the uploaded file's original name; may include a relative
+                    sub-path when uploading a folder.
+                  example: "report.pdf"
+                type:
+                  type: string
+                  description: Optional MIME type of the uploaded file.
+                  example: "application/pdf"
       responses:
         '200':
           description: Files uploaded successfully. Returns empty JSON response.
