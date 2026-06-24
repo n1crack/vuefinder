@@ -2,6 +2,7 @@ import ModalMove from '../components/modals/ModalMove.vue';
 import type { App, DirEntry, DirEntryType } from '../types';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
+import { entryKey } from '../utils/entryKey';
 
 export interface DragNDropItem {
   path: string;
@@ -75,7 +76,11 @@ export function useDragNDrop(app: App, classList: string[] = []) {
 
     e.preventDefault();
 
-    const draggedPath = fs.getDraggedItem() as string;
+    // getDraggedItem() holds the composite entry key; resolve it back to the
+    // dragged entry's path for the descendant / self-drop checks.
+    const draggedKey = fs.getDraggedItem() as string;
+    const draggedPath =
+      fs.sortedFiles.get().find((f: DirEntry) => entryKey(f) === draggedKey)?.path ?? '';
 
     if (isInvalidDropTarget(target, draggedPath)) {
       if (e.dataTransfer) {
@@ -152,9 +157,9 @@ export function useDragNDrop(app: App, classList: string[] = []) {
     el.classList.remove(...classList);
     const data = e.dataTransfer?.getData('items') || '[]';
     const draggedItemKeys: string[] = JSON.parse(data);
-    const draggedItems: DirEntry[] = draggedItemKeys.map(
-      (key) => fs.sortedFiles.get().find((f: DirEntry) => f.path === key) as DirEntry
-    );
+    const draggedItems: DirEntry[] = draggedItemKeys
+      .map((key) => fs.sortedFiles.get().find((f: DirEntry) => entryKey(f) === key))
+      .filter((f): f is DirEntry => Boolean(f));
     fs.clearDraggedItem();
     app.modal.open(ModalMove, { items: { from: draggedItems, to: target } });
   }

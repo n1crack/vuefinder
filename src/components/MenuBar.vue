@@ -4,6 +4,7 @@ import { useStore } from '@nanostores/vue';
 import { useFeature } from '../composables/useFeature';
 import type { DirEntry } from '../types';
 import { copyPath, copyDownloadUrl } from '../utils/clipboard';
+import { entryKey } from '../utils/entryKey';
 import ModalNewFolder from './modals/ModalNewFolder.vue';
 import ModalNewFile from './modals/ModalNewFile.vue';
 import ModalRename from './modals/ModalRename.vue';
@@ -211,7 +212,7 @@ const menuItems = computed<any[]>(() => [
                 if (selectedItems.value.length > 0) {
                   fs?.setClipboard(
                     'cut',
-                    new Set(selectedItems.value.map((item: DirEntry) => item.path))
+                    new Set(selectedItems.value.map((item: DirEntry) => entryKey(item)))
                   );
                 }
               },
@@ -224,7 +225,7 @@ const menuItems = computed<any[]>(() => [
                 if (selectedItems.value.length > 0) {
                   fs?.setClipboard(
                     'copy',
-                    new Set(selectedItems.value.map((item: DirEntry) => item.path))
+                    new Set(selectedItems.value.map((item: DirEntry) => entryKey(item)))
                   );
                 }
               },

@@ -12,6 +12,7 @@ import { useApp } from '../composables/useApp';
 import { useItemEvents } from '../composables/useItemEvents';
 import { useScrollSetup } from '../composables/useScrollSetup';
 import { useLazyLoad } from '../composables/useLazyLoad';
+import { entryKey } from '../utils/entryKey';
 import type { DirEntry, ItemDclickEvent } from '../types';
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
@@ -114,7 +115,7 @@ const { explorerId, isDragging, initializeSelectionArea, updateSelectionArea, ha
     totalHeight,
     getItemPosition,
     getItemsInRange,
-    getKey: (f) => f.path,
+    getKey: (f) => entryKey(f),
     selectionObject,
     rowHeight,
     itemWidth,

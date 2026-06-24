@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import FileItem from './FileItem.vue';
 import type { DirEntry } from '../types';
+import { entryKey } from '../utils/entryKey';
 
 const props = defineProps<{
   rowIndex: number;
@@ -56,13 +57,13 @@ const gridStyle = computed(() => {
     <div class="grid justify-self-start" :class="{ 'w-full': view === 'list' }" :style="gridStyle">
       <FileItem
         v-for="(item, colIndex) in items"
-        :key="item.path"
+        :key="entryKey(item)"
         :item="item"
         :view="view"
         :show-thumbnails="showThumbnails"
         :show-path="showPath"
-        :is-selected="isSelected(item.path)"
-        :is-dragging="isDraggingItem(item.path)"
+        :is-selected="isSelected(entryKey(item))"
+        :is-dragging="isDraggingItem(entryKey(item))"
         :row-index="rowIndex"
         :col-index="colIndex"
         :explorer-id="explorerId"
