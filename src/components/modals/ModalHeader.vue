@@ -11,5 +11,8 @@ defineProps<{
       <component :is="icon" class="vuefinder__modal-header__icon"></component>
     </div>
     <div id="modal-title" class="vuefinder__modal-header__title">{{ title }}</div>
+    <div v-if="$slots.actions" class="vuefinder__modal-header__actions">
+      <slot name="actions" />
+    </div>
   </div>
 </template>

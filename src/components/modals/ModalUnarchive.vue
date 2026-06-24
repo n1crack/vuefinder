@@ -6,6 +6,8 @@ import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
+import PluginOutlet from '../../plugins/PluginOutlet.vue';
+import { createCancelableEvent } from '../../plugins/hooks';
 import ModalTreeSelector from './ModalTreeSelector.vue';
 import FolderSVG from '../../assets/icons/folder.svg';
 import UnarchiveSVG from '../../assets/icons/unarchive.svg';
@@ -53,6 +55,9 @@ const loading = ref(false);
 
 const unarchive = () => {
   if (loading.value) return;
+  const ev = createCancelableEvent({ items: [zipItem.value] });
+  app.plugins?.hooks.dispatch('beforeUnarchive', ev);
+  if (ev.defaultPrevented) return;
   loading.value = true;
   const destination = targetFolderEntry.value?.path;
   app.adapter
@@ -61,10 +66,12 @@ const unarchive = () => {
       path: currentPath.value.path,
       // Optional. Sent when the user explicitly picks a different folder.
       ...(destination && destination !== currentPath.value.path ? { destination } : {}),
+      extras: { ...app.modal.extras },
     })
     .then((result: any) => {
       notify.success(t('The file unarchived.'));
       app.fs.setFiles(result.files);
+      app.plugins?.hooks.dispatch('afterUnarchive', { result });
       app.modal.close();
     })
     .catch((e: unknown) => {
@@ -79,7 +86,10 @@ const unarchive = () => {
 <template>
   <ModalLayout>
     <div>
-      <ModalHeader :icon="UnarchiveSVG" :title="t('Unarchive')"></ModalHeader>
+      <ModalHeader :icon="UnarchiveSVG" :title="t('Unarchive')">
+        <template #actions><PluginOutlet modal-key="unarchive" region="header-actions" /></template>
+      </ModalHeader>
+      <PluginOutlet modal-key="unarchive" region="body-top" />
       <div class="vuefinder__unarchive-modal__content">
         <div class="vuefinder__unarchive-modal__items">
           <p v-for="item in items" :key="item.path" class="vuefinder__unarchive-modal__item">
@@ -156,9 +166,11 @@ const unarchive = () => {
           </div>
         </div>
       </div>
+      <PluginOutlet modal-key="unarchive" region="body-bottom" />
     </div>
 
     <template #buttons>
+      <PluginOutlet modal-key="unarchive" region="footer-actions" />
       <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="unarchive">
         {{ t('Unarchive') }}
       </button>

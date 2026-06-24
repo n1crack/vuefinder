@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useApp } from '../composables/useApp';
 import { useStore } from '@nanostores/vue';
 import StorageSVG from '../assets/icons/storage.svg';
+import SlotOutlet from '../plugins/SlotOutlet.vue';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../stores/files';
 import type { DirEntry } from '../types';
@@ -41,6 +42,7 @@ const selectedItemsList = computed(() => selectedItems.value || []);
 
 <template>
   <div class="vuefinder__status-bar__wrapper">
+    <SlotOutlet name="statusbar-start" />
     <div class="vuefinder__status-bar__storage">
       <div class="vuefinder__status-bar__storage-container" :title="t('Storage')">
         <div class="vuefinder__status-bar__storage-icon">
@@ -78,5 +80,6 @@ const selectedItemsList = computed(() => selectedItems.value || []);
         :selected="selectedItemsList"
       ></slot>
     </div>
+    <SlotOutlet name="statusbar-end" />
   </div>
 </template>

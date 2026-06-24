@@ -1,4 +1,3 @@
-import ModalMove from '../components/modals/ModalMove.vue';
 import type { App, DirEntry, DirEntryType } from '../types';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
@@ -156,7 +155,7 @@ export function useDragNDrop(app: App, classList: string[] = []) {
       (key) => fs.sortedFiles.get().find((f: DirEntry) => f.path === key) as DirEntry
     );
     fs.clearDraggedItem();
-    app.modal.open(ModalMove, { items: { from: draggedItems, to: target } });
+    app.modal.open('move', { items: { from: draggedItems, to: target } });
   }
 
   function events(item: DragNDropItem) {

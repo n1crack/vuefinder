@@ -2,14 +2,6 @@ import { onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useStore } from '@nanostores/vue';
 import type { StoreValue } from 'nanostores';
 import type { App, DirEntry } from '../types';
-import ModalAbout from '../components/modals/ModalAbout.vue';
-import ModalDelete from '../components/modals/ModalDelete.vue';
-import ModalRename from '../components/modals/ModalRename.vue';
-import ModalPreview from '../components/modals/ModalPreview.vue';
-import ModalMove from '../components/modals/ModalMove.vue';
-import ModalCopy from '../components/modals/ModalCopy.vue';
-import ModalSearch from '../components/modals/ModalSearch.vue';
-import ModalSettings from '../components/modals/ModalSettings.vue';
 import type { CurrentPathState } from '@/stores/files';
 import { useApp } from './useApp';
 import { useFeature } from './useFeature';
@@ -56,19 +48,19 @@ export function useHotkeyActions() {
     }
     if (e.metaKey && e.shiftKey && e.code === KEYBOARD_SHORTCUTS.KEY_R && enabled('rename')) {
       if (selectedItems.value.length === 1) {
-        app.modal.open(ModalRename, { items: selectedItems.value });
+        app.modal.open('rename', { items: selectedItems.value });
         e.preventDefault();
       }
     }
     if (e.code === KEYBOARD_SHORTCUTS.DELETE) {
       if (selectedItems.value.length !== 0) {
-        app.modal.open(ModalDelete, { items: selectedItems.value });
+        app.modal.open('delete', { items: selectedItems.value });
       }
     }
-    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open(ModalAbout);
+    if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.BACKSLASH) app.modal.open('about');
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_F && enabled('search')) {
       // Open search modal
-      app.modal.open(ModalSearch);
+      app.modal.open('search');
       e.preventDefault();
     }
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_E) {
@@ -76,7 +68,7 @@ export function useHotkeyActions() {
       e.preventDefault();
     }
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.KEY_S) {
-      app.modal.open(ModalSettings);
+      app.modal.open('settings');
       e.preventDefault();
     }
     if (e.metaKey && e.code === KEYBOARD_SHORTCUTS.ENTER) {
@@ -89,7 +81,7 @@ export function useHotkeyActions() {
     }
     if (e.code === KEYBOARD_SHORTCUTS.SPACE) {
       if (selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir') {
-        app.modal.open(ModalPreview, {
+        app.modal.open('preview', {
           storage: fs.path.get().storage,
           item: selectedItems.value[0],
         });
@@ -134,20 +126,37 @@ export function useHotkeyActions() {
         return;
       }
       if (fs.getClipboard().type === 'cut') {
-        app.modal.open(ModalMove, {
+        app.modal.open('move', {
           items: { from: Array.from(fs.getClipboard().items), to: fs.path.get() },
         });
         fs.clearClipboard();
         return;
       }
       if (fs.getClipboard().type === 'copy') {
-        app.modal.open(ModalCopy, {
+        app.modal.open('copy', {
           items: { from: Array.from(fs.getClipboard().items), to: fs.path.get() },
         });
         return;
       }
 
       e.preventDefault();
+    }
+
+    // Plugin-contributed hotkeys (any action declaring a `hotkey`).
+    const pluginActions = app.plugins?.actionRegistry.actions ?? [];
+    for (const action of pluginActions) {
+      const hk = action.hotkey;
+      if (!hk || hk.code !== e.code) continue;
+      if (!!hk.meta !== e.metaKey || !!hk.shift !== e.shiftKey || !!hk.alt !== e.altKey) continue;
+      const ctx = {
+        searchQuery: '',
+        items: selectedItems.value,
+        target: selectedItems.value[0] ?? null,
+      };
+      if (action.show(app, ctx)) {
+        action.action(app, selectedItems.value);
+        e.preventDefault();
+      }
     }
   };
 

@@ -9,6 +9,7 @@ import type {
   SaveParams,
   RenameParams,
   TransferParams,
+  CreateEntryParams,
   ListParams,
   SearchParams,
   GetContentParams,
@@ -103,12 +104,12 @@ export abstract class BaseAdapter implements Driver {
   /**
    * Create a new file
    */
-  abstract createFile(params: { path: string; name: string }): Promise<FileOperationResult>;
+  abstract createFile(params: CreateEntryParams): Promise<FileOperationResult>;
 
   /**
    * Create a new folder
    */
-  abstract createFolder(params: { path: string; name: string }): Promise<FileOperationResult>;
+  abstract createFolder(params: CreateEntryParams): Promise<FileOperationResult>;
 
   /**
    * Get preview URL for a file

@@ -10,6 +10,7 @@ import type { DirEntry, NotifyPayload, VueFinderComposable } from '../src/types'
 import DefaultExample from './examples/DefaultExample.vue';
 import ExternalSelectExample from './examples/ExternalSelectExample.vue';
 import ContextmenuExample from './examples/ContextmenuExample.vue';
+import PluginsExample from './examples/PluginsExample.vue';
 import CustomIconsExample from './examples/CustomIconsExample.vue';
 import WindowExamplesExample from './examples/WindowExamplesExample.vue';
 import EventsDemoExample from './examples/EventsDemoExample.vue';
@@ -127,6 +128,7 @@ const examples = {
   indexedDB: 'IndexedDB Driver (persistent)',
   externalSelect: 'External select example',
   contextmenu: 'Custom context menu example',
+  plugins: 'Plugin System Demo (modals, actions, hooks)',
   customIcons: 'Custom Icons (Scoped Slot)',
   windowExamples: 'Window Examples (Exit Menu Demo)',
   eventsDemo: 'Events Demo - All VueFinder Events',
@@ -375,6 +377,13 @@ onUnmounted(() => {
 
       <ContextmenuExample
         v-if="example === 'contextmenu'"
+        :driver="driver"
+        :config="{ ...config, theme: currentTheme }"
+        :features="features"
+      />
+
+      <PluginsExample
+        v-if="example === 'plugins'"
         :driver="driver"
         :config="{ ...config, theme: currentTheme }"
         :features="features"

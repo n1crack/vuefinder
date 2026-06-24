@@ -5,6 +5,7 @@ import { parse } from '../utils/filesize';
 import { useStore } from '@nanostores/vue';
 import { scanFiles } from '../utils/scanFiles';
 import { nextFreeName } from '../utils/uniqueFilename';
+import { createCancelableEvent } from '../plugins/hooks';
 import type { CurrentPathState } from '../stores/files';
 import type { DirEntry } from '../types';
 import type { UploadConflictStrategy } from '../stores/config';
@@ -240,6 +241,21 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
       return;
     }
 
+    // Plugins may cancel the upload right before it starts.
+    const ev = createCancelableEvent({
+      files: uppy.getFiles().map((f) => f.data as File),
+      target: uploadTargetFolder.value.path,
+    });
+    app.plugins?.hooks.dispatch('beforeUpload', ev);
+    if (ev.defaultPrevented) {
+      uploading.value = false;
+      return;
+    }
+
+    // Plugin-contributed fields are sent as form fields alongside each file
+    // (the XHR uploader serializes uppy meta into the multipart form data).
+    uppy.setMeta({ ...app.modal.extras });
+
     // todo: will look into retrying failed uploads later
     // uppy.retryAll();
     uppy.upload();
@@ -461,6 +477,7 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
         )
         .map((entry) => entry.name);
       app.emitter.emit('vf-upload-complete', uploadedFiles);
+      app.plugins?.hooks.dispatch('afterUpload', { files: uploadedFiles });
     });
 
     // Event listeners

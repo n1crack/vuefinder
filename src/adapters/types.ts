@@ -71,11 +71,20 @@ export interface ListParams {
 }
 
 /**
+ * Per-operation bag of extra fields. Modal extension fields (contributed by
+ * plugins) write into the modal context's `extras`, the modal's action handler
+ * passes it here, and RemoteDriver forwards each key as an extra request field
+ * so the backend can apply app-specific logic.
+ */
+export type ExtraFields = Record<string, unknown>;
+
+/**
  * Parameters for upload operations
  */
 export interface UploadParams {
   path: string;
   files: File[];
+  extras?: ExtraFields;
 }
 
 /**
@@ -84,6 +93,7 @@ export interface UploadParams {
 export interface DeleteParams {
   path: string;
   items: { path: string; type: string }[];
+  extras?: ExtraFields;
 }
 
 /**
@@ -93,6 +103,7 @@ export interface RenameParams {
   path: string;
   item: string;
   name: string;
+  extras?: ExtraFields;
 }
 
 /**
@@ -102,6 +113,16 @@ export interface TransferParams {
   path?: string;
   sources: string[];
   destination: string;
+  extras?: ExtraFields;
+}
+
+/**
+ * Parameters for creating a file or folder
+ */
+export interface CreateEntryParams {
+  path: string;
+  name: string;
+  extras?: ExtraFields;
 }
 
 /**
@@ -118,6 +139,7 @@ export interface ArchiveParams {
    * user-chosen folder.
    */
   destination?: string;
+  extras?: ExtraFields;
 }
 
 /**
@@ -133,6 +155,7 @@ export interface UnarchiveParams {
    * user-chosen folder.
    */
   destination?: string;
+  extras?: ExtraFields;
 }
 
 export interface SearchParams {
@@ -220,12 +243,12 @@ export interface Driver {
   /**
    * Create a new file
    */
-  createFile(params: { path: string; name: string }): Promise<FileOperationResult>;
+  createFile(params: CreateEntryParams): Promise<FileOperationResult>;
 
   /**
    * Create a new folder
    */
-  createFolder(params: { path: string; name: string }): Promise<FileOperationResult>;
+  createFolder(params: CreateEntryParams): Promise<FileOperationResult>;
 
   /**
    * Get file content

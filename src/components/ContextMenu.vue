@@ -36,7 +36,17 @@ const run = (item: any) => {
 app.emitter.on('vf-contextmenu-show', (payload: any) => {
   const { event, items, target = null } = payload || {};
 
-  context.items = (app.contextMenuItems || [])
+  // Built-in items, with plugin overrides applied (null disables an item).
+  const registry = app.plugins?.actionRegistry;
+  const builtins = (app.contextMenuItems || []).flatMap((item: any) => {
+    const override = registry?.getOverride(item.id);
+    if (override === null) return [];
+    return [override ? { ...item, ...override } : item];
+  });
+  // Plugin-contributed actions that target the context menu.
+  const pluginItems = registry?.bySurface('contextmenu') ?? [];
+
+  context.items = [...builtins, ...pluginItems]
     .filter((item: any) => {
       return item.show(app, {
         items,

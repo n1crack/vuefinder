@@ -1,11 +1,3 @@
-import ModalNewFolder from '../components/modals/ModalNewFolder.vue';
-import ModalPreview from '../components/modals/ModalPreview.vue';
-import ModalArchive from '../components/modals/ModalArchive.vue';
-import ModalUnarchive from '../components/modals/ModalUnarchive.vue';
-import ModalRename from '../components/modals/ModalRename.vue';
-import ModalDelete from '../components/modals/ModalDelete.vue';
-import ModalMove from '../components/modals/ModalMove.vue';
-import ModalCopy from '../components/modals/ModalCopy.vue';
 import type { App, DirEntry } from '../types';
 
 type TargetKey = 'none' | 'one' | 'many';
@@ -135,7 +127,7 @@ export const menuItems: Item[] = [
   {
     id: ContextMenuIds.new_folder,
     title: ({ t }) => t('New Folder'),
-    action: (app) => app.modal.open(ModalNewFolder),
+    action: (app) => app.modal.open('newfolder'),
     show: showIf({ target: 'none', feature: 'newfolder' }),
     order: 40,
   },
@@ -200,7 +192,7 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.preview,
     title: ({ t }) => t('Preview'),
     action: (app, selectedItems) =>
-      app.modal.open(ModalPreview, { storage: selectedItems[0]?.storage, item: selectedItems[0] }),
+      app.modal.open('preview', { storage: selectedItems[0]?.storage, item: selectedItems[0] }),
     show: showIfAll(
       showIf({ target: 'one', feature: 'preview' }),
       (app, ctx) => ctx.target?.type !== 'dir'
@@ -216,7 +208,7 @@ export const menuItems: Item[] = [
         id: ContextMenuIds.openAsText,
         title: ({ t }) => t('Text'),
         action: (app, selectedItems) =>
-          app.modal.open(ModalPreview, {
+          app.modal.open('preview', {
             storage: selectedItems[0]?.storage,
             item: selectedItems[0],
             forceType: 'text',
@@ -227,7 +219,7 @@ export const menuItems: Item[] = [
         id: ContextMenuIds.openAsImage,
         title: ({ t }) => t('Image'),
         action: (app, selectedItems) =>
-          app.modal.open(ModalPreview, {
+          app.modal.open('preview', {
             storage: selectedItems[0]?.storage,
             item: selectedItems[0],
             forceType: 'image',
@@ -260,7 +252,7 @@ export const menuItems: Item[] = [
   {
     id: ContextMenuIds.rename,
     title: ({ t }) => t('Rename'),
-    action: (app, selectedItems) => app.modal.open(ModalRename, { items: selectedItems }),
+    action: (app, selectedItems) => app.modal.open('rename', { items: selectedItems }),
     show: showIf({ target: 'one', feature: 'rename' }),
     order: 100,
   },
@@ -274,7 +266,7 @@ export const menuItems: Item[] = [
         path: fs.path.get().path || '',
         type: 'dir' as const,
       };
-      app.modal.open(ModalMove, { items: { from: selectedItems, to: target } });
+      app.modal.open('move', { items: { from: selectedItems, to: target } });
     },
     show: showIfAny(
       showIf({ target: 'one', feature: 'move' }),
@@ -321,7 +313,7 @@ export const menuItems: Item[] = [
           type: 'dir' as const,
         };
 
-        app.modal.open(clipboard.type === 'cut' ? ModalMove : ModalCopy, {
+        app.modal.open(clipboard.type === 'cut' ? 'move' : 'copy', {
           items: { from: Array.from(clipboard.items), to: target },
         });
       }
@@ -337,7 +329,7 @@ export const menuItems: Item[] = [
   {
     id: ContextMenuIds.archive,
     title: ({ t }) => t('Archive'),
-    action: (app, selectedItems) => app.modal.open(ModalArchive, { items: selectedItems }),
+    action: (app, selectedItems) => app.modal.open('archive', { items: selectedItems }),
     show: showIfAny(
       showIf({ target: 'many', feature: 'archive' }),
       showIfAll(
@@ -350,7 +342,7 @@ export const menuItems: Item[] = [
   {
     id: ContextMenuIds.unarchive,
     title: ({ t }) => t('Unarchive'),
-    action: (app, selectedItems) => app.modal.open(ModalUnarchive, { items: selectedItems }),
+    action: (app, selectedItems) => app.modal.open('unarchive', { items: selectedItems }),
     show: showIf({ target: 'one', feature: 'unarchive', mimeType: 'application/zip' }),
     order: 150,
   },
@@ -358,7 +350,7 @@ export const menuItems: Item[] = [
     id: ContextMenuIds.delete,
     title: ({ t }) => t('Delete'),
     action: (app, selectedItems) => {
-      app.modal.open(ModalDelete, { items: selectedItems });
+      app.modal.open('delete', { items: selectedItems });
     },
     show: showIfAny(
       showIf({ feature: 'delete', target: 'one' }),

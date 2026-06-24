@@ -8,8 +8,11 @@ import type {
   FileOperationResult,
   FileContentResult,
   DeleteParams,
+  RenameParams,
+  TransferParams,
   ArchiveParams,
   UnarchiveParams,
+  CreateEntryParams,
   SaveParams,
   UploaderContext,
   ListParams,
@@ -150,32 +153,34 @@ export class RemoteDriver extends BaseAdapter {
     this.validateParam(params.path, 'path');
     return await this.request<DeleteResult>(this.config.url.delete, {
       method: 'POST',
-      body: JSON.stringify({ path: params.path, items: params.items }),
+      body: JSON.stringify({ ...(params.extras ?? {}), path: params.path, items: params.items }),
     });
   }
 
-  async rename(params: { path: string; item: string; name: string }): Promise<FileOperationResult> {
+  async rename(params: RenameParams): Promise<FileOperationResult> {
     this.validateParam(params.path, 'path');
     this.validateParam(params.item, 'item');
     this.validateParam(params.name, 'name');
     this.validatePath(params.path);
     return await this.request<FileOperationResult>(this.config.url.rename, {
       method: 'POST',
-      body: JSON.stringify({ path: params.path, item: params.item, name: params.name }),
+      body: JSON.stringify({
+        ...(params.extras ?? {}),
+        path: params.path,
+        item: params.item,
+        name: params.name,
+      }),
     });
   }
 
-  async copy(params: {
-    path?: string;
-    sources: string[];
-    destination: string;
-  }): Promise<FileOperationResult> {
+  async copy(params: TransferParams): Promise<FileOperationResult> {
     this.validateParam(params.sources, 'sources');
     this.validateParam(params.destination, 'destination');
     if (params.path) this.validatePath(params.path);
     return await this.request<FileOperationResult>(this.config.url.copy, {
       method: 'POST',
       body: JSON.stringify({
+        ...(params.extras ?? {}),
         sources: params.sources,
         destination: params.destination,
         path: params.path,
@@ -183,17 +188,14 @@ export class RemoteDriver extends BaseAdapter {
     });
   }
 
-  async move(params: {
-    path?: string;
-    sources: string[];
-    destination: string;
-  }): Promise<FileOperationResult> {
+  async move(params: TransferParams): Promise<FileOperationResult> {
     this.validateParam(params.sources, 'sources');
     this.validateParam(params.destination, 'destination');
     if (params.path) this.validatePath(params.path);
     return await this.request<FileOperationResult>(this.config.url.move, {
       method: 'POST',
       body: JSON.stringify({
+        ...(params.extras ?? {}),
         sources: params.sources,
         destination: params.destination,
         path: params.path,
@@ -208,6 +210,7 @@ export class RemoteDriver extends BaseAdapter {
     return await this.request<FileOperationResult>(this.config.url.archive, {
       method: 'POST',
       body: JSON.stringify({
+        ...(params.extras ?? {}),
         items: params.items,
         path: params.path,
         name: params.name,
@@ -223,6 +226,7 @@ export class RemoteDriver extends BaseAdapter {
     return await this.request<FileOperationResult>(this.config.url.unarchive, {
       method: 'POST',
       body: JSON.stringify({
+        ...(params.extras ?? {}),
         item: params.item,
         path: params.path,
         // Optional. Backends that ignore unknown fields will fall back to `path`.
@@ -231,21 +235,21 @@ export class RemoteDriver extends BaseAdapter {
     });
   }
 
-  async createFile(params: { path: string; name: string }): Promise<FileOperationResult> {
+  async createFile(params: CreateEntryParams): Promise<FileOperationResult> {
     this.validateParam(params.name, 'name');
     this.validateParam(params.path, 'path');
     return await this.request<FileOperationResult>(this.config.url.createFile, {
       method: 'POST',
-      body: JSON.stringify({ path: params.path, name: params.name }),
+      body: JSON.stringify({ ...(params.extras ?? {}), path: params.path, name: params.name }),
     });
   }
 
-  async createFolder(params: { path: string; name: string }): Promise<FileOperationResult> {
+  async createFolder(params: CreateEntryParams): Promise<FileOperationResult> {
     this.validateParam(params.name, 'name');
     this.validateParam(params.path, 'path');
     return await this.request<FileOperationResult>(this.config.url.createFolder, {
       method: 'POST',
-      body: JSON.stringify({ path: params.path, name: params.name }),
+      body: JSON.stringify({ ...(params.extras ?? {}), path: params.path, name: params.name }),
     });
   }
 

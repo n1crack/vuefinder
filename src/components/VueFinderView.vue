@@ -13,7 +13,6 @@ import Explorer from '../components/Explorer.vue';
 import ContextMenu from '../components/ContextMenu.vue';
 import Statusbar from '../components/Statusbar.vue';
 import TreeView from '../components/TreeView.vue';
-import ModalUpload from '../components/modals/ModalUpload.vue';
 import { menuItems as contextMenuItems } from '../utils/contextmenu';
 import type { VueFinderProps, DirEntry, NotifyPayload } from '../types';
 import type { FsData } from '../adapters/types';
@@ -197,7 +196,7 @@ onMounted(() => {
 const handleExternalDrop = async (e: DragEvent) => {
   const droppedFiles = await handleDrop(e);
   if (droppedFiles.length > 0) {
-    app.modal.open(ModalUpload);
+    app.modal.open('upload');
 
     setTimeout(() => {
       app.emitter.emit(

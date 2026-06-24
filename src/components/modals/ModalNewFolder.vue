@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
+import PluginOutlet from '../../plugins/PluginOutlet.vue';
+import { createCancelableEvent } from '../../plugins/hooks';
 import NewFolderSVG from '../../assets/icons/new_folder.svg';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
@@ -24,15 +26,20 @@ const loading = ref(false);
 const createFolder = () => {
   if (loading.value) return;
   if (name.value !== '') {
+    const ev = createCancelableEvent({ name: name.value, kind: 'folder' as const });
+    app.plugins?.hooks.dispatch('beforeCreate', ev);
+    if (ev.defaultPrevented) return;
     loading.value = true;
     app.adapter
       .createFolder({
         path: currentPath.value.path,
         name: name.value,
+        extras: { ...app.modal.extras },
       })
       .then((result: any) => {
         notify.success(t('%s is created.', name.value));
         app.fs.setFiles(result.files);
+        app.plugins?.hooks.dispatch('afterCreate', { result, kind: 'folder' });
         app.modal.close();
       })
       .catch((e: unknown) => {
@@ -48,7 +55,10 @@ const createFolder = () => {
 <template>
   <ModalLayout>
     <div>
-      <ModalHeader :icon="NewFolderSVG" :title="t('New Folder')"></ModalHeader>
+      <ModalHeader :icon="NewFolderSVG" :title="t('New Folder')">
+        <template #actions><PluginOutlet modal-key="newfolder" region="header-actions" /></template>
+      </ModalHeader>
+      <PluginOutlet modal-key="newfolder" region="body-top" />
       <div class="vuefinder__new-folder-modal__content">
         <div class="vuefinder__new-folder-modal__form">
           <p class="vuefinder__new-folder-modal__description">{{ t('Create a new folder') }}</p>
@@ -62,9 +72,11 @@ const createFolder = () => {
           />
         </div>
       </div>
+      <PluginOutlet modal-key="newfolder" region="body-bottom" />
     </div>
 
     <template #buttons>
+      <PluginOutlet modal-key="newfolder" region="footer-actions" />
       <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="createFolder">
         {{ t('Create') }}
       </button>

@@ -1,6 +1,5 @@
 import { useApp } from './useApp';
 import type { DirEntry, VueFinderComposable } from '../types';
-import ModalPreview from '../components/modals/ModalPreview.vue';
 import { notify as emitNotify } from '../utils/notify';
 
 export function useVueFinder(id: string): VueFinderComposable {
@@ -30,7 +29,7 @@ export function useVueFinder(id: string): VueFinderComposable {
     preview(path: string) {
       const item = (app.fs.files.get() || []).find((entry: DirEntry) => entry.path === path);
       if (!item || item.type !== 'file') return;
-      app.modal.open(ModalPreview, { storage: item.storage, item });
+      app.modal.open('preview', { storage: item.storage, item });
     },
 
     notify(type: 'success' | 'error' | 'info' | 'warning', message: string) {

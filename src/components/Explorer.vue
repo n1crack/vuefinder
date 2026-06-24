@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick, useTemplateRef, computed, watch, shallowRef } from 'vue';
+import {
+  ref,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  useTemplateRef,
+  computed,
+  watch,
+  shallowRef,
+} from 'vue';
 import { useStore } from '@nanostores/vue';
 import SelectionArea, { type SelectionEvent } from '@viselect/vanilla';
 import DragItem from './DragItem.vue';

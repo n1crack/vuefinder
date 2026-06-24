@@ -15,3 +15,8 @@
 .vuefinder__modal-header__title {
   @apply text-lg font-medium text-(--vf-text-primary);
 }
+
+/* Plugin-contributed header actions sit at the trailing edge of the header. */
+.vuefinder__modal-header__actions {
+  @apply ml-auto flex items-center gap-1;
+}

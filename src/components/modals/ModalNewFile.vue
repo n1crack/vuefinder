@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import { useStore } from '@nanostores/vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
+import PluginOutlet from '../../plugins/PluginOutlet.vue';
+import { createCancelableEvent } from '../../plugins/hooks';
 import NewFileSVG from '../../assets/icons/new_file.svg';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
@@ -24,15 +26,20 @@ const loading = ref(false);
 const createFile = () => {
   if (loading.value) return;
   if (name.value !== '') {
+    const ev = createCancelableEvent({ name: name.value, kind: 'file' as const });
+    app.plugins?.hooks.dispatch('beforeCreate', ev);
+    if (ev.defaultPrevented) return;
     loading.value = true;
     app.adapter
       .createFile({
         path: currentPath.value.path,
         name: name.value,
+        extras: { ...app.modal.extras },
       })
       .then((result: any) => {
         notify.success(t('%s is created.', name.value));
         app.fs.setFiles(result.files);
+        app.plugins?.hooks.dispatch('afterCreate', { result, kind: 'file' });
         app.modal.close();
       })
       .catch((e: unknown) => {
@@ -48,7 +55,10 @@ const createFile = () => {
 <template>
   <ModalLayout>
     <div>
-      <ModalHeader :icon="NewFileSVG" :title="t('New File')"></ModalHeader>
+      <ModalHeader :icon="NewFileSVG" :title="t('New File')">
+        <template #actions><PluginOutlet modal-key="newfile" region="header-actions" /></template>
+      </ModalHeader>
+      <PluginOutlet modal-key="newfile" region="body-top" />
       <div class="vuefinder__new-file-modal__content">
         <div class="vuefinder__new-file-modal__form">
           <p class="vuefinder__new-file-modal__description">{{ t('Create a new file') }}</p>
@@ -61,9 +71,11 @@ const createFile = () => {
           />
         </div>
       </div>
+      <PluginOutlet modal-key="newfile" region="body-bottom" />
     </div>
 
     <template #buttons>
+      <PluginOutlet modal-key="newfile" region="footer-actions" />
       <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="createFile">
         {{ t('Create') }}
       </button>

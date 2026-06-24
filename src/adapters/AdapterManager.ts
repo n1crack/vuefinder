@@ -10,6 +10,7 @@ import type {
   SaveParams,
   RenameParams,
   TransferParams,
+  CreateEntryParams,
 } from './types';
 import type { FsData } from '../types';
 
@@ -249,7 +250,7 @@ export class AdapterManager {
   /**
    * Create a new file
    */
-  async createFile(params: { path: string; name: string }): Promise<FileOperationResult> {
+  async createFile(params: CreateEntryParams): Promise<FileOperationResult> {
     const result = await this.driver.createFile(params);
 
     // Invalidate list queries
@@ -261,7 +262,7 @@ export class AdapterManager {
   /**
    * Create a new folder
    */
-  async createFolder(params: { path: string; name: string }): Promise<FileOperationResult> {
+  async createFolder(params: CreateEntryParams): Promise<FileOperationResult> {
     const result = await this.driver.createFolder(params);
 
     // Invalidate list queries

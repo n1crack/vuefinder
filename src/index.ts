@@ -11,6 +11,7 @@ import {
   parseBackendError,
 } from './adapters';
 import { useVueFinder } from './composables/useVueFinder';
+import { definePlugin } from './plugins/types';
 
 type VueFinderOptions = {
   i18n?: Record<string, unknown>;
@@ -36,6 +37,15 @@ export default VueFinderPlugin;
 
 export { VueFinder, VueFinderProvider, contextMenuItems, ContextMenuIds };
 export { useVueFinder };
+
+// Plugin system
+export { definePlugin };
+export type { VfPlugin, PluginContext } from './plugins/types';
+export type { ModalKey, ModalRegion, ModalExtension } from './plugins/modalRegistry';
+export type { ActionContribution, ActionSurface } from './plugins/actionRegistry';
+export type { UiSlotName, SlotContribution } from './plugins/slotRegistry';
+export type { VfHooks, CancelableEvent } from './plugins/hooks';
+export { createCancelableEvent } from './plugins/hooks';
 
 export { RemoteDriver, ArrayDriver, IndexedDBDriver, BaseAdapter, parseBackendError };
 
@@ -68,6 +78,8 @@ export type {
   TransferParams,
   ArchiveParams,
   UnarchiveParams,
+  CreateEntryParams,
+  ExtraFields,
   SearchParams,
   SaveParams,
   FileContentResult,

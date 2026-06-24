@@ -3,6 +3,7 @@ import ServiceContainer from './ServiceContainer';
 import type { Driver } from './adapters';
 import type { ConfigDefaults } from './stores/config';
 import type { FeaturesConfig, FeaturesPreset } from './features';
+import type { VfPlugin } from './plugins/types';
 
 export type App = ReturnType<typeof ServiceContainer>;
 
@@ -14,6 +15,8 @@ export interface VueFinderProps {
   debug?: boolean;
   locale?: string;
   contextMenuItems?: ContextMenuItem[];
+  /** Plugins extending this VueFinder instance (modals, actions, hooks, slots). */
+  plugins?: VfPlugin[];
   selectionMode?: 'single' | 'multiple';
   selectionFilterType?: 'files' | 'dirs' | 'both';
   selectionFilterMimeIncludes?: string[];

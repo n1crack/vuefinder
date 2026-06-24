@@ -10,6 +10,7 @@ import XBoxSVG from '../assets/icons/x_box.svg';
 
 import { OverlayScrollbars } from 'overlayscrollbars';
 import TreeStorageItem from './TreeStorageItem.vue';
+import SlotOutlet from '../plugins/SlotOutlet.vue';
 import upsert from '../utils/upsert';
 import FolderIndicator from './FolderIndicator.vue';
 import { useDragNDrop } from '../composables/useDragNDrop';
@@ -131,6 +132,7 @@ watch(sortedFiles, (newFiles) => {
     class="vuefinder__treeview__container"
   >
     <div ref="treeViewScrollElement" class="vuefinder__treeview__scroll">
+      <SlotOutlet name="sidebar-top" />
       <div v-if="enabled('pinned')" class="vuefinder__treeview__header">
         <div
           class="vuefinder__treeview__pinned-toggle"
@@ -184,6 +186,7 @@ watch(sortedFiles, (newFiles) => {
       <div v-for="storage in storagesList" :key="storage" class="vuefinder__treeview__storage">
         <TreeStorageItem :storage="storage" />
       </div>
+      <SlotOutlet name="sidebar-bottom" />
     </div>
     <div class="vuefinder__treeview__resize-handle" @mousedown="handleMouseDown"></div>
   </div>

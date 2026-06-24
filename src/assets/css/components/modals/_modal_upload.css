@@ -163,7 +163,9 @@
 .vuefinder__upload-modal__conflict-option {
   @apply flex-1 cursor-pointer border-l border-(--vf-border-primary) bg-(--vf-bg-primary) px-3 py-1.5 text-xs text-(--vf-text-primary) transition-colors select-none first:border-l-0;
 }
-.vuefinder__upload-modal__conflict-option:hover:not(.vuefinder__upload-modal__conflict-option--active) {
+.vuefinder__upload-modal__conflict-option:hover:not(
+    .vuefinder__upload-modal__conflict-option--active
+  ) {
   @apply bg-(--vf-bg-hover);
 }
 .vuefinder__upload-modal__conflict-option--active {

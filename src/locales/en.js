@@ -140,8 +140,7 @@ export default {
   Skip: 'Skip',
   'Keep both': 'Keep both',
   'Skipped (already exists)': 'Skipped (already exists)',
-  'All files already exist in the target folder.':
-    'All files already exist in the target folder.',
+  'All files already exist in the target folder.': 'All files already exist in the target folder.',
 
   Settings: 'Settings',
   Shortcuts: 'Shortcuts',

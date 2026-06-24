@@ -5,6 +5,8 @@ import ModalLayout from '../../components/modals/ModalLayout.vue';
 import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
 import ModalHeader from '../../components/modals//ModalHeader.vue';
+import PluginOutlet from '../../plugins/PluginOutlet.vue';
+import { createCancelableEvent } from '../../plugins/hooks';
 import { useStore } from '@nanostores/vue';
 import DeleteSVG from '../../assets/icons/delete.svg';
 import type { StoreValue } from 'nanostores';
@@ -21,6 +23,10 @@ const loading = ref(false);
 const remove = () => {
   if (loading.value) return;
   if (items.value.length && isConfirmed.value) {
+    // Plugins may cancel the deletion (e.g. protect certain paths).
+    const ev = createCancelableEvent({ items: items.value });
+    app.plugins?.hooks.dispatch('beforeDelete', ev);
+    if (ev.defaultPrevented) return;
     loading.value = true;
     app.adapter
       .delete({
@@ -29,11 +35,13 @@ const remove = () => {
           path,
           type,
         })),
+        extras: { ...app.modal.extras },
       })
       .then((result: any) => {
         notify.success(t('Files deleted.'));
         app.fs.setFiles(result.files);
-        // app.emitter.emit('vf-delete-complete', items.value);
+        app.plugins?.hooks.dispatch('afterDelete', { items: items.value });
+        app.emitter.emit('vf-delete-complete', items.value);
         app.modal.close();
       })
       .catch((e: unknown) => {
@@ -49,7 +57,10 @@ const remove = () => {
 <template>
   <ModalLayout>
     <div>
-      <ModalHeader :icon="DeleteSVG" :title="t('Delete files')"></ModalHeader>
+      <ModalHeader :icon="DeleteSVG" :title="t('Delete files')">
+        <template #actions><PluginOutlet modal-key="delete" region="header-actions" /></template>
+      </ModalHeader>
+      <PluginOutlet modal-key="delete" region="body-top" />
       <div class="vuefinder__delete-modal__content">
         <div class="vuefinder__delete-modal__form">
           <p class="vuefinder__delete-modal__description">
@@ -92,9 +103,11 @@ const remove = () => {
           </div>
         </div>
       </div>
+      <PluginOutlet modal-key="delete" region="body-bottom" />
     </div>
 
     <template #buttons>
+      <PluginOutlet modal-key="delete" region="footer-actions" />
       <div class="vuefinder__delete-modal__confirmation">
         <label class="vuefinder__delete-modal__confirmation-label">
           <input v-model="isConfirmed" type="checkbox" class="vuefinder__delete-modal__checkbox" />

@@ -10,7 +10,6 @@ import SearchSVG from '../../assets/icons/search.svg';
 import FolderSVG from '../../assets/icons/folder.svg';
 import ModalLayout from './ModalLayout.vue';
 import ModalHeader from './ModalHeader.vue';
-import ModalPreview from './ModalPreview.vue';
 import ModalTreeSelector from './ModalTreeSelector.vue';
 import SearchInput from '../search/SearchInput.vue';
 import SearchOptionsDropdown, { type SortOption } from '../search/SearchOptionsDropdown.vue';
@@ -118,7 +117,7 @@ const openContainingFolder = async (item: DirEntry) => {
 };
 
 const previewItem = (item: DirEntry) => {
-  app.modal.open(ModalPreview, {
+  app.modal.open('preview', {
     storage: currentPath?.value?.storage ?? 'local',
     item: item,
   });

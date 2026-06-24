@@ -66,6 +66,7 @@ provide(ServiceContainerIdKey, appId);
 
 // Cleanup on unmount
 onBeforeUnmount(() => {
+  app.plugins?.destroy();
   unregisterApp(appId);
 });
 </script>

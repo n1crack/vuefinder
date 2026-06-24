@@ -5,6 +5,8 @@ import ModalLayout from '../../components/modals/ModalLayout.vue';
 import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
+import PluginOutlet from '../../plugins/PluginOutlet.vue';
+import { createCancelableEvent } from '../../plugins/hooks';
 import ModalTreeSelector from './ModalTreeSelector.vue';
 import FolderSVG from '../../assets/icons/folder.svg';
 import { useStore } from '@nanostores/vue';
@@ -54,6 +56,9 @@ const loading = ref(false);
 const archive = () => {
   if (loading.value) return;
   if (items.value.length) {
+    const ev = createCancelableEvent({ items: items.value });
+    app.plugins?.hooks.dispatch('beforeArchive', ev);
+    if (ev.defaultPrevented) return;
     loading.value = true;
     const destination = targetFolderEntry.value?.path;
     app.adapter
@@ -66,10 +71,13 @@ const archive = () => {
         name: name.value,
         // Optional. Sent when the user explicitly picks a different folder.
         ...(destination && destination !== currentPath.value.path ? { destination } : {}),
+        // Plugin-contributed fields (e.g. compression level) forwarded to the backend.
+        extras: { ...app.modal.extras },
       })
       .then((result: any) => {
         notify.success(t('The file(s) archived.'));
         app.fs.setFiles(result.files);
+        app.plugins?.hooks.dispatch('afterArchive', { result });
         app.modal.close();
       })
       .catch((e: unknown) => {
@@ -85,7 +93,10 @@ const archive = () => {
 <template>
   <ModalLayout>
     <div>
-      <ModalHeader :icon="ArchiveSVG" :title="t('Archive the files')"></ModalHeader>
+      <ModalHeader :icon="ArchiveSVG" :title="t('Archive the files')">
+        <template #actions><PluginOutlet modal-key="archive" region="header-actions" /></template>
+      </ModalHeader>
+      <PluginOutlet modal-key="archive" region="body-top" />
       <div class="vuefinder__archive-modal__content">
         <div class="vuefinder__archive-modal__form">
           <div class="vuefinder__archive-modal__files vf-scrollbar">
@@ -168,9 +179,11 @@ const archive = () => {
           </div>
         </div>
       </div>
+      <PluginOutlet modal-key="archive" region="body-bottom" />
     </div>
 
     <template #buttons>
+      <PluginOutlet modal-key="archive" region="footer-actions" />
       <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="archive">
         {{ t('Archive') }}
       </button>

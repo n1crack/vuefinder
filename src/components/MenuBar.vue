@@ -3,22 +3,8 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from '@nanostores/vue';
 import { useFeature } from '../composables/useFeature';
 import type { DirEntry } from '../types';
+import type { ActionContribution } from '../plugins/actionRegistry';
 import { copyPath, copyDownloadUrl } from '../utils/clipboard';
-import ModalNewFolder from './modals/ModalNewFolder.vue';
-import ModalNewFile from './modals/ModalNewFile.vue';
-import ModalRename from './modals/ModalRename.vue';
-import ModalDelete from './modals/ModalDelete.vue';
-import ModalUpload from './modals/ModalUpload.vue';
-import ModalUnarchive from './modals/ModalUnarchive.vue';
-import ModalArchive from './modals/ModalArchive.vue';
-import ModalAbout from './modals/ModalAbout.vue';
-import ModalMove from './modals/ModalMove.vue';
-import ModalCopy from './modals/ModalCopy.vue';
-import ModalPreview from './modals/ModalPreview.vue';
-import ModalSearch from './modals/ModalSearch.vue';
-import ModalSettings from './modals/ModalSettings.vue';
-import ModalShortcuts from './modals/ModalShortcuts.vue';
-import ModalGoToFolder from './modals/ModalGoToFolder.vue';
 import { useApp } from '../composables/useApp';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from '../utils/filesize';
 import { inject } from 'vue';
@@ -49,6 +35,17 @@ const shouldShowExit = computed(() => {
   return canClose;
 });
 
+// Plugin-contributed menubar actions, filtered by their show() predicate.
+const pluginMenuActions = computed(() => {
+  const list = app?.plugins?.actionRegistry.bySurface('menubar') ?? [];
+  const ctx = {
+    searchQuery: '',
+    items: selectedItems.value,
+    target: selectedItems.value[0] ?? null,
+  };
+  return list.filter((a: ActionContribution) => a.show(app, ctx));
+});
+
 // Make menu items reactive to language changes
 const menuItems = computed<any[]>(() => [
   {
@@ -58,13 +55,13 @@ const menuItems = computed<any[]>(() => [
       {
         id: 'new-folder',
         label: t('New Folder'),
-        action: () => app?.modal?.open(ModalNewFolder, { items: selectedItems.value }),
+        action: () => app?.modal?.open('newfolder', { items: selectedItems.value }),
         hidden: () => !enabled('newfolder'),
       },
       {
         id: 'new-file',
         label: t('New File'),
-        action: () => app?.modal?.open(ModalNewFile, { items: selectedItems.value }),
+        action: () => app?.modal?.open('newfile', { items: selectedItems.value }),
         hidden: () => !enabled('newfile'),
       },
       {
@@ -74,14 +71,14 @@ const menuItems = computed<any[]>(() => [
       {
         id: 'upload',
         label: t('Upload'),
-        action: () => app?.modal?.open(ModalUpload, { items: selectedItems.value }),
+        action: () => app?.modal?.open('upload', { items: selectedItems.value }),
         hidden: () => !enabled('upload'),
       },
       { type: 'separator', hidden: () => !enabled('search') },
       {
         id: 'search',
         label: t('Search'),
-        action: () => app.modal.open(ModalSearch),
+        action: () => app.modal.open('search'),
         hidden: () => !enabled('search'),
       },
       { type: 'separator', hidden: () => !enabled('archive') && !enabled('unarchive') },
@@ -90,7 +87,7 @@ const menuItems = computed<any[]>(() => [
         label: t('Archive'),
         action: () => {
           if (selectedItems.value.length > 0) {
-            app?.modal?.open(ModalArchive, { items: selectedItems.value });
+            app?.modal?.open('archive', { items: selectedItems.value });
           }
         },
         enabled: () => selectedItems.value.length > 0,
@@ -104,7 +101,7 @@ const menuItems = computed<any[]>(() => [
             selectedItems.value.length === 1 &&
             selectedItems.value[0]?.mime_type === 'application/zip'
           ) {
-            app?.modal?.open(ModalUnarchive, { items: selectedItems.value });
+            app?.modal?.open('unarchive', { items: selectedItems.value });
           }
         },
         enabled: () =>
@@ -118,7 +115,7 @@ const menuItems = computed<any[]>(() => [
         label: t('Preview'),
         action: () => {
           if (selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir') {
-            app?.modal?.open(ModalPreview, {
+            app?.modal?.open('preview', {
               storage: fs?.path?.get()?.storage,
               item: selectedItems.value[0],
             });
@@ -135,7 +132,7 @@ const menuItems = computed<any[]>(() => [
             id: 'open-as-text',
             label: t('Text'),
             action: () =>
-              app?.modal?.open(ModalPreview, {
+              app?.modal?.open('preview', {
                 storage: fs?.path?.get()?.storage,
                 item: selectedItems.value[0],
                 forceType: 'text',
@@ -147,7 +144,7 @@ const menuItems = computed<any[]>(() => [
             id: 'open-as-image',
             label: t('Image'),
             action: () =>
-              app?.modal?.open(ModalPreview, {
+              app?.modal?.open('preview', {
                 storage: fs?.path?.get()?.storage,
                 item: selectedItems.value[0],
                 forceType: 'image',
@@ -236,7 +233,7 @@ const menuItems = computed<any[]>(() => [
               action: () => {
                 const clipboard = fs?.getClipboard();
                 if (clipboard?.items?.size > 0) {
-                  app?.modal?.open(clipboard.type === 'cut' ? ModalMove : ModalCopy, {
+                  app?.modal?.open(clipboard.type === 'cut' ? 'move' : 'copy', {
                     items: { from: Array.from(clipboard.items), to: fs?.path?.get() },
                   });
                 }
@@ -261,7 +258,7 @@ const menuItems = computed<any[]>(() => [
                     path: fs?.path?.get()?.path || '',
                     type: 'dir' as const,
                   };
-                  app?.modal?.open(ModalMove, { items: { from: selectedItems.value, to: target } });
+                  app?.modal?.open('move', { items: { from: selectedItems.value, to: target } });
                 }
               },
               enabled: () => selectedItems.value.length > 0,
@@ -308,7 +305,7 @@ const menuItems = computed<any[]>(() => [
         label: t('Rename'),
         action: () => {
           if (selectedItems.value.length === 1) {
-            app?.modal?.open(ModalRename, { items: selectedItems.value });
+            app?.modal?.open('rename', { items: selectedItems.value });
           }
         },
         enabled: () => selectedItems.value.length === 1,
@@ -319,7 +316,7 @@ const menuItems = computed<any[]>(() => [
         label: t('Delete'),
         action: () => {
           if (selectedItems.value.length > 0) {
-            app?.modal?.open(ModalDelete, { items: selectedItems.value });
+            app?.modal?.open('delete', { items: selectedItems.value });
           }
         },
         enabled: () => selectedItems.value.length > 0,
@@ -476,7 +473,7 @@ const menuItems = computed<any[]>(() => [
       {
         id: 'go-to-folder',
         label: t('Go to Folder'),
-        action: () => app?.modal?.open(ModalGoToFolder),
+        action: () => app?.modal?.open('goToFolder'),
         enabled: () => true,
       },
     ],
@@ -489,23 +486,38 @@ const menuItems = computed<any[]>(() => [
       {
         id: 'settings',
         label: t('Settings'),
-        action: () => app?.modal?.open(ModalSettings),
+        action: () => app?.modal?.open('settings'),
         enabled: () => true,
       },
       {
         id: 'shortcuts',
         label: t('Shortcuts'),
-        action: () => app?.modal?.open(ModalShortcuts),
+        action: () => app?.modal?.open('shortcuts'),
         enabled: () => true,
       },
       {
         id: 'about',
         label: t('About'),
-        action: () => app?.modal?.open(ModalAbout),
+        action: () => app?.modal?.open('about'),
         enabled: () => true,
       },
     ],
   },
+  // Plugin-contributed menubar actions, grouped under a single menu.
+  ...(pluginMenuActions.value.length
+    ? [
+        {
+          id: 'plugins',
+          label: t('Plugins'),
+          items: pluginMenuActions.value.map((a: ActionContribution) => ({
+            id: a.id,
+            label: a.title(app.i18n),
+            action: () => a.action(app, selectedItems.value),
+            enabled: () => true,
+          })),
+        },
+      ]
+    : []),
 ]);
 
 // Menu methods

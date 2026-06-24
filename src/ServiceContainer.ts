@@ -6,6 +6,8 @@ import { normalizeFeatures } from './features';
 import { version } from './../package.json';
 import { format as filesizeDefault, metricFormat as filesizeMetric } from './utils/filesize';
 import useModal from './composables/useModal';
+import { createModalRegistry } from './plugins/modalRegistry';
+import { PluginManager } from './plugins/PluginManager';
 import { createConfigStore } from './stores/config';
 import { createFilesStore } from './stores/files.ts';
 import { AdapterManager } from './adapters';
@@ -28,7 +30,11 @@ export default (props: VueFinderProps, options: Record<string, unknown>): any =>
   }
   const adapterManager = new AdapterManager(props.driver);
 
-  return reactive({
+  // Registry mapping modal keys -> components (+ plugin overrides/extensions).
+  // Created up-front so useModal can resolve string keys.
+  const modalRegistry = createModalRegistry();
+
+  const app = reactive({
     // app version
     version: version,
     // config store
@@ -61,7 +67,9 @@ export default (props: VueFinderProps, options: Record<string, unknown>): any =>
       configStore
     ),
     // modal state
-    modal: useModal(configStore),
+    modal: useModal(configStore, modalRegistry, emitter),
+    // plugin manager (registries + hook bus); assigned after creation below
+    plugins: null as PluginManager | null,
     // adapter for file operations (always wrapped with AdapterManager)
     // Use markRaw to prevent TanStack Query from being made reactive
     adapter: markRaw(adapterManager),
@@ -81,4 +89,11 @@ export default (props: VueFinderProps, options: Record<string, unknown>): any =>
     // expose custom uploader if provided
     customUploader: props.customUploader,
   });
+
+  // Build the plugin manager with the (reactive) app and run plugin setups.
+  // markRaw so TanStack-Query-style internals aren't made deeply reactive,
+  // mirroring how the adapter is handled.
+  app.plugins = markRaw(new PluginManager(app, modalRegistry, props.plugins ?? []));
+
+  return app;
 };

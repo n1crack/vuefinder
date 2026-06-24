@@ -5,6 +5,7 @@ import { useStore } from '@nanostores/vue';
 import Message from '../../components/Message.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
+import PluginOutlet from '../../plugins/PluginOutlet.vue';
 import ModalTreeSelector from './ModalTreeSelector.vue';
 import useUpload from '../../composables/useUpload';
 import UploadSVG from '../../assets/icons/upload.svg';
@@ -166,7 +167,10 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
     :drag-overlay-text="t('Drag and drop the files/folders to here.')"
   >
     <div>
-      <ModalHeader :icon="UploadSVG" :title="t('Upload Files')"></ModalHeader>
+      <ModalHeader :icon="UploadSVG" :title="t('Upload Files')">
+        <template #actions><PluginOutlet modal-key="upload" region="header-actions" /></template>
+      </ModalHeader>
+      <PluginOutlet modal-key="upload" region="body-top" />
       <div class="vuefinder__upload-modal__content relative">
         <!-- Target Folder Selection - Compact version above dropzone -->
         <div class="vuefinder__upload-modal__target-section">
@@ -381,11 +385,13 @@ onUnmounted(() => document.removeEventListener('click', onClickOutside));
 
         <Message v-if="message.length" error @hidden="message = ''">{{ message }}</Message>
       </div>
+      <PluginOutlet modal-key="upload" region="body-bottom" />
     </div>
     <input ref="internalFileInput" type="file" multiple class="hidden" />
     <input ref="internalFolderInput" type="file" multiple webkitdirectory class="hidden" />
 
     <template #buttons>
+      <PluginOutlet modal-key="upload" region="footer-actions" />
       <!-- Mobile group: above Upload -->
       <div ref="actionsMenuMobileRef" class="relative mb-2 w-full sm:hidden">
         <div

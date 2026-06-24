@@ -2,15 +2,9 @@
 import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
 import { useApp } from '../composables/useApp';
 import { useFeature } from '../composables/useFeature';
+import type { ActionContribution } from '../plugins/actionRegistry';
+import SlotOutlet from '../plugins/SlotOutlet.vue';
 import { useStore } from '@nanostores/vue';
-import ModalNewFolder from './modals/ModalNewFolder.vue';
-import ModalNewFile from './modals/ModalNewFile.vue';
-import ModalRename from './modals/ModalRename.vue';
-import ModalDelete from './modals/ModalDelete.vue';
-import ModalUpload from './modals/ModalUpload.vue';
-import ModalUnarchive from './modals/ModalUnarchive.vue';
-import ModalArchive from './modals/ModalArchive.vue';
-import ModalSearch from './modals/ModalSearch.vue';
 import NewFolderSVG from '../assets/icons/new_folder.svg';
 import NewFileSVG from '../assets/icons/new_file.svg';
 import RenameSVG from '../assets/icons/rename.svg';
@@ -41,6 +35,18 @@ const config = app.config;
 // Use nanostores reactive values for template reactivity
 const configState: StoreValue<ConfigState> = useStore(config.state);
 const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
+
+// Plugin-contributed toolbar actions, filtered by their show() predicate.
+const pluginToolbarActions = computed(() => {
+  const list = app.plugins?.actionRegistry.bySurface('toolbar') ?? [];
+  const ctx = {
+    searchQuery: '',
+    items: selectedItems.value,
+    target: selectedItems.value[0] ?? null,
+  };
+  return list.filter((a: ActionContribution) => a.show(app, ctx));
+});
+
 const fsSortState: StoreValue<SortState> = useStore(fs.sort);
 const fsFilterState: StoreValue<FilterState> = useStore(fs.filter);
 
@@ -214,11 +220,12 @@ const resetFilters = () => {
 <template>
   <div class="vuefinder__toolbar">
     <div class="vuefinder__toolbar__actions">
+      <SlotOutlet name="toolbar-start" />
       <div
         v-if="enabled('newfolder')"
         class="mx-1.5"
         :title="t('New Folder')"
-        @click="app.modal.open(ModalNewFolder, { items: selectedItems })"
+        @click="app.modal.open('newfolder', { items: selectedItems })"
       >
         <NewFolderSVG />
       </div>
@@ -227,7 +234,7 @@ const resetFilters = () => {
         v-if="enabled('newfile')"
         class="mx-1.5"
         :title="t('New File')"
-        @click="app.modal.open(ModalNewFile, { items: selectedItems })"
+        @click="app.modal.open('newfile', { items: selectedItems })"
       >
         <NewFileSVG />
       </div>
@@ -236,7 +243,7 @@ const resetFilters = () => {
         v-if="enabled('rename')"
         class="mx-1.5"
         :title="t('Rename')"
-        @click="selectedItems.length !== 1 || app.modal.open(ModalRename, { items: selectedItems })"
+        @click="selectedItems.length !== 1 || app.modal.open('rename', { items: selectedItems })"
       >
         <RenameSVG
           :class="selectedItems.length === 1 ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
@@ -247,7 +254,7 @@ const resetFilters = () => {
         v-if="enabled('delete')"
         class="mx-1.5"
         :title="t('Delete')"
-        @click="!selectedItems.length || app.modal.open(ModalDelete, { items: selectedItems })"
+        @click="!selectedItems.length || app.modal.open('delete', { items: selectedItems })"
       >
         <DeleteSVG :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'" />
       </div>
@@ -256,7 +263,7 @@ const resetFilters = () => {
         v-if="enabled('upload')"
         class="mx-1.5"
         :title="t('Upload')"
-        @click="app.modal.open(ModalUpload, { items: selectedItems })"
+        @click="app.modal.open('upload', { items: selectedItems })"
       >
         <UploadSVG />
       </div>
@@ -269,7 +276,7 @@ const resetFilters = () => {
         "
         class="mx-1.5"
         :title="t('Unarchive')"
-        @click="!selectedItems.length || app.modal.open(ModalUnarchive, { items: selectedItems })"
+        @click="!selectedItems.length || app.modal.open('unarchive', { items: selectedItems })"
       >
         <UnarchiveSVG
           :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
@@ -280,12 +287,25 @@ const resetFilters = () => {
         v-if="enabled('archive')"
         class="mx-1.5"
         :title="t('Archive')"
-        @click="!selectedItems.length || app.modal.open(ModalArchive, { items: selectedItems })"
+        @click="!selectedItems.length || app.modal.open('archive', { items: selectedItems })"
       >
         <ArchiveSVG
           :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
         />
       </div>
+
+      <!-- Plugin-contributed toolbar actions -->
+      <div
+        v-for="action in pluginToolbarActions"
+        :key="action.id"
+        class="mx-1.5"
+        :title="action.title(app.i18n)"
+        @click="action.action(app, selectedItems)"
+      >
+        <component :is="action.icon" v-if="action.icon" class="vf-toolbar-icon" />
+        <span v-else>{{ action.title(app.i18n) }}</span>
+      </div>
+      <SlotOutlet name="toolbar-end" />
     </div>
 
     <div class="vuefinder__toolbar__controls">
@@ -294,7 +314,7 @@ const resetFilters = () => {
         v-if="enabled('search')"
         class="mx-1.5"
         :title="t('Search Files')"
-        @click="app.modal.open(ModalSearch)"
+        @click="app.modal.open('search')"
       >
         <SearchSVG class="vf-toolbar-icon text-(--vf-bg-primary)" />
       </div>

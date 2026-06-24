@@ -6,6 +6,8 @@ import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
+import PluginOutlet from '../../plugins/PluginOutlet.vue';
+import { createCancelableEvent } from '../../plugins/hooks';
 import RenameSVG from '../../assets/icons/rename.svg';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../../stores/files';
@@ -23,16 +25,21 @@ const loading = ref(false);
 const rename = () => {
   if (loading.value) return;
   if (name.value != item.value.basename) {
+    const ev = createCancelableEvent({ item: item.value, name: name.value });
+    app.plugins?.hooks.dispatch('beforeRename', ev);
+    if (ev.defaultPrevented) return;
     loading.value = true;
     app.adapter
       .rename({
         path: currentPath.value.path,
         item: item.value.path,
         name: name.value,
+        extras: { ...app.modal.extras },
       })
       .then((result: any) => {
         notify.success(t('%s is renamed.', name.value));
         app.fs.setFiles(result.files);
+        app.plugins?.hooks.dispatch('afterRename', { result });
         app.modal.close();
       })
       .catch((e: unknown) => {
@@ -48,7 +55,10 @@ const rename = () => {
 <template>
   <ModalLayout>
     <div>
-      <ModalHeader :icon="RenameSVG" :title="t('Rename')"></ModalHeader>
+      <ModalHeader :icon="RenameSVG" :title="t('Rename')">
+        <template #actions><PluginOutlet modal-key="rename" region="header-actions" /></template>
+      </ModalHeader>
+      <PluginOutlet modal-key="rename" region="body-top" />
       <div class="vuefinder__rename-modal__content">
         <div class="vuefinder__rename-modal__item">
           <p class="vuefinder__rename-modal__item-info">
@@ -93,9 +103,11 @@ const rename = () => {
           />
         </div>
       </div>
+      <PluginOutlet modal-key="rename" region="body-bottom" />
     </div>
 
     <template #buttons>
+      <PluginOutlet modal-key="rename" region="footer-actions" />
       <button type="button" class="vf-btn vf-btn-primary" :disabled="loading" @click="rename">
         {{ t('Rename') }}
       </button>

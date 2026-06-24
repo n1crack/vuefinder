@@ -4,6 +4,8 @@ import { useApp } from '../../composables/useApp';
 import { useFeature } from '../../composables/useFeature';
 import ModalLayout from '../../components/modals/ModalLayout.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
+import PluginOutlet from '../../plugins/PluginOutlet.vue';
+import { createCancelableEvent } from '../../plugins/hooks';
 import MoveSVG from '../../assets/icons/move.svg';
 import CopySVG from '../../assets/icons/copy.svg';
 import ModalTreeSelector from './ModalTreeSelector.vue';
@@ -132,15 +134,20 @@ const loading = ref(false);
 const transfer = async () => {
   if (loading.value) return;
   if (items.value.length) {
+    const ev = createCancelableEvent({ items: items.value, to: destination.value });
+    app.plugins?.hooks.dispatch(createCopy.value ? 'beforeCopy' : 'beforeMove', ev);
+    if (ev.defaultPrevented) return;
     loading.value = true;
     try {
-      const { files } = await app.adapter[operation.value]({
+      const result = await app.adapter[operation.value]({
         path: currentPath.value.path,
         sources: items.value.map(({ path }: { path: string }) => path),
         destination: destination.value.path,
+        extras: { ...app.modal.extras },
       });
 
-      app.fs.setFiles(files);
+      app.fs.setFiles(result.files);
+      app.plugins?.hooks.dispatch(createCopy.value ? 'afterCopy' : 'afterMove', { result });
       app.modal.close();
     } catch (error) {
       notify.error(getErrorMessage(error, t('Failed to transfer files')));
@@ -154,7 +161,12 @@ const transfer = async () => {
 <template>
   <ModalLayout>
     <div>
-      <ModalHeader :icon="createCopy ? CopySVG : MoveSVG" :title="title"></ModalHeader>
+      <ModalHeader :icon="createCopy ? CopySVG : MoveSVG" :title="title">
+        <template #actions
+          ><PluginOutlet :modal-key="operation" region="header-actions"
+        /></template>
+      </ModalHeader>
+      <PluginOutlet :modal-key="operation" region="body-top" />
       <div class="vuefinder__move-modal__content">
         <p class="vuefinder__move-modal__description">{{ body }}</p>
         <div class="vuefinder__move-modal__files vf-scrollbar">
@@ -222,9 +234,11 @@ const transfer = async () => {
           {{ message }}
         </Message>
       </div>
+      <PluginOutlet :modal-key="operation" region="body-bottom" />
     </div>
 
     <template #buttons>
+      <PluginOutlet :modal-key="operation" region="footer-actions" />
       <button
         type="button"
         class="vf-btn vf-btn-primary"
