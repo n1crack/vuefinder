@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { atom } from 'nanostores';
 import { useVueFinder } from '../composables/useVueFinder';
 import { registerApp, unregisterApp } from '../composables/useApp';
 import type { App, DirEntry } from '../types';
@@ -28,7 +29,7 @@ function createMockApp() {
   const selectionSet = new Set<string>();
 
   const fs = {
-    path: { get: vi.fn(() => ({ path: 'local://docs' })) },
+    path: atom({ storage: 'local', breadcrumb: [], path: 'local://docs' }),
     files: { get: vi.fn(() => files) },
     storages: { get: vi.fn(() => ['local']) },
     selectedItems: { get: vi.fn(() => selectedItems) },
@@ -123,6 +124,17 @@ describe('useVueFinder', () => {
     expect(app.adapter.copy).toHaveBeenCalled();
     expect(app.adapter.move).toHaveBeenCalled();
     expect(app.fs.setFiles).toHaveBeenCalled();
+  });
+
+  it('exposes a reactive path ref that tracks navigation', () => {
+    const app = createMockApp();
+    registerApp(id, app);
+    const finder = useVueFinder(id);
+
+    expect(finder.path.value).toBe('local://docs');
+
+    app.fs.path.set({ storage: 'local', breadcrumb: [], path: 'local://docs/sub' });
+    expect(finder.path.value).toBe('local://docs/sub');
   });
 
   it('readonly getters return snapshots', () => {

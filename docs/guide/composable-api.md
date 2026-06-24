@@ -55,7 +55,8 @@ const testNotify = () => {
 | --- | --- | --- |
 | `refresh` | `() => Promise<void>` | Reload the current directory |
 | `open` | `(path: string) => Promise<void>` | Navigate to a path |
-| `getPath` | `() => string` | Current directory path |
+| `getPath` | `() => string` | Current directory path (one-off snapshot) |
+| `path` | `Readonly<Ref<string>>` | Reactive current directory path — `watch()` it or bind it directly, no `@path-change` wiring needed |
 | `getFiles` | `() => DirEntry[]` | Entries in the current directory |
 | `getStorages` | `() => string[]` | Available storage names |
 | `isLoading` | `() => boolean` | Whether a request is in flight |

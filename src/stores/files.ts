@@ -1,6 +1,7 @@
 import { atom, computed, type StoreValue } from 'nanostores';
 import type { DirEntry } from '../types';
 import { useStore } from '@nanostores/vue';
+import { entryKey } from '../utils/entryKey';
 
 export type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
 export type SortOrder = 'asc' | 'desc' | '';
@@ -101,7 +102,7 @@ export const createFilesStore = () => {
   // Selection helpers
   const selectedItems = computed([files, selectedKeys], (filesValue, selectedKeysValue) => {
     if (selectedKeysValue.size === 0) return [];
-    return filesValue.filter((f) => selectedKeysValue.has(f.path));
+    return filesValue.filter((f) => selectedKeysValue.has(entryKey(f)));
   });
 
   // Actions
@@ -228,7 +229,7 @@ export const createFilesStore = () => {
     if (selectionMode === 'single') {
       const firstFile = files.get()[0];
       if (firstFile) {
-        const firstKey = firstFile.path;
+        const firstKey = entryKey(firstFile);
         selectedKeys.set(new Set([firstKey]));
         selectedCount.set(1);
       }
@@ -262,12 +263,12 @@ export const createFilesStore = () => {
 
             return true;
           })
-          .map((f) => f.path);
+          .map((f) => entryKey(f));
 
         selectedKeys.set(new Set(selectableKeys));
       } else {
         // No filters, select all
-        const allKeys = new Set(files.get().map((f) => f.path));
+        const allKeys = new Set(files.get().map((f) => entryKey(f)));
         selectedKeys.set(allKeys);
       }
       setSelectedCount(selectedKeys.get().size);
@@ -279,8 +280,17 @@ export const createFilesStore = () => {
     selectedCount.set(0);
   };
 
-  const setSelection = (keys: string[]) => {
-    const newKeys = new Set(keys ?? []);
+  const setSelection = (paths: string[]) => {
+    // Public callers select by path; resolve each to the matching entries'
+    // composite keys so selection works even when a file and folder share a
+    // path. An ambiguous path selects every entry that carries it.
+    const wanted = new Set(paths ?? []);
+    const newKeys = new Set(
+      files
+        .get()
+        .filter((f) => wanted.has(f.path))
+        .map((f) => entryKey(f))
+    );
     selectedKeys.set(newKeys);
     selectedCount.set(newKeys.size);
   };
@@ -298,7 +308,7 @@ export const createFilesStore = () => {
   };
 
   const setClipboard = (type: 'cut' | 'copy', items: Set<string>) => {
-    const copiedItems = files.get().filter((f) => items.has(f.path));
+    const copiedItems = files.get().filter((f) => items.has(entryKey(f)));
     clipboardItems.set({
       type,
       path: path.get().path,
@@ -309,13 +319,17 @@ export const createFilesStore = () => {
   // Reactive versions that return computed atoms
   const createIsCut = (key: string) => {
     return computed([clipboardItems], (clipboard) => {
-      return clipboard.type === 'cut' && Array.from(clipboard.items).some((f) => f.path === key);
+      return (
+        clipboard.type === 'cut' && Array.from(clipboard.items).some((f) => entryKey(f) === key)
+      );
     });
   };
 
   const createIsCopied = (key: string) => {
     return computed([clipboardItems], (clipboard) => {
-      return clipboard.type === 'copy' && Array.from(clipboard.items).some((f) => f.path === key);
+      return (
+        clipboard.type === 'copy' && Array.from(clipboard.items).some((f) => entryKey(f) === key)
+      );
     });
   };
 

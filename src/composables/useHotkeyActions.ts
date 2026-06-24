@@ -14,6 +14,7 @@ import type { CurrentPathState } from '@/stores/files';
 import { useApp } from './useApp';
 import { useFeature } from './useFeature';
 import { createNotifier } from '../utils/notify';
+import { entryKey } from '../utils/entryKey';
 
 const KEYBOARD_SHORTCUTS = {
   ESCAPE: 'Escape',
@@ -101,7 +102,7 @@ export function useHotkeyActions() {
         notify.error(app.i18n.t('No items selected'));
         return;
       }
-      fs.setClipboard('copy', new Set(selectedItems.value.map((item: any) => item.path)));
+      fs.setClipboard('copy', new Set(selectedItems.value.map((item: DirEntry) => entryKey(item))));
       notify.success(
         selectedItems.value.length === 1
           ? app.i18n.t('Item copied to clipboard')
@@ -115,7 +116,7 @@ export function useHotkeyActions() {
         notify.error(app.i18n.t('No items selected'));
         return;
       }
-      fs.setClipboard('cut', new Set(selectedItems.value.map((item: any) => item.path)));
+      fs.setClipboard('cut', new Set(selectedItems.value.map((item: DirEntry) => entryKey(item))));
       notify.success(
         selectedItems.value.length === 1
           ? app.i18n.t('Item cut to clipboard')

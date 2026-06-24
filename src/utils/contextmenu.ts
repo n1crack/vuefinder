@@ -7,6 +7,7 @@ import ModalDelete from '../components/modals/ModalDelete.vue';
 import ModalMove from '../components/modals/ModalMove.vue';
 import ModalCopy from '../components/modals/ModalCopy.vue';
 import type { App, DirEntry } from '../types';
+import { entryKey } from './entryKey';
 
 type TargetKey = 'none' | 'one' | 'many';
 
@@ -287,7 +288,7 @@ export const menuItems: Item[] = [
     title: ({ t }) => t('Copy'),
     action: (app, selectedItems) => {
       if (selectedItems.length > 0) {
-        app.fs.setClipboard('copy', new Set(selectedItems.map((item: DirEntry) => item.path)));
+        app.fs.setClipboard('copy', new Set(selectedItems.map((item: DirEntry) => entryKey(item))));
       }
     },
     show: showIfAny(

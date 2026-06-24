@@ -378,7 +378,7 @@ describe('VueFinder', () => {
       await new Promise((resolve) => setTimeout(resolve, 50));
 
       const testFile = files[0];
-      app.fs.select(testFile.path);
+      app.fs.select(`${testFile.type}:${testFile.path}`);
       await new Promise((resolve) => setTimeout(resolve, 100));
 
       // onSelect should be called

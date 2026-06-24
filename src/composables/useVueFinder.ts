@@ -1,10 +1,19 @@
+import { computed } from 'vue';
+import { useStore } from '@nanostores/vue';
+import type { StoreValue } from 'nanostores';
 import { useApp } from './useApp';
+import type { CurrentPathState } from '../stores/files';
 import type { DirEntry, VueFinderComposable } from '../types';
 import ModalPreview from '../components/modals/ModalPreview.vue';
 import { notify as emitNotify } from '../utils/notify';
 
 export function useVueFinder(id: string): VueFinderComposable {
   const app = useApp(id);
+
+  // Reactive mirror of the current path so consumers can `watch()` it or bind
+  // it in a template without wiring up the `@path-change` event (issue #186).
+  const pathState: StoreValue<CurrentPathState> = useStore(app.fs.path);
+  const path = computed<string>(() => pathState.value?.path ?? '');
 
   const resolvePath = (path?: string): string => {
     return path || app.fs.path.get().path || '';
@@ -40,6 +49,8 @@ export function useVueFinder(id: string): VueFinderComposable {
     getPath() {
       return app.fs.path.get().path || '';
     },
+
+    path,
 
     select(paths: string[]) {
       const available = new Set((app.fs.files.get() || []).map((item: DirEntry) => item.path));

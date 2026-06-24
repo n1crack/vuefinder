@@ -7,6 +7,7 @@ import type { DirEntry } from '../types';
 import LockSVG from '../assets/icons/lock.svg';
 import { useApp } from '../composables/useApp';
 import { useFeature } from '../composables/useFeature';
+import { entryKey } from '../utils/entryKey';
 
 const props = defineProps<{
   item: DirEntry;
@@ -73,7 +74,7 @@ const itemClasses = computed(() => [
 ]);
 
 const itemStyle = computed(() => ({
-  opacity: props.isDragging || fs.isCut(props.item.path) || !isInteractive.value ? 0.5 : '',
+  opacity: props.isDragging || fs.isCut(entryKey(props.item)) || !isInteractive.value ? 0.5 : '',
 }));
 
 let touchTimeOut: ReturnType<typeof setTimeout> | null = null;
@@ -206,7 +207,7 @@ const delayedOpenItem = (event: TouchEvent) => {
   <div
     :class="itemClasses"
     :style="itemStyle"
-    :data-key="item.path"
+    :data-key="entryKey(item)"
     :data-row="rowIndex"
     :data-col="colIndex"
     :draggable="draggable"

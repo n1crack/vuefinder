@@ -214,6 +214,7 @@ export interface VueFinderComposable {
   preview(path: string): void;
   notify(type: 'success' | 'error' | 'info' | 'warning', message: string): void;
   getPath(): string;
+  path: Readonly<Ref<string>>;
   select(paths: string[]): void;
   selectOne(path: string): void;
   clearSelection(): void;
@@ -234,6 +235,7 @@ export interface VueFinderComposable {
 **Behavior notes:**
 
 - `useVueFinder(id)` throws if the target instance is not mounted.
+- `path` is a reactive ref of the current directory — `watch()` it or bind it in a template instead of polling `getPath()` or listening for `@path-change`.
 - `select(paths)` only selects items that exist in the current loaded directory.
 - Mutating methods delegate to the driver and sync the in-memory file list from returned `files`.
 

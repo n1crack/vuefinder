@@ -4,6 +4,7 @@ import type { DirEntry, App } from '../types';
 import type SelectionAraa from '@viselect/vanilla';
 import { useItemFilters } from './useItemFilters';
 import { useItemOperations } from './useItemOperations';
+import { entryKey } from '../utils/entryKey';
 
 /**
  * Composable for handling item events (click, double-click, context menu)
@@ -31,7 +32,7 @@ export function useItemEvents(
     if (!el) return null;
 
     const key = String(el.getAttribute('data-key'));
-    const item = sortedFiles.value?.find((f: DirEntry) => f.path === key);
+    const item = sortedFiles.value?.find((f: DirEntry) => entryKey(f) === key);
     return { key, item };
   };
 
@@ -40,7 +41,7 @@ export function useItemEvents(
    */
   const getSelectedItems = (): DirEntry[] => {
     const selected = selectedKeys.value;
-    return sortedFiles.value?.filter((f: DirEntry) => selected?.has(f.path)) || [];
+    return sortedFiles.value?.filter((f: DirEntry) => selected?.has(entryKey(f))) || [];
   };
 
   /**
