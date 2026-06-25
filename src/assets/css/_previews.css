@@ -244,6 +244,12 @@
     'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
+/* The browser default caret color is black, which is invisible on dark backgrounds.
+   Inherit the text color so the cursor remains visible in any theme. */
+.vuefinder__codemirror-editor .cm-content {
+  caret-color: currentColor;
+}
+
 /* iOS Safari auto-zooms when a contenteditable has font-size < 16px.
    Keep the editor readable at the desktop size but bump mobile to 16px. */
 @media (max-width: 640px) {
