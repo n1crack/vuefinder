@@ -4,6 +4,7 @@ import DefaultTheme from 'vitepress/theme';
 import GithubButton from 'vue-github-button';
 import './style.css';
 import HomeHeroVueFinderDemo from './components/HomeHeroVueFinderDemo.vue';
+import KladBanner from './components/KladBanner.vue';
 
 // Import demo components
 import BasicUsageDemo from './components/examples/BasicUsageDemo.vue';
@@ -81,6 +82,7 @@ export default {
 
     // Register GithubButton component globally
     app.component('GithubButton', GithubButton);
+    app.component('KladBanner', KladBanner);
 
     // Register demo components globally (client-side only)
     if (!import.meta.env.SSR) {

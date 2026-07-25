@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 156" role="img" aria-label="Klad — a framework-agnostic org chart built for huge trees">
+  <defs>
+    <linearGradient id="kb-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1120" />
+      <stop offset="1" stop-color="#111c3f" />
+    </linearGradient>
+    <radialGradient id="kb-glow" cx="0.84" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2563eb" stop-opacity="0.14" />
+      <stop offset="1" stop-color="#2563eb" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="kb-face" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#3b82f6" />
+      <stop offset="1" stop-color="#60a5fa" />
+    </linearGradient>
+    <linearGradient id="kb-leaf" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#60a5fa" />
+      <stop offset="1" stop-color="#93c5fd" />
+    </linearGradient>
+  </defs>
+
+  <!-- Backdrop -->
+  <rect x="0" y="0" width="1040" height="156" rx="18" fill="url(#kb-bg)" />
+  <rect x="0" y="0" width="1040" height="156" rx="18" fill="url(#kb-glow)" />
+  <rect x="0.5" y="0.5" width="1039" height="155" rx="17.5" fill="none" stroke="#334155" stroke-opacity="0.6" />
+
+  <!-- Org-chart node cluster (same extruded-slab language as the Klad mark) -->
+  <g stroke="#64748b" stroke-width="2.4" stroke-linecap="round" fill="none">
+    <path d="M860 66 V78" />
+    <path d="M772 78 H948" />
+    <path d="M772 78 V100" />
+    <path d="M860 78 V100" />
+    <path d="M948 78 V100" />
+  </g>
+
+  <!-- Root -->
+  <rect x="831" y="44" width="66" height="26" rx="7" fill="#1e40af" />
+  <rect x="827" y="40" width="66" height="26" rx="7" fill="url(#kb-face)" />
+
+  <!-- Children -->
+  <rect x="750" y="104" width="52" height="22" rx="6" fill="#2563eb" />
+  <rect x="746" y="100" width="52" height="22" rx="6" fill="url(#kb-leaf)" />
+
+  <rect x="838" y="104" width="52" height="22" rx="6" fill="#2563eb" />
+  <rect x="834" y="100" width="52" height="22" rx="6" fill="url(#kb-leaf)" />
+
+  <rect x="926" y="104" width="52" height="22" rx="6" fill="#2563eb" />
+  <rect x="922" y="100" width="52" height="22" rx="6" fill="url(#kb-leaf)" />
+
+  <!-- Wordmark + copy -->
+  <text x="58" y="60" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="800" fill="#f8fafc" letter-spacing="-1">Klad</text>
+  <text x="60" y="90" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="500" fill="#cbd5e1">A framework-agnostic org chart · <tspan fill="#93c5fd" font-weight="600">built for huge trees</tspan></text>
+
+  <!-- Call to action -->
+  <rect x="60" y="103" width="164" height="30" rx="15" fill="#2563eb" />
+  <text x="142" y="123" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#ffffff">Explore Klad&#160;→</text>
+</svg>
