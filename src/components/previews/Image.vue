@@ -7,6 +7,7 @@ import useUpload, { QUEUE_ENTRY_STATUS } from '../../composables/useUpload';
 import { getErrorMessage } from '../../utils/errorHandler';
 import { createNotifier } from '../../utils/notify';
 import { dataUrlToBlob } from '../../utils/imageEditor';
+import { dirname } from '../../utils/path';
 import LazyLoad from 'vanilla-lazyload';
 import { useStore } from '@nanostores/vue';
 import ImageEditor from './ImageEditor.vue';
@@ -242,9 +243,9 @@ const save = async () => {
     const file = new File([blob], originalFilename, { type: mimeType });
 
     const fullPath = app.modal.data.item.path;
-    const pathParts = fullPath.split('/');
-    pathParts.pop();
-    const directoryPath = pathParts.join('/');
+    // dirname keeps the `storage://` prefix intact for files sitting directly
+    // at the storage root — a naive split/pop/join would yield `storage:/`.
+    const directoryPath = dirname(fullPath);
 
     const targetFolder = {
       path: directoryPath || (currentPath.value?.path ?? ''),
