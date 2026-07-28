@@ -1,5 +1,5 @@
 .vf-btn {
-  @apply mt-0.5 inline-flex w-full justify-center rounded-md border border-(--vf-border-primary) bg-(--vf-bg-primary) px-4 py-2 text-base font-medium tracking-wide text-(--vf-text-primary) shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none sm:mx-1 sm:w-auto sm:text-sm;
+  @apply mt-0.5 inline-flex w-full cursor-pointer justify-center rounded-md border border-(--vf-border-primary) bg-(--vf-bg-primary) px-4 py-2 text-base font-medium tracking-wide text-(--vf-text-primary) shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none sm:mx-1 sm:w-auto sm:text-sm;
 }
 
 .vf-btn-primary {

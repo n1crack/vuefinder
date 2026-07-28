@@ -9,7 +9,7 @@
 }
 
 .vuefinder__themer .vuefinder__modal-header__icon {
-  @apply h-8 w-8 stroke-(--vf-accent-primary) p-0.5 text-(--vf-bg-tertiary);
+  @apply h-8 w-8 cursor-auto stroke-(--vf-accent-primary) p-0.5 text-(--vf-bg-tertiary);
 }
 
 .vuefinder__modal-header__title {

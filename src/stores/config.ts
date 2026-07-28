@@ -21,7 +21,6 @@ export interface PersistenceConfigState {
   persist: boolean;
   path: string;
   pinnedFolders: DirEntry[];
-  notificationsEnabled: boolean;
   expandTreeByDefault: boolean;
   expandedTreePaths: string[];
 }
@@ -50,6 +49,7 @@ export interface NonPersistenceConfigState {
     | 'bottom-left'
     | 'bottom-center'
     | 'bottom-right';
+  notificationsEnabled: boolean;
   notificationDuration: number;
   notificationVisibleToasts: number;
   notificationRichColors: boolean;
@@ -91,7 +91,6 @@ const DEFAULT_PERSISTENCE_STATE: PersistenceConfigState = {
   persist: false,
   path: '',
   pinnedFolders: [] as DirEntry[],
-  notificationsEnabled: true,
   expandTreeByDefault: false,
   expandedTreePaths: [] as string[],
 };
@@ -109,6 +108,7 @@ const DEFAULT_NON_PERSISTENCE_STATE: NonPersistenceConfigState = {
   listItemHeight: 32,
   listItemGap: 2,
   listIconSize: 16,
+  notificationsEnabled: true,
   notificationPosition: 'bottom-center',
   notificationDuration: 3000,
   notificationVisibleToasts: 4,

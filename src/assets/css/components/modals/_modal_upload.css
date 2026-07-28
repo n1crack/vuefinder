@@ -47,7 +47,7 @@
 }
 
 .vuefinder__themer .vuefinder__upload-modal__file-remove:hover {
-  @apply text-(--vf-accent-error);
+  @apply cursor-pointer text-(--vf-accent-error);
 }
 
 .vuefinder__themer .vuefinder__upload-modal__file-remove.disabled {
@@ -63,7 +63,7 @@
 }
 
 .vuefinder__themer .vuefinder__upload-modal__file-rename-action:hover {
-  @apply text-(--vf-accent-primary);
+  @apply cursor-pointer text-(--vf-accent-primary);
 }
 
 .vuefinder__themer .vuefinder__upload-modal__file-rename-action.disabled {
@@ -129,7 +129,7 @@
 }
 
 .vuefinder__upload-actions__item:hover {
-  @apply bg-(--vf-bg-hover);
+  @apply cursor-pointer bg-(--vf-bg-hover);
 }
 
 .vuefinder__upload-actions__separator {

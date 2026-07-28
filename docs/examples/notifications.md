@@ -96,6 +96,7 @@ const clearNotifyEvents = () => {
 
 - `@notify` emits `{ type, message }` even when `notificationsEnabled` is `false`.
 - `notificationsEnabled` controls only toast rendering.
+- `notificationsEnabled` is non-persistent, so the `:config` value always applies — even with `persist: true` it is never overridden by a localStorage value.
 - This is useful when you want to render notifications in your own custom UI.
 
 See:

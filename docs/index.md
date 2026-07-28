@@ -54,6 +54,8 @@ features:
   </section>
 </ClientOnly>
 
+<KladBanner />
+
 <div class="home-footer">
   Released under the MIT License.<br>
   Copyright © 2018-present <a href="https://ozdemir.be" target="_blank">Yusuf Özdemir</a>

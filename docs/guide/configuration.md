@@ -42,7 +42,7 @@ All configuration options are passed via the `config` prop:
 | `loadingIndicator`          | `'linear' \| 'circular' \| string`                                                                      | `'circular'`      | Loading indicator style                                                     |
 | `maxFileSize`               | `number \| string \| null`                                                                              | `null`            | Maximum file upload size (e.g., `'10mb'`, `'50mb'`)                        |
 | `pinnedFolders`             | `DirEntry[]`                                                                                            | `[]`              | Array of pinned folders                                                     |
-| `notificationsEnabled`      | `boolean`                                                                                               | `true`            | Enable/disable toast notifications                                          |
+| `notificationsEnabled`      | `boolean`                                                                                               | `true`            | Enable/disable toast notifications (non-persistent, prop always applies)   |
 | `notificationPosition`      | `'top-left' \| 'top-center' \| 'top-right' \| 'bottom-left' \| 'bottom-center' \| 'bottom-right'`     | `'bottom-center'` | Toast position                                                              |
 | `notificationDuration`      | `number`                                                                                                | `3000`            | Toast duration in milliseconds                                              |
 | `notificationVisibleToasts` | `number`                                                                                                | `4`               | Max visible toasts at once                                                  |
@@ -151,6 +151,7 @@ You can keep event notifications while disabling built-in toast UI:
 
 - `notificationsEnabled: false` hides toast popups.
 - `@notify` still emits `{ type, message }` for external handling.
+- All notification options (`notificationsEnabled`, `notificationPosition`, `notificationDuration`, …) are **non-persistent**, so the `:config` value always takes effect — even with `persist: true`, they are never read back from localStorage.
 
 ### Tree Expansion
 
