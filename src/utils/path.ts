@@ -1,10 +1,23 @@
+/**
+ * Retrieve the parent directory of a full `storage://path` string.
+ * Returns undefined when the input carries no storage prefix, so callers
+ * can fall back to the current path instead of building a bogus target.
+ *
+ * @example
+ * dirname('local://') -> 'local://'
+ * dirname('local://A') -> 'local://'
+ * dirname('local://A/B') -> 'local://A'
+ * dirname('A/B') -> undefined
+ */
 export function dirname(fullPath: string): string | undefined {
   const [storage, path] = splitPath(fullPath);
-  if (!path || path === '/') return storage + '://';
-  const trimmed = path.replace(/\/+$/, '');
+  if (storage === undefined) return undefined;
+  // Strip leading/trailing slashes so the root case collapses to '' and the
+  // storage prefix is always re-attached with its full '://' separator.
+  const trimmed = path.replace(/^\/+/, '').replace(/\/+$/, '');
   const index = trimmed.lastIndexOf('/');
-  if (index === 0) return storage + '://';
-  return storage + ':/' + trimmed.slice(0, index);
+  if (index === -1) return storage + '://';
+  return storage + '://' + trimmed.slice(0, index);
 }
 
 export function splitPath(fullPath: string): [string | undefined, string] {
