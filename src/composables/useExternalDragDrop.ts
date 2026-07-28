@@ -55,16 +55,23 @@ export function useExternalDragDrop() {
     isDraggingExternal.value = false;
 
     const items = e.dataTransfer?.items;
+
     if (items) {
       const fileItems = Array.from(items).filter((item) => item.kind === 'file');
 
       if (fileItems.length > 0) {
         externalFiles.value = [];
 
+        // DataTransferItemList becomes invalid after the first await, so
+        // entries/files must be extracted synchronously before any async work.
+        const entries = fileItems.map((item) => ({
+          entry: (item as any).webkitGetAsEntry?.(),
+          file: item.getAsFile(),
+        }));
+
         // Use shared scanFiles utility
-        for (const item of fileItems) {
-          const getAsEntry = (item as any).webkitGetAsEntry?.();
-          if (getAsEntry) {
+        for (const { entry, file } of entries) {
+          if (entry) {
             // Use scanFiles for folder structure preservation
             await scanFiles((entry: any, file: File) => {
               externalFiles.value.push({
@@ -74,19 +81,16 @@ export function useExternalDragDrop() {
                 lastModified: new Date(file.lastModified),
                 file: file,
               });
-            }, getAsEntry);
-          } else {
+            }, entry);
+          } else if (file) {
             // Fallback for simple file handling
-            const file = item.getAsFile();
-            if (file) {
-              externalFiles.value.push({
-                name: file.name,
-                size: file.size,
-                type: file.type,
-                lastModified: new Date(file.lastModified),
-                file: file,
-              });
-            }
+            externalFiles.value.push({
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              lastModified: new Date(file.lastModified),
+              file: file,
+            });
           }
         }
 
