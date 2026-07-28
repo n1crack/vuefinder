@@ -149,13 +149,19 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
       return;
     }
     message.value = '';
+    uploading.value = true;
 
     // Store the target folder for use in the upload event handler
     uploadTargetFolder.value = targetFolder || currentPath.value;
 
     // todo: will look into retrying failed uploads later
     // uppy.retryAll();
-    uppy.upload();
+    // The 'complete' and 'error' handlers clear the flag; catch here so a
+    // rejection that never reaches them cannot leave the modal stuck.
+    Promise.resolve(uppy.upload()).catch((error: any) => {
+      uploading.value = false;
+      message.value = error?.message || t('Unknown Error');
+    });
   };
 
   const cancel = () => {
