@@ -212,205 +212,215 @@ const resetFilters = () => {
 </script>
 
 <template>
-  <div class="vuefinder__toolbar">
-    <div class="vuefinder__toolbar__actions">
-      <div
-        v-if="enabled('newfolder')"
-        class="mx-1.5"
-        :title="t('New Folder')"
-        @click="app.modal.open(ModalNewFolder, { items: selectedItems })"
-      >
-        <NewFolderSVG />
-      </div>
-
-      <div
-        v-if="enabled('newfile')"
-        class="mx-1.5"
-        :title="t('New File')"
-        @click="app.modal.open(ModalNewFile, { items: selectedItems })"
-      >
-        <NewFileSVG />
-      </div>
-
-      <div
-        v-if="enabled('rename')"
-        class="mx-1.5"
-        :title="t('Rename')"
-        @click="selectedItems.length !== 1 || app.modal.open(ModalRename, { items: selectedItems })"
-      >
-        <RenameSVG
-          :class="selectedItems.length === 1 ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
-        />
-      </div>
-
-      <div
-        v-if="enabled('delete')"
-        class="mx-1.5"
-        :title="t('Delete')"
-        @click="!selectedItems.length || app.modal.open(ModalDelete, { items: selectedItems })"
-      >
-        <DeleteSVG :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'" />
-      </div>
-
-      <div
-        v-if="enabled('upload')"
-        class="mx-1.5"
-        :title="t('Upload')"
-        @click="app.modal.open(ModalUpload, { items: selectedItems })"
-      >
-        <UploadSVG />
-      </div>
-
-      <div
-        v-if="
-          enabled('unarchive') &&
-          selectedItems.length === 1 &&
-          selectedItems[0].mime_type === 'application/zip'
-        "
-        class="mx-1.5"
-        :title="t('Unarchive')"
-        @click="!selectedItems.length || app.modal.open(ModalUnarchive, { items: selectedItems })"
-      >
-        <UnarchiveSVG
-          :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
-        />
-      </div>
-
-      <div
-        v-if="enabled('archive')"
-        class="mx-1.5"
-        :title="t('Archive')"
-        @click="!selectedItems.length || app.modal.open(ModalArchive, { items: selectedItems })"
-      >
-        <ArchiveSVG
-          :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
-        />
-      </div>
-    </div>
-
-    <div class="vuefinder__toolbar__controls">
-      <!-- Search Modal Button -->
-      <div
-        v-if="enabled('search')"
-        class="mx-1.5"
-        :title="t('Search Files')"
-        @click="app.modal.open(ModalSearch)"
-      >
-        <SearchSVG class="vf-toolbar-icon text-(--vf-bg-primary)" />
-      </div>
-
-      <!-- Filter dropdown -->
-      <div class="vuefinder__toolbar__control vuefinder__toolbar__dropdown-container">
+  <!-- Extension point: replace the entire toolbar with a custom component.
+       Fallback below is the default rendering; a custom component can call
+       `useMenuItems()`/`useFeature()`/`useApp()` itself to reuse the same
+       actions instead of relying on slot props. -->
+  <slot name="toolbar-items">
+    <div class="vuefinder__toolbar">
+      <div class="vuefinder__toolbar__actions">
         <div
-          :title="t('Filter')"
-          class="vuefinder__toolbar__dropdown-trigger"
-          @click="showFilterSort = !showFilterSort"
+          v-if="enabled('newfolder')"
+          class="mx-1.5"
+          :title="t('New Folder')"
+          @click="app.modal.open(ModalNewFolder, { items: selectedItems })"
         >
-          <div class="relative">
-            <FilterSVG class="vf-toolbar-icon vuefinder__toolbar__icon h-6 w-6" />
-            <!-- Filter indicator dot -->
-            <div v-if="hasActiveFilters" class="vuefinder__toolbar__filter-indicator"></div>
-          </div>
+          <NewFolderSVG />
         </div>
-        <div v-if="showFilterSort" class="vuefinder__toolbar__dropdown">
-          <div class="vuefinder__toolbar__dropdown-content">
-            <!-- Sorting -->
-            <div class="vuefinder__toolbar__dropdown-section">
-              <div class="vuefinder__toolbar__dropdown-label">{{ t('Sorting') }}</div>
-              <div class="vuefinder__toolbar__dropdown-row">
-                <select
-                  v-model="filterSortState.sortBy"
-                  class="vuefinder__toolbar__dropdown-select"
-                >
-                  <option value="name">{{ t('Name') }}</option>
-                  <option value="size">{{ t('Size') }}</option>
-                  <option value="modified">{{ t('Date') }}</option>
-                </select>
-                <select
-                  v-model="filterSortState.sortOrder"
-                  class="vuefinder__toolbar__dropdown-select"
-                >
-                  <option value="">{{ t('None') }}</option>
-                  <option value="asc">{{ t('Asc') }}</option>
-                  <option value="desc">{{ t('Desc') }}</option>
-                </select>
-              </div>
-            </div>
 
-            <!-- Filtering -->
-            <div class="vuefinder__toolbar__dropdown-section">
-              <div class="vuefinder__toolbar__dropdown-label">{{ t('Show') }}</div>
-              <div class="vuefinder__toolbar__dropdown-options">
-                <label class="vuefinder__toolbar__dropdown-option">
-                  <input
-                    v-model="filterSortState.filterKind"
-                    type="radio"
-                    name="filterKind"
-                    value="all"
-                    class="vuefinder__toolbar__radio"
-                  />
-                  <span class="vuefinder__toolbar__option-text">{{ t('All items') }}</span>
-                </label>
-                <label class="vuefinder__toolbar__dropdown-option">
-                  <input
-                    v-model="filterSortState.filterKind"
-                    type="radio"
-                    name="filterKind"
-                    value="files"
-                    class="vuefinder__toolbar__radio"
-                  />
-                  <span class="vuefinder__toolbar__option-text">{{ t('Files only') }}</span>
-                </label>
-                <label class="vuefinder__toolbar__dropdown-option">
-                  <input
-                    v-model="filterSortState.filterKind"
-                    type="radio"
-                    name="filterKind"
-                    value="folders"
-                    class="vuefinder__toolbar__radio"
-                  />
-                  <span class="vuefinder__toolbar__option-text">{{ t('Folders only') }}</span>
-                </label>
-              </div>
-            </div>
+        <div
+          v-if="enabled('newfile')"
+          class="mx-1.5"
+          :title="t('New File')"
+          @click="app.modal.open(ModalNewFile, { items: selectedItems })"
+        >
+          <NewFileSVG />
+        </div>
 
-            <!-- Hidden Files -->
-            <div class="vuefinder__toolbar__dropdown-toggle">
-              <label for="showHidden" class="vuefinder__toolbar__toggle-label">{{
-                t('Show hidden files')
-              }}</label>
-              <input
-                id="showHidden"
-                v-model="filterSortState.showHidden"
-                type="checkbox"
-                class="vuefinder__toolbar__checkbox"
-              />
-            </div>
+        <div
+          v-if="enabled('rename')"
+          class="mx-1.5"
+          :title="t('Rename')"
+          @click="
+            selectedItems.length !== 1 || app.modal.open(ModalRename, { items: selectedItems })
+          "
+        >
+          <RenameSVG
+            :class="selectedItems.length === 1 ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
+          />
+        </div>
 
-            <!-- Reset Button -->
-            <div class="vuefinder__toolbar__dropdown-reset">
-              <button class="vuefinder__toolbar__reset-button" @click="resetFilters">
-                {{ t('Reset') }}
-              </button>
-            </div>
-          </div>
+        <div
+          v-if="enabled('delete')"
+          class="mx-1.5"
+          :title="t('Delete')"
+          @click="!selectedItems.length || app.modal.open(ModalDelete, { items: selectedItems })"
+        >
+          <DeleteSVG
+            :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
+          />
+        </div>
+
+        <div
+          v-if="enabled('upload')"
+          class="mx-1.5"
+          :title="t('Upload')"
+          @click="app.modal.open(ModalUpload, { items: selectedItems })"
+        >
+          <UploadSVG />
+        </div>
+
+        <div
+          v-if="
+            enabled('unarchive') &&
+            selectedItems.length === 1 &&
+            selectedItems[0].mime_type === 'application/zip'
+          "
+          class="mx-1.5"
+          :title="t('Unarchive')"
+          @click="!selectedItems.length || app.modal.open(ModalUnarchive, { items: selectedItems })"
+        >
+          <UnarchiveSVG
+            :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
+          />
+        </div>
+
+        <div
+          v-if="enabled('archive')"
+          class="mx-1.5"
+          :title="t('Archive')"
+          @click="!selectedItems.length || app.modal.open(ModalArchive, { items: selectedItems })"
+        >
+          <ArchiveSVG
+            :class="selectedItems.length ? 'vf-toolbar-icon' : 'vf-toolbar-icon-disabled'"
+          />
         </div>
       </div>
 
-      <div
-        v-if="enabled('fullscreen')"
-        class="mx-1.5"
-        :title="t('Toggle Full Screen')"
-        @click="config.toggle('fullScreen')"
-      >
-        <MinimizeSVG v-if="configState.fullScreen" class="vf-toolbar-icon" />
-        <FullscreenSVG v-else class="vf-toolbar-icon" />
-      </div>
+      <div class="vuefinder__toolbar__controls">
+        <!-- Search Modal Button -->
+        <div
+          v-if="enabled('search')"
+          class="mx-1.5"
+          :title="t('Search Files')"
+          @click="app.modal.open(ModalSearch)"
+        >
+          <SearchSVG class="vf-toolbar-icon text-(--vf-bg-primary)" />
+        </div>
 
-      <div class="mx-1.5" :title="t('Change View')" @click="toggleView()">
-        <GridViewSVG v-if="configState.view === 'grid'" class="vf-toolbar-icon" />
-        <ListViewSVG v-if="configState.view === 'list'" class="vf-toolbar-icon" />
+        <!-- Filter dropdown -->
+        <div class="vuefinder__toolbar__control vuefinder__toolbar__dropdown-container">
+          <div
+            :title="t('Filter')"
+            class="vuefinder__toolbar__dropdown-trigger"
+            @click="showFilterSort = !showFilterSort"
+          >
+            <div class="relative">
+              <FilterSVG class="vf-toolbar-icon vuefinder__toolbar__icon h-6 w-6" />
+              <!-- Filter indicator dot -->
+              <div v-if="hasActiveFilters" class="vuefinder__toolbar__filter-indicator"></div>
+            </div>
+          </div>
+          <div v-if="showFilterSort" class="vuefinder__toolbar__dropdown">
+            <div class="vuefinder__toolbar__dropdown-content">
+              <!-- Sorting -->
+              <div class="vuefinder__toolbar__dropdown-section">
+                <div class="vuefinder__toolbar__dropdown-label">{{ t('Sorting') }}</div>
+                <div class="vuefinder__toolbar__dropdown-row">
+                  <select
+                    v-model="filterSortState.sortBy"
+                    class="vuefinder__toolbar__dropdown-select"
+                  >
+                    <option value="name">{{ t('Name') }}</option>
+                    <option value="size">{{ t('Size') }}</option>
+                    <option value="modified">{{ t('Date') }}</option>
+                  </select>
+                  <select
+                    v-model="filterSortState.sortOrder"
+                    class="vuefinder__toolbar__dropdown-select"
+                  >
+                    <option value="">{{ t('None') }}</option>
+                    <option value="asc">{{ t('Asc') }}</option>
+                    <option value="desc">{{ t('Desc') }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Filtering -->
+              <div class="vuefinder__toolbar__dropdown-section">
+                <div class="vuefinder__toolbar__dropdown-label">{{ t('Show') }}</div>
+                <div class="vuefinder__toolbar__dropdown-options">
+                  <label class="vuefinder__toolbar__dropdown-option">
+                    <input
+                      v-model="filterSortState.filterKind"
+                      type="radio"
+                      name="filterKind"
+                      value="all"
+                      class="vuefinder__toolbar__radio"
+                    />
+                    <span class="vuefinder__toolbar__option-text">{{ t('All items') }}</span>
+                  </label>
+                  <label class="vuefinder__toolbar__dropdown-option">
+                    <input
+                      v-model="filterSortState.filterKind"
+                      type="radio"
+                      name="filterKind"
+                      value="files"
+                      class="vuefinder__toolbar__radio"
+                    />
+                    <span class="vuefinder__toolbar__option-text">{{ t('Files only') }}</span>
+                  </label>
+                  <label class="vuefinder__toolbar__dropdown-option">
+                    <input
+                      v-model="filterSortState.filterKind"
+                      type="radio"
+                      name="filterKind"
+                      value="folders"
+                      class="vuefinder__toolbar__radio"
+                    />
+                    <span class="vuefinder__toolbar__option-text">{{ t('Folders only') }}</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Hidden Files -->
+              <div class="vuefinder__toolbar__dropdown-toggle">
+                <label for="showHidden" class="vuefinder__toolbar__toggle-label">{{
+                  t('Show hidden files')
+                }}</label>
+                <input
+                  id="showHidden"
+                  v-model="filterSortState.showHidden"
+                  type="checkbox"
+                  class="vuefinder__toolbar__checkbox"
+                />
+              </div>
+
+              <!-- Reset Button -->
+              <div class="vuefinder__toolbar__dropdown-reset">
+                <button class="vuefinder__toolbar__reset-button" @click="resetFilters">
+                  {{ t('Reset') }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          v-if="enabled('fullscreen')"
+          class="mx-1.5"
+          :title="t('Toggle Full Screen')"
+          @click="config.toggle('fullScreen')"
+        >
+          <MinimizeSVG v-if="configState.fullScreen" class="vf-toolbar-icon" />
+          <FullscreenSVG v-else class="vf-toolbar-icon" />
+        </div>
+
+        <div class="mx-1.5" :title="t('Change View')" @click="toggleView()">
+          <GridViewSVG v-if="configState.view === 'grid'" class="vf-toolbar-icon" />
+          <ListViewSVG v-if="configState.view === 'list'" class="vf-toolbar-icon" />
+        </div>
       </div>
     </div>
-  </div>
+  </slot>
 </template>

@@ -11,6 +11,8 @@ import {
   parseBackendError,
 } from './adapters';
 import { useVueFinder } from './composables/useVueFinder';
+import { useMenuItems } from './composables/useMenuItems';
+import { useBreadcrumbActions } from './composables/useBreadcrumbActions';
 
 type VueFinderOptions = {
   i18n?: Record<string, unknown>;
@@ -35,7 +37,7 @@ export const VueFinderPlugin = {
 export default VueFinderPlugin;
 
 export { VueFinder, VueFinderProvider, contextMenuItems, ContextMenuIds };
-export { useVueFinder };
+export { useVueFinder, useMenuItems, useBreadcrumbActions };
 
 export { RemoteDriver, ArrayDriver, IndexedDBDriver, BaseAdapter, parseBackendError };
 
@@ -50,6 +52,7 @@ export type {
   NotifyEvent,
   NotifyPayload,
   VueFinderComposable,
+  MenuItem,
 } from './types';
 
 // Export context menu item type

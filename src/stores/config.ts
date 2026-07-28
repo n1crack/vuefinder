@@ -35,6 +35,7 @@ export interface NonPersistenceConfigState {
   maxFileSize: number | string | null;
   showMenuBar: boolean;
   showToolbar: boolean;
+  showBreadcrumbBar: boolean;
   gridItemWidth: number;
   gridItemHeight: number;
   gridItemGap: number;
@@ -101,6 +102,7 @@ const DEFAULT_NON_PERSISTENCE_STATE: NonPersistenceConfigState = {
   loadingIndicator: 'circular',
   showMenuBar: true,
   showToolbar: true,
+  showBreadcrumbBar: true,
   gridItemWidth: 96,
   gridItemHeight: 80,
   gridItemGap: 8,

@@ -1,530 +1,29 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useStore } from '@nanostores/vue';
-import { useFeature } from '../composables/useFeature';
-import type { DirEntry } from '../types';
-import { copyPath, copyDownloadUrl } from '../utils/clipboard';
-import { entryKey } from '../utils/entryKey';
-import ModalNewFolder from './modals/ModalNewFolder.vue';
-import ModalNewFile from './modals/ModalNewFile.vue';
-import ModalRename from './modals/ModalRename.vue';
-import ModalDelete from './modals/ModalDelete.vue';
-import ModalUpload from './modals/ModalUpload.vue';
-import ModalUnarchive from './modals/ModalUnarchive.vue';
-import ModalArchive from './modals/ModalArchive.vue';
-import ModalAbout from './modals/ModalAbout.vue';
-import ModalMove from './modals/ModalMove.vue';
-import ModalCopy from './modals/ModalCopy.vue';
-import ModalPreview from './modals/ModalPreview.vue';
-import ModalSearch from './modals/ModalSearch.vue';
-import ModalSettings from './modals/ModalSettings.vue';
-import ModalShortcuts from './modals/ModalShortcuts.vue';
-import ModalGoToFolder from './modals/ModalGoToFolder.vue';
-import { useApp } from '../composables/useApp';
-import { format as filesizeDefault, metricFormat as filesizeMetric } from '../utils/filesize';
-import { inject } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useMenuItems } from '../composables/useMenuItems';
 
-import type { StoreValue } from 'nanostores';
-import type { ConfigState } from '../stores/config';
-
-const app = useApp();
-const { enabled } = useFeature();
-
-const { t } = app?.i18n || { t: (key: string) => key };
-
-const fs = app?.fs;
-const config = app?.config;
-
-// Use nanostores reactive values for template reactivity
-const configState: StoreValue<ConfigState> = useStore(config.state);
-const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
-const storages: StoreValue<string[]> = useStore(fs?.storages || []);
+const { menuItems } = useMenuItems();
 
 // Menu state
 const activeMenu = ref<string | null>(null);
 const isMenuOpen = ref(false);
 
-// Check if exit option should be shown
-const shouldShowExit = computed(() => {
-  const canClose = window.opener !== null || window.name !== '' || window.history.length <= 1;
-  return canClose;
-});
-
-// Make menu items reactive to language changes
-const menuItems = computed<any[]>(() => [
-  {
-    id: 'file',
-    label: t('File'),
-    items: [
-      {
-        id: 'new-folder',
-        label: t('New Folder'),
-        action: () => app?.modal?.open(ModalNewFolder, { items: selectedItems.value }),
-        hidden: () => !enabled('newfolder'),
-      },
-      {
-        id: 'new-file',
-        label: t('New File'),
-        action: () => app?.modal?.open(ModalNewFile, { items: selectedItems.value }),
-        hidden: () => !enabled('newfile'),
-      },
-      {
-        type: 'separator',
-        hidden: () => (!enabled('newfolder') && !enabled('newfile')) || !enabled('upload'),
-      },
-      {
-        id: 'upload',
-        label: t('Upload'),
-        action: () => app?.modal?.open(ModalUpload, { items: selectedItems.value }),
-        hidden: () => !enabled('upload'),
-      },
-      { type: 'separator', hidden: () => !enabled('search') },
-      {
-        id: 'search',
-        label: t('Search'),
-        action: () => app.modal.open(ModalSearch),
-        hidden: () => !enabled('search'),
-      },
-      { type: 'separator', hidden: () => !enabled('archive') && !enabled('unarchive') },
-      {
-        id: 'archive',
-        label: t('Archive'),
-        action: () => {
-          if (selectedItems.value.length > 0) {
-            app?.modal?.open(ModalArchive, { items: selectedItems.value });
-          }
-        },
-        enabled: () => selectedItems.value.length > 0,
-        hidden: () => !enabled('archive'),
-      },
-      {
-        id: 'unarchive',
-        label: t('Unarchive'),
-        action: () => {
-          if (
-            selectedItems.value.length === 1 &&
-            selectedItems.value[0]?.mime_type === 'application/zip'
-          ) {
-            app?.modal?.open(ModalUnarchive, { items: selectedItems.value });
-          }
-        },
-        enabled: () =>
-          selectedItems.value.length === 1 &&
-          selectedItems.value[0]?.mime_type === 'application/zip',
-        hidden: () => !enabled('unarchive'),
-      },
-      { type: 'separator', hidden: () => !enabled('preview') },
-      {
-        id: 'preview',
-        label: t('Preview'),
-        action: () => {
-          if (selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir') {
-            app?.modal?.open(ModalPreview, {
-              storage: fs?.path?.get()?.storage,
-              item: selectedItems.value[0],
-            });
-          }
-        },
-        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
-        hidden: () => !enabled('preview'),
-      },
-      {
-        id: 'open-as',
-        label: t('Preview as'),
-        items: [
-          {
-            id: 'open-as-text',
-            label: t('Text'),
-            action: () =>
-              app?.modal?.open(ModalPreview, {
-                storage: fs?.path?.get()?.storage,
-                item: selectedItems.value[0],
-                forceType: 'text',
-              }),
-            enabled: () =>
-              selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
-          },
-          {
-            id: 'open-as-image',
-            label: t('Image'),
-            action: () =>
-              app?.modal?.open(ModalPreview, {
-                storage: fs?.path?.get()?.storage,
-                item: selectedItems.value[0],
-                forceType: 'image',
-              }),
-            enabled: () =>
-              selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
-          },
-        ],
-        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
-        hidden: () => !enabled('preview'),
-      },
-      // Only show exit option if we can actually close the window
-      ...(shouldShowExit.value
-        ? [
-            { type: 'separator' },
-            {
-              id: 'exit',
-              label: t('Exit'),
-              action: () => {
-                try {
-                  window.close();
-                } catch (e) {
-                  // Window cannot be closed programmatically
-                }
-              },
-              enabled: () => true,
-            },
-          ]
-        : []),
-    ],
-  },
-  {
-    id: 'edit',
-    label: t('Edit'),
-    items: [
-      // Only show Select All and Deselect All in multiple selection mode
-      ...(app?.selectionMode === 'multiple'
-        ? [
-            {
-              id: 'select-all',
-              label: t('Select All'),
-              action: () =>
-                fs?.selectAll((app?.selectionMode as 'single' | 'multiple') || 'multiple', app),
-              enabled: () => true,
-            },
-            {
-              id: 'deselect',
-              label: t('Deselect All'),
-              action: () => fs?.clearSelection(),
-              enabled: () => selectedItems.value.length > 0,
-            },
-            { type: 'separator' },
-          ]
-        : []),
-      ...(enabled('copy')
-        ? [
-            {
-              id: 'cut',
-              label: t('Cut'),
-              action: () => {
-                if (selectedItems.value.length > 0) {
-                  fs?.setClipboard(
-                    'cut',
-                    new Set(selectedItems.value.map((item: DirEntry) => entryKey(item)))
-                  );
-                }
-              },
-              enabled: () => selectedItems.value.length > 0,
-            },
-            {
-              id: 'copy',
-              label: t('Copy'),
-              action: () => {
-                if (selectedItems.value.length > 0) {
-                  fs?.setClipboard(
-                    'copy',
-                    new Set(selectedItems.value.map((item: DirEntry) => entryKey(item)))
-                  );
-                }
-              },
-              enabled: () => selectedItems.value.length > 0,
-            },
-            {
-              id: 'paste',
-              label: t('Paste'),
-              action: () => {
-                const clipboard = fs?.getClipboard();
-                if (clipboard?.items?.size > 0) {
-                  app?.modal?.open(clipboard.type === 'cut' ? ModalMove : ModalCopy, {
-                    items: { from: Array.from(clipboard.items), to: fs?.path?.get() },
-                  });
-                }
-              },
-              enabled: () => {
-                const clipboard = fs?.getClipboard();
-                return clipboard?.items?.size > 0;
-              },
-            },
-          ]
-        : []),
-      ...(enabled('move')
-        ? [
-            {
-              id: 'move',
-              label: t('Move files'),
-              action: () => {
-                if (selectedItems.value.length > 0) {
-                  const fs = app?.fs;
-                  const target = {
-                    storage: fs?.path?.get()?.storage || '',
-                    path: fs?.path?.get()?.path || '',
-                    type: 'dir' as const,
-                  };
-                  app?.modal?.open(ModalMove, { items: { from: selectedItems.value, to: target } });
-                }
-              },
-              enabled: () => selectedItems.value.length > 0,
-            },
-            { type: 'separator' },
-          ]
-        : []),
-      {
-        id: 'copy-path',
-        label: t('Copy Path'),
-        action: async () => {
-          if (selectedItems.value.length === 1) {
-            // Copy selected item's path
-            const item = selectedItems.value[0];
-            await copyPath(item.path);
-          } else {
-            // Copy current path if no item selected
-            const currentPath = fs?.path?.get();
-            if (currentPath?.path) {
-              await copyPath(currentPath.path);
-            }
-          }
-        },
-        enabled: () => true, // Her zaman aktif
-      },
-      {
-        id: 'copy-download-url',
-        label: t('Copy Download URL'),
-        action: async () => {
-          if (selectedItems.value.length === 1) {
-            const item = selectedItems.value[0];
-            const storage = fs?.path?.get()?.storage ?? 'local';
-            const downloadUrl = app?.adapter?.getDownloadUrl({ path: item.path });
-            if (downloadUrl) {
-              await copyDownloadUrl(downloadUrl);
-            }
-          }
-        },
-        enabled: () => selectedItems.value.length === 1 && selectedItems.value[0]?.type !== 'dir',
-      },
-      { type: 'separator', hidden: () => !enabled('rename') && !enabled('delete') },
-      {
-        id: 'rename',
-        label: t('Rename'),
-        action: () => {
-          if (selectedItems.value.length === 1) {
-            app?.modal?.open(ModalRename, { items: selectedItems.value });
-          }
-        },
-        enabled: () => selectedItems.value.length === 1,
-        hidden: () => !enabled('rename'),
-      },
-      {
-        id: 'delete',
-        label: t('Delete'),
-        action: () => {
-          if (selectedItems.value.length > 0) {
-            app?.modal?.open(ModalDelete, { items: selectedItems.value });
-          }
-        },
-        enabled: () => selectedItems.value.length > 0,
-        hidden: () => !enabled('delete'),
-      },
-    ],
-  },
-  {
-    id: 'view',
-    label: t('View'),
-    items: [
-      {
-        id: 'refresh',
-        label: t('Refresh'),
-        action: () => {
-          app.adapter.invalidateListQuery(fs.path.get().path);
-          app.adapter.open(fs.path.get().path);
-        },
-        enabled: () => true,
-      },
-      { type: 'separator' },
-      {
-        id: 'grid-view',
-        label: t('Grid View'),
-        action: () => config?.set('view', 'grid'),
-        enabled: () => true,
-        checked: () => configState.value?.view === 'grid',
-      },
-      {
-        id: 'list-view',
-        label: t('List View'),
-        action: () => config?.set('view', 'list'),
-        enabled: () => true,
-        checked: () => configState.value?.view === 'list',
-      },
-      { type: 'separator' },
-      {
-        id: 'tree-view',
-        label: t('Tree View'),
-        action: () => config?.toggle('showTreeView'),
-        enabled: () => true,
-        checked: () => configState.value?.showTreeView,
-      },
-      {
-        id: 'thumbnails',
-        label: t('Show Thumbnails'),
-        action: () => config?.toggle('showThumbnails'),
-        enabled: () => true,
-        checked: () => configState.value?.showThumbnails,
-      },
-      {
-        id: 'show-hidden-files',
-        label: t('Show Hidden Files'),
-        action: () => config?.toggle('showHiddenFiles'),
-        enabled: () => true,
-        checked: () => configState.value?.showHiddenFiles,
-      },
-      { type: 'separator', hidden: () => !enabled('fullscreen') },
-      {
-        id: 'fullscreen',
-        label: t('Full Screen'),
-        action: () => config?.toggle('fullScreen'),
-        enabled: () => enabled('fullscreen'),
-        checked: () => configState.value?.fullScreen,
-        hidden: () => !enabled('fullscreen'),
-      },
-      { type: 'separator' },
-      {
-        id: 'persist-path',
-        label: t('Persist Path'),
-        action: () => {
-          config?.toggle('persist');
-          app.emitter.emit('vf-persist-path-saved');
-        },
-        enabled: () => true,
-        checked: () => configState.value?.persist,
-      },
-      {
-        id: 'metric-units',
-        label: t('Metric Units'),
-        action: () => {
-          config?.toggle('metricUnits');
-          app.filesize = config?.get('metricUnits') ? filesizeMetric : filesizeDefault;
-          app.emitter.emit('vf-metric-units-saved');
-        },
-        enabled: () => true,
-        checked: () => configState.value?.metricUnits,
-      },
-    ],
-  },
-  {
-    id: 'go',
-    label: t('Go'),
-    items: [
-      ...(enabled('history')
-        ? [
-            {
-              id: 'forward',
-              label: t('Forward'),
-              action: () => {
-                fs?.goForward();
-                const pathInfo = fs?.path?.get();
-                if (pathInfo?.path) {
-                  app?.adapter.open(pathInfo.path);
-                }
-              },
-              enabled: () => fs?.canGoForward?.get() ?? false,
-            },
-            {
-              id: 'back',
-              label: t('Back'),
-              action: () => {
-                fs?.goBack();
-                const pathInfo = fs?.path?.get();
-                if (pathInfo?.path) {
-                  app?.adapter.open(pathInfo.path);
-                }
-              },
-              enabled: () => fs?.canGoBack?.get() ?? false,
-            },
-          ]
-        : []),
-      {
-        id: 'open-containing-folder',
-        label: t('Open containing folder'),
-        action: () => {
-          const pathInfo = fs?.path?.get();
-
-          if (pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 1) {
-            // Get parent path from breadcrumb (second to last item)
-            const parentBreadcrumb = pathInfo.breadcrumb[pathInfo.breadcrumb.length - 2];
-            const parentPath = parentBreadcrumb?.path ?? `${pathInfo.storage}://`;
-
-            app?.adapter.open(parentPath);
-          }
-        },
-        enabled: () => {
-          const pathInfo = fs?.path?.get();
-          return pathInfo?.breadcrumb && pathInfo.breadcrumb.length > 1;
-        },
-      },
-      { type: 'separator' },
-      // Dynamic storage list items will be added here
-      ...(storages.value || []).map((storage: string) => ({
-        id: `storage-${storage}`,
-        label: storage,
-        action: () => {
-          const storagePath = `${storage}://`;
-          app?.adapter.open(storagePath);
-        },
-        enabled: () => true,
-      })),
-      { type: 'separator' },
-      {
-        id: 'go-to-folder',
-        label: t('Go to Folder'),
-        action: () => app?.modal?.open(ModalGoToFolder),
-        enabled: () => true,
-      },
-    ],
-  },
-
-  {
-    id: 'help',
-    label: t('Help'),
-    items: [
-      {
-        id: 'settings',
-        label: t('Settings'),
-        action: () => app?.modal?.open(ModalSettings),
-        enabled: () => true,
-      },
-      {
-        id: 'shortcuts',
-        label: t('Shortcuts'),
-        action: () => app?.modal?.open(ModalShortcuts),
-        enabled: () => true,
-      },
-      {
-        id: 'about',
-        label: t('About'),
-        action: () => app?.modal?.open(ModalAbout),
-        enabled: () => true,
-      },
-    ],
-  },
-]);
-
 // Menu methods
-const toggleMenu = (menuId: string) => {
+const toggleMenu = (menuId?: string) => {
   if (activeMenu.value === menuId) {
     // Same menu clicked - close it
     closeMenu();
   } else {
     // Different menu clicked - open it
-    activeMenu.value = menuId;
+    activeMenu.value = menuId ?? null;
     isMenuOpen.value = true;
   }
 };
 
-const openMenu = (menuId: string) => {
+const openMenu = (menuId?: string) => {
   if (isMenuOpen.value) {
     // Menu is open, switch to hovered menu
-    activeMenu.value = menuId;
+    activeMenu.value = menuId ?? null;
   }
 };
 
@@ -533,11 +32,11 @@ const closeMenu = () => {
   isMenuOpen.value = false;
 };
 
-const handleMenuAction = (action: () => void) => {
+const handleMenuAction = (action?: () => void) => {
   // Close menu first
   closeMenu();
   // Then execute action
-  action();
+  action?.();
 };
 
 // Click outside to close menu
@@ -561,75 +60,92 @@ onUnmounted(() => {
 <template>
   <div class="vuefinder__menubar" @click.stop>
     <div class="vuefinder__menubar__container">
-      <div
-        v-for="menu in menuItems"
-        :key="menu.id"
-        class="vuefinder__menubar__item"
-        :class="{ 'vuefinder__menubar__item--active': activeMenu === menu.id }"
-        @click="toggleMenu(menu.id)"
-        @mouseenter="openMenu(menu.id)"
-      >
-        <span class="vuefinder__menubar__label">{{ menu.label }}</span>
+      <!-- Extension point: prepend custom entries (e.g. extra menus, a search box) -->
+      <slot name="menubar-start" :menu-items="menuItems" />
 
-        <!-- Dropdown menu -->
+      <!--
+        Extension point: replace the default File/Edit/View/Go/Help layout entirely.
+        Receives the same `menuItems` (and `handleMenuAction`) that power the default
+        rendering below, so a custom layout can filter/reorder them or mix in actions
+        from elsewhere (e.g. `useBreadcrumbActions`) while keeping all modal actions intact.
+      -->
+      <slot name="menu-items" :menu-items="menuItems" :handle-menu-action="handleMenuAction">
         <div
-          v-if="activeMenu === menu.id"
-          class="vuefinder__menubar__dropdown"
+          v-for="menu in menuItems"
+          :key="menu.id"
+          class="vuefinder__menubar__item"
+          :class="{ 'vuefinder__menubar__item--active': activeMenu === menu.id }"
+          @click="toggleMenu(menu.id)"
           @mouseenter="openMenu(menu.id)"
         >
+          <span class="vuefinder__menubar__label">{{ menu.label }}</span>
+
+          <!-- Dropdown menu -->
           <div
-            v-for="item in menu.items"
-            :key="item.id || item.type"
-            class="vuefinder__menubar__dropdown__item"
-            :class="{
-              'vuefinder__menubar__dropdown__item--separator': item.type === 'separator',
-              'vuefinder__menubar__dropdown__item--disabled': item.enabled && !item.enabled(),
-              'vuefinder__menubar__dropdown__item--checked': item.checked && item.checked(),
-              'vuefinder__menubar__dropdown__item--hidden': item.hidden && item.hidden(),
-              'vuefinder__menubar__dropdown__item--has-children': item.items?.length,
-            }"
-            @click.stop="
-              item.type !== 'separator' && !item.items?.length && (!item.enabled || item.enabled())
-                ? handleMenuAction(item.action)
-                : null
-            "
+            v-if="activeMenu === menu.id"
+            class="vuefinder__menubar__dropdown"
+            @mouseenter="openMenu(menu.id)"
           >
-            <span v-if="item.type !== 'separator'" class="vuefinder__menubar__dropdown__label">
-              {{ item.label }}
-            </span>
-            <span
-              v-if="item.checked && item.checked()"
-              class="vuefinder__menubar__dropdown__checkmark"
+            <div
+              v-for="item in menu.items"
+              :key="item.id || item.type"
+              class="vuefinder__menubar__dropdown__item"
+              :class="{
+                'vuefinder__menubar__dropdown__item--separator': item.type === 'separator',
+                'vuefinder__menubar__dropdown__item--disabled': item.enabled && !item.enabled(),
+                'vuefinder__menubar__dropdown__item--checked': item.checked && item.checked(),
+                'vuefinder__menubar__dropdown__item--hidden': item.hidden && item.hidden(),
+                'vuefinder__menubar__dropdown__item--has-children': item.items?.length,
+              }"
+              @click.stop="
+                item.type !== 'separator' &&
+                !item.items?.length &&
+                (!item.enabled || item.enabled())
+                  ? handleMenuAction(item.action)
+                  : null
+              "
             >
-              ✓
-            </span>
-            <svg
-              v-if="item.items?.length"
-              class="vuefinder__menubar__dropdown__chevron"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M6 4l4 4-4 4z" />
-            </svg>
-            <div v-if="item.items?.length" class="vuefinder__menubar__dropdown__submenu">
-              <div
-                v-for="child in item.items"
-                :key="child.id"
-                class="vuefinder__menubar__dropdown__item"
-                :class="{
-                  'vuefinder__menubar__dropdown__item--disabled': child.enabled && !child.enabled(),
-                }"
-                @click.stop="
-                  !child.enabled || child.enabled() ? handleMenuAction(child.action) : null
-                "
+              <span v-if="item.type !== 'separator'" class="vuefinder__menubar__dropdown__label">
+                {{ item.label }}
+              </span>
+              <span
+                v-if="item.checked && item.checked()"
+                class="vuefinder__menubar__dropdown__checkmark"
               >
-                <span class="vuefinder__menubar__dropdown__label">{{ child.label }}</span>
+                ✓
+              </span>
+              <svg
+                v-if="item.items?.length"
+                class="vuefinder__menubar__dropdown__chevron"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M6 4l4 4-4 4z" />
+              </svg>
+              <div v-if="item.items?.length" class="vuefinder__menubar__dropdown__submenu">
+                <div
+                  v-for="child in item.items"
+                  :key="child.id"
+                  class="vuefinder__menubar__dropdown__item"
+                  :class="{
+                    'vuefinder__menubar__dropdown__item--disabled':
+                      child.enabled && !child.enabled(),
+                  }"
+                  @click.stop="
+                    !child.enabled || child.enabled() ? handleMenuAction(child.action) : null
+                  "
+                >
+                  <span class="vuefinder__menubar__dropdown__label">{{ child.label }}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </slot>
+
+      <!-- Extension point: append custom entries after the default menus -->
+      <slot name="menubar-end" :menu-items="menuItems" />
     </div>
   </div>
 </template>

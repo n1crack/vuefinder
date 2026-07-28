@@ -525,4 +525,144 @@ describe('VueFinder', () => {
       expect(() => useApp(testId)).toThrow();
     });
   });
+
+  describe('MenuBar customization', () => {
+    it('renders the default File/Edit/View/Go/Help menu when no custom slots are provided', async () => {
+      const wrapper = mount(VueFinderProvider, {
+        props: { ...defaultProps, id: 'menubar-default' },
+        global: defaultGlobal,
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      const labels = wrapper
+        .findAll('.vuefinder__menubar__label')
+        .map((label) => label.text());
+      expect(labels).toEqual(['File', 'Edit', 'View', 'Go', 'Help']);
+
+      wrapper.unmount();
+    });
+
+    it('replaces the default rendering via the "menu-items" scoped slot, keeping the same menuItems data', async () => {
+      const wrapper = mount(VueFinderProvider, {
+        props: { ...defaultProps, id: 'menubar-menu-items-slot' },
+        global: defaultGlobal,
+        slots: {
+          'menu-items': `<template #menu-items="{ menuItems }">
+            <div class="custom-menu-items">{{ menuItems.map((m) => m.id).join(',') }}</div>
+          </template>`,
+        },
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      const custom = wrapper.find('.custom-menu-items');
+      expect(custom.exists()).toBe(true);
+      expect(custom.text()).toBe('file,edit,view,go,help');
+
+      // Default per-menu rendering must be fully replaced, not just supplemented.
+      expect(wrapper.findAll('.vuefinder__menubar__label').length).toBe(0);
+
+      wrapper.unmount();
+    });
+
+    it('adds extra content via "menubar-start" and "menubar-end" without removing the default menus', async () => {
+      const wrapper = mount(VueFinderProvider, {
+        props: { ...defaultProps, id: 'menubar-start-end-slot' },
+        global: defaultGlobal,
+        slots: {
+          'menubar-start': `<div class="custom-start">Start</div>`,
+          'menubar-end': `<div class="custom-end">End</div>`,
+        },
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      expect(wrapper.find('.custom-start').exists()).toBe(true);
+      expect(wrapper.find('.custom-end').exists()).toBe(true);
+
+      const labels = wrapper
+        .findAll('.vuefinder__menubar__label')
+        .map((label) => label.text());
+      expect(labels).toEqual(['File', 'Edit', 'View', 'Go', 'Help']);
+
+      wrapper.unmount();
+    });
+
+    it('hides the default Breadcrumb via config.showBreadcrumbBar, so a "menu-items" bar can fully replace it', async () => {
+      const wrapper = mount(VueFinderProvider, {
+        props: {
+          ...defaultProps,
+          id: 'menubar-hides-breadcrumb',
+          config: { showBreadcrumbBar: false },
+        },
+        global: defaultGlobal,
+        slots: {
+          'menu-items': `<template #menu-items>
+            <div class="custom-menu-items">custom bar</div>
+          </template>`,
+        },
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      expect(wrapper.find('.custom-menu-items').exists()).toBe(true);
+      expect(wrapper.find('.vuefinder__breadcrumb__container').exists()).toBe(false);
+
+      wrapper.unmount();
+    });
+  });
+
+  describe('Toolbar and Breadcrumb customization', () => {
+    it('replaces the default Toolbar rendering via the "toolbar-items" slot', async () => {
+      const wrapper = mount(VueFinderProvider, {
+        props: { ...defaultProps, id: 'toolbar-items-slot' },
+        global: defaultGlobal,
+        slots: {
+          'toolbar-items': `<div class="custom-toolbar">custom toolbar</div>`,
+        },
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      expect(wrapper.find('.custom-toolbar').exists()).toBe(true);
+      expect(wrapper.find('.vuefinder__toolbar__actions').exists()).toBe(false);
+
+      wrapper.unmount();
+    });
+
+    it('replaces the action buttons (tree-view/go-up/refresh) via the "breadcrumb-actions" slot, keeping the path container', async () => {
+      const wrapper = mount(VueFinderProvider, {
+        props: { ...defaultProps, id: 'breadcrumb-actions-slot' },
+        global: defaultGlobal,
+        slots: {
+          'breadcrumb-actions': `<div class="custom-breadcrumb-actions">custom actions</div>`,
+        },
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      expect(wrapper.find('.custom-breadcrumb-actions').exists()).toBe(true);
+      // Default action buttons are replaced...
+      expect(wrapper.find('.vuefinder__breadcrumb__toggle-tree').exists()).toBe(false);
+      // ...but the complex path container itself is never slotted away.
+      expect(wrapper.find('.vuefinder__breadcrumb__path-container').exists()).toBe(true);
+
+      wrapper.unmount();
+    });
+
+    it('keeps the default Toolbar/Breadcrumb when no slot content is provided', async () => {
+      const wrapper = mount(VueFinderProvider, {
+        props: { ...defaultProps, id: 'toolbar-breadcrumb-default' },
+        global: defaultGlobal,
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      expect(wrapper.find('.vuefinder__toolbar__actions').exists()).toBe(true);
+      expect(wrapper.find('.vuefinder__breadcrumb__container').exists()).toBe(true);
+
+      wrapper.unmount();
+    });
+  });
 });

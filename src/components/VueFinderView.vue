@@ -241,9 +241,27 @@ const handleExternalDrop = async (e: DragEvent) => {
           </div>
         </div>
 
-        <MenuBar v-if="configState.showMenuBar" />
-        <Toolbar v-if="configState.showToolbar" />
-        <Breadcrumb />
+        <MenuBar v-if="configState.showMenuBar">
+          <template #menubar-start="slotProps">
+            <slot name="menubar-start" v-bind="slotProps" />
+          </template>
+          <template #menu-items="slotProps">
+            <slot name="menu-items" v-bind="slotProps" />
+          </template>
+          <template #menubar-end="slotProps">
+            <slot name="menubar-end" v-bind="slotProps" />
+          </template>
+        </MenuBar>
+        <Toolbar v-if="configState.showToolbar">
+          <template #toolbar-items="slotProps">
+            <slot name="toolbar-items" v-bind="slotProps" />
+          </template>
+        </Toolbar>
+        <Breadcrumb v-if="configState.showBreadcrumbBar">
+          <template #breadcrumb-actions="slotProps">
+            <slot name="breadcrumb-actions" v-bind="slotProps" />
+          </template>
+        </Breadcrumb>
         <div class="vuefinder__main__content">
           <TreeView />
           <Explorer :on-file-dclick="props.onFileDclick" :on-folder-dclick="props.onFolderDclick">
