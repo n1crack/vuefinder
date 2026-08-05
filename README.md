@@ -53,6 +53,8 @@ If you want to contribute to the project, please feel free to fork the repositor
 
 ### Dependencies
 
+Every dependency here was picked on purpose — best-in-class, fast, and as small as possible — so VueFinder stays lightweight in your bundle.
+
 - [Vue 3+](https://vuejs.org/)
 - [vue-advanced-cropper](https://github.com/advanced-cropper/vue-advanced-cropper) : JavaScript image cropper
 - [viselect](https://github.com/simonwep/viselect) : Selection utility
@@ -65,6 +67,8 @@ If you want to contribute to the project, please feel free to fork the repositor
 - [vue-sonner](https://github.com/wobsoriano/vue-sonner) : Toast notification component
 - [@floating-ui/dom](https://floating-ui.com/) : Floating UI positioning library
 - [@tanstack/vue-query](https://tanstack.com/query/v5/docs/framework/vue/overview) : fetching, caching, synchronizing and updating server state
+- [CodeMirror 6](https://codemirror.net/) : code editor for the built-in text/code preview
+- [Papa Parse](https://www.papaparse.com/) : fast in-browser CSV parser
 
 ### License
 
