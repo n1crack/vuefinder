@@ -78,5 +78,20 @@ onBeforeUnmount(() => {
     <template #status-bar="slotProps">
       <slot name="status-bar" v-bind="slotProps" />
     </template>
+    <template #menubar-start="slotProps">
+      <slot name="menubar-start" v-bind="slotProps" />
+    </template>
+    <template #menu-items="slotProps">
+      <slot name="menu-items" v-bind="slotProps" />
+    </template>
+    <template #menubar-end="slotProps">
+      <slot name="menubar-end" v-bind="slotProps" />
+    </template>
+    <template #toolbar-items="slotProps">
+      <slot name="toolbar-items" v-bind="slotProps" />
+    </template>
+    <template #breadcrumb-actions="slotProps">
+      <slot name="breadcrumb-actions" v-bind="slotProps" />
+    </template>
   </VueFinderView>
 </template>

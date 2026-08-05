@@ -142,5 +142,16 @@ export interface FsData {
   read_only?: boolean;
 }
 
+export interface MenuItem {
+  id?: string;
+  label?: string;
+  type?: 'separator';
+  items?: MenuItem[];
+  action?: () => void;
+  enabled?: () => boolean;
+  hidden?: () => boolean;
+  checked?: () => boolean;
+}
+
 // Re-export feature types for convenience
 export type { FeatureName, FeaturesConfig, FeaturesPreset } from './features';

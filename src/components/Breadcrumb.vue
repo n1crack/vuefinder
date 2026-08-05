@@ -2,7 +2,6 @@
 import { nextTick, onMounted, onUnmounted, ref, watch, computed } from 'vue';
 import { useStore } from '@nanostores/vue';
 import useDebouncedRef from '../composables/useDebouncedRef';
-import { copyPath } from '../utils/clipboard';
 import RefreshSVG from '../assets/icons/refresh.svg';
 import GoUpSVG from '../assets/icons/go_up.svg';
 import CloseSVG from '../assets/icons/close.svg';
@@ -19,10 +18,10 @@ import type { ConfigState } from '../stores/config';
 import type { StoreValue } from 'nanostores';
 import type { CurrentPathState } from '../stores/files';
 import { useApp } from '../composables/useApp';
+import { useBreadcrumbActions } from '../composables/useBreadcrumbActions';
 import type { DirEntry } from '../types';
-import { createNotifier } from '../utils/notify';
 const app = useApp();
-const notify = createNotifier(app);
+const breadcrumbActions = useBreadcrumbActions();
 
 const { t } = app.i18n;
 const fs = app.fs;
@@ -166,16 +165,12 @@ function getBreadcrumb(index: number | null = null) {
 }
 
 const handleRefresh = () => {
-  app.adapter.invalidateListQuery(currentPath.value.path);
-  app.adapter.open(currentPath.value.path);
+  breadcrumbActions.refresh();
 };
 
 const handleGoUp = () => {
   if (visibleBreadcrumbs.value.length > 0) {
-    app.adapter.open(
-      allBreadcrumbs.value[allBreadcrumbs.value.length - 2]?.path ??
-        (currentPath.value?.storage ?? 'local') + '://'
-    );
+    breadcrumbActions.goUp();
   }
 };
 
@@ -209,7 +204,7 @@ const vClickOutside = {
  * Tree View
  */
 const toggleTreeView = () => {
-  config.toggle('showTreeView');
+  breadcrumbActions.toggleTreeView();
 };
 
 /**
@@ -239,8 +234,7 @@ const togglePathCopyMode = () => {
 };
 
 const copyPathToClipboard = async () => {
-  await copyPath(currentPath.value?.path || '');
-  notify.success(t('Path copied to clipboard'));
+  await breadcrumbActions.copyCurrentPath();
 };
 
 const exitPathCopyMode = () => {
@@ -250,32 +244,42 @@ const exitPathCopyMode = () => {
 
 <template>
   <div class="vuefinder__breadcrumb__container">
-    <span :title="t('Toggle Tree View')">
-      <ListTreeSVG
-        class="vuefinder__breadcrumb__toggle-tree"
-        :class="configStore.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
-        @click="toggleTreeView"
-      />
-    </span>
+    <!-- Extension point: replace the action buttons shown before the path
+         (tree-view toggle, go up, refresh/cancel). Fallback below is the
+         default rendering. The path container itself is intentionally not
+         slotted - it handles overflow measurement, drag & drop, the
+         hidden-item dropdown, and path-copy mode, and isn't meant to be
+         reimplemented. A custom component can call
+         `useBreadcrumbActions()`/`useApp()` itself to reuse the same
+         actions (refresh, go up, toggle tree). -->
+    <slot name="breadcrumb-actions">
+      <span :title="t('Toggle Tree View')">
+        <ListTreeSVG
+          class="vuefinder__breadcrumb__toggle-tree"
+          :class="configStore.showTreeView ? 'vuefinder__breadcrumb__toggle-tree--active' : ''"
+          @click="toggleTreeView"
+        />
+      </span>
 
-    <span :title="t('Go up a directory')">
-      <GoUpSVG
-        :class="
-          allBreadcrumbs.length
-            ? 'vuefinder__breadcrumb__go-up--active'
-            : 'vuefinder__breadcrumb__go-up--inactive'
-        "
-        v-on="allBreadcrumbs.length ? dragNDrop.events(getBreadcrumb() as unknown as any) : {}"
-        @click="handleGoUp"
-      />
-    </span>
+      <span :title="t('Go up a directory')">
+        <GoUpSVG
+          :class="
+            allBreadcrumbs.length
+              ? 'vuefinder__breadcrumb__go-up--active'
+              : 'vuefinder__breadcrumb__go-up--inactive'
+          "
+          v-on="allBreadcrumbs.length ? dragNDrop.events(getBreadcrumb() as unknown as any) : {}"
+          @click="handleGoUp"
+        />
+      </span>
 
-    <span v-if="!fs.isLoading()" :title="t('Refresh')">
-      <RefreshSVG @click="handleRefresh" />
-    </span>
-    <span v-else :title="t('Cancel')">
-      <CloseSVG @click="app.emitter.emit('vf-fetch-abort')" />
-    </span>
+      <span v-if="!fs.isLoading()" :title="t('Refresh')">
+        <RefreshSVG @click="handleRefresh" />
+      </span>
+      <span v-else :title="t('Cancel')">
+        <CloseSVG @click="app.emitter.emit('vf-fetch-abort')" />
+      </span>
+    </slot>
 
     <div v-show="!showPathCopyMode" class="vuefinder__breadcrumb__path-container">
       <div>

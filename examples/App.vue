@@ -18,6 +18,7 @@ import SingleSelectionExample from './examples/SingleSelectionExample.vue';
 import SelectionFilterExample from './examples/SelectionFilterExample.vue';
 import FeaturesExample from './examples/FeaturesExample.vue';
 import UIVisibilityExample from './examples/UIVisibilityExample.vue';
+import MenuBarCustomizationExample from './examples/MenuBarCustomizationExample.vue';
 import ItemSizeExample from './examples/ItemSizeExample.vue';
 import MultilangExample from './examples/MultilangExample.vue';
 import ComposableApiExample from './examples/ComposableApiExample.vue';
@@ -135,6 +136,7 @@ const examples = {
   selectionFilter: 'Selection Filter Demo',
   features: 'Features Configuration Demo',
   uiVisibility: 'UI Visibility Settings Demo',
+  menuBarCustomization: 'MenuBar Customization (Slots Demo)',
   itemSize: 'Item Size & Spacing Configuration',
   multilang: 'Multilang File Manager Demo',
 };
@@ -430,6 +432,13 @@ onUnmounted(() => {
 
       <UIVisibilityExample
         v-if="example === 'uiVisibility'"
+        :driver="driver"
+        :config="{ ...config, theme: currentTheme }"
+        :features="features"
+      />
+
+      <MenuBarCustomizationExample
+        v-if="example === 'menuBarCustomization'"
         :driver="driver"
         :config="{ ...config, theme: currentTheme }"
         :features="features"
