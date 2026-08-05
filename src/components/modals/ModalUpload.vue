@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, nextTick, ref } from 'vue';
-import type { QueueEntry } from '../../composables/useUpload';
+import type { ExternalUploadFile, QueueEntry } from '../../composables/useUpload';
 import { useStore } from '@nanostores/vue';
 import Message from '../../components/Message.vue';
 import ModalHeader from '../../components/modals/ModalHeader.vue';
@@ -127,7 +127,7 @@ const upload = () => {
 // Dışarıdan gelen dosyaları dinle
 onMounted(() => {
   app.emitter.on('vf-external-files-dropped', (event: unknown) => {
-    addExternalFiles(event as File[]);
+    addExternalFiles(event as Array<File | ExternalUploadFile>);
   });
 });
 

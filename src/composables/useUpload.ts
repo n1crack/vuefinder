@@ -3,7 +3,7 @@ import { useApp } from '../composables/useApp';
 import Uppy from '@uppy/core';
 import { parse } from '../utils/filesize';
 import { useStore } from '@nanostores/vue';
-import { scanFiles } from '../utils/scanFiles';
+import { entryRelativePath, scanFiles } from '../utils/scanFiles';
 import type { CurrentPathState } from '../stores/files';
 import type { StoreValue } from 'nanostores';
 
@@ -26,6 +26,15 @@ export interface QueueEntry {
   originalFile: File;
 }
 
+/**
+ * File coming from outside the upload modal, optionally carrying the path it
+ * had relative to the dropped folder.
+ */
+export interface ExternalUploadFile {
+  file: File;
+  path?: string;
+}
+
 export interface UseUploadReturn {
   container: Ref<HTMLElement | null>;
   internalFileInput: Ref<HTMLInputElement | null>;
@@ -45,7 +54,7 @@ export interface UseUploadReturn {
   close: () => void;
   getClassNameForEntry: (entry: QueueEntry) => string;
   getIconForEntry: (entry: QueueEntry) => string;
-  addExternalFiles: (files: File[]) => void;
+  addExternalFiles: (files: Array<File | ExternalUploadFile>) => void;
   renameEntry: (entry: QueueEntry, newName: string) => Promise<void>;
 }
 
@@ -97,7 +106,6 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
     hasFilesInDropArea.value = false;
 
     // Always accept files when upload modal is open
-    const trimFileName = /^[/\\](.+)/;
     const dt = ev.dataTransfer;
     if (!dt) return;
 
@@ -108,8 +116,7 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
           const getAsEntry = (item as any).webkitGetAsEntry?.();
           if (getAsEntry) {
             scanFiles((entry: any, file: File) => {
-              const matched = trimFileName.exec((entry?.fullPath as string) || '');
-              addFile(file, matched ? matched[1] : file.name);
+              addFile(file, entryRelativePath(entry, file));
             }, getAsEntry);
           } else {
             const f = item.getAsFile?.();
@@ -193,9 +200,13 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
     }
   };
 
-  const addExternalFiles = (files: File[]) => {
-    files.forEach((file) => {
-      addFile(file);
+  const addExternalFiles = (files: Array<File | ExternalUploadFile>) => {
+    files.forEach((item) => {
+      if ('file' in item) {
+        addFile(item.file, item.path || item.file.name);
+      } else {
+        addFile(item);
+      }
     });
   };
 
@@ -397,7 +408,9 @@ export default function useUpload(customUploader?: any): UseUploadReturn {
       const target = evt.target as HTMLInputElement;
       const files = target.files;
       if (!files) return;
-      for (const file of files) addFile(file);
+      // The folder picker fills webkitRelativePath ("my-folder/sub/file.txt");
+      // the plain file picker leaves it empty.
+      for (const file of files) addFile(file, file.webkitRelativePath || file.name);
       target.value = '';
     };
 

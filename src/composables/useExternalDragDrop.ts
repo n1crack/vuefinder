@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { scanFiles } from '../utils/scanFiles';
+import { entryRelativePath, scanFiles } from '../utils/scanFiles';
 
 export interface ExternalFile {
   name: string;
@@ -7,6 +7,8 @@ export interface ExternalFile {
   type: string;
   lastModified: Date;
   file: File;
+  /** Path relative to the drop, e.g. "my-folder/sub/file.txt". */
+  path: string;
 }
 
 export function useExternalDragDrop() {
@@ -73,6 +75,7 @@ export function useExternalDragDrop() {
                 type: file.type,
                 lastModified: new Date(file.lastModified),
                 file: file,
+                path: entryRelativePath(entry, file),
               });
             }, getAsEntry);
           } else {
@@ -85,6 +88,7 @@ export function useExternalDragDrop() {
                 type: file.type,
                 lastModified: new Date(file.lastModified),
                 file: file,
+                path: file.name,
               });
             }
           }
