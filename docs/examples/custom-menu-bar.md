@@ -79,6 +79,9 @@ const primary = computed(() =>
   ['new-folder', 'upload', 'rename', 'delete'].map((id) => byId.value.get(id)).filter(Boolean)
 );
 
+// The toolbar is hidden, so this bar has to carry the full-screen control.
+const fullScreen = computed(() => byId.value.get('fullscreen'));
+
 const run = (item) => {
   if (item.enabled && !item.enabled()) return;
   item.action?.();
@@ -99,6 +102,10 @@ const run = (item) => {
     <button @click="goUp()">↑</button>
     <button @click="refresh()">⟳</button>
     <span>{{ currentPath.path }}</span>
+
+    <button @click="run(fullScreen)">
+      {{ fullScreen.checked() ? 'Exit Full Screen' : 'Full Screen' }}
+    </button>
   </div>
 </template>
 ```
@@ -117,6 +124,20 @@ Cherry-picking by id (`new-folder`, `upload`, `rename`, `delete`, `grid-view`,
 `list-view`, `fullscreen`) keeps the bar stable while letting VueFinder own the
 behaviour. An id that does not exist is simply skipped by the `filter(Boolean)`
 above, so a missing action degrades quietly rather than throwing.
+
+### Keep a Way Out of Full Screen
+
+The default toolbar carries the only full-screen control in the stock UI. A
+compact bar that hides the toolbar therefore has to carry it too — otherwise a
+user who reaches full screen has no way back. `fullScreen` is persisted, so the
+state survives a reload and the file manager stays stuck over the whole page.
+
+That is why `fullscreen` is picked alongside the other ids above. Its
+`checked()` predicate reports the current state, so a single button covers both
+directions.
+
+<kbd>⌘</kbd> + <kbd>Enter</kbd> also toggles it, but only while the file manager
+has focus and only on a Meta key — treat it as a shortcut, not as the exit.
 
 ### Hiding vs. Replacing
 

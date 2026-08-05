@@ -44,17 +44,6 @@ const selectedItems: StoreValue<DirEntry[]> = useStore(fs.selectedItems);
 const fsSortState: StoreValue<SortState> = useStore(fs.sort);
 const fsFilterState: StoreValue<FilterState> = useStore(fs.filter);
 
-watch(
-  () => configState.value.fullScreen,
-  () => {
-    const body = document.querySelector('body');
-    if (body) {
-      body.style.overflow = configState.value.fullScreen ? 'hidden' : '';
-    }
-  },
-  { immediate: true }
-);
-
 // Dropdown visibility state (local, non-persistent)
 const showFilterSort = ref(false);
 // Click outside handler
@@ -66,11 +55,6 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 onMounted(() => {
-  // Ensure body overflow is set on mount (for refresh case when localStorage loads after watch)
-  const body = document.querySelector('body');
-  if (body && configState.value.fullScreen) {
-    setTimeout(() => (body.style.overflow = 'hidden'));
-  }
   document.addEventListener('click', handleClickOutside);
 });
 

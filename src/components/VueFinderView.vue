@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, watch, unref, useTemplateRef, computed } from 'vue';
+import { onMounted, onUnmounted, watch, unref, useTemplateRef, computed } from 'vue';
 import { useApp } from '../composables/useApp';
 import { useStore } from '@nanostores/vue';
 import { useHotkeyActions } from '../composables/useHotkeyActions';
@@ -191,6 +191,23 @@ onMounted(() => {
 
   // Emit ready event when VueFinder is initialized
   emit('ready');
+});
+
+// Full screen covers the viewport, so the page behind it must not scroll. This
+// lives here rather than in the Toolbar because the toolbar can be hidden while
+// full screen is still reachable from the menu bar, a hotkey or the config.
+watch(
+  () => configState.value?.fullScreen,
+  (fullScreen) => {
+    if (typeof document === 'undefined') return;
+    document.body.style.overflow = fullScreen ? 'hidden' : '';
+  },
+  { immediate: true }
+);
+
+onUnmounted(() => {
+  if (typeof document === 'undefined') return;
+  if (configState.value?.fullScreen) document.body.style.overflow = '';
 });
 
 // External drag & drop handler
