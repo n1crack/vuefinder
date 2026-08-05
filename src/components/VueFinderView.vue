@@ -38,6 +38,11 @@ const emit = defineEmits([
 const props = defineProps<VueFinderProps>();
 
 const app = useApp();
+// The root is teleported to <body> in full screen (see the template), so the
+// attributes a host puts on <vue-finder> have to be re-applied by hand — a
+// Teleport root cannot inherit them automatically.
+defineOptions({ inheritAttrs: false });
+
 const root = useTemplateRef<HTMLDivElement>('root');
 
 const config = app.config;
@@ -193,6 +198,8 @@ onMounted(() => {
   emit('ready');
 });
 
+const isFullScreen = computed(() => !!configState.value?.fullScreen);
+
 // Full screen covers the viewport, so the page behind it must not scroll. This
 // lives here rather than in the Toolbar because the toolbar can be hidden while
 // full screen is still reachable from the menu bar, a hotkey or the config.
@@ -227,85 +234,94 @@ const handleExternalDrop = async (e: DragEvent) => {
 </script>
 
 <template>
-  <div
-    ref="root"
-    tabindex="0"
-    class="vuefinder vuefinder__main vuefinder__themer"
-    :data-theme="app.theme.current"
-    :class="{ 'vuefinder--dragging-external': isDraggingExternal }"
-    :style="rootStyle"
-    @dragenter="handleDragEnter"
-    @dragover="handleDragOver"
-    @dragleave="handleDragLeave"
-    @drop="handleExternalDrop"
-  >
-    <div :class="app.theme.current" style="height: 100%; width: 100%">
-      <div
-        :class="
-          (configState as any)?.fullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'
-        "
-        class="vuefinder__main__container"
-        @mousedown="app.emitter.emit('vf-contextmenu-hide')"
-        @touchstart="app.emitter.emit('vf-contextmenu-hide')"
-      >
-        <!-- External Drag Drop Overlay -->
+  <!--
+    In full screen the whole instance moves to <body>. A viewport-covering panel
+    cannot survive inside an arbitrary host subtree: an ancestor with a
+    transform makes `position: fixed` resolve against that ancestor, `overflow`
+    can clip it, and any stacking context can bury it while it still takes the
+    clicks. Teleporting the root - rather than only the panel - keeps the theme
+    variables, the hotkey listener and the focus target together with it.
+  -->
+  <Teleport to="body" :disabled="!isFullScreen">
+    <div
+      ref="root"
+      v-bind="$attrs"
+      tabindex="0"
+      class="vuefinder vuefinder__main vuefinder__themer"
+      :data-theme="app.theme.current"
+      :class="{ 'vuefinder--dragging-external': isDraggingExternal }"
+      :style="rootStyle"
+      @dragenter="handleDragEnter"
+      @dragover="handleDragOver"
+      @dragleave="handleDragLeave"
+      @drop="handleExternalDrop"
+    >
+      <div :class="app.theme.current" style="height: 100%; width: 100%">
         <div
-          v-if="isDraggingExternal"
-          class="vuefinder__external-drop-overlay vuefinder__external-drop-overlay--relative"
+          :class="isFullScreen ? 'vuefinder__main__fixed' : 'vuefinder__main__relative'"
+          class="vuefinder__main__container"
+          @mousedown="app.emitter.emit('vf-contextmenu-hide')"
+          @touchstart="app.emitter.emit('vf-contextmenu-hide')"
         >
-          <div class="vuefinder__external-drop-message">
-            {{ app.i18n.t('Drag and drop the files/folders to here.') }}
+          <!-- External Drag Drop Overlay -->
+          <div
+            v-if="isDraggingExternal"
+            class="vuefinder__external-drop-overlay vuefinder__external-drop-overlay--relative"
+          >
+            <div class="vuefinder__external-drop-message">
+              {{ app.i18n.t('Drag and drop the files/folders to here.') }}
+            </div>
           </div>
-        </div>
 
-        <MenuBar v-if="configState.showMenuBar">
-          <template #menubar-start="slotProps">
-            <slot name="menubar-start" v-bind="slotProps" />
-          </template>
-          <template #menu-items="slotProps">
-            <slot name="menu-items" v-bind="slotProps" />
-          </template>
-          <template #menubar-end="slotProps">
-            <slot name="menubar-end" v-bind="slotProps" />
-          </template>
-        </MenuBar>
-        <Toolbar v-if="configState.showToolbar">
-          <template #toolbar-items="slotProps">
-            <slot name="toolbar-items" v-bind="slotProps" />
-          </template>
-        </Toolbar>
-        <Breadcrumb v-if="configState.showBreadcrumbBar">
-          <template #breadcrumb-actions="slotProps">
-            <slot name="breadcrumb-actions" v-bind="slotProps" />
-          </template>
-        </Breadcrumb>
-        <div class="vuefinder__main__content">
-          <TreeView />
-          <Explorer :on-file-dclick="props.onFileDclick" :on-folder-dclick="props.onFolderDclick">
-            <template #icon="slotProps">
-              <slot name="icon" v-bind="slotProps" />
+          <MenuBar v-if="configState.showMenuBar">
+            <template #menubar-start="slotProps">
+              <slot name="menubar-start" v-bind="slotProps" />
             </template>
-          </Explorer>
+            <template #menu-items="slotProps">
+              <slot name="menu-items" v-bind="slotProps" />
+            </template>
+            <template #menubar-end="slotProps">
+              <slot name="menubar-end" v-bind="slotProps" />
+            </template>
+          </MenuBar>
+          <Toolbar v-if="configState.showToolbar">
+            <template #toolbar-items="slotProps">
+              <slot name="toolbar-items" v-bind="slotProps" />
+            </template>
+          </Toolbar>
+          <Breadcrumb v-if="configState.showBreadcrumbBar">
+            <template #breadcrumb-actions="slotProps">
+              <slot name="breadcrumb-actions" v-bind="slotProps" />
+            </template>
+          </Breadcrumb>
+          <div class="vuefinder__main__content">
+            <TreeView />
+            <Explorer :on-file-dclick="props.onFileDclick" :on-folder-dclick="props.onFolderDclick">
+              <template #icon="slotProps">
+                <slot name="icon" v-bind="slotProps" />
+              </template>
+            </Explorer>
+          </div>
+          <Statusbar>
+            <template #actions="slotProps">
+              <slot name="status-bar" v-bind="slotProps" />
+            </template>
+          </Statusbar>
         </div>
-        <Statusbar>
-          <template #actions="slotProps">
-            <slot name="status-bar" v-bind="slotProps" />
-          </template>
-        </Statusbar>
+        <Teleport to="body">
+          <Transition name="fade">
+            <Component :is="app.modal.type" v-if="app.modal.visible" />
+          </Transition>
+        </Teleport>
+        <ContextMenu :items="contextMenuItems" />
+        <Toaster
+          v-if="configState.notificationsEnabled"
+          :position="configState.notificationPosition"
+          :duration="configState.notificationDuration"
+          :visible-toasts="configState.notificationVisibleToasts"
+          :rich-colors="configState.notificationRichColors"
+        />
       </div>
-      <Teleport to="body">
-        <Transition name="fade">
-          <Component :is="app.modal.type" v-if="app.modal.visible" />
-        </Transition>
-      </Teleport>
-      <ContextMenu :items="contextMenuItems" />
-      <Toaster
-        v-if="configState.notificationsEnabled"
-        :position="configState.notificationPosition"
-        :duration="configState.notificationDuration"
-        :visible-toasts="configState.notificationVisibleToasts"
-        :rich-colors="configState.notificationRichColors"
-      />
     </div>
-  </div>
+  </Teleport>
 </template>

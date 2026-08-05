@@ -5,9 +5,14 @@
 }
 /* inset-0 already spans the viewport. A 100vw width on top of it counts the
    classic scrollbar in, which pushes the right edge past the viewport and
-   leaves the page scrolling sideways instead of going full screen. */
+   leaves the page scrolling sideways instead of going full screen.
+
+   The z-index sits on the panel itself rather than only on the `:has()` rule
+   for the root, so the panel is never left at `z-index: auto` - invisible under
+   a host element painted later while still taking the clicks. It anchors the
+   full-screen layer order: modals (70) stay above it. */
 .vuefinder__main__fixed {
-  @apply fixed inset-0;
+  @apply fixed inset-0 z-50;
 }
 
 .vuefinder__main__relative {

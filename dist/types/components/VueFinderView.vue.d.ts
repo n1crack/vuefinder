@@ -1,36 +1,36 @@
 import type { VueFinderProps, DirEntry } from '../types';
 import 'vue-sonner/style.css';
-declare var __VLS_8: {
+declare var __VLS_14: {
     menuItems: import("../types").MenuItem[];
-}, __VLS_11: {
+}, __VLS_17: {
     menuItems: import("../types").MenuItem[];
     handleMenuAction: (action?: () => void) => void;
-}, __VLS_14: {
+}, __VLS_20: {
     menuItems: import("../types").MenuItem[];
-}, __VLS_23: {}, __VLS_32: {}, __VLS_46: {
+}, __VLS_29: {}, __VLS_38: {}, __VLS_52: {
     app: any;
     config: any;
     item: DirEntry;
     view: "list" | "grid" | undefined;
-}, __VLS_55: {
+}, __VLS_61: {
     path: any;
     count: number;
     selected: any;
 };
 type __VLS_Slots = {} & {
-    'menubar-start'?: (props: typeof __VLS_8) => any;
+    'menubar-start'?: (props: typeof __VLS_14) => any;
 } & {
-    'menu-items'?: (props: typeof __VLS_11) => any;
+    'menu-items'?: (props: typeof __VLS_17) => any;
 } & {
-    'menubar-end'?: (props: typeof __VLS_14) => any;
+    'menubar-end'?: (props: typeof __VLS_20) => any;
 } & {
-    'toolbar-items'?: (props: typeof __VLS_23) => any;
+    'toolbar-items'?: (props: typeof __VLS_29) => any;
 } & {
-    'breadcrumb-actions'?: (props: typeof __VLS_32) => any;
+    'breadcrumb-actions'?: (props: typeof __VLS_38) => any;
 } & {
-    icon?: (props: typeof __VLS_46) => any;
+    icon?: (props: typeof __VLS_52) => any;
 } & {
-    'status-bar'?: (props: typeof __VLS_55) => any;
+    'status-bar'?: (props: typeof __VLS_61) => any;
 };
 declare const __VLS_base: import("vue").DefineComponent<VueFinderProps, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     error: (...args: any[]) => void;
