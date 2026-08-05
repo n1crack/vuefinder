@@ -9,7 +9,9 @@ import { useMenuItems, useBreadcrumbActions } from '../../src';
 import type { MenuItem } from '../../src';
 
 const { menuItems } = useMenuItems();
-const breadcrumb = useBreadcrumbActions();
+// Destructured so `currentPath` stays a top-level binding and the template
+// unwraps it; `breadcrumb.currentPath.path` would read through the ref object.
+const { currentPath, goUp, refresh, toggleTreeView, copyCurrentPath } = useBreadcrumbActions();
 
 function flatActionable(menu: MenuItem | undefined): MenuItem[] {
   if (!menu?.items) return [];
@@ -36,7 +38,7 @@ function run(item: MenuItem) {
 <template>
   <div class="combined-bar">
     <div class="combined-bar__group combined-bar__group--path">
-      <span class="combined-bar__path">{{ breadcrumb.currentPath.path }}</span>
+      <span class="combined-bar__path">{{ currentPath.path }}</span>
     </div>
 
     <div class="combined-bar__group">
@@ -81,10 +83,10 @@ function run(item: MenuItem) {
 
     <div class="combined-bar__group">
       <span class="combined-bar__group-label">Breadcrumb actions</span>
-      <button class="combined-bar__btn" @click="breadcrumb.refresh()">Refresh</button>
-      <button class="combined-bar__btn" @click="breadcrumb.goUp()">Go Up</button>
-      <button class="combined-bar__btn" @click="breadcrumb.toggleTreeView()">Toggle Tree</button>
-      <button class="combined-bar__btn" @click="breadcrumb.copyCurrentPath()">Copy Path</button>
+      <button class="combined-bar__btn" @click="refresh()">Refresh</button>
+      <button class="combined-bar__btn" @click="goUp()">Go Up</button>
+      <button class="combined-bar__btn" @click="toggleTreeView()">Toggle Tree</button>
+      <button class="combined-bar__btn" @click="copyCurrentPath()">Copy Path</button>
     </div>
   </div>
 </template>

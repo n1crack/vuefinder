@@ -281,6 +281,7 @@ gtag('config', 'G-6BYQESCJ6R');`
             { text: 'Item Size Configuration', link: '/examples/item-size-configuration' },
             { text: 'Feature Presets', link: '/examples/feature-presets' },
             { text: 'UI Visibility', link: '/examples/ui-visibility' },
+            { text: 'Custom Menu Bar', link: '/examples/custom-menu-bar' },
             { text: 'Single Selection', link: '/examples/single-selection' },
             { text: 'Selection Filters', link: '/examples/selection-filters' },
             { text: 'Custom Double-Click', link: '/examples/custom-double-click' },
