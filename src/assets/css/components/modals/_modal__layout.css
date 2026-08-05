@@ -1,5 +1,7 @@
+/* Above the full-screen panel (z-50), which is teleported to <body> and would
+   otherwise cover the modals it opened on DOM order alone. */
 .vuefinder__modal-layout {
-  @apply relative z-50;
+  @apply relative z-70;
 }
 
 .vuefinder__modal-layout__overlay {
