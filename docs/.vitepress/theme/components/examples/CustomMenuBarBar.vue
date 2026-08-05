@@ -85,6 +85,7 @@ const run = (item: MenuItem) => {
 .cmb__actions {
   display: flex;
   flex: none;
+  flex-wrap: wrap;
   gap: 3px;
   align-items: center;
 }

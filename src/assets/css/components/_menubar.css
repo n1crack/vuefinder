@@ -109,8 +109,11 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  /* min-height, not height: the default menus fit in 22px, but `menu-items`
+     slot content that wraps to several rows must be able to grow instead of
+     spilling over the toolbar below. */
   .vuefinder__menubar {
-    @apply h-[22px] text-xs leading-[22px];
+    @apply min-h-[22px] text-xs leading-[22px];
   }
 
   .vuefinder__menubar__dropdown {
