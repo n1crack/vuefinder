@@ -165,6 +165,14 @@ function baseExtensions(): Extension[] {
 
 const wrapExtension = (enabled: boolean): Extension => (enabled ? EditorView.lineWrapping : []);
 
+// `readOnly` alone only blocks document changes - the DOM stays
+// contenteditable, so iOS pops the virtual keyboard on tap. `editable` is what
+// drops contenteditable; keep both, since extensions check the readOnly flag.
+const readonlyExtension = (enabled: boolean): Extension => [
+  EditorState.readOnly.of(enabled),
+  EditorView.editable.of(!enabled),
+];
+
 const toggleWrap = () => {
   wrap.value = !wrap.value;
   writeStoredWrap(wrap.value);
@@ -180,7 +188,7 @@ onMounted(async () => {
     doc: props.modelValue ?? '',
     extensions: [
       ...baseExtensions(),
-      readonlyCompartment.of(EditorState.readOnly.of(!!props.readonly)),
+      readonlyCompartment.of(readonlyExtension(!!props.readonly)),
       languageCompartment.of(language),
       wrapCompartment.of(wrapExtension(wrap.value)),
     ],
@@ -192,9 +200,13 @@ onMounted(async () => {
 watch(
   () => props.readonly,
   (next) => {
-    view?.dispatch({
-      effects: readonlyCompartment.reconfigure(EditorState.readOnly.of(!!next)),
+    if (!view) return;
+    view.dispatch({
+      effects: readonlyCompartment.reconfigure(readonlyExtension(!!next)),
     });
+    // The editor is only focusable once it turns editable, so hand it the
+    // caret here - otherwise pressing Edit leaves the user with one more tap.
+    if (!next) view.focus();
   }
 );
 
