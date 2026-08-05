@@ -3,8 +3,11 @@
 .vuefinder__main {
   @apply h-full max-h-screen w-full max-w-screen;
 }
+/* inset-0 already spans the viewport. A 100vw width on top of it counts the
+   classic scrollbar in, which pushes the right edge past the viewport and
+   leaves the page scrolling sideways instead of going full screen. */
 .vuefinder__main__fixed {
-  @apply fixed inset-0 w-screen;
+  @apply fixed inset-0;
 }
 
 .vuefinder__main__relative {
