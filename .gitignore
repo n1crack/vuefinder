@@ -12,6 +12,10 @@ mix-manifest.json
 .DS_Store
 _ide_helper.php
 
+# Build output. Rebuilt by `npm run build`; the npm package is built and
+# published by .github/workflows/release.yml, never from a committed copy.
+/dist
+
 # VitePress
 docs/.vitepress/cache
 docs/.vitepress/dist

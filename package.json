@@ -29,6 +29,7 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "prepare": "cypress install",
+    "prepack": "npm run build",
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
     "build-only": "vite build",
@@ -38,7 +39,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "docs:dev": "vitepress dev docs",
+    "docs:dev": "run-s build-only docs:serve",
+    "docs:serve": "vitepress dev docs",
     "docs:build": "npm run build && vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
