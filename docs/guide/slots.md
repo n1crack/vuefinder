@@ -112,6 +112,78 @@ If the condition doesn't match, the default icon will be shown automatically.
 
 Add content around the default menu bar, or replace it entirely.
 
+#### Live Demo
+
+Each tab below is the same VueFinder instance with a different combination of
+these slots — from the untouched default to every bar replaced individually.
+
+<ClientOnly>
+<MenuBarSlotsDemo>
+<template #code-default>
+
+```vue
+<vue-finder :driver="driver" />
+```
+
+</template>
+<template #code-around>
+
+```vue
+<vue-finder :driver="driver">
+  <template #menubar-start>
+    <span class="chip">🗂️ My App</span>
+  </template>
+
+  <template #menubar-end="{ menuItems }">
+    <span class="chip">{{ menuItems.length }} menus</span>
+  </template>
+</vue-finder>
+```
+
+</template>
+<template #code-replace>
+
+```vue
+<vue-finder :driver="driver">
+  <template #menu-items>
+    <CombinedBar />
+  </template>
+</vue-finder>
+```
+
+```vue
+<!-- CombinedBar.vue -->
+<script setup>
+import { useMenuItems, useBreadcrumbActions } from 'vuefinder';
+
+const { menuItems } = useMenuItems();
+const breadcrumb = useBreadcrumbActions();
+</script>
+```
+
+</template>
+<template #code-each>
+
+```vue
+<vue-finder :driver="driver">
+  <template #menu-items="{ menuItems }">
+    <div class="chip">Custom MenuBar ({{ menuItems.length }})</div>
+  </template>
+
+  <template #toolbar-items>
+    <div class="chip">Custom Toolbar</div>
+  </template>
+
+  <template #breadcrumb-actions>
+    <div class="chip">Custom Breadcrumb Actions</div>
+  </template>
+</vue-finder>
+```
+
+</template>
+</MenuBarSlotsDemo>
+</ClientOnly>
+
 **Scoped Props (all three):**
 
 - `menuItems` - `MenuItem[]` - the default File/Edit/View/Go/Help structure

@@ -22,6 +22,8 @@ import ExternalSelectDemo from './components/examples/ExternalSelectDemo.vue';
 import StatusBarSelectDemo from './components/examples/StatusBarSelectDemo.vue';
 import ThemeSelectorDemo from './components/examples/ThemeSelectorDemo.vue';
 import UIVisibilityDemo from './components/examples/UIVisibilityDemo.vue';
+import MenuBarSlotsDemo from './components/examples/MenuBarSlotsDemo.vue';
+import CustomMenuBarDemo from './components/examples/CustomMenuBarDemo.vue';
 import ItemSizeConfigurationDemo from './components/examples/ItemSizeConfigurationDemo.vue';
 import NotificationsDemo from './components/examples/NotificationsDemo.vue';
 import ComposableApiDemo from './components/examples/ComposableApiDemo.vue';
@@ -101,6 +103,8 @@ export default {
       app.component('StatusBarSelectDemo', StatusBarSelectDemo);
       app.component('ThemeSelectorDemo', ThemeSelectorDemo);
       app.component('UIVisibilityDemo', UIVisibilityDemo);
+      app.component('MenuBarSlotsDemo', MenuBarSlotsDemo);
+      app.component('CustomMenuBarDemo', CustomMenuBarDemo);
       app.component('ItemSizeConfigurationDemo', ItemSizeConfigurationDemo);
       app.component('NotificationsDemo', NotificationsDemo);
       app.component('ComposableApiDemo', ComposableApiDemo);

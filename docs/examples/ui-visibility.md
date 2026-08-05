@@ -4,7 +4,7 @@ outline: deep
 
 # UI Visibility
 
-Control the visibility of menu bar and toolbar components in VueFinder.
+Control the visibility of the menu bar, toolbar and breadcrumb bar in VueFinder.
 
 ## Live Demo
 
@@ -42,7 +42,21 @@ Control the visibility of menu bar and toolbar components in VueFinder.
 </template>
 ```
 
-### Hide Both
+### Hide Breadcrumb Bar
+
+```vue
+<template>
+  <vue-finder
+    id="no-breadcrumb"
+    :driver="driver"
+    :config="{
+      showBreadcrumbBar: false,
+    }"
+  />
+</template>
+```
+
+### Hide All Three
 
 ```vue
 <template>
@@ -52,6 +66,7 @@ Control the visibility of menu bar and toolbar components in VueFinder.
     :config="{
       showMenuBar: false,
       showToolbar: false,
+      showBreadcrumbBar: false,
     }"
   />
 </template>
@@ -69,17 +84,21 @@ These settings are **non-persistent**, which means:
 
 ### Default Values
 
-Both `showMenuBar` and `showToolbar` default to `true`, so the menu bar and toolbar are visible by default unless explicitly set to `false`.
+`showMenuBar`, `showToolbar` and `showBreadcrumbBar` all default to `true`, so the menu bar, toolbar and breadcrumb bar are visible unless explicitly set to `false`.
 
 ### Reactivity
 
-The config prop is reactive, so changes to `showMenuBar` or `showToolbar` will immediately update the UI. You can use Vue's reactive refs or computed properties to control these values dynamically.
+The config prop is reactive, so changing any of these values immediately updates the UI. You can use Vue's reactive refs or computed properties to control them dynamically.
+
+### Hiding vs. Replacing
+
+These options remove a bar entirely. To keep a bar but change what it contains, use the slots instead — see [Slots](/guide/slots) for `menubar-start`, `menu-items`, `menubar-end`, `toolbar-items` and `breadcrumb-actions`.
 
 ## Use Cases
 
 ### Minimal UI Mode
 
-Create a clean, minimal interface by hiding both components:
+Create a clean, minimal interface by hiding every bar, leaving just the file list:
 
 ```vue
 <template>
@@ -89,6 +108,7 @@ Create a clean, minimal interface by hiding both components:
     :config="{
       showMenuBar: false,
       showToolbar: false,
+      showBreadcrumbBar: false,
     }"
   />
 </template>
