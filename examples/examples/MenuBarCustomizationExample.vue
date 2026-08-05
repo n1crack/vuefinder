@@ -180,9 +180,13 @@ const computedConfig = computed(() => ({
   cursor: pointer;
 }
 
+/* A definite height rather than `flex: 1` + `min-height`: with `flex-basis: 0`
+   the viewer's height is indefinite, so VueFinder's own `height: 100%` cannot
+   resolve against it and the box keeps its size while the file manager shrinks
+   to its content, leaving a bare white strip underneath. */
 .menubar-customization-example__viewer {
-  flex: 1;
-  min-height: 480px;
+  flex: none;
+  height: 480px;
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
