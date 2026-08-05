@@ -72,6 +72,9 @@ Control the visibility of the menu bar, toolbar and breadcrumb bar in VueFinder.
 </template>
 ```
 
+Hiding the toolbar takes the full-screen control with it — see
+[Keep a Way Out of Full Screen](/examples/custom-menu-bar#keep-a-way-out-of-full-screen).
+
 ## Important Notes
 
 ### Non-Persistent Behavior

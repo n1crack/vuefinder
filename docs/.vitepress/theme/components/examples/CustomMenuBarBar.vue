@@ -27,7 +27,10 @@ const pick = (ids: string[]) =>
     .filter((item): item is MenuItem => Boolean(item) && !item?.hidden?.());
 
 const primary = computed(() => pick(['new-folder', 'upload', 'rename', 'delete']));
-const views = computed(() => pick(['grid-view', 'list-view']));
+// `fullscreen` belongs here because this bar replaces the toolbar, which is
+// where the only full-screen control normally lives - without it there is no
+// way back out, and the state survives a reload.
+const views = computed(() => pick(['grid-view', 'list-view', 'fullscreen']));
 
 const isDisabled = (item: MenuItem) => (item.enabled ? !item.enabled() : false);
 

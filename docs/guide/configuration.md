@@ -127,6 +127,8 @@ In practice:
 
 The persisted values live under the `vuefinder_config_<id>` localStorage key. To force a reset back to the `:config` defaults during development, clear that key (or call `localStorage.removeItem('vuefinder_config_<id>')`) and reload.
 
+`persist` governs the **path**, not the settings — `view`, `theme`, `fullScreen`, `showTreeView` and the rest are stored either way. `persist: false` only means the instance opens at `initialPath` instead of resuming where the user left off.
+
 ### UI Visibility Settings
 
 You can control the visibility of the menu bar, toolbar and breadcrumb bar using the `showMenuBar`, `showToolbar` and `showBreadcrumbBar` config options. These are non-persistent options that reset to their default values (`true`) on page reload.
