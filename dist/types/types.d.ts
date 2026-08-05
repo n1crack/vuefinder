@@ -1,3 +1,4 @@
+import type { Ref } from 'vue';
 import type { Item as ContextMenuItem } from './utils/contextmenu';
 import ServiceContainer from './ServiceContainer';
 import type { Driver } from './adapters';
@@ -55,6 +56,8 @@ export interface VueFinderComposable {
     preview: (path: string) => void;
     notify: (type: 'success' | 'error' | 'info' | 'warning', message: string) => void;
     getPath: () => string;
+    /** Reactive current directory path. Updates as the user navigates. */
+    path: Readonly<Ref<string>>;
     select: (paths: string[]) => void;
     selectOne: (path: string) => void;
     clearSelection: () => void;
@@ -121,5 +124,15 @@ export interface FsData {
     dirname: string;
     files: DirEntry[];
     read_only?: boolean;
+}
+export interface MenuItem {
+    id?: string;
+    label?: string;
+    type?: 'separator';
+    items?: MenuItem[];
+    action?: () => void;
+    enabled?: () => boolean;
+    hidden?: () => boolean;
+    checked?: () => boolean;
 }
 export type { FeatureName, FeaturesConfig, FeaturesPreset } from './features';

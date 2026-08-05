@@ -17,7 +17,6 @@ export interface PersistenceConfigState {
     persist: boolean;
     path: string;
     pinnedFolders: DirEntry[];
-    notificationsEnabled: boolean;
     expandTreeByDefault: boolean;
     expandedTreePaths: string[];
 }
@@ -31,6 +30,7 @@ export interface NonPersistenceConfigState {
     maxFileSize: number | string | null;
     showMenuBar: boolean;
     showToolbar: boolean;
+    showBreadcrumbBar: boolean;
     gridItemWidth: number;
     gridItemHeight: number;
     gridItemGap: number;
@@ -39,6 +39,7 @@ export interface NonPersistenceConfigState {
     listItemGap: number;
     listIconSize: number;
     notificationPosition: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+    notificationsEnabled: boolean;
     notificationDuration: number;
     notificationVisibleToasts: number;
     notificationRichColors: boolean;

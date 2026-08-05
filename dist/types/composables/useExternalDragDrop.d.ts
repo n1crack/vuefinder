@@ -4,6 +4,8 @@ export interface ExternalFile {
     type: string;
     lastModified: Date;
     file: File;
+    /** Path relative to the drop, e.g. "my-folder/sub/file.txt". */
+    path: string;
 }
 export declare function useExternalDragDrop(): {
     isDraggingExternal: import("vue").Ref<boolean, boolean>;
@@ -24,6 +26,7 @@ export declare function useExternalDragDrop(): {
             stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
+        path: string;
     }[], ExternalFile[] | {
         name: string;
         size: number;
@@ -41,6 +44,7 @@ export declare function useExternalDragDrop(): {
             stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
+        path: string;
     }[]>;
     handleDragEnter: (e: DragEvent) => void;
     handleDragOver: (e: DragEvent) => void;
@@ -62,6 +66,7 @@ export declare function useExternalDragDrop(): {
             stream: () => ReadableStream<Uint8Array<ArrayBuffer>>;
             text: () => Promise<string>;
         };
+        path: string;
     }[]>;
     clearExternalFiles: () => void;
 };

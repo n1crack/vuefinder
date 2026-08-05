@@ -229,8 +229,21 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
+  /* Taller than the desktop shrink would suggest: a replaced menu bar costs
+     several rows on a narrow screen, and the file list still needs room. */
   .slots-demo__viewer {
-    height: 360px;
+    height: 420px;
+  }
+
+  /* Tighter tabs so all four fit without a horizontal scroll on a phone. */
+  .slots-demo__tab {
+    padding: 0.55rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .slots-demo__intro,
+  .slots-demo__code {
+    padding: 0.75rem;
   }
 }
 </style>

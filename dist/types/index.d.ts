@@ -5,6 +5,8 @@ import { menuItems as contextMenuItems, ContextMenuIds } from './utils/contextme
 import { type App } from 'vue';
 import { RemoteDriver, ArrayDriver, IndexedDBDriver, BaseAdapter, parseBackendError } from './adapters';
 import { useVueFinder } from './composables/useVueFinder';
+import { useMenuItems } from './composables/useMenuItems';
+import { useBreadcrumbActions } from './composables/useBreadcrumbActions';
 type VueFinderOptions = {
     i18n?: Record<string, unknown>;
     locale?: string;
@@ -14,9 +16,9 @@ export declare const VueFinderPlugin: {
 };
 export default VueFinderPlugin;
 export { VueFinder, VueFinderProvider, contextMenuItems, ContextMenuIds };
-export { useVueFinder };
+export { useVueFinder, useMenuItems, useBreadcrumbActions };
 export { RemoteDriver, ArrayDriver, IndexedDBDriver, BaseAdapter, parseBackendError };
-export type { DirEntry, ItemDclickEvent, VueFinderProps, FsData, SelectEvent, UpdatePathEvent, NotifyEvent, NotifyPayload, VueFinderComposable, } from './types';
+export type { DirEntry, ItemDclickEvent, VueFinderProps, FsData, SelectEvent, UpdatePathEvent, NotifyEvent, NotifyPayload, VueFinderComposable, MenuItem, } from './types';
 export type { Item } from './utils/contextmenu';
 export type { ArrayDriverConfig } from './adapters/ArrayDriver';
 export type { IndexedDBDriverConfig } from './adapters/IndexedDBDriver';

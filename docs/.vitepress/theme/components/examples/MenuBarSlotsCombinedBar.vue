@@ -95,9 +95,12 @@ const run = (item: MenuItem) => {
   align-items: center;
 }
 
+/* Wrapping inside a group too, not just between groups - on a phone a single
+   group is already wider than the bar. */
 .vf-combined-bar__group {
   display: flex;
-  gap: 2px;
+  flex-wrap: wrap;
+  gap: 3px 2px;
   align-items: center;
 }
 
@@ -138,5 +141,33 @@ const run = (item: MenuItem) => {
 .vf-combined-bar__btn--on {
   color: var(--vp-c-brand-1);
   border-color: var(--vp-c-brand-1);
+}
+
+/* On a phone the wrapped bar is taller than the file list it sits above, so
+   each group becomes one swipeable row and the path drops out - the breadcrumb
+   bar underneath already shows it. */
+@media (max-width: 768px) {
+  .vf-combined-bar__path {
+    display: none;
+  }
+
+  .vf-combined-bar__groups {
+    display: block;
+  }
+
+  .vf-combined-bar__group {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 1px;
+    scrollbar-width: none;
+  }
+
+  .vf-combined-bar__group::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vf-combined-bar__label {
+    flex: none;
+  }
 }
 </style>
