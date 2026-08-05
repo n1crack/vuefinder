@@ -1,19 +1,36 @@
 import type { VueFinderProps, DirEntry } from '../types';
 import 'vue-sonner/style.css';
-declare var __VLS_28: {
+declare var __VLS_8: {
+    menuItems: import("../types").MenuItem[];
+}, __VLS_11: {
+    menuItems: import("../types").MenuItem[];
+    handleMenuAction: (action?: () => void) => void;
+}, __VLS_14: {
+    menuItems: import("../types").MenuItem[];
+}, __VLS_23: {}, __VLS_32: {}, __VLS_46: {
     app: any;
     config: any;
     item: DirEntry;
     view: "list" | "grid" | undefined;
-}, __VLS_37: {
+}, __VLS_55: {
     path: any;
     count: number;
     selected: any;
 };
 type __VLS_Slots = {} & {
-    icon?: (props: typeof __VLS_28) => any;
+    'menubar-start'?: (props: typeof __VLS_8) => any;
 } & {
-    'status-bar'?: (props: typeof __VLS_37) => any;
+    'menu-items'?: (props: typeof __VLS_11) => any;
+} & {
+    'menubar-end'?: (props: typeof __VLS_14) => any;
+} & {
+    'toolbar-items'?: (props: typeof __VLS_23) => any;
+} & {
+    'breadcrumb-actions'?: (props: typeof __VLS_32) => any;
+} & {
+    icon?: (props: typeof __VLS_46) => any;
+} & {
+    'status-bar'?: (props: typeof __VLS_55) => any;
 };
 declare const __VLS_base: import("vue").DefineComponent<VueFinderProps, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     error: (...args: any[]) => void;

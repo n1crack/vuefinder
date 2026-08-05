@@ -16,6 +16,14 @@ export interface QueueEntry {
     percent: string | null;
     originalFile: File;
 }
+/**
+ * File coming from outside the upload modal, optionally carrying the path it
+ * had relative to the dropped folder.
+ */
+export interface ExternalUploadFile {
+    file: File;
+    path?: string;
+}
 export interface UseUploadReturn {
     container: Ref<HTMLElement | null>;
     internalFileInput: Ref<HTMLInputElement | null>;
@@ -37,7 +45,7 @@ export interface UseUploadReturn {
     close: () => void;
     getClassNameForEntry: (entry: QueueEntry) => string;
     getIconForEntry: (entry: QueueEntry) => string;
-    addExternalFiles: (files: File[]) => void;
+    addExternalFiles: (files: Array<File | ExternalUploadFile>) => void;
     renameEntry: (entry: QueueEntry, newName: string) => Promise<void>;
 }
 export default function useUpload(customUploader?: any): UseUploadReturn;
