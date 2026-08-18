@@ -122,7 +122,6 @@
     "@tsconfig/node22": "^22.0.2",
     "@types/jsdom": "^30.0.0",
     "@types/node": "^26.2.0",
-    "@types/overlayscrollbars": "^1.12.5",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.1.1",
     "@vue/devtools-api": "^8.0.3",
