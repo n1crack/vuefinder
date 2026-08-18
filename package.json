@@ -138,7 +138,7 @@
     "rollup-plugin-copy": "^3.5.0",
     "start-server-and-test": "^3.0.12",
     "tailwindcss": "^4.1.13",
-    "typescript": "~5.9.0",
+    "typescript": "~7.0.2",
     "vite": "^8.2.1",
     "vite-plugin-vue-devtools": "^8.0.2",
     "vite-svg-loader": "^5.1.0",
