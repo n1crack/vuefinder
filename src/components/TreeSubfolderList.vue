@@ -43,8 +43,7 @@ onMounted(() => {
 });
 const treeSubFolders = computed(() => {
   const entry = app.treeViewData.find((e: TreeViewData) => e.path === props.path) as
-    | TreeViewData
-    | undefined;
+    TreeViewData | undefined;
   const allFolders = entry?.folders || [];
 
   // Limit render to displayedCount folders for performance at any level
@@ -58,8 +57,7 @@ const treeSubFolders = computed(() => {
 
 const totalFoldersCount = computed(() => {
   const entry = app.treeViewData.find((e: TreeViewData) => e.path === props.path) as
-    | TreeViewData
-    | undefined;
+    TreeViewData | undefined;
   return entry?.folders?.length || 0;
 });
 

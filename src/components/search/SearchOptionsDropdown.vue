@@ -7,12 +7,7 @@ import GearSVG from '../../assets/icons/gear.svg';
 defineOptions({ name: 'SearchOptionsDropdown' });
 
 export type SortOption =
-  | 'name-asc'
-  | 'name-desc'
-  | 'size-asc'
-  | 'size-desc'
-  | 'date-asc'
-  | 'date-desc';
+  'name-asc' | 'name-desc' | 'size-asc' | 'size-desc' | 'date-asc' | 'date-desc';
 
 interface Props {
   visible: boolean;

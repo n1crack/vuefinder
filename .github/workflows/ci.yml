@@ -24,8 +24,8 @@ jobs:
         run: npm ci
       - name: Prettier check
         run: npm run format:check
-      - name: ESLint
-        run: npm run lint -- -c eslint.config.js
+      - name: Lint (oxlint)
+        run: npm run lint
       - name: Type check
         run: npm run type-check
       - name: Unit tests

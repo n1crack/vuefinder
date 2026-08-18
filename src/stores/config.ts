@@ -44,12 +44,7 @@ export interface NonPersistenceConfigState {
   listItemGap: number;
   listIconSize: number;
   notificationPosition:
-    | 'top-left'
-    | 'top-center'
-    | 'top-right'
-    | 'bottom-left'
-    | 'bottom-center'
-    | 'bottom-right';
+    'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
   notificationsEnabled: boolean;
   notificationDuration: number;
   notificationVisibleToasts: number;
