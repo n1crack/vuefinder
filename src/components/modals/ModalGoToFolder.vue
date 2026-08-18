@@ -97,13 +97,11 @@ const loadFolderSuggestions = async (parent: string, filter: string) => {
       (entry: DirEntry) =>
         entry.type === 'dir' && (!f || entry.basename.toLowerCase().startsWith(f))
     );
-    suggestions.value = folders.map(
-      (entry: DirEntry): Suggestion => ({
-        path: entry.path,
-        label: entry.basename,
-        kind: 'dir',
-      })
-    );
+    suggestions.value = folders.map((entry: DirEntry): Suggestion => ({
+      path: entry.path,
+      label: entry.basename,
+      kind: 'dir',
+    }));
     highlightedIndex.value = suggestions.value.length ? 0 : -1;
   } catch (err) {
     if (id !== lookupId) return;

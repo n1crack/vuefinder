@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "vue", "import"],
+  "categories": {
+    "correctness": "error"
+  },
+  "ignorePatterns": [
+    "dist",
+    "docs",
+    "public",
+    "build",
+    "coverage",
+    "node_modules",
+    "src/__tests__"
+  ],
+  "rules": {
+    "typescript/no-explicit-any": "off",
+    "no-useless-escape": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.vue"],
+      "rules": {
+        "no-unused-vars": "off"
+      }
+    }
+  ]
+}

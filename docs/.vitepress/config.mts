@@ -78,7 +78,7 @@ ${urls}
 // outDir is relative to the VitePress project root (docs/ folder)
 // So '../public' means: from docs/ go up one level to project root, then into public/
 const baseUrl = 'https://vuefinder.ozdemir.be';
-const pkg = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json'), 'utf-8'));
+const pkg = JSON.parse(readFileSync(resolve(import.meta.dirname, '..', '..', 'package.json'), 'utf-8'));
 const siteTitle = 'VueFinder - Vue File Manager';
 const siteDescription = 'A sleek, developer-friendly file manager for Vue.js. Organize, preview, and manage files with ease. Full-featured with upload, download, rename, delete, archive, search, and preview capabilities.';
 
@@ -211,7 +211,7 @@ gtag('config', 'G-6BYQESCJ6R');`
     // docs/public/ and are auto-copied to outDir by VitePress.
 
     // Copy OpenAPI YAML file to api-reference directory in output
-    const yamlSourcePath = resolve(__dirname, '..', 'api-reference', 'openapi.yaml');
+    const yamlSourcePath = resolve(import.meta.dirname, '..', 'api-reference', 'openapi.yaml');
     const yamlDestPath = resolve(outDir, 'api-reference', 'openapi.yaml');
     if (existsSync(yamlSourcePath)) {
       // Ensure the api-reference directory exists

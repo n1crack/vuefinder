@@ -29,7 +29,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        vuefinder: resolve(__dirname, 'src/index.ts'),
+        vuefinder: resolve(import.meta.dirname, 'src/index.ts'),
       },
       formats: ['es'],
       name: 'VueFinder',

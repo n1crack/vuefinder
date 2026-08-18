@@ -52,7 +52,7 @@ export class RemoteDriver extends BaseAdapter {
     // Merge user-provided URLs with defaults
     const mergedUrls: RemoteDriverUrls = {
       ...RemoteDriver.DEFAULT_URLS,
-      ...(config.url || {}),
+      ...config.url,
     };
 
     this.config = {
