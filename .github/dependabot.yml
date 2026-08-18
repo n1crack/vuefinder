@@ -10,6 +10,14 @@ updates:
     schedule:
       interval: 'weekly'
     open-pull-requests-limit: 10
+    ignore:
+      # TypeScript 7 ships only the native binary and `unstable/*` APIs, with no
+      # classic compiler API, so vue-tsc cannot run against it. Both type-check
+      # and type-gen depend on vue-tsc, so stay on 5.x until vue-language-tools
+      # supports tsgo.
+      - dependency-name: 'typescript'
+        update-types:
+          - 'version-update:semver-major'
     groups:
       # Keep the noise down: batch routine updates into single PRs.
       dev-dependencies:
