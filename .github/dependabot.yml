@@ -19,6 +19,15 @@ updates:
         update-types:
           - 'version-update:semver-major'
     groups:
+      # @uppy/* packages peer-depend on a matching @uppy/core major, so a
+      # single-package major bump always fails to resolve. Ship them together.
+      uppy:
+        patterns:
+          - '@uppy/*'
+        update-types:
+          - 'major'
+          - 'minor'
+          - 'patch'
       # Keep the noise down: batch routine updates into single PRs.
       dev-dependencies:
         dependency-type: 'development'

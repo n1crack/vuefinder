@@ -1,6 +1,6 @@
 {
   "name": "vuefinder",
-  "version": "4.7.4",
+  "version": "4.7.5",
   "description": "A sleek, developer-friendly file manager for Vue — organize, preview, and manage files with ease.",
   "type": "module",
   "engines": {
@@ -103,10 +103,9 @@
     "@nanostores/vue": "^1.0.1",
     "@tanstack/vue-query": "^5.90.2",
     "@types/papaparse": "^5.5.2",
-    "@uppy/core": "^5.0.2",
-    "@uppy/locales": "^5.0.1",
-    "@uppy/vue": "^3.1.0",
-    "@uppy/xhr-upload": "^5.0.1",
+    "@uppy/core": "^6.0.0",
+    "@uppy/locales": "^5.2.0",
+    "@uppy/xhr-upload": "^6.0.0",
     "@viselect/vanilla": "^3.9.0",
     "codemirror": "^6.0.2",
     "mitt": "^3.0.1",
