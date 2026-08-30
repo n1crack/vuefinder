@@ -105,7 +105,7 @@
     "@types/papaparse": "^5.5.2",
     "@uppy/core": "^5.0.2",
     "@uppy/locales": "^5.0.1",
-    "@uppy/vue": "^3.1.0",
+    "@uppy/vue": "^4.0.0",
     "@uppy/xhr-upload": "^5.0.1",
     "@viselect/vanilla": "^3.9.0",
     "codemirror": "^6.0.2",
