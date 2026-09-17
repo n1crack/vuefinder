@@ -122,9 +122,14 @@ const createLocalStorageMock = () => {
   }) as Storage & Record<string, string>;
 };
 
-// Set up localStorage
+// Set up localStorage (jsdom defines it as a getter-only accessor, so plain
+// assignment throws - redefine the property instead)
 if (typeof window !== 'undefined') {
-  (window as any).localStorage = createLocalStorageMock();
+  Object.defineProperty(window, 'localStorage', {
+    configurable: true,
+    writable: true,
+    value: createLocalStorageMock(),
+  });
 }
 
 // Mock window.matchMedia
