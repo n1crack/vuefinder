@@ -1,36 +1,37 @@
-// This function formats a given byte size a into a human-readable string with binary prefixes (KiB, MiB, GiB, etc.).
-// It calculates the appropriate binary prefix (e.g., KiB for kilobyte) based on the magnitude of the byte size.
-// Returns the formatted string with the byte size and its corresponding binary prefix.
-export function format(
-  a: number,
-  b?: Math,
-  c?: (typeof Math)['log'],
-  d?: number,
-  e?: number
-): string {
-  b = Math;
-  c = b.log;
-  d = 1024;
-  e = (c(a) / c(d)) | 0;
-  return (a / b.pow(d, e)).toFixed(0) + ' ' + (e ? 'KMGTPEZY'[--e] + 'iB' : 'B');
+const PREFIXES = 'KMGTPEZY';
+
+// Rounds to three significant digits (1.46, 14.6, 146) and drops trailing zeros.
+function roundSize(value: number): number {
+  const decimals = value >= 100 ? 0 : value >= 10 ? 1 : 2;
+  return parseFloat(value.toFixed(decimals));
 }
 
-// This function formats a given byte size a into a human-readable string with metric prefixes (kB, MB, GB, etc.).
-// It calculates the appropriate metric prefix (e.g., kB for kilobyte) based on the magnitude of the byte size.
-// Returns the formatted string with the byte size and its corresponding metric prefix.
-export function metricFormat(
-  a: number,
-  b?: Math,
-  c?: (typeof Math)['log'],
-  d?: number,
-  e?: number
-): string {
-  b = Math;
-  c = b.log;
-  d = 1000;
-  e = (c(a) / c(d)) | 0;
-  return (a / b.pow(d, e)).toFixed(0) + ' ' + (e ? 'KMGTPEZY'[--e] + 'B' : 'B');
+function formatWithBase(bytes: number, base: number, suffix: string): string {
+  let exponent = 0;
+  let value = bytes;
+  while (value >= base && exponent < PREFIXES.length) {
+    value /= base;
+    exponent++;
+  }
+  let rounded = roundSize(value);
+  // Rounding can carry the value up to the next unit, e.g. 1023.9 KiB -> 1 MiB, not "1024 KiB".
+  if (rounded >= base && exponent < PREFIXES.length) {
+    rounded = roundSize(rounded / base);
+    exponent++;
+  }
+  return rounded + ' ' + (exponent ? PREFIXES[exponent - 1] + suffix : 'B');
 }
+
+// Formats a byte size as a human-readable string with binary prefixes (KiB, MiB, GiB, etc.).
+export function format(bytes: number): string {
+  return formatWithBase(bytes, 1024, 'iB');
+}
+
+// Formats a byte size as a human-readable string with metric prefixes (KB, MB, GB, etc.).
+export function metricFormat(bytes: number): string {
+  return formatWithBase(bytes, 1000, 'B');
+}
+
 /**
  * Convert human-readable size to bytes.
  *
