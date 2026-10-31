@@ -110,6 +110,7 @@ export interface DirEntry {
   read_only?: boolean;
   visibility: string;
   previewUrl?: string;
+  thumbnailUrl?: string;
 }
 
 export interface StorageInfo {

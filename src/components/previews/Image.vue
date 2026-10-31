@@ -32,6 +32,9 @@ const previewUrl = ref(
 // enterEdit, updated by each tab's Apply, uploaded on Save. Outside the
 // edit session it equals previewUrl.
 const workingDataUrl = ref(previewUrl.value);
+// URL the grid uses as `data-src` for this item's thumbnail (same fallback
+// chain as FileItem.vue).
+const thumbnailUrl = app.modal.data.item.thumbnailUrl ?? previewUrl.value;
 // True once at least one Apply has run — drives the chrome's dirty chip
 // + bottom Save button enable state.
 const workingDirty = ref(false);
@@ -277,7 +280,10 @@ const save = async () => {
     // Bust the browser cache for the source image so the modal and
     // thumbnails reload the freshly saved bytes.
     await fetch(previewUrl.value, { cache: 'reload', mode: 'no-cors' });
-    const image = app.root?.querySelector?.('[data-src="' + previewUrl.value + '"]');
+    if (thumbnailUrl !== previewUrl.value) {
+      await fetch(thumbnailUrl, { cache: 'reload', mode: 'no-cors' });
+    }
+    const image = app.root?.querySelector?.('[data-src="' + thumbnailUrl + '"]');
     if (image && image instanceof HTMLElement) {
       LazyLoad.resetStatus(image);
     }
