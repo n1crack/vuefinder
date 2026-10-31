@@ -63,6 +63,7 @@ export interface DirEntry {
   read_only?: boolean;            // Whether the entry is read-only
   visibility: string;              // Visibility status
   previewUrl?: string;            // Optional custom preview URL (falls back to adapter's getPreviewUrl)
+  thumbnailUrl?: string;          // Optional grid thumbnail URL (falls back to previewUrl, then adapter's getPreviewUrl)
 }
 ```
 
@@ -79,7 +80,8 @@ export interface DirEntry {
 - `mime_type` - MIME type string (e.g., `"image/jpeg"`). `null` for folders or unknown types
 - `read_only` - Optional flag indicating if the entry is read-only
 - `visibility` - Visibility status string (e.g., `"public"`, `"private"`)
-- `previewUrl` - Optional custom preview URL. If provided, this URL will be used for image thumbnails instead of calling `adapter.getPreviewUrl()`
+- `previewUrl` - Optional custom preview URL. If provided, this URL will be used for image thumbnails instead of calling `adapter.getPreviewUrl()`. It is also used by the image preview modal and the image editor
+- `thumbnailUrl` - Optional URL used only for the grid thumbnail, e.g. a lightweight resized image. Falls back to `previewUrl`, then to `adapter.getPreviewUrl()`. The preview modal and image editor keep using `previewUrl`
 
 **Usage Example:**
 
