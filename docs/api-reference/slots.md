@@ -10,6 +10,7 @@ Complete reference of all VueFinder slots.
 
 | Slot             | Scoped Props                            | Description                                                |
 | ---------------- | ---------------------------------------- | ------------------------------------------------------------ |
+| `list-cell`      | `{ item, column, value }`                | Customize the content of a list view cell (see `listColumns`)  |
 | `status-bar`     | `{ selected, count, path }`              | Customize status bar content                                |
 | `icon`           | `{ item }`                               | Customize file/folder icons                                  |
 | `menubar-start`  | `{ menuItems }`                          | Add content before the default menu bar entries               |
@@ -36,6 +37,23 @@ Customize the status bar with your own content.
     <button @click="handleAction(selected)">Action ({{ count }})</button>
     <span>{{ path }}</span>
   </div>
+</template>
+```
+
+### `list-cell`
+
+Customize the content of a list view cell in any of the columns configured with the [`listColumns`](./props.md#listcolumns) prop (including the built-in `size` and `date` columns). The Name column is not affected. Without the slot the cell shows `value`.
+
+**Scoped Props:**
+
+- `item` - `DirEntry` - The file or folder entry
+- `column` - `string` - The `key` of the column being rendered
+- `value` - `string` - The text the column would show by default
+
+```vue
+<template #list-cell="{ item, column, value }">
+  <span v-if="column === 'status'" :class="item.locked ? 'text-red-500' : ''">{{ value }}</span>
+  <template v-else>{{ value }}</template>
 </template>
 ```
 

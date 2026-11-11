@@ -75,6 +75,9 @@ onBeforeUnmount(() => {
     <template #icon="slotProps">
       <slot name="icon" v-bind="slotProps" />
     </template>
+    <template #list-cell="slotProps">
+      <slot name="list-cell" v-bind="slotProps" />
+    </template>
     <template #status-bar="slotProps">
       <slot name="status-bar" v-bind="slotProps" />
     </template>

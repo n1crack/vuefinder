@@ -13,6 +13,7 @@ import { useItemEvents } from '../composables/useItemEvents';
 import { useScrollSetup } from '../composables/useScrollSetup';
 import { useLazyLoad } from '../composables/useLazyLoad';
 import { entryKey } from '../utils/entryKey';
+import { sortAccessorsOf } from '../utils/listColumns';
 import type { DirEntry, ItemDclickEvent } from '../types';
 import type { StoreValue } from 'nanostores';
 import type { ConfigState } from '../stores/config';
@@ -40,6 +41,13 @@ const configState: StoreValue<ConfigState> = useStore(config.state);
 const sortedFiles: StoreValue<DirEntry[]> = useStore(fs.sortedFiles);
 const selectedKeys: StoreValue<Set<string>> = useStore(fs.selectedKeys);
 const loading: StoreValue<boolean> = useStore(fs.loading);
+
+// Let custom list columns take part in sorting (also from the toolbar / grid view)
+watch(
+  () => app.listColumns,
+  (listColumns) => fs.setSortAccessors(listColumns ? sortAccessorsOf(listColumns) : {}),
+  { immediate: true }
+);
 
 // Function for isSelected
 const isSelected = (path: string) => {
@@ -369,6 +377,9 @@ const handleContentTouchMove = (event: TouchEvent) => {
             <template #icon="slotProps">
               <slot name="icon" v-bind="slotProps" />
             </template>
+            <template #list-cell="slotProps">
+              <slot name="list-cell" v-bind="slotProps" />
+            </template>
           </FileRow>
         </template>
 
@@ -393,6 +404,9 @@ const handleContentTouchMove = (event: TouchEvent) => {
           >
             <template #icon="slotProps">
               <slot name="icon" v-bind="slotProps" />
+            </template>
+            <template #list-cell="slotProps">
+              <slot name="list-cell" v-bind="slotProps" />
             </template>
           </FileRow>
         </template>

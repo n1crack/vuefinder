@@ -20,6 +20,7 @@ Complete reference of all VueFinder component props.
 | `selectionMode`               | `'single' \| 'multiple'`                                        | `'multiple'` | No       | Selection mode                                                |
 | `selectionFilterType`         | `'files' \| 'dirs' \| 'both'`                                   | `'both'`     | No       | Selection type filter                                         |
 | `selectionFilterMimeIncludes` | `string[]`                                                      | `[]`         | No       | MIME type filters for selection                               |
+| `listColumns`                 | `ListColumnDef[]`                                               | `['size', 'date']` | No | Columns of the list view (after Name)                  |
 | `onError`                     | `(error: any) => void`                                          | -            | No       | Error handler callback                                        |
 | `onSelect`                    | `SelectEvent`                                                   | -            | No       | Selection handler (alternative to `@select`)                  |
 | `onPathChange`                | `UpdatePathEvent`                                               | -            | No       | Path change handler (alternative to `@path-change`)           |
@@ -97,6 +98,34 @@ Array of MIME types or prefixes to allow selection:
 ```vue
 <vue-finder :selection-filter-mime-includes="['image/', 'video/', 'application/pdf']" />
 ```
+
+### `listColumns`
+
+Choose and extend the columns shown after the **Name** column in the list view. Each entry is either a built-in column name (`'size'`, `'date'`) or a custom column object. When the prop is omitted the list view shows Size and Date.
+
+```vue
+<vue-finder
+  :list-columns="[
+    'size',
+    { key: 'owner', label: 'Owner', value: (item) => item.owner, sortable: true, width: '8rem' },
+    'date',
+  ]"
+/>
+```
+
+Custom column fields:
+
+| Field       | Type                                                | Description                                                                                  |
+| ----------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `key`       | `string`                                            | Unique column id (also passed to the [`list-cell`](./slots.md#list-cell) slot)               |
+| `label`     | `string`                                            | Header text; passed through the translation function, so locale keys work                    |
+| `value`     | `(item: DirEntry) => string \| number \| boolean \| null \| undefined` | Cell text. `null` / `undefined` render an empty cell                      |
+| `sortable`  | `boolean`                                           | Makes the header clickable to sort by this column (default `false`)                          |
+| `sortValue` | `(item: DirEntry) => string \| number \| null \| undefined` | Value used for sorting; defaults to `value`. Numbers sort numerically, strings case-insensitively |
+| `width`     | `string`                                            | CSS grid track size, e.g. `'120px'` (default `'8rem'`)                                       |
+| `align`     | `'left' \| 'center' \| 'right'`                     | Header and cell text alignment (default `'left'`)                                            |
+
+The Name column is always shown first. Entries with an unknown name or a repeated `key` are ignored. Extra fields your backend returns on each entry (permissions, owner, ...) are available on `item` at runtime, but are not part of the `DirEntry` type, so cast them in TypeScript. See the [Custom List Columns](../examples/custom-list-columns.md) example.
 
 ### `contextMenuItems`
 

@@ -3,7 +3,10 @@ import type { DirEntry } from '../types';
 import { useStore } from '@nanostores/vue';
 import { entryKey } from '../utils/entryKey';
 
-export type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | '';
+// Built-in columns are DirEntry fields; custom list columns use the key
+// returned by `resolveListColumns` (see utils/listColumns.ts).
+export type SortColumn = 'basename' | 'file_size' | 'last_modified' | 'path' | (string & {});
+export type SortAccessor = (item: DirEntry) => unknown;
 export type SortOrder = 'asc' | 'desc' | '';
 
 export interface SortState {
@@ -39,6 +42,8 @@ export const createFilesStore = () => {
   const read_only = atom<boolean>(false);
   const files = atom<DirEntry[]>([]);
   const sort = atom<SortState>({ active: false, column: '', order: '' });
+  // Value getters for sort columns that are not plain DirEntry fields
+  const sortAccessors = atom<Record<string, SortAccessor>>({});
   const filter = atom<FilterState>({
     kind: 'all',
     showHidden: false,
@@ -77,27 +82,43 @@ export const createFilesStore = () => {
     return { storage, breadcrumb, path: raw };
   });
 
-  const sortedFiles = computed([files, sort, filter], (filesValue, sortValue, filterValue) => {
-    let filteredFiles = filesValue;
+  const sortedFiles = computed(
+    [files, sort, filter, sortAccessors],
+    (filesValue, sortValue, filterValue, accessors) => {
+      let filteredFiles = filesValue;
 
-    // Apply type filter
-    if (filterValue.kind === 'files') {
-      filteredFiles = filteredFiles.filter((f) => f.type === 'file');
-    } else if (filterValue.kind === 'folders') {
-      filteredFiles = filteredFiles.filter((f) => f.type === 'dir');
+      // Apply type filter
+      if (filterValue.kind === 'files') {
+        filteredFiles = filteredFiles.filter((f) => f.type === 'file');
+      } else if (filterValue.kind === 'folders') {
+        filteredFiles = filteredFiles.filter((f) => f.type === 'dir');
+      }
+
+      // Apply hidden files filter
+      if (!filterValue.showHidden) {
+        filteredFiles = filteredFiles.filter((f) => !f.basename.startsWith('.'));
+      }
+
+      // Apply sorting
+      const { active, column, order } = sortValue;
+      if (!active || !column) return filteredFiles;
+      const direction = order === 'asc' ? 1 : -1;
+      const accessor = accessors[column];
+      if (accessor) {
+        // Evaluate the (user supplied) accessor once per entry, not once per comparison
+        const values = new Map<DirEntry, unknown>(filteredFiles.map((f) => [f, accessor(f)]));
+        return filteredFiles
+          .slice()
+          .sort((a, b) => compareValues(values.get(a), values.get(b)) * direction);
+      }
+      return filteredFiles
+        .slice()
+        .sort(
+          (a, b) =>
+            compareValues(a[column as keyof DirEntry], b[column as keyof DirEntry]) * direction
+        );
     }
-
-    // Apply hidden files filter
-    if (!filterValue.showHidden) {
-      filteredFiles = filteredFiles.filter((f) => !f.basename.startsWith('.'));
-    }
-
-    // Apply sorting
-    const { active, column, order } = sortValue;
-    if (!active || !column) return filteredFiles;
-    const direction = order === 'asc' ? 1 : -1;
-    return filteredFiles.slice().sort((a, b) => compareValues(a[column], b[column]) * direction);
-  });
+  );
 
   // Selection helpers
   const selectedItems = computed([files, selectedKeys], (filesValue, selectedKeysValue) => {
@@ -160,6 +181,10 @@ export const createFilesStore = () => {
         order: 'asc',
       });
     }
+  };
+
+  const setSortAccessors = (accessors: Record<string, SortAccessor>) => {
+    sortAccessors.set(accessors);
   };
 
   const clearSort = () => {
@@ -444,6 +469,7 @@ export const createFilesStore = () => {
     setStorages,
     setSort,
     toggleSort,
+    setSortAccessors,
     clearSort,
     setFilter,
     clearFilter,

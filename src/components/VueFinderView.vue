@@ -300,6 +300,9 @@ const handleExternalDrop = async (e: DragEvent) => {
               <template #icon="slotProps">
                 <slot name="icon" v-bind="slotProps" />
               </template>
+              <template #list-cell="slotProps">
+                <slot name="list-cell" v-bind="slotProps" />
+              </template>
             </Explorer>
           </div>
           <Statusbar>
