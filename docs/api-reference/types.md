@@ -45,6 +45,22 @@ VueFinder exports the following types:
 
 ## Type Details
 
+### `ListColumn`
+
+Custom column definition for the `listColumns` prop (see [Props](./props.md#listcolumns)). `ListColumnDef` is `'size' | 'date' | ListColumn`.
+
+```typescript
+export interface ListColumn {
+  key: string;
+  label: string;
+  value: (item: DirEntry) => string | number | boolean | null | undefined;
+  sortable?: boolean;
+  sortValue?: (item: DirEntry) => string | number | null | undefined;
+  width?: string;
+  align?: 'left' | 'center' | 'right';
+}
+```
+
 ### `DirEntry`
 
 Represents a file or folder entry in the file system.

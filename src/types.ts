@@ -18,6 +18,12 @@ export interface VueFinderProps {
   selectionMode?: 'single' | 'multiple';
   selectionFilterType?: 'files' | 'dirs' | 'both';
   selectionFilterMimeIncludes?: string[];
+  /**
+   * Columns shown after the Name column in the list view.
+   * Accepts the built-in `'size'` and `'date'` columns and custom column definitions.
+   * When omitted, the default Size and Date columns are shown.
+   */
+  listColumns?: ListColumnDef[];
   onError?: (error: any) => void;
   onSelect?: SelectEvent;
   onPathChange?: UpdatePathEvent;
@@ -48,6 +54,29 @@ export interface VueFinderProps {
     }
   ) => void;
 }
+
+/** Columns that ship with VueFinder and can be referenced by name in `listColumns`. */
+export type BuiltinListColumn = 'size' | 'date';
+
+/** Custom column for the list view. */
+export interface ListColumn {
+  /** Unique column id. Also passed to the `list-cell` slot. */
+  key: string;
+  /** Header text. It is passed through the translation function, so locale keys work too. */
+  label: string;
+  /** Returns the cell text for an entry. `null` and `undefined` render an empty cell. */
+  value: (item: DirEntry) => string | number | boolean | null | undefined;
+  /** Makes the header clickable to sort by this column. */
+  sortable?: boolean;
+  /** Value used for sorting. Defaults to `value`. Numbers sort numerically, strings case-insensitively. */
+  sortValue?: (item: DirEntry) => string | number | null | undefined;
+  /** CSS grid track size of the column, e.g. `'120px'` or `'minmax(0, 1fr)'`. Defaults to `'8rem'`. */
+  width?: string;
+  /** Text alignment of the header and cells. Defaults to `'left'`. */
+  align?: 'left' | 'center' | 'right';
+}
+
+export type ListColumnDef = BuiltinListColumn | ListColumn;
 
 export type SelectEvent = (items: DirEntry[]) => void;
 export type UpdatePathEvent = (path: string) => void;

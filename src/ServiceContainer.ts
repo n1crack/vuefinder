@@ -9,6 +9,7 @@ import useModal from './composables/useModal';
 import { createConfigStore } from './stores/config';
 import { createFilesStore } from './stores/files.ts';
 import { AdapterManager } from './adapters';
+import { resolveListColumns } from './utils/listColumns';
 import { useTheme } from './composables/useTheme';
 import type { ConfigStore } from './stores/config';
 import type { VueFinderProps } from './types';
@@ -27,6 +28,7 @@ export default (props: VueFinderProps, options: Record<string, unknown>): any =>
     throw new Error('Driver is required for VueFinder');
   }
   const adapterManager = new AdapterManager(props.driver);
+  const filesize = configStore.get('metricUnits') ? filesizeMetric : filesizeDefault;
 
   return reactive({
     // app version
@@ -75,7 +77,11 @@ export default (props: VueFinderProps, options: Record<string, unknown>): any =>
     // treeViewData - temp. opened folders
     treeViewData: [],
     // human readable file sizes
-    filesize: configStore.get('metricUnits') ? filesizeMetric : filesizeDefault,
+    filesize,
+    // custom list view columns (null = default Name / Size / Date layout)
+    listColumns: computed(() =>
+      props.listColumns ? resolveListColumns(props.listColumns, filesize) : null
+    ),
     // possible items of the context menu
     contextMenuItems: props.contextMenuItems,
     // expose custom uploader if provided

@@ -53,6 +53,9 @@ export type {
   NotifyPayload,
   VueFinderComposable,
   MenuItem,
+  ListColumn,
+  ListColumnDef,
+  BuiltinListColumn,
 } from './types';
 
 // Export context menu item type

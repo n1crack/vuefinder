@@ -278,6 +278,7 @@ gtag('config', 'G-6BYQESCJ6R');`
           items: [
             { text: 'Basic Usage', link: '/examples/basic-usage' },
             { text: 'Custom Icons', link: '/examples/custom-icons' },
+            { text: 'Custom List Columns', link: '/examples/custom-list-columns' },
             { text: 'Item Size Configuration', link: '/examples/item-size-configuration' },
             { text: 'Feature Presets', link: '/examples/feature-presets' },
             { text: 'UI Visibility', link: '/examples/ui-visibility' },

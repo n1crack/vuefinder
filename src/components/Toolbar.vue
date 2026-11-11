@@ -126,6 +126,10 @@ watch(
         filterSortState.value.sortBy = 'size';
       } else if (newSortState.column === 'last_modified') {
         filterSortState.value.sortBy = 'modified';
+      } else {
+        // Custom list column: the dropdown has no matching option. Leave it alone,
+        // otherwise its watchers would re-apply the stale option and undo the sort.
+        return;
       }
 
       // Set the order

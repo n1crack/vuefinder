@@ -33,6 +33,9 @@ const app = useApp();
 const fs = app.fs;
 const config = app.config;
 
+// null = default Name / Size / Date layout
+const listColumns = computed(() => app.listColumns);
+
 const isSelectableByType = computed(() => {
   const filterType = app.selectionFilterType;
   if (!filterType || filterType === 'both') return true;
@@ -249,7 +252,14 @@ const delayedOpenItem = (event: TouchEvent) => {
     </div>
 
     <!-- List View -->
-    <div v-else class="vuefinder__explorer__item-list-content">
+    <div
+      v-else
+      class="vuefinder__explorer__item-list-content"
+      :class="{ 'vuefinder__explorer__item-list-content--custom': listColumns && !showPath }"
+      :style="
+        listColumns && !showPath ? { gridTemplateColumns: listColumns.gridTemplate } : undefined
+      "
+    >
       <div class="vuefinder__explorer__item-list-name">
         <div class="vuefinder__explorer__item-list-icon">
           <ItemIcon :item="item" :view="view">
@@ -268,10 +278,26 @@ const delayedOpenItem = (event: TouchEvent) => {
         </div>
       </div>
       <div v-if="showPath" class="vuefinder__explorer__item-path">{{ item.path }}</div>
-      <div v-if="!showPath" class="vuefinder__explorer__item-size">
+      <template v-else-if="listColumns">
+        <div
+          v-for="column in listColumns.columns"
+          :key="column.key"
+          class="vuefinder__explorer__item-cell"
+          :class="`vuefinder__explorer__cell--${column.align}`"
+          :data-column="column.key"
+        >
+          <slot name="list-cell" :item="item" :column="column.key" :value="column.format(item)">
+            {{ column.format(item) }}
+          </slot>
+        </div>
+      </template>
+      <div v-if="!showPath && !listColumns" class="vuefinder__explorer__item-size">
         <div v-if="item.file_size">{{ app.filesize(item.file_size) }}</div>
       </div>
-      <div v-if="!showPath && item.last_modified" class="vuefinder__explorer__item-date">
+      <div
+        v-if="!showPath && !listColumns && item.last_modified"
+        class="vuefinder__explorer__item-date"
+      >
         {{ new Date(item.last_modified * 1000).toLocaleString() }}
       </div>
     </div>

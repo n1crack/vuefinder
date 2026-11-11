@@ -77,6 +77,9 @@ const gridStyle = computed(() => {
         <template #icon="slotProps">
           <slot name="icon" v-bind="slotProps" />
         </template>
+        <template #list-cell="slotProps">
+          <slot name="list-cell" v-bind="slotProps" />
+        </template>
       </FileItem>
     </div>
   </div>
